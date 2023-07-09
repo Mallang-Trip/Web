@@ -6,13 +6,13 @@ import BottomNav from "./components/Layout/BottomNav";
 
 function App() {
   return (
-    <React.Fragment>
+    <div className="max-w-screen-lg mx-auto">
       <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
       </Routes>
       <BottomNav />
-    </React.Fragment>
+    </div>
   );
 }
 

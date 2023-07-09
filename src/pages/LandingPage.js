@@ -1,13 +1,16 @@
 import React from "react";
 import Logo from "../assets/images/logo.png";
-import TestButton from "../components/LandingPage/TestButton";
+import Pictures from "../components/LandingPage/Pictures";
 
 function LandingPage() {
   return (
     <React.Fragment>
-      <img src={Logo} alt="logo" />
-      <div>말랑트립</div>
-      <TestButton />
+      <div className="w-full">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 pb-3 mx-auto overflow-hidden text-lg">
+          가고싶은 여행지를 찾아요
+        </div>
+        <Pictures />
+      </div>
     </React.Fragment>
   );
 }

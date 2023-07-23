@@ -1,6 +1,6 @@
 import React from "react";
 
-function SecondBox(props) {
+function SecondBox() {
   return (
     <div className="flex flex-col gap-y-1vw justify-center">
       <div className="relative">

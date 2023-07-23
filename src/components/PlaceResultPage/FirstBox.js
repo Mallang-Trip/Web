@@ -1,8 +1,9 @@
 import React from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 function FirstBox() {
-  const location = useLocation();
-  console.log(location);
+  const { place } = useParams();
+
   return (
     <div className="flex flex-col gap-y-1vw justify-center">
       <div className="relative">
@@ -11,7 +12,7 @@ function FirstBox() {
             목적지
           </p>
           <p className="absolute left-[51px] top-[41px] bottom-[31px] text-black">
-            {location.state.result}
+            {place}
           </p>
         </div>
       </div>

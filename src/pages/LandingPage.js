@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "../assets/images/logo.png";
 import Pictures from "../components/LandingPage/Pictures";
 
 function LandingPage() {

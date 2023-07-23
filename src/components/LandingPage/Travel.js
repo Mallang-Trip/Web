@@ -9,8 +9,8 @@ function Travel(props) {
         alt="default"
         onClick={() => {}}
       />
-      <div className="left-32 top-1/2 absolute font-bold text-2xl text-white">
-        <p>{props.name}</p>
+      <div className="left-0 top-0 absolute font-bold text-2xl text-white flex flex-row justify-center items-center w-full h-full">
+        <span>{props.name}</span>
       </div>
     </div>
   );

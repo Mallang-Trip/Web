@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-function Travel(props) {
+function PartyBox(props) {
   const params = useParams();
   const name = params.place;
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ function Travel(props) {
   function onClickHandler(name) {
     //console.log(name);
     const result = name;
-    navigate(`/result/${name}`, { state: { result: name } });
+    navigate(`/party/${name}`, { state: { result: name } });
   }
 
   return (
@@ -22,11 +22,11 @@ function Travel(props) {
         src={props.src}
         alt="default"
       />
-      <div className="left-0 top-0 absolute font-bold text-2xl text-white flex flex-row justify-center items-center w-full h-full">
-        <span>{props.name}</span>
+      <div className="left-32 top-1/2 flex text-xl text-black">
+        <p>{props.name}</p>
       </div>
     </div>
   );
 }
 
-export default Travel;
+export default PartyBox;

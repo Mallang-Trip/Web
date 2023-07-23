@@ -4,20 +4,16 @@ import { useNavigate } from "react-router-dom";
 function SearchComplete(props) {
   const navigation = useNavigate();
 
-  const goLogin = () => {
-    props.setMode("LOGIN");
-    props.setCompleteSearch(false);
-  };
-
-  const goHome = () => navigation("/");
+  const goLogin = () => navigation("/login", { replace: true });
+  const goHome = () => navigation("/", { replace: true });
 
   return (
     <div className="w-[656px] mx-auto mt-10">
       <div className="h-[50px] rounded-lg bg-primary text-white text-center flex flex-col justify-center">
-        {props.mode === "SEARCH_PASSWORD" ? "비밀번호 찾기" : "이메일 찾기"}
+        {props.mode === "password" ? "비밀번호 찾기" : "이메일 찾기"}
       </div>
       <div className="h-[200px] text-center flex flex-col justify-center text-[#666666]">
-        {props.mode === "SEARCH_PASSWORD" ? (
+        {props.mode === "password" ? (
           <div>
             메일 발송이 완료되었습니다.
             <br />

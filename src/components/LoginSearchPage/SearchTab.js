@@ -10,17 +10,17 @@ function SearchTab(props) {
     <div className="w-[656px] mx-auto mt-10">
       <button
         className={`w-1/2 h-[48px] rounded-l-lg ${
-          props.mode === "SEARCH_EMAIL" ? SelectedStyle : NoneSelectedStyle
+          props.mode === "email" ? SelectedStyle : NoneSelectedStyle
         }`}
-        onClick={() => props.setMode("SEARCH_EMAIL")}
+        onClick={() => props.setMode("email")}
       >
         이메일 찾기
       </button>
       <button
         className={`w-1/2 h-[48px] rounded-r-lg ${
-          props.mode === "SEARCH_PASSWORD" ? SelectedStyle : NoneSelectedStyle
+          props.mode === "password" ? SelectedStyle : NoneSelectedStyle
         }`}
-        onClick={() => props.setMode("SEARCH_PASSWORD")}
+        onClick={() => props.setMode("password")}
       >
         비밀번호 찾기
       </button>

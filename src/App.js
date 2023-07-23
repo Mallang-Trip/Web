@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Header from "./components/Layout/Header";
 import BottomNav from "./components/Layout/BottomNav";
 import LoginPage from "./pages/LoginPage";
+import LoginSearchPage from "./pages/LoginSearchPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/login/search/:target" element={<LoginSearchPage />} />
       </Routes>
       <BottomNav />
     </React.Fragment>

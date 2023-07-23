@@ -5,7 +5,7 @@ import SearchEmail from "./SearchEmail";
 function SearchForm(props) {
   return (
     <div className="w-[656px] mx-auto mt-10">
-      {props.mode === "SEARCH_EMAIL" ? (
+      {props.mode === "email" ? (
         <SearchEmail setCompleteSearch={props.setCompleteSearch} />
       ) : (
         <SearchPassword setCompleteSearch={props.setCompleteSearch} />

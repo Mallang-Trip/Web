@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function SearchPassword(props) {
+  const emailInput = useRef();
+  const codeInput = useRef();
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [codeTransmission, setCodeTransmission] = useState(false);
@@ -11,10 +13,15 @@ function SearchPassword(props) {
   const codeHandler = (e) => setCode(e.target.value);
 
   const sendCode = () => {
-    if (!email) return alert("이메일을 입력해 주세요.");
+    if (!email) {
+      alert("이메일을 입력해 주세요.");
+      return emailInput.current.focus();
+    }
 
     setCodeTransmission(true);
     setLimit(300);
+    codeInput.current.focus();
+
     if (!timer) {
       setTimer(
         setInterval(() => {
@@ -46,6 +53,7 @@ function SearchPassword(props) {
           className="w-full border-b border-[#666666] focus:outline-none focus:border-primary"
           value={email}
           onChange={emailHandler}
+          ref={emailInput}
         />
         <button
           type="button"
@@ -62,6 +70,7 @@ function SearchPassword(props) {
           className="w-full border-b border-[#666666] focus:outline-none focus:border-primary"
           value={code}
           onChange={codeHandler}
+          ref={codeInput}
         />
         <button
           type="button"

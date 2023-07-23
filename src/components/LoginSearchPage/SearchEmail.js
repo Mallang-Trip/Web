@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function SearchEmail(props) {
+  const phoneNumberInput = useRef();
+  const codeInput = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
   const [codeTransmission, setCodeTransmission] = useState(false);
@@ -11,10 +13,15 @@ function SearchEmail(props) {
   const codeHandler = (e) => setCode(e.target.value);
 
   const sendCode = () => {
-    if (!phoneNumber) return alert("휴대전화번호를 입력해 주세요.");
+    if (!phoneNumber) {
+      alert("휴대전화번호를 입력해 주세요.");
+      return phoneNumberInput.current.focus();
+    }
 
     setCodeTransmission(true);
     setLimit(300);
+    codeInput.current.focus();
+
     if (!timer) {
       setTimer(
         setInterval(() => {
@@ -46,6 +53,7 @@ function SearchEmail(props) {
           className="w-full border-b border-[#666666] focus:outline-none focus:border-primary"
           value={phoneNumber}
           onChange={phoneNumberHandler}
+          ref={phoneNumberInput}
         />
         <button
           type="button"
@@ -62,6 +70,7 @@ function SearchEmail(props) {
           className="w-full border-b border-[#666666] focus:outline-none focus:border-primary"
           value={code}
           onChange={codeHandler}
+          ref={codeInput}
         />
         <button
           type="button"

@@ -78,7 +78,7 @@ function Header() {
         <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1">
           <button
             type="button"
-            onClick={() => setLogin(true)}
+            onClick={() => navigation("/login")}
             className={`${
               login ? "hidden" : "flex"
             } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
@@ -102,7 +102,7 @@ function Header() {
             <li className="my-auto">
               <Link
                 to="/"
-                className="block flex flex-row py-2 pl-3 pr-4 text-white bg-primary rounded md:bg-transparent md:text-primary md:p-0"
+                className="flex flex-row py-2 pl-3 pr-4 text-white bg-primary rounded md:bg-transparent md:text-primary md:p-0"
               >
                 <BsChatFill className="mr-1 my-auto" /> 말랑톡
               </Link>
@@ -110,7 +110,7 @@ function Header() {
             <li className="my-auto">
               <Link
                 to="/"
-                className="block flex flex-row py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
+                className="flex flex-row py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
               >
                 <BsFillPeopleFill className="mr-1 my-auto" /> 커뮤니티
               </Link>
@@ -118,7 +118,7 @@ function Header() {
             <li className="my-auto">
               <Link
                 to="/"
-                className="block flex flex-row py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
+                className="flex flex-row py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
               >
                 <BsFillSuitHeartFill className="mr-1 my-auto" /> 찜
               </Link>

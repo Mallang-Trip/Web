@@ -1,22 +1,15 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Travel(props) {
-  const params = useParams();
-  const name = params.place;
   const navigate = useNavigate();
 
-  function onClickHandler(name) {
-    //console.log(name);
-    const result = name;
-    navigate(`/result/${name}`, { state: { result: name } });
-  }
+  const onClickHandler = () => {
+    navigate(`/result/${props.name}`);
+  };
 
   return (
-    <div
-      className="relative h-64 cursor-pointer"
-      onClick={() => onClickHandler(props.name)}
-    >
+    <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
       <img
         className="w-full h-full absolute top-0 left-0 object-cover object-center rounded-3xl overflow-hidden"
         src={props.src}

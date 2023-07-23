@@ -1,5 +1,4 @@
 import React from "react";
-import FirstBox from "../components/PlaceResultPage/FirstBox";
 import BlueContaner from "../components/PlaceResultPage/BlueContaner";
 import FilterBtnBox from "../components/PlaceResultPage/Components/FilterBtnBox";
 import Pictures from "../components/PlaceResultPage/Components/Pictures";

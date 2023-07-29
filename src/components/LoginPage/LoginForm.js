@@ -1,48 +1,52 @@
 import React, { useState } from "react";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const emailHandler = (e) => setEmail(e.target.value);
+  const idHandler = (e) => setId(e.target.value);
   const passwordHandler = (e) => setPassword(e.target.value);
   const loginHandler = (e) => {
     e.preventDefault();
 
-    console.log(email);
+    console.log(id);
     console.log(password);
   };
 
   return (
     <form className="w-[656px] mx-auto mt-10" onSubmit={loginHandler}>
       <input
-        type="email"
-        placeholder="이메일을 입력해 주세요."
-        className="w-full border-b border-[#666666] mb-10 focus:outline-none focus:border-primary"
-        value={email}
-        onChange={emailHandler}
+        type="id"
+        name="id"
+        placeholder="아이디를 입력해 주세요."
+        className="w-full mb-10 border-b border-darkgray focus:outline-none focus:border-primary"
+        value={id}
+        onChange={idHandler}
       />
       <input
         type="password"
+        name="password"
         placeholder="비밀번호를 입력해 주세요."
-        className={`w-full border-b border-[#666666] mb-12 focus:outline-none focus:border-primary ${
+        className={`w-full border-b border-darkgray mb-12 focus:outline-none focus:border-primary ${
           password && "font-mono"
         }`}
         value={password}
         onChange={passwordHandler}
       />
-      <button
-        type="submit"
-        className="w-full h-[30px] text-sm text-white bg-primary rounded-lg"
-      >
-        로그인
-      </button>
-      <button
-        type="button"
-        className="w-full mt-5 h-[30px] text-sm text-black bg-[#D9D9D9] rounded-lg"
-      >
-        회원가입
-      </button>
+      <div className="flex flex-col items-center gap-3">
+        <button
+          type="submit"
+          className="h-12 text-white rounded-full text-md w-80 bg-primary"
+        >
+          로그인
+        </button>
+        <button
+          type="button"
+          className="h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+        >
+          회원가입
+        </button>
+      </div>
     </form>
   );
 }

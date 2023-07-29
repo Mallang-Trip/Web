@@ -67,6 +67,10 @@ function SearchAcount(props) {
     }
   }, [showCodeErrorModal]);
 
+  useEffect(() => {
+    phoneNumberInput.current.focus();
+  }, []);
+
   return (
     <>
       <div>

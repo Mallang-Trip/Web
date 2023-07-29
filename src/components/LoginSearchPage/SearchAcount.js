@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ConfirmModal from "../Common/ConfirmModal";
 
-function SearchPassword(props) {
+function SearchAcount(props) {
   const phoneNumberInput = useRef();
   const codeInput = useRef();
   const [phoneNumber, setEmail] = useState("");
@@ -9,6 +9,7 @@ function SearchPassword(props) {
   const [codeTransmission, setCodeTransmission] = useState(false);
   const [limit, setLimit] = useState(-1);
   const [timer, setTimer] = useState(undefined);
+  const [showNoInputModal, setShowNoInputModal] = useState(false);
   const [showNoUserModal, setShowNoUserModal] = useState(false);
   const [showCodeErrorModal, setShowCodeErrorModal] = useState(false);
 
@@ -16,15 +17,8 @@ function SearchPassword(props) {
   const codeHandler = (e) => setCode(e.target.value.replace(/\D/g, ""));
 
   const sendCode = () => {
-    if (!phoneNumber) {
-      alert("휴대전화 번호를 입력해 주세요.");
-      return phoneNumberInput.current.focus();
-    }
-
-    if (phoneNumber === "010") {
-      setShowNoUserModal(true);
-      return;
-    }
+    if (!phoneNumber) return setShowNoInputModal(true);
+    if (phoneNumber === "010") return setShowNoUserModal(true);
 
     setCodeTransmission(true);
     setLimit(300);
@@ -41,15 +35,15 @@ function SearchPassword(props) {
 
   const codeSubmit = () => {
     if (!code) return;
+    if (code === "0") return setShowCodeErrorModal(true);
 
-    if (code === "0") {
-      setCode("");
-      setShowCodeErrorModal(true);
-      return;
+    if (props.mode === "password") {
+      console.log(code);
+      props.setMode("NewPassword");
+    } else {
+      console.log(code);
+      props.setCompleteSearch(true);
     }
-
-    console.log(code);
-    props.setMode("NewPassword");
   };
 
   useEffect(() => {
@@ -57,6 +51,21 @@ function SearchPassword(props) {
       clearInterval(timer);
     };
   }, [timer]);
+
+  useEffect(() => {
+    if (!showNoInputModal) phoneNumberInput.current.focus();
+  }, [showNoInputModal]);
+
+  useEffect(() => {
+    if (!showNoUserModal) phoneNumberInput.current.focus();
+  }, [showNoUserModal]);
+
+  useEffect(() => {
+    if (!showCodeErrorModal) {
+      setCode("");
+      codeInput.current.focus();
+    }
+  }, [showCodeErrorModal]);
 
   return (
     <>
@@ -116,6 +125,11 @@ function SearchPassword(props) {
       </div>
 
       <ConfirmModal
+        showModal={showNoInputModal}
+        setShowModal={setShowNoInputModal}
+        message={"휴대전화 번호를 입력해 주세요."}
+      />
+      <ConfirmModal
         showModal={showNoUserModal}
         setShowModal={setShowNoUserModal}
         message={
@@ -131,4 +145,4 @@ function SearchPassword(props) {
   );
 }
 
-export default SearchPassword;
+export default SearchAcount;

@@ -16,7 +16,11 @@ function LoginSearchPage() {
         <img src={Logo} className="h-9" alt="Mallang_Trip_Logo" />
       </div>
       {completeSearch ? (
-        <SearchComplete mode={mode} />
+        <SearchComplete
+          mode={mode}
+          setMode={setMode}
+          setCompleteSearch={setCompleteSearch}
+        />
       ) : (
         <>
           <SearchTab mode={mode} setMode={setMode} />

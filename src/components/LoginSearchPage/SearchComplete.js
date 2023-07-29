@@ -6,6 +6,10 @@ function SearchComplete(props) {
 
   const goLogin = () => navigation("/login", { replace: true });
   const goHome = () => navigation("/", { replace: true });
+  const goSearchPassword = () => {
+    props.setMode("password");
+    props.setCompleteSearch(false);
+  };
 
   return (
     <div className="w-[656px] mx-auto mt-10">
@@ -17,9 +21,8 @@ function SearchComplete(props) {
           </div>
         ) : (
           <div>
-            회원님의 아이디는{" "}
-            <span className="text-primary">malangtrip@ajou.ac.kr</span> (으)로
-            등록되어 있습니다.
+            회원님의 아이디는 <span className="text-primary">malangtrip</span>{" "}
+            (으)로 등록되어 있습니다.
           </div>
         )}
       </div>
@@ -31,6 +34,15 @@ function SearchComplete(props) {
         >
           로그인
         </button>
+        {props.mode !== "NewPassword" && (
+          <button
+            type="button"
+            className="h-12 text-white rounded-full text-md w-80 bg-primary"
+            onClick={goSearchPassword}
+          >
+            비밀번호 찾기
+          </button>
+        )}
         <button
           type="button"
           className="h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"

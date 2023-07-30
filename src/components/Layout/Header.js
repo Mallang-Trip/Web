@@ -47,7 +47,7 @@ function Header() {
     <nav className="w-full bg-white border-gray-200">
       <div
         id="mallang_header"
-        className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+        className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto"
       >
         <button
           className="flex items-center md:hidden"
@@ -57,7 +57,7 @@ function Header() {
         </button>
         <div className="flex flex-row">
           <Link to="/" className="flex items-center">
-            <img src={Logo} className="h-9 mr-3" alt="Mallang_Trip_Logo" />
+            <img src={Logo} className="mr-3 h-9" alt="Mallang_Trip_Logo" />
           </Link>
         </div>
         <button className="flex items-center md:hidden">
@@ -87,7 +87,7 @@ function Header() {
           </button>
           <button
             type="button"
-            // onClick={() => setLogin(true)}
+            onClick={() => navigation("/signup")}
             className={`${
               login ? "hidden" : "flex"
             } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
@@ -102,9 +102,9 @@ function Header() {
             <li className="my-auto">
               <Link
                 to="/"
-                className="flex flex-row py-2 pl-3 pr-4 text-white bg-primary rounded md:bg-transparent md:text-primary md:p-0"
+                className="flex flex-row py-2 pl-3 pr-4 text-white rounded bg-primary md:bg-transparent md:text-primary md:p-0"
               >
-                <BsChatFill className="mr-1 my-auto" /> 말랑톡
+                <BsChatFill className="my-auto mr-1" /> 말랑톡
               </Link>
             </li>
             <li className="my-auto">
@@ -112,7 +112,7 @@ function Header() {
                 to="/"
                 className="flex flex-row py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
               >
-                <BsFillPeopleFill className="mr-1 my-auto" /> 커뮤니티
+                <BsFillPeopleFill className="my-auto mr-1" /> 커뮤니티
               </Link>
             </li>
             <li className="my-auto">
@@ -120,7 +120,7 @@ function Header() {
                 to="/"
                 className="flex flex-row py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
               >
-                <BsFillSuitHeartFill className="mr-1 my-auto" /> 찜
+                <BsFillSuitHeartFill className="my-auto mr-1" /> 찜
               </Link>
             </li>
             <li
@@ -134,7 +134,7 @@ function Header() {
                 className="flex mr-3 text-sm rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
               >
                 <img
-                  className="w-9 h-9 rounded-full"
+                  className="rounded-full w-9 h-9"
                   src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                   alt="User_Profile_Image"
                 />
@@ -143,8 +143,8 @@ function Header() {
           </ul>
         </div>
       </div>
-      <div className="relative max-w-screen-xl mx-auto pb-4 hidden md:block">
-        <div className="relative ml-auto mr-3 w-64 lg:w-96">
+      <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block">
+        <div className="relative w-64 ml-auto mr-3 lg:w-96">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               className="w-5 h-5 text-primary"
@@ -162,7 +162,7 @@ function Header() {
           </div>
           <input
             type="text"
-            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-primary rounded-full focus:ring-primary focus:border-primary"
+            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:ring-primary focus:border-primary"
             placeholder="여행지를 검색해보세요"
           />
         </div>

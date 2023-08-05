@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import ConfirmModal from "../Common/ConfirmModal";
 
 function PersonalInfo(props) {
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [region, setRegion] = useState("");
   const [gender, setGender] = useState("");
+  const [showValidationModal, setShowValidationModal] = useState(false);
 
   const nameHandler = (e) => setName(e.target.value);
   const birthDateHandler = (e) => {
@@ -15,10 +17,21 @@ function PersonalInfo(props) {
   const genderHander = (e) => setGender(e.target.value);
 
   useEffect(() => {
+    if (birthDate.length === 8) {
+      const Today = new Date();
+      const year = Today.getFullYear() - 14;
+      const month = String(Today.getMonth() + 1).padStart(2, "0");
+      const day = String(Today.getDate()).padStart(2, "0");
+
+      if (birthDate > year + month + day) setShowValidationModal(true);
+    }
+  }, [birthDate]);
+
+  useEffect(() => {
     const isValidation = () => {
       const Today = new Date();
       const year = Today.getFullYear() - 14;
-      const month = String(Today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const month = String(Today.getMonth() + 1).padStart(2, "0");
       const day = String(Today.getDate()).padStart(2, "0");
 
       if (birthDate > year + month + day) return false;
@@ -71,6 +84,11 @@ function PersonalInfo(props) {
           <option value="여자">여자</option>
         </select>
       </div>
+      <ConfirmModal
+        showModal={showValidationModal}
+        setShowModal={setShowValidationModal}
+        message={"회원가입은 만 14세 이상부터\n가능합니다."}
+      />
     </div>
   );
 }

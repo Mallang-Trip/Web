@@ -9,7 +9,7 @@ function FinalBox() {
             가격범위
           </p>
           <p className="absolute left-[51px] top-[41px] bottom-[31px] text-black">
-            ~10만원
+            상관없이
           </p>
         </div>
       </div>

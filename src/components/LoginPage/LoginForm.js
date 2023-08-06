@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import ConfirmModal from "../Common/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigation = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -49,6 +51,7 @@ function LoginForm() {
           <button
             type="button"
             className="h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+            onClick={() => navigation("/signup")}
           >
             회원가입
           </button>

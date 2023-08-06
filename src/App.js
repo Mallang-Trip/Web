@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import LoginSearchPage from "./pages/LoginSearchPage";
 import PlaceResultPage from "./pages/PlaceResultPage";
 import PartyResult from "./pages/PartyResult";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/login/search/:target" element={<LoginSearchPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </div>
   );

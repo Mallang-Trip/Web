@@ -13,7 +13,7 @@ function PlaceResultPage() {
         </div>
         <BlueContaner />
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 pt-10 pb-3 mx-auto overflow-hidden text-lg">
-          김제윤님께 추천하는 파티 검색결과
+          추천 파티
         </div>
         <FilterBtnBox />
         <Pictures />

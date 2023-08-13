@@ -10,7 +10,7 @@ import SignupPage from "./pages/SignupPage";
 
 function App() {
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="max-w-screen-xl mx-auto">
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<LandingPage />} />

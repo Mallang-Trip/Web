@@ -90,7 +90,7 @@ function Header() {
             onClick={() => navigation("/signup")}
             className={`${
               login ? "hidden" : "flex"
-            } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
+            } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center`}
           >
             회원가입
           </button>
@@ -144,7 +144,7 @@ function Header() {
         </div>
       </div>
       <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block">
-        <div className="relative w-64 ml-auto mr-3 lg:w-96">
+        <div className="relative w-64 ml-auto mr-9 lg:w-96">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               className="w-5 h-5 text-primary"

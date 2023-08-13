@@ -6,7 +6,7 @@ import ThirdBox from "./ThirdBox";
 
 function BoxContainer() {
   return (
-    <div className="flex justify-center gap-0.5">
+    <div className="flex justify-center gap-1">
       <FirstBox />
       <SecondBox />
       <ThirdBox />

@@ -11,11 +11,11 @@ function PartyBox(props) {
   return (
     <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
       <img
-        className="w-full h-full absolute top-0 left-0 object-cover object-center rounded-3xl overflow-hidden"
+        className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
         src={props.src}
         alt="default"
       />
-      <div className="left-0 top-0 absolute flex text-xl text-white w-full h-full justify-center items-center">
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
         <p>{props.name}</p>
       </div>
     </div>

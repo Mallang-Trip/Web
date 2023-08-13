@@ -4,7 +4,7 @@ function SecondCredit() {
   return (
     <div>
       <div className="pb-6 grid grid-rows-2">
-        <p className="text-[18px] flex">
+        <p className="text-[18px] flex font-bold">
           나의 2차 결제금
           <p className="text-[14px] text-gray pt-1">(4월 1일 자정 결제)</p>
         </p>

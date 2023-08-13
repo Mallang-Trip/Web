@@ -6,54 +6,54 @@ import Vector from "../../src/assets/images/Vector.png";
 import PartyBigBox from "../components/PartyResult/Components/PartyBigBox";
 import FirstCredit from "../components/PartyResult/Atoms/FirstCredit";
 import Period from "../components/PartyResult/Atoms/Period";
-import PartyNumber from "../components/PartyResult/Atoms/PartyNumber";
 import SecondCredit from "../components/PartyResult/Atoms/SecondCredit";
 import ToTalCredit from "../components/PartyResult/Atoms/ToTalCredit";
 import PlanBox from "../components/PartyResult/Atoms/PlanBox";
 import ReservBtn from "../components/Common/ReservBtn";
-function PartyResult() {
+import PartyNumberBox from "../components/H003EdtPage/Components/PartyNumberBox";
+import TravelerBox from "../components/H003EdtPage/Components/TravelerBox";
+import TravelerGreet from "../components/H003EdtPage/Atoms/TravelerGreet";
+import PlaceInfoBox from "../components/H003EdtPage/Components/PlaceInfoBox";
+function H003Edt() {
   const { place } = useParams();
 
   return (
-    <div className="w-full">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 mx-auto overflow-hidden text-[23px]">
-        {place}
-      </div>
-      <div className="grid grid-cols-2 pl-5 text-sm text-gray">
-        <p>김제윤 드라이버</p>
-        <img src={Vector} />
-      </div>
-      <div className=" max-w-screen-xl h-[300px] pl-5 pt-[14px]">
-        <div>
-          <PartyBigBox />
+    <React.Fragment>
+      <div className="w-full">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 mx-auto overflow-hidden text-[23px] font-bold">
+          {place}
         </div>
-        <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block">
-          <IconBox />
+        <div className="text-gray text-sm pl-5 grid grid-cols-2">
+          <p>김제윤 드라이버</p>
+          <img src={Vector} />
         </div>
         <div className=" max-w-screen-xl h-[300px] pl-5 pt-[14px]">
           <div>
             <PartyBigBox />
           </div>
-          <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block">
+          <div className="relative max-w-screen-xl mx-auto pb-4 hidden md:block">
             <IconBox />
           </div>
           <div className="">
             <Period />
-            <PartyNumber />
+            <PartyNumberBox />
             <ToTalCredit />
             <FirstCredit />
             <SecondCredit />
+            <TravelerBox />
+            <TravelerGreet />
           </div>
           <div>
-            <PartyPlan />
+            <PlaceInfoBox />
           </div>
+
           <div>
-            <ReservBtn title="예약하기" />
+            <ReservBtn title="제안 보내기" />
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 
-export default PartyResult;
+export default H003Edt;

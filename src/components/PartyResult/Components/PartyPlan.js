@@ -7,7 +7,7 @@ function PartyPlan() {
 
   return (
     <div>
-      <div className=" flex flex-wrap items-center justify-between pl-20 pt-[55px] pr-10 mx-auto overflow-hidden text-[23px]">
+      <div className=" flex flex-wrap items-center justify-between pl-20 pt-[55px] pr-10 mx-auto overflow-hidden text-[23px] font-bold">
         <p>[{place}] 일정</p>
         <img src={ChangeBtn} />
       </div>

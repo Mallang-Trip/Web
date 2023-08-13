@@ -1,14 +1,18 @@
 import React from "react";
-import SearchPassword from "./SearchPassword";
-import SearchEmail from "./SearchEmail";
+import NewPassword from "./NewPassword";
+import SearchAcount from "./SearchAcount";
 
 function SearchForm(props) {
   return (
     <div className="w-[656px] mx-auto mt-10">
-      {props.mode === "email" ? (
-        <SearchEmail setCompleteSearch={props.setCompleteSearch} />
+      {props.mode === "NewPassword" ? (
+        <NewPassword setCompleteSearch={props.setCompleteSearch} />
       ) : (
-        <SearchPassword setCompleteSearch={props.setCompleteSearch} />
+        <SearchAcount
+          mode={props.mode}
+          setMode={props.setMode}
+          setCompleteSearch={props.setCompleteSearch}
+        />
       )}
     </div>
   );

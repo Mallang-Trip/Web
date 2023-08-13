@@ -5,19 +5,17 @@ import Pictures from "../components/PlaceResultPage/Components/Pictures";
 
 function PlaceResultPage() {
   return (
-    <React.Fragment>
-      <div className="w-full">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 pb-3 mx-auto overflow-hidden text-lg">
-          어디로 떠나고 싶으신가요?
-        </div>
-        <BlueContaner />
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 pt-10 pb-3 mx-auto overflow-hidden text-lg">
-          김제윤님께 추천하는 파티 검색결과
-        </div>
-        <FilterBtnBox />
-        <Pictures />
+    <div className="w-full">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold mb-7">
+        어디로 떠나고 싶으신가요?
       </div>
-    </React.Fragment>
+      <BlueContaner />
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-10 pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold">
+        추천 파티
+      </div>
+      <FilterBtnBox />
+      <Pictures />
+    </div>
   );
 }
 

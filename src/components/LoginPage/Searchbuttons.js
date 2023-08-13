@@ -5,9 +5,9 @@ function Searchbuttons() {
   const navigation = useNavigate();
 
   return (
-    <div className="text-sm text-[#666666] mx-auto m-5 flex justify-center">
-      <button type="button" onClick={() => navigation("/login/search/email")}>
-        이메일 찾기
+    <div className="flex justify-center m-5 mx-auto text-sm text-darkgray">
+      <button type="button" onClick={() => navigation("/login/search/id")}>
+        아이디 찾기
       </button>
       <span className="mx-1">|</span>
       <button

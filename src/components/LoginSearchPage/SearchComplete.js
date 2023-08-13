@@ -6,41 +6,51 @@ function SearchComplete(props) {
 
   const goLogin = () => navigation("/login", { replace: true });
   const goHome = () => navigation("/", { replace: true });
+  const goSearchPassword = () => {
+    props.setMode("password");
+    props.setCompleteSearch(false);
+  };
 
   return (
     <div className="w-[656px] mx-auto mt-10">
-      <div className="h-[50px] rounded-lg bg-primary text-white text-center flex flex-col justify-center">
-        {props.mode === "password" ? "비밀번호 찾기" : "이메일 찾기"}
-      </div>
-      <div className="h-[200px] text-center flex flex-col justify-center text-[#666666]">
-        {props.mode === "password" ? (
+      <div className="h-[200px] text-center flex flex-col justify-center">
+        {props.mode === "NewPassword" ? (
           <div>
-            메일 발송이 완료되었습니다.
-            <br />
-            메일을 확인하고 새로운 비밀번호로 재설정해 주세요.
+            비밀번호 재설정이 완료되었습니다. <br />
+            새로 설정된 비밀번호로 로그인 해주세요.
           </div>
         ) : (
           <div>
-            회원님의 아이디는{" "}
-            <span className="text-primary">malangtrip@ajou.ac.kr</span> (으)로
-            등록되어 있습니다.
+            회원님의 아이디는 <span className="text-primary">malangtrip</span>{" "}
+            (으)로 등록되어 있습니다.
           </div>
         )}
       </div>
-      <button
-        type="button"
-        onClick={goLogin}
-        className="w-full h-[30px] text-sm text-white bg-primary rounded-lg"
-      >
-        로그인
-      </button>
-      <button
-        type="button"
-        onClick={goHome}
-        className="w-full mt-3 h-[30px] text-sm text-black bg-[#D9D9D9] rounded-lg"
-      >
-        홈으로 돌아가기
-      </button>
+      <div className="flex flex-col items-center gap-3 mt-12">
+        <button
+          type="button"
+          className="h-12 text-white rounded-full text-md w-80 bg-primary"
+          onClick={goLogin}
+        >
+          로그인
+        </button>
+        {props.mode !== "NewPassword" && (
+          <button
+            type="button"
+            className="h-12 text-white rounded-full text-md w-80 bg-primary"
+            onClick={goSearchPassword}
+          >
+            비밀번호 찾기
+          </button>
+        )}
+        <button
+          type="button"
+          className="h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+          onClick={goHome}
+        >
+          홈으로 돌아가기
+        </button>
+      </div>
     </div>
   );
 }

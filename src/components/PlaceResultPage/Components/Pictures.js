@@ -8,7 +8,7 @@ import AddPartyBtn from "../Atoms/AddPartyBtn";
 
 function Pictures() {
   return (
-    <div className=" grid grid-cols-3 gap-10 mx-auto px-6">
+    <div className="grid grid-cols-2 gap-10 px-6 mx-auto md:grid-cols-3 lg:grid-cols-4">
       <AddPartyBtn />
       <PartyBox src={jeju1} name={"제주도 파티"} />
       <PartyBox src={jeju2} name={"제주의 봄 파티"} />

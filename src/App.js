@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/result/:place" element={<PlaceResultPage />} />
           <Route path="/party/:place" element={<PartyResult />} />
-          <Route path="/party/H003Edt/:place" element={<H003Edt />}></Route>
+          <Route path="/party/H003Edt/:place" element={<H003Edt />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

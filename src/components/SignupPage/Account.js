@@ -1,54 +1,60 @@
 import React, { useEffect, useState } from "react";
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-function Account(props) {
-  const [info, setInfo] = useState({
-    email: "",
-    id: "",
-    password: "",
-    passwordAgain: "",
-  });
+function Account({
+  setActiveNext,
+  email,
+  id,
+  password,
+  passwordAgain,
+  setEmail,
+  setId,
+  setPassword,
+  setPasswordAgain,
+}) {
   const [validationEmail, setValidationEmail] = useState(true);
   const [validationId, setValidationId] = useState(true);
   const [validationPassword, setValidationPassword] = useState(true);
   const [validationPasswordAgain, setValidationPasswordAgain] = useState(true);
 
-  const emailHandler = (e) => setInfo({ ...info, email: e.target.value });
-  const idHandler = (e) => setInfo({ ...info, id: e.target.value });
-  const passwordHandler = (e) => setInfo({ ...info, password: e.target.value });
-  const passwordAgainHandler = (e) =>
-    setInfo({ ...info, passwordAgain: e.target.value });
+  const emailHandler = (e) => setEmail(e.target.value);
+  const idHandler = (e) => setId(e.target.value);
+  const passwordHandler = (e) => setPassword(e.target.value);
+  const passwordAgainHandler = (e) => setPasswordAgain(e.target.value);
 
   useEffect(() => {
-    if (info.email && !emailPattern.test(info.email)) setValidationEmail(false);
+    if (email && !emailPattern.test(email)) setValidationEmail(false);
     else setValidationEmail(true);
 
-    if (info.id && info.id.length < 4) setValidationId(false);
+    if (id && id.length < 4) setValidationId(false);
     else setValidationId(true);
 
-    if (info.password && info.password.length < 8) setValidationPassword(false);
+    if (password && password.length < 8) setValidationPassword(false);
     else setValidationPassword(true);
 
-    if (info.passwordAgain && info.password !== info.passwordAgain)
+    if (passwordAgain && password !== passwordAgain)
       setValidationPasswordAgain(false);
     else setValidationPasswordAgain(true);
-  }, [info]);
+  }, [email, id, password, passwordAgain]);
 
   useEffect(() => {
     if (
-      info.email &&
-      info.id &&
-      info.password &&
-      info.passwordAgain &&
+      email &&
+      id &&
+      password &&
+      passwordAgain &&
       validationEmail &&
       validationId &&
       validationPassword &&
       validationPasswordAgain
     )
-      props.setActiveNext(true);
-    else props.setActiveNext(false);
+      setActiveNext(true);
+    else setActiveNext(false);
   }, [
-    info,
+    email,
+    id,
+    password,
+    passwordAgain,
     validationEmail,
     validationId,
     validationPassword,
@@ -63,7 +69,7 @@ function Account(props) {
           name="email"
           placeholder="이메일을 입력해 주세요."
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-          value={info.email}
+          value={email}
           onChange={emailHandler}
         />
         <span
@@ -80,7 +86,7 @@ function Account(props) {
           name="id"
           placeholder="사용하실 아이디를 입력해 주세요."
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-          value={info.id}
+          value={id}
           onChange={idHandler}
         />
         <span
@@ -97,9 +103,9 @@ function Account(props) {
           name="password"
           placeholder="영문, 특수기호를 포함한 비밀번호 최소 8자리를 입력해 주세요."
           className={`w-full border-b border-darkgray focus:outline-none focus:border-primary ${
-            info.password && "font-mono"
+            password && "font-mono"
           }`}
-          value={info.password}
+          value={password}
           onChange={passwordHandler}
         />
         <span
@@ -114,11 +120,11 @@ function Account(props) {
         <input
           type="password"
           name="passwordAgain"
-          placeholder="사용하실 아이디를 입력해 주세요."
+          placeholder="비밀번호를 다시 한번 입력해 주세요."
           className={`w-full border-b border-darkgray focus:outline-none focus:border-primary ${
-            info.passwordAgain && "font-mono"
+            passwordAgain && "font-mono"
           }`}
-          value={info.passwordAgain}
+          value={passwordAgain}
           onChange={passwordAgainHandler}
         />
         <span

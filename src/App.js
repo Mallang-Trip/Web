@@ -8,6 +8,7 @@ import PlaceResultPage from "./pages/PlaceResultPage";
 import PartyResult from "./pages/PartyResult";
 import SignupPage from "./pages/SignupPage";
 import H003Edt from "./pages/H003Edt";
+
 function App() {
   return (
     <div className="max-w-screen-xl mx-auto">

@@ -12,9 +12,38 @@ function SignupPage() {
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
 
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [region, setRegion] = useState("");
+  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [introduction, setIntroduction] = useState("");
+  const [profileImage, setProfileImage] = useState(undefined);
+
   const nextClick = () => {
-    setStep(step + 1);
-    setActiveNext(false);
+    if (step === 3) {
+      const body = {
+        id: id,
+        password: password,
+        email: email,
+        name: name,
+        birthday: birthDate,
+        country: region,
+        gender: gender,
+        phoneNumber: "01000000000",
+        nickname: nickName,
+        introduction: introduction,
+      };
+
+      console.log(body);
+    } else {
+      setStep(step + 1);
+      setActiveNext(false);
+    }
   };
 
   const logoClickHandler = () => {
@@ -36,11 +65,39 @@ function SignupPage() {
       {step === 0 ? (
         <Agreement setActiveNext={setActiveNext} />
       ) : step === 1 ? (
-        <PersonalInfo setActiveNext={setActiveNext} />
+        <PersonalInfo
+          setActiveNext={setActiveNext}
+          name={name}
+          setName={setName}
+          birthDate={birthDate}
+          setBirthDate={setBirthDate}
+          region={region}
+          setRegion={setRegion}
+          gender={gender}
+          setGender={setGender}
+        />
       ) : step === 2 ? (
-        <Account setActiveNext={setActiveNext} />
+        <Account
+          setActiveNext={setActiveNext}
+          email={email}
+          setEmail={setEmail}
+          id={id}
+          setId={setId}
+          password={password}
+          setPassword={setPassword}
+          passwordAgain={passwordAgain}
+          setPasswordAgain={setPasswordAgain}
+        />
       ) : step === 3 ? (
-        <Profile setActiveNext={setActiveNext} />
+        <Profile
+          setActiveNext={setActiveNext}
+          nickName={nickName}
+          setNickName={setNickName}
+          introduction={introduction}
+          setIntroduction={setIntroduction}
+          profileImage={profileImage}
+          setProfileImage={setProfileImage}
+        />
       ) : (
         <Complete />
       )}

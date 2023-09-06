@@ -6,6 +6,8 @@ import Account from "../components/SignupPage/Account";
 import Profile from "../components/SignupPage/Profile";
 import Complete from "../components/SignupPage/Complete";
 import { useNavigate } from "react-router-dom";
+import { uploadImage } from "../api/image";
+import { signup } from "../api/users";
 
 function SignupPage() {
   const navigation = useNavigate();
@@ -24,7 +26,7 @@ function SignupPage() {
   const [introduction, setIntroduction] = useState("");
   const [profileImage, setProfileImage] = useState(undefined);
 
-  const nextClick = () => {
+  const nextClick = async () => {
     if (step === 3) {
       const body = {
         id: id,
@@ -32,14 +34,17 @@ function SignupPage() {
         email: email,
         name: name,
         birthday: birthDate,
-        country: region,
-        gender: gender,
-        phoneNumber: "01000000000",
+        country: region === "내국인" ? "local" : "foreginer",
+        gender: gender === "남자" ? "male" : "female",
+        phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
         nickname: nickName,
         introduction: introduction,
       };
 
-      console.log(body);
+      // const result = uploadImage(profileImage);
+      // console.log(result);
+      const result = await signup(body);
+      if (result.statusCode === 200) setStep(step + 1);
     } else {
       setStep(step + 1);
       setActiveNext(false);

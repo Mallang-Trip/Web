@@ -1,5 +1,5 @@
 import axios from "axios";
-import properties from "@/config/properties";
+import properties from "../config/properties";
 // import { handleHttpError } from "./error";
 
 const fetchWrap = async ({ method, url, body }) => {
@@ -17,7 +17,6 @@ const fetchWrap = async ({ method, url, body }) => {
       {};
 
     console.log(data);
-    !!data.message && alert(data.message);
     return data;
   } catch (error) {
     // handleHttpError(error);

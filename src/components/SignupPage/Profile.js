@@ -20,7 +20,7 @@ function Profile({
   };
   const imageHandler = () => {
     let imageFile = document.getElementById("profileImage_input").files[0];
-    setProfileImage(imageFile ? URL.createObjectURL(imageFile) : undefined);
+    setProfileImage(imageFile || undefined);
   };
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function Profile({
             {profileImage && (
               <img
                 className="object-cover w-full h-full rounded-2xl"
-                src={profileImage}
+                src={URL.createObjectURL(profileImage)}
                 alt="Profile_Image"
               />
             )}

@@ -14,6 +14,9 @@ import PartyNumberBox from "../components/H003EdtPage/Components/PartyNumberBox"
 import TravelerBox from "../components/H003EdtPage/Components/TravelerBox";
 import TravelerGreet from "../components/H003EdtPage/Atoms/TravelerGreet";
 import PlaceInfoBox from "../components/H003EdtPage/Components/PlaceInfoBox";
+import Detailed from "../components/H003EdtPage/Atoms/Detailed";
+import Comment from "../components/H003EdtPage/Atoms/Comment";
+import CommentCom from "../components/H003EdtPage/Components/Comment";
 function H003Edt() {
   const { place } = useParams();
 
@@ -46,7 +49,11 @@ function H003Edt() {
           <div>
             <PlaceInfoBox />
           </div>
-
+          <div className="pl-4">
+            <Detailed />
+            <Comment />
+            <CommentCom />
+          </div>
           <div>
             <ReservBtn title="제안 보내기" />
           </div>

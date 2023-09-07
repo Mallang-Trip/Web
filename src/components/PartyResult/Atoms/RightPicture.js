@@ -5,17 +5,14 @@ function RightPicture() {
   return (
     <div dir="rtl" className=" grid grid-cols-2">
       <img
-        className="rounded-tr-[40px] h-[150px]"
+        className="rounded-tr-[40px] object-cover"
         src={jeju1}
         name={"제주도 파티"}
+        alt="picture"
       />
-      <img className="h-[150px]" src={jeju1} name={"제주의 봄 파티"} />
-      <img
-        className="h-[150px] rounded-br-[40px]"
-        src={jeju1}
-        name={"제주의 봄 파티"}
-      />
-      <img className="h-[150px]" src={jeju1} name={"제주의 봄 파티"} />
+      <img className="" src={jeju1} name={"제주의 봄 파티"} />
+      <img className="rounded-br-[40px]" src={jeju1} name={"제주의 봄 파티"} />
+      <img className="" src={jeju1} name={"제주의 봄 파티"} />
     </div>
   );
 }

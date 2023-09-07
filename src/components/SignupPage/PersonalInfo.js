@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ConfirmModal from "../Common/ConfirmModal";
 
-function PersonalInfo(props) {
-  const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [region, setRegion] = useState("");
-  const [gender, setGender] = useState("");
+function PersonalInfo({
+  setActiveNext,
+  name,
+  birthDate,
+  region,
+  gender,
+  setName,
+  setBirthDate,
+  setRegion,
+  setGender,
+}) {
   const [showValidationModal, setShowValidationModal] = useState(false);
 
   const nameHandler = (e) => setName(e.target.value);
@@ -38,9 +44,9 @@ function PersonalInfo(props) {
       else return name && birthDate.length === 8 && region && gender;
     };
 
-    if (isValidation()) props.setActiveNext(true);
-    else props.setActiveNext(false);
-  }, [name, birthDate, region, gender, props]);
+    if (isValidation()) setActiveNext(true);
+    else setActiveNext(false);
+  }, [name, birthDate, region, gender, setActiveNext]);
 
   return (
     <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">

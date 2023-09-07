@@ -1,36 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function Profile(props) {
+function Profile({
+  setActiveNext,
+  nickName,
+  introduction,
+  profileImage,
+  setNickName,
+  setIntroduction,
+  setProfileImage,
+}) {
   const imageRef = useRef();
-  const [info, setInfo] = useState({
-    nickName: "",
-    introduction: "",
-  });
-  const [profileImage, setProfileImage] = useState(undefined);
   const [validationNickName, setValidationNickName] = useState(true);
 
   const nickNameHandler = (e) => {
-    if (e.target.value.length <= 10)
-      setInfo({ ...info, nickName: e.target.value });
+    if (e.target.value.length <= 10) setNickName(e.target.value);
   };
   const introductionHandler = (e) => {
-    if (e.target.value.length <= 15)
-      setInfo({ ...info, introduction: e.target.value });
+    if (e.target.value.length <= 15) setIntroduction(e.target.value);
   };
   const imageHandler = () => {
     let imageFile = document.getElementById("profileImage_input").files[0];
-    setProfileImage(imageFile ? URL.createObjectURL(imageFile) : undefined);
+    setProfileImage(imageFile || undefined);
   };
 
   useEffect(() => {
-    if (info.nickName && info.nickName.length < 4) setValidationNickName(false);
+    if (nickName && nickName.length < 4) setValidationNickName(false);
     else setValidationNickName(true);
-  }, [info]);
+  }, [nickName]);
 
   useEffect(() => {
-    if (info.nickName && validationNickName) props.setActiveNext(true);
-    else props.setActiveNext(false);
-  }, [info, validationNickName]);
+    if (nickName && validationNickName) setActiveNext(true);
+    else setActiveNext(false);
+  }, [nickName, validationNickName]);
 
   return (
     <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
@@ -40,7 +41,7 @@ function Profile(props) {
           name="nickName"
           placeholder="닉네임을 입력해 주세요. (최대 10자)"
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-          value={info.nickName}
+          value={nickName}
           onChange={nickNameHandler}
         />
         <span
@@ -57,7 +58,7 @@ function Profile(props) {
           name="introduction"
           placeholder="(선택 사항) 15자 이내로 한줄소개를 적어주세요."
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-          value={info.introduction}
+          value={introduction}
           onChange={introductionHandler}
         />
       </div>
@@ -70,7 +71,7 @@ function Profile(props) {
             {profileImage && (
               <img
                 className="object-cover w-full h-full rounded-2xl"
-                src={profileImage}
+                src={URL.createObjectURL(profileImage)}
                 alt="Profile_Image"
               />
             )}

@@ -8,6 +8,8 @@ import PlaceResultPage from "./pages/PlaceResultPage";
 import PartyResult from "./pages/PartyResult";
 import SignupPage from "./pages/SignupPage";
 import H003Edt from "./pages/H003Edt";
+import MyProfilePage from "./pages/MyProfilePage";
+
 function App() {
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -16,7 +18,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/result/:place" element={<PlaceResultPage />} />
           <Route path="/party/:place" element={<PartyResult />} />
-          <Route path="/party/H003Edt/:place" element={<H003Edt />}></Route>
+          <Route path="/party/H003Edt/:place" element={<H003Edt />} />
+          <Route path="/my/profile" element={<MyProfilePage />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

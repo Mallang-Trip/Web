@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@font-face {
+  font-family: "Jeju Gothic";
+  src: url("./assets/font/JejuGothicOTF.otf") format("opentype");
+}
 
 body {
   margin: 0;

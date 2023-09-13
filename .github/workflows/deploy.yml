@@ -1,0 +1,47 @@
+name: React Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code.
+        uses: actions/checkout@v2
+
+      - name: Check Node v
+        run: node -v
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+        env:
+          CI: ""
+
+      - name: zip create
+        run: zip -qq -r ./react-build.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --region ap-northeast-2 ./react-build.zip s3://mallang-trip-react/react-build.zip
+
+      - name: Deploy # Deploy to EC2
+        run: aws deploy create-deployment
+          --application-name codedeploy-react
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name react-app
+          --s3-location bucket=mallang-trip-react,key=react-build.zip,bundleType=zip

@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/mallang-trip
+    overwrite: yes
+permissions:
+  - object: /home/ubuntu/mallang-trip
+    owner: ubuntu
+    group: ubuntu
+    mode: 755

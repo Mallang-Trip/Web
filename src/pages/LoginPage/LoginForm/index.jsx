@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../../components/ConfirmModal";
+import { login } from "../../../api/users";
 
 function LoginForm() {
   const navigation = useNavigate();
@@ -10,14 +11,23 @@ function LoginForm() {
 
   const idHandler = (e) => setId(e.target.value);
   const passwordHandler = (e) => setPassword(e.target.value);
-  const loginHandler = (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
 
-    console.log(id);
-    console.log(password);
+    try {
+      const body = {
+        id: id,
+        password: password,
+      };
 
-    setShowErrorModal(true);
-    document.body.classList.add("overflow-hidden");
+      const result = await login(body);
+
+      localStorage.setItem("accessToken", result.payload.accessToken);
+      localStorage.setItem("refreshToken", result.payload.refreshToken);
+      navigation("/", { replace: true });
+    } catch {
+      setShowErrorModal(true);
+    }
   };
 
   return (

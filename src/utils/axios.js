@@ -16,11 +16,10 @@ const fetchWrap = async ({ method, url, body }) => {
       (method === "delete" && (await axios.delete(url, config))) ||
       {};
 
-    console.log(data);
     return data;
   } catch (error) {
     // handleHttpError(error);
-    console.log(error);
+    throw error;
   }
 };
 

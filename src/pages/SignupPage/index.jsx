@@ -28,23 +28,28 @@ function SignupPage() {
 
   const nextClick = async () => {
     if (step === 3) {
-      const body = {
-        id: id,
-        password: password,
-        email: email,
-        name: name,
-        birthday: birthDate,
-        country: region === "내국인" ? "local" : "foreginer",
-        gender: gender === "남자" ? "male" : "female",
-        phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
-        nickname: nickName,
-        introduction: introduction,
-      };
+      try {
+        const body = {
+          id: id,
+          password: password,
+          email: email,
+          name: name,
+          birthday: birthDate,
+          country: region === "내국인" ? "local" : "foreginer",
+          gender: gender === "남자" ? "male" : "female",
+          phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
+          nickname: nickName,
+          introduction: introduction,
+        };
 
-      // const result = uploadImage(profileImage);
-      // console.log(result);
-      const result = await signup(body);
-      if (result.statusCode === 200) setStep(step + 1);
+        // const result = uploadImage(profileImage);
+        // console.log(result);
+        await signup(body);
+
+        setStep(step + 1);
+      } catch {
+        alert("회원 가입에 실패했습니다.");
+      }
     } else {
       setStep(step + 1);
       setActiveNext(false);

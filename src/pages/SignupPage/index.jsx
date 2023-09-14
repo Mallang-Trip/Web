@@ -6,13 +6,15 @@ import Account from "./Account";
 import Profile from "./Profile";
 import Complete from "./Complete";
 import { useNavigate } from "react-router-dom";
-import { uploadImage } from "../../api/image";
+import { uploadProfileImage } from "../../api/image";
 import { signup } from "../../api/users";
+import ConfirmModal from "../../components/ConfirmModal";
 
 function SignupPage() {
   const navigation = useNavigate();
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -29,6 +31,10 @@ function SignupPage() {
   const nextClick = async () => {
     if (step === 3) {
       try {
+        const profileImageURL = profileImage
+          ? await uploadProfileImage(profileImage)
+          : null;
+
         const body = {
           id: id,
           password: password,
@@ -40,15 +46,14 @@ function SignupPage() {
           phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
           nickname: nickName,
           introduction: introduction,
+          profileImg: profileImageURL,
         };
 
-        // const result = uploadImage(profileImage);
-        // console.log(result);
         await signup(body);
 
         setStep(step + 1);
       } catch {
-        alert("회원 가입에 실패했습니다.");
+        setShowErrorModal(true);
       }
     } else {
       setStep(step + 1);
@@ -127,6 +132,11 @@ function SignupPage() {
           </button>
         </div>
       )}
+      <ConfirmModal
+        showModal={showErrorModal}
+        setShowModal={setShowErrorModal}
+        message={"회원가입에 실패했습니다."}
+      />
     </div>
   );
 }

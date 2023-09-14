@@ -1,10 +1,10 @@
 import axios from "axios";
 import properties from "../config/properties";
 
-export const uploadImage = async (image) => {
+export const uploadProfileImage = async (image) => {
   try {
     const formData = new FormData();
-    formData.append("chatImage", image);
+    formData.append("file", image);
 
     const config = {
       baseURL: properties.baseURL,
@@ -14,12 +14,10 @@ export const uploadImage = async (image) => {
       },
     };
 
-    const { data } = axios.post("/upload/profile/image", formData, config);
+    const { data } = await axios.post("/upload/signup", formData, config);
 
-    console.log(data);
-    !!data.message && alert(data.message);
     return data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

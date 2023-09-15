@@ -1,33 +1,30 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { __asyncLogin } from "../../../redux/modules/userSlice";
 import ConfirmModal from "../../../components/ConfirmModal";
-import { login } from "../../../api/users";
 
 function LoginForm() {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   const idHandler = (e) => setId(e.target.value);
   const passwordHandler = (e) => setPassword(e.target.value);
-  const loginHandler = async (e) => {
+  const loginHandler = (e) => {
     e.preventDefault();
 
-    try {
-      const body = {
-        id: id,
-        password: password,
-      };
+    const body = {
+      id: id,
+      password: password,
+    };
 
-      const result = await login(body);
-
-      localStorage.setItem("accessToken", result.payload.accessToken);
-      localStorage.setItem("refreshToken", result.payload.refreshToken);
-      navigation("/", { replace: true });
-    } catch {
-      setShowErrorModal(true);
-    }
+    dispatch(__asyncLogin(body)).then((response) => {
+      if (response.payload) navigation("/", { replace: true });
+      else setShowErrorModal(true);
+    });
   };
 
   return (

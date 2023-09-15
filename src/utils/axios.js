@@ -2,12 +2,17 @@ import axios from "axios";
 import properties from "../config/properties";
 // import { handleHttpError } from "./error";
 
-const fetchWrap = async ({ method, url, body }) => {
+const fetchWrap = async ({ method, url, body, auth }) => {
   try {
     const config = {
       baseURL: properties.baseURL,
       withCredentials: true,
     };
+
+    if (auth === true)
+      config.headers = {
+        "ACCESS-TOKEN": "Bearer " + localStorage.getItem("accessToken"),
+      };
 
     const { data } =
       (method === "get" && (await axios.get(url, config))) ||
@@ -23,10 +28,14 @@ const fetchWrap = async ({ method, url, body }) => {
   }
 };
 
-export const GET = (url) => fetchWrap({ method: "get", url });
+export const GET = (url, auth = false) =>
+  fetchWrap({ method: "get", url, auth });
 
-export const POST = (url, body) => fetchWrap({ method: "post", url, body });
+export const POST = (url, body, auth = false) =>
+  fetchWrap({ method: "post", url, body, auth });
 
-export const PATCH = (url, body) => fetchWrap({ method: "patch", url, body });
+export const PATCH = (url, body, auth = false) =>
+  fetchWrap({ method: "patch", url, body, auth });
 
-export const DELETE = (url) => fetchWrap({ method: "delete", url });
+export const DELETE = (url, auth = false) =>
+  fetchWrap({ method: "delete", url, auth });

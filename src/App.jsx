@@ -13,7 +13,8 @@ import MyProfilePage from "./pages/MyProfilePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
-  const AuthPlaceResultPage = Auth(PlaceResultPage, true);
+  const AuthPlaceResultPage = Auth(PlaceResultPage, null);
+  const AuthMyProfilePage = Auth(MyProfilePage, true);
 
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -23,7 +24,7 @@ function App() {
           <Route path="/result/:place" element={<AuthPlaceResultPage />} />
           <Route path="/party/:place" element={<PartyResult />} />
           <Route path="/party/H003Edt/:place" element={<H003Edt />} />
-          <Route path="/my/profile" element={<MyProfilePage />} />
+          <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

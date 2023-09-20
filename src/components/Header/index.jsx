@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
+import profileImage from "../../assets/images/profileImage.png";
 import { FaArrowLeft } from "react-icons/fa";
 import {
   BsChatFill,
@@ -136,10 +137,7 @@ function Header() {
               >
                 <img
                   className="rounded-full w-9 h-9"
-                  src={
-                    user.profileImg ||
-                    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                  }
+                  src={user.profileImg || profileImage}
                   alt="User_Profile_Image"
                 />
               </button>
@@ -186,12 +184,15 @@ function Header() {
         </div>
         <ul className="py-2">
           <li>
-            <Link
-              to="/"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            <button
+              onClick={() => {
+                navigation("/my/profile");
+                setShowUserMenu(false);
+              }}
+              className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
               나의 프로필
-            </Link>
+            </button>
           </li>
           <li>
             <Link

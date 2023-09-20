@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
+import { useDispatch, useSelector } from "react-redux";
 import { FaArrowLeft } from "react-icons/fa";
 import {
   BsChatFill,
   BsFillPeopleFill,
   BsFillSuitHeartFill,
 } from "react-icons/bs";
+import { logout } from "../../redux/modules/userSlice";
 
 function Header() {
+  const user = useSelector((state) => state.user);
   const navigation = useNavigate();
+  const dispatch = useDispatch();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [login, setLogin] = useState(false);
 
   useEffect(() => {
     const mallang_header = document.getElementById("mallang_header");
@@ -27,13 +30,11 @@ function Header() {
 
     const userMenuHandler = (event) => {
       if (
-        !(
-          header_profile.contains(event.target) ||
-          user_menu.contains(event.target)
-        )
-      ) {
-        setShowUserMenu(false);
-      }
+        header_profile.contains(event.target) ||
+        user_menu.contains(event.target)
+      )
+        return;
+      setShowUserMenu(false);
     };
 
     window.addEventListener("click", userMenuHandler);
@@ -80,7 +81,7 @@ function Header() {
             type="button"
             onClick={() => navigation("/login")}
             className={`${
-              login ? "hidden" : "flex"
+              user.auth ? "hidden" : "flex"
             } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
           >
             로그인
@@ -89,14 +90,14 @@ function Header() {
             type="button"
             onClick={() => navigation("/signup")}
             className={`${
-              login ? "hidden" : "flex"
+              user.auth ? "hidden" : "flex"
             } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center`}
           >
             회원가입
           </button>
           <ul
             className={`${
-              login ? "flex" : "hidden"
+              user.auth ? "flex" : "hidden"
             } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-32 md:mt-0 md:border-0 md:bg-white`}
           >
             <li className="my-auto">
@@ -135,7 +136,10 @@ function Header() {
               >
                 <img
                   className="rounded-full w-9 h-9"
-                  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                  src={
+                    user.profileImg ||
+                    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                  }
                   alt="User_Profile_Image"
                 />
               </button>
@@ -175,9 +179,9 @@ function Header() {
         } z-50 fixed top-10 right-0 xl:right-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow text-center`}
       >
         <div className="px-4 py-3">
-          <span className="block text-sm text-gray-900">말랑트립</span>
+          <span className="block text-sm text-gray-900">{user.name}</span>
           <span className="block text-sm text-gray-500 truncate">
-            mallang@ajou.ac.kr
+            {user.email}
           </span>
         </div>
         <ul className="py-2">
@@ -232,7 +236,7 @@ function Header() {
           <li>
             <button
               onClick={() => {
-                setLogin(false);
+                dispatch(logout());
                 setShowUserMenu(false);
               }}
               className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

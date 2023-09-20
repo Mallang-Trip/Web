@@ -9,10 +9,16 @@ const fetchWrap = async ({ method, url, body, auth }) => {
       withCredentials: true,
     };
 
-    if (auth === true)
-      config.headers = {
-        "ACCESS-TOKEN": "Bearer " + localStorage.getItem("accessToken"),
-      };
+    if (auth === true) {
+      if (url === "/refresh-token")
+        config.headers = {
+          "REFRESH-TOKEN": `Bearer ${localStorage.getItem("refreshToken")}`,
+        };
+      else
+        config.headers = {
+          "ACCESS-TOKEN": `Bearer ${localStorage.getItem("accessToken")}`,
+        };
+    }
 
     const { data } =
       (method === "get" && (await axios.get(url, config))) ||

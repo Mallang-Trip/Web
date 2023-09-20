@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { auth, login } from "../../api/users";
+import { auth, login, refresh } from "../../api/users";
 
 const initialState = {
   auth: false,
@@ -37,14 +37,19 @@ const __asyncLogin = createAsyncThunk(
 
 const __asyncAuth = createAsyncThunk("userSlice/asyncAuth", async () => {
   try {
-    const result = await auth();
-    console.log(result);
-
-    // TODO: 엑세스 토큰 만료시, 리프레시 토큰 사용
-
-    return { ...result.payload, auth: true };
+    const auth_result = await auth();
+    return { ...auth_result.payload, auth: true };
   } catch {
-    return { auth: false };
+    try {
+      const refresh_result = await refresh();
+      localStorage.setItem("accessToken", refresh_result.payload.accessToken);
+      localStorage.setItem("refreshToken", refresh_result.payload.refreshToken);
+
+      const auth_result = await auth();
+      return { ...auth_result.payload, auth: true };
+    } catch {
+      return { auth: false };
+    }
   }
 });
 

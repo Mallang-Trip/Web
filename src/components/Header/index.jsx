@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,23 +16,21 @@ function Header() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const mallang_header = useRef();
+  const header_profile = useRef();
+  const user_menu = useRef();
+
+  const getMenuPosition = () => {
+    const x = header_profile.current?.getBoundingClientRect()?.x;
+    if (x === undefined) return 0;
+    else return x - 140;
+  };
 
   useEffect(() => {
-    const mallang_header = document.getElementById("mallang_header");
-    const header_profile = document.getElementById("header_profile");
-    const user_menu = document.getElementById("user_menu");
-
-    const computedStyle = window.getComputedStyle(mallang_header);
-    const marginRight = parseInt(
-      computedStyle.getPropertyValue("margin-right")
-    );
-    user_menu.style.right = "0px";
-    user_menu.style.marginRight = 10 + marginRight + "px";
-
     const userMenuHandler = (event) => {
       if (
-        header_profile.contains(event.target) ||
-        user_menu.contains(event.target)
+        header_profile.current.contains(event.target) ||
+        user_menu.current.contains(event.target)
       )
         return;
       setShowUserMenu(false);
@@ -42,13 +40,13 @@ function Header() {
     return () => {
       window.removeEventListener("click", userMenuHandler);
     };
-  });
+  }, []);
 
   return (
     // <nav className="fixed top-0 left-0 w-full bg-white border-gray-200">
     <nav className="w-full bg-white border-gray-200">
       <div
-        id="mallang_header"
+        ref={mallang_header}
         className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto"
       >
         <button
@@ -127,7 +125,7 @@ function Header() {
             </li>
             <li
               className="my-auto"
-              id="header_profile"
+              ref={header_profile}
               onMouseOver={() => setShowUserMenu(true)}
               onClick={() => setShowUserMenu(!showUserMenu)}
             >
@@ -164,17 +162,20 @@ function Header() {
           </div>
           <input
             type="text"
-            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:ring-primary focus:border-primary"
+            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none"
             placeholder="여행지를 검색해보세요"
           />
         </div>
       </div>
       {/* Dropdown menu */}
       <div
-        id="user_menu"
+        ref={user_menu}
         className={`${
           showUserMenu ? "block" : "hidden"
-        } z-50 fixed top-10 right-0 xl:right-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow text-center`}
+        } z-50 fixed top-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow text-center`}
+        style={{
+          left: getMenuPosition(),
+        }}
       >
         <div className="px-4 py-3">
           <span className="block text-sm text-gray-900">{user.name}</span>

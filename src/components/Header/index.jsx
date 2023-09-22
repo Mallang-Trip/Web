@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import profileImage from "../../assets/images/profileImage.png";
-import { FaArrowLeft } from "react-icons/fa";
+import headerBack from "../../assets/svg/header-back.svg";
 import {
   BsChatFill,
   BsFillPeopleFill,
@@ -53,11 +53,11 @@ function Header() {
           className="flex items-center md:hidden"
           onClick={() => navigation(-1)}
         >
-          <FaArrowLeft size={20} />
+          <img src={headerBack} alt="back" className="w-6 h-6" />
         </button>
         <div className="flex flex-row">
           <Link to="/" className="flex items-center">
-            <img src={Logo} className="mr-3 h-9" alt="Mallang_Trip_Logo" />
+            <img src={Logo} className="mr-3 w-28" alt="Mallang_Trip_Logo" />
           </Link>
         </div>
         <button className="flex items-center md:hidden">

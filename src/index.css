@@ -24,3 +24,7 @@ body {
   opacity: 1;
   visibility: visible;
 }
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}

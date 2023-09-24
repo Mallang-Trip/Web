@@ -30,7 +30,7 @@ function Profile({
   }, [nickName]);
 
   return (
-    <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
+    <div className="w-4/5 md:w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
       <div className="relative flex flex-row w-full my-4">
         <input
           type="text"
@@ -72,7 +72,7 @@ function Profile({
               />
             )}
           </div>
-          <div className="absolute bottom-0 left-1/2 translate-x-[120px]">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 md:translate-x-[120px] md:translate-y-0">
             <label htmlFor="profileImage_input">
               <button
                 className="px-5 py-1 text-sm font-medium bg-white border rounded-full border-gray text-gray"

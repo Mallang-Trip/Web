@@ -67,7 +67,7 @@ function Account({
   ]);
 
   return (
-    <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
+    <div className="w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
       <div className="relative flex flex-row w-full my-4">
         <input
           type="email"

@@ -8,8 +8,8 @@ function Complete(props) {
   const goHome = () => navigation("/");
 
   return (
-    <div className="w-[656px] mx-auto">
-      <div className="flex flex-col justify-center my-24 text-base font-medium text-center text-black">
+    <div className="w-full mx-auto">
+      <div className="flex flex-col justify-center my-24 px-5 text-base font-medium text-center text-black">
         말랑트립의 회원이 되신 것을 진심으로 환영합니다.
         <br />
         로그인 후 말랑트립의 다양한 서비스를 마음껏 즐겨보세요!
@@ -17,14 +17,14 @@ function Complete(props) {
       <div className="flex flex-col items-center gap-3">
         <button
           type="button"
-          className="h-12 text-white rounded-full text-md w-80 bg-primary"
+          className="h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
           onClick={goLogin}
         >
           로그인
         </button>
         <button
           type="button"
-          className="h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+          className="h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
           onClick={goHome}
         >
           홈으로 돌아가기

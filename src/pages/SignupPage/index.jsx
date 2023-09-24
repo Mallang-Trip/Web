@@ -146,8 +146,8 @@ function SignupPage() {
             type="button"
             className={`${
               activeNext
-                ? "h-12 text-white rounded-full text-md w-80 bg-primary"
-                : "h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+                ? "h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
+                : "h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
             }`}
             disabled={!activeNext}
             onClick={nextClick}

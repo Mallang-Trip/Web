@@ -67,7 +67,7 @@ function SignupPage() {
   };
 
   return (
-    <div className="h-screen">
+    <>
       <div className="flex justify-center mb-12 mt-36">
         <img
           src={Logo}
@@ -137,7 +137,7 @@ function SignupPage() {
         setShowModal={setShowErrorModal}
         message={"회원가입에 실패했습니다."}
       />
-    </div>
+    </>
   );
 }
 

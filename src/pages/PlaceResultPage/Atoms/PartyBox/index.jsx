@@ -13,7 +13,7 @@ function PartyBox(props) {
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
         src={props.src}
-        alt="default"
+        alt="party-image"
       />
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
         <p>{props.name}</p>

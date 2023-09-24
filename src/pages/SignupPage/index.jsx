@@ -7,7 +7,7 @@ import Profile from "./Profile";
 import Complete from "./Complete";
 import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
-import { signup } from "../../api/users";
+import { signup, checkDuplication } from "../../api/users";
 import ConfirmModal from "../../components/ConfirmModal";
 
 function SignupPage() {
@@ -28,33 +28,23 @@ function SignupPage() {
   const [introduction, setIntroduction] = useState("");
   const [profileImage, setProfileImage] = useState(undefined);
 
+  const [emailDuplication, setEmailDuplication] = useState(false);
+  const [idDuplication, setIdDuplication] = useState(false);
+  const [nickNameDuplication, setNickNameDuplication] = useState(false);
+
   const nextClick = async () => {
-    if (step === 3) {
-      try {
-        const profileImageURL = profileImage
-          ? await uploadProfileImage(profileImage)
-          : null;
-
-        const body = {
-          id: id,
-          password: password,
-          email: email,
-          name: name,
-          birthday: birthDate,
-          country: region === "내국인" ? "local" : "foreginer",
-          gender: gender === "남자" ? "male" : "female",
-          phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
-          nickname: nickName,
-          introduction: introduction,
-          profileImg: profileImageURL,
-        };
-
-        await signup(body);
-
-        setStep(step + 1);
-      } catch {
-        setShowErrorModal(true);
-      }
+    if (step === 2) {
+      checkDuplication("email", email)
+        .then(() =>
+          checkDuplication("loginId", id)
+            .then(() => setStep(step + 1))
+            .catch(() => setIdDuplication(true))
+        )
+        .catch(() => setEmailDuplication(true));
+    } else if (step === 3) {
+      checkDuplication("nickname", nickName)
+        .then(() => goSignup())
+        .catch(() => setNickNameDuplication(true));
     } else {
       setStep(step + 1);
       setActiveNext(false);
@@ -64,6 +54,34 @@ function SignupPage() {
   const logoClickHandler = () => {
     if (step !== 4) return;
     navigation("/");
+  };
+
+  const goSignup = async () => {
+    try {
+      const profileImageURL = profileImage
+        ? await uploadProfileImage(profileImage)
+        : null;
+
+      const body = {
+        id: id,
+        password: password,
+        email: email,
+        name: name,
+        birthday: birthDate,
+        country: region === "내국인" ? "local" : "foreginer",
+        gender: gender === "남자" ? "male" : "female",
+        phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
+        nickname: nickName,
+        introduction: introduction,
+        profileImg: profileImageURL,
+      };
+
+      await signup(body);
+
+      setStep(step + 1);
+    } catch {
+      setShowErrorModal(true);
+    }
   };
 
   return (
@@ -102,6 +120,10 @@ function SignupPage() {
           setPassword={setPassword}
           passwordAgain={passwordAgain}
           setPasswordAgain={setPasswordAgain}
+          emailDuplication={emailDuplication}
+          setEmailDuplication={setEmailDuplication}
+          idDuplication={idDuplication}
+          setIdDuplication={setIdDuplication}
         />
       ) : step === 3 ? (
         <Profile
@@ -112,6 +134,8 @@ function SignupPage() {
           setIntroduction={setIntroduction}
           profileImage={profileImage}
           setProfileImage={setProfileImage}
+          nickNameDuplication={nickNameDuplication}
+          setNickNameDuplication={setNickNameDuplication}
         />
       ) : (
         <Complete />

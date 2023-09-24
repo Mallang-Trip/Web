@@ -12,14 +12,23 @@ function Account({
   setId,
   setPassword,
   setPasswordAgain,
+  emailDuplication,
+  setEmailDuplication,
+  idDuplication,
+  setIdDuplication,
 }) {
   const [validationEmail, setValidationEmail] = useState(true);
-  const [validationId, setValidationId] = useState(true);
   const [validationPassword, setValidationPassword] = useState(true);
   const [validationPasswordAgain, setValidationPasswordAgain] = useState(true);
 
-  const emailHandler = (e) => setEmail(e.target.value);
-  const idHandler = (e) => setId(e.target.value);
+  const emailHandler = (e) => {
+    setEmailDuplication(false);
+    setEmail(e.target.value);
+  };
+  const idHandler = (e) => {
+    setIdDuplication(false);
+    setId(e.target.value);
+  };
   const passwordHandler = (e) => setPassword(e.target.value);
   const passwordAgainHandler = (e) => setPasswordAgain(e.target.value);
 
@@ -27,25 +36,20 @@ function Account({
     if (email && !emailPattern.test(email)) setValidationEmail(false);
     else setValidationEmail(true);
 
-    if (id && id.length < 4) setValidationId(false);
-    else setValidationId(true);
-
     if (password && password.length < 8) setValidationPassword(false);
     else setValidationPassword(true);
 
     if (passwordAgain && password !== passwordAgain)
       setValidationPasswordAgain(false);
     else setValidationPasswordAgain(true);
-  }, [email, id, password, passwordAgain]);
+  }, [email, password, passwordAgain]);
 
   useEffect(() => {
     if (
       email &&
-      id &&
       password &&
       passwordAgain &&
       validationEmail &&
-      validationId &&
       validationPassword &&
       validationPasswordAgain
     )
@@ -57,7 +61,7 @@ function Account({
     password,
     passwordAgain,
     validationEmail,
-    validationId,
+    idDuplication,
     validationPassword,
     validationPasswordAgain,
   ]);
@@ -78,7 +82,14 @@ function Account({
             validationEmail && "hidden"
           }`}
         >
-          이미 사용중인 이메일입니다. | 이메일 형식이 잘못되었습니다.
+          이메일 형식이 잘못되었습니다.
+        </span>
+        <span
+          className={`absolute left-0 text-xs text-red-500 top-6 ${
+            emailDuplication ? "inline" : "hidden"
+          }`}
+        >
+          이미 사용중인 이메일입니다.
         </span>
       </div>
       <div className="relative flex flex-row w-full my-4">
@@ -92,7 +103,7 @@ function Account({
         />
         <span
           className={`absolute left-0 text-xs text-red-500 top-6 ${
-            validationId && "hidden"
+            idDuplication ? "inline" : "hidden"
           }`}
         >
           이미 사용중인 아이디입니다.

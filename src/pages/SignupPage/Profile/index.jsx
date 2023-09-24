@@ -8,12 +8,13 @@ function Profile({
   setNickName,
   setIntroduction,
   setProfileImage,
+  nickNameDuplication,
+  setNickNameDuplication,
 }) {
   const imageRef = useRef();
-  const [validationNickName, setValidationNickName] = useState(true);
-
   const nickNameHandler = (e) => {
     if (e.target.value.length <= 10) setNickName(e.target.value);
+    setNickNameDuplication(false);
   };
   const introductionHandler = (e) => {
     if (e.target.value.length <= 15) setIntroduction(e.target.value);
@@ -24,14 +25,9 @@ function Profile({
   };
 
   useEffect(() => {
-    if (nickName && nickName.length < 4) setValidationNickName(false);
-    else setValidationNickName(true);
-  }, [nickName]);
-
-  useEffect(() => {
-    if (nickName && validationNickName) setActiveNext(true);
+    if (nickName) setActiveNext(true);
     else setActiveNext(false);
-  }, [nickName, validationNickName]);
+  }, [nickName]);
 
   return (
     <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
@@ -46,7 +42,7 @@ function Profile({
         />
         <span
           className={`absolute left-0 text-xs text-red-500 top-6 ${
-            validationNickName && "hidden"
+            nickNameDuplication ? "inline" : "hidden"
           }`}
         >
           이미 사용중인 닉네임입니다.

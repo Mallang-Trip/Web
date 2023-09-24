@@ -162,7 +162,7 @@ function Header() {
           </div>
           <input
             type="text"
-            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none"
+            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
             placeholder="여행지를 검색해보세요"
           />
         </div>

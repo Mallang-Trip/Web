@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { __asyncLogin } from "../../../redux/modules/userSlice";
 import ConfirmModal from "../../../components/ConfirmModal";
 
 function LoginForm() {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -13,16 +16,20 @@ function LoginForm() {
   const loginHandler = (e) => {
     e.preventDefault();
 
-    console.log(id);
-    console.log(password);
+    const body = {
+      id: id,
+      password: password,
+    };
 
-    setShowErrorModal(true);
-    document.body.classList.add("overflow-hidden");
+    dispatch(__asyncLogin(body)).then((response) => {
+      if (response.payload) navigation("/", { replace: true });
+      else setShowErrorModal(true);
+    });
   };
 
   return (
     <>
-      <form className="w-[656px] mx-auto mt-10" onSubmit={loginHandler}>
+      <form className="w-3/5 mx-auto mt-10" onSubmit={loginHandler}>
         <input
           type="id"
           name="id"
@@ -44,13 +51,13 @@ function LoginForm() {
         <div className="flex flex-col items-center gap-3">
           <button
             type="submit"
-            className="h-12 text-white rounded-full text-md w-80 bg-primary"
+            className="h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
           >
             로그인
           </button>
           <button
             type="button"
-            className="h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+            className="h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
             onClick={() => navigation("/signup")}
           >
             회원가입

@@ -13,24 +13,18 @@ function ThirdBox() {
   }
 
   return (
-    <div className="flex flex-col justify-center gap-y-1vw">
-      <div className="relative w-full">
-        <div className="w-64 h-32 bg-white">
-          <p className="relative top-[13px] left-[10px] text-gray-500 text-base text-gray">
-            참여 인원
-          </p>
-        </div>
-        <div className="absolute text-2xl text-black -translate-x-1/2 -translate-y-1/3 left-1/2 top-1/2">
-          <div className="grid grid-cols-3 justify-items-center top-1/2">
-            <button onClick={setDecrease}>
-              <RemoveIcon />
-            </button>
-            <div>{num}명</div>
-            <button onClick={setIncrease}>
-              <AddIcon />
-            </button>
-          </div>
-        </div>
+    <div className="w-full h-32 my-auto bg-white">
+      <p className="mt-3 mb-5 ml-3 text-gray-500 text-sm md:text-base text-gray">
+        참여 인원
+      </p>
+      <div className="w-full flex justify-center gap-1 md:gap-3 text-lg md:text-xl text-black">
+        <button onClick={setDecrease}>
+          <RemoveIcon />
+        </button>
+        <div>{num}명</div>
+        <button onClick={setIncrease}>
+          <AddIcon />
+        </button>
       </div>
     </div>
   );

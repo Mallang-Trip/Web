@@ -50,7 +50,7 @@ function Agreement(props) {
 
   return (
     <div className="flex flex-col items-center gap-3 mt-12 text-sm">
-      <div className="w-[500px] h-[42px] rounded-lg bg-[#EAF4FF]">
+      <div className="w-4/5 sm:w-3/5 lg:w-2/5 py-3 rounded-lg bg-[#EAF4FF]">
         <input
           id="agreeAll"
           type="checkbox"

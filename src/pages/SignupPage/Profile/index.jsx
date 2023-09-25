@@ -8,12 +8,13 @@ function Profile({
   setNickName,
   setIntroduction,
   setProfileImage,
+  nickNameDuplication,
+  setNickNameDuplication,
 }) {
   const imageRef = useRef();
-  const [validationNickName, setValidationNickName] = useState(true);
-
   const nickNameHandler = (e) => {
     if (e.target.value.length <= 10) setNickName(e.target.value);
+    setNickNameDuplication(false);
   };
   const introductionHandler = (e) => {
     if (e.target.value.length <= 15) setIntroduction(e.target.value);
@@ -24,17 +25,12 @@ function Profile({
   };
 
   useEffect(() => {
-    if (nickName && nickName.length < 4) setValidationNickName(false);
-    else setValidationNickName(true);
+    if (nickName) setActiveNext(true);
+    else setActiveNext(false);
   }, [nickName]);
 
-  useEffect(() => {
-    if (nickName && validationNickName) setActiveNext(true);
-    else setActiveNext(false);
-  }, [nickName, validationNickName]);
-
   return (
-    <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
+    <div className="w-4/5 md:w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
       <div className="relative flex flex-row w-full my-4">
         <input
           type="text"
@@ -46,7 +42,7 @@ function Profile({
         />
         <span
           className={`absolute left-0 text-xs text-red-500 top-6 ${
-            validationNickName && "hidden"
+            nickNameDuplication ? "inline" : "hidden"
           }`}
         >
           이미 사용중인 닉네임입니다.
@@ -76,7 +72,7 @@ function Profile({
               />
             )}
           </div>
-          <div className="absolute bottom-0 left-1/2 translate-x-[120px]">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 md:translate-x-[120px] md:translate-y-0">
             <label htmlFor="profileImage_input">
               <button
                 className="px-5 py-1 text-sm font-medium bg-white border rounded-full border-gray text-gray"

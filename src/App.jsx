@@ -5,15 +5,13 @@ import Auth from "./hoc/Auth";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import LoginSearchPage from "./pages/LoginSearchPage";
-import PlaceResultPage from "./pages/PlaceResultPage";
-import PartyResult from "./pages/PartyResult";
+import PartyPage from "./pages/PartyPage";
 import SignupPage from "./pages/SignupPage";
-import H003Edt from "./pages/H003Edt";
+import CourseSuggestPage from "./pages/CourseSuggestPage";
 import MyProfilePage from "./pages/MyProfilePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
-  const AuthPlaceResultPage = Auth(PlaceResultPage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
 
   return (
@@ -21,9 +19,11 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
-          <Route path="/result/:place" element={<AuthPlaceResultPage />} />
-          <Route path="/party/:place" element={<PartyResult />} />
-          <Route path="/party/H003Edt/:place" element={<H003Edt />} />
+          <Route path="/party/:place" element={<PartyPage />} />
+          <Route
+            path="/party/course/suggest/:place"
+            element={<CourseSuggestPage />}
+          />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 

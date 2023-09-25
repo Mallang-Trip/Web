@@ -1,6 +1,6 @@
 import React from "react";
 import NumberText from "../Atoms/NumberText";
-import FilterBtn from "../../PlaceResultPage/Atoms/FilterBtn";
+import FilterBtn from "../../LandingPage/Atoms/FilterBtn";
 
 function PartyNumberBox() {
   return (

@@ -11,7 +11,7 @@ import SecondCredit from "./Atoms/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
 import ReservBtn from "../../components/ReservBtn";
 
-function PartyResult() {
+function PartyPage() {
   const { place } = useParams();
 
   return (
@@ -56,4 +56,4 @@ function PartyResult() {
   );
 }
 
-export default PartyResult;
+export default PartyPage;

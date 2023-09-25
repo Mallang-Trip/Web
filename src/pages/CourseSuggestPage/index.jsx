@@ -1,12 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import IconBox from "../PartyResult/IconBox";
+import IconBox from "../PartyPage/IconBox";
 import Vector from "../../assets/images/Vector.png";
-import PartyBigBox from "../PartyResult/PartyBigBox";
-import FirstCredit from "../PartyResult/Atoms/FirstCredit";
-import Period from "../PartyResult/Atoms/Period";
-import SecondCredit from "../PartyResult/Atoms/SecondCredit";
-import ToTalCredit from "../PartyResult/Atoms/ToTalCredit";
+import PartyBigBox from "../PartyPage/PartyBigBox";
+import FirstCredit from "../PartyPage/Atoms/FirstCredit";
+import Period from "../PartyPage/Atoms/Period";
+import SecondCredit from "../PartyPage/Atoms/SecondCredit";
+import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
 import ReservBtn from "../../components/ReservBtn";
 import PartyNumberBox from "./PartyNumberBox";
 import TravelerBox from "./TravelerBox";
@@ -19,7 +19,8 @@ import AddComment from "./Atoms/AddComment";
 import Credit from "./Atoms/Credit";
 import Refund from "../../components/BottomRefund";
 import Agreement from "./AddAgree";
-function H003Edt() {
+
+function CourseSuggestPage() {
   const { place } = useParams();
 
   return (
@@ -78,4 +79,4 @@ function H003Edt() {
   );
 }
 
-export default H003Edt;
+export default CourseSuggestPage;

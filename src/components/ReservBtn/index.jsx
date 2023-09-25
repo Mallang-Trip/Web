@@ -5,7 +5,7 @@ function ReservBtn(props) {
 
   const navigate = useNavigate();
   const onClickHandler = () => {
-    navigate(`/party/H003Edt/${place}`);
+    navigate(`/party/course/suggest/${place}`);
   };
 
   return (

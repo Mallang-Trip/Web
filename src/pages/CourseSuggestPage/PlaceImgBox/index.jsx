@@ -1,8 +1,8 @@
 import React from "react";
-import LeftBigPicture from "../../PartyResult/Atoms/LeftBigPicture";
-import RightPicture from "../../PartyResult/Atoms/RightPicture";
+import LeftBigPicture from "../../PartyPage/Atoms/LeftBigPicture";
+import RightPicture from "../../PartyPage/Atoms/RightPicture";
 
-function PlaceImgBox(props) {
+function PlaceImgBox() {
   return (
     <div className="grid grid-cols-2">
       <LeftBigPicture src={jeju1} name={"제주도"} />

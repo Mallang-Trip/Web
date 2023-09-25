@@ -35,15 +35,22 @@ function SignupPage() {
   const nextClick = async () => {
     if (step === 2) {
       checkDuplication("email", email)
-        .then(() =>
+        .then((res) => {
+          if (res.statusCode === 409) return setEmailDuplication(true);
           checkDuplication("loginId", id)
-            .then(() => setStep(step + 1))
-            .catch(() => setIdDuplication(true))
-        )
+            .then((res) => {
+              if (res.statusCode === 409) return setIdDuplication(true);
+              setStep(step + 1);
+            })
+            .catch(() => setIdDuplication(true));
+        })
         .catch(() => setEmailDuplication(true));
     } else if (step === 3) {
       checkDuplication("nickname", nickName)
-        .then(() => goSignup())
+        .then((res) => {
+          if (res.statusCode === 409) return setNickNameDuplication(true);
+          goSignup();
+        })
         .catch(() => setNickNameDuplication(true));
     } else {
       setStep(step + 1);

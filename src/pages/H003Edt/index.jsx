@@ -32,7 +32,7 @@ function H003Edt() {
           <p>김제윤 드라이버</p>
           <img src={Vector} />
         </div>
-        <div className=" max-w-screen-xl h-[300px] pl-5 pt-[14px]">
+        <div className=" max-w-screen-xl h-[300px] pl-5 pt-3">
           <div>
             <PartyBigBox />
           </div>

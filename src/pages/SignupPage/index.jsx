@@ -7,7 +7,7 @@ import Profile from "./Profile";
 import Complete from "./Complete";
 import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
-import { signup } from "../../api/users";
+import { signup, checkDuplication } from "../../api/users";
 import ConfirmModal from "../../components/ConfirmModal";
 
 function SignupPage() {
@@ -28,33 +28,30 @@ function SignupPage() {
   const [introduction, setIntroduction] = useState("");
   const [profileImage, setProfileImage] = useState(undefined);
 
+  const [emailDuplication, setEmailDuplication] = useState(false);
+  const [idDuplication, setIdDuplication] = useState(false);
+  const [nickNameDuplication, setNickNameDuplication] = useState(false);
+
   const nextClick = async () => {
-    if (step === 3) {
-      try {
-        const profileImageURL = profileImage
-          ? await uploadProfileImage(profileImage)
-          : null;
-
-        const body = {
-          id: id,
-          password: password,
-          email: email,
-          name: name,
-          birthday: birthDate,
-          country: region === "내국인" ? "local" : "foreginer",
-          gender: gender === "남자" ? "male" : "female",
-          phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
-          nickname: nickName,
-          introduction: introduction,
-          profileImg: profileImageURL,
-        };
-
-        await signup(body);
-
-        setStep(step + 1);
-      } catch {
-        setShowErrorModal(true);
-      }
+    if (step === 2) {
+      checkDuplication("email", email)
+        .then((res) => {
+          if (res.statusCode === 409) return setEmailDuplication(true);
+          checkDuplication("loginId", id)
+            .then((res) => {
+              if (res.statusCode === 409) return setIdDuplication(true);
+              setStep(step + 1);
+            })
+            .catch(() => setIdDuplication(true));
+        })
+        .catch(() => setEmailDuplication(true));
+    } else if (step === 3) {
+      checkDuplication("nickname", nickName)
+        .then((res) => {
+          if (res.statusCode === 409) return setNickNameDuplication(true);
+          goSignup();
+        })
+        .catch(() => setNickNameDuplication(true));
     } else {
       setStep(step + 1);
       setActiveNext(false);
@@ -66,8 +63,36 @@ function SignupPage() {
     navigation("/");
   };
 
+  const goSignup = async () => {
+    try {
+      const profileImageURL = profileImage
+        ? await uploadProfileImage(profileImage)
+        : null;
+
+      const body = {
+        id: id,
+        password: password,
+        email: email,
+        name: name,
+        birthday: birthDate,
+        country: region === "내국인" ? "local" : "foreginer",
+        gender: gender === "남자" ? "male" : "female",
+        phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
+        nickname: nickName,
+        introduction: introduction,
+        profileImg: profileImageURL,
+      };
+
+      await signup(body);
+
+      setStep(step + 1);
+    } catch {
+      setShowErrorModal(true);
+    }
+  };
+
   return (
-    <div className="h-screen">
+    <>
       <div className="flex justify-center mb-12 mt-36">
         <img
           src={Logo}
@@ -102,6 +127,10 @@ function SignupPage() {
           setPassword={setPassword}
           passwordAgain={passwordAgain}
           setPasswordAgain={setPasswordAgain}
+          emailDuplication={emailDuplication}
+          setEmailDuplication={setEmailDuplication}
+          idDuplication={idDuplication}
+          setIdDuplication={setIdDuplication}
         />
       ) : step === 3 ? (
         <Profile
@@ -112,6 +141,8 @@ function SignupPage() {
           setIntroduction={setIntroduction}
           profileImage={profileImage}
           setProfileImage={setProfileImage}
+          nickNameDuplication={nickNameDuplication}
+          setNickNameDuplication={setNickNameDuplication}
         />
       ) : (
         <Complete />
@@ -122,8 +153,8 @@ function SignupPage() {
             type="button"
             className={`${
               activeNext
-                ? "h-12 text-white rounded-full text-md w-80 bg-primary"
-                : "h-12 bg-white border rounded-full text-darkgray text-md w-80 border-darkgray"
+                ? "h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
+                : "h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
             }`}
             disabled={!activeNext}
             onClick={nextClick}
@@ -137,7 +168,7 @@ function SignupPage() {
         setShowModal={setShowErrorModal}
         message={"회원가입에 실패했습니다."}
       />
-    </div>
+    </>
   );
 }
 

@@ -1,16 +1,21 @@
 import React from "react";
+import BlueContaner from "./BlueContaner";
+import FilterBtnBox from "./FilterBtnBox";
 import Pictures from "./Pictures";
 
 function LandingPage() {
   return (
-    <React.Fragment>
-      <div className="w-full">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 pb-3 mx-auto overflow-hidden text-lg">
-          가고싶은 여행지를 찾아요
-        </div>
-        <Pictures />
+    <div className="w-full mb-24">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold">
+        어디로 떠나고 싶으신가요?
       </div>
-    </React.Fragment>
+      <BlueContaner />
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-10 pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold">
+        추천 파티
+      </div>
+      <FilterBtnBox />
+      <Pictures />
+    </div>
   );
 }
 

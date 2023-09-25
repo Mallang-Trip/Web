@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
-import AgreeItem from "../AgreeItem";
+import ItemAgree from "./ItemAgree";
 
+import AgreeItem from "../../SignupPage/AgreeItem";
 const agreementData = [
   {
     id: 0,
-    title: "이용약관 동의(필수)",
+    title: "개인정보 수집 및 이용(필수)",
   },
   {
     id: 1,
-    title: "만 14세 이상 확인(필수)",
-  },
-  {
-    id: 2,
-    title: "개인정보 수집 및 이용 동의(필수)",
-  },
-  {
-    id: 3,
-    title: "마케팅 알림 수신 동의(선택)",
-  },
-  {
-    id: 4,
-    title: "위치기반 서비스 이용약관 동의(선택)",
+    title: "개인정보 제3자 제공(필수)",
   },
 ];
-
-function Agreement(props) {
+function AddAgree(props) {
   const [allChecked, setAllChecked] = useState(false);
-  const [checked, setChecked] = useState([false, false, false, false, false]);
+  const [checked, setChecked] = useState([false, false]);
 
   const allCheckedHandler = (e) => {
     setAllChecked(e.target.checked);
@@ -44,13 +32,13 @@ function Agreement(props) {
     if (checked.indexOf(false) < 0) setAllChecked(true);
     else setAllChecked(false);
 
-    if (checked.slice(0, 3).indexOf(false) < 0) props.setActiveNext(true);
-    else props.setActiveNext(false);
+    /*if (checked.slice(0, 3).indexOf(false) < 0) props.setActiveNext(true);
+    else props.setActiveNext(false);*/
   }, [checked, props]);
 
   return (
     <div className="flex flex-col items-center gap-3 mt-12 text-sm">
-      <div className="w-4/5 sm:w-3/5 lg:w-2/5 py-3 rounded-lg bg-[#EAF4FF]">
+      <div className="w-[500px] h-[42px] rounded-lg bg-[#EAF4FF]">
         <input
           id="agreeAll"
           type="checkbox"
@@ -62,11 +50,11 @@ function Agreement(props) {
           <div className="relative w-3 h-3 mx-3 border border-darkgray">
             {allChecked && <Check className="absolute -top-0.5 -left-0.5" />}
           </div>
-          <span className="text-primary">전체동의(선택 항목 포함)</span>
+          <span className="text-primary">전체동의</span>
         </label>
       </div>
       {agreementData.map((item) => (
-        <AgreeItem
+        <ItemAgree
           key={item.id}
           checked={checked[item.id]}
           checkedHandler={checkedHandler}
@@ -78,4 +66,4 @@ function Agreement(props) {
   );
 }
 
-export default Agreement;
+export default AddAgree;

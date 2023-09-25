@@ -4,7 +4,7 @@ import SearchAcount from "../SearchAcount";
 
 function SearchForm(props) {
   return (
-    <div className="w-[656px] mx-auto mt-10">
+    <div className="w-3/5 mx-auto mt-10">
       {props.mode === "NewPassword" ? (
         <NewPassword setCompleteSearch={props.setCompleteSearch} />
       ) : (

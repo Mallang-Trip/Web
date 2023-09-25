@@ -1,9 +1,9 @@
 import React from "react";
-import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
+import { ReactComponent as Check } from "../../../../assets/svg/agree-check.svg";
 
-function AgreeItem(props) {
+function ItemAgree(props) {
   return (
-    <div className="w-4/5 sm:w-3/5 lg:w-2/5 py-3 rounded-lg">
+    <div className="w-[500px] h-[42px] rounded-lg">
       <input
         id={`agree${props.index}`}
         type="checkbox"
@@ -21,7 +21,7 @@ function AgreeItem(props) {
           </div>
           <span className="text-darkgray">{props.title}</span>
         </label>
-        <span className="mr-3 ml-auto text-[#6F6F6F] text-xs underline underline-offset-2 cursor-pointer whitespace-nowrap">
+        <span className="mr-3 ml-auto text-[#6F6F6F] text-xs underline underline-offset-2 cursor-pointer">
           전문보기
         </span>
       </div>
@@ -29,4 +29,4 @@ function AgreeItem(props) {
   );
 }
 
-export default AgreeItem;
+export default ItemAgree;

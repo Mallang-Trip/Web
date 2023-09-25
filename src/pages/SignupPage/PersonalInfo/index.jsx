@@ -49,7 +49,7 @@ function PersonalInfo({
   }, [name, birthDate, region, gender, setActiveNext]);
 
   return (
-    <div className="w-[614px] flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
+    <div className="w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
       <div className="relative flex flex-row w-full my-5">
         <input
           type="text"
@@ -76,7 +76,7 @@ function PersonalInfo({
           숫자만 입력 가능합니다
         </span>
       </div>
-      <div className="grid w-full grid-cols-4 my-5 text-center">
+      <div className="grid w-full grid-cols-2 sm:grid-cols-4 my-5 text-center">
         <div className="text-lg font-bold leading-7">국적</div>
         <select value={region} onChange={regionHander} className="w-24">
           <option value="">선택</option>

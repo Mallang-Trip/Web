@@ -11,7 +11,7 @@ function LoginSearchPage() {
   const [completeSearch, setCompleteSearch] = useState(false);
 
   return (
-    <div className="h-screen">
+    <>
       <div className="flex justify-center mt-48 mb-12">
         <img src={Logo} className="h-9" alt="Mallang_Trip_Logo" />
       </div>
@@ -31,7 +31,7 @@ function LoginSearchPage() {
           />
         </>
       )}
-    </div>
+    </>
   );
 }
 

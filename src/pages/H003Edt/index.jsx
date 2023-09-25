@@ -15,7 +15,10 @@ import PlaceInfoBox from "./PlaceInfoBox";
 import Detailed from "./Atoms/Detailed";
 import Comment from "./Atoms/Comment";
 import CommentCom from "./Comment";
-
+import AddComment from "./Atoms/AddComment";
+import Credit from "./Atoms/Credit";
+import Refund from "../../components/BottomRefund";
+import Agreement from "./AddAgree";
 function H003Edt() {
   const { place } = useParams();
 
@@ -54,8 +57,21 @@ function H003Edt() {
             <CommentCom />
           </div>
           <div>
+            <AddComment />
+          </div>
+          <div>
+            <Credit />
+          </div>
+          <div className="">
+            <Agreement />
+          </div>
+          <div>
+            <Refund />
+          </div>
+          <div>
             <ReservBtn title="제안 보내기" />
           </div>
+          <div></div>
         </div>
       </div>
     </React.Fragment>

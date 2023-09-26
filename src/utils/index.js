@@ -5,3 +5,7 @@ export function makePhoneNumber(value) {
     "$1-$2-$3"
   );
 }
+
+export const priceToString = (price) => {
+  return price.toLocaleString("en-US");
+};

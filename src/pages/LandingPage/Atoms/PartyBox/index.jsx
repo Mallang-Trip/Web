@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function PartyBox(props) {
+function PartyBox({ party }) {
   const navigate = useNavigate();
 
   const onClickHandler = () => {
@@ -12,11 +12,14 @@ function PartyBox(props) {
     <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={props.src}
+        src={party.image}
         alt="party-image"
       />
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
-        <p>{props.name}</p>
+        {party.name}
+      </div>
+      <div className="w-full absolute bottom-0 left-0 flex justify-center text-white">
+        {`${party.date} | ${party.people} | ${party.price}`}
       </div>
     </div>
   );

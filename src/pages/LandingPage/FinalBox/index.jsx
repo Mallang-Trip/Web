@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import PriceModal from "../PriceModal";
+import { priceToString } from "../../../utils";
 
 function FinalBox() {
+  const [price, setPrice] = useState(1010000);
   const [showModal, setShowModal] = useState(false);
-  const [price, setPrice] = useState(500000);
+  const [modalPrice, setModalPrice] = useState(1010000);
 
   return (
     <>
       <div
         className="w-full h-32 my-auto bg-white rounded-r-lg cursor-pointer"
-        onClick={() => setShowModal(true)}
+        onClick={() => {
+          setModalPrice(price === "상관없이" ? 1010000 : price);
+          setShowModal(true);
+        }}
       >
         <p className="mt-3 mb-5 ml-3 text-gray-500 text-sm md:text-base text-gray">
           가격범위
         </p>
-        <p className="text-lg md:text-xl text-center text-black">상관없이</p>
+        <p className="text-lg md:text-xl text-center text-black">
+          {price > 1000000 ? "상관없이" : priceToString(price) + "원"}
+        </p>
       </div>
       <PriceModal
         showModal={showModal}
         setShowModal={setShowModal}
-        price={price}
-        setPrice={setPrice}
+        price={modalPrice}
+        setPrice={setModalPrice}
+        setFilterPrice={setPrice}
       />
     </>
   );

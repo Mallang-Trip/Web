@@ -1,7 +1,14 @@
 import { priceToString } from "../../../utils";
 
-function PriceModal({ showModal, setShowModal, price, setPrice }) {
+function PriceModal({
+  showModal,
+  setShowModal,
+  price,
+  setPrice,
+  setFilterPrice,
+}) {
   const closeModal = () => {
+    setFilterPrice(price);
     document.body.classList.remove("overflow-hidden");
     setShowModal(false);
   };
@@ -20,14 +27,14 @@ function PriceModal({ showModal, setShowModal, price, setPrice }) {
               <div className="w-full h-2 rounded-full bg-[#d9d9d9] relative">
                 <div
                   className="h-2 rounded-full bg-primary absolute top-0 left-0"
-                  style={{ width: `${price / 10000}%` }}
+                  style={{ width: `${price / 10100}%` }}
                 />
               </div>
               <input
                 className="absolute w-full h-6 bg-transparent slider z-20 top-0 left-0"
                 type="range"
                 min={0}
-                max={1000000}
+                max={1010000}
                 step={10000}
                 name="price"
                 value={price}
@@ -35,9 +42,9 @@ function PriceModal({ showModal, setShowModal, price, setPrice }) {
               />
             </div>
           </div>
-          <div className="text-xl text-primary">{`최고 금액: ${priceToString(
-            price
-          )}원`}</div>
+          <div className="text-xl text-primary">{`최고 금액: ${
+            price > 1000000 ? "상관없이" : priceToString(price) + "원"
+          }`}</div>
         </div>
         <button
           className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"

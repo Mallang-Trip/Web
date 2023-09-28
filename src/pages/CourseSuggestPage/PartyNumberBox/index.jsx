@@ -1,16 +1,16 @@
 import React from "react";
 import NumberText from "../Atoms/NumberText";
-import FilterBtn from "../../LandingPage/Atoms/FilterBtn";
+import ProfileButton from "./ProfileButton";
 
 function PartyNumberBox() {
   return (
     <div className="pb-6">
       <NumberText />
-      <div className="flex gap-2">
-        <FilterBtn title={"프로필 1"} />
-        <FilterBtn title={"프로필 2"} />
-        <FilterBtn title={"프로필 3"} />
-        <FilterBtn title={"프로필 4"} />
+      <div className="flex gap-2 mt-2">
+        <ProfileButton title={"프로필 1"} />
+        <ProfileButton title={"프로필 2"} />
+        <ProfileButton title={"+"} />
+        <ProfileButton title={"+"} />
       </div>
     </div>
   );

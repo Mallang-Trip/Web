@@ -5,7 +5,7 @@ import BelowPlaceImg from "../BelowPlaceImg";
 
 function PlaceInfoBox() {
   return (
-    <div className="">
+    <div>
       <PlaceInfoTitle />
       <PartyBigBox />
       <BelowPlaceImg />

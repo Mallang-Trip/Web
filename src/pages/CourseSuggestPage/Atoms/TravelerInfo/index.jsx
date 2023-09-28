@@ -2,15 +2,10 @@ import React from "react";
 
 function TravelerInfo() {
   return (
-    <div className="grid gap-2 pb-8">
-      <div className="flex">
-        <p className="text-[14px] mt-0.5 text-gray">예약자 이름: </p>
-        <p className="text-[14px] mt-0.5 text-gray">김재윤</p>
-      </div>
-      <div className="flex">
-        <p className="text-[14px] mt-0.5 text-gray">핸드폰 번호: </p>
-        <p className="text-[14px] mt-0.5 text-gray">010-1234-5678</p>
-      </div>
+    <div className="flex flex-col gap-4 mt-6 text-sm text-darkgray">
+      <p>여행자1</p>
+      <p>{`예약자 이름: 김재윤`}</p>
+      <p>{`핸드폰 번호: 010-1234-5678`}</p>
     </div>
   );
 }

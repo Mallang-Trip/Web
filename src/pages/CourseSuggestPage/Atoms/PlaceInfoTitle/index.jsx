@@ -3,23 +3,17 @@ import star from "../../../../assets/svg/star.svg";
 
 function PlaceInfoTitle() {
   return (
-    <div>
+    <div className="mb-4">
       <div className="mb-1 pt-6 flex">
-        <p className="text-[23px] font-bold ">오설록 티 뮤지엄</p>
-        <div className="flex m-2 mt-3 text-sm">
-          <p className="ml-">방문 100회</p>
-          <p className="ml-1">|</p>
-          <div className="grid grid-cols-2">
-            <img className="m-1" src={star} />
-            <p className="">4.7</p>
-          </div>
+        <p className="text-2xl font-bold">오설록 티 뮤지엄</p>
+        <div className="flex gap-1 m-2 mt-3 text-xs">
+          <span>방문 100회</span>
+          <span>|</span>
+          <img className="mb-1" src={star} />
+          <span>4.7</span>
         </div>
       </div>
-      <div>
-        <p className="text-sm pb-4">
-          제주 서귀포시 안덕면 신화여사로 15 오설록
-        </p>
-      </div>
+      <div className="text-sm">제주 서귀포시 안덕면 신화여사로 15 오설록</div>
     </div>
   );
 }

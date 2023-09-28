@@ -1,9 +1,9 @@
 import React from "react";
-import HashTag from "../../../../components/HashTag";
+import HashTag from "./HashTag";
 
 function HashTagBox() {
   return (
-    <div className="flex m-3 gap-[10px]">
+    <div className="flex gap-2.5">
       <HashTag title="#체험" />
       <HashTag title="#녹차" />
       <HashTag title="#힐링" />

@@ -15,7 +15,7 @@ function PartyPage() {
   const { place } = useParams();
 
   return (
-    <div className="pl-5">
+    <div className="px-2 md:px-5">
       <div className="text-2xl text-black">{place}</div>
       <div className="text-sm text-darkgray cursor-pointer">
         <span>{`김제윤 드라이버`}</span>

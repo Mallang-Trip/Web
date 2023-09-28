@@ -1,4 +1,4 @@
-import pencil from "../../../assets/svg/pencil.svg";
+import pencil from "../../assets/svg/pencil.svg";
 
 function EditButton({ className, onClick, title }) {
   return (
@@ -7,7 +7,7 @@ function EditButton({ className, onClick, title }) {
       onClick={() => onClick()}
     >
       <img src={pencil} alt="edit" />
-      <span className="text-sm text-primary font-bold">{title}</span>
+      <span className="text-sm text-primary">{title}</span>
     </button>
   );
 }

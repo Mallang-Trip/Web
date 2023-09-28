@@ -1,18 +1,12 @@
 import React from "react";
-import jeju1 from "../../../../assets/images/제주도 이미지 3.jpg";
 
-function RightPicture() {
+function RightPicture({ src, name }) {
   return (
-    <div dir="rtl" className=" grid grid-cols-2">
-      <img
-        className="rounded-tr-[40px] object-cover"
-        src={jeju1}
-        name={"제주도 파티"}
-        alt="picture"
-      />
-      <img className="" src={jeju1} name={"제주의 봄 파티"} />
-      <img className="rounded-br-[40px]" src={jeju1} name={"제주의 봄 파티"} />
-      <img className="" src={jeju1} name={"제주의 봄 파티"} />
+    <div className="grid grid-cols-2">
+      <img className="object-cover" src={src} name={name} alt="picture" />
+      <img className="rounded-tr-3xl object-cover" src={src} name={name} />
+      <img className="object-cover" src={src} name={name} />
+      <img className="rounded-br-3xl object-cover" src={src} name={name} />
     </div>
   );
 }

@@ -7,7 +7,7 @@ import FirstCredit from "../PartyPage/Atoms/FirstCredit";
 import Period from "../PartyPage/Atoms/Period";
 import SecondCredit from "../PartyPage/Atoms/SecondCredit";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
-import ReservBtn from "../../components/ReservBtn";
+import ReservBtn from "../PartyPage/ReservBtn";
 import PartyNumberBox from "./PartyNumberBox";
 import TravelerBox from "./TravelerBox";
 import TravelerGreet from "./Atoms/TravelerGreet";

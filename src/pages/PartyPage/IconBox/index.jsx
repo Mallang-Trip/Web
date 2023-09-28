@@ -5,10 +5,10 @@ import shareIcon from "../../../assets/svg/share.svg";
 
 function IconBox() {
   return (
-    <div className="flex gap-1.5 justify-end mr-1.5 mt-2">
-      <img className="" src={Heart} />
-      <img className="" src={ChatBox} />
-      <img className="" src={shareIcon} />
+    <div className="flex gap-2 justify-end mr-1.5 mt-2 mb-4">
+      <img className="cursor-pointer" src={ChatBox} />
+      <img className="cursor-pointer" src={Heart} />
+      <img className="cursor-pointer" src={shareIcon} />
     </div>
   );
 }

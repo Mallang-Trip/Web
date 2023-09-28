@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
-import ReservBtn from "../../../../components/ReservBtn";
+import ReservBtn from "../../../PartyPage/ReservBtn";
 function AddComment() {
   let [comment, setComment] = useState("");
 

@@ -5,7 +5,7 @@ function PartyBox({ party }) {
   const navigate = useNavigate();
 
   const onClickHandler = () => {
-    navigate(`/party/${props.name}`);
+    navigate(`/party/${party.name}`);
   };
 
   return (

@@ -16,12 +16,12 @@ function ThirdBox() {
       <div className="w-full flex justify-center gap-1 md:gap-3 text-lg md:text-xl text-black">
         <RemoveIcon
           onClick={setDecrease}
-          className="border-2 border-red-500 rounded-full text-red-500"
+          className="border-2 border-red-500 rounded-full text-red-500 cursor-pointer"
         />
         <div>{num}명</div>
         <AddIcon
           onClick={setIncrease}
-          className="border-2 border-primary rounded-full text-primary"
+          className="border-2 border-primary rounded-full text-primary cursor-pointer"
         />
       </div>
     </div>

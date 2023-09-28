@@ -35,7 +35,7 @@ function AddAgree() {
 
   return (
     <>
-      <div className="mt-24 mb-2 text-2xl text-black font-bold">필수 약관</div>
+      <div className="mb-4 text-2xl text-black font-bold">필수 약관</div>
       <div className="flex flex-col items-center gap-3 text-sm">
         <div className="w-4/5 sm:w-3/5 lg:w-2/5 h-[42px] rounded-lg bg-[#EAF4FF]">
           <input

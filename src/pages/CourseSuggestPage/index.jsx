@@ -18,6 +18,7 @@ import Credit from "./Atoms/Credit";
 import Refund from "../../components/BottomRefund";
 import Agreement from "./AddAgree";
 import SuggestButton from "./SuggestButton";
+import CourseDnD from "./CourseDnD";
 
 function CourseSuggestPage() {
   const { place } = useParams();
@@ -41,6 +42,7 @@ function CourseSuggestPage() {
 
       <TravelerBox />
       <TravelerGreet />
+      <CourseDnD />
       <PlaceInfoBox />
 
       <Detailed />

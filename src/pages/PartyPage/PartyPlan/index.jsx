@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PlanBox from "../Atoms/PlanBox";
 import EditButton from "../../../components/EditButton";
 
@@ -40,15 +40,15 @@ const planData = [
 
 function PartyPlan() {
   const { place } = useParams();
+  const navigate = useNavigate();
+
+  const clickHander = () => navigate(`/party/course/suggest/${place}`);
 
   return (
     <div className="w-3/4 mx-auto mt-14">
       <div className="flex justify-between items-center text-lg md:text-2xl font-bold">
         <p>[{place}] 일정</p>
-        <EditButton
-          onClick={() => console.log("코스 바꾸기")}
-          title={"코스 바꾸기"}
-        />
+        <EditButton onClick={clickHander} title={"코스 바꾸기"} />
       </div>
       <p className="text-md md:text-xl text-darkgray mt-10 mb-6">
         2023.04.01 | 1일차 | 8시간

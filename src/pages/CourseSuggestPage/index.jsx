@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import IconBox from "../PartyPage/IconBox";
 import Vector from "../../assets/images/Vector.png";
@@ -22,6 +22,12 @@ import CourseDnD from "./CourseDnD";
 
 function CourseSuggestPage() {
   const { place } = useParams();
+
+  const [shakeCredit, setShakeCredit] = useState(false);
+  const suggestHandler = () => {
+    setShakeCredit(true);
+    setTimeout(() => setShakeCredit(false), 1000);
+  };
 
   return (
     <div className="px-2 md:px-5">
@@ -48,9 +54,9 @@ function CourseSuggestPage() {
       <Detailed />
       <CommentList />
       <AddComment />
-      <Credit />
+      <Credit shakeCredit={shakeCredit} />
       <Agreement />
-      <SuggestButton />
+      <SuggestButton suggestHandler={suggestHandler} />
       <Refund />
     </div>
   );

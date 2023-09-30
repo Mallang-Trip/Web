@@ -17,10 +17,10 @@ function PartyPage() {
   return (
     <div className="px-2 md:px-5">
       <div className="text-2xl text-black">{place}</div>
-      <div className="text-sm text-darkgray cursor-pointer">
+      <span className="text-sm text-darkgray cursor-pointer">
         <span>{`김제윤 드라이버`}</span>
         <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
-      </div>
+      </span>
 
       <PartyBigBox />
       <IconBox />

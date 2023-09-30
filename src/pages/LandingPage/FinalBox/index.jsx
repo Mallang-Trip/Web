@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PriceModal from "../PriceModal";
-import { priceToString } from "../../../utils";
 
 function FinalBox() {
   const [price, setPrice] = useState(1010000);
@@ -20,8 +19,11 @@ function FinalBox() {
           가격범위
         </p>
         <p className="text-lg md:text-xl text-center text-black">
-          {price > 1000000 ? "상관없이" : priceToString(price) + "원"}
+          {price > 1000000 ? "상관없이" : `~${price / 10000}만원`}
         </p>
+        {price <= 1000000 && (
+          <p className="text-sm text-center text-darkgray">(1인당)</p>
+        )}
       </div>
       <PriceModal
         showModal={showModal}

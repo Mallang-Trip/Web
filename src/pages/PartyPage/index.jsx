@@ -31,7 +31,7 @@ function PartyPage() {
       <FirstCredit />
       <SecondCredit />
 
-      <PartyPlan />
+      <PartyPlan edit={true} />
       <ReservBtn />
     </div>
   );

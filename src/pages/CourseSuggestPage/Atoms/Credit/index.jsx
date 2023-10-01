@@ -13,7 +13,7 @@ function Credit({ shakeCredit }) {
       <button
         className={`${
           shakeCredit && "animate-shake"
-        } w-[304px] h-[196px] bg-skyblue rounded-2xl mx-auto flex flex-col justify-center items-center gap-3`}
+        } w-[304px] h-[196px] bg-skyblue rounded-2xl mx-auto flex flex-col justify-center items-center gap-3 focus:outline-none`}
       >
         <div className="text-lg text-primary">결제 수단 등록</div>
         <img src={PlusBtn} />

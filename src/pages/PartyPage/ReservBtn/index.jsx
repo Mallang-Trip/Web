@@ -4,7 +4,7 @@ function ReservBtn() {
   const { place } = useParams();
   const navigate = useNavigate();
 
-  const clickHander = () => navigate(`/party/course/suggest/${place}`);
+  const clickHander = () => navigate(`/reservation/${place}`);
 
   return (
     <div className="flex justify-center my-20">

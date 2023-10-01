@@ -1,28 +1,21 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import IconBox from "../PartyPage/IconBox";
 import Vector from "../../assets/images/Vector.png";
+import { useParams } from "react-router-dom";
 import PartyBigBox from "../PartyPage/PartyBigBox";
-import FirstCredit from "../PartyPage/Atoms/FirstCredit";
-import Period from "../PartyPage/Atoms/Period";
-import SecondCredit from "../PartyPage/Atoms/SecondCredit";
+import PartyNumberBox from "../CourseSuggestPage/PartyNumberBox";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
-import PartyNumberBox from "./PartyNumberBox";
-import TravelerBox from "./TravelerBox";
-import TravelerGreet from "./Atoms/TravelerGreet";
-import PlaceInfoBox from "./PlaceInfoBox";
-import Detailed from "./Atoms/Detailed";
-import CommentList from "./CommentList";
-import AddComment from "./Atoms/AddComment";
-import Credit from "./Atoms/Credit";
+import FirstCredit from "../PartyPage/Atoms/FirstCredit";
+import SecondCredit from "../PartyPage/Atoms/SecondCredit";
+import TravelerBox from "../CourseSuggestPage/TravelerBox";
+import TravelerGreet from "../CourseSuggestPage/Atoms/TravelerGreet";
+import PartyPlan from "../PartyPage/PartyPlan";
+import Credit from "../CourseSuggestPage/Atoms/Credit";
+import Agreement from "../CourseSuggestPage/AddAgree";
+import ReservationButton from "./ReservationButton";
 import BottomRefund from "../../components/BottomRefund";
-import Agreement from "./AddAgree";
-import SuggestButton from "./SuggestButton";
-import CourseDnD from "./CourseDnD";
 
-function CourseSuggestPage() {
+function ReservationPage() {
   const { place } = useParams();
-
   const [shakeCredit, setShakeCredit] = useState(false);
   const suggestHandler = () => {
     setShakeCredit(true);
@@ -31,35 +24,31 @@ function CourseSuggestPage() {
 
   return (
     <div className="px-2 md:px-5">
+      <div className="text-2xl text-black font-bold mb-2">예약하기</div>
       <div className="text-2xl text-black">{place}</div>
       <div className="text-sm text-darkgray cursor-pointer">
         <span>{`김제윤 드라이버`}</span>
         <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
       </div>
+      <div className="text-sm text-darkgray mt-1">2023년 4월 1일~2일</div>
 
       <PartyBigBox />
-      <IconBox />
-
-      <Period />
-      <PartyNumberBox />
+      <div className="mt-7">
+        <PartyNumberBox />
+      </div>
       <ToTalCredit />
       <FirstCredit />
       <SecondCredit />
 
       <TravelerBox />
       <TravelerGreet />
-      <CourseDnD />
-      <PlaceInfoBox />
-
-      <Detailed />
-      <CommentList />
-      <AddComment />
+      <PartyPlan edit={false} />
       <Credit shakeCredit={shakeCredit} />
       <Agreement />
-      <SuggestButton suggestHandler={suggestHandler} />
+      <ReservationButton suggestHandler={suggestHandler} />
       <BottomRefund />
     </div>
   );
 }
 
-export default CourseSuggestPage;
+export default ReservationPage;

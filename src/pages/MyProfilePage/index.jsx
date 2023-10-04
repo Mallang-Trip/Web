@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import profileImage from "../../assets/images/profileImage.png";
-import EditButton from "./EditButton";
+import EditButton from "../../components/EditButton";
 import { makePhoneNumber } from "../../utils";
 import Information from "./Information";
 

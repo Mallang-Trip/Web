@@ -1,18 +1,14 @@
 import React from "react";
 
-function PlanBox() {
+function PlanBox({ item, index }) {
   return (
-    <div className="w-full mx-auto">
-      <div className=" relative w-full pt-5 h-[83px] rounded-full bg-[#EAF4FF]">
-        <div className="w-[58px] h-[58px] absolute left-4 top-3 rounded-full bg-primary">
-          <div className="absolute left-6 top-4 text-white text-lg">1</div>
-        </div>
-        <div className="absolute left-24 top-6 text-boldblue text-2xl">
-          집합:제주공항 1게이트
-        </div>
-        <div className="absolute end-10 top-6 text-boldblue text-2xl">
-          10:00
-        </div>
+    <div className="relative w-full h-16 md:h-[83px] mb-6 rounded-full bg-[#EAF4FF]">
+      <div className="w-10 h-10 md:w-14 md:h-14 absolute left-4 top-3 rounded-full bg-primary text-white text-lg flex justify-center items-center">
+        {index}
+      </div>
+      <div className="h-full flex justify-between ml-16 md:ml-24 mr-4 md:mr-10 text-boldblue text-md md:text-2xl items-center">
+        <div>{item.name}</div>
+        <div>{item.time}</div>
       </div>
     </div>
   );

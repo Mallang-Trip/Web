@@ -5,11 +5,9 @@ import TravelerInput from "../Atoms/TravelerInput";
 
 function TravelerBox() {
   return (
-    <div className="pb-6">
+    <div className="mb-6">
       <TravelerTitle />
-      <p className="text-[14px] mb-4 text-gray">여행자1</p>
       <TravelerInfo />
-      <p className="text-[14px] mb-4 text-gray">여행자2</p>
       <TravelerInput />
     </div>
   );

@@ -9,7 +9,7 @@ import SecondCredit from "../PartyPage/Atoms/SecondCredit";
 import TravelerBox from "../CourseSuggestPage/TravelerBox";
 import TravelerGreet from "../CourseSuggestPage/Atoms/TravelerGreet";
 import PartyPlan from "../PartyPage/PartyPlan";
-import Credit from "../CourseSuggestPage/Atoms/Credit";
+import Credit from "../../components/Credit";
 import Agreement from "../CourseSuggestPage/AddAgree";
 import ReservationButton from "./ReservationButton";
 import BottomRefund from "../../components/BottomRefund";

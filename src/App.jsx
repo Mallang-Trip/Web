@@ -9,6 +9,8 @@ import PartyPage from "./pages/PartyPage";
 import SignupPage from "./pages/SignupPage";
 import CourseSuggestPage from "./pages/CourseSuggestPage";
 import MyProfilePage from "./pages/MyProfilePage";
+import PlaceMap from "./components/PlaceMap";
+import SearchLayout from "./components/SearchLayout";
 import ReservationPage from "./pages/ReservationPage";
 
 function App() {
@@ -32,6 +34,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/login/search/:target" element={<LoginSearchPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route element={<SearchLayout />}>
+          <Route path="/search" element={<PlaceMap />} />
+        </Route>
       </Routes>
     </div>
   );

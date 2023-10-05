@@ -14,7 +14,7 @@ import PlaceInfoBox from "./PlaceInfoBox";
 import Detailed from "./Atoms/Detailed";
 import CommentList from "./CommentList";
 import AddComment from "./Atoms/AddComment";
-import Credit from "./Atoms/Credit";
+import Credit from "../../components/Credit";
 import BottomRefund from "../../components/BottomRefund";
 import Agreement from "./AddAgree";
 import SuggestButton from "./SuggestButton";

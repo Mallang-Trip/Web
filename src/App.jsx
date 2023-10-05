@@ -11,6 +11,7 @@ import CourseSuggestPage from "./pages/CourseSuggestPage";
 import MyProfilePage from "./pages/MyProfilePage";
 import PlaceMap from "./components/PlaceMap";
 import SearchLayout from "./components/SearchLayout";
+import ReservationPage from "./pages/ReservationPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -26,6 +27,7 @@ function App() {
             path="/party/course/suggest/:place"
             element={<CourseSuggestPage />}
           />
+          <Route path="/reservation/:place" element={<ReservationPage />} />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 

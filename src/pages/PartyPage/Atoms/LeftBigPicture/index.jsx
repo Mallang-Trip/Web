@@ -1,13 +1,7 @@
 import React from "react";
 
-function LeftBigPicture(props) {
-  return (
-    <img
-      className="object-cover rounded-l-[40px]"
-      src={props.src}
-      name={props.name}
-    />
-  );
+function LeftBigPicture({ src, name }) {
+  return <img className="object-cover rounded-l-3xl" src={src} name={name} />;
 }
 
 export default LeftBigPicture;

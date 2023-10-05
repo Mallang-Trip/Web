@@ -4,7 +4,7 @@ import HashTagBox from "../Atoms/HashTagBox";
 
 function BelowPlaceImg() {
   return (
-    <div className="flex gap-[550px]">
+    <div className="flex my-3 justify-between">
       <HashTagBox />
       <PlaceInfoIcon />
     </div>

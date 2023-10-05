@@ -3,14 +3,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 
 function ThirdBox() {
-  const [num, setNum] = useState(0);
+  const [num, setNum] = useState(1);
 
-  function setIncrease() {
-    num < 10 && setNum(num + 1);
-  }
-  function setDecrease() {
-    num > 0 && setNum(num - 1);
-  }
+  const setIncrease = () => num < 10 && setNum(num + 1);
+  const setDecrease = () => num > 1 && setNum(num - 1);
 
   return (
     <div className="w-full h-32 my-auto bg-white">
@@ -18,13 +14,15 @@ function ThirdBox() {
         참여 인원
       </p>
       <div className="w-full flex justify-center gap-1 md:gap-3 text-lg md:text-xl text-black">
-        <button onClick={setDecrease}>
-          <RemoveIcon />
-        </button>
+        <RemoveIcon
+          onClick={setDecrease}
+          className="border-2 border-red-500 rounded-full text-red-500 cursor-pointer"
+        />
         <div>{num}명</div>
-        <button onClick={setIncrease}>
-          <AddIcon />
-        </button>
+        <AddIcon
+          onClick={setIncrease}
+          className="border-2 border-primary rounded-full text-primary cursor-pointer"
+        />
       </div>
     </div>
   );

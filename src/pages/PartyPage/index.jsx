@@ -9,49 +9,30 @@ import Period from "./Atoms/Period";
 import PartyNumber from "./Atoms/PartyNumber";
 import SecondCredit from "./Atoms/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
-import ReservBtn from "../../components/ReservBtn";
+import ReservBtn from "./ReservBtn";
 
 function PartyPage() {
   const { place } = useParams();
 
   return (
-    <div className="w-full">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 mx-auto overflow-hidden text-[23px]">
-        {place}
-      </div>
-      <div className="grid grid-cols-2 pl-5 text-sm text-gray">
-        <p>김제윤 드라이버</p>
-        <img src={Vector} />
-      </div>
-      <div className=" max-w-screen-xl h-[300px] pl-5 pt-[14px]">
-        <div>
-          <PartyBigBox />
-        </div>
-        <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block">
-          <IconBox />
-        </div>
-        <div className=" max-w-screen-xl h-[300px] pl-5 pt-[14px]">
-          <div>
-            <PartyBigBox />
-          </div>
-          <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block">
-            <IconBox />
-          </div>
-          <div className="">
-            <Period />
-            <PartyNumber />
-            <ToTalCredit />
-            <FirstCredit />
-            <SecondCredit />
-          </div>
-          <div>
-            <PartyPlan />
-          </div>
-          <div>
-            <ReservBtn title="예약하기" />
-          </div>
-        </div>
-      </div>
+    <div className="px-2 md:px-5">
+      <div className="text-2xl text-black">{place}</div>
+      <span className="text-sm text-darkgray cursor-pointer">
+        <span>{`김제윤 드라이버`}</span>
+        <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
+      </span>
+
+      <PartyBigBox />
+      <IconBox />
+
+      <Period />
+      <PartyNumber />
+      <ToTalCredit />
+      <FirstCredit />
+      <SecondCredit />
+
+      <PartyPlan edit={true} />
+      <ReservBtn />
     </div>
   );
 }

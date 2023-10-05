@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import BlueContaner from "./BlueContaner";
 import FilterBtnBox from "./FilterBtnBox";
-import Pictures from "./Pictures";
+import PartyList from "./PartyList";
 
 function LandingPage() {
+  const user = useSelector((state) => state.user);
+
   return (
     <div className="w-full mb-24">
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold">
@@ -11,10 +14,10 @@ function LandingPage() {
       </div>
       <BlueContaner />
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-10 pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold">
-        추천 파티
+        {user.nickname ? `${user.nickname} 님께 추천하는 파티` : "추천 파티"}
       </div>
       <FilterBtnBox />
-      <Pictures />
+      <PartyList />
     </div>
   );
 }

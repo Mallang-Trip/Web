@@ -1,5 +1,3 @@
-import React from "react";
-
 function PlanBox({ item, index }) {
   return (
     <div className="relative w-full h-16 md:h-[83px] mb-6 rounded-full bg-[#EAF4FF]">

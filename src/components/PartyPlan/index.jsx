@@ -1,7 +1,6 @@
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PlanBox from "../Atoms/PlanBox";
-import EditButton from "../../../components/EditButton";
+import PlanBox from "./PlanBox";
+import EditButton from "../EditButton";
 
 const planData = [
   {
@@ -46,7 +45,7 @@ function PartyPlan({ edit }) {
 
   return (
     <div className="w-3/4 mx-auto mt-14">
-      <div className="flex justify-between items-center text-lg md:text-2xl font-bold">
+      <div className="flex justify-between items-center text-lg text-black md:text-2xl font-bold">
         <p>[{place}] 일정</p>
         {edit && <EditButton onClick={clickHander} title={"코스 바꾸기"} />}
       </div>

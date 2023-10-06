@@ -3,7 +3,7 @@ import React from "react";
 function SecondCredit() {
   return (
     <div>
-      <div className="pb-6 grid grid-rows-2">
+      <div className="mb-5 grid grid-rows-2">
         <p className="text-lg flex font-bold">
           나의 2차 결제금
           <span className="text-sm text-darkgray font-normal pt-1 ml-1">

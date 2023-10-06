@@ -12,6 +12,7 @@ import MyProfilePage from "./pages/MyProfilePage";
 import PlaceMap from "./components/PlaceMap";
 import SearchLayout from "./components/SearchLayout";
 import ReservationPage from "./pages/ReservationPage";
+import PartyApprovalPage from "./pages/PartyApprovalPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -30,6 +31,10 @@ function App() {
           <Route
             path="/party/reservation/:place"
             element={<ReservationPage />}
+          />
+          <Route
+            path="/party/approval/:type/:place"
+            element={<PartyApprovalPage />}
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>

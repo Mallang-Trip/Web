@@ -5,13 +5,18 @@ function BottomRefund() {
   const [showRefund, setShowRefund] = useState(false);
 
   return (
-    <div className="mt-4 mb-24">
+    <div className="mt-4">
       <div
         className="flex gap-2 items-center mb-5 cursor-pointer"
         onClick={() => setShowRefund(!showRefund)}
       >
         <div className="text-lg font-bold">환불 정책</div>
-        <img src={info} />
+        <img
+          src={info}
+          className={`transition-transform duration-500 ${
+            showRefund ? "rotate-180" : "rotate-0"
+          }`}
+        />
       </div>
       <div
         className={`text-sm text-darkgray overflow-hidden transition-all duration-500 ${

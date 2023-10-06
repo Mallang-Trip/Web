@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Vector from "../../assets/images/Vector.png";
 import { useParams } from "react-router-dom";
-import PartyBigBox from "../PartyPage/PartyBigBox";
+import PartyImageBox from "../../components/PartyImageBox";
 import PartyNumberBox from "../CourseSuggestPage/PartyNumberBox";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
-import FirstCredit from "../PartyPage/Atoms/FirstCredit";
-import SecondCredit from "../PartyPage/Atoms/SecondCredit";
+import FirstCredit from "../../components/FirstCredit";
+import SecondCredit from "../../components/SecondCredit";
 import TravelerBox from "../CourseSuggestPage/TravelerBox";
 import TravelerGreet from "../CourseSuggestPage/Atoms/TravelerGreet";
-import PartyPlan from "../PartyPage/PartyPlan";
+import PartyPlan from "../../components/PartyPlan";
 import Credit from "../../components/Credit";
 import Agreement from "../CourseSuggestPage/AddAgree";
 import ReservationButton from "./ReservationButton";
@@ -29,7 +29,7 @@ function ReservationPage() {
   };
 
   return (
-    <div className="px-2 md:px-5">
+    <div className="px-2 md:px-5 mb-24">
       <div className="text-2xl text-black font-bold mb-2">예약하기</div>
       <div className="text-2xl text-black">{place}</div>
       <div className="text-sm text-darkgray cursor-pointer">
@@ -38,7 +38,7 @@ function ReservationPage() {
       </div>
       <div className="text-sm text-darkgray mt-1">2023년 4월 1일~2일</div>
 
-      <PartyBigBox />
+      <PartyImageBox />
       <div className="mt-7">
         <PartyNumberBox />
       </div>

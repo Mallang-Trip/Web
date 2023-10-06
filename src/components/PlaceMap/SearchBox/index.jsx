@@ -1,25 +1,11 @@
-import React, { useState } from "react";
-import axios from "axios";
-import cross from "../../../../../src/assets/svg/cross.svg";
+import { useState } from "react";
+import cross from "../../../assets/svg/cross.svg";
+
 function SearchBox() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const handleInputChange = (e) => {
-    setSearchKeyword(e.target.value);
-  };
-  const handleSearchClick = () => {
-    if (searchKeyword.trim() !== "") {
-      const apiKey = "";
-      axios.get("https://apis.openapi.sk.com/tmap/pois", {
-        params: {
-          version: 1,
-          format: "json",
-          appKey: apiKey,
-          searchKeyword: searchKeyword,
-        },
-      });
-    }
-  };
+  const handleInputChange = (e) => setSearchKeyword(e.target.value);
+
   return (
     <div className="absolute top-0 left-0 w-full flex justify-center">
       <div className="relative flex w-64  mr-9 mt-4">

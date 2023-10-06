@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Vector from "../../assets/images/Vector.png";
-import { useParams } from "react-router-dom";
 import PartyImageBox from "../../components/PartyImageBox";
 import PartyNumberBox from "../CourseSuggestPage/PartyNumberBox";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
@@ -14,9 +12,9 @@ import Agreement from "../CourseSuggestPage/AddAgree";
 import ReservationButton from "./ReservationButton";
 import BottomRefund from "../../components/BottomRefund";
 import CheckModal from "../../components/CheckModal";
+import HeadTitle from "./HeadTitle";
 
 function ReservationPage() {
-  const { place } = useParams();
   const [register, setRegister] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -30,14 +28,7 @@ function ReservationPage() {
 
   return (
     <div className="px-2 md:px-5 mb-24">
-      <div className="text-2xl text-black font-bold mb-2">예약하기</div>
-      <div className="text-2xl text-black">{place}</div>
-      <div className="text-sm text-darkgray cursor-pointer">
-        <span>{`김제윤 드라이버`}</span>
-        <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
-      </div>
-      <div className="text-sm text-darkgray mt-1">2023년 4월 1일~2일</div>
-
+      <HeadTitle />
       <PartyImageBox />
       <div className="mt-7">
         <PartyNumberBox />
@@ -45,7 +36,6 @@ function ReservationPage() {
       <ToTalCredit />
       <FirstCredit />
       <SecondCredit />
-
       <TravelerBox />
       <TravelerGreet />
       <PartyPlan edit={false} />

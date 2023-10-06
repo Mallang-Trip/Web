@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import HeadTitle from "./HeadTitle";
 import PartyIconBox from "../../components/PartyIconBox";
-import Vector from "../../assets/images/Vector.png";
 import PartyImageBox from "../../components/PartyImageBox";
 import FirstCredit from "../../components/FirstCredit";
 import Period from "../PartyPage/Atoms/Period";
@@ -22,7 +21,6 @@ import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
 
 function CourseSuggestPage() {
-  const { place } = useParams();
   const [register, setRegister] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -36,26 +34,18 @@ function CourseSuggestPage() {
 
   return (
     <div className="px-2 md:px-5 mb-24">
-      <div className="text-2xl text-black">{place}</div>
-      <div className="text-sm text-darkgray cursor-pointer">
-        <span>{`김제윤 드라이버`}</span>
-        <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
-      </div>
-
+      <HeadTitle />
       <PartyImageBox />
       <PartyIconBox />
-
       <Period />
       <PartyNumberBox />
       <ToTalCredit />
       <FirstCredit />
       <SecondCredit />
-
       <TravelerBox />
       <TravelerGreet />
       <CourseDnD />
       <PlaceInfoBox />
-
       <Detailed />
       <CommentList />
       <AddComment />

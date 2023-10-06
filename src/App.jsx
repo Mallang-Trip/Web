@@ -27,7 +27,10 @@ function App() {
             path="/party/course/suggest/:place"
             element={<CourseSuggestPage />}
           />
-          <Route path="/reservation/:place" element={<ReservationPage />} />
+          <Route
+            path="/party/reservation/:place"
+            element={<ReservationPage />}
+          />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Vector from "../../assets/images/Vector.png";
+import Vector from "../../../assets/images/Vector.png";
 
 function HeadTitle() {
   const { place } = useParams();

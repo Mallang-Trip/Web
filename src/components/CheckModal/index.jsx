@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 
-function ConfirmModal({ showModal, setShowModal, message }) {
+function CheckModal({
+  showModal,
+  setShowModal,
+  message,
+  noText,
+  yesText,
+  yesHandler,
+}) {
   const closeModal = () => {
     document.body.classList.remove("overflow-hidden");
     setShowModal(false);
@@ -21,15 +28,23 @@ function ConfirmModal({ showModal, setShowModal, message }) {
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
           {message}
         </div>
-        <button
-          className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"
-          onClick={closeModal}
-        >
-          확인
-        </button>
+        <div className="flex">
+          <button
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            onClick={closeModal}
+          >
+            {noText}
+          </button>
+          <button
+            className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
+            onClick={yesHandler}
+          >
+            {yesText}
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-export default ConfirmModal;
+export default CheckModal;

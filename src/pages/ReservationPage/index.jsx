@@ -13,11 +13,17 @@ import Credit from "../../components/Credit";
 import Agreement from "../CourseSuggestPage/AddAgree";
 import ReservationButton from "./ReservationButton";
 import BottomRefund from "../../components/BottomRefund";
+import CheckModal from "../../components/CheckModal";
 
 function ReservationPage() {
   const { place } = useParams();
+  const [register, setRegister] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const suggestHandler = () => {
+    if (register) return setShowModal(true);
+
     setShakeCredit(true);
     setTimeout(() => setShakeCredit(false), 1000);
   };
@@ -43,10 +49,25 @@ function ReservationPage() {
       <TravelerBox />
       <TravelerGreet />
       <PartyPlan edit={false} />
-      <Credit shakeCredit={shakeCredit} />
+      <Credit
+        shakeCredit={shakeCredit}
+        register={register}
+        setRegister={setRegister}
+      />
       <Agreement />
       <ReservationButton suggestHandler={suggestHandler} />
       <BottomRefund />
+
+      <CheckModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        message={
+          "예약을 확정하기 위해\n24시간 내로 드라이버와 여행자들의 동의를 구합니다.\n\n전원 동의 즉시 1차 자동결제가 이루어집니다.\n1차 결제금은 [N]원 입니다.\n\n예약하시겠습니까?"
+        }
+        noText="취소"
+        yesText="확인"
+        yesHandler={() => alert("예약")}
+      />
     </div>
   );
 }

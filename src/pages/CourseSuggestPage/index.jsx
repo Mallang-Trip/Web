@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import HeadTitle from "./HeadTitle";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
@@ -21,6 +22,8 @@ import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
 
 function CourseSuggestPage() {
+  const navigation = useNavigate();
+  const { place } = useParams();
   const [register, setRegister] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -66,7 +69,9 @@ function CourseSuggestPage() {
         }
         noText="취소"
         yesText="확인"
-        yesHandler={() => alert("제안")}
+        yesHandler={() =>
+          navigation(`/party/approval/suggest/${place}`, { replace: true })
+        }
       />
     </div>
   );

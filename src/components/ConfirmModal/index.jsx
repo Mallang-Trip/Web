@@ -11,6 +11,10 @@ function ConfirmModal({ showModal, setShowModal, message }) {
     document.body.classList.add("overflow-hidden");
   }, [showModal]);
 
+  useEffect(() => {
+    return () => closeModal();
+  }, []);
+
   return (
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${

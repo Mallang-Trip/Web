@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import PartyImageBox from "../../components/PartyImageBox";
 import PartyNumberBox from "../CourseSuggestPage/PartyNumberBox";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
@@ -15,6 +16,8 @@ import CheckModal from "../../components/CheckModal";
 import HeadTitle from "./HeadTitle";
 
 function ReservationPage() {
+  const navigation = useNavigate();
+  const { place } = useParams();
   const [register, setRegister] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +59,9 @@ function ReservationPage() {
         }
         noText="취소"
         yesText="확인"
-        yesHandler={() => alert("예약")}
+        yesHandler={() =>
+          navigation(`/party/approval/reservation/${place}`, { replace: true })
+        }
       />
     </div>
   );

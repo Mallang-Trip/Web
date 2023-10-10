@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProfileModal from "./ProfileModal";
 
 function Members() {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
 
   const clickHandler = (e) => {

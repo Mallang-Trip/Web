@@ -12,8 +12,7 @@ import PartyPlan from "../../components/PartyPlan";
 import BeforePlan from "./BeforePlan";
 
 function PartyApprovalPage() {
-  const { type, place } = useParams();
-  console.log(place);
+  const { type } = useParams();
 
   return (
     <div className="px-2 md:px-5 mb-24">

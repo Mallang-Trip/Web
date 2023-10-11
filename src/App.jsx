@@ -13,6 +13,7 @@ import PlaceMap from "./components/PlaceMap";
 import SearchLayout from "./components/SearchLayout";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
+import NewPartyPage from "./pages/NewPartyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -36,6 +37,7 @@ function App() {
             path="/party/approval/:type/:partyId"
             element={<PartyApprovalPage />}
           />
+          <Route path="/party/new/:step" element={<NewPartyPage />} />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 

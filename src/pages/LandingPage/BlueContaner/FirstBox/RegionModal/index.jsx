@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Anywhere from "./Anywhere";
 import RegionButton from "./RegionButton";
 import jeju from "../../../../../assets/images/제주도 이미지.jpg";
@@ -24,6 +24,12 @@ const regionData = [
 ];
 
 function RegionModal({ showModal, setShowModal, regionClickHandler }) {
+  const modalRef = useRef();
+
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) setShowModal(false);
+  };
+
   useEffect(() => {
     if (showModal) document.body.classList.add("overflow-hidden");
     else document.body.classList.remove("overflow-hidden");
@@ -34,8 +40,10 @@ function RegionModal({ showModal, setShowModal, regionClickHandler }) {
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-full h-4/5 max-w-screen-xl rounded-xl">
+      <div className="m-auto shadow w-full max-h-4/5 max-w-screen-xl rounded-xl">
         <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 md:grid-cols-3 lg:grid-cols-4 h-full bg-white rounded-xl overflow-auto noScrollBar">
           <Anywhere regionClickHandler={regionClickHandler} />
           {regionData.map((item) => (

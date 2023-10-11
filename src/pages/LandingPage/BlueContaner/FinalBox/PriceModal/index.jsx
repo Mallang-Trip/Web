@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { priceToString } from "../../../utils";
+import { priceToString } from "../../../../../utils";
 
 function PriceModal({
   showModal,

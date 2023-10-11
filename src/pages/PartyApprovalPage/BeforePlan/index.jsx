@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import info from "../../../assets/svg/Polygon 3.svg";
 import PartyPlan from "../../../components/PartyPlan";
 
-function BeforePlan() {
+function BeforePlan({ course, startDate }) {
   const [showBeforePlan, setShowBeforePlan] = useState(false);
 
   return (
@@ -24,7 +24,7 @@ function BeforePlan() {
           showBeforePlan ? "max-h-[10000px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <PartyPlan edit={false} />
+        <PartyPlan edit={false} course={course} startDate={startDate} />
       </div>
     </div>
   );

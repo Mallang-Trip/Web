@@ -1,14 +1,14 @@
-import { useParams } from "react-router-dom";
 import Vector from "../../../assets/images/Vector.png";
 
-function HeadTitle() {
-  const { place } = useParams();
-
+function HeadTitle({ name, driverName, driverId }) {
   return (
     <>
-      <div className="text-2xl text-black">{place}</div>
-      <div className="text-sm text-darkgray cursor-pointer">
-        <span>{`김제윤 드라이버`}</span>
+      <div className="text-2xl text-black">{name}</div>
+      <div
+        className="text-sm text-darkgray cursor-pointer"
+        onClick={() => console.log(driverId)}
+      >
+        <span>{`${driverName} 드라이버`}</span>
         <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
       </div>
     </>

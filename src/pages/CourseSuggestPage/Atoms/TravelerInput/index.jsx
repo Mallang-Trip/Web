@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { makePhoneNumber } from "../../../../utils";
 
-function TravelerInput() {
+function TravelerInput({ index }) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
     <div className="flex flex-col gap-4 mt-6 text-sm text-darkgray">
-      <p>여행자2</p>
+      <p>{`여행자${index + 2}`}</p>
       <div className="w-full flex gap-2 whitespace-nowrap">
         <span>{"예약자 이름: "}</span>
         <input

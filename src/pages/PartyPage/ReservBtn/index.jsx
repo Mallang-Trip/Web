@@ -1,10 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function ReservBtn() {
-  const { place } = useParams();
+function ReservBtn({ partyId }) {
   const navigate = useNavigate();
 
-  const clickHander = () => navigate(`/party/reservation/${place}`);
+  const clickHander = () => navigate(`/party/reservation/${partyId}`);
 
   return (
     <div className="flex justify-center mt-20">

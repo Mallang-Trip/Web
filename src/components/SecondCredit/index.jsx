@@ -1,6 +1,7 @@
 import React from "react";
+import { priceToString } from "../../utils";
 
-function SecondCredit() {
+function SecondCredit({ totalPrice }) {
   return (
     <div>
       <div className="mb-5 grid grid-rows-2">
@@ -11,9 +12,15 @@ function SecondCredit() {
           </span>
         </p>
         <p className="text-sm text-primary">모든 인원 예약 시 0원</p>
-        <p className="text-sm text-black">여석이 1개 남을 경우 33,333원</p>
-        <p className="text-sm text-black">여석이 2개 남을 경우 100,000원</p>
-        <p className="text-sm text-black">여석이 3개 남을 경우 300,000원</p>
+        <p className="text-sm text-black">{`여석이 1개 남을 경우 ${priceToString(
+          Math.ceil(totalPrice / 3 / 100) * 100
+        )}원`}</p>
+        <p className="text-sm text-black">{`여석이 2개 남을 경우 ${priceToString(
+          Math.ceil(totalPrice / 2 / 100) * 100
+        )}원`}</p>
+        <p className="text-sm text-black">{`여석이 3개 남을 경우 ${priceToString(
+          Math.ceil(totalPrice / 1 / 100) * 100
+        )}원`}</p>
       </div>
     </div>
   );

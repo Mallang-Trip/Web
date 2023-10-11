@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
-          <Route path="/party/:place" element={<PartyPage />} />
+          <Route path="/party/:partyId" element={<PartyPage />} />
           <Route
             path="/party/course/suggest/:place"
             element={<CourseSuggestPage />}

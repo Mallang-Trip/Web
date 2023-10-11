@@ -5,3 +5,6 @@ export const getPartyList = async (region, nowDate, num, price) =>
     `/party/list?region=${region}&headcount=${num}&startDate=${nowDate[0]}&endDate=${nowDate[1]}&maxPrice=${price}`,
     true
   );
+
+export const getPartyDetail = async (partyId) =>
+  await GET(`/party/view/${partyId}`, true);

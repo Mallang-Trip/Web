@@ -1,6 +1,7 @@
 import React from "react";
+import { priceToString } from "../../utils";
 
-function FirstCredit({ primary }) {
+function FirstCredit({ primary, totalPrice, capacity }) {
   return (
     <div>
       <div className="mb-5 grid grid-rows-2">
@@ -11,7 +12,7 @@ function FirstCredit({ primary }) {
           </span>
         </p>
         <p className={`text-sm ${primary ? "text-primary" : "text-darkgray"}`}>
-          100,000원
+          {`${priceToString(Math.ceil(totalPrice / capacity / 100) * 100)}원`}
         </p>
       </div>
     </div>

@@ -25,3 +25,7 @@ export const dateToString = (source, delimiter = "-") => {
 
   return [year, month, day].join(delimiter);
 };
+
+export const dateToStringHan = (date) => {
+  return `${date.slice(0, 4)}년 ${date.slice(5, 7)}월 ${date.slice(8, 10)}일`;
+};

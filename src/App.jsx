@@ -29,7 +29,7 @@ function App() {
             element={<CourseSuggestPage />}
           />
           <Route
-            path="/party/reservation/:place"
+            path="/party/reservation/:partyId"
             element={<ReservationPage />}
           />
           <Route

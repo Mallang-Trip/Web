@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getPartyDetail, postPartyJoin } from "../../api/party";
 import PartyImageBox from "../../components/PartyImageBox";
 import PartyNumberBox from "../CourseSuggestPage/PartyNumberBox";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
@@ -17,37 +18,107 @@ import HeadTitle from "./HeadTitle";
 
 function ReservationPage() {
   const navigation = useNavigate();
-  const { place } = useParams();
+  const { partyId } = useParams();
+  const [partyData, setPartyData] = useState({});
   const [register, setRegister] = useState(false);
+  const [agreeChecked, setAgreeChecked] = useState([false, false]);
   const [shakeCredit, setShakeCredit] = useState(false);
+  const [shakeAgree, setShakeAgree] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [content, setContent] = useState("");
+  const [memberCount, setMemberCount] = useState(1);
 
   const suggestHandler = () => {
-    if (register) return setShowModal(true);
+    if (!register) {
+      setShakeCredit(true);
+      setTimeout(() => setShakeCredit(false), 1000);
+      return;
+    }
+    if (agreeChecked.filter((i) => i === false).length > 0) {
+      setShakeAgree(true);
+      setTimeout(() => setShakeAgree(false), 1000);
+      return;
+    }
 
-    setShakeCredit(true);
-    setTimeout(() => setShakeCredit(false), 1000);
+    setShowModal(true);
   };
 
+  const reservationHandler = async () => {
+    try {
+      const body = {
+        changeCourse: false,
+        content: content,
+        headcount: memberCount,
+        partyId: partyId,
+      };
+
+      const result = await postPartyJoin(body);
+      console.log(result);
+      navigation(`/party/approval/reservation/${partyId}`, {
+        replace: true,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getPartyData = async () => {
+    try {
+      const result = await getPartyDetail(partyId);
+      setPartyData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getPartyData();
+  }, [partyId]);
+
+  if (!partyData.partyId) return null;
   return (
     <div className="px-2 md:px-5 mb-24">
-      <HeadTitle />
-      <PartyImageBox />
+      <HeadTitle
+        name={partyData.course?.name}
+        driverName={partyData.driverName}
+        driverId={partyData.driverId}
+        startDate={partyData.startDate}
+        endDate={partyData.endDate}
+      />
+      <PartyImageBox
+        images={partyData.course?.images}
+        name={partyData.course?.name}
+      />
       <div className="mt-7">
-        <PartyNumberBox />
+        <PartyNumberBox
+          memberCount={memberCount}
+          setMemberCount={setMemberCount}
+        />
       </div>
-      <ToTalCredit />
-      <FirstCredit />
-      <SecondCredit />
-      <TravelerBox />
-      <TravelerGreet />
-      <PartyPlan edit={false} />
+      <ToTalCredit totalPrice={partyData.course?.totalPrice} />
+      <FirstCredit
+        totalPrice={partyData.course?.totalPrice}
+        capacity={partyData.capacity}
+        memberCount={memberCount}
+      />
+      <SecondCredit totalPrice={partyData.course?.totalPrice} />
+      <TravelerBox memberCount={memberCount} />
+      <TravelerGreet content={content} setContent={setContent} />
+      <PartyPlan
+        edit={false}
+        course={partyData.course}
+        startDate={partyData.startDate}
+      />
       <Credit
         shakeCredit={shakeCredit}
         register={register}
         setRegister={setRegister}
       />
-      <Agreement />
+      <Agreement
+        checked={agreeChecked}
+        setChecked={setAgreeChecked}
+        shakeAgree={shakeAgree}
+      />
       <ReservationButton suggestHandler={suggestHandler} />
       <BottomRefund />
 
@@ -59,9 +130,7 @@ function ReservationPage() {
         }
         noText="취소"
         yesText="확인"
-        yesHandler={() =>
-          navigation(`/party/approval/reservation/${place}`, { replace: true })
-        }
+        yesHandler={() => reservationHandler()}
       />
     </div>
   );

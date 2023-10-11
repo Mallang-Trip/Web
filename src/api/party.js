@@ -1,4 +1,4 @@
-import { GET } from "../utils/axios";
+import { GET, POST } from "../utils/axios";
 
 export const getPartyList = async (region, nowDate, num, price) =>
   await GET(
@@ -8,3 +8,6 @@ export const getPartyList = async (region, nowDate, num, price) =>
 
 export const getPartyDetail = async (partyId) =>
   await GET(`/party/view/${partyId}`, true);
+
+export const postPartyJoin = async (data) =>
+  await POST("/party/join", data, true);

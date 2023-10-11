@@ -51,6 +51,7 @@ function PartyPage() {
       <FirstCredit
         totalPrice={partyData.course?.totalPrice}
         capacity={partyData.capacity}
+        memberCount={1}
       />
       <SecondCredit totalPrice={partyData.course?.totalPrice} />
       <PartyPlan

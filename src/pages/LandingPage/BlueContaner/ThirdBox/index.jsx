@@ -1,10 +1,7 @@
-import React, { useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 
-function ThirdBox() {
-  const [num, setNum] = useState(1);
-
+function ThirdBox({ num, setNum }) {
   const setIncrease = () => num < 10 && setNum(num + 1);
   const setDecrease = () => num > 1 && setNum(num - 1);
 

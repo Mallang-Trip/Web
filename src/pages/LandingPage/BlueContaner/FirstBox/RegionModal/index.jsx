@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import Anywhere from "./Anywhere";
 import RegionButton from "./RegionButton";
-import jeju from "../../../../assets/images/제주도 이미지.jpg";
-import gangwon from "../../../../assets/images/강원도 이미지.jpg";
-import uleng from "../../../../assets/images/울릉도 이미지.jpg";
+import jeju from "../../../../../assets/images/제주도 이미지.jpg";
+import gangwon from "../../../../../assets/images/강원도 이미지.jpg";
+import uleng from "../../../../../assets/images/울릉도 이미지.jpg";
 
 const regionData = [
   {

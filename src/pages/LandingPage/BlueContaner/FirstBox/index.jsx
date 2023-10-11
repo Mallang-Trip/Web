@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import RegionModal from "./RegionModal";
 
-function FirstBox() {
+function FirstBox({ region, setRegion }) {
   const [showModal, setShowModal] = useState(false);
-  const [region, setRegion] = useState("아무데나");
 
   const regionClickHandler = (target) => {
     setRegion(target);

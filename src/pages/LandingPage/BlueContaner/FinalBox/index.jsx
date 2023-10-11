@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import PriceModal from "../PriceModal";
+import PriceModal from "./PriceModal";
 
-function FinalBox() {
-  const [price, setPrice] = useState(1010000);
+function FinalBox({ price, setPrice }) {
   const [showModal, setShowModal] = useState(false);
   const [modalPrice, setModalPrice] = useState(1010000);
 

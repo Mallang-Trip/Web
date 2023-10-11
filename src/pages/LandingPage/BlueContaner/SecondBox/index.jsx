@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CalendarModal from "./CalendarModal";
 
-function SecondBox() {
+function SecondBox({ nowDate, setNowDate }) {
   const [showModal, setShowModal] = useState(false);
-  const [nowDate, setNowDate] = useState([]);
 
   return (
     <>

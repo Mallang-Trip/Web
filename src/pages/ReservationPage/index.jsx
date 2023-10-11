@@ -52,8 +52,8 @@ function ReservationPage() {
         partyId: partyId,
       };
 
-      const result = await postPartyJoin(body);
-      console.log(result);
+      await postPartyJoin(body);
+
       navigation(`/party/approval/reservation/${partyId}`, {
         replace: true,
       });

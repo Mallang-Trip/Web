@@ -25,7 +25,7 @@ function App() {
           <Route path="/" element={<AuthLandingPage />} />
           <Route path="/party/:partyId" element={<PartyPage />} />
           <Route
-            path="/party/course/suggest/:place"
+            path="/party/course/suggest/:partyId"
             element={<CourseSuggestPage />}
           />
           <Route

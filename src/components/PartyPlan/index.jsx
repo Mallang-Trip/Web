@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PlanBox from "./PlanBox";
 import EditButton from "../EditButton";
 
 function PartyPlan({ edit, startDate, course }) {
+  const { partyId } = useParams();
   const navigate = useNavigate();
   const [planData, setPlanData] = useState([]);
 
-  const clickHander = () =>
-    navigate(`/party/course/suggest/${course.courseId}`);
+  const clickHander = () => navigate(`/party/course/suggest/${partyId}`);
 
   useEffect(() => {
     setPlanData(course.days[0].destinations);

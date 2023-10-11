@@ -1,51 +1,7 @@
-import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import DragIcon from "../../../assets/svg/dragIcon.svg";
 
-function CourseDnD() {
-  const [courseData, setCourseData] = useState([
-    {
-      id: "1",
-      name: "집합:제주공항 1게이트",
-      time: "10:00",
-    },
-    {
-      id: "2",
-      name: "9.81파크 제주",
-      time: "11:00",
-    },
-    {
-      id: "3",
-      name: "녹색식당",
-      time: "12:00",
-    },
-    {
-      id: "4",
-      name: "아르떼 뮤지엄",
-      time: "13:30",
-    },
-    {
-      id: "5",
-      name: "어음분교 1963 카페",
-      time: "15:00",
-    },
-    {
-      id: "6",
-      name: "수원봉 전망대",
-      time: "16:00",
-    },
-    {
-      id: "7",
-      name: "제주돔베고기집",
-      time: "17:00",
-    },
-    {
-      id: "8",
-      name: "해산: 각자 숙소까지 이동",
-      time: "18:00",
-    },
-  ]);
-
+function CourseDnD({ course, startDate, courseData, setCourseData }) {
   const handleChange = (result) => {
     if (!result.destination) return;
     const items = [...courseData];
@@ -58,7 +14,9 @@ function CourseDnD() {
     <>
       <div className="mt-12 mb-6 font-bold flex flex-col items-center gap-10">
         <div className="text-boldblue text-2xl">파티명을 입력해주세요</div>
-        <div className="text-darkgray text-xl">2023.04.01 | 1일차</div>
+        <div className="text-darkgray text-xl">
+          {startDate.replaceAll("-", ".")}
+        </div>
       </div>
       <DragDropContext onDragEnd={handleChange}>
         <Droppable droppableId="courselists">
@@ -69,7 +27,11 @@ function CourseDnD() {
               ref={provided.innerRef}
             >
               {courseData.map((item, index) => (
-                <Draggable draggableId={item.id} index={index} key={item.id}>
+                <Draggable
+                  draggableId={item.destinationId.toString()}
+                  index={index}
+                  key={item.destinationId.toString()}
+                >
                   {(provided, snapshot) => {
                     return (
                       <div
@@ -86,7 +48,12 @@ function CourseDnD() {
                           className="ml-2.5 mr-5"
                         />
                         <div>{item.name}</div>
-                        <div className="ml-auto">{item.time}</div>
+                        <div className="ml-auto">
+                          {index === 0
+                            ? course.days[0].startTime
+                            : index === courseData.length - 1 &&
+                              course.days[0].endTime}
+                        </div>
                       </div>
                     );
                   }}

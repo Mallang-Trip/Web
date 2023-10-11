@@ -30,7 +30,7 @@ function LandingPage() {
         {user.nickname ? `${user.nickname} 님께 추천하는 파티` : "추천 파티"}
       </div>
       <FilterBtnBox />
-      <PartyList />
+      <PartyList region={region} nowDate={nowDate} num={num} price={price} />
     </div>
   );
 }

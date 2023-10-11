@@ -33,7 +33,7 @@ function App() {
             element={<ReservationPage />}
           />
           <Route
-            path="/party/approval/:type/:place"
+            path="/party/approval/:type/:partyId"
             element={<PartyApprovalPage />}
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />

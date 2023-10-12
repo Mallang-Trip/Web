@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
 
-function Credit({ shakeCredit }) {
+function Credit({ shakeCredit, register, setRegister }) {
   const [showText, setShowText] = useState(false);
-  const [register, setRegister] = useState(false);
 
   useEffect(() => {
     if (shakeCredit) setShowText(true);
   }, [shakeCredit]);
 
+  useEffect(() => {
+    if (register) setShowText(false);
+  }, [register]);
+
   return (
     <div className="my-20">
       <button
-        className={`${
-          shakeCredit && "animate-shake"
+        className={`${shakeCredit && "animate-shake"} ${
+          register && "cursor-default"
         } w-[304px] h-[196px] bg-skyblue text-primary rounded-2xl mx-auto flex flex-col justify-center items-center gap-3 focus:outline-none`}
         onClick={() => setRegister(true)}
       >
@@ -25,7 +28,7 @@ function Credit({ shakeCredit }) {
               유효기간 03/04
             </div>
             <span
-              className="text-xs underline underline-offset-4"
+              className="text-xs underline underline-offset-4 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 setRegister(false);

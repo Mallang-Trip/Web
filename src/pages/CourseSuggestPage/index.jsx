@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import IconBox from "../PartyPage/IconBox";
-import Vector from "../../assets/images/Vector.png";
-import PartyBigBox from "../PartyPage/PartyBigBox";
-import FirstCredit from "../PartyPage/Atoms/FirstCredit";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import HeadTitle from "./HeadTitle";
+import PartyIconBox from "../../components/PartyIconBox";
+import PartyImageBox from "../../components/PartyImageBox";
+import FirstCredit from "../../components/FirstCredit";
 import Period from "../PartyPage/Atoms/Period";
-import SecondCredit from "../PartyPage/Atoms/SecondCredit";
+import SecondCredit from "../../components/SecondCredit";
 import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
 import PartyNumberBox from "./PartyNumberBox";
 import TravelerBox from "./TravelerBox";
@@ -19,91 +19,151 @@ import BottomRefund from "../../components/BottomRefund";
 import Agreement from "./AddAgree";
 import SuggestButton from "./SuggestButton";
 import CourseDnD from "./CourseDnD";
+import CheckModal from "../../components/CheckModal";
+import { getPartyDetail, postPartyJoin } from "../../api/party";
 
 function CourseSuggestPage() {
-  const { place } = useParams();
-
+  const navigation = useNavigate();
+  const { partyId } = useParams();
+  const [partyData, setPartyData] = useState({});
+  const [register, setRegister] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [shakeAgree, setShakeAgree] = useState(false);
+  const [content, setContent] = useState("");
+  const [memberCount, setMemberCount] = useState(1);
+  const [courseData, setCourseData] = useState([]);
+
   const suggestHandler = () => {
-    setShakeCredit(true);
-    setTimeout(() => setShakeCredit(false), 1000);
+    if (!register) {
+      setShakeCredit(true);
+      setTimeout(() => setShakeCredit(false), 1000);
+      return;
+    }
+    if (agreeChecked.filter((i) => i === false).length > 0) {
+      setShakeAgree(true);
+      setTimeout(() => setShakeAgree(false), 1000);
+      return;
+    }
+
+    setShowModal(true);
   };
 
+  const courseSuggestHandler = async () => {
+    try {
+      const body = {
+        changeCourse: true,
+        content: content,
+        headcount: memberCount,
+        partyId: partyId,
+        newCourse: {
+          images: partyData.course?.images,
+          totalDays: partyData.course?.totalDays,
+          name: partyData.course?.name,
+          capacity: partyData.course?.capacity,
+          totalPrice: partyData.course?.totalPrice,
+          days: [
+            {
+              day: partyData.course?.days[0].day,
+              startTime: partyData.course?.days[0].startTime,
+              endTime: partyData.course?.days[0].endTime,
+              hours: partyData.course?.days[0].hours,
+              price: partyData.course?.days[0].price,
+              destinations: courseData.map((item) => item.destinationId),
+            },
+          ],
+        },
+      };
+
+      await postPartyJoin(body);
+
+      navigation(`/party/approval/suggest/${partyId}`, {
+        replace: true,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getPartyData = async () => {
+    try {
+      const result = await getPartyDetail(partyId);
+      setPartyData(result.payload);
+      setCourseData(result.payload.course.days[0].destinations);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getPartyData();
+  }, [partyId]);
+
+  if (!partyData.partyId) return null;
   return (
-    <React.Fragment>
-      <div className="w-full">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between pl-5 mx-auto overflow-hidden text-[23px] font-bold">
-          {place}
-        </div>
-        <div className="text-gray text-sm pl-5 grid grid-cols-2">
-          <p>김제윤 드라이버</p>
-          <img src={Vector} />
-        </div>
-        <div className=" max-w-screen-xl h-[300px] pl-5 pt-3">
-          <div>
-            <PartyBigBox />
-          </div>
-          <div className="relative max-w-screen-xl mx-auto pb-4 hidden md:block">
-            <IconBox />
-          </div>
-          <div className="">
-            <Period />
-            <PartyNumberBox />
-            <ToTalCredit />
-            <FirstCredit />
-            <SecondCredit />
-            <TravelerBox />
-            <TravelerGreet />
-          </div>
-          <div>
-            <PlaceInfoBox />
-          </div>
-          <div className="pl-4">
-            <Detailed />
-            <Comment />
-            <CommentCom />
-          </div>
-          <div>
-            <AddComment />
-          </div>
-          <div>
-            <Credit />
-          </div>
-          <div className="">
-            <Agreement />
-          </div>
-          <div>
-            <Refund />
-          </div>
-          <div>
-            <ReservBtn title="제안 보내기" />
-          </div>
-          <div></div>
-        </div>
+    <div className="px-2 md:px-5 mb-24">
+      <HeadTitle
+        name={partyData.course?.name}
+        driverName={partyData.driverName}
+        driverId={partyData.driverId}
+      />
+      <PartyImageBox
+        images={partyData.course?.images}
+        name={partyData.course?.name}
+      />
+      <PartyIconBox />
+      <Period startDate={partyData.startDate} endDate={partyData.endDate} />
+      <PartyNumberBox
+        memberCount={memberCount}
+        setMemberCount={setMemberCount}
+      />
+      <ToTalCredit totalPrice={partyData.course?.totalPrice} />
+      <FirstCredit
+        totalPrice={partyData.course?.totalPrice}
+        capacity={partyData.capacity}
+        memberCount={memberCount}
+      />
+      <SecondCredit totalPrice={partyData.course?.totalPrice} />
+      <TravelerBox memberCount={memberCount} />
+      <TravelerGreet content={content} setContent={setContent} />
+      <CourseDnD
+        course={partyData.course}
+        startDate={partyData.startDate}
+        courseData={courseData}
+        setCourseData={setCourseData}
+      />
+      <PlaceInfoBox
+        images={partyData.course?.images}
+        name={partyData.course?.name}
+      />
+      <Detailed />
+      <CommentList />
+      <AddComment />
+      <Credit
+        shakeCredit={shakeCredit}
+        register={register}
+        setRegister={setRegister}
+      />
+      <Agreement
+        checked={agreeChecked}
+        setChecked={setAgreeChecked}
+        shakeAgree={shakeAgree}
+      />
+      <SuggestButton suggestHandler={suggestHandler} />
+      <BottomRefund />
 
-        <PartyBigBox />
-        <IconBox />
-
-        <Period />
-        <PartyNumberBox />
-        <ToTalCredit />
-        <FirstCredit />
-        <SecondCredit />
-
-        <TravelerBox />
-        <TravelerGreet />
-        <CourseDnD />
-        <PlaceInfoBox />
-
-        <Detailed />
-        <CommentList />
-        <AddComment />
-        <Credit shakeCredit={shakeCredit} />
-        <Agreement />
-        <SuggestButton suggestHandler={suggestHandler} />
-        <BottomRefund />
-      </div>
-    </React.Fragment>
+      <CheckModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        message={
+          "제안을 확정하기 위해 24시간 내로\n드라이버와 여행자들의 동의를 구합니다.\n\n전원 동의 즉시 1차 자동결제가 이루어집니다.\n1차 결제금은 [N]원 입니다.\n\n제안을 보내시겠습니까?"
+        }
+        noText="취소"
+        yesText="확인"
+        yesHandler={() => courseSuggestHandler()}
+      />
+    </div>
   );
 }
 

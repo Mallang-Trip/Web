@@ -1,10 +1,12 @@
-import React from "react";
+import { dateToStringHan } from "../../../../utils";
 
-function Period() {
+function Period({ startDate, endDate }) {
   return (
     <div className="pb-6">
       <p className="text-lg font-bold">기간</p>
-      <p className="text-sm text-darkgray">2023년 4월 1일~2023년 4월 2일</p>
+      <p className="text-sm text-darkgray">{`${dateToStringHan(
+        startDate
+      )} ~ ${dateToStringHan(endDate)}`}</p>
     </div>
   );
 }

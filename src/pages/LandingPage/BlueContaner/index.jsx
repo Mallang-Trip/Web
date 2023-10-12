@@ -1,16 +1,25 @@
 import React from "react";
-import FirstBox from "../FirstBox";
-import SecondBox from "../SecondBox";
-import ThirdBox from "../ThirdBox";
-import FinalBox from "../FinalBox";
+import FirstBox from "./FirstBox";
+import SecondBox from "./SecondBox";
+import ThirdBox from "./ThirdBox";
+import FinalBox from "./FinalBox";
 
-function BlueContaner() {
+function BlueContaner({
+  region,
+  setRegion,
+  nowDate,
+  setNowDate,
+  num,
+  setNum,
+  price,
+  setPrice,
+}) {
   return (
     <div className="flex justify-center gap-1 w-full px-5 lg:px-20 h-40 bg-primary rounded-tl-3xl rounded-br-3xl">
-      <FirstBox />
-      <SecondBox />
-      <ThirdBox />
-      <FinalBox />
+      <FirstBox region={region} setRegion={setRegion} />
+      <SecondBox nowDate={nowDate} setNowDate={setNowDate} />
+      <ThirdBox num={num} setNum={setNum} />
+      <FinalBox price={price} setPrice={setPrice} />
     </div>
   );
 }

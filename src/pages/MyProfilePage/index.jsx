@@ -20,7 +20,7 @@ function MyProfilePage() {
   const emailHandler = (e) => setEmail(e.target.value);
 
   return (
-    <div className="max-w-screen-xl px-5">
+    <div className="max-w-screen-xl px-5 mb-24">
       <p className="my-9 text-2xl font-bold text-black">나의 프로필</p>
       <div className="flex justify-center">
         <div
@@ -77,7 +77,7 @@ function MyProfilePage() {
         />
       </div>
       <p className="text-lg font-bold text-black mt-12 mb-5">로그인 정보</p>
-      <div className="grid grid-cols-2 gap-3 mb-12">
+      <div className="grid grid-cols-2 gap-3">
         <Information
           title={"이메일 주소"}
           content={email}

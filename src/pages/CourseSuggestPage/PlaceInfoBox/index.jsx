@@ -1,13 +1,13 @@
 import React from "react";
 import PlaceInfoTitle from "../Atoms/PlaceInfoTitle";
-import PartyBigBox from "../../PartyPage/PartyBigBox";
+import PartyImageBox from "../../../components/PartyImageBox";
 import BelowPlaceImg from "../BelowPlaceImg";
 
-function PlaceInfoBox() {
+function PlaceInfoBox({ images, name }) {
   return (
     <div>
       <PlaceInfoTitle />
-      <PartyBigBox />
+      <PartyImageBox images={images} name={name} />
       <BelowPlaceImg />
     </div>
   );

@@ -3,7 +3,14 @@ import { getRegionDriver } from "../../../api/driver";
 import DriverProfile from "./DriverProfile";
 
 function Driver({ region }) {
-  const [driverData, setDriverData] = useState([]);
+  const [driverData, setDriverData] = useState([
+    {
+      driverId: 1,
+      name: "드라이버1",
+      profileImg:
+        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
+    },
+  ]);
 
   const getDriverData = async () => {
     try {
@@ -15,7 +22,7 @@ function Driver({ region }) {
   };
 
   useEffect(() => {
-    getDriverData();
+    // getDriverData();
   }, []);
 
   return (

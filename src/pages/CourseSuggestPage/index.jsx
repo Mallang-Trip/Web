@@ -51,39 +51,42 @@ function CourseSuggestPage() {
   };
 
   const courseSuggestHandler = async () => {
-    try {
-      const body = {
-        changeCourse: true,
-        content: content,
-        headcount: memberCount,
-        partyId: partyId,
-        newCourse: {
-          images: partyData.course?.images,
-          totalDays: partyData.course?.totalDays,
-          name: partyData.course?.name,
-          capacity: partyData.course?.capacity,
-          totalPrice: partyData.course?.totalPrice,
-          days: [
-            {
-              day: partyData.course?.days[0].day,
-              startTime: partyData.course?.days[0].startTime,
-              endTime: partyData.course?.days[0].endTime,
-              hours: partyData.course?.days[0].hours,
-              price: partyData.course?.days[0].price,
-              destinations: courseData.map((item) => item.destinationId),
-            },
-          ],
-        },
-      };
+    navigation(`/party/approval/suggest/${partyId}`, {
+      replace: true,
+    });
+    // try {
+    //   const body = {
+    //     changeCourse: true,
+    //     content: content,
+    //     headcount: memberCount,
+    //     partyId: partyId,
+    //     newCourse: {
+    //       images: partyData.course?.images,
+    //       totalDays: partyData.course?.totalDays,
+    //       name: partyData.course?.name,
+    //       capacity: partyData.course?.capacity,
+    //       totalPrice: partyData.course?.totalPrice,
+    //       days: [
+    //         {
+    //           day: partyData.course?.days[0].day,
+    //           startTime: partyData.course?.days[0].startTime,
+    //           endTime: partyData.course?.days[0].endTime,
+    //           hours: partyData.course?.days[0].hours,
+    //           price: partyData.course?.days[0].price,
+    //           destinations: courseData.map((item) => item.destinationId),
+    //         },
+    //       ],
+    //     },
+    //   };
 
-      await postPartyJoin(body);
+    //   await postPartyJoin(body);
 
-      navigation(`/party/approval/suggest/${partyId}`, {
-        replace: true,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    //   navigation(`/party/approval/suggest/${partyId}`, {
+    //     replace: true,
+    //   });
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const getPartyData = async () => {

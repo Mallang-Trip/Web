@@ -44,22 +44,25 @@ function ReservationPage() {
   };
 
   const reservationHandler = async () => {
-    try {
-      const body = {
-        changeCourse: false,
-        content: content,
-        headcount: memberCount,
-        partyId: partyId,
-      };
+    navigation(`/party/approval/reservation/${partyId}`, {
+      replace: true,
+    });
+    // try {
+    //   const body = {
+    //     changeCourse: false,
+    //     content: content,
+    //     headcount: memberCount,
+    //     partyId: partyId,
+    //   };
 
-      await postPartyJoin(body);
+    //   await postPartyJoin(body);
 
-      navigation(`/party/approval/reservation/${partyId}`, {
-        replace: true,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    //   navigation(`/party/approval/reservation/${partyId}`, {
+    //     replace: true,
+    //   });
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const getPartyData = async () => {

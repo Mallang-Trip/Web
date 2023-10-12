@@ -9,15 +9,15 @@ import PartyPage from "./pages/PartyPage";
 import SignupPage from "./pages/SignupPage";
 import CourseSuggestPage from "./pages/CourseSuggestPage";
 import MyProfilePage from "./pages/MyProfilePage";
-import PlaceMap from "./components/PlaceMap";
 import SearchLayout from "./components/SearchLayout";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
+import SearchPlacePage from "./pages/SearchPlacePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
-  const AuthPlaceMap = Auth(PlaceMap, null);
+  const AuthPlaceMap = Auth(SearchPlacePage, null);
 
   const AuthMyProfilePage = Auth(MyProfilePage, true);
 

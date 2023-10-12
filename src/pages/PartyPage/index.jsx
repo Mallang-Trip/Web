@@ -59,6 +59,7 @@ function PartyPage() {
         course={partyData.course}
         startDate={partyData.startDate}
       />
+      
       <ReservBtn partyId={partyData.partyId} />
     </div>
   );

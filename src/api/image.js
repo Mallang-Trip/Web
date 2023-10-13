@@ -15,7 +15,6 @@ export const uploadProfileImage = async (image) => {
     };
 
     const { data } = await axios.post("/upload/signup", formData, config);
-
     return data;
   } catch (error) {
     throw error;

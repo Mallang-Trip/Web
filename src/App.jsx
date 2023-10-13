@@ -17,6 +17,8 @@ import NewPartyPage from "./pages/NewPartyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthPlaceMap = Auth(PlaceMap, null);
+
   const AuthMyProfilePage = Auth(MyProfilePage, true);
 
   return (
@@ -45,7 +47,7 @@ function App() {
         <Route path="/login/search/:target" element={<LoginSearchPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route element={<SearchLayout />}>
-          <Route path="/search" element={<PlaceMap />} />
+          <Route path="/search" element={<AuthPlaceMap />} />
         </Route>
       </Routes>
     </div>

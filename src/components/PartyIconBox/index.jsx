@@ -5,7 +5,7 @@ import ChatBox from "../../assets/svg/EmptyChatIcon.svg";
 import shareIcon from "../../assets/svg/share.svg";
 import ShareModal from "./ShareModal";
 
-function PartyIconBox() {
+function PartyIconBox({ images, name }) {
   const [showShareModal, setShowShareModal] = useState(false);
   const [heart, setHeart] = useState(false);
 
@@ -24,7 +24,12 @@ function PartyIconBox() {
           onClick={() => setShowShareModal(true)}
         />
       </div>
-      <ShareModal showModal={showShareModal} setShowModal={setShowShareModal} />
+      <ShareModal
+        showModal={showShareModal}
+        setShowModal={setShowShareModal}
+        partyImages={images}
+        partyName={name}
+      />
     </>
   );
 }

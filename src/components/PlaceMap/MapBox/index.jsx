@@ -19,7 +19,6 @@ function MapBox() {
 
       tmapMarker.on("click", function (evt) {
         console.log(marker);
-        
       });
 
       //tmapMarker.style.cursor = "pointer";

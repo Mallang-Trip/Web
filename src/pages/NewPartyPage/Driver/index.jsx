@@ -3,56 +3,7 @@ import { getRegionDriver } from "../../../api/driver";
 import DriverProfile from "./DriverProfile";
 
 function Driver({ region }) {
-  const [driverData, setDriverData] = useState([
-    {
-      driverId: 1,
-      name: "드라이버1",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 2,
-      name: "드라이버2",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 3,
-      name: "드라이버3",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 4,
-      name: "드라이버4",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 5,
-      name: "드라이버5",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 6,
-      name: "드라이버6",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 7,
-      name: "드라이버7",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-    {
-      driverId: 8,
-      name: "드라이버8",
-      profileImg:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/619b939d-4f91-456b-89da-3aa764178c4eprofile.jpg",
-    },
-  ]);
+  const [driverData, setDriverData] = useState([]);
 
   const getDriverData = async () => {
     try {
@@ -64,7 +15,7 @@ function Driver({ region }) {
   };
 
   useEffect(() => {
-    // getDriverData();
+    getDriverData();
   }, []);
 
   return (
@@ -77,6 +28,11 @@ function Driver({ region }) {
           <DriverProfile {...item} key={item.driverId} />
         ))}
       </div>
+      {driverData.length === 0 && (
+        <div className="w-full text-center">
+          {"해당 지역에 등록된 드라이버가 없습니다."}
+        </div>
+      )}
     </>
   );
 }

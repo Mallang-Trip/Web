@@ -1,8 +1,23 @@
-function DriverProfile({ profileImg, name, driverId }) {
+import { useNavigate, useParams } from "react-router-dom";
+
+function DriverProfile({
+  profileImg,
+  name,
+  driverId,
+  selectedDriverId,
+  setDriverId,
+}) {
+  const { step } = useParams();
+  const navigation = useNavigate();
+
   return (
     <div
-      className="relative h-64 cursor-pointer border border-darkgray rounded-lg"
-      onClick={() => alert("현재 여기까지 개발 완료")}
+      className={`relative h-64 cursor-pointer border rounded-lg hover:border-primary ${
+        selectedDriverId === driverId
+          ? "border-primary ring ring-primary"
+          : "border-darkgray"
+      }`}
+      onClick={() => setDriverId(driverId)}
     >
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
@@ -15,8 +30,7 @@ function DriverProfile({ profileImg, name, driverId }) {
           className="h-8 text-white rounded-full text-xs w-24 bg-primary"
           onClick={(e) => {
             e.stopPropagation();
-            console.log(driverId);
-            alert("현재 여기까지 개발 완료");
+            navigation(`/party/new/${Number(step) + 1}`);
           }}
         >
           프로필 보기

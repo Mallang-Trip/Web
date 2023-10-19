@@ -9,6 +9,7 @@ function NewPartyPage() {
   const [region, setRegion] = useState("");
   const [member, setMember] = useState(1);
   const [date, setDate] = useState([]);
+  const [driverId, setDriverId] = useState(0);
 
   return (
     <div className="w-full mb-24">
@@ -21,7 +22,9 @@ function NewPartyPage() {
           setDate={setDate}
         />
       )}
-      {step === "3" && <Driver region={region} />}
+      {step === "3" && (
+        <Driver region={region} driverId={driverId} setDriverId={setDriverId} />
+      )}
     </div>
   );
 }

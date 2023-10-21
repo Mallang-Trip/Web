@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
+import Course from "./Course";
 
 function NewPartyPage() {
   const { step } = useParams();
@@ -25,6 +26,7 @@ function NewPartyPage() {
       {step === "3" && (
         <Driver region={region} driverId={driverId} setDriverId={setDriverId} />
       )}
+      {step === "4" && <Course driverId={driverId} date={date} />}
     </div>
   );
 }

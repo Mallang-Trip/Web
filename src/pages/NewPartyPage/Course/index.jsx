@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getDriverInfo } from "../../../api/driver";
 import { getCourseDetail } from "../../../api/course";
 import { priceToString } from "../../../utils";
@@ -15,10 +16,17 @@ import jeju2 from "../../../assets/images/제주도 이미지 2.jpg";
 import jeju3 from "../../../assets/images/제주도 이미지 3.jpg";
 import jeju4 from "../../../assets/images/제주도 이미지 4.jpg";
 
-function Course({ driverId, date }) {
-  const [driverInfo, setDriverInfo] = useState({});
-  const [planData, setPlanData] = useState({});
-  const [selectedCourseId, setSelectedCourseId] = useState(-1);
+function Course({
+  driverId,
+  date,
+  driverInfo,
+  setDriverInfo,
+  planData,
+  setPlanData,
+  selectedCourseId,
+  setSelectedCourseId,
+}) {
+  const navigation = useNavigate();
 
   const settingDriverInfo = async () => {
     try {
@@ -93,7 +101,7 @@ function Course({ driverId, date }) {
           date[0].getMonth() + 1
         }.${date[0].getDate()}`}
       />
-      <ReservationButton clickHander={() => console.log("예약")} />
+      <ReservationButton clickHander={() => navigation("/party/new/6")} />
     </div>
   );
 }

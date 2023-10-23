@@ -7,21 +7,24 @@ function PartyNumberBox({ memberCount, setMemberCount }) {
     <div className="pb-6">
       <NumberText memberCount={memberCount} />
       <div className="flex gap-2 mt-2">
-        <ProfileButton title={"본인"} />
+        <ProfileButton title={"본인"} selected={memberCount >= 1} />
         <ProfileButton
           title={"동행자"}
           memberCount={memberCount}
           setMemberCount={setMemberCount}
+          selected={memberCount >= 2}
         />
         <ProfileButton
           title={"동행자"}
           memberCount={memberCount}
           setMemberCount={setMemberCount}
+          selected={memberCount >= 3}
         />
         <ProfileButton
           title={"동행자"}
           memberCount={memberCount}
           setMemberCount={setMemberCount}
+          selected={memberCount >= 4}
         />
       </div>
     </div>

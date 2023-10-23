@@ -4,6 +4,7 @@ import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
 import Course from "./Course";
+import Reservation from "./Reservation";
 
 function NewPartyPage() {
   const { step } = useParams();
@@ -11,6 +12,9 @@ function NewPartyPage() {
   const [member, setMember] = useState(1);
   const [date, setDate] = useState([]);
   const [driverId, setDriverId] = useState(0);
+  const [driverInfo, setDriverInfo] = useState({});
+  const [planData, setPlanData] = useState({});
+  const [selectedCourseId, setSelectedCourseId] = useState(-1);
 
   return (
     <div className="w-full mb-24">
@@ -26,7 +30,26 @@ function NewPartyPage() {
       {step === "3" && (
         <Driver region={region} driverId={driverId} setDriverId={setDriverId} />
       )}
-      {step === "4" && <Course driverId={driverId} date={date} />}
+      {step === "4" && (
+        <Course
+          driverId={driverId}
+          date={date}
+          driverInfo={driverInfo}
+          setDriverInfo={setDriverInfo}
+          planData={planData}
+          setPlanData={setPlanData}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+        />
+      )}
+      {step === "6" && (
+        <Reservation
+          member={member}
+          date={date}
+          driverInfo={driverInfo}
+          planData={planData}
+        />
+      )}
     </div>
   );
 }

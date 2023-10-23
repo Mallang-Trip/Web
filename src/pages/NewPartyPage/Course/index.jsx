@@ -10,6 +10,10 @@ import TextArea from "./TextArea";
 import CourseList from "./CourseList";
 import PartyPlan from "./PartyPlan";
 import ReservationButton from "./ReservationButton";
+import jeju1 from "../../../assets/images/제주도 이미지.jpg";
+import jeju2 from "../../../assets/images/제주도 이미지 2.jpg";
+import jeju3 from "../../../assets/images/제주도 이미지 3.jpg";
+import jeju4 from "../../../assets/images/제주도 이미지 4.jpg";
 
 function Course({ driverId, date }) {
   const [driverInfo, setDriverInfo] = useState({});
@@ -54,13 +58,7 @@ function Course({ driverId, date }) {
         introduction={driverInfo.introduction}
       />
       <PartyImageBox
-        images={[
-          driverInfo.profileImg,
-          driverInfo.profileImg,
-          driverInfo.profileImg,
-          driverInfo.profileImg,
-          driverInfo.profileImg,
-        ]}
+        images={[driverInfo.profileImg, jeju1, jeju2, jeju3, jeju4]}
         name={driverInfo.name}
       />
       <HashTagList itemList={["#친절", `#${driverInfo.region}`, "#가격"]} />

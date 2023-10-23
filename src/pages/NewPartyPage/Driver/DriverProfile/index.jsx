@@ -30,6 +30,7 @@ function DriverProfile({
           className="h-8 text-white rounded-full text-xs w-24 bg-primary"
           onClick={(e) => {
             e.stopPropagation();
+            setDriverId(driverId);
             navigation(`/party/new/${Number(step) + 1}`);
           }}
         >

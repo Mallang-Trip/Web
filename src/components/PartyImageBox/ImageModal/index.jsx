@@ -44,7 +44,12 @@ function ImageModal({
             className="w-full flex overflow-hidden flex-shrink-0 rounded-xl"
           >
             {images.map((item, index) => (
-              <img src={item} alt={name} key={index} />
+              <img
+                src={item}
+                alt={name}
+                key={index}
+                className="w-full object-cover"
+              />
             ))}
           </div>
 

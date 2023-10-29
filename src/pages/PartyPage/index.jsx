@@ -41,7 +41,10 @@ function PartyPage() {
         images={partyData.course?.images}
         name={partyData.course?.name}
       />
-      <PartyIconBox />
+      <PartyIconBox
+        images={partyData.course?.images}
+        name={partyData.course?.name}
+      />
       <Period startDate={partyData.startDate} endDate={partyData.endDate} />
       <PartyNumber
         headcount={partyData.headcount}

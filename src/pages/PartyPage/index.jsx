@@ -12,6 +12,7 @@ import SecondCredit from "../../components/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
 import ReservBtn from "./ReservBtn";
 import MapBox from "../../components/PlaceMap/MapBox";
+import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
 function PartyPage() {
   const { partyId } = useParams();
   const [partyData, setPartyData] = useState({});
@@ -63,7 +64,13 @@ function PartyPage() {
         startDate={partyData.startDate}
       />
       <div className="pt-20">
-        <MapBox />
+        <div className="relative">
+          <MapBox />
+
+          <div className="absolute top-5 right-1/3">
+            <RoundBtn name={"새로운 장소 추가"} />
+          </div>
+        </div>
       </div>
       <ReservBtn partyId={partyData.partyId} />
     </div>

@@ -21,7 +21,8 @@ import SuggestButton from "./SuggestButton";
 import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
 import { getPartyDetail, postPartyJoin } from "../../api/party";
-
+import MapBox from "../../components/PlaceMap/MapBox";
+import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
 function CourseSuggestPage() {
   const navigation = useNavigate();
   const { partyId } = useParams();
@@ -139,10 +140,18 @@ function CourseSuggestPage() {
         courseData={courseData}
         setCourseData={setCourseData}
       />
+      <div className="relative">
+        <MapBox />
+        <div className="absolute top-5 right-1/3">
+          <RoundBtn name={"새로운 장소 추가"} />
+        </div>
+      </div>
+
       <PlaceInfoBox
         images={partyData.course?.images}
         name={partyData.course?.name}
       />
+
       <Detailed />
       <CommentList />
       <AddComment />

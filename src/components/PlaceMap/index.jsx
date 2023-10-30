@@ -1,11 +1,10 @@
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
 
-function PlaceSearchPage() {
+function PlaceMap() {
   return (
-    <div>
-      <div className="text-2xl pt-14 pb-3">가고 싶은 여행지를 찾아요</div>
-      <div className="w-full relative">
+    <div className="relative">
+      <div className="relative">
         <MapBox />
         <SearchBox />
       </div>
@@ -13,4 +12,4 @@ function PlaceSearchPage() {
   );
 }
 
-export default PlaceSearchPage;
+export default PlaceMap;

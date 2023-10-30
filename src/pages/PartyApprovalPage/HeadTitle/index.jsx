@@ -1,6 +1,9 @@
 import Vector from "../../../assets/images/Vector.png";
+import { useNavigate } from "react-router-dom";
 
 function HeadTitle({ name, driverName, driverId }) {
+  const navigation = useNavigate();
+
   return (
     <div className="mb-3">
       <div>
@@ -13,7 +16,7 @@ function HeadTitle({ name, driverName, driverId }) {
       </div>
       <div
         className="text-sm text-darkgray cursor-pointer"
-        onClick={() => console.log(driverId)}
+        onClick={() => navigation(`/driver/profile/${driverId}`)}
       >
         <span>{`${driverName} 드라이버`}</span>
         <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />

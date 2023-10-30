@@ -11,14 +11,24 @@ function MapBox() {
       height: "740px",
       zoom: 15,
     });
+    markerData.forEach((marker) => {
+      const tmapMarker = new Tmapv3.Marker({
+        position: new Tmapv3.LatLng(marker.lat, marker.lon),
+        map: map,
+      });
 
-    markerData.forEach(
-      (marker) =>
-        new Tmapv3.Marker({
-          position: new Tmapv3.LatLng(marker.lat, marker.lon),
-          map: map,
-        })
-    );
+      tmapMarker.on("click", function (evt) {
+        console.log(marker);
+      });
+
+      //tmapMarker.style.cursor = "pointer";
+    });
+
+    document.querySelectorAll(".vsm-marker").forEach((item) => {
+      item.addEventListener("mouseenter", () =>
+        item.classList.add("cursor-pointer")
+      );
+    });
   };
 
   const getMarkerData = async () => {

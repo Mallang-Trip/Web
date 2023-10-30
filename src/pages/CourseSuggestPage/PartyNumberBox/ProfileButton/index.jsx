@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function ProfileButton({ title, memberCount, setMemberCount }) {
+function ProfileButton({ title, memberCount, setMemberCount, selected }) {
   const [name, setName] = useState("");
 
   const clickHandler = () => {
@@ -16,9 +16,9 @@ function ProfileButton({ title, memberCount, setMemberCount }) {
   };
 
   useEffect(() => {
-    if (title === "본인") setName("본인");
-    else setName("+");
-  }, []);
+    if (title === "본인") selected && setName("본인");
+    else selected ? setName(title) : setName("+");
+  }, [selected]);
 
   return (
     <button

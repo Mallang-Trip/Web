@@ -77,6 +77,7 @@ function Course({
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
+        availableNewCourse={true}
       />
       <TextArea
         title={"날짜 선택"}

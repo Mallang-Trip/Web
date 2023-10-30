@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { deleteComment, putComment } from "../../../../api/driver";
+import {
+  deleteDestinationComment,
+  putDestinationComment,
+} from "../../../../api/destination";
 import baseProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
 import Info from "../../../../assets/svg/info.svg";
@@ -12,6 +16,7 @@ function Comment({
   isMyComment,
   reviewId,
   images,
+  isDriver,
 }) {
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
@@ -37,7 +42,9 @@ function Comment({
   const rightButtonHandler = async () => {
     if (!modifyMode) {
       try {
-        await deleteComment(reviewId);
+        if (isDriver) await deleteComment(reviewId);
+        else await deleteDestinationComment(reviewId);
+
         alert("성공적으로 댓글을 삭제하였습니다.");
         location.reload();
       } catch (e) {
@@ -54,7 +61,9 @@ function Comment({
     };
 
     try {
-      await putComment(body, reviewId);
+      if (isDriver) await putComment(body, reviewId);
+      else await putDestinationComment(body, reviewId);
+
       alert("성공적으로 댓글을 수정하였습니다.");
       location.reload();
     } catch (e) {
@@ -70,7 +79,6 @@ function Comment({
         <img src={Info} />
         <div className="mx-2.5 flex">
           <img className="mb-1 mr-1" src={Star} />
-          {/* <p className="text-sm">{rate.toFixed(1)}</p> */}
           <input
             type="number"
             step={"0.1"}

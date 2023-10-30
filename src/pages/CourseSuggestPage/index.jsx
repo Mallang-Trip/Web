@@ -21,8 +21,10 @@ import SuggestButton from "./SuggestButton";
 import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
 import { getPartyDetail, postPartyJoin } from "../../api/party";
+import { getDestinationDetail } from "../../api/destination";
 import MapBox from "../../components/PlaceMap/MapBox";
 import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
+
 function CourseSuggestPage() {
   const navigation = useNavigate();
   const { partyId } = useParams();
@@ -35,6 +37,7 @@ function CourseSuggestPage() {
   const [content, setContent] = useState("");
   const [memberCount, setMemberCount] = useState(1);
   const [courseData, setCourseData] = useState([]);
+  const [destinationData, setDestinationData] = useState({});
 
   const suggestHandler = () => {
     if (!register) {
@@ -90,6 +93,17 @@ function CourseSuggestPage() {
     // }
   };
 
+  const getDestinationInfo = async () => {
+    try {
+      const result = await getDestinationDetail(
+        partyData.course.days[0].destinations[0].destinationId
+      );
+      setDestinationData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getPartyData = async () => {
     try {
       const result = await getPartyDetail(partyId);
@@ -103,6 +117,11 @@ function CourseSuggestPage() {
   useEffect(() => {
     getPartyData();
   }, [partyId]);
+
+  useEffect(() => {
+    if (!partyData.partyId) return;
+    getDestinationInfo();
+  }, [partyData]);
 
   if (!partyData.partyId) return null;
   return (
@@ -153,8 +172,11 @@ function CourseSuggestPage() {
       />
 
       <Detailed />
-      <CommentList />
-      <AddComment />
+      <CommentList reviews={destinationData.reviews || []} isDriver={false} />
+      <AddComment
+        id={partyData.course.days[0].destinations[0].destinationId}
+        isDriver={false}
+      />
       <Credit
         shakeCredit={shakeCredit}
         register={register}

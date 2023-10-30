@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../../../api/image";
 import { postComment } from "../../../api/driver";
+import { postDestinationComment } from "../../../api/destination";
 import cameraIcon from "../../../assets/svg/camera.svg";
 import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
 
-function AddComment({ id }) {
+function AddComment({ id, isDriver }) {
   const imageRef = useRef();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
@@ -54,7 +55,9 @@ function AddComment({ id }) {
     };
 
     try {
-      const result = await postComment(body, id);
+      const result = isDriver
+        ? await postComment(body, id)
+        : await postDestinationComment(body, id);
 
       if (result.statusCode === 409) {
         setConfirmMessage("이미 등록된 댓글이 있습니다.");

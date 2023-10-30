@@ -19,8 +19,6 @@ function DriverProfilePage() {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
-      setSelectedCourseId(result.payload.courses[0].courseId);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -29,6 +27,12 @@ function DriverProfilePage() {
   useEffect(() => {
     settingDriverInfo();
   }, [driverId]);
+
+  useEffect(() => {
+    if (selectedCourseId === 0) return;
+    console.log(selectedCourseId);
+    alert("TODO: 예약 페이지로 이동");
+  }, [selectedCourseId]);
 
   if (!driverInfo.driverId) return null;
   return (
@@ -48,8 +52,8 @@ function DriverProfilePage() {
         setSelectedCourseId={setSelectedCourseId}
         availableNewCourse={false}
       />
-      <CommentList reviews={driverInfo.reviews} />
-      <AddComment id={driverId} />
+      <CommentList reviews={driverInfo.reviews} isDriver={true} />
+      <AddComment id={driverId} isDriver={true} />
     </div>
   );
 }

@@ -20,6 +20,7 @@ function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthPlaceMap = Auth(SearchPlacePage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
+  const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
 
   return (
@@ -30,7 +31,7 @@ function App() {
           <Route path="/party/:partyId" element={<PartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"
-            element={<CourseSuggestPage />}
+            element={<AuthCourseSuggestPage />}
           />
           <Route
             path="/party/reservation/:partyId"

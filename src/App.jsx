@@ -20,6 +20,7 @@ function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthPlaceMap = Auth(SearchPlacePage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
+  const AuthDriverProfilePage = Auth(DriverProfilePage, null);
 
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -42,7 +43,7 @@ function App() {
           <Route path="/party/new/:step" element={<NewPartyPage />} />
           <Route
             path="/driver/profile/:driverId"
-            element={<DriverProfilePage />}
+            element={<AuthDriverProfilePage />}
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>

@@ -46,3 +46,9 @@ body::-webkit-scrollbar {
   border: 1px solid #a4a4a4;
   cursor: pointer;
 }
+
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}

@@ -48,7 +48,7 @@ function DriverProfilePage() {
         availableNewCourse={false}
       />
       <CommentList />
-      <AddComment />
+      <AddComment id={driverId} />
     </div>
   );
 }

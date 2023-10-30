@@ -20,6 +20,7 @@ function DriverProfilePage() {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
       setSelectedCourseId(result.payload.courses[0].courseId);
+      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -35,7 +36,7 @@ function DriverProfilePage() {
       <DriverInfo
         name={driverInfo.name}
         reservationCount={driverInfo.reservationCount}
-        avgRate={driverInfo.avgRate}
+        avgRate={driverInfo.avgRate.toFixed(1)}
         introduction={driverInfo.introduction}
       />
       <PartyImageBox images={[driverInfo.profileImg]} name={driverInfo.name} />
@@ -47,7 +48,7 @@ function DriverProfilePage() {
         setSelectedCourseId={setSelectedCourseId}
         availableNewCourse={false}
       />
-      <CommentList />
+      <CommentList reviews={driverInfo.reviews} />
       <AddComment id={driverId} />
     </div>
   );

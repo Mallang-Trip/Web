@@ -54,9 +54,15 @@ function AddComment({ id }) {
     };
 
     try {
-      await postComment(body, id);
-      alert("성공적으로 댓글을 등록하였습니다.");
-      location.reload();
+      const result = await postComment(body, id);
+
+      if (result.statusCode === 409) {
+        setConfirmMessage("이미 등록된 댓글이 있습니다.");
+        setShowConfirmModal(true);
+      } else {
+        alert("성공적으로 댓글을 등록하였습니다.");
+        location.reload();
+      }
     } catch (e) {
       setConfirmMessage("댓글 전송에 실패했습니다.");
       setShowConfirmModal(true);

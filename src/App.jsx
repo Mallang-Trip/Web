@@ -13,13 +13,15 @@ import SearchLayout from "./components/SearchLayout";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
+import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthPlaceMap = Auth(SearchPlacePage, null);
-
   const AuthMyProfilePage = Auth(MyProfilePage, true);
+  const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
+  const AuthDriverProfilePage = Auth(DriverProfilePage, null);
 
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -29,7 +31,7 @@ function App() {
           <Route path="/party/:partyId" element={<PartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"
-            element={<CourseSuggestPage />}
+            element={<AuthCourseSuggestPage />}
           />
           <Route
             path="/party/reservation/:partyId"
@@ -40,6 +42,10 @@ function App() {
             element={<PartyApprovalPage />}
           />
           <Route path="/party/new/:step" element={<NewPartyPage />} />
+          <Route
+            path="/driver/profile/:driverId"
+            element={<AuthDriverProfilePage />}
+          />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 

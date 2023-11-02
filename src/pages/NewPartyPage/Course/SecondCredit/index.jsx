@@ -1,9 +1,8 @@
-import React from "react";
-import { priceToString } from "../../utils";
+import { priceToString } from "../../../../utils";
 
 function SecondCredit({ totalPrice }) {
   return (
-    <div className="mb-5 grid grid-rows-2">
+    <div className="my-6 grid grid-rows-2">
       <p className="text-lg flex font-bold">
         나의 2차 결제금
         <span className="text-sm text-darkgray font-normal pt-1 ml-1">

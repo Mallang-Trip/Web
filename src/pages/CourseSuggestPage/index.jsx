@@ -13,8 +13,8 @@ import TravelerBox from "./TravelerBox";
 import TravelerGreet from "./Atoms/TravelerGreet";
 import PlaceInfoBox from "./PlaceInfoBox";
 import Detailed from "./Atoms/Detailed";
-import CommentList from "./CommentList";
-import AddComment from "./Atoms/AddComment";
+import CommentList from "../../components/Comment/CommentList";
+import AddComment from "../../components/Comment/AddComment";
 import Credit from "../../components/Credit";
 import BottomRefund from "../../components/BottomRefund";
 import Agreement from "./AddAgree";
@@ -22,6 +22,7 @@ import SuggestButton from "./SuggestButton";
 import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
 import { getPartyDetail, postPartyJoin } from "../../api/party";
+import { getDestinationDetail } from "../../api/destination";
 import MapBox from "../../components/PlaceMap/MapBox";
 import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
 import SearchBox from "../../components/PlaceMap/SearchBox";
@@ -29,6 +30,7 @@ import AddPlanBtn from "./AddPlanBtn";
 import { GET } from "../../utils/axios";
 import MapDateBtn from "./Atoms/MapDateBtn";
 import { getSearchInfo } from "../../api/destination";
+
 function CourseSuggestPage() {
   const navigation = useNavigate();
   const { partyId } = useParams();
@@ -41,25 +43,6 @@ function CourseSuggestPage() {
   const [content, setContent] = useState("");
   const [memberCount, setMemberCount] = useState(1);
   const [courseData, setCourseData] = useState([]);
-  const [clicked, setClicked] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState("");
-
-  const handleInputChange = (e) => setSearchKeyword(e.target.value);
-
-  const onKeyHandler = async (e) => {
-    if (e.key === "Enter") {
-      setClicked(true);
-      const result = await getSearchInfo(searchKeyword);
-
-      console.log(result);
-      //  console.log(obj.lot);
-      //console.log(result);
-      //console.log(result);
-    }
-  };
-  async () => {
-    await GET("/api/destination", true);
-  };
 
   const suggestHandler = () => {
     if (!register) {
@@ -115,6 +98,17 @@ function CourseSuggestPage() {
     // }
   };
 
+  const getDestinationInfo = async () => {
+    try {
+      const result = await getDestinationDetail(
+        partyData.course.days[0].destinations[0].destinationId
+      );
+      setDestinationData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getPartyData = async () => {
     try {
       const result = await getPartyDetail(partyId);
@@ -130,6 +124,11 @@ function CourseSuggestPage() {
   useEffect(() => {
     getPartyData();
   }, [partyId]);
+
+  useEffect(() => {
+    if (!partyData.partyId) return;
+    getDestinationInfo();
+  }, [partyData]);
 
   if (!partyData.partyId) return null;
   return (
@@ -219,8 +218,11 @@ function CourseSuggestPage() {
       />
 
       <Detailed />
-      <CommentList />
-      <AddComment />
+      <CommentList reviews={destinationData.reviews || []} isDriver={false} />
+      <AddComment
+        id={partyData.course.days[0].destinations[0].destinationId}
+        isDriver={false}
+      />
       <Credit
         shakeCredit={shakeCredit}
         register={register}

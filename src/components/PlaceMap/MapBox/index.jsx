@@ -3,6 +3,9 @@ import { getAllMarkers } from "../../../api/destination";
 
 function MapBox() {
   const [markerData, setMarkerData] = useState([]);
+  const [search, setSearch] = useState(false);
+
+  const getSearch = () => {};
 
   const initTmap = () => {
     const map = new Tmapv3.Map("TMapApp", {
@@ -39,6 +42,10 @@ function MapBox() {
       console.log(error);
     }
   };
+
+  // const = async()=> {
+
+  // }
 
   useEffect(() => {
     getMarkerData();

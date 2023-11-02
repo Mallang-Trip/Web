@@ -4,7 +4,7 @@ import { GET } from "../../../utils/axios";
 
 function SearchBox() {
   const [searchKeyword, setSearchKeyword] = useState("");
-
+  //const [state, dispatch] = useReducer(,initState);
   const handleInputChange = (e) => setSearchKeyword(e.target.value);
 
   const onKeyHandler = (e) => {
@@ -13,6 +13,9 @@ function SearchBox() {
     }
   };
 
+  async () => {
+    await GET("/api/destination", true);
+  };
   return (
     <div className="absolute top-0 left-0 w-full flex justify-center">
       <div className="relative flex w-64  mr-9 mt-4">

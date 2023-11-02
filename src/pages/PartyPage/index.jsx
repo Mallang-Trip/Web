@@ -70,6 +70,9 @@ function PartyPage() {
           <div className="absolute top-5 right-1/3">
             <RoundBtn name={"새로운 장소 추가"} />
           </div>
+          <div>
+            
+          </div>
         </div>
       </div>
       <ReservBtn partyId={partyData.partyId} />

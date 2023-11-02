@@ -1,7 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function RegionButton({ name, image, price, setRegion }) {
-  const { step } = useParams();
+function RegionButton({
+  name,
+  image,
+  price,
+  setRegion,
+  member,
+  driverId,
+  date,
+}) {
   const navigation = useNavigate();
 
   return (
@@ -9,7 +16,9 @@ function RegionButton({ name, image, price, setRegion }) {
       className="relative h-64 cursor-pointer"
       onClick={() => {
         setRegion(name);
-        navigation(`/party/new/${Number(step) + 1}`);
+        navigation(
+          `/party/new/2?region=${name}&member=${member}&date=${date}&driverId=${driverId}`
+        );
       }}
     >
       <img

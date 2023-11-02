@@ -21,7 +21,7 @@ const regionData = [
   },
 ];
 
-function Region({ setRegion }) {
+function Region({ setRegion, member, driverId, date }) {
   return (
     <>
       <div className="pb-3 pl-5 mx-auto text-2xl text-black font-bold">
@@ -29,7 +29,14 @@ function Region({ setRegion }) {
       </div>
       <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 md:grid-cols-3 lg:grid-cols-4 overflow-auto">
         {regionData.map((item) => (
-          <RegionButton {...item} key={item.name} setRegion={setRegion} />
+          <RegionButton
+            {...item}
+            key={item.name}
+            setRegion={setRegion}
+            member={member}
+            driverId={driverId}
+            date={date}
+          />
         ))}
       </div>
     </>

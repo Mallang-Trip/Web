@@ -8,7 +8,11 @@ function AddPartyBtn() {
   return (
     <div
       className="relative h-64 cursor-pointer"
-      onClick={() => navigation("/party/new/1")}
+      onClick={() =>
+        navigation(
+          `/party/new/1?region=${null}&member=${null}&date=${null}&driverId=${null}`
+        )
+      }
     >
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg text-white rounded-lg bg-primary">
         <div>

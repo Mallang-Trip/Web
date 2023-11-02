@@ -1,7 +1,4 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDriverInfo } from "../../../api/driver";
-import { getCourseDetail } from "../../../api/course";
 import { priceToString } from "../../../utils";
 import PartyImageBox from "../../../components/PartyImageBox";
 import SecondCredit from "./SecondCredit";
@@ -13,44 +10,15 @@ import PartyPlan from "./PartyPlan";
 import ReservationButton from "./ReservationButton";
 
 function Course({
-  driverId,
   date,
   driverInfo,
-  setDriverInfo,
   planData,
-  setPlanData,
   selectedCourseId,
   setSelectedCourseId,
+  member,
+  region,
 }) {
   const navigation = useNavigate();
-
-  const settingDriverInfo = async () => {
-    try {
-      const result = await getDriverInfo(driverId);
-      setDriverInfo(result.payload);
-      setSelectedCourseId(result.payload.courses[0].courseId);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getCourseDetailFunc = async () => {
-    try {
-      const result = await getCourseDetail(selectedCourseId);
-      setPlanData(result.payload);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    settingDriverInfo();
-  }, [driverId]);
-
-  useEffect(() => {
-    if (selectedCourseId <= 0 || !selectedCourseId) return;
-    getCourseDetailFunc();
-  }, [selectedCourseId]);
 
   if (!driverInfo.driverId || !planData.courseId) return null;
   return (
@@ -81,11 +49,13 @@ function Course({
       />
       <TextArea
         title={"날짜 선택"}
-        content={`${date[0].getFullYear()}년 ${
-          date[0].getMonth() + 1
-        }월 ${date[0].getDate()}일~${date[1].getFullYear()}년 ${
-          date[1].getMonth() + 1
-        }월 ${date[1].getDate()}일`}
+        content={`${date.slice(0, 4)}년 ${date.slice(5, 7)}월 ${date.slice(
+          8,
+          10
+        )}일~${date.slice(0, 4)}년 ${date.slice(5, 7)}월 ${date.slice(
+          8,
+          10
+        )}일`}
       />
       <TextArea
         title={"전체 파티 여행비"}
@@ -100,11 +70,18 @@ function Course({
       <SecondCredit totalPrice={planData.totalPrice} />
       <PartyPlan
         planData={planData}
-        startDate={`${date[0].getFullYear()}.${
-          date[0].getMonth() + 1
-        }.${date[0].getDate()}`}
+        startDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(
+          8,
+          10
+        )}`}
       />
-      <ReservationButton clickHander={() => navigation("/party/new/6")} />
+      <ReservationButton
+        clickHander={() =>
+          navigation(
+            `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
+          )
+        }
+      />
     </div>
   );
 }

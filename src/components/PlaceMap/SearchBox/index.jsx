@@ -1,21 +1,6 @@
-import { useState } from "react";
 import cross from "../../../assets/svg/cross.svg";
-import { GET } from "../../../utils/axios";
 
-function SearchBox() {
-  const [searchKeyword, setSearchKeyword] = useState("");
-  //const [state, dispatch] = useReducer(,initState);
-  const handleInputChange = (e) => setSearchKeyword(e.target.value);
-
-  const onKeyHandler = (e) => {
-    if (e.key === "Enter") {
-      GET(`/destination?keyword=${searchKeyword}`, true);
-    }
-  };
-
-  async () => {
-    await GET("/api/destination", true);
-  };
+function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }) {
   return (
     <div className="absolute top-0 left-0 w-full flex justify-center">
       <div className="relative flex w-64  mr-9 mt-4">
@@ -34,15 +19,20 @@ function SearchBox() {
             ></path>
           </svg>
         </div>
-        <input
-          type="text"
-          className="block w-full h-12 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
-          placeholder="여행지를 검색해보세요"
-          value={searchKeyword}
-          onChange={handleInputChange}
-          onKeyDown={onKeyHandler}
-        ></input>
-        <button className="absolute inset-y-0 right-0 items-center pr-3 hover:cursor-pointer">
+        <form onSubmit={submitHandler} className="w-full">
+          <input
+            type="text"
+            className="block w-full h-12 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
+            placeholder="여행지를 검색해보세요"
+            value={searchKeyword}
+            onChange={({ target }) => setSearchKeyword(target.value)}
+          ></input>
+          <button type="submit" className="hidden" />
+        </form>
+        <button
+          className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
+          onClick={() => setSearchKeyword("")}
+        >
           <img src={cross} />
         </button>
       </div>

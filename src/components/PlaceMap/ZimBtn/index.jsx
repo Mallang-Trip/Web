@@ -1,14 +1,14 @@
 import React from "react";
-import ZimHeart from "../../../../assets/svg/zzimHeart.svg";
-import { POST } from "../../../../utils/axios";
+import ZimHeart from "../../../assets/svg/zzimHeart.svg";
+
 function ZimBtn() {
-  const onClickHandler = (e) => {
-    POST(`/destination/dibs/${id}`, true);
-  };
+  // const onClickHandler = (e) => {
+  //   POST(`/destination/dibs/${id}`, true);
+  // };
   return (
     <div
       className="h-8 flex gap-2 place-items-center pl-2 bg-skyblue w-24 md:h-10 border rounded-lg border-primary hover:cursor-pointer  hover:bg-sky-700"
-      onClick={onClickHandler}
+      // onClick={onClickHandler}
     >
       <img className="h-6" src={ZimHeart} />
       <div className="text-primary text-sm font-bold">찜하기</div>

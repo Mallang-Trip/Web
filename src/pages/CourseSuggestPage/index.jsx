@@ -22,8 +22,7 @@ import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
 import { getPartyDetail, postPartyJoin } from "../../api/party";
 import { getDestinationDetail } from "../../api/destination";
-import MapBox from "../../components/PlaceMap/MapBox";
-import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
+import PlaceMap from "../../components/PlaceMap";
 
 function CourseSuggestPage() {
   const navigation = useNavigate();
@@ -38,6 +37,7 @@ function CourseSuggestPage() {
   const [memberCount, setMemberCount] = useState(1);
   const [courseData, setCourseData] = useState([]);
   const [destinationData, setDestinationData] = useState({});
+  const [partyDataReload, setPartyDataReload] = useState(false);
 
   const suggestHandler = () => {
     if (!register) {
@@ -121,7 +121,7 @@ function CourseSuggestPage() {
   useEffect(() => {
     if (!partyData.partyId) return;
     getDestinationInfo();
-  }, [partyData]);
+  }, [partyData, partyDataReload]);
 
   if (!partyData.partyId) return null;
   return (
@@ -159,12 +159,7 @@ function CourseSuggestPage() {
         courseData={courseData}
         setCourseData={setCourseData}
       />
-      <div className="relative">
-        <MapBox />
-        <div className="absolute top-5 right-1/3">
-          <RoundBtn name={"새로운 장소 추가"} />
-        </div>
-      </div>
+      <PlaceMap search={true} newPlace={true} />
 
       <PlaceInfoBox
         images={partyData.course?.images}
@@ -172,10 +167,17 @@ function CourseSuggestPage() {
       />
 
       <Detailed />
-      <CommentList reviews={destinationData.reviews || []} isDriver={false} />
+      <CommentList
+        reviews={destinationData.reviews || []}
+        isDriver={false}
+        reload={partyDataReload}
+        setReload={setPartyDataReload}
+      />
       <AddComment
         id={partyData.course.days[0].destinations[0].destinationId}
         isDriver={false}
+        reload={partyDataReload}
+        setReload={setPartyDataReload}
       />
       <Credit
         shakeCredit={shakeCredit}

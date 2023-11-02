@@ -9,12 +9,18 @@ function Date({ date, setDate }) {
       </div>
       <div className="flex justify-center">
         <Calendar
-          onChange={setDate}
+          onChange={(value) =>
+            setDate(
+              `${value.getFullYear()}-${("0" + (1 + value.getMonth())).slice(
+                -2
+              )}-${("0" + value.getDate()).slice(-2)}`
+            )
+          }
           value={date}
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
-          selectRange={true}
+          selectRange={false}
           calendarType="gregory"
           className="border border-white"
         />

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { getRegionDriver } from "../../../api/driver";
 import DriverProfile from "./DriverProfile";
-import PageButton from "../PageButton";
 
-function Driver({ region, driverId, setDriverId }) {
+function Driver({ region, driverId, setDriverId, date, member }) {
   const [driverData, setDriverData] = useState([]);
 
   const getDriverData = async () => {
@@ -17,7 +16,7 @@ function Driver({ region, driverId, setDriverId }) {
 
   useEffect(() => {
     getDriverData();
-  }, []);
+  }, [region]);
 
   return (
     <>
@@ -31,15 +30,16 @@ function Driver({ region, driverId, setDriverId }) {
             key={item.driverId}
             selectedDriverId={driverId}
             setDriverId={setDriverId}
+            date={date}
+            member={member}
+            region={region}
           />
         ))}
       </div>
-      {driverData.length === 0 ? (
+      {driverData.length === 0 && (
         <div className="w-full text-center">
           {"해당 지역에 등록된 드라이버가 없습니다."}
         </div>
-      ) : (
-        <PageButton />
       )}
     </>
   );

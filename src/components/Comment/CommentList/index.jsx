@@ -3,7 +3,7 @@ import Down from "../../../assets/svg/Polygon 3.svg";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 
-function CommentList({ reviews, isDriver }) {
+function CommentList({ reviews, isDriver, reload, setReload }) {
   const user = useSelector((state) => state.user);
 
   return (
@@ -19,6 +19,8 @@ function CommentList({ reviews, isDriver }) {
           {...item}
           isMyComment={user.userId === item.userId}
           isDriver={isDriver}
+          reload={reload}
+          setReload={setReload}
         />
       ))}
       <button className="text-sm text-darkgray mt-7 mb-6">댓글 더보기</button>

@@ -48,13 +48,9 @@ function Reservation({ member, date, driverInfo, planData }) {
         content: content,
         courseId: planData.courseId,
         driverId: driverInfo.driverId,
-        endDate: `${date[1].getFullYear()}-${
-          date[1].getMonth() + 1
-        }-${date[1].getDate()}`,
+        endDate: date,
         headcount: member,
-        startDate: `${date[0].getFullYear()}-${
-          date[0].getMonth() + 1
-        }-${date[0].getDate()}`,
+        startDate: date,
       };
 
       const result = await postNewParty(body);
@@ -69,18 +65,18 @@ function Reservation({ member, date, driverInfo, planData }) {
     window.scrollTo({ top: 0 });
   }, []);
 
+  if (!driverInfo.driverId || !planData.courseId) return null;
   return (
     <div className="px-2 md:px-5 mb-24">
       <HeadTitle
         name={planData?.name}
         driverName={driverInfo.name}
         driverId={driverInfo.driverId}
-        startDate={`${date[0].getFullYear()}.${
-          date[0].getMonth() + 1
-        }.${date[0].getDate()}`}
-        endDate={`${date[1].getFullYear()}.${
-          date[1].getMonth() + 1
-        }.${date[1].getDate()}`}
+        startDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(
+          8,
+          10
+        )}`}
+        endDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(8, 10)}`}
       />
       <PartyImageBox images={planData?.images} name={planData?.name} />
       <div className="mt-7">
@@ -101,9 +97,10 @@ function Reservation({ member, date, driverInfo, planData }) {
       <PartyPlan
         edit={false}
         course={planData}
-        startDate={`${date[0].getFullYear()}.${
-          date[0].getMonth() + 1
-        }.${date[0].getDate()}`}
+        startDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(
+          8,
+          10
+        )}`}
       />
       <Credit
         shakeCredit={shakeCredit}

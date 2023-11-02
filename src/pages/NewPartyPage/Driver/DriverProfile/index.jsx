@@ -6,6 +6,9 @@ function DriverProfile({
   driverId,
   selectedDriverId,
   setDriverId,
+  date,
+  member,
+  region,
 }) {
   const { step } = useParams();
   const navigation = useNavigate();
@@ -31,7 +34,9 @@ function DriverProfile({
           onClick={(e) => {
             e.stopPropagation();
             setDriverId(driverId);
-            navigation(`/party/new/${Number(step) + 1}`);
+            navigation(
+              `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
+            );
           }}
         >
           프로필 보기

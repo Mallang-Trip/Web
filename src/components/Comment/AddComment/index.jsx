@@ -8,7 +8,7 @@ import cameraIcon from "../../../assets/svg/camera.svg";
 import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
 
-function AddComment({ id, isDriver }) {
+function AddComment({ id, isDriver, reload, setReload }) {
   const imageRef = useRef();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
@@ -36,7 +36,7 @@ function AddComment({ id, isDriver }) {
   const sumbitHandler = async () => {
     if (!user.auth) return setShowModal(true);
 
-    if (star === 0) {
+    if (star <= 0) {
       setConfirmMessage("별점을 입력해주세요.");
       setShowConfirmModal(true);
       return;
@@ -63,8 +63,7 @@ function AddComment({ id, isDriver }) {
         setConfirmMessage("이미 등록된 댓글이 있습니다.");
         setShowConfirmModal(true);
       } else {
-        alert("성공적으로 댓글을 등록하였습니다.");
-        location.reload();
+        setReload(!reload);
       }
     } catch (e) {
       setConfirmMessage("댓글 전송에 실패했습니다.");

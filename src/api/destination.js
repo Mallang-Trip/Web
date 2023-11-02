@@ -1,6 +1,8 @@
 import { GET, POST, PUT, DELETE } from "../utils/axios";
 
 export const getAllMarkers = async () => await GET("/destination/map", true);
+export const getSearchInfo = async (searchKeyword) =>
+  await GET(`/destination?keyword=${searchKeyword}`, true);
 
 export const getDestinationDetail = async (destinationId) =>
   await GET(`/destination/${destinationId}`, true);

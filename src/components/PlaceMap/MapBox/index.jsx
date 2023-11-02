@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllMarkers } from "../../../api/destination";
-
-function MapBox() {
-  const [markerData, setMarkerData] = useState([]);
+import AddPlanBtn from "../AddPlanBtn";
+import RoundBtn from "../RoundBtn";
+function MapBox({ markerData, setMarkerData, clicked, setClicked }) {
+  const mapRef = useRef();
 
   const initTmap = () => {
+    if (mapRef.current.firstChild)
+      mapRef.current.removeChild(mapRef.current.firstChild);
+
     const map = new Tmapv3.Map("TMapApp", {
       center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
       width: "900px",
@@ -19,6 +23,9 @@ function MapBox() {
 
       tmapMarker.on("click", function (evt) {
         console.log(marker);
+        markerData.unshift(marker);
+        initTmap();
+        setClicked(true);
       });
 
       //tmapMarker.style.cursor = "pointer";
@@ -41,15 +48,11 @@ function MapBox() {
   };
 
   useEffect(() => {
-    getMarkerData();
-  }, []);
-
-  useEffect(() => {
-    if (markerData.length === 0) return;
-    initTmap();
+    if (markerData.length === 0) getMarkerData();
+    else initTmap();
   }, [markerData]);
 
-  return <div id="TMapApp" className="w-full mx-auto" />;
+  return <div id="TMapApp" className="w-full mx-auto" ref={mapRef} />;
 }
 
 export default MapBox;

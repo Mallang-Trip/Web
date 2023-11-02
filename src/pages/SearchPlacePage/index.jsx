@@ -1,7 +1,7 @@
 import React from "react";
 import PlaceMap from "../../components/PlaceMap";
-import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
-import ZimBtn from "../../components/PlaceMap/Components/ZimBtn";
+import RoundBtn from "../../components/PlaceMap/RoundBtn";
+import ZimBtn from "../../components/PlaceMap/ZimBtn";
 function SearchPlacePage() {
   return (
     <div>

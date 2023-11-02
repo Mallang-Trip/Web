@@ -24,6 +24,7 @@ import { getPartyDetail, postPartyJoin } from "../../api/party";
 import { getDestinationDetail } from "../../api/destination";
 import MapBox from "../../components/PlaceMap/MapBox";
 import RoundBtn from "../../components/PlaceMap/Common/RoundBtn";
+import SearchBox from "../../components/PlaceMap/SearchBox";
 
 function CourseSuggestPage() {
   const navigation = useNavigate();
@@ -114,6 +115,14 @@ function CourseSuggestPage() {
     }
   };
 
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const onKeyHandler = (e) => {
+    if (e.key === "Enter") {
+      GET(`/destination?keyword=${searchKeyword}`, true);
+    }
+  };
+
   useEffect(() => {
     getPartyData();
   }, [partyId]);
@@ -161,6 +170,12 @@ function CourseSuggestPage() {
       />
       <div className="relative">
         <MapBox />
+        <div>
+          <SearchBox
+            value={searchKeyword}
+            setSearchKeyword={setSearchKeyword}
+          />
+        </div>
         <div className="absolute top-5 right-1/3">
           <RoundBtn name={"새로운 장소 추가"} />
         </div>

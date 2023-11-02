@@ -2,16 +2,16 @@ import { useState } from "react";
 import cross from "../../../assets/svg/cross.svg";
 import { GET } from "../../../utils/axios";
 
-function SearchBox() {
-  const [searchKeyword, setSearchKeyword] = useState("");
+function SearchBox({ searchKeyword, setSearchKeyword }) {
+  // const [searchKeyword, setSearchKeyword] = useState("");
 
-  const handleInputChange = (e) => setSearchKeyword(e.target.value);
+  // const handleInputChange = (e) => setSearchKeyword(e.target.value);
 
-  const onKeyHandler = (e) => {
-    if (e.key === "Enter") {
-      GET(`/destination?keyword=${searchKeyword}`, true);
-    }
-  };
+  // const onKeyHandler = (e) => {
+  //   if (e.key === "Enter") {
+  //     GET(`/destination?keyword=${searchKeyword}`, true);
+  //   }
+  // };
 
   return (
     <div className="absolute top-0 left-0 w-full flex justify-center">
@@ -36,8 +36,8 @@ function SearchBox() {
           className="block w-full h-12 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
           placeholder="여행지를 검색해보세요"
           value={searchKeyword}
-          onChange={handleInputChange}
-          onKeyDown={onKeyHandler}
+          onChange={setSearchKeyword(e.target.value)}
+          onKeyDown={() => GET(`/destination?keyword=${searchKeyword}`, true)}
         ></input>
         <button className="absolute inset-y-0 right-0 items-center pr-3 hover:cursor-pointer">
           <img src={cross} />

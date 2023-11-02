@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllMarkers } from "../../../api/destination";
-
-function MapBox({ markerData, setMarkerData }) {
+import AddPlanBtn from "../AddPlanBtn";
+import RoundBtn from "../RoundBtn";
+function MapBox({ markerData, setMarkerData, clicked, setClicked }) {
   const mapRef = useRef();
 
   const initTmap = () => {
@@ -22,6 +23,9 @@ function MapBox({ markerData, setMarkerData }) {
 
       tmapMarker.on("click", function (evt) {
         console.log(marker);
+        markerData.unshift(marker);
+        initTmap();
+        setClicked(true);
       });
 
       //tmapMarker.style.cursor = "pointer";

@@ -38,6 +38,7 @@ function CourseSuggestPage() {
   const [memberCount, setMemberCount] = useState(1);
   const [courseData, setCourseData] = useState([]);
   const [destinationData, setDestinationData] = useState({});
+  const [partyDataReload, setPartyDataReload] = useState(false);
 
   const suggestHandler = () => {
     if (!register) {
@@ -121,7 +122,7 @@ function CourseSuggestPage() {
   useEffect(() => {
     if (!partyData.partyId) return;
     getDestinationInfo();
-  }, [partyData]);
+  }, [partyData, partyDataReload]);
 
   if (!partyData.partyId) return null;
   return (
@@ -172,10 +173,17 @@ function CourseSuggestPage() {
       />
 
       <Detailed />
-      <CommentList reviews={destinationData.reviews || []} isDriver={false} />
+      <CommentList
+        reviews={destinationData.reviews || []}
+        isDriver={false}
+        reload={partyDataReload}
+        setReload={setPartyDataReload}
+      />
       <AddComment
         id={partyData.course.days[0].destinations[0].destinationId}
         isDriver={false}
+        reload={partyDataReload}
+        setReload={setPartyDataReload}
       />
       <Credit
         shakeCredit={shakeCredit}

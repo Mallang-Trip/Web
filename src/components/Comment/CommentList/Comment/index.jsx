@@ -17,6 +17,8 @@ function Comment({
   reviewId,
   images,
   isDriver,
+  reload,
+  setReload,
 }) {
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
@@ -40,13 +42,13 @@ function Comment({
   };
 
   const rightButtonHandler = async () => {
+    // 댓글 삭제
     if (!modifyMode) {
       try {
         if (isDriver) await deleteComment(reviewId);
         else await deleteDestinationComment(reviewId);
 
-        alert("성공적으로 댓글을 삭제하였습니다.");
-        location.reload();
+        setReload(!reload);
       } catch (e) {
         console.log(e);
       }
@@ -54,6 +56,7 @@ function Comment({
       return;
     }
 
+    // 댓글 수정
     const body = {
       content: newContent,
       images: images,
@@ -64,8 +67,8 @@ function Comment({
       if (isDriver) await putComment(body, reviewId);
       else await putDestinationComment(body, reviewId);
 
-      alert("성공적으로 댓글을 수정하였습니다.");
-      location.reload();
+      setReload(!reload);
+      setModifyMode(false);
     } catch (e) {
       console.log(e);
     }

@@ -18,30 +18,37 @@ import SearchPlacePage from "./pages/SearchPlacePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
-  const AuthPlaceMap = Auth(SearchPlacePage, null);
-  const AuthMyProfilePage = Auth(MyProfilePage, true);
+  const AuthPartyPage = Auth(PartyPage, null);
   const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
+  const AuthReservationPage = Auth(ReservationPage, true);
+  const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
+  const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
+  const AuthMyProfilePage = Auth(MyProfilePage, true);
+  const AuthLoginPage = Auth(LoginPage, false);
+  const AuthLoginSearchPage = Auth(LoginSearchPage, false);
+  const AuthSignupPage = Auth(SignupPage, false);
+  const AuthPlaceMap = Auth(SearchPlacePage, null);
 
   return (
     <div className="max-w-screen-xl mx-auto">
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
-          <Route path="/party/:partyId" element={<PartyPage />} />
+          <Route path="/party/:partyId" element={<AuthPartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"
             element={<AuthCourseSuggestPage />}
           />
           <Route
             path="/party/reservation/:partyId"
-            element={<ReservationPage />}
+            element={<AuthReservationPage />}
           />
           <Route
             path="/party/approval/:type/:partyId"
-            element={<PartyApprovalPage />}
+            element={<AuthPartyApprovalPage />}
           />
-          <Route path="/party/new/:step" element={<NewPartyPage />} />
+          <Route path="/party/new/:step" element={<AuthNewPartyPage />} />
           <Route
             path="/driver/profile/:driverId"
             element={<AuthDriverProfilePage />}
@@ -49,9 +56,9 @@ function App() {
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
         </Route>
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/login/search/:target" element={<LoginSearchPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<AuthLoginPage />} />
+        <Route path="/login/search/:target" element={<AuthLoginSearchPage />} />
+        <Route path="/signup" element={<AuthSignupPage />} />
         <Route element={<SearchLayout />}>
           <Route path="/search" element={<AuthPlaceMap />} />
         </Route>

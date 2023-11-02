@@ -15,7 +15,7 @@ import ReservationButton from "./ReservationButton";
 import BottomRefund from "../../components/BottomRefund";
 import CheckModal from "../../components/CheckModal";
 import HeadTitle from "./HeadTitle";
-
+import PlaceMap from "../../components/PlaceMap";
 function ReservationPage() {
   const navigation = useNavigate();
   const { partyId } = useParams();
@@ -112,6 +112,8 @@ function ReservationPage() {
         course={partyData.course}
         startDate={partyData.startDate}
       />
+      <PlaceMap search={false} newPlace={false} />
+
       <Credit
         shakeCredit={shakeCredit}
         register={register}

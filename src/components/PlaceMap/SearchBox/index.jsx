@@ -29,12 +29,14 @@ function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }) {
           ></input>
           <button type="submit" className="hidden" />
         </form>
-        <button
-          className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
-          onClick={() => setSearchKeyword("")}
-        >
-          <img src={cross} />
-        </button>
+        {searchKeyword && (
+          <button
+            className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
+            onClick={() => setSearchKeyword("")}
+          >
+            <img src={cross} />
+          </button>
+        )}
       </div>
     </div>
   );

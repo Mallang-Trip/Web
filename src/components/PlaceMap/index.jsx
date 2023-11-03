@@ -1,28 +1,35 @@
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
 import RoundBtn from "./RoundBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSearchInfo } from "../../api/destination";
 import ConfirmModal from "../ConfirmModal";
 
-function PlaceMap({ search, newPlace }) {
+function PlaceMap({ search, newPlace, keyword }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const submitHandler = async (e, keyword) => {
+    if (e) e.preventDefault();
 
     try {
-      const resukt = await getSearchInfo(searchKeyword);
+      const result = await getSearchInfo(keyword || searchKeyword);
 
-      if (resukt.payload.length === 0) setShowModal(true);
-      else setMarkerData(resukt.payload);
+      if (result.payload.length === 0) setShowModal(true);
+      else setMarkerData(result.payload);
     } catch (e) {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (!keyword) return;
+
+    setSearchKeyword(keyword);
+    submitHandler(undefined, keyword);
+  }, [keyword]);
 
   return (
     <div className="relative">

@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { getAllMarkers } from "../../../api/destination";
-import AddPlanBtn from "../AddPlanBtn";
-import RoundBtn from "../RoundBtn";
-function MapBox({ markerData, setMarkerData, clicked, setClicked }) {
+
+function MapBox({ markerData, setMarkerData, setClicked }) {
   const mapRef = useRef();
 
   const initTmap = () => {

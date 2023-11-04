@@ -25,7 +25,7 @@ function PlaceMap({ search, newPlace, keyword }) {
   };
 
   useEffect(() => {
-    if (!keyword) return;
+    if (!keyword || keyword === "null") return;
 
     setSearchKeyword(keyword);
     submitHandler(undefined, keyword);
@@ -49,7 +49,7 @@ function PlaceMap({ search, newPlace, keyword }) {
         )}
       </div>
       {newPlace && (
-        <div className="absolute top-5 right-1/3">
+        <div className="absolute md:top-5 md:right-1/3 top-16 right-2/3">
           <RoundBtn name={"새로운 장소 추가"} />
         </div>
       )}

@@ -3,7 +3,7 @@ import cross from "../../../assets/svg/cross.svg";
 function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }) {
   return (
     <div className="absolute top-0 left-0 w-full flex justify-center">
-      <div className="relative flex w-64  mr-9 mt-4">
+      <div className="relative flex w-48 md:w-64 mt-4">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
             className="w-5 h-5 text-primary"
@@ -22,7 +22,7 @@ function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }) {
         <form onSubmit={submitHandler} className="w-full">
           <input
             type="text"
-            className="block w-full h-12 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
+            className="block w-full h-10 md:h-12 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
             placeholder="여행지를 검색해보세요"
             value={searchKeyword}
             onChange={({ target }) => setSearchKeyword(target.value)}

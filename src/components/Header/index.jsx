@@ -80,7 +80,10 @@ function Header() {
               <img src={Logo} className="mr-3 w-28" alt="Mallang_Trip_Logo" />
             </Link>
           </div>
-          <button className="flex items-center md:hidden">
+          <button
+            className="flex items-center md:hidden"
+            onClick={() => navigation(`/search/place/null`)}
+          >
             <svg
               className="w-6 h-6 text-primary"
               aria-hidden="true"

@@ -14,6 +14,7 @@ function DriverProfilePage() {
   const { driverId } = useParams();
   const [driverInfo, setDriverInfo] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(0);
+  const [reload, setReload] = useState(false);
 
   const settingDriverInfo = async () => {
     try {
@@ -26,7 +27,7 @@ function DriverProfilePage() {
 
   useEffect(() => {
     settingDriverInfo();
-  }, [driverId]);
+  }, [driverId, reload]);
 
   useEffect(() => {
     if (selectedCourseId === 0) return;
@@ -56,8 +57,18 @@ function DriverProfilePage() {
         setSelectedCourseId={setSelectedCourseId}
         availableNewCourse={false}
       />
-      <CommentList reviews={driverInfo.reviews} isDriver={true} />
-      <AddComment id={driverId} isDriver={true} />
+      <CommentList
+        reviews={driverInfo.reviews}
+        isDriver={true}
+        reload={reload}
+        setReload={setReload}
+      />
+      <AddComment
+        id={driverId}
+        isDriver={true}
+        reload={reload}
+        setReload={setReload}
+      />
     </div>
   );
 }

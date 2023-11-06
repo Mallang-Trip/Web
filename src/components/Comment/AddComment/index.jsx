@@ -64,6 +64,8 @@ function AddComment({ id, isDriver, reload, setReload }) {
         setShowConfirmModal(true);
       } else {
         setReload(!reload);
+        setStar("");
+        setComment("");
       }
     } catch (e) {
       setConfirmMessage("댓글 전송에 실패했습니다.");

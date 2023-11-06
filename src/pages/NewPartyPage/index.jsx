@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
 import Region from "./Region";
@@ -11,20 +11,24 @@ import PageButton from "./PageButton";
 
 function NewPartyPage() {
   const { step } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [region, setRegion] = useState("");
   const [member, setMember] = useState(1);
   const [date, setDate] = useState();
   const [driverId, setDriverId] = useState(0);
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
-  const [selectedCourseId, setSelectedCourseId] = useState(-1);
+  const [selectedCourseId, setSelectedCourseId] = useState(
+    location.state ? location.state.selectedCourseId : -1
+  );
 
   const settingDriverInfo = async () => {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
-      setSelectedCourseId(result.payload.courses[0].courseId);
+      if (!location.state)
+        setSelectedCourseId(result.payload.courses[0].courseId);
     } catch (e) {
       console.log(e);
     }

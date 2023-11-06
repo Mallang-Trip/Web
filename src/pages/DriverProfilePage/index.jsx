@@ -10,7 +10,7 @@ import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
 
 function DriverProfilePage() {
-  // const navigation = useNavigate();
+  const navigation = useNavigate();
   const { driverId } = useParams();
   const [driverInfo, setDriverInfo] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(0);
@@ -30,8 +30,12 @@ function DriverProfilePage() {
 
   useEffect(() => {
     if (selectedCourseId === 0) return;
-    console.log(selectedCourseId);
-    alert("TODO: 예약 페이지로 이동");
+    navigation(
+      `/party/new/2?region=${driverInfo.region}&member=1&date=null&driverId=${driverId}`,
+      {
+        state: { selectedCourseId: selectedCourseId },
+      }
+    );
   }, [selectedCourseId]);
 
   if (!driverInfo.driverId) return null;

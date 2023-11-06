@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { getAllMarkers } from "../../../api/destination";
 
-function MapBox({ markerData, setMarkerData, setClicked }) {
+function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
   const mapRef = useRef();
 
   const initTmap = () => {
@@ -28,6 +28,7 @@ function MapBox({ markerData, setMarkerData, setClicked }) {
         markerData.unshift(marker);
         initTmap();
         setClicked(true);
+        setClickedData(marker);
       });
 
       //tmapMarker.style.cursor = "pointer";

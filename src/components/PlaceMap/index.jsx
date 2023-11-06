@@ -10,6 +10,7 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
   const [markerData, setMarkerData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [clickedData, setClickedData] = useState({});
 
   const submitHandler = async (e, keyword) => {
     if (e) e.preventDefault();
@@ -40,6 +41,7 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
           setMarkerData={setMarkerData}
           clicked={clicked}
           setClicked={setClicked}
+          setClickedData={setClickedData}
         />
         {search && (
           <SearchBox
@@ -62,7 +64,10 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
 
       {detail && clicked && (
         <div className="absolute bottom-10 left-0 w-full flex justify-center items-center">
-          <RoundBtn name={"여행지 상세보기"} />
+          <RoundBtn
+            name={"여행지 상세보기"}
+            onClick={() => console.log(clickedData)}
+          />
         </div>
       )}
 

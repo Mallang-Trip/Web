@@ -161,12 +161,9 @@ function CourseSuggestPage() {
       />
       <PlaceMap search={true} newPlace={true} />
 
-      <PlaceInfoBox
-        images={partyData.course?.images}
-        name={partyData.course?.name}
-      />
+      <PlaceInfoBox {...partyData.course} />
 
-      <Detailed />
+      <Detailed content={partyData.course.content} />
       <CommentList
         reviews={destinationData.reviews || []}
         isDriver={false}

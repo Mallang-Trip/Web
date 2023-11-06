@@ -14,6 +14,7 @@ import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
 import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
+import DestinationPage from "./pages/DestinationPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -28,6 +29,7 @@ function App() {
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
   const AuthSignupPage = Auth(SignupPage, false);
   const AuthSearchPlacePage = Auth(SearchPlacePage, null);
+  const AuthDestinationPage = Auth(DestinationPage, null);
 
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -56,6 +58,10 @@ function App() {
           <Route
             path="/search/place/:keyword"
             element={<AuthSearchPlacePage />}
+          />
+          <Route
+            path="/destination/detail/:destinationId"
+            element={<AuthDestinationPage />}
           />
         </Route>
 

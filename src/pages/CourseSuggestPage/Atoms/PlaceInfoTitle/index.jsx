@@ -1,19 +1,18 @@
-import React from "react";
 import star from "../../../../assets/svg/star.svg";
 
-function PlaceInfoTitle() {
+function PlaceInfoTitle({ name, views, avgRate, address }) {
   return (
     <div className="mb-4">
       <div className="mb-1 pt-6 flex">
-        <p className="text-2xl font-bold">오설록 티 뮤지엄</p>
+        <p className="text-2xl font-bold">{name}</p>
         <div className="flex gap-1 m-2 mt-3 text-xs">
-          <span>방문 100회</span>
+          <span>{`방문 ${views}회`}</span>
           <span>|</span>
           <img className="mb-1" src={star} />
-          <span>4.7</span>
+          <span>{avgRate ? avgRate.toFixed(1) : "0.0"}</span>
         </div>
       </div>
-      <div className="text-sm">제주 서귀포시 안덕면 신화여사로 15 오설록</div>
+      <div className="text-sm">{address}</div>
     </div>
   );
 }

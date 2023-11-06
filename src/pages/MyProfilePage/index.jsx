@@ -6,6 +6,7 @@ import { makePhoneNumber } from "../../utils";
 import profileImage from "../../assets/images/profileImage.png";
 import EditButton from "../../components/EditButton";
 import Information from "./Information";
+import NewPasswordModal from "./NewPasswordModal";
 
 function MyProfilePage() {
   const user = useSelector((state) => state.user);
@@ -16,6 +17,7 @@ function MyProfilePage() {
   const [introduction, setIntroduction] = useState(user.introduction);
   const [email, setEmail] = useState(user.email);
   const [modifyProfileImage, setModifyProfileImage] = useState(undefined);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   const imageHandler = () => {
     let imageFile = document.getElementById("profileImage_input").files[0];
@@ -136,10 +138,14 @@ function MyProfilePage() {
         <Information title={"비밀번호"} content={"*********"} />
         <EditButton
           className="w-36"
-          onClick={() => console.log("profile")}
+          onClick={() => setShowPasswordModal(true)}
           title="비밀번호 변경"
         />
       </div>
+      <NewPasswordModal
+        showModal={showPasswordModal}
+        setShowModal={setShowPasswordModal}
+      />
     </div>
   );
 }

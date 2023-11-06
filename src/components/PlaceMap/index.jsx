@@ -1,11 +1,13 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getSearchInfo } from "../../api/destination";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
 import RoundBtn from "./RoundBtn";
-import { useEffect, useState } from "react";
-import { getSearchInfo } from "../../api/destination";
 import ConfirmModal from "../ConfirmModal";
 
 function PlaceMap({ search, newPlace, keyword, detail }) {
+  const navigation = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -66,7 +68,9 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
         <div className="absolute bottom-10 left-0 w-full flex justify-center items-center">
           <RoundBtn
             name={"여행지 상세보기"}
-            onClick={() => console.log(clickedData)}
+            onClick={() =>
+              navigation(`/destination/detail/${clickedData.destinationId}`)
+            }
           />
         </div>
       )}

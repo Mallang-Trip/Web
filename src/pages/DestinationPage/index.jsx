@@ -15,7 +15,6 @@ function DestinationPage() {
     try {
       const result = await getDestinationDetail(destinationId);
       setDestinationInfo(result.payload);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }

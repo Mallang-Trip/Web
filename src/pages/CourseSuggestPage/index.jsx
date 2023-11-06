@@ -123,7 +123,7 @@ function CourseSuggestPage() {
     getDestinationInfo();
   }, [partyData, partyDataReload]);
 
-  if (!partyData.partyId) return null;
+  if (!partyData.partyId || !destinationData.destinationId) return null;
   return (
     <div className="px-2 md:px-5 mb-24">
       <HeadTitle
@@ -161,8 +161,7 @@ function CourseSuggestPage() {
       />
       <PlaceMap search={true} newPlace={true} />
 
-      <PlaceInfoBox {...partyData.course} />
-
+      <PlaceInfoBox {...destinationData} />
       <Detailed content={partyData.course.content} />
       <CommentList
         reviews={destinationData.reviews || []}

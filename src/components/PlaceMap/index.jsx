@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getSearchInfo } from "../../api/destination";
 import ConfirmModal from "../ConfirmModal";
 
-function PlaceMap({ search, newPlace, keyword }) {
+function PlaceMap({ search, newPlace, keyword, detail }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +14,7 @@ function PlaceMap({ search, newPlace, keyword }) {
   const submitHandler = async (e, keyword) => {
     if (e) e.preventDefault();
 
+    setClicked(false);
     try {
       const result = await getSearchInfo(keyword || searchKeyword);
 
@@ -49,13 +50,19 @@ function PlaceMap({ search, newPlace, keyword }) {
         )}
       </div>
       {newPlace && (
-        <div className="absolute md:top-5 md:right-1/3 top-16 right-2/3">
+        <div className="absolute md:top-5 right-0 top-16 mr-56">
           <RoundBtn name={"새로운 장소 추가"} />
         </div>
       )}
-      {newPlace && clicked && (
-        <div className="absolute bottom-20 left-2/3 w-full">
+      {newPlace && clicked && !detail && (
+        <div className="absolute bottom-10 left-0 w-full flex justify-center items-center">
           <RoundBtn name={"여행 일정에 추가하기"} />
+        </div>
+      )}
+
+      {detail && clicked && (
+        <div className="absolute bottom-10 left-0 w-full flex justify-center items-center">
+          <RoundBtn name={"여행지 상세보기"} />
         </div>
       )}
 

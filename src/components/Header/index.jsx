@@ -36,6 +36,9 @@ function Header() {
 
   const searchHandler = (e) => {
     e.preventDefault();
+    if (searchKeyword === "") return;
+
+    setSearchKeyword("");
     navigation(`/search/place/${searchKeyword}`);
   };
 

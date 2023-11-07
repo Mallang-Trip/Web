@@ -9,12 +9,12 @@ import PartyPage from "./pages/PartyPage";
 import SignupPage from "./pages/SignupPage";
 import CourseSuggestPage from "./pages/CourseSuggestPage";
 import MyProfilePage from "./pages/MyProfilePage";
-import SearchLayout from "./components/SearchLayout";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
 import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
+import DestinationPage from "./pages/DestinationPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -28,7 +28,8 @@ function App() {
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
   const AuthSignupPage = Auth(SignupPage, false);
-  const AuthPlaceMap = Auth(SearchPlacePage, null);
+  const AuthSearchPlacePage = Auth(SearchPlacePage, null);
+  const AuthDestinationPage = Auth(DestinationPage, null);
 
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -54,14 +55,19 @@ function App() {
             element={<AuthDriverProfilePage />}
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
+          <Route
+            path="/search/place/:keyword"
+            element={<AuthSearchPlacePage />}
+          />
+          <Route
+            path="/destination/detail/:destinationId"
+            element={<AuthDestinationPage />}
+          />
         </Route>
 
         <Route path="/login" element={<AuthLoginPage />} />
         <Route path="/login/search/:target" element={<AuthLoginSearchPage />} />
         <Route path="/signup" element={<AuthSignupPage />} />
-        <Route element={<SearchLayout />}>
-          <Route path="/search" element={<AuthPlaceMap />} />
-        </Route>
       </Routes>
     </div>
   );

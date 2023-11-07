@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { uploadProfileImage } from "../../api/image";
+import { putProfile } from "../../api/profile";
+import { makePhoneNumber } from "../../utils";
 import profileImage from "../../assets/images/profileImage.png";
 import EditButton from "../../components/EditButton";
-import { makePhoneNumber } from "../../utils";
 import Information from "./Information";
+import NewPasswordModal from "./NewPasswordModal";
 
 function MyProfilePage() {
   const user = useSelector((state) => state.user);
+  const imageRef = useRef();
   const [modifyMode, setModifyMode] = useState(false);
   const [modifyImage, setModifyImage] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [introduction, setIntroduction] = useState(user.introduction);
   const [email, setEmail] = useState(user.email);
+  const [modifyProfileImage, setModifyProfileImage] = useState(undefined);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
+  const imageHandler = () => {
+    let imageFile = document.getElementById("profileImage_input").files[0];
+    setModifyProfileImage(imageFile || undefined);
+  };
   const introductionHandler = (e) => {
     if (e.target.value.length <= 15) setIntroduction(e.target.value);
   };
   const phoneNumberHandler = (e) => setPhoneNumber(e.target.value);
   const emailHandler = (e) => setEmail(e.target.value);
+
+  const modifyProfileHandler = async () => {
+    if (!modifyMode) return setModifyMode(true);
+
+    const profileImageURL = modifyProfileImage
+      ? await uploadProfileImage(modifyProfileImage)
+      : user.profileImg;
+
+    try {
+      await putProfile({
+        email: email,
+        introduction: introduction,
+        nickname: user.nickname,
+        profileImg: profileImageURL,
+      });
+
+      alert("프로필 정보가 성공적으로 수정되었습니다.");
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="max-w-screen-xl px-5 mb-24">
@@ -29,16 +61,33 @@ function MyProfilePage() {
           onMouseLeave={() => modifyMode && setModifyImage(false)}
         >
           <img
-            src={user.profileImg || profileImage}
+            src={
+              modifyProfileImage
+                ? URL.createObjectURL(modifyProfileImage)
+                : user.profileImg || profileImage
+            }
             alt="profileImage"
             className="w-full h-full rounded-full"
           />
           {modifyImage && (
-            <div className="absolute top-0 left-0 w-full h-full rounded-full flex justify-center items-center bg-black bg-opacity-50 cursor-pointer">
-              <div className="whitespace-pre-line text-center text-sm text-white">
-                {"프로필 사진\n변경하기"}
+            <>
+              <div
+                className="absolute top-0 left-0 w-full h-full rounded-full flex justify-center items-center bg-black bg-opacity-50 cursor-pointer"
+                onClick={() => imageRef.current.click()}
+              >
+                <div className="whitespace-pre-line text-center text-sm text-white">
+                  {"프로필 사진\n변경하기"}
+                </div>
               </div>
-            </div>
+              <input
+                ref={imageRef}
+                className="hidden"
+                id="profileImage_input"
+                type="file"
+                accept="image/*"
+                onChange={imageHandler}
+              />
+            </>
           )}
         </div>
       </div>
@@ -48,7 +97,7 @@ function MyProfilePage() {
         </div>
         <EditButton
           className="absolute top-0 right-0"
-          onClick={() => setModifyMode((modifyMode) => !modifyMode)}
+          onClick={modifyProfileHandler}
           title={modifyMode ? "저장" : "프로필 수정"}
         />
       </div>
@@ -66,8 +115,9 @@ function MyProfilePage() {
         <Information
           title={"전화번호"}
           content={makePhoneNumber(phoneNumber)}
-          modifyMode={modifyMode}
-          onChangeHandler={phoneNumberHandler}
+          // modifyMode={modifyMode}
+          // onChangeHandler={phoneNumberHandler}
+          // 본인 인증 구현되기 전까지 수정 불가 상태로 전환
         />
         <Information
           title={"한줄 소개"}
@@ -88,10 +138,14 @@ function MyProfilePage() {
         <Information title={"비밀번호"} content={"*********"} />
         <EditButton
           className="w-36"
-          onClick={() => console.log("profile")}
+          onClick={() => setShowPasswordModal(true)}
           title="비밀번호 변경"
         />
       </div>
+      <NewPasswordModal
+        showModal={showPasswordModal}
+        setShowModal={setShowPasswordModal}
+      />
     </div>
   );
 }

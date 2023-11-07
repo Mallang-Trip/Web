@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import profileImage from "../../assets/images/profileImage.png";
@@ -12,6 +12,7 @@ import { logout } from "../../redux/modules/userSlice";
 function Header() {
   const user = useSelector((state) => state.user);
   const navigation = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
@@ -19,6 +20,7 @@ function Header() {
   const mallang_header = useRef();
   const header_profile = useRef();
   const user_menu = useRef();
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const getMenuPosition = () => {
     const x = header_profile.current?.getBoundingClientRect()?.x;
@@ -30,6 +32,14 @@ function Header() {
     const currentScrollPos = window.scrollY;
     setShowSearch(prevScrollPos > currentScrollPos);
     setPrevScrollPos(currentScrollPos);
+  };
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    if (searchKeyword === "") return;
+
+    setSearchKeyword("");
+    navigation(`/search/place/${searchKeyword}`);
   };
 
   useEffect(() => {
@@ -58,7 +68,6 @@ function Header() {
   return (
     <>
       <nav className="fixed top-0 left-0 w-full bg-white border-gray-200 z-50">
-        {/* <nav className="w-full bg-white border-gray-200"> */}
         <div
           ref={mallang_header}
           className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto"
@@ -74,7 +83,10 @@ function Header() {
               <img src={Logo} className="mr-3 w-28" alt="Mallang_Trip_Logo" />
             </Link>
           </div>
-          <button className="flex items-center md:hidden">
+          <button
+            className="flex items-center md:hidden"
+            onClick={() => navigation(`/search/place/null`)}
+          >
             <svg
               className="w-6 h-6 text-primary"
               aria-hidden="true"
@@ -160,7 +172,7 @@ function Header() {
             </ul>
           </div>
         </div>
-        {showSearch && (
+        {location.pathname.slice(0, 13) !== "/search/place" && showSearch && (
           <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block transition-all duration-700">
             <div className="relative w-64 ml-auto mr-9 lg:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -178,11 +190,16 @@ function Header() {
                   ></path>
                 </svg>
               </div>
-              <input
-                type="text"
-                className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
-                placeholder="여행지를 검색해보세요"
-              />
+              <form onSubmit={searchHandler}>
+                <input
+                  type="text"
+                  className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
+                  placeholder="여행지를 검색해보세요"
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+                <button type="submit" className="hidden" />
+              </form>
             </div>
           </div>
         )}
@@ -268,7 +285,13 @@ function Header() {
           </ul>
         </div>
       </nav>
-      <div className="h-20 md:h-32"></div>
+      <div
+        className={`${
+          location.pathname.slice(0, 13) !== "/search/place"
+            ? "h-20 md:h-32"
+            : "h-16"
+        }`}
+      ></div>
     </>
   );
 }

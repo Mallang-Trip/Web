@@ -9,7 +9,7 @@ import Star from "../../../../assets/svg/star.svg";
 import Info from "../../../../assets/svg/info.svg";
 
 function Comment({
-  profileImage,
+  profileImg,
   nickname,
   rate,
   content,
@@ -77,7 +77,14 @@ function Comment({
   return (
     <div className="mt-7">
       <div className="flex items-center">
-        <img className="w-10 h-10" src={profileImage || baseProfileImage} />
+        <img
+          className="w-10 h-10 rounded-full"
+          src={
+            profileImg.slice(0, 23) === "https://mallang-trip-db"
+              ? profileImg
+              : baseProfileImage
+          }
+        />
         <div className="text-sm ml-1.5 mr-1">{nickname}</div>
         <img src={Info} />
         <div className="mx-2.5 flex">

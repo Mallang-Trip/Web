@@ -6,7 +6,7 @@ function Footer() {
         <div>|</div>
         <button>이용약관</button>
         <div>|</div>
-        <button>개인정보처리방침</button>
+        <button className="text-primary">개인정보처리방침</button>
         <div>|</div>
         <button>위치기반 서비스 이용약관</button>
         <div>|</div>

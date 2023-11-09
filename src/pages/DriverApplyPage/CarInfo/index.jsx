@@ -61,6 +61,7 @@ function CarInfo({ setActiveNext }) {
           className="w-full mb-12 border-b border-darkgray focus:outline-none focus:border-primary"
           value={modelName}
           onChange={(e) => setModelName(e.target.value)}
+          autoComplete="off"
         />
         <input
           type="text"
@@ -69,6 +70,7 @@ function CarInfo({ setActiveNext }) {
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={maxNum}
           onChange={(e) => setMaxNum(onlyNumber(e.target.value))}
+          autoComplete="off"
         />
       </div>
     </div>

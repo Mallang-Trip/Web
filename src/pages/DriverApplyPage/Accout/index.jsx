@@ -34,6 +34,7 @@ function Accout({ setActiveNext }) {
           value={bank}
           onChange={() => {}}
           onClick={() => setShowModal(true)}
+          autoComplete="off"
         />
         <input
           type="text"
@@ -42,6 +43,7 @@ function Accout({ setActiveNext }) {
           className="w-full my-12 border-b border-darkgray focus:outline-none focus:border-primary"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          autoComplete="off"
         />
         <input
           type="text"
@@ -50,6 +52,7 @@ function Accout({ setActiveNext }) {
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={onlyNumber(accoutNumber)}
           onChange={(e) => setAccoutNumber(e.target.value)}
+          autoComplete="off"
         />
       </div>
 
@@ -61,6 +64,7 @@ function Accout({ setActiveNext }) {
           className="w-8 border-b border-darkgray focus:outline-none focus:border-primary text-center"
           value={onlyNumber(hour)}
           onChange={(e) => setHour(e.target.value)}
+          autoComplete="off"
         />
         <span className="text-sm text-darkgray">시간당</span>
         <input
@@ -69,6 +73,7 @@ function Accout({ setActiveNext }) {
           className="w-20 border-b border-darkgray focus:outline-none focus:border-primary text-center"
           value={onlyNumber(money).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           onChange={(e) => setMoney(e.target.value)}
+          autoComplete="off"
         />
         <span className="text-sm text-darkgray">원</span>
       </div>

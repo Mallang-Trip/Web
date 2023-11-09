@@ -6,6 +6,10 @@ export function makePhoneNumber(value) {
   );
 }
 
+export function onlyNumber(value) {
+  return value.replace(/[^0-9]/g, "");
+}
+
 export const priceToString = (price) => {
   return price.toLocaleString("en-US");
 };

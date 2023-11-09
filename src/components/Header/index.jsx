@@ -264,12 +264,15 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <button
+                onClick={() => {
+                  navigation("/driver/apply");
+                  setShowUserMenu(false);
+                }}
+                className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 드라이버로 등록하기
-              </Link>
+              </button>
             </li>
             <li>
               <button

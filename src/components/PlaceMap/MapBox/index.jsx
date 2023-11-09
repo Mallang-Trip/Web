@@ -1,18 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { getAllMarkers } from "../../../api/destination";
-import AddPlanBtn from "../AddPlanBtn";
-import RoundBtn from "../RoundBtn";
-function MapBox({ markerData, setMarkerData, clicked, setClicked }) {
+
+function MapBox({
+  markerData,
+  setMarkerData,
+  setClicked,
+  setClickedData,
+  course,
+}) {
   const mapRef = useRef();
 
   const initTmap = () => {
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 
+    const mapWidth = window.screen.width > 900 ? 900 : window.screen.width;
+    const mapHeight = (mapWidth * 740) / 900;
+
     const map = new Tmapv3.Map("TMapApp", {
       center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
-      width: "900px",
-      height: "740px",
+      width: mapWidth + "px",
+      height: mapHeight + "px",
       zoom: 15,
     });
     markerData.forEach((marker) => {
@@ -26,6 +34,7 @@ function MapBox({ markerData, setMarkerData, clicked, setClicked }) {
         markerData.unshift(marker);
         initTmap();
         setClicked(true);
+        setClickedData(marker);
       });
 
       //tmapMarker.style.cursor = "pointer";

@@ -11,7 +11,7 @@ import PartyNumber from "./Atoms/PartyNumber";
 import SecondCredit from "../../components/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
 import ReservBtn from "./ReservBtn";
-import PlaceMap from "../../components/PlaceMap";
+import CourseMap from "../../components/CourseMap";
 
 function PartyPage() {
   const { partyId } = useParams();
@@ -63,7 +63,7 @@ function PartyPage() {
         course={partyData.course}
         startDate={partyData.startDate}
       />
-      <PlaceMap search={false} newPlace={false} />
+      <CourseMap />
       <ReservBtn partyId={partyData.partyId} />
     </div>
   );

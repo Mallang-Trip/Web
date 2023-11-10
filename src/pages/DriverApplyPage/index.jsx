@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { applyDriver } from "../../api/driver";
+import { uploadImage } from "../../api/image";
 import Title from "./Title";
 import Stepper from "./Stepper";
 import CarInfo from "./CarInfo";
@@ -27,9 +29,44 @@ function DriverApplyPage() {
   const [introduction, setIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const submitHandler = () => {
-    setStep(step + 1);
-    setShowModal(false);
+  const submitHandler = async () => {
+    const carImageURL = carImage ? await uploadImage(carImage) : null;
+    const driverLicenseURL = driverLicense
+      ? await uploadImage(driverLicense)
+      : null;
+    const taxiLicenseURL = taxiLicense ? await uploadImage(taxiLicense) : null;
+    const insuranceURL = insurance ? await uploadImage(insurance) : null;
+
+    try {
+      const body = {
+        accountHolder: name,
+        accountNumber: accoutNumber,
+        bank: bank,
+        driverLicenceImg: driverLicenseURL,
+        insuranceLicenceImg: insuranceURL,
+        introduction: introduction,
+        prices: [
+          {
+            hours: Number(hour),
+            price: Number(money),
+          },
+        ],
+        region: region,
+        taxiLicenceImg: taxiLicenseURL,
+        vehicleCapacity: Number(maxNum),
+        vehicleImg: carImageURL,
+        vehicleModel: modelName,
+        vehicleNumber: "00가0000",
+      };
+
+      const result = await applyDriver(body);
+      console.log(result);
+      setStep(step + 1);
+      setShowModal(false);
+    } catch (e) {
+      alert("이미 제출된 내용을 심사중이거나, 오류가 발생했습니다.");
+      setShowModal(false);
+    }
   };
 
   return (

@@ -64,7 +64,7 @@ function Profile({
         </p>
         <div className="flex justify-center h-[200px] mt-8 relative">
           <div
-            className="w-[200px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl"
+            className="w-[200px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
             onClick={() => imageRef.current.click()}
           >
             {profileImage && (

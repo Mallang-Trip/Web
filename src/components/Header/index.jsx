@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/modules/userSlice";
+import CheckModal from "../CheckModal";
+import Logo from "../../assets/images/logo.png";
 import profileImage from "../../assets/images/profileImage.png";
 import headerBack from "../../assets/svg/header-back.svg";
 import HeaderChat from "../../assets/svg/HeaderChat.svg";
 import HeaderCommunity from "../../assets/svg/HeaderCommunity.svg";
 import HeaderHeart from "../../assets/svg/HeaderHeart.svg";
-import { logout } from "../../redux/modules/userSlice";
 
 function Header() {
   const user = useSelector((state) => state.user);
@@ -21,6 +22,7 @@ function Header() {
   const header_profile = useRef();
   const user_menu = useRef();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const getMenuPosition = () => {
     const x = header_profile.current?.getBoundingClientRect()?.x;
@@ -276,10 +278,7 @@ function Header() {
             </li>
             <li>
               <button
-                onClick={() => {
-                  dispatch(logout());
-                  setShowUserMenu(false);
-                }}
+                onClick={() => setShowLogoutModal(true)}
                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 로그아웃
@@ -295,6 +294,19 @@ function Header() {
             : "h-16"
         }`}
       ></div>
+
+      <CheckModal
+        showModal={showLogoutModal}
+        setShowModal={setShowLogoutModal}
+        message={"로그아웃 하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => {
+          dispatch(logout());
+          setShowUserMenu(false);
+          setShowLogoutModal(false);
+        }}
+      />
     </>
   );
 }

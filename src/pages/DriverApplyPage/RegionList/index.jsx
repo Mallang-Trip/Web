@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Region from "./Region";
 import jeju from "../../../assets/images/제주도 이미지.jpg";
 import gangwon from "../../../assets/images/강원도 이미지.jpg";
@@ -24,9 +23,7 @@ const regionData = [
   },
 ];
 
-function RegionList({ setActiveNext }) {
-  const [region, setRegion] = useState("");
-
+function RegionList({ setActiveNext, region, setRegion }) {
   const regionHandler = (name) => {
     setRegion(name);
     setActiveNext(true);

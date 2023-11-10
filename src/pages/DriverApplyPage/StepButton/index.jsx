@@ -1,9 +1,14 @@
-import { useState } from "react";
 import CheckModal from "../../../components/CheckModal";
 
-function StepButton({ activeNext, setActiveNext, step, setStep }) {
-  const [showModal, setShowModal] = useState(false);
-
+function StepButton({
+  activeNext,
+  setActiveNext,
+  step,
+  setStep,
+  showModal,
+  setShowModal,
+  submitHandler,
+}) {
   const prevHandler = () => {
     if (step === 1) return;
     setStep(step - 1);
@@ -13,11 +18,6 @@ function StepButton({ activeNext, setActiveNext, step, setStep }) {
     if (step === 5) return setShowModal(true);
     setStep(step + 1);
     setActiveNext(false);
-  };
-
-  const submitHandler = () => {
-    setStep(step + 1);
-    setShowModal(false);
   };
 
   if (step > 5) return null;

@@ -1,11 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { onlyNumber } from "../../../utils";
 
-function CarInfo({ setActiveNext }) {
+function CarInfo({
+  setActiveNext,
+  carImage,
+  setCarImage,
+  modelName,
+  setModelName,
+  maxNum,
+  setMaxNum,
+}) {
   const imageRef = useRef();
-  const [carImage, setCarImage] = useState(undefined);
-  const [modelName, setModelName] = useState("");
-  const [maxNum, setMaxNum] = useState("");
 
   const imageHandler = () => {
     const imageFile = document.getElementById("carImage_input").files[0];

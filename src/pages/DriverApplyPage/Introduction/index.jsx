@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-function Introduction({ setActiveNext }) {
-  const [introduction, setIntroduction] = useState("");
-
+function Introduction({ setActiveNext, introduction, setIntroduction }) {
   useEffect(() => {
     setActiveNext(true);
   }, []);

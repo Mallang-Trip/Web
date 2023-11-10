@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ImageInput from "./ImageInput";
 
-function DriverDocument({ setActiveNext }) {
-  const [driverLicense, setDriverLicense] = useState(undefined);
-  const [taxiLicense, setTaxiLicense] = useState(undefined);
-  const [insurance, setInsurance] = useState(undefined);
-
+function DriverDocument({
+  setActiveNext,
+  driverLicense,
+  setDriverLicense,
+  taxiLicense,
+  setTaxiLicense,
+  insurance,
+  setInsurance,
+}) {
   const imageHandler = (inputId) => {
     const imageFile = document.getElementById(inputId).files[0];
 

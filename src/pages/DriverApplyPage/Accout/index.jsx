@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { onlyNumber } from "../../../utils";
 import BankModal from "./BankModal";
 
-function Accout({ setActiveNext }) {
-  const [bank, setBank] = useState("");
-  const [name, setName] = useState("");
-  const [accoutNumber, setAccoutNumber] = useState("");
-  const [hour, setHour] = useState("");
-  const [money, setMoney] = useState("");
+function Accout({
+  setActiveNext,
+  bank,
+  setBank,
+  name,
+  setName,
+  accoutNumber,
+  setAccoutNumber,
+  hour,
+  setHour,
+  money,
+  setMoney,
+}) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {

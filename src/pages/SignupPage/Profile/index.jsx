@@ -63,7 +63,10 @@ function Profile({
           (선택 사항) 프로필 사진을 업로드해주세요
         </p>
         <div className="flex justify-center h-[200px] mt-8 relative">
-          <div className="w-[200px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl">
+          <div
+            className="w-[200px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
+            onClick={() => imageRef.current.click()}
+          >
             {profileImage && (
               <img
                 className="object-cover w-full h-full rounded-2xl"
@@ -75,7 +78,7 @@ function Profile({
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 md:translate-x-[120px] md:translate-y-0">
             <label htmlFor="profileImage_input">
               <button
-                className="px-5 py-1 text-sm font-medium bg-white border rounded-full border-gray text-gray"
+                className="px-5 py-1 text-sm bg-white border rounded-full border-darkgray text-darkgray"
                 onClick={() => imageRef.current.click()}
               >
                 사진 업로드

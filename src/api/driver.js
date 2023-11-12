@@ -14,3 +14,6 @@ export const putComment = async (data, reviewId) =>
 
 export const deleteComment = async (reviewId) =>
   await DELETE(`/driver/review/${reviewId}`, true);
+
+export const applyDriver = async (data) =>
+  await POST(`/driver/apply`, data, true);

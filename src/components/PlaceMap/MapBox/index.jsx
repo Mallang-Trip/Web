@@ -17,6 +17,7 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
       height: mapHeight + "px",
       zoom: 15,
     });
+
     markerData.forEach((marker) => {
       const tmapMarker = new Tmapv3.Marker({
         position: new Tmapv3.LatLng(marker.lat, marker.lon),
@@ -30,8 +31,6 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
         setClicked(true);
         setClickedData(marker);
       });
-
-      //tmapMarker.style.cursor = "pointer";
     });
 
     document.querySelectorAll(".vsm-marker").forEach((item) => {

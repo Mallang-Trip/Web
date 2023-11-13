@@ -44,7 +44,6 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
           clicked={clicked}
           setClicked={setClicked}
           setClickedData={setClickedData}
-          course="false"
         />
         {search && (
           <SearchBox

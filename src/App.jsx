@@ -15,6 +15,7 @@ import NewPartyPage from "./pages/NewPartyPage";
 import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
+import DriverApplyPage from "./pages/DriverApplyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -25,6 +26,7 @@ function App() {
   const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
+  const AuthDriverApplyPage = Auth(DriverApplyPage, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
   const AuthSignupPage = Auth(SignupPage, false);
@@ -55,6 +57,7 @@ function App() {
             element={<AuthDriverProfilePage />}
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
+          <Route path="/driver/apply" element={<AuthDriverApplyPage />} />
           <Route
             path="/search/place/:keyword"
             element={<AuthSearchPlacePage />}

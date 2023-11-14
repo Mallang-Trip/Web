@@ -45,8 +45,10 @@ function Header() {
   };
 
   const showSearchBox = () => {
-    location.pathname.slice(0, 13) !== "/search/place" &&
-      location.pathname.slice(0, 6) !== "/intro";
+    return (
+      location.pathname.slice(0, 13) !== "/search/place" &&
+      location.pathname.slice(0, 6) !== "/intro"
+    );
   };
 
   useEffect(() => {

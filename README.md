@@ -1,8 +1,10 @@
-# React + Vite
+# 말랑트립
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![말랑트립](./src/assets/images/logo.png)
 
-Currently, two official plugins are available:
+<br />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [말랑트립 바로가기](https://mallangtrip.com/)
+- [말랑트립 소개 페이지](https://mallangtrip.com/intro)
+
+---

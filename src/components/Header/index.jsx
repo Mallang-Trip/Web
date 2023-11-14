@@ -44,6 +44,11 @@ function Header() {
     navigation(`/search/place/${searchKeyword}`);
   };
 
+  const showSearchBox = () => {
+    location.pathname.slice(0, 13) !== "/search/place" &&
+      location.pathname.slice(0, 6) !== "/intro";
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -174,7 +179,7 @@ function Header() {
             </ul>
           </div>
         </div>
-        {location.pathname.slice(0, 13) !== "/search/place" && showSearch && (
+        {showSearchBox() && showSearch && (
           <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block transition-all duration-700">
             <div className="relative w-64 ml-auto mr-9 lg:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

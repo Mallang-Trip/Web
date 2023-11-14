@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import Auth from "./hoc/Auth";
 import LandingPage from "./pages/LandingPage";
+import IntroPage from "./pages/IntroPage";
 import LoginPage from "./pages/LoginPage";
 import LoginSearchPage from "./pages/LoginSearchPage";
 import PartyPage from "./pages/PartyPage";
@@ -20,6 +21,7 @@ import DriverApplyPage from "./pages/DriverApplyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthIntroPage = Auth(IntroPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
   const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
   const AuthReservationPage = Auth(ReservationPage, true);
@@ -40,6 +42,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
+          <Route path="/intro" element={<AuthIntroPage />} />
           <Route path="/party/:partyId" element={<AuthPartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"

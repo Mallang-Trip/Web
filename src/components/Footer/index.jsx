@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 function Footer() {
+  const navigation = useNavigate();
+
   return (
-    <div className="grid my-5 font-medium text-xs text-slate-600">
-      <div className="flex gap-3 justify-center items-center">
-        <button>회사 소개</button>
+    <div className="grid mt-5 mb-24 md:mb-5 px-3 font-medium text-xs text-slate-600">
+      <div className="flex gap-3 justify-center items-center flex-wrap">
+        <button onClick={() => navigation("/intro")}>회사 소개</button>
         <div>|</div>
         <button>이용약관</button>
         <div>|</div>

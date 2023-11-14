@@ -11,21 +11,23 @@ import PartyNumber from "./Atoms/PartyNumber";
 import SecondCredit from "../../components/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
 import ReservBtn from "./ReservBtn";
-import PlaceMap from "../../components/PlaceMap";
+import CourseMap from "../../components/CourseMap";
 
 function PartyPage() {
   const { partyId } = useParams();
   const [partyData, setPartyData] = useState({});
+  const [markerData, setMarkerData] = useState({});
 
   const getPartyData = async () => {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
+      console.log(result.payload.course.days);
+      setMarkerData(result.payload.course.days);
     } catch (e) {
       console.log(e);
     }
   };
-
   useEffect(() => {
     getPartyData();
   }, [partyId]);
@@ -63,7 +65,12 @@ function PartyPage() {
         course={partyData.course}
         startDate={partyData.startDate}
       />
-      <PlaceMap search={false} newPlace={false} />
+      <CourseMap
+        partyId={partyData.partyId}
+        courseData={partyData}
+        setCourseData={setPartyData}
+        markerData={markerData}
+      />
       <ReservBtn partyId={partyData.partyId} />
     </div>
   );

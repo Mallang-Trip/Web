@@ -9,11 +9,9 @@ function PartyPlan({ edit, startDate, course }) {
   const [planData, setPlanData] = useState([]);
 
   const clickHander = () => navigate(`/party/course/suggest/${partyId}`);
-
   useEffect(() => {
     setPlanData(course.days[0].destinations);
   }, []);
-
   return (
     <div className="w-3/4 mx-auto mt-14">
       <div className="flex justify-between items-center text-lg text-black md:text-2xl font-bold">

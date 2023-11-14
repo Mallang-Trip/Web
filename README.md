@@ -1,7 +1,7 @@
 # 말랑트립
 
-![말랑트립](./src/assets/images/logo.png)
-
+<br />
+<img src="./src/assets/images/logo.png" alt="말랑트립" width="500" />
 <br />
 
 - [말랑트립 바로가기](https://mallangtrip.com/)

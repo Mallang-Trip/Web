@@ -12,6 +12,7 @@ import MyProfilePage from "./pages/MyProfilePage";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
+import PartyHistoryPage from "./pages/PartyHistoryPage";
 import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
@@ -24,6 +25,7 @@ function App() {
   const AuthReservationPage = Auth(ReservationPage, true);
   const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
+  const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
@@ -52,6 +54,7 @@ function App() {
             element={<AuthPartyApprovalPage />}
           />
           <Route path="/party/new/:step" element={<AuthNewPartyPage />} />
+          <Route path="/party/history" element={<AuthPartyHistoryPage />} />
           <Route
             path="/driver/profile/:driverId"
             element={<AuthDriverProfilePage />}

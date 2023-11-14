@@ -250,12 +250,15 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <button
+                onClick={() => {
+                  navigation("/party/history");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 최근 본 파티
-              </Link>
+              </button>
             </li>
             <li>
               <Link

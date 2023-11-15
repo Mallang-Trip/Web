@@ -1,13 +1,7 @@
 import { useEffect, useRef } from "react";
 import { getAllMarkers } from "../../../api/destination";
 
-function MapBox({
-  markerData,
-  setMarkerData,
-  setClicked,
-  setClickedData,
-  course,
-}) {
+function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
   const mapRef = useRef();
 
   const initTmap = () => {

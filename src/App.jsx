@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import Auth from "./hoc/Auth";
 import LandingPage from "./pages/LandingPage";
+import IntroPage from "./pages/IntroPage";
 import LoginPage from "./pages/LoginPage";
 import LoginSearchPage from "./pages/LoginSearchPage";
 import PartyPage from "./pages/PartyPage";
@@ -12,6 +13,7 @@ import MyProfilePage from "./pages/MyProfilePage";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
+import PartyHistoryPage from "./pages/PartyHistoryPage";
 import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
@@ -19,11 +21,13 @@ import DriverApplyPage from "./pages/DriverApplyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthIntroPage = Auth(IntroPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
   const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
   const AuthReservationPage = Auth(ReservationPage, true);
   const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
+  const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
@@ -38,6 +42,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
+          <Route path="/intro" element={<AuthIntroPage />} />
           <Route path="/party/:partyId" element={<AuthPartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"
@@ -52,6 +57,7 @@ function App() {
             element={<AuthPartyApprovalPage />}
           />
           <Route path="/party/new/:step" element={<AuthNewPartyPage />} />
+          <Route path="/party/history" element={<AuthPartyHistoryPage />} />
           <Route
             path="/driver/profile/:driverId"
             element={<AuthDriverProfilePage />}

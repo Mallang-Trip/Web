@@ -13,3 +13,5 @@ export const postPartyJoin = async (data) =>
 
 export const postNewParty = async (data) =>
   await POST("/party/start", data, true);
+
+export const getPartyHistory = async () => await GET(`/party/history`, true);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { putPassword } from "../../../api/profile";
+import { putPassword } from "../../../../api/profile";
 
 function NewPasswordModal({ showModal, setShowModal }) {
   const [nowPassword, setNowPassword] = useState("");

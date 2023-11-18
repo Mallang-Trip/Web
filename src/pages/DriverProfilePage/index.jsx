@@ -45,7 +45,7 @@ function DriverProfilePage() {
       <DriverInfo
         name={driverInfo.name}
         reservationCount={driverInfo.reservationCount}
-        avgRate={driverInfo.avgRate.toFixed(1)}
+        avgRate={driverInfo.avgRate}
         introduction={driverInfo.introduction}
       />
       <PartyImageBox images={[driverInfo.profileImg]} name={driverInfo.name} />

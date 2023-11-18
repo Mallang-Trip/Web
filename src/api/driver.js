@@ -1,7 +1,10 @@
 import { POST, GET, PUT, DELETE } from "../utils/axios";
 
-export const getRegionDriver = async (region) =>
-  await GET(`/driver/list?region=${region}`, true);
+export const getRegionDriver = async (region, member, date) =>
+  await GET(
+    `/driver/search?region=${region}&headcount=${member}&startDate=${date}`,
+    true
+  );
 
 export const getDriverInfo = async (driverId) =>
   await GET(`/driver/${driverId}`, true);

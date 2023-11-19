@@ -7,7 +7,7 @@ function Driver({ region, driverId, setDriverId, date, member }) {
 
   const getDriverData = async () => {
     try {
-      const result = await getRegionDriver(region);
+      const result = await getRegionDriver(region, member, date);
       setDriverData(result.payload);
     } catch (e) {
       console.log(e);

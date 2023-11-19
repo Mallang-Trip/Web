@@ -9,7 +9,7 @@ function DriverInfo({ name, reservationCount, avgRate, introduction }) {
           <span>{`예약 ${reservationCount}회`}</span>
           <span>|</span>
           <img className="mb-1" src={star} />
-          <span>{avgRate || 0.0}</span>
+          <span>{avgRate ? avgRate.toFixed(1) : "0.0"}</span>
         </div>
       </div>
 

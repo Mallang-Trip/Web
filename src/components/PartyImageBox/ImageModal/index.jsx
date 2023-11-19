@@ -41,7 +41,7 @@ function ImageModal({
         <div className="w-full relative">
           <div
             ref={scrollRef}
-            className="w-full flex overflow-hidden flex-shrink-0 rounded-xl"
+            className="w-full flex overflow-hidden flex-shrink-0 rounded-xl aspect-[9/6]"
           >
             {images.map((item, index) => (
               <img

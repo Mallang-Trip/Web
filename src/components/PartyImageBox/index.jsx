@@ -22,7 +22,7 @@ function PartyImageBox({ images, name }) {
       <div className="grid grid-cols-2 mt-2 rounded-3xl overflow-hidden">
         <div className="overflow-hidden">
           <img
-            className="object-cover rounded-l-3xl transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+            className="object-cover w-full h-full rounded-l-3xl transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
             src={IMAGES[0]}
             alt={name}
             onClick={() => imageClickHandler(0)}
@@ -31,7 +31,7 @@ function PartyImageBox({ images, name }) {
         <div className="grid grid-cols-2 overflow-hidden">
           <div className="overflow-hidden">
             <img
-              className="object-cover h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+              className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
               src={IMAGES[1]}
               alt={name}
               onClick={() => imageClickHandler(1)}
@@ -39,7 +39,7 @@ function PartyImageBox({ images, name }) {
           </div>
           <div className="overflow-hidden">
             <img
-              className="rounded-tr-3xl object-cover h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+              className="rounded-tr-3xl object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
               src={IMAGES[2]}
               alt={name}
               onClick={() => imageClickHandler(2)}
@@ -47,7 +47,7 @@ function PartyImageBox({ images, name }) {
           </div>
           <div className="overflow-hidden">
             <img
-              className="object-cover h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+              className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
               src={IMAGES[3]}
               alt={name}
               onClick={() => imageClickHandler(3)}
@@ -55,7 +55,7 @@ function PartyImageBox({ images, name }) {
           </div>
           <div className="overflow-hidden">
             <img
-              className="rounded-br-3xl object-cover h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+              className="rounded-br-3xl object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
               src={IMAGES[4]}
               alt={name}
               onClick={() => imageClickHandler(4)}

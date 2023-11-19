@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { parse } from "postcss";
+
 function Map({ courseData, markerData }) {
+  const mapRef = useRef();
   const [passList, setPassList] = useState("");
+
   const initTmap = async () => {
+    if (mapRef.current.firstChild)
+      mapRef.current.removeChild(mapRef.current.firstChild);
+
     const mapWidth = window.screen.width > 900 ? 900 : window.screen.width;
     const mapHeight = (mapWidth * 740) / 900;
     // console.log(markerData);
@@ -205,7 +211,7 @@ function Map({ courseData, markerData }) {
     initTmap();
   }, [passList]);
 
-  return <div id="TMapApp" className="w-full mx-auto" />;
+  return <div ref={mapRef} id="TMapApp" className="w-full mx-auto" />;
 }
 
 export default Map;

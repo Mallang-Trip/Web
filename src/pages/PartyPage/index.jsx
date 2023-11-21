@@ -22,8 +22,8 @@ function PartyPage() {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
-      console.log(result.payload.course.days);
-      setMarkerData(result.payload.course.days);
+      console.log(result.payload.course.days[0].destinations);
+      setMarkerData(result.payload.course.days[0].destinations);
     } catch (e) {
       console.log(e);
     }
@@ -65,12 +65,7 @@ function PartyPage() {
         course={partyData.course}
         startDate={partyData.startDate}
       />
-      <CourseMap
-        partyId={partyData.partyId}
-        courseData={partyData}
-        setCourseData={setPartyData}
-        markerData={markerData}
-      />
+      <CourseMap partyId={partyData.partyId} markerData={markerData} />
       <ReservBtn partyId={partyData.partyId} />
     </div>
   );

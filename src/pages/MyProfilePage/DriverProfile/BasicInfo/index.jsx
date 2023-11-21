@@ -2,9 +2,11 @@ import Information from "../../UserProfile/Information";
 import { makePhoneNumber } from "../../../../utils";
 import RegionModal from "./RegionModal";
 import { useState } from "react";
+import HolidayModal from "./HolidayModal";
 
 function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
   const [showRegionModal, setShowRegionModal] = useState(false);
+  const [showHolidayModal, setShowHolidayModal] = useState(false);
 
   return (
     <>
@@ -20,6 +22,7 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
           title={"정기 휴일"}
           content={"토, 일"}
           modifyMode={modifyMode}
+          onClick={() => setShowHolidayModal(true)}
         />
         <Information
           title={"입금 계좌"}
@@ -40,6 +43,10 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
         setShowModal={setShowRegionModal}
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
+      />
+      <HolidayModal
+        showModal={showHolidayModal}
+        setShowModal={setShowHolidayModal}
       />
     </>
   );

@@ -10,7 +10,12 @@ function Introduction({ modifyMode, driverInfo, setDriverInfo }) {
         <DriverIntroduction
           modifyMode={modifyMode}
           content={driverInfo.introduction}
-          onChangeHandler={(e) => console.log(e)}
+          onChangeHandler={(e) =>
+            setDriverInfo({
+              ...driverInfo,
+              introduction: e.target.value.slice(0, 300),
+            })
+          }
         />
       </div>
     </>

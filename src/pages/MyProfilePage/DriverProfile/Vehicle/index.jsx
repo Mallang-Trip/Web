@@ -1,6 +1,15 @@
 import Information from "../../UserProfile/Information";
 
-function Vehicle({ modifyMode, driverInfo, setDriverInfo }) {
+function Vehicle({
+  modifyMode,
+  driverInfo,
+  setDriverInfo,
+  vehicleImageRef,
+  modifyVehicleImage,
+  setModifyVehicleImage,
+  newVehicleImage,
+  vehicleImageHandler,
+}) {
   return (
     <>
       <p className="text-lg font-bold text-black mt-12 mb-5">차종</p>
@@ -9,19 +18,58 @@ function Vehicle({ modifyMode, driverInfo, setDriverInfo }) {
           title={"모델 명"}
           content={driverInfo.vehicleModel}
           modifyMode={modifyMode}
-          // onChangeHandler={emailHandler}
+          onChangeHandler={(e) =>
+            setDriverInfo({ ...driverInfo, vehicleModel: e.target.value })
+          }
         />
         <Information
           title={"승객 탑승 정원"}
-          content={`${driverInfo.vehicleCapacity}명`}
+          content={driverInfo.vehicleCapacity}
+          subString={"명"}
           modifyMode={modifyMode}
+          onChangeHandler={(e) =>
+            setDriverInfo({
+              ...driverInfo,
+              vehicleCapacity: e.target.value.replace(/\D/g, ""),
+            })
+          }
         />
       </div>
-      <img
-        src={driverInfo.vehicleImg}
-        alt="taxi_image"
-        className="w-80 mt-5 rounded-2xl mx-auto"
-      />
+
+      <div
+        className="w-80 mt-5 rounded-2xl mx-auto relative"
+        onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
+        onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
+      >
+        <img
+          src={
+            newVehicleImage
+              ? URL.createObjectURL(newVehicleImage)
+              : driverInfo.vehicleImg
+          }
+          alt="vehicleImage"
+          className="w-full h-full rounded-2xl"
+        />
+        {modifyVehicleImage && (
+          <>
+            <div
+              className="absolute top-0 left-0 w-full h-full rounded-2xl flex justify-center items-center bg-black bg-opacity-50 cursor-pointer"
+              onClick={() => vehicleImageRef.current.click()}
+            >
+              <div className="whitespace-pre-line text-center text-base text-white">
+                {"차량 사진\n변경하기"}
+              </div>
+            </div>
+            <input
+              ref={vehicleImageRef}
+              className="hidden"
+              type="file"
+              accept="image/*"
+              onChange={vehicleImageHandler}
+            />
+          </>
+        )}
+      </div>
     </>
   );
 }

@@ -10,9 +10,12 @@ import PartyCourse from "./PartyCourse";
 
 function DriverProfile() {
   const profileImageRef = useRef();
+  const vehicleImageRef = useRef();
   const [modifyMode, setModifyMode] = useState(false);
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
+  const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
+  const [newVehicleImage, setNewVehicleImage] = useState(undefined);
   const [driverInfo, setDriverInfo] = useState({
     accountHolder: "",
     accountNumber: "",
@@ -33,6 +36,10 @@ function DriverProfile() {
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
     setNewProfileImage(imageFile || undefined);
+  };
+  const vehicleImageHandler = () => {
+    const imageFile = vehicleImageRef.current.files[0];
+    setNewVehicleImage(imageFile || undefined);
   };
 
   const modifyProfileHandler = async () => {
@@ -99,6 +106,11 @@ function DriverProfile() {
         modifyMode={modifyMode}
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
+        vehicleImageRef={vehicleImageRef}
+        modifyVehicleImage={modifyVehicleImage}
+        setModifyVehicleImage={setModifyVehicleImage}
+        newVehicleImage={newVehicleImage}
+        vehicleImageHandler={vehicleImageHandler}
       />
       <Price
         modifyMode={modifyMode}

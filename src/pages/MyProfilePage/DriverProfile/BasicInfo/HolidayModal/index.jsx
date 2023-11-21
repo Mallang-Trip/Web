@@ -1,9 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import HolidayDate from "./HolidayDate";
+import HolidayWeekly from "./HolidayWeekly";
 
 function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
+  const [date, setDate] = useState();
+  const [weekly, setWeekly] = useState([]);
+
+  const cancelHandler = () => {
+    setShowModal(false);
+  };
+
+  const confirmHandler = () => {
+    setDriverInfo({
+      ...driverInfo,
+      holidays: [...driverInfo.holidays, date],
+      weeklyHoliday: weekly,
+    });
+    setShowModal(false);
+  };
+
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (showModal) {
+      document.body.classList.add("overflow-hidden");
+      setWeekly([...driverInfo.weeklyHoliday]);
+    } else document.body.classList.remove("overflow-hidden");
   }, [showModal]);
 
   return (
@@ -36,17 +56,21 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             </svg>
           </button>
           <div className="px-6 py-6 lg:px-8">
-            <h3 className="mb-4 text-xl font-bold text-gray-900">
-              휴일 설정하기
-            </h3>
-            <div>달력</div>
+            <HolidayDate date={date} setDate={setDate} />
+            <HolidayWeekly weekly={weekly} setWeekly={setWeekly} />
 
-            <h3 className="mb-4 text-xl font-bold text-gray-900">
-              정기 휴일 설정하기
-            </h3>
-            <div>
-              <button className="w-10 h-10 bg-[#F4F4F4] text-darkgray rounded-full">
-                월
+            <div className="w-full px-2 mt-16 flex justify-between gap-5">
+              <button
+                className="w-full text-darkgray bg-white border border-darkgray font-medium rounded-lg px-5 py-2.5 text-center"
+                onClick={cancelHandler}
+              >
+                취소
+              </button>
+              <button
+                className="w-full text-white bg-primary border border-primary font-medium rounded-lg px-5 py-2.5 text-center"
+                onClick={confirmHandler}
+              >
+                확인
               </button>
             </div>
           </div>

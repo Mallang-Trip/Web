@@ -1,7 +1,8 @@
-import Information from "../../UserProfile/Information";
-import { makePhoneNumber } from "../../../../utils";
-import RegionModal from "./RegionModal";
 import { useState } from "react";
+import { makePhoneNumber } from "../../../../utils";
+import { days } from "../../../../utils/data";
+import Information from "../../UserProfile/Information";
+import RegionModal from "./RegionModal";
 import HolidayModal from "./HolidayModal";
 
 function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
@@ -20,7 +21,14 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
         />
         <Information
           title={"정기 휴일"}
-          content={"토, 일"}
+          content={
+            driverInfo.weeklyHoliday
+              .map((item) => {
+                const foundDay = days.find((day) => day.eng === item);
+                return foundDay ? foundDay.kor : null;
+              })
+              .join(", ") || "없음"
+          }
           modifyMode={modifyMode}
           onClick={() => setShowHolidayModal(true)}
         />
@@ -47,6 +55,8 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
       <HolidayModal
         showModal={showHolidayModal}
         setShowModal={setShowHolidayModal}
+        driverInfo={driverInfo}
+        setDriverInfo={setDriverInfo}
       />
     </>
   );

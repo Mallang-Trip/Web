@@ -14,20 +14,20 @@ function DriverProfile() {
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [driverInfo, setDriverInfo] = useState({
-    userId: 0,
-    profileImg: "",
-    name: "",
-    region: "",
-    weeklyHoliday: [],
-    bank: "",
+    accountHolder: "",
     accountNumber: "",
-    phoneNumber: "",
+    bank: "",
+    holidays: [],
     introduction: "",
-    vehicleModel: "",
+    phoneNumber: "",
+    prices: [],
+    profileImg: "",
+    region: "",
     vehicleCapacity: 0,
     vehicleImg: "",
-    prices: [],
-    courses: "",
+    vehicleModel: "",
+    vehicleNumber: "",
+    weeklyHoliday: [],
   });
 
   const profileImageHandler = () => {

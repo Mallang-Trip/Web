@@ -89,13 +89,13 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             </div>
             <div className="w-full px-2 mt-5 flex justify-between gap-5">
               <button
-                className="w-full text-darkgray bg-white border-2 border-darkgray font-medium rounded-lg px-5 py-2.5 text-center"
+                className="w-full text-darkgray bg-white border border-darkgray font-medium rounded-lg px-5 py-2.5 text-center"
                 onClick={cancelHandler}
               >
                 취소
               </button>
               <button
-                className="w-full text-white bg-primary border-2 border-primary font-medium rounded-lg px-5 py-2.5 text-center"
+                className="w-full text-white bg-primary border border-primary font-medium rounded-lg px-5 py-2.5 text-center"
                 onClick={confirmHandler}
               >
                 확인

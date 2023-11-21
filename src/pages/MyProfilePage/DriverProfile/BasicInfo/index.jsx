@@ -4,10 +4,12 @@ import { days } from "../../../../utils/data";
 import Information from "../../UserProfile/Information";
 import RegionModal from "./RegionModal";
 import HolidayModal from "./HolidayModal";
+import AccountModal from "./AccountModal";
 
 function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showHolidayModal, setShowHolidayModal] = useState(false);
+  const [showAccountModal, setShowAccountModal] = useState(false);
 
   return (
     <>
@@ -36,6 +38,7 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
           title={"입금 계좌"}
           content={`${driverInfo.bank} ${driverInfo.accountNumber}`}
           modifyMode={modifyMode}
+          onClick={() => setShowAccountModal(true)}
         />
         <Information
           title={"전화번호"}
@@ -55,6 +58,12 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
       <HolidayModal
         showModal={showHolidayModal}
         setShowModal={setShowHolidayModal}
+        driverInfo={driverInfo}
+        setDriverInfo={setDriverInfo}
+      />
+      <AccountModal
+        showModal={showAccountModal}
+        setShowModal={setShowAccountModal}
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
       />

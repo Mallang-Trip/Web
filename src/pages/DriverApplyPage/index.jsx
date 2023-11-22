@@ -21,8 +21,8 @@ function DriverApplyPage() {
   const [bank, setBank] = useState("");
   const [name, setName] = useState("");
   const [accoutNumber, setAccoutNumber] = useState("");
-  const [hour, setHour] = useState("");
-  const [money, setMoney] = useState("");
+  const [hour, setHour] = useState(["", "", "", "", ""]);
+  const [money, setMoney] = useState(["", "", "", "", ""]);
   const [driverLicense, setDriverLicense] = useState(undefined);
   const [taxiLicense, setTaxiLicense] = useState(undefined);
   const [insurance, setInsurance] = useState(undefined);
@@ -36,6 +36,14 @@ function DriverApplyPage() {
       : null;
     const taxiLicenseURL = taxiLicense ? await uploadImage(taxiLicense) : null;
     const insuranceURL = insurance ? await uploadImage(insurance) : null;
+    const prices = [];
+    for (let i = 0; i < 5; i++) {
+      if (hour[i] && money[i])
+        prices.push({
+          hours: Number(hour[i]),
+          price: parseFloat(money[i].replace(/,/g, "")),
+        });
+    }
 
     try {
       const body = {
@@ -45,12 +53,7 @@ function DriverApplyPage() {
         driverLicenceImg: driverLicenseURL,
         insuranceLicenceImg: insuranceURL,
         introduction: introduction,
-        prices: [
-          {
-            hours: Number(hour),
-            price: Number(money),
-          },
-        ],
+        prices: prices,
         region: region,
         taxiLicenceImg: taxiLicenseURL,
         vehicleCapacity: Number(maxNum),
@@ -59,8 +62,7 @@ function DriverApplyPage() {
         vehicleNumber: "00가0000",
       };
 
-      const result = await applyDriver(body);
-      console.log(result);
+      await applyDriver(body);
       setStep(step + 1);
       setShowModal(false);
     } catch (e) {

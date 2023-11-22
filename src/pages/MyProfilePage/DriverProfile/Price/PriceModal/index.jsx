@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
-import HolidayDate from "./HolidayDate";
-import HolidayWeekly from "./HolidayWeekly";
+import HourPrice from "../../../../DriverApplyPage/Accout/HourPrice";
 
-function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
-  const [date, setDate] = useState();
-  const [weekly, setWeekly] = useState([]);
+function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
+  const [hour, setHour] = useState([]);
+  const [money, setMoney] = useState([]);
 
   const cancelHandler = () => {
     setShowModal(false);
   };
 
   const confirmHandler = () => {
-    const newHolidays = date
-      ? [...driverInfo.holidays, date]
-      : driverInfo.holidays;
+    const prices = [];
+    for (let i = 0; i < 5; i++) {
+      if (hour[i] && money[i])
+        prices.push({
+          hours: Number(hour[i]),
+          price: parseFloat(money[i].replace(/,/g, "")),
+        });
+    }
+
     setDriverInfo({
       ...driverInfo,
-      holidays: newHolidays,
-      weeklyHoliday: weekly,
+      prices: prices,
     });
     setShowModal(false);
   };
@@ -25,7 +29,15 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   useEffect(() => {
     if (showModal) {
       document.body.classList.add("overflow-hidden");
-      setWeekly([...driverInfo.weeklyHoliday]);
+
+      const basicHour = ["", "", "", "", ""];
+      const basicMoney = ["", "", "", "", ""];
+      driverInfo.prices.forEach((item, index) => {
+        basicHour[index] = item.hours.toString();
+        basicMoney[index] = item.price.toString();
+      });
+      setHour(basicHour);
+      setMoney(basicMoney);
     } else document.body.classList.remove("overflow-hidden");
   }, [showModal]);
 
@@ -40,9 +52,7 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
           <button
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-            onClick={() => {
-              setShowModal(false);
-            }}
+            onClick={cancelHandler}
           >
             <svg
               aria-hidden="true"
@@ -59,10 +69,25 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             </svg>
           </button>
           <div className="px-6 py-6 lg:px-8">
-            <HolidayDate date={date} setDate={setDate} />
-            <HolidayWeekly weekly={weekly} setWeekly={setWeekly} />
+            <h3 className="mb-4 text-xl font-bold text-gray-900">
+              입금 계좌 수정하기
+            </h3>
 
-            <div className="w-full px-2 mt-16 flex justify-between gap-5">
+            <div className="my-9 mx-auto px-2 lg:px-24">
+              {hour.map((item, index) => (
+                <HourPrice
+                  key={index}
+                  hour={hour}
+                  setHour={setHour}
+                  money={money}
+                  setMoney={setMoney}
+                  index={index}
+                  isShow={item !== ""}
+                />
+              ))}
+            </div>
+
+            <div className="w-full px-2 mt-5 flex justify-between gap-5">
               <button
                 className="w-full text-darkgray bg-white border border-darkgray font-medium rounded-lg px-5 py-2.5 text-center"
                 onClick={cancelHandler}
@@ -83,4 +108,4 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   );
 }
 
-export default HolidayModal;
+export default PriceModal;

@@ -22,7 +22,6 @@ function PartyPage() {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
-      console.log(result.payload.course.days[0].destinations);
       setMarkerData(result.payload.course.days[0].destinations);
     } catch (e) {
       console.log(e);

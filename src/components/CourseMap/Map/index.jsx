@@ -62,7 +62,6 @@ function Map({ markerData }) {
   };
 
   const initTmap = async () => {
-    console.log(markerData);
     // 지도 Dom clear
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
@@ -87,25 +86,19 @@ function Map({ markerData }) {
 
     // 경로 탐색 API
     let passList = markerData
-      .slice(1, -1)
-      .reduce((acc, val) => (acc += val.lon + "," + val.lat + "_"));
-    passList = passList.slice(0, -1);
+      .slice(1, markerData.length - 1)
+      .map((marker) => marker.lon + "," + marker.lat)
+      .join("_");
 
     axios
       .post(
         "https://apis.openapi.sk.com/tmap/routes?version=1&format=json",
         {
-          // startX: markerData[0].lon,
-          // startY: markerData[0].lat,
-          // endX: markerData[markerData.length - 1].lon,
-          // endY: markerData[markerData.length - 1].lat,
-          // passList: passList,
-          startX: 127.02810900563199,
-          startY: 37.519892712436906,
-          endX: 127.11971717230388,
-          endY: 37.49288934463672,
-          passList:
-            "127.07389565460413,37.5591696189164_127.13346617572014,37.52127761904626",
+          startX: markerData[0].lon,
+          startY: markerData[0].lat,
+          endX: markerData[markerData.length - 1].lon,
+          endY: markerData[markerData.length - 1].lat,
+          passList: passList,
           reqCoordType: "WGS84GEO",
           resCoordType: "WGS84GEO",
           angle: "172",
@@ -119,8 +112,6 @@ function Map({ markerData }) {
         }
       )
       .then((res) => {
-        console.log(res);
-
         const geoData = drawData(res.data, map);
 
         // 경로탐색 결과 반경만큼 지도 레벨 조정

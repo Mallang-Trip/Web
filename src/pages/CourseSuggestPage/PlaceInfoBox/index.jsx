@@ -13,9 +13,6 @@ function PlaceInfoBox({
   address,
   dibs,
 }) {
-  const imageList = [...images];
-  if (!imageList[0]) imageList[0] = imageList[1];
-
   return (
     <div>
       <PlaceInfoTitle
@@ -24,9 +21,9 @@ function PlaceInfoBox({
         avgRate={avgRate}
         address={address}
       />
-      <PartyImageBox images={imageList} name={name} />
+      <PartyImageBox images={images} name={name} />
       <PartyIconBox
-        images={imageList}
+        images={images}
         name={name}
         dibs={dibs}
         type={type}

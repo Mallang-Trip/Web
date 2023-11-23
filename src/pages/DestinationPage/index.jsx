@@ -27,7 +27,11 @@ function DestinationPage() {
   if (!destinationInfo.destinationId) return null;
   return (
     <div className="px-2 md:px-5 mb-24">
-      <PlaceInfoBox {...destinationInfo} />
+      <PlaceInfoBox
+        {...destinationInfo}
+        type={"destination"}
+        id={destinationInfo.destinationId}
+      />
       <Detailed content={destinationInfo.content} />
       <CommentList
         reviews={destinationInfo.reviews || []}

@@ -138,6 +138,9 @@ function CourseSuggestPage() {
       <PartyIconBox
         images={partyData.course?.images}
         name={partyData.course?.name}
+        dibs={false}
+        type={"party"}
+        id={partyData.partyId}
       />
       <Period startDate={partyData.startDate} endDate={partyData.endDate} />
       <PartyNumberBox
@@ -161,7 +164,11 @@ function CourseSuggestPage() {
       />
       <PlaceMap search={true} newPlace={true} />
 
-      <PlaceInfoBox {...destinationData} />
+      <PlaceInfoBox
+        {...destinationData}
+        type={"destination"}
+        id={partyData.course.days[0].destinations[0].destinationId}
+      />
       <Detailed content={partyData.course.content} />
       <CommentList
         reviews={destinationData.reviews || []}

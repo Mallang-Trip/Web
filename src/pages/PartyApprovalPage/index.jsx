@@ -44,6 +44,9 @@ function PartyApprovalPage() {
       <PartyIconBox
         images={partyData.course?.images}
         name={partyData.course?.name}
+        dibs={false}
+        type={"party"}
+        id={partyData.partyId}
       />
       <Period startDate={partyData.startDate} endDate={partyData.endDate} />
       <Members />

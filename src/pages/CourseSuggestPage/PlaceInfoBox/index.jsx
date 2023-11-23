@@ -3,7 +3,19 @@ import PlaceInfoTitle from "../Atoms/PlaceInfoTitle";
 import PartyImageBox from "../../../components/PartyImageBox";
 import PartyIconBox from "../../../components/PartyIconBox";
 
-function PlaceInfoBox({ images, name, views, avgRate, address }) {
+function PlaceInfoBox({
+  id,
+  type,
+  images,
+  name,
+  views,
+  avgRate,
+  address,
+  dibs,
+}) {
+  const imageList = [...images];
+  if (!imageList[0]) imageList[0] = imageList[1];
+
   return (
     <div>
       <PlaceInfoTitle
@@ -12,8 +24,14 @@ function PlaceInfoBox({ images, name, views, avgRate, address }) {
         avgRate={avgRate}
         address={address}
       />
-      <PartyImageBox images={images} name={name} />
-      <PartyIconBox images={images} name={name} />
+      <PartyImageBox images={imageList} name={name} />
+      <PartyIconBox
+        images={imageList}
+        name={name}
+        dibs={dibs}
+        type={type}
+        id={id}
+      />
     </div>
   );
 }

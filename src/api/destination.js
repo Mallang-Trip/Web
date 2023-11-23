@@ -16,3 +16,9 @@ export const putDestinationComment = async (data, reviewId) =>
 
 export const deleteDestinationComment = async (reviewId) =>
   await DELETE(`/destination/review/${reviewId}`, true);
+
+export const postLikeDestination = async (destinationId) =>
+  await POST(`/destination/dibs/${destinationId}`, {}, true);
+
+export const deleteUnLikeDestination = async (destinationId) =>
+  await DELETE(`/destination/dibs/${destinationId}`, true);

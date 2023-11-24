@@ -22,6 +22,7 @@ function MyProfilePage() {
   const imageHandler = () => {
     let imageFile = document.getElementById("profileImage_input").files[0];
     setModifyProfileImage(imageFile || undefined);
+    console.log(modifyProfileImage);
   };
   const introductionHandler = (e) => {
     if (e.target.value.length <= 15) setIntroduction(e.target.value);

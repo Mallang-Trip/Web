@@ -3,15 +3,84 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Jeju Gothic";
-  src: url("./assets/font/JejuGothicOTF.otf") format("opentype");
+  font-family: "NotoSansKR100";
+  src: url("./assets/font/NotoSansKR-Thin.ttf") format("truetype");
+  font-weight: 100;
+}
+@font-face {
+  font-family: "NotoSansKR200";
+  src: url("./assets/font/NotoSansKR-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "NotoSansKR300";
+  src: url("./assets/font/NotoSansKR-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "NotoSansKR400";
+  src: url("./assets/font/NotoSansKR-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "NotoSansKR500";
+  src: url("./assets/font/NotoSansKR-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "NotoSansKR600";
+  src: url("./assets/font/NotoSansKR-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "NotoSansKR700";
+  src: url("./assets/font/NotoSansKR-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "NotoSansKR800";
+  src: url("./assets/font/NotoSansKR-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+}
+@font-face {
+  font-family: "NotoSansKR900";
+  src: url("./assets/font/NotoSansKR-Black.ttf") format("truetype");
+  font-weight: 900;
 }
 
 body {
   margin: 0;
-  font-family: "Jeju Gothic", sans-serif;
+  font-family: "NotoSansKR500", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.font-thin {
+  font-family: "NotoSansKR100", sans-serif;
+}
+.font-extralight {
+  font-family: "NotoSansKR200", sans-serif;
+}
+.font-light {
+  font-family: "NotoSansKR300", sans-serif;
+}
+.font-normal {
+  font-family: "NotoSansKR400", sans-serif;
+}
+.font-medium {
+  font-family: "NotoSansKR500", sans-serif;
+}
+.font-semibold {
+  font-family: "NotoSansKR600", sans-serif;
+}
+.font-bold {
+  font-family: "NotoSansKR700", sans-serif;
+}
+.font-extrabold {
+  font-family: "NotoSansKR800", sans-serif;
+}
+.font-black {
+  font-family: "NotoSansKR900", sans-serif;
 }
 
 .modal-container {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
-import HeadTitle from "./HeadTitle";
+import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
@@ -39,6 +39,7 @@ function PartyPage() {
         name={partyData.course?.name}
         driverName={partyData.driverName}
         driverId={partyData.driverId}
+        isDriver={true}
       />
       <PartyImageBox
         images={partyData.course?.images}

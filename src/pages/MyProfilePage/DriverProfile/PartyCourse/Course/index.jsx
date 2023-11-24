@@ -1,6 +1,12 @@
-function Course({ courseImg, courseName }) {
+import { useNavigate } from "react-router-dom";
+
+function Course({ courseImg, courseName, courseId }) {
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    navigate(`/course/edit/${courseId}`);
+  };
   return (
-    <div className="relative h-64 cursor-pointer">
+    <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
         src={courseImg}

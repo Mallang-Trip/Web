@@ -19,6 +19,7 @@ import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
 import DriverApplyPage from "./pages/DriverApplyPage";
+import EditCoursePage from "./pages/EditCoursePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -75,6 +76,8 @@ function App() {
             path="/destination/detail/:destinationId"
             element={<AuthDestinationPage />}
           />
+
+          <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
         </Route>
 
         <Route path="/login" element={<AuthLoginPage />} />

@@ -8,7 +8,7 @@ function CourseList({
 }) {
   return (
     <div className="my-6">
-      <p className="text-lg font-bold">현재 예약 가능한 코스</p>
+      <p className="text-lg font-bold mb-1">현재 예약 가능한 코스</p>
       <div className="flex gap-2">
         {courses.map((item) => (
           <CourseItem

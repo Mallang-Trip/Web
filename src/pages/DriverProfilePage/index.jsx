@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import PartyImageBox from "../../components/PartyImageBox";
 import DriverInfo from "../NewPartyPage/Course/DriverInfo";
-import HashTagList from "../NewPartyPage/Course/HashTagList";
 import TextArea from "../NewPartyPage/Course/TextArea";
 import CourseList from "../NewPartyPage/Course/CourseList";
 import CommentList from "../../components/Comment/CommentList";
@@ -49,7 +48,6 @@ function DriverProfilePage() {
         introduction={driverInfo.introduction}
       />
       <PartyImageBox images={[driverInfo.profileImg]} name={driverInfo.name} />
-      <HashTagList itemList={["#친절", `#${driverInfo.region}`, "#가격"]} />
       <TextArea title={"서비스 지역"} content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}

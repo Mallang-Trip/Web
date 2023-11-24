@@ -1,6 +1,6 @@
 function BottomInfo() {
   return (
-    <div className="mt-14 mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 mx-5 sm:mx-12">
+    <div className="mt-14 mb-10 flex justify-center flex-col sm:flex-row gap-6 sm:gap-12 md:gap-36 mx-5 sm:mx-12 pl-14 sm:pl-0">
       <div className="text-xs text-darkgray">
         <p className="text-sm text-[#3E3E3E] font-bold mb-2.5">말랑트립</p>
         <p>대표: 김제윤</p>

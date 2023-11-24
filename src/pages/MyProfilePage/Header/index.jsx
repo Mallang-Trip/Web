@@ -41,7 +41,7 @@ function Header({ category, setCategory }) {
             onClick={() => changeHandler("드라이버 프로필")}
           >
             <img
-              src={baseProfileImage}
+              src={user.profileImg || baseProfileImage}
               alt="driver_profile"
               className="w-8 h-8 rounded-full mr-2.5"
             />
@@ -54,7 +54,7 @@ function Header({ category, setCategory }) {
             onClick={() => changeHandler("여행자 프로필")}
           >
             <img
-              src={baseProfileImage}
+              src={user.profileImg || baseProfileImage}
               alt="driver_profile"
               className="w-8 h-8 rounded-full mr-2.5"
             />

@@ -1,13 +1,32 @@
 import { useState } from "react";
+import {
+  deleteUnLikeDestination,
+  postLikeDestination,
+} from "../../api/destination";
 import FillHeart from "../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../assets/svg/EmptyHeart.svg";
 import ChatBox from "../../assets/svg/EmptyChatIcon.svg";
 import shareIcon from "../../assets/svg/share.svg";
 import ShareModal from "./ShareModal";
 
-function PartyIconBox({ images, name }) {
+function PartyIconBox({ id, type, images, name, dibs }) {
   const [showShareModal, setShowShareModal] = useState(false);
-  const [heart, setHeart] = useState(false);
+  const [heart, setHeart] = useState(dibs);
+
+  const heartClickHandler = async () => {
+    if (type === "destination") {
+      try {
+        heart
+          ? await deleteUnLikeDestination(id)
+          : await postLikeDestination(id);
+        setHeart(!heart);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      setHeart(!heart);
+    }
+  };
 
   return (
     <>
@@ -16,7 +35,7 @@ function PartyIconBox({ images, name }) {
         <img
           className="cursor-pointer"
           src={heart ? FillHeart : EmptyHeart}
-          onClick={() => setHeart(!heart)}
+          onClick={heartClickHandler}
         />
         <img
           className="cursor-pointer"

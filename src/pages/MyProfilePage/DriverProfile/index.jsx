@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { getDriverMyInfo } from "../../../api/driver";
+import { getDriverMyInfo, putDriverMyInfo } from "../../../api/driver";
+import { uploadImage } from "../../../api/image";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import BasicInfo from "./BasicInfo";
@@ -44,28 +45,45 @@ function DriverProfile() {
 
   const modifyProfileHandler = async () => {
     if (!modifyMode) return setModifyMode(true);
-    // const profileImageURL = modifyProfileImage
-    //   ? await uploadProfileImage(modifyProfileImage)
-    //   : user.profileImg;
-    // try {
-    //   await putProfile({
-    //     email: email,
-    //     introduction: introduction,
-    //     nickname: user.nickname,
-    //     profileImg: profileImageURL,
-    //   });
-    //   alert("프로필 정보가 성공적으로 수정되었습니다.");
-    //   window.location.reload();
-    // } catch (e) {
-    //   console.log(e);
-    // }
+
+    const profileImageURL = newProfileImage
+      ? await uploadImage(newProfileImage)
+      : driverInfo.profileImg;
+
+    const vehicleImageURL = newVehicleImage
+      ? await uploadImage(newVehicleImage)
+      : driverInfo.vehicleImg;
+
+    const body = {
+      accountHolder: driverInfo.accountHolder,
+      accountNumber: driverInfo.accountNumber,
+      bank: driverInfo.bank,
+      holidays: driverInfo.holidays,
+      introduction: driverInfo.introduction,
+      phoneNumber: driverInfo.phoneNumber,
+      prices: driverInfo.prices,
+      profileImg: profileImageURL,
+      region: driverInfo.region,
+      vehicleCapacity: driverInfo.vehicleCapacity,
+      vehicleImg: vehicleImageURL,
+      vehicleModel: driverInfo.vehicleModel,
+      vehicleNumber: driverInfo.vehicleNumber,
+      weeklyHolidays: driverInfo.weeklyHoliday,
+    };
+
+    try {
+      await putDriverMyInfo(body);
+      alert("프로필 정보가 성공적으로 수정되었습니다.");
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const getMyDriverInfo = async () => {
     try {
       const result = await getDriverMyInfo();
       setDriverInfo(result.payload);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }

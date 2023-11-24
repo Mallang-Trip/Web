@@ -9,6 +9,7 @@ import headerBack from "../../assets/svg/header-back.svg";
 import HeaderChat from "../../assets/svg/HeaderChat.svg";
 import HeaderCommunity from "../../assets/svg/HeaderCommunity.svg";
 import HeaderHeart from "../../assets/svg/HeaderHeart.svg";
+import HeaderHeartPrimary from "../../assets/svg/HeaderHeartPrimary.svg";
 
 function Header() {
   const user = useSelector((state) => state.user);
@@ -154,11 +155,22 @@ function Header() {
               </li>
               <li className="my-auto">
                 <Link
-                  to="/"
-                  className="flex flex-row items-center py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0"
+                  to="/my/heart"
+                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
+                    location.pathname === "/my/heart"
+                      ? "text-primary"
+                      : "text-gray-900"
+                  }`}
                 >
-                  <img src={HeaderHeart} alt="찜" className="mr-1" />
-                  <span>찜</span>
+                  <img
+                    src={
+                      location.pathname === "/my/heart"
+                        ? HeaderHeartPrimary
+                        : HeaderHeart
+                    }
+                    alt="찜"
+                  />
+                  <span className="mx-1">찜</span>
                 </Link>
               </li>
               <li

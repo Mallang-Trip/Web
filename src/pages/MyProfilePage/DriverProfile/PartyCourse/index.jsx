@@ -1,4 +1,5 @@
 import Course from "./Course";
+import NewCourse from "./NewCourse";
 
 function PartyCourse({ driverInfo }) {
   return (
@@ -10,6 +11,7 @@ function PartyCourse({ driverInfo }) {
         {driverInfo.courses.map((course) => (
           <Course key={course.courseId} {...course} />
         ))}
+        <NewCourse />
       </div>
     </>
   );

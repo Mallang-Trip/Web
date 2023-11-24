@@ -22,7 +22,7 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
         className="w-[300px] h-14 mx-auto my-5 bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer flex justify-center items-center"
         onClick={() => setShow(true)}
       >
-        <img className="" src={primaryPlus} alt="car_Image" />
+        <img src={primaryPlus} alt="plus" />
       </div>
     );
   else

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPartyDetail } from "../../api/party";
+import PageContainer from "../../components/PageContainer";
 import HeadTitle from "./HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
 import PartyIconBox from "../../components/PartyIconBox";
@@ -33,7 +34,7 @@ function PartyPage() {
 
   if (!partyData.partyId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <PageContainer>
       <HeadTitle
         name={partyData.course?.name}
         driverName={partyData.driverName}
@@ -46,6 +47,9 @@ function PartyPage() {
       <PartyIconBox
         images={partyData.course?.images}
         name={partyData.course?.name}
+        dibs={false}
+        type={"party"}
+        id={partyData.partyId}
       />
       <Period startDate={partyData.startDate} endDate={partyData.endDate} />
       <PartyNumber
@@ -66,7 +70,7 @@ function PartyPage() {
       />
       <CourseMap partyId={partyData.partyId} markerData={markerData} />
       <ReservBtn partyId={partyData.partyId} />
-    </div>
+    </PageContainer>
   );
 }
 

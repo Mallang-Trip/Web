@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPartyHistory } from "../../api/party";
+import PageContainer from "../../components/PageContainer";
 import PartyItem from "./PartyItem";
 import NoHistoryData from "./NoHistoryData";
 
@@ -21,7 +22,7 @@ function PartyHistoryPage() {
   }, []);
 
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <PageContainer>
       <div className="text-2xl text-black font-bold">최근 본 파티</div>
       {myHistoryData.length === 0 ? (
         <NoHistoryData />
@@ -32,7 +33,7 @@ function PartyHistoryPage() {
           ))}
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }
 

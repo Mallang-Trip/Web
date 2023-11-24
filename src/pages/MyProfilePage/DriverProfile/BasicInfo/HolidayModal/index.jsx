@@ -11,9 +11,12 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   };
 
   const confirmHandler = () => {
+    const newHolidays = date
+      ? [...driverInfo.holidays, date]
+      : driverInfo.holidays;
     setDriverInfo({
       ...driverInfo,
-      holidays: [...driverInfo.holidays, date],
+      holidays: newHolidays,
       weeklyHoliday: weekly,
     });
     setShowModal(false);

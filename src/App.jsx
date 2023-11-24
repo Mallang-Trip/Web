@@ -19,6 +19,7 @@ import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
 import DriverApplyPage from "./pages/DriverApplyPage";
+import CommunityPage from "./pages/CommunityPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -38,6 +39,7 @@ function App() {
   const AuthSignupPage = Auth(SignupPage, false);
   const AuthSearchPlacePage = Auth(SearchPlacePage, null);
   const AuthDestinationPage = Auth(DestinationPage, null);
+  const AuthCommunityPage = Auth(CommunityPage, null);
 
   return (
     <div>
@@ -75,6 +77,7 @@ function App() {
             path="/destination/detail/:destinationId"
             element={<AuthDestinationPage />}
           />
+          <Route path="/community/:id" element={<AuthCommunityPage />} />
         </Route>
 
         <Route path="/login" element={<AuthLoginPage />} />

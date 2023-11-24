@@ -3,7 +3,6 @@ import { priceToString } from "../../../utils";
 import PartyImageBox from "../../../components/PartyImageBox";
 import SecondCredit from "./SecondCredit";
 import DriverInfo from "./DriverInfo";
-import HashTagList from "./HashTagList";
 import TextArea from "./TextArea";
 import CourseList from "./CourseList";
 import PartyPlan from "./PartyPlan";
@@ -39,7 +38,6 @@ function Course({
         ]}
         name={driverInfo.name}
       />
-      <HashTagList itemList={["#친절", `#${driverInfo.region}`, "#가격"]} />
       <TextArea title={"서비스 지역"} content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}

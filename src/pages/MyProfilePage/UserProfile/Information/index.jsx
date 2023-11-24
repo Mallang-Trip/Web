@@ -1,4 +1,11 @@
-function Information({ title, content, modifyMode, onChangeHandler }) {
+function Information({
+  title,
+  content,
+  modifyMode,
+  onChangeHandler,
+  onClick,
+  subString,
+}) {
   if (modifyMode === undefined)
     return (
       <div className="flex justify-between py-4 px-6 rounded-xl bg-[#F4F4F4] text-sm text-darkgray">
@@ -8,17 +15,25 @@ function Information({ title, content, modifyMode, onChangeHandler }) {
     );
   else
     return (
-      <div className="flex gap-5 py-4 px-6 rounded-xl whitespace-nowrap bg-[#F4F4F4] text-sm text-darkgray">
+      <div
+        className={`flex gap-5 py-4 px-6 rounded-xl whitespace-nowrap text-sm ${
+          modifyMode ? "text-primary bg-skyblue" : "text-darkgray bg-[#F4F4F4]"
+        } ${modifyMode && onClick && "cursor-pointer"}`}
+        onClick={onClick}
+      >
         <span>{title}</span>
-        <input
-          type="text"
-          className={`w-full bg-[#F4F4F4] focus:outline-none text-right ${
-            modifyMode && "text-primary"
-          }`}
-          value={content}
-          onChange={onChangeHandler}
-          disabled={!modifyMode}
-        />
+        <div className="w-full flex">
+          <input
+            type="text"
+            className={`w-full focus:outline-none text-right ${
+              modifyMode ? "bg-skyblue" : "bg-[#F4F4F4]"
+            } ${modifyMode && onClick && "cursor-pointer caret-transparent"}`}
+            value={content}
+            onChange={onChangeHandler}
+            disabled={!modifyMode}
+          />
+          {subString && <span>{subString}</span>}
+        </div>
       </div>
     );
 }

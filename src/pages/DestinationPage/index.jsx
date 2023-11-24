@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDestinationDetail } from "../../api/destination";
+import PageContainer from "../../components/PageContainer";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
 import PlaceInfoBox from "../CourseSuggestPage/PlaceInfoBox";
@@ -26,8 +27,12 @@ function DestinationPage() {
 
   if (!destinationInfo.destinationId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
-      <PlaceInfoBox {...destinationInfo} />
+    <PageContainer>
+      <PlaceInfoBox
+        {...destinationInfo}
+        type={"destination"}
+        id={destinationInfo.destinationId}
+      />
       <Detailed content={destinationInfo.content} />
       <CommentList
         reviews={destinationInfo.reviews || []}
@@ -41,7 +46,7 @@ function DestinationPage() {
         reload={destinationInfoReload}
         setReload={setDestinationInfoReload}
       />
-    </div>
+    </PageContainer>
   );
 }
 

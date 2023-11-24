@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { onlyNumber } from "../../../utils";
 import BankModal from "./BankModal";
+import HourPrice from "./HourPrice";
 
 function Accout({
   setActiveNext,
@@ -22,8 +23,8 @@ function Accout({
       bank &&
       name &&
       onlyNumber(accoutNumber) &&
-      onlyNumber(hour) &&
-      onlyNumber(money)
+      onlyNumber(hour[0]) &&
+      onlyNumber(money[0])
     )
       setActiveNext(true);
     else setActiveNext(false);
@@ -64,27 +65,17 @@ function Accout({
       </div>
 
       <p className="mt-16 mb-6 text-lg text-black">가격 설정</p>
-      <div className="flex gap-1 justify-center items-center">
-        <input
-          type="text"
-          name="hour"
-          className="w-8 border-b border-darkgray focus:outline-none focus:border-primary text-center"
-          value={onlyNumber(hour)}
-          onChange={(e) => setHour(e.target.value)}
-          autoComplete="off"
+      {Array.from({ length: 5 }, (_, index) => index).map((i) => (
+        <HourPrice
+          key={i}
+          hour={hour}
+          setHour={setHour}
+          money={money}
+          setMoney={setMoney}
+          index={i}
+          isShow={i === 0}
         />
-        <span className="text-sm text-darkgray">시간당</span>
-        <input
-          type="text"
-          name="money"
-          className="w-20 border-b border-darkgray focus:outline-none focus:border-primary text-center"
-          value={onlyNumber(money).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-          onChange={(e) => setMoney(e.target.value)}
-          autoComplete="off"
-        />
-        <span className="text-sm text-darkgray">원</span>
-      </div>
-
+      ))}
       <BankModal
         showModal={showModal}
         setShowModal={setShowModal}

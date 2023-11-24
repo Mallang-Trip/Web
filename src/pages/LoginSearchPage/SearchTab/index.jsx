@@ -7,7 +7,7 @@ function SearchTab(props) {
   ];
 
   return (
-    <div className="w-3/5 mx-auto">
+    <div className="w-full md:w-3/5 mx-auto px-2">
       <button
         className={`w-1/2 h-12 rounded-l-lg ${
           props.mode === "id" ? SelectedStyle : NoneSelectedStyle

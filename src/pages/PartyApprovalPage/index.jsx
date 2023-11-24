@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPartyDetail } from "../../api/party";
+import PageContainer from "../../components/PageContainer";
 import HeadTitle from "./HeadTitle";
 import Period from "./Period";
 import Members from "./Members";
@@ -31,7 +32,7 @@ function PartyApprovalPage() {
 
   if (!partyData.partyId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <PageContainer>
       <HeadTitle
         name={partyData.course?.name}
         driverName={partyData.driverName}
@@ -66,7 +67,7 @@ function PartyApprovalPage() {
       {type === "suggest" && (
         <BeforePlan course={partyData.course} startDate={partyData.startDate} />
       )}
-    </div>
+    </PageContainer>
   );
 }
 

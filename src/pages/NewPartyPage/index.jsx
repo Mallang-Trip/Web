@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
+import PageContainer from "../../components/PageContainer";
 import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
@@ -74,7 +75,7 @@ function NewPartyPage() {
   }, [driverId]);
 
   return (
-    <div className="w-full mb-24">
+    <PageContainer>
       {step === "1" && (
         <Region
           setRegion={setRegion}
@@ -125,7 +126,7 @@ function NewPartyPage() {
         date={date}
         driverId={driverId}
       />
-    </div>
+    </PageContainer>
   );
 }
 

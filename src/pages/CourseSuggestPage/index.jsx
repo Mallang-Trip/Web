@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import PageContainer from "../../components/PageContainer";
 import HeadTitle from "./HeadTitle";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
@@ -125,7 +126,7 @@ function CourseSuggestPage() {
 
   if (!partyData.partyId || !destinationData.destinationId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <PageContainer>
       <HeadTitle
         name={partyData.course?.name}
         driverName={partyData.driverName}
@@ -205,7 +206,7 @@ function CourseSuggestPage() {
         yesText="확인"
         yesHandler={() => courseSuggestHandler()}
       />
-    </div>
+    </PageContainer>
   );
 }
 

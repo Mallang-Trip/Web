@@ -40,7 +40,7 @@ function App() {
   const AuthDestinationPage = Auth(DestinationPage, null);
 
   return (
-    <div className="max-w-screen-xl mx-auto">
+    <div>
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />

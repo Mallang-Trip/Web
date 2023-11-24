@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getLikeDestination } from "../../api/destination";
+import PageContainer from "../../components/PageContainer";
 import HeartItem from "./HeartItem";
 import NoHeartData from "./NoHeartData";
 
@@ -21,7 +22,7 @@ function MyHeartPage() {
   }, []);
 
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <PageContainer>
       <div className="text-2xl text-black font-bold">나의 찜</div>
       {myHeartData.length === 0 ? (
         <NoHeartData />
@@ -32,7 +33,7 @@ function MyHeartPage() {
           ))}
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }
 

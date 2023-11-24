@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { uploadProfileImage } from "../../api/image";
+import { signup, checkDuplication } from "../../api/users";
+import PageContainer from "../../components/PageContainer";
 import Logo from "../../assets/images/logo.png";
 import Agreement from "./Agreement";
 import PersonalInfo from "./PersonalInfo";
 import Account from "./Account";
 import Profile from "./Profile";
 import Complete from "./Complete";
-import { useNavigate } from "react-router-dom";
-import { uploadProfileImage } from "../../api/image";
-import { signup, checkDuplication } from "../../api/users";
 import ConfirmModal from "../../components/ConfirmModal";
 
 function SignupPage() {
@@ -92,83 +93,85 @@ function SignupPage() {
   };
 
   return (
-    <>
-      <div className="flex justify-center mb-12 mt-36">
-        <img
-          src={Logo}
-          className={`${step === 4 ? "h-12 cursor-pointer" : "h-9"}`}
-          alt="Mallang_Trip_Logo"
-          onClick={logoClickHandler}
+    <PageContainer>
+      <div className="flex flex-col justify-center h-screen">
+        <div className="flex justify-center">
+          <img
+            src={Logo}
+            className={`${step === 4 ? "h-12 cursor-pointer" : "h-9"}`}
+            alt="Mallang_Trip_Logo"
+            onClick={logoClickHandler}
+          />
+        </div>
+
+        {step === 0 ? (
+          <Agreement setActiveNext={setActiveNext} />
+        ) : step === 1 ? (
+          <PersonalInfo
+            setActiveNext={setActiveNext}
+            name={name}
+            setName={setName}
+            birthDate={birthDate}
+            setBirthDate={setBirthDate}
+            region={region}
+            setRegion={setRegion}
+            gender={gender}
+            setGender={setGender}
+          />
+        ) : step === 2 ? (
+          <Account
+            setActiveNext={setActiveNext}
+            email={email}
+            setEmail={setEmail}
+            id={id}
+            setId={setId}
+            password={password}
+            setPassword={setPassword}
+            passwordAgain={passwordAgain}
+            setPasswordAgain={setPasswordAgain}
+            emailDuplication={emailDuplication}
+            setEmailDuplication={setEmailDuplication}
+            idDuplication={idDuplication}
+            setIdDuplication={setIdDuplication}
+          />
+        ) : step === 3 ? (
+          <Profile
+            setActiveNext={setActiveNext}
+            nickName={nickName}
+            setNickName={setNickName}
+            introduction={introduction}
+            setIntroduction={setIntroduction}
+            profileImage={profileImage}
+            setProfileImage={setProfileImage}
+            nickNameDuplication={nickNameDuplication}
+            setNickNameDuplication={setNickNameDuplication}
+          />
+        ) : (
+          <Complete />
+        )}
+        {step !== 4 && (
+          <div className="flex justify-center mt-16">
+            <button
+              type="button"
+              className={`${
+                activeNext
+                  ? "h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
+                  : "h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
+              }`}
+              disabled={!activeNext}
+              onClick={nextClick}
+            >
+              다음
+            </button>
+          </div>
+        )}
+        <ConfirmModal
+          showModal={showErrorModal}
+          setShowModal={setShowErrorModal}
+          message={"회원가입에 실패했습니다."}
         />
       </div>
-
-      {step === 0 ? (
-        <Agreement setActiveNext={setActiveNext} />
-      ) : step === 1 ? (
-        <PersonalInfo
-          setActiveNext={setActiveNext}
-          name={name}
-          setName={setName}
-          birthDate={birthDate}
-          setBirthDate={setBirthDate}
-          region={region}
-          setRegion={setRegion}
-          gender={gender}
-          setGender={setGender}
-        />
-      ) : step === 2 ? (
-        <Account
-          setActiveNext={setActiveNext}
-          email={email}
-          setEmail={setEmail}
-          id={id}
-          setId={setId}
-          password={password}
-          setPassword={setPassword}
-          passwordAgain={passwordAgain}
-          setPasswordAgain={setPasswordAgain}
-          emailDuplication={emailDuplication}
-          setEmailDuplication={setEmailDuplication}
-          idDuplication={idDuplication}
-          setIdDuplication={setIdDuplication}
-        />
-      ) : step === 3 ? (
-        <Profile
-          setActiveNext={setActiveNext}
-          nickName={nickName}
-          setNickName={setNickName}
-          introduction={introduction}
-          setIntroduction={setIntroduction}
-          profileImage={profileImage}
-          setProfileImage={setProfileImage}
-          nickNameDuplication={nickNameDuplication}
-          setNickNameDuplication={setNickNameDuplication}
-        />
-      ) : (
-        <Complete />
-      )}
-      {step !== 4 && (
-        <div className="flex justify-center mt-16">
-          <button
-            type="button"
-            className={`${
-              activeNext
-                ? "h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
-                : "h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
-            }`}
-            disabled={!activeNext}
-            onClick={nextClick}
-          >
-            다음
-          </button>
-        </div>
-      )}
-      <ConfirmModal
-        showModal={showErrorModal}
-        setShowModal={setShowErrorModal}
-        message={"회원가입에 실패했습니다."}
-      />
-    </>
+    </PageContainer>
   );
 }
 

@@ -1,8 +1,9 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import PageContainer from "../../components/PageContainer";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
 import DriverProfile from "./DriverProfile";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 function MyProfilePage() {
   const user = useSelector((state) => state.user);
@@ -14,10 +15,10 @@ function MyProfilePage() {
   }, [user.role]);
 
   return (
-    <div className="max-w-screen-xl px-5 mb-24">
+    <PageContainer>
       <Header category={category} setCategory={setCategory} />
       {category === "여행자 프로필" ? <UserProfile /> : <DriverProfile />}
-    </div>
+    </PageContainer>
   );
 }
 

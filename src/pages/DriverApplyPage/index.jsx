@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { applyDriver } from "../../api/driver";
 import { uploadImage } from "../../api/image";
+import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
 import Stepper from "./Stepper";
 import CarInfo from "./CarInfo";
@@ -72,7 +73,7 @@ function DriverApplyPage() {
   };
 
   return (
-    <div className="mx-5 mb-24">
+    <PageContainer>
       <Title step={step} />
       <Stepper step={step} />
 
@@ -138,7 +139,7 @@ function DriverApplyPage() {
         setShowModal={setShowModal}
         submitHandler={submitHandler}
       />
-    </div>
+    </PageContainer>
   );
 }
 

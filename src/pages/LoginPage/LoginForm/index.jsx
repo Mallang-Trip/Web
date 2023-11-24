@@ -29,7 +29,10 @@ function LoginForm() {
 
   return (
     <>
-      <form className="w-3/5 mx-auto mt-10" onSubmit={loginHandler}>
+      <form
+        className="w-full md:w-3/5 mx-auto mt-10 px-5"
+        onSubmit={loginHandler}
+      >
         <input
           type="id"
           name="id"

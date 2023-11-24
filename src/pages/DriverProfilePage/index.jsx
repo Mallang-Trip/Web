@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
+import PageContainer from "../../components/PageContainer";
 import PartyImageBox from "../../components/PartyImageBox";
 import DriverInfo from "../NewPartyPage/Course/DriverInfo";
 import TextArea from "../NewPartyPage/Course/TextArea";
@@ -40,7 +41,7 @@ function DriverProfilePage() {
 
   if (!driverInfo.driverId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <PageContainer>
       <DriverInfo
         name={driverInfo.name}
         reservationCount={driverInfo.reservationCount}
@@ -67,7 +68,7 @@ function DriverProfilePage() {
         reload={reload}
         setReload={setReload}
       />
-    </div>
+    </PageContainer>
   );
 }
 

@@ -15,6 +15,7 @@ import ReservationButton from "../../ReservationPage/ReservationButton";
 import BottomRefund from "../../../components/BottomRefund";
 import CheckModal from "../../../components/CheckModal";
 import HeadTitle from "../../ReservationPage/HeadTitle";
+import Loading from "../../../components/Loading";
 
 function Reservation({ member, date, driverInfo, planData }) {
   const navigation = useNavigate();
@@ -65,7 +66,8 @@ function Reservation({ member, date, driverInfo, planData }) {
     window.scrollTo({ top: 0 });
   }, []);
 
-  if (!driverInfo.driverId || !planData.courseId) return null;
+  if (!driverInfo.driverId || !planData.courseId)
+    return <Loading full={true} />;
   return (
     <div className="px-2 md:px-5 mb-24">
       <HeadTitle

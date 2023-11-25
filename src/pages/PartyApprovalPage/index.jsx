@@ -12,6 +12,7 @@ import FirstCredit from "../../components/FirstCredit";
 import SecondCredit from "../../components/SecondCredit";
 import PartyPlan from "../../components/PartyPlan";
 import BeforePlan from "./BeforePlan";
+import Loading from "../../components/Loading";
 
 function PartyApprovalPage() {
   const { partyId, type } = useParams();
@@ -28,9 +29,13 @@ function PartyApprovalPage() {
 
   useEffect(() => {
     getPartyData();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, [partyId]);
 
-  if (!partyData.partyId) return null;
+  if (!partyData.partyId) return <Loading full={true} />;
   return (
     <PageContainer>
       <HeadTitle

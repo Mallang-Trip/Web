@@ -13,6 +13,7 @@ import SecondCredit from "../../components/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
 import ReservBtn from "./ReservBtn";
 import CourseMap from "../../components/CourseMap";
+import Loading from "../../components/Loading";
 
 function PartyPage() {
   const { partyId } = useParams();
@@ -30,9 +31,13 @@ function PartyPage() {
   };
   useEffect(() => {
     getPartyData();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, [partyId]);
 
-  if (!partyData.partyId) return null;
+  if (!partyData.partyId) return <Loading full={true} />;
   return (
     <PageContainer>
       <HeadTitle

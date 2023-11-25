@@ -6,6 +6,7 @@ import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
 import PlaceInfoBox from "../CourseSuggestPage/PlaceInfoBox";
 import Detailed from "../CourseSuggestPage/Atoms/Detailed";
+import Loading from "../../components/Loading";
 
 function DestinationPage() {
   const { destinationId } = useParams();
@@ -25,7 +26,7 @@ function DestinationPage() {
     getDestinationInfo();
   }, [destinationId, destinationInfoReload]);
 
-  if (!destinationInfo.destinationId) return null;
+  if (!destinationInfo.destinationId) return <Loading full={true} />;
   return (
     <PageContainer>
       <PlaceInfoBox

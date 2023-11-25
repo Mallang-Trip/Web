@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
@@ -9,6 +9,12 @@ function CommunityPage() {
   const { id } = useParams();
   const [category, setCategory] = useState("전체");
   console.log(id);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
 
   return (
     <PageContainer>

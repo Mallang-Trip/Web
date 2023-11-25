@@ -8,6 +8,7 @@ import Introduction from "./Introduction";
 import Vehicle from "./Vehicle";
 import Price from "./Price";
 import PartyCourse from "./PartyCourse";
+import Loading from "../../../components/Loading";
 
 function DriverProfile() {
   const profileImageRef = useRef();
@@ -91,9 +92,13 @@ function DriverProfile() {
 
   useEffect(() => {
     getMyDriverInfo();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, []);
 
-  if (!driverInfo.userId) return null;
+  if (!driverInfo.userId) return <Loading full={true} />;
   return (
     <>
       <ProfileImage

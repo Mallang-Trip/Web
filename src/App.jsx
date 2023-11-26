@@ -20,6 +20,7 @@ import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
 import DriverApplyPage from "./pages/DriverApplyPage";
 import CommunityPage from "./pages/CommunityPage";
+import CommunityPostPage from "./pages/CommunityPostPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -40,6 +41,7 @@ function App() {
   const AuthSearchPlacePage = Auth(SearchPlacePage, null);
   const AuthDestinationPage = Auth(DestinationPage, null);
   const AuthCommunityPage = Auth(CommunityPage, null);
+  const AuthCommunityPostPage = Auth(CommunityPostPage, true);
 
   return (
     <div>
@@ -78,6 +80,10 @@ function App() {
             element={<AuthDestinationPage />}
           />
           <Route path="/community/:id" element={<AuthCommunityPage />} />
+          <Route
+            path="/community/post/:id"
+            element={<AuthCommunityPostPage />}
+          />
         </Route>
 
         <Route path="/login" element={<AuthLoginPage />} />

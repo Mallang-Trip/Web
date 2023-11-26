@@ -9,20 +9,18 @@ import ArticleDetail from "./ArticleDetail";
 function CommunityPage() {
   const { id } = useParams();
   const [category, setCategory] = useState("전체");
-  console.log(id);
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
     });
-  }, []);
+  }, [id]);
 
   return (
     <PageContainer>
       <Title />
       <Tab category={category} setCategory={setCategory} />
-      {/* <ArticleList /> */}
-      <ArticleDetail />
+      {id === "main" ? <ArticleList /> : <ArticleDetail />}
     </PageContainer>
   );
 }

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 function ArticleItem({
   id,
   profileImage,
@@ -9,10 +11,12 @@ function ArticleItem({
   comment,
   articleImage,
 }) {
+  const navigation = useNavigate();
+
   return (
     <div
       className="py-5 border-b border-[#D9D9D9] cursor-pointer"
-      onClick={() => console.log(id)}
+      onClick={() => navigation(`/community/${id}`)}
     >
       <div className="flex gap-2.5 mb-3">
         <img

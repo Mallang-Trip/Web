@@ -49,12 +49,12 @@ function ArticleBody({ article }) {
               onClick={() => setShowShareModal(true)}
             />
             <img
-              className="cursor-pointer px-2"
+              className="cursor-pointer"
               src={MoreDot}
               onClick={() => setShowMore(!showMore)}
             />
             <div
-              className={`w-[100px] absolute top-11 right-0 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
+              className={`w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
                 showMore ? "max-h-[100px] border border-[#D9D9D9]" : "max-h-0"
               }`}
             >

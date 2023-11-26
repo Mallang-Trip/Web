@@ -4,6 +4,7 @@ import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
 import Tab from "./Tab";
 import ArticleList from "./ArticleList";
+import ArticleDetail from "./ArticleDetail";
 
 function CommunityPage() {
   const { id } = useParams();
@@ -20,7 +21,8 @@ function CommunityPage() {
     <PageContainer>
       <Title />
       <Tab category={category} setCategory={setCategory} />
-      <ArticleList />
+      {/* <ArticleList /> */}
+      <ArticleDetail />
     </PageContainer>
   );
 }

@@ -26,10 +26,10 @@ function ArticleItem({
         </div>
       </div>
 
-      <div className="flex justify-between gap-4">
-        <div>
+      <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
+        <div className="w-full">
           <p className="text-lg text-black font-bold">{title}</p>
-          <p className="text-sm text-[#3E3E3E] font-medium whitespace-pre mt-3 mb-4">
+          <p className="w-full text-sm text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
           </p>
           <p className="text-xs text-darkgray font-medium">{`${time}분 전`}</p>
@@ -40,7 +40,7 @@ function ArticleItem({
         <img
           src={articleImage}
           alt="image"
-          className="w-56 h-32 object-cover rounded-xl"
+          className="w-full sm:w-80 h-full sm:h-40 object-cover rounded-xl"
         />
       </div>
     </div>

@@ -24,7 +24,7 @@ function Tab({ category, setCategory }) {
   };
 
   return (
-    <div className="flex flex-wrap mt-2 mb-9 gap-5 text-center relative">
+    <div className="flex flex-nowrap overflow-x-auto mt-2 mb-9 gap-5 text-center relative noScrollBar">
       <TabBar offsetX={offsetX} offsetWidth={offsetWidth} />
       {TabList.map((item) => (
         <TabItem

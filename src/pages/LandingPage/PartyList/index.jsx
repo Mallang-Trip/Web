@@ -34,7 +34,7 @@ function PartyList({ region, nowDate, num, price }) {
   }, [region, nowDate, num, price]);
 
   return (
-    <div className="grid grid-cols-2 gap-10 px-6 mx-auto md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-10 px-6 mx-auto md:grid-cols-3 lg:grid-cols-4">
       <AddPartyBtn />
       {partyData.map((item) => (
         <PartyBox key={item.partyId} party={item} />

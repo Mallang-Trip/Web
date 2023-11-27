@@ -19,6 +19,7 @@ import DriverProfilePage from "./pages/DriverProfilePage";
 import SearchPlacePage from "./pages/SearchPlacePage";
 import DestinationPage from "./pages/DestinationPage";
 import DriverApplyPage from "./pages/DriverApplyPage";
+import EditCoursePage from "./pages/EditCoursePage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage";
 
@@ -79,6 +80,7 @@ function App() {
             path="/destination/detail/:destinationId"
             element={<AuthDestinationPage />}
           />
+          <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
           <Route path="/community/:id" element={<AuthCommunityPage />} />
           <Route
             path="/community/post/:id"

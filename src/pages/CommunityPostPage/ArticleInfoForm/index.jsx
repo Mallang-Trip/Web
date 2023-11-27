@@ -3,12 +3,16 @@ import TypeDropBox from "./TypeDropBox";
 import PartySelectBox from "./PartySelectBox";
 import ImageInputBox from "./ImageInputBox";
 
-function ArticleInfoForm() {
+function ArticleInfoForm({
+  selectedType,
+  setSelectedType,
+  selectedParty,
+  setSelectedParty,
+  images,
+  setImages,
+}) {
   const [showDropBox, setShowDropBox] = useState(false);
-  const [selectedType, setSelectedType] = useState("선택해주세요.");
-  const [selectedParty, setSelectedParty] = useState("선택해주세요.");
   const [showImageInput, setShowImageInput] = useState(false);
-  const [images, setImages] = useState([undefined, undefined, undefined]);
 
   return (
     <>

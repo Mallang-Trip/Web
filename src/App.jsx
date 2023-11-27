@@ -22,6 +22,7 @@ import DriverApplyPage from "./pages/DriverApplyPage";
 import EditCoursePage from "./pages/EditCoursePage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage";
+import CommunitySearchPage from "./pages/CommunitySearchPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -43,6 +44,7 @@ function App() {
   const AuthDestinationPage = Auth(DestinationPage, null);
   const AuthCommunityPage = Auth(CommunityPage, null);
   const AuthCommunityPostPage = Auth(CommunityPostPage, true);
+  const AuthCommunitySearchPage = Auth(CommunitySearchPage, null);
 
   return (
     <div>
@@ -85,6 +87,10 @@ function App() {
           <Route
             path="/community/post/:id"
             element={<AuthCommunityPostPage />}
+          />
+          <Route
+            path="/community/search/:keyword"
+            element={<AuthCommunitySearchPage />}
           />
         </Route>
 

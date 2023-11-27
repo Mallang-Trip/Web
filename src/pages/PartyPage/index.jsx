@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
-import HeadTitle from "./HeadTitle";
+import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
@@ -13,6 +13,7 @@ import SecondCredit from "../../components/SecondCredit";
 import ToTalCredit from "./Atoms/ToTalCredit";
 import ReservBtn from "./ReservBtn";
 import CourseMap from "../../components/CourseMap";
+import Loading from "../../components/Loading";
 
 function PartyPage() {
   const { partyId } = useParams();
@@ -30,15 +31,20 @@ function PartyPage() {
   };
   useEffect(() => {
     getPartyData();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, [partyId]);
 
-  if (!partyData.partyId) return null;
+  if (!partyData.partyId) return <Loading full={true} />;
   return (
     <PageContainer>
       <HeadTitle
         name={partyData.course?.name}
         driverName={partyData.driverName}
         driverId={partyData.driverId}
+        isDriver={true}
       />
       <PartyImageBox
         images={partyData.course?.images}

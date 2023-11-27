@@ -24,7 +24,7 @@ function PreMap() {
             2023.08
           </div>
           <div className="text-[#F4F4F4] text-base md:text-xl">
-            PRE-MAP 지원금 1,000만원 유치
+            PRE-MAP 지원금 유치
           </div>
         </div>
       </div>

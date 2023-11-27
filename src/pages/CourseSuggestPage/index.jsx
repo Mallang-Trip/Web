@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getPartyDetail, postPartyJoin } from "../../api/party";
+import { getDestinationDetail } from "../../api/destination";
 import PageContainer from "../../components/PageContainer";
-import HeadTitle from "./HeadTitle";
+import HeadTitle from "../../components/HeadTitle";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
 import FirstCredit from "../../components/FirstCredit";
@@ -21,9 +23,8 @@ import Agreement from "./AddAgree";
 import SuggestButton from "./SuggestButton";
 import CourseDnD from "./CourseDnD";
 import CheckModal from "../../components/CheckModal";
-import { getPartyDetail, postPartyJoin } from "../../api/party";
-import { getDestinationDetail } from "../../api/destination";
 import PlaceMap from "../../components/PlaceMap";
+import Loading from "../../components/Loading";
 
 function CourseSuggestPage() {
   const navigation = useNavigate();
@@ -117,6 +118,10 @@ function CourseSuggestPage() {
 
   useEffect(() => {
     getPartyData();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, [partyId]);
 
   useEffect(() => {
@@ -124,13 +129,15 @@ function CourseSuggestPage() {
     getDestinationInfo();
   }, [partyData, partyDataReload]);
 
-  if (!partyData.partyId || !destinationData.destinationId) return null;
+  if (!partyData.partyId || !destinationData.destinationId)
+    return <Loading full={true} />;
   return (
     <PageContainer>
       <HeadTitle
         name={partyData.course?.name}
         driverName={partyData.driverName}
         driverId={partyData.driverId}
+        isDriver={"false"}
       />
       <PartyImageBox
         images={partyData.course?.images}

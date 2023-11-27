@@ -8,6 +8,7 @@ import TextArea from "../NewPartyPage/Course/TextArea";
 import CourseList from "../NewPartyPage/Course/CourseList";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
+import Loading from "../../components/Loading";
 
 function DriverProfilePage() {
   const navigation = useNavigate();
@@ -39,7 +40,13 @@ function DriverProfilePage() {
     );
   }, [selectedCourseId]);
 
-  if (!driverInfo.driverId) return null;
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
+
+  if (!driverInfo.driverId) return <Loading full={true} />;
   return (
     <PageContainer>
       <DriverInfo

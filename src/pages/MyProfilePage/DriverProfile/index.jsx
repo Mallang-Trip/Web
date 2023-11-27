@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getDriverMyInfo, putDriverMyInfo } from "../../../api/driver";
+import { putDriverMyInfo } from "../../../api/driver";
 import { uploadImage } from "../../../api/image";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
@@ -8,8 +8,9 @@ import Introduction from "./Introduction";
 import Vehicle from "./Vehicle";
 import Price from "./Price";
 import PartyCourse from "./PartyCourse";
+import Loading from "../../../components/Loading";
 
-function DriverProfile() {
+function DriverProfile({ driverInfo, setDriverInfo }) {
   const profileImageRef = useRef();
   const vehicleImageRef = useRef();
   const [modifyMode, setModifyMode] = useState(false);
@@ -17,22 +18,6 @@ function DriverProfile() {
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
   const [newVehicleImage, setNewVehicleImage] = useState(undefined);
-  const [driverInfo, setDriverInfo] = useState({
-    accountHolder: "",
-    accountNumber: "",
-    bank: "",
-    holidays: [],
-    introduction: "",
-    phoneNumber: "",
-    prices: [],
-    profileImg: "",
-    region: "",
-    vehicleCapacity: 0,
-    vehicleImg: "",
-    vehicleModel: "",
-    vehicleNumber: "",
-    weeklyHoliday: [],
-  });
 
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
@@ -80,20 +65,13 @@ function DriverProfile() {
     }
   };
 
-  const getMyDriverInfo = async () => {
-    try {
-      const result = await getDriverMyInfo();
-      setDriverInfo(result.payload);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    getMyDriverInfo();
+    window.scrollTo({
+      top: 0,
+    });
   }, []);
 
-  if (!driverInfo.userId) return null;
+  if (!driverInfo.userId) return <Loading full={true} />;
   return (
     <>
       <ProfileImage

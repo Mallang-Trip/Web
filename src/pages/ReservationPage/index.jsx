@@ -17,6 +17,7 @@ import BottomRefund from "../../components/BottomRefund";
 import CheckModal from "../../components/CheckModal";
 import HeadTitle from "./HeadTitle";
 import PlaceMap from "../../components/PlaceMap";
+import Loading from "../../components/Loading";
 
 function ReservationPage() {
   const navigation = useNavigate();
@@ -78,9 +79,13 @@ function ReservationPage() {
 
   useEffect(() => {
     getPartyData();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, [partyId]);
 
-  if (!partyData.partyId) return null;
+  if (!partyData.partyId) return <Loading full={true} />;
   return (
     <PageContainer>
       <HeadTitle

@@ -53,7 +53,11 @@ function ImageModal({
             ))}
           </div>
 
-          <NextButton imageIdx={imageIdx} setImageIdx={setImageIdx} />
+          <NextButton
+            imageIdx={imageIdx}
+            setImageIdx={setImageIdx}
+            lastIndex={images.length - 1}
+          />
         </div>
 
         <Pagination

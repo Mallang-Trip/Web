@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PageContainer from "../../components/PageContainer";
-import ArticleList from "../CommunityPage/ArticleList";
+import ArticleList from "../../components/ArticleList";
 
 function MyArticlePage() {
   const [tabCategory, setTabCategory] = useState("article");

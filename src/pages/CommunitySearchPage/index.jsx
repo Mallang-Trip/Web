@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import Title from "../CommunityPage/Title";
 import SearchKeyword from "./SearchKeyword";
-import ArticleList from "../CommunityPage/ArticleList";
+import ArticleList from "../../components/ArticleList";
 
 function CommunitySearchPage() {
   const { keyword } = useParams();

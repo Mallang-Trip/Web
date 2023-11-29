@@ -273,12 +273,15 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <button
+                onClick={() => {
+                  navigation("/my/article");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 작성글 내역
-              </Link>
+              </button>
             </li>
             <li>
               <button

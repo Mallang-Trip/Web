@@ -11,6 +11,7 @@ import SignupPage from "./pages/SignupPage";
 import CourseSuggestPage from "./pages/CourseSuggestPage";
 import MyProfilePage from "./pages/MyProfilePage";
 import MyHeartPage from "./pages/MyHeartPage";
+import MyArticlePage from "./pages/MyArticlePage";
 import ReservationPage from "./pages/ReservationPage";
 import PartyApprovalPage from "./pages/PartyApprovalPage";
 import NewPartyPage from "./pages/NewPartyPage";
@@ -36,6 +37,7 @@ function App() {
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
   const AuthMyHeartPage = Auth(MyHeartPage, true);
+  const AuthMyArticlePage = Auth(MyArticlePage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
@@ -73,6 +75,7 @@ function App() {
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
           <Route path="/my/heart" element={<AuthMyHeartPage />} />
+          <Route path="/my/article" element={<AuthMyArticlePage />} />
           <Route path="/driver/apply" element={<AuthDriverApplyPage />} />
           <Route
             path="/search/place/:keyword"

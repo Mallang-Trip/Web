@@ -23,7 +23,6 @@ function CommunityPage() {
     try {
       const result = await getArticleList(articleType[category], 0);
       setArticleData(result.payload.content);
-      console.log(result.payload.content);
     } catch (e) {
       console.log(e);
     }

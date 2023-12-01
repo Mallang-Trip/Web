@@ -1,32 +1,35 @@
 import { useState } from "react";
+import { dateToGapKorean } from "../../../../../utils";
 import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
 
-function CommentItem({ commentData }) {
+function CommentItem({ profileImg, nickname, createdAt, content, replies }) {
   const [showReply, setShowReply] = useState(false);
 
   return (
     <div className="py-5">
       <div className="flex gap-2.5">
         <img
-          src={commentData.profileImage}
+          src={profileImg}
           alt="profile_image"
           className="w-10 h-10 rounded-full"
         />
         <div className="h-10 flex flex-col justify-center">
-          <p className="text-sm text-black font-bold">{commentData.userName}</p>
-          <p className="text-sm text-[#3E3E3E] font-medium">{`${commentData.time}분 전`}</p>
+          <p className="text-sm text-black font-bold">{nickname}</p>
+          <p className="text-sm text-[#3E3E3E] font-medium">
+            {dateToGapKorean(createdAt)}
+          </p>
         </div>
       </div>
       <div className="ml-[50px]">
         <div className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-2.5 mb-5">
-          {commentData.comment}
+          {content}
         </div>
         <div className="flex gap-8 text-xs">
           <button
             className="text-primary"
             onClick={() => setShowReply(!showReply)}
-          >{`답글 ${commentData.reply.length}개`}</button>
+          >{`답글 ${replies.length}개`}</button>
           <button className="text-darkgray">톡 보내기</button>
           <button className="text-darkgray">신고</button>
         </div>
@@ -36,8 +39,8 @@ function CommentItem({ commentData }) {
           }`}
         >
           <div className="ml-8">
-            {commentData.reply.map((reply) => (
-              <ReplyItem key={reply.id} reply={reply} />
+            {replies.map((reply, index) => (
+              <ReplyItem key={index} {...reply} />
             ))}
             <ReplyForm />
           </div>

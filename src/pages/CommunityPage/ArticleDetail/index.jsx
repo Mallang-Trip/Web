@@ -26,7 +26,7 @@ function ArticleDetail() {
   return (
     <>
       <ArticleBody {...article} />
-      <ArticleComment />
+      <ArticleComment comments={article.comments} />
     </>
   );
 }

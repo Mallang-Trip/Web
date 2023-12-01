@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import basicProfileImage from "../../../assets/images/profileImage.png";
+import { dateToGapKorean } from "../../../utils";
 
 function ArticleItem({
   articleId,
@@ -13,21 +14,6 @@ function ArticleItem({
   image,
 }) {
   const navigation = useNavigate();
-
-  const computeTime = () => {
-    const updated = new Date(updatedAt);
-    const now = new Date();
-    const diffMinute = (now - updated) / (1000 * 60);
-
-    if (diffMinute < 60) return `${Math.floor(diffMinute)}분 전`;
-    if (diffMinute < 60 * 60) return `${Math.floor(diffMinute / 60)}시간 전`;
-
-    return `${updated.getFullYear()}년 ${
-      updated.getMonth() + 1
-    }월 ${updated.getDate()}일 ${updated.getHours() >= 12 ? "오후" : "오전"} ${
-      updated.getHours() % 12 || 12
-    }시 ${updated.getMinutes()}분`;
-  };
 
   return (
     <div
@@ -52,7 +38,9 @@ function ArticleItem({
           <p className="w-full text-sm text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
           </p>
-          <p className="text-xs text-darkgray font-medium">{computeTime()}</p>
+          <p className="text-xs text-darkgray font-medium">
+            {dateToGapKorean(updatedAt, false)}
+          </p>
           <p className="text-xs text-darkgray font-medium mt-4">
             {`댓글 ${commentsCount}개`}
           </p>

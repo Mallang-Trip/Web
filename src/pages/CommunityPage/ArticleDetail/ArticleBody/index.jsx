@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { dateToGapKorean } from "../../../../utils";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
 import ShareModal from "../../../../components/PartyIconBox/ShareModal";
 import FillHeart from "../../../../assets/svg/FillHeart.svg";
@@ -6,12 +8,28 @@ import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
 
-function ArticleBody({ article }) {
+function ArticleBody({
+  profileImg,
+  nickname,
+  updatedAt,
+  title,
+  content,
+  images,
+  dibs,
+  partyName,
+  partyId,
+}) {
+  const navigation = useNavigate();
   const [imageIdx, setImageIdx] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const articleImage = [
+    images[0],
+    images[1] || images[0],
+    images[2] || images[0],
+  ];
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
@@ -22,19 +40,25 @@ function ArticleBody({ article }) {
     setHeart(!heart);
   };
 
+  useEffect(() => {
+    setHeart(dibs);
+  }, [dibs]);
+
   return (
     <>
       <div className="w-full pt-5 pb-8 border-b border-[#D9D9D9]">
         <div className="flex justify-between mb-3">
           <div className="flex gap-2.5">
             <img
-              src={article.profileImage}
+              src={profileImg}
               alt="profile_image"
               className="w-10 h-10 rounded-full"
             />
             <div className="h-10 flex flex-col justify-center">
-              <p className="text-sm text-black font-bold">{article.userName}</p>
-              <p className="text-sm text-[#3E3E3E] font-medium">{`${article.time}분 전`}</p>
+              <p className="text-sm text-black font-bold">{nickname}</p>
+              <p className="text-sm text-[#3E3E3E] font-medium">
+                {dateToGapKorean(updatedAt, true)}
+              </p>
             </div>
           </div>
           <div className="flex gap-2 items-center relative">
@@ -75,12 +99,12 @@ function ArticleBody({ article }) {
         </div>
 
         <div className="flex flex-col">
-          <p className="text-xl text-black font-bold">{article.title}</p>
+          <p className="text-xl text-black font-bold">{title}</p>
           <div className="w-ful grid grid-cols-2 rounded-lg overflow-hidden mt-5 mb-8">
             <div className="overflow-hidden max-h-[500px]">
               <img
                 className="object-cover w-full h-full rounded-l-lg transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                src={article.articleImage}
+                src={articleImage[0]}
                 alt="article_image"
                 onClick={() => imageClickHandler(0)}
               />
@@ -89,7 +113,7 @@ function ArticleBody({ article }) {
               <div className="overflow-hidden">
                 <img
                   className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={article.articleImage}
+                  src={articleImage[1]}
                   alt="article_image"
                   onClick={() => imageClickHandler(1)}
                 />
@@ -97,7 +121,7 @@ function ArticleBody({ article }) {
               <div className="overflow-hidden">
                 <img
                   className="rounded-br-lg object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={article.articleImage}
+                  src={articleImage[2]}
                   alt="article_image"
                   onClick={() => imageClickHandler(2)}
                 />
@@ -105,10 +129,13 @@ function ArticleBody({ article }) {
             </div>
           </div>
           <p className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
-            {article.content}
+            {content}
           </p>
-          <button className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12">
-            제주의 봄파티 구경하기
+          <button
+            className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
+            onClick={() => navigation(`/party/${partyId}`)}
+          >
+            {`${partyName} 구경하기`}
           </button>
         </div>
       </div>
@@ -116,24 +143,16 @@ function ArticleBody({ article }) {
       <ImageModal
         showModal={showImageModal}
         setShowModal={setShowImageModal}
-        images={[
-          article.articleImage,
-          article.articleImage,
-          article.articleImage,
-        ]}
+        images={articleImage}
         imageIdx={imageIdx}
         setImageIdx={setImageIdx}
-        name={article.title}
+        name={title}
       />
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}
-        partyImages={[
-          article.articleImage,
-          article.articleImage,
-          article.articleImage,
-        ]}
-        partyName={article.title}
+        partyImages={articleImage}
+        partyName={title}
       />
     </>
   );

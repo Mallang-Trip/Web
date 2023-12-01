@@ -15,7 +15,7 @@ const articleType = {
 };
 
 function CommunityPage() {
-  const { id } = useParams();
+  const { articleId } = useParams();
   const [category, setCategory] = useState("전체");
   const [articleData, setArticleData] = useState([]);
 
@@ -36,13 +36,13 @@ function CommunityPage() {
     window.scrollTo({
       top: 0,
     });
-  }, [id]);
+  }, [articleId]);
 
   return (
     <PageContainer>
       <Title />
       <Tab category={category} setCategory={setCategory} />
-      {id === "main" ? (
+      {articleId === "main" ? (
         <ArticleList articleData={articleData} />
       ) : (
         <ArticleDetail />

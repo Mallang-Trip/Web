@@ -1,26 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getArticleDetail } from "../../../api/article";
 import ArticleBody from "./ArticleBody";
 import ArticleComment from "./ArticleComment";
-import basicProfileImage from "../../../assets/images/profileImage.png";
-import articleImage from "../../../assets/images/제주도 이미지.jpg";
 
 function ArticleDetail() {
-  const [article, setArticle] = useState({
-    id: 1,
-    profileImage: basicProfileImage,
-    userName: "haribo22",
-    introduction: "한줄소개",
-    title: "여름 제주도 2박3일 같이 갈 동행자 구해요",
-    content:
-      "어쩌고 저쩌고 블라블라 함께 스쿠버 다이빙을 가고 싶은 사람을 찾고 있는데요...\n블라블라\n3줄 까지만 표현하며 넘길 시 ...으로 표현",
-    time: 59,
-    comment: 3,
-    articleImage: articleImage,
-  });
+  const { articleId } = useParams();
+  const [article, setArticle] = useState({});
 
+  const getArticleDetailFunc = async () => {
+    try {
+      const result = await getArticleDetail(articleId);
+      setArticle(result.payload);
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getArticleDetailFunc();
+  }, [articleId]);
+
+  if (!article.articleId) return null;
   return (
     <>
-      <ArticleBody article={article} />
+      <ArticleBody {...article} />
       <ArticleComment />
     </>
   );

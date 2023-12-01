@@ -25,11 +25,6 @@ function ArticleBody({
   const [showShareModal, setShowShareModal] = useState(false);
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const articleImage = [
-    images[0],
-    images[1] || images[0],
-    images[2] || images[0],
-  ];
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
@@ -100,50 +95,58 @@ function ArticleBody({
 
         <div className="flex flex-col">
           <p className="text-xl text-black font-bold">{title}</p>
-          <div className="w-ful grid grid-cols-2 rounded-lg overflow-hidden mt-5 mb-8">
-            <div className="overflow-hidden max-h-[500px]">
-              <img
-                className="object-cover w-full h-full rounded-l-lg transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                src={articleImage[0]}
-                alt="article_image"
-                onClick={() => imageClickHandler(0)}
-              />
-            </div>
-            <div className="grid grid-cols-1 overflow-hidden max-h-[500px]">
-              <div className="overflow-hidden">
+          <div className="w-full flex rounded-lg overflow-hidden mt-5 mb-8">
+            {images[0] && (
+              <div className="w-full overflow-hidden max-h-[500px]">
                 <img
                   className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={articleImage[1]}
+                  src={images[0]}
                   alt="article_image"
-                  onClick={() => imageClickHandler(1)}
+                  onClick={() => imageClickHandler(0)}
                 />
               </div>
-              <div className="overflow-hidden">
-                <img
-                  className="rounded-br-lg object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={articleImage[2]}
-                  alt="article_image"
-                  onClick={() => imageClickHandler(2)}
-                />
+            )}
+            {images[1] && (
+              <div className="w-full flex flex-col overflow-hidden max-h-[500px]">
+                <div className="overflow-hidden">
+                  <img
+                    className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                    src={images[1]}
+                    alt="article_image"
+                    onClick={() => imageClickHandler(1)}
+                  />
+                </div>
+                {images[2] && (
+                  <div className="overflow-hidden">
+                    <img
+                      className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                      src={images[2]}
+                      alt="article_image"
+                      onClick={() => imageClickHandler(2)}
+                    />
+                  </div>
+                )}
               </div>
-            </div>
+            )}
           </div>
           <p className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
           </p>
-          <button
-            className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
-            onClick={() => navigation(`/party/${partyId}`)}
-          >
-            {`${partyName} 구경하기`}
-          </button>
+          {partyId && (
+            <button
+              className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
+              onClick={() => navigation(`/party/${partyId}`)}
+            >
+              {`${partyName} 구경하기`}
+            </button>
+          )}
         </div>
       </div>
 
       <ImageModal
         showModal={showImageModal}
         setShowModal={setShowImageModal}
-        images={articleImage}
+        images={images}
         imageIdx={imageIdx}
         setImageIdx={setImageIdx}
         name={title}
@@ -151,7 +154,7 @@ function ArticleBody({
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}
-        partyImages={articleImage}
+        partyImages={images}
         partyName={title}
       />
     </>

@@ -61,7 +61,6 @@ function EditCoursePage() {
       <EditPeriod />
       <PersonLimit capacity={courseData.capacity} />
       <ToTalCredit totalPrice={courseData.days[0].price} />
-      <Revenue />
       <Platform />
     </PageContainer>
   );

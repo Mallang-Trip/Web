@@ -5,3 +5,6 @@ export const getArticleList = async (type, page) =>
 
 export const getArticleDetail = async (articleId) =>
   await GET(`/article/${articleId}`);
+
+export const getMyArticleList = async (page) =>
+  await GET(`/article/my?page=${page}`, true);

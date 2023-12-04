@@ -30,13 +30,11 @@ function CommunityPage() {
 
   useEffect(() => {
     getArticleListFunc();
-  }, [category]);
 
-  useEffect(() => {
     window.scrollTo({
       top: 0,
     });
-  }, [articleId]);
+  }, [articleId, category]);
 
   return (
     <PageContainer>

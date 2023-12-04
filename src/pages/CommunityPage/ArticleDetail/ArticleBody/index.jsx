@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { deleteMyArticle } from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
 import ShareModal from "../../../../components/PartyIconBox/ShareModal";
@@ -8,6 +9,7 @@ import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
+import CheckModal from "../../../../components/CheckModal";
 
 function ArticleBody({
   articleId,
@@ -29,6 +31,7 @@ function ArticleBody({
   const [showShareModal, setShowShareModal] = useState(false);
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
@@ -37,6 +40,15 @@ function ArticleBody({
 
   const heartClickHandler = () => {
     setHeart(!heart);
+  };
+
+  const deleteArticleHandler = async () => {
+    try {
+      await deleteMyArticle(articleId);
+      navigation("/community/main", { replace: true });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -91,7 +103,7 @@ function ArticleBody({
               </button>
               <button
                 className={`w-full h-[50px] rounded-b-lg text-[#FF0000] hover:bg-skyblue`}
-                onClick={() => console.log("삭제")}
+                onClick={() => setShowDeleteModal(true)}
               >
                 <span>삭제하기</span>
               </button>
@@ -162,6 +174,14 @@ function ArticleBody({
         setShowModal={setShowShareModal}
         partyImages={images}
         partyName={title}
+      />
+      <CheckModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        message={"삭제하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => deleteArticleHandler()}
       />
     </>
   );

@@ -1,26 +1,39 @@
-function ReservationItem({ reservation, selectPartyHandler }) {
-  if (!reservation) return null;
+function ReservationItem({
+  selectPartyHandler,
+  partyId,
+  image,
+  name,
+  startDate,
+  headcount,
+  capacity,
+  price,
+  driverName,
+}) {
+  if (!partyId) return null;
   else
     return (
       <div
         className="w-full relative h-64 mb-5 cursor-pointer rounded-lg"
-        onClick={() => selectPartyHandler(reservation.name)}
+        onClick={() =>
+          selectPartyHandler({
+            name: name,
+            partyId: partyId,
+          })
+        }
       >
         <img
           className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-          src={reservation.image}
-          alt="reservation-image"
+          src={image}
+          alt="party-image"
         />
         <div className="z-10 bg-black bg-opacity-30 w-full h-full flex justify-center items-center rounded-lg absolute top-0 left-0">
           <div className="text-center text-white flex flex-col gap-1.5">
-            <p className="text-xl font-bold">{reservation.name}</p>
-            <p className="text-sm">{`${reservation.date
+            <p className="text-xl font-bold">{name}</p>
+            <p className="text-sm">{`${startDate
               .slice(5)
-              .replace("-", "/")} | ${reservation.headcount}/${
-              reservation.capacity
-            }명 | ${reservation.price / 10000}만원 | ${
-              reservation.driverName
-            } 드라이버`}</p>
+              .replace("-", "/")} | ${headcount}/${capacity}명 | ${
+              price / 10000
+            }만원 | ${driverName} 드라이버`}</p>
           </div>
         </div>
       </div>

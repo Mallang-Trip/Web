@@ -1,4 +1,4 @@
-import { GET } from "../utils/axios";
+import { GET, POST } from "../utils/axios";
 
 export const getArticleList = async (type, page) =>
   await GET(`/article?type=${type}&page=${page}`);
@@ -8,3 +8,6 @@ export const getArticleDetail = async (articleId) =>
 
 export const getMyArticleList = async (page) =>
   await GET(`/article/my?page=${page}`, true);
+
+export const postNewArticle = async (body) =>
+  await POST(`/article`, body, true);

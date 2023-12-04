@@ -7,8 +7,8 @@ function ArticleComment({ comments }) {
     <div className="py-9">
       <CommentInfo commentCount={comments.length} />
       <CommentForm />
-      {comments.map((comment, index) => (
-        <CommentItem key={index} {...comment} />
+      {comments.map((comment) => (
+        <CommentItem key={comment.commentId} {...comment} />
       ))}
     </div>
   );

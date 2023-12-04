@@ -10,7 +10,7 @@ function PartySelectBox({ selectedParty, setSelectedParty }) {
         className="w-[200px] h-[50px] border border-[#D9D9D9] rounded-lg py-4 px-5 text-sm text-black flex items-center"
         onClick={() => setShowPartyModal(true)}
       >
-        {selectedParty}
+        {selectedParty.name}
       </button>
       <PartyModal
         showModal={showPartyModal}

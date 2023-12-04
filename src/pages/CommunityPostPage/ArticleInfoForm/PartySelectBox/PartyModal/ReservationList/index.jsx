@@ -9,11 +9,11 @@ function ReservationList({ myReservationData, selectPartyHandler }) {
     );
   return (
     <div className="w-full mt-9 h-[430px] overflow-y-auto noScrollBar">
-      {myReservationData.map((item, index) => (
+      {myReservationData.map((item) => (
         <ReservationItem
-          key={index}
-          reservation={item}
+          key={item.partyId}
           selectPartyHandler={selectPartyHandler}
+          {...item}
         />
       ))}
     </div>

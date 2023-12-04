@@ -39,8 +39,8 @@ function CommentItem({ profileImg, nickname, createdAt, content, replies }) {
           }`}
         >
           <div className="ml-8">
-            {replies.map((reply, index) => (
-              <ReplyItem key={index} {...reply} />
+            {replies.map((reply) => (
+              <ReplyItem key={reply.replyId} {...reply} />
             ))}
             <ReplyForm />
           </div>

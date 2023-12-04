@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { deleteMyArticle } from "../../../../api/article";
+import {
+  deleteMyArticle,
+  likeArticle,
+  unLikeArticle,
+} from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
 import ShareModal from "../../../../components/PartyIconBox/ShareModal";
@@ -38,8 +42,13 @@ function ArticleBody({
     setShowImageModal(true);
   };
 
-  const heartClickHandler = () => {
-    setHeart(!heart);
+  const heartClickHandler = async () => {
+    try {
+      heart ? await unLikeArticle(articleId) : await likeArticle(articleId);
+      setHeart(!heart);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const deleteArticleHandler = async () => {

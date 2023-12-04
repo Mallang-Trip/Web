@@ -29,3 +29,9 @@ export const postNewReply = async (commentId, reply) =>
 
 export const deleteMyReply = async (replyId) =>
   await DELETE(`/article/reply/${replyId}`, true);
+
+export const likeArticle = async (articleId) =>
+  await POST(`/article/dibs/${articleId}`, {}, true);
+
+export const unLikeArticle = async (articleId) =>
+  await DELETE(`/article/dibs/${articleId}`, true);

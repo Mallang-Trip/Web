@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { postNewArticle } from "../../api/article";
+import {
+  getArticleDetail,
+  postNewArticle,
+  updateMyArticle,
+} from "../../api/article";
 import { uploadImage } from "../../api/image";
 import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
@@ -44,9 +48,21 @@ function CommunityPostPage() {
 
     try {
       const imagesURL = [];
-      imagesURL[0] = images[0] ? await uploadImage(images[0]) : null;
-      imagesURL[1] = images[1] ? await uploadImage(images[1]) : null;
-      imagesURL[2] = images[2] ? await uploadImage(images[2]) : null;
+      imagesURL[0] = !images[0]
+        ? null
+        : typeof images[0] === "string"
+        ? images[0]
+        : await uploadImage(images[0]);
+      imagesURL[1] = !images[1]
+        ? null
+        : typeof images[1] === "string"
+        ? images[1]
+        : await uploadImage(images[1]);
+      imagesURL[2] = !images[2]
+        ? null
+        : typeof images[2] === "string"
+        ? images[2]
+        : await uploadImage(images[2]);
 
       const body = {
         type: articleType[selectedType],
@@ -56,8 +72,35 @@ function CommunityPostPage() {
         images: imagesURL,
       };
 
-      const result = await postNewArticle(body);
-      navigation(`/community/${result.payload.articleId}`, { replace: true });
+      const result =
+        id === "new"
+          ? await postNewArticle(body)
+          : await updateMyArticle(id, body);
+      navigation(`/community/${result.payload.articleId || id}`, {
+        replace: true,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getArticleData = async () => {
+    try {
+      const result = await getArticleDetail(id);
+
+      setSelectedType(
+        Object.entries(articleType).find(
+          ([, val]) => val === result.payload.type
+        )[0]
+      );
+      setTitle(result.payload.title);
+      setContent(result.payload.content);
+      setImages(result.payload.images);
+      if (result.payload.partyId)
+        setSelectedParty({
+          name: result.payload.partyName,
+          partyId: result.payload.partyId,
+        });
     } catch (e) {
       console.log(e);
     }
@@ -67,6 +110,7 @@ function CommunityPostPage() {
     window.scrollTo({
       top: 0,
     });
+    if (id !== "new") getArticleData();
   }, [id]);
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { dateToGapKorean } from "../../../../utils";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
 import ShareModal from "../../../../components/PartyIconBox/ShareModal";
@@ -9,6 +10,7 @@ import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
 
 function ArticleBody({
+  articleId,
   profileImg,
   nickname,
   updatedAt,
@@ -18,8 +20,10 @@ function ArticleBody({
   dibs,
   partyName,
   partyId,
+  userId,
 }) {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
   const [imageIdx, setImageIdx] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -67,11 +71,13 @@ function ArticleBody({
               src={shareIcon}
               onClick={() => setShowShareModal(true)}
             />
-            <img
-              className="cursor-pointer"
-              src={MoreDot}
-              onClick={() => setShowMore(!showMore)}
-            />
+            {user.userId === userId && (
+              <img
+                className="cursor-pointer"
+                src={MoreDot}
+                onClick={() => setShowMore(!showMore)}
+              />
+            )}
             <div
               className={`w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
                 showMore ? "max-h-[100px] border border-[#D9D9D9]" : "max-h-0"
@@ -79,7 +85,7 @@ function ArticleBody({
             >
               <button
                 className={`w-full h-[50px] rounded-t-lg text-black hover:bg-skyblue`}
-                onClick={() => console.log("수정")}
+                onClick={() => navigation(`/community/post/${articleId}`)}
               >
                 <span>수정하기</span>
               </button>

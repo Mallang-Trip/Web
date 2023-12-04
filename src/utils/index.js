@@ -39,7 +39,8 @@ export const dateToGapKorean = (date, withTime) => {
   const now = new Date();
   const diffMinute = (now - pivot) / (1000 * 60);
 
-  if (diffMinute < 60) return `${Math.floor(diffMinute)}분 전`;
+  if (diffMinute < 60)
+    return `${Math.floor(diffMinute) > 0 ? Math.floor(diffMinute) : 0}분 전`;
   if (diffMinute < 60 * 24) return `${Math.floor(diffMinute / 60)}시간 전`;
 
   if (!withTime)

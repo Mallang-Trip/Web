@@ -1,10 +1,35 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { dateToGapKorean } from "../../../../../utils";
 import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
+import { deleteMyComment } from "../../../../../api/article";
+import CheckModal from "../../../../../components/CheckModal";
 
-function CommentItem({ profileImg, nickname, createdAt, content, replies }) {
+function CommentItem({
+  reloadArticle,
+  commentId,
+  profileImg,
+  nickname,
+  createdAt,
+  content,
+  replies,
+  userId,
+  deleted,
+}) {
+  const user = useSelector((state) => state.user);
   const [showReply, setShowReply] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const deleteHandler = async () => {
+    try {
+      await deleteMyComment(commentId);
+      setShowDeleteModal(false);
+      reloadArticle();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="py-5">
@@ -32,6 +57,14 @@ function CommentItem({ profileImg, nickname, createdAt, content, replies }) {
           >{`답글 ${replies.length}개`}</button>
           <button className="text-darkgray">톡 보내기</button>
           <button className="text-darkgray">신고</button>
+          {user.userId === userId && !deleted && (
+            <button
+              className="text-darkgray"
+              onClick={() => setShowDeleteModal(true)}
+            >
+              삭제
+            </button>
+          )}
         </div>
         <div
           className={`w-full transition-all duration-500 overflow-hidden border-l-2 border-[#F4F4F4] mt-5 ${
@@ -46,6 +79,14 @@ function CommentItem({ profileImg, nickname, createdAt, content, replies }) {
           </div>
         </div>
       </div>
+      <CheckModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        message={"댓글을 삭제하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => deleteHandler()}
+      />
     </div>
   );
 }

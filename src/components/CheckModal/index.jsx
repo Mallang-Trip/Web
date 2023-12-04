@@ -9,18 +9,13 @@ function CheckModal({
   yesHandler,
 }) {
   const closeModal = () => {
-    document.body.classList.remove("overflow-hidden");
     setShowModal(false);
   };
 
   useEffect(() => {
-    if (!showModal) return;
-    document.body.classList.add("overflow-hidden");
+    if (showModal) document.body.classList.add("overflow-hidden");
+    else document.body.classList.remove("overflow-hidden");
   }, [showModal]);
-
-  useEffect(() => {
-    return () => closeModal();
-  }, []);
 
   return (
     <div

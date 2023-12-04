@@ -7,6 +7,9 @@ import ArticleComment from "./ArticleComment";
 function ArticleDetail() {
   const { articleId } = useParams();
   const [article, setArticle] = useState({});
+  const [reload, setReload] = useState(false);
+
+  const reloadArticle = () => setReload(!reload);
 
   const getArticleDetailFunc = async () => {
     try {
@@ -20,13 +23,16 @@ function ArticleDetail() {
 
   useEffect(() => {
     getArticleDetailFunc();
-  }, [articleId]);
+  }, [articleId, reload]);
 
   if (!article.articleId) return null;
   return (
     <>
       <ArticleBody {...article} />
-      <ArticleComment comments={article.comments} />
+      <ArticleComment
+        comments={article.comments}
+        reloadArticle={reloadArticle}
+      />
     </>
   );
 }

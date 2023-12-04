@@ -1,15 +1,30 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { postNewComment } from "../../../../../api/article";
 import profileImage from "../../../../../assets/images/profileImage.png";
 
-function CommentForm() {
+function CommentForm({ reloadArticle }) {
   const user = useSelector((state) => state.user);
+  const { articleId } = useParams();
   const [newComment, setNewComment] = useState("");
 
-  const commentSubmitHandler = (e) => {
+  const commentSubmitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(newComment);
+    try {
+      await postNewComment(articleId, newComment);
+
+      setNewComment("");
+      reloadArticle();
+
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

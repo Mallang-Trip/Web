@@ -2,13 +2,17 @@ import CommentInfo from "./CommentInfo";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 
-function ArticleComment({ comments }) {
+function ArticleComment({ comments, reloadArticle }) {
   return (
     <div className="py-9">
       <CommentInfo commentCount={comments.length} />
-      <CommentForm />
+      <CommentForm reloadArticle={reloadArticle} />
       {comments.map((comment) => (
-        <CommentItem key={comment.commentId} {...comment} />
+        <CommentItem
+          key={comment.commentId}
+          reloadArticle={reloadArticle}
+          {...comment}
+        />
       ))}
     </div>
   );

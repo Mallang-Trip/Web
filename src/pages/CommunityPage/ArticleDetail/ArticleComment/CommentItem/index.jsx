@@ -73,9 +73,13 @@ function CommentItem({
         >
           <div className="ml-8">
             {replies.map((reply) => (
-              <ReplyItem key={reply.replyId} {...reply} />
+              <ReplyItem
+                key={reply.replyId}
+                reloadArticle={reloadArticle}
+                {...reply}
+              />
             ))}
-            <ReplyForm />
+            <ReplyForm commentId={commentId} reloadArticle={reloadArticle} />
           </div>
         </div>
       </div>

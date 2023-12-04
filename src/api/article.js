@@ -23,3 +23,9 @@ export const postNewComment = async (articleId, comment) =>
 
 export const deleteMyComment = async (commentId) =>
   await DELETE(`/article/comment/${commentId}`, true);
+
+export const postNewReply = async (commentId, reply) =>
+  await POST(`/article/reply/${commentId}?content=${reply}`, {}, true);
+
+export const deleteMyReply = async (replyId) =>
+  await DELETE(`/article/reply/${replyId}`, true);

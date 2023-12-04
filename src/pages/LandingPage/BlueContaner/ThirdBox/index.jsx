@@ -7,10 +7,10 @@ function ThirdBox({ num, setNum }) {
 
   return (
     <div className="w-full h-32 my-auto bg-white">
-      <p className="mt-3 mb-5 ml-3 text-gray-500 text-sm md:text-base text-gray">
+      <p className="mt-3 mb-2 md:mb-5 ml-2 text-gray-500 text-xs md:text-base text-gray">
         참여 인원
       </p>
-      <div className="w-full flex justify-center gap-1 md:gap-3 text-lg md:text-xl text-black">
+      <div className="w-full flex flex-col md:flex-row justify-center items-center gap-1 md:gap-3 text-base md:text-xl text-black">
         <RemoveIcon
           onClick={setDecrease}
           className="border-2 border-red-500 rounded-full text-red-500 cursor-pointer"

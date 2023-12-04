@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TypeDropBox from "./TypeDropBox";
 import PartySelectBox from "./PartySelectBox";
 import ImageInputBox from "./ImageInputBox";
@@ -13,6 +13,12 @@ function ArticleInfoForm({
 }) {
   const [showDropBox, setShowDropBox] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
+
+  useEffect(() => {
+    images.forEach((item) => {
+      if (item) setShowImageInput(true);
+    });
+  }, [images]);
 
   return (
     <>

@@ -6,7 +6,7 @@ function HeadTitle({ name, driverName, driverId, isDriver }) {
 
   return (
     <>
-      <div className="text-2xl font-bold text-black">{name}</div>
+      <div className="text-2xl font-bold text-black pb-16">{name}</div>
       {isDriver === true && (
         <div
           className="text-sm text-darkgray cursor-pointer"

@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import profileImage from "../../../../../../assets/images/profileImage.png";
+import { postNewReply } from "../../../../../../api/article";
 
-function ReplyForm() {
+function ReplyForm({ commentId, reloadArticle }) {
   const user = useSelector((state) => state.user);
-  const [newApply, setNewApply] = useState("");
+  const [newReply, setNewReply] = useState("");
 
-  const applySubmitHandler = (e) => {
+  const applySubmitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(newApply);
+    try {
+      await postNewReply(commentId, newReply);
+      setNewReply("");
+      reloadArticle();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -24,8 +31,8 @@ function ReplyForm() {
       />
       <input
         type="text"
-        value={newApply}
-        onChange={(e) => setNewApply(e.target.value)}
+        value={newReply}
+        onChange={(e) => setNewReply(e.target.value)}
         className="w-full focus:outline-none bg-[#F4F4F4] py-2.5 px-5 text-base rounded-lg"
         placeholder="답글을 입력해주세요."
       />

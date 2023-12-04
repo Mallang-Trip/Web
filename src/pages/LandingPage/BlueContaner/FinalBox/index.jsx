@@ -14,10 +14,10 @@ function FinalBox({ price, setPrice }) {
           setShowModal(true);
         }}
       >
-        <p className="mt-3 mb-5 ml-3 text-gray-500 text-sm md:text-base text-gray">
+        <p className="mt-3 mb-5 ml-2 text-gray-500 text-xs md:text-base text-gray">
           가격범위
         </p>
-        <p className="text-lg md:text-xl text-center text-black">
+        <p className="text-base md:text-xl text-center text-black">
           {price > 1000000 ? "상관없이" : `~${price / 10000}만원`}
         </p>
         {price <= 1000000 && (

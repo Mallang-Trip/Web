@@ -6,7 +6,7 @@ function CourseItem({
 }) {
   return (
     <button
-      className={`px-5 py-1.5 text-sm border border-current rounded-full hover:bg-primary hover:text-white ${
+      className={`px-5 py-1.5 text-xs md:text-sm border border-current rounded-full hover:bg-primary hover:text-white ${
         courseId === selectedCourseId
           ? "text-white bg-primary"
           : "text-darkgray"

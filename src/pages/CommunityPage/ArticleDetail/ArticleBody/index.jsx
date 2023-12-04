@@ -1,26 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  deleteMyArticle,
+  likeArticle,
+  unLikeArticle,
+} from "../../../../api/article";
+import { dateToGapKorean } from "../../../../utils";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
 import ShareModal from "../../../../components/PartyIconBox/ShareModal";
 import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
+import CheckModal from "../../../../components/CheckModal";
 
-function ArticleBody({ article }) {
+function ArticleBody({
+  articleId,
+  profileImg,
+  nickname,
+  updatedAt,
+  title,
+  content,
+  images,
+  dibs,
+  partyName,
+  partyId,
+  userId,
+}) {
+  const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
   const [imageIdx, setImageIdx] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
     setShowImageModal(true);
   };
 
-  const heartClickHandler = () => {
-    setHeart(!heart);
+  const heartClickHandler = async () => {
+    try {
+      heart ? await unLikeArticle(articleId) : await likeArticle(articleId);
+      setHeart(!heart);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  const deleteArticleHandler = async () => {
+    try {
+      await deleteMyArticle(articleId);
+      navigation("/community/main", { replace: true });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    setHeart(dibs);
+  }, [dibs]);
 
   return (
     <>
@@ -28,13 +70,15 @@ function ArticleBody({ article }) {
         <div className="flex justify-between mb-3">
           <div className="flex gap-2.5">
             <img
-              src={article.profileImage}
+              src={profileImg}
               alt="profile_image"
               className="w-10 h-10 rounded-full"
             />
             <div className="h-10 flex flex-col justify-center">
-              <p className="text-sm text-black font-bold">{article.userName}</p>
-              <p className="text-sm text-[#3E3E3E] font-medium">{`${article.time}분 전`}</p>
+              <p className="text-sm text-black font-bold">{nickname}</p>
+              <p className="text-sm text-[#3E3E3E] font-medium">
+                {dateToGapKorean(updatedAt, true)}
+              </p>
             </div>
           </div>
           <div className="flex gap-2 items-center relative">
@@ -48,11 +92,13 @@ function ArticleBody({ article }) {
               src={shareIcon}
               onClick={() => setShowShareModal(true)}
             />
-            <img
-              className="cursor-pointer"
-              src={MoreDot}
-              onClick={() => setShowMore(!showMore)}
-            />
+            {user.userId === userId && (
+              <img
+                className="cursor-pointer"
+                src={MoreDot}
+                onClick={() => setShowMore(!showMore)}
+              />
+            )}
             <div
               className={`w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
                 showMore ? "max-h-[100px] border border-[#D9D9D9]" : "max-h-0"
@@ -60,13 +106,13 @@ function ArticleBody({ article }) {
             >
               <button
                 className={`w-full h-[50px] rounded-t-lg text-black hover:bg-skyblue`}
-                onClick={() => console.log("수정")}
+                onClick={() => navigation(`/community/post/${articleId}`)}
               >
                 <span>수정하기</span>
               </button>
               <button
                 className={`w-full h-[50px] rounded-b-lg text-[#FF0000] hover:bg-skyblue`}
-                onClick={() => console.log("삭제")}
+                onClick={() => setShowDeleteModal(true)}
               >
                 <span>삭제하기</span>
               </button>
@@ -75,65 +121,76 @@ function ArticleBody({ article }) {
         </div>
 
         <div className="flex flex-col">
-          <p className="text-xl text-black font-bold">{article.title}</p>
-          <div className="w-ful grid grid-cols-2 rounded-lg overflow-hidden mt-5 mb-8">
-            <div className="overflow-hidden max-h-[500px]">
-              <img
-                className="object-cover w-full h-full rounded-l-lg transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                src={article.articleImage}
-                alt="article_image"
-                onClick={() => imageClickHandler(0)}
-              />
-            </div>
-            <div className="grid grid-cols-1 overflow-hidden max-h-[500px]">
-              <div className="overflow-hidden">
+          <p className="text-xl text-black font-bold">{title}</p>
+          <div className="w-full flex rounded-lg overflow-hidden mt-5 mb-8">
+            {images[0] && (
+              <div className="w-full overflow-hidden max-h-[500px]">
                 <img
                   className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={article.articleImage}
+                  src={images[0]}
                   alt="article_image"
-                  onClick={() => imageClickHandler(1)}
+                  onClick={() => imageClickHandler(0)}
                 />
               </div>
-              <div className="overflow-hidden">
-                <img
-                  className="rounded-br-lg object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={article.articleImage}
-                  alt="article_image"
-                  onClick={() => imageClickHandler(2)}
-                />
+            )}
+            {images[1] && (
+              <div className="w-full flex flex-col overflow-hidden max-h-[500px]">
+                <div className="overflow-hidden">
+                  <img
+                    className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                    src={images[1]}
+                    alt="article_image"
+                    onClick={() => imageClickHandler(1)}
+                  />
+                </div>
+                {images[2] && (
+                  <div className="overflow-hidden">
+                    <img
+                      className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                      src={images[2]}
+                      alt="article_image"
+                      onClick={() => imageClickHandler(2)}
+                    />
+                  </div>
+                )}
               </div>
-            </div>
+            )}
           </div>
           <p className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
-            {article.content}
+            {content}
           </p>
-          <button className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12">
-            제주의 봄파티 구경하기
-          </button>
+          {partyId && (
+            <button
+              className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
+              onClick={() => navigation(`/party/${partyId}`)}
+            >
+              {`${partyName} 구경하기`}
+            </button>
+          )}
         </div>
       </div>
 
       <ImageModal
         showModal={showImageModal}
         setShowModal={setShowImageModal}
-        images={[
-          article.articleImage,
-          article.articleImage,
-          article.articleImage,
-        ]}
+        images={images}
         imageIdx={imageIdx}
         setImageIdx={setImageIdx}
-        name={article.title}
+        name={title}
       />
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}
-        partyImages={[
-          article.articleImage,
-          article.articleImage,
-          article.articleImage,
-        ]}
-        partyName={article.title}
+        partyImages={images}
+        partyName={title}
+      />
+      <CheckModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        message={"삭제하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => deleteArticleHandler()}
       />
     </>
   );

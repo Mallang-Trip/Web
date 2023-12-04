@@ -33,7 +33,11 @@ function ImageInput({ images, setImages, index }) {
             onMouseLeave={() => setDeleteMode(false)}
           >
             <img
-              src={URL.createObjectURL(images[index])}
+              src={
+                typeof images[index] === "string"
+                  ? images[index]
+                  : URL.createObjectURL(images[index])
+              }
               alt="Article_Image"
               className="object-cover w-full h-full rounded-lg"
             />

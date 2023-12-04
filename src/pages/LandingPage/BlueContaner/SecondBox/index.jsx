@@ -7,11 +7,11 @@ function SecondBox({ nowDate, setNowDate }) {
   return (
     <>
       <div className="w-full h-32 my-auto bg-white cursor-pointer">
-        <p className="mt-3 mb-5 ml-3 text-gray-500 text-sm md:text-base text-gray">
+        <p className="mt-3 mb-5 ml-2 text-gray-500 text-xs md:text-base text-gray">
           가능한 일정
         </p>
         <p
-          className="text-lg md:text-xl text-black text-center"
+          className="text-base md:text-xl text-black text-center"
           onClick={() => setShowModal(true)}
         >
           {nowDate.length

@@ -2,16 +2,7 @@ import { useState } from "react";
 import TabBar from "./TabBar";
 import TabItem from "./TabItem";
 
-const TabList = [
-  "전체",
-  "동행구해요",
-  "인기글",
-  "관광지",
-  "제주도",
-  "춘천",
-  "질문",
-  "이벤트",
-];
+const TabList = ["전체", "자유게시판", "동행구해요", "피드백"];
 
 function Tab({ category, setCategory }) {
   const [offsetX, setOffsetX] = useState(0);

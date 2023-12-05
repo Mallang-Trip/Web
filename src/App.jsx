@@ -68,7 +68,6 @@ function App() {
             element={<AuthPartyApprovalPage />}
           />
           <Route path="/party/new/:step" element={<AuthNewPartyPage />} />
-          <Route path="/party/history" element={<AuthPartyHistoryPage />} />
           <Route
             path="/driver/profile/:driverId"
             element={<AuthDriverProfilePage />}
@@ -76,7 +75,8 @@ function App() {
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
           <Route path="/my/heart" element={<AuthMyHeartPage />} />
           <Route path="/my/article" element={<AuthMyArticlePage />} />
-          <Route path="/driver/apply" element={<AuthDriverApplyPage />} />
+          <Route path="/my/party/history" element={<AuthPartyHistoryPage />} />
+          <Route path="/my/driver/apply" element={<AuthDriverApplyPage />} />
           <Route
             path="/search/place/:keyword"
             element={<AuthSearchPlacePage />}

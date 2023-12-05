@@ -311,7 +311,7 @@ function Header() {
             <li>
               <button
                 onClick={() => {
-                  navigation("/party/history");
+                  navigation("/my/party/history");
                   setShowUserMenu(false);
                 }}
                 className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -330,7 +330,7 @@ function Header() {
             <li>
               <button
                 onClick={() => {
-                  navigation("/driver/apply");
+                  navigation("/my/driver/apply");
                   setShowUserMenu(false);
                 }}
                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

@@ -19,6 +19,10 @@ function MyHeartPage() {
 
   useEffect(() => {
     getMyHeartData();
+
+    window.scrollTo({
+      top: 0,
+    });
   }, []);
 
   return (

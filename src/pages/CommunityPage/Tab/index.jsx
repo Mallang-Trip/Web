@@ -18,7 +18,7 @@ function Tab({ category, setCategory }) {
 
   if (articleId !== "main") return null;
   return (
-    <div className="flex flex-nowrap overflow-x-auto mt-2 mb-9 gap-5 text-center relative noScrollBar">
+    <div className="flex flex-nowrap overflow-x-auto mt-2 mb-2 gap-5 text-center relative noScrollBar">
       <TabBar offsetX={offsetX} offsetWidth={offsetWidth} />
       {TabList.map((item) => (
         <TabItem

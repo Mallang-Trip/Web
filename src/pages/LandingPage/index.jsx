@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PageContainer from "../../components/PageContainer";
 import BlueContaner from "./BlueContaner";
@@ -10,6 +10,12 @@ function LandingPage() {
   const [nowDate, setNowDate] = useState([]);
   const [num, setNum] = useState(1);
   const [price, setPrice] = useState(1010000);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
 
   return (
     <PageContainer>

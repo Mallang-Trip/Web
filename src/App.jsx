@@ -88,7 +88,7 @@ function App() {
           <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
           <Route path="/community/:articleId" element={<AuthCommunityPage />} />
           <Route
-            path="/community/post/:id"
+            path="/community/post/:articleId"
             element={<AuthCommunityPostPage />}
           />
           <Route

@@ -20,7 +20,7 @@ const articleType = {
 };
 
 function CommunityPostPage() {
-  const { id } = useParams();
+  const { articleId } = useParams();
   const navigation = useNavigate();
   const [selectedType, setSelectedType] = useState("선택해주세요.");
   const [selectedParty, setSelectedParty] = useState({
@@ -73,10 +73,10 @@ function CommunityPostPage() {
       };
 
       const result =
-        id === "new"
+        articleId === "new"
           ? await postNewArticle(body)
-          : await updateMyArticle(id, body);
-      navigation(`/community/${result.payload.articleId || id}`, {
+          : await updateMyArticle(articleId, body);
+      navigation(`/community/${result.payload.articleId || articleId}`, {
         replace: true,
       });
     } catch (e) {
@@ -86,7 +86,7 @@ function CommunityPostPage() {
 
   const getArticleData = async () => {
     try {
-      const result = await getArticleDetail(id);
+      const result = await getArticleDetail(articleId);
 
       setSelectedType(
         Object.entries(articleType).find(
@@ -110,8 +110,8 @@ function CommunityPostPage() {
     window.scrollTo({
       top: 0,
     });
-    if (id !== "new") getArticleData();
-  }, [id]);
+    if (articleId !== "new") getArticleData();
+  }, [articleId]);
 
   return (
     <PageContainer>

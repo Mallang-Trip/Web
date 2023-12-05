@@ -35,3 +35,9 @@ export const likeArticle = async (articleId) =>
 
 export const unLikeArticle = async (articleId) =>
   await DELETE(`/article/dibs/${articleId}`, true);
+
+export const searchArticle = async (keyword, type, page) =>
+  await GET(
+    `/article/search?type=${type}&keyword=${keyword}&page=${page}`,
+    true
+  );

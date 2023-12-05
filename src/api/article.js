@@ -9,6 +9,9 @@ export const getArticleDetail = async (articleId) =>
 export const getMyArticleList = async (page) =>
   await GET(`/article/my?page=${page}`, true);
 
+export const getMyCommentList = async (page) =>
+  await GET(`/article/comment/my?page=${page}`, true);
+
 export const postNewArticle = async (body) =>
   await POST(`/article`, body, true);
 

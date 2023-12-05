@@ -21,7 +21,7 @@ function Tab({ tabCategory, setTabCategory }) {
       >
         댓글 목록
       </button>
-      <button
+      {/* <button
         className={`${
           tabCategory === "review"
             ? "bg-primary text-white border-primary"
@@ -30,7 +30,7 @@ function Tab({ tabCategory, setTabCategory }) {
         onClick={() => setTabCategory("review")}
       >
         리뷰 목록
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import UserService from "./UserService";
 import UserPrivacy from "./UserPrivacy";
 import UserLocation from "./UserLocation";
 import DriverService from "./DriverService";
+import DriverPrivacy from "./DriverPrivacy";
 
 function PolicyPage() {
   const { category, type } = useParams();
@@ -18,6 +19,7 @@ function PolicyPage() {
   if (category === "user" && type === "privacy") return <UserPrivacy />;
   if (category === "user" && type === "location") return <UserLocation />;
   if (category === "driver" && type === "service") return <DriverService />;
+  if (category === "driver" && type === "privacy") return <DriverPrivacy />;
   return <div>PolicyPage</div>;
 }
 

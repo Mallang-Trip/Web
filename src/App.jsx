@@ -24,10 +24,12 @@ import EditCoursePage from "./pages/EditCoursePage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage";
 import CommunitySearchPage from "./pages/CommunitySearchPage";
+import PolicyPage from "./pages/PolicyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthIntroPage = Auth(IntroPage, null);
+  const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
   const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
   const AuthReservationPage = Auth(ReservationPage, true);
@@ -54,6 +56,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
           <Route path="/intro" element={<AuthIntroPage />} />
+          <Route path="/policy/:category/:type" element={<AuthPolicyPage />} />
           <Route path="/party/:partyId" element={<AuthPartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"

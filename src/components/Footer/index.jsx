@@ -13,7 +13,12 @@ function Footer() {
           회사 소개
         </button>
         <div>|</div>
-        <button className="hover:underline underline-offset-2">이용약관</button>
+        <button
+          className="hover:underline underline-offset-2"
+          onClick={() => navigation("/policy/user/service")}
+        >
+          이용약관
+        </button>
         <div>|</div>
         <button className="hover:underline underline-offset-2 text-primary">
           개인정보처리방침

@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserService from "./UserService";
 import UserPrivacy from "./UserPrivacy";
 import UserLocation from "./UserLocation";
 import DriverService from "./DriverService";
 import DriverPrivacy from "./DriverPrivacy";
+import DriverLocation from "./DriverLocation";
 
 function PolicyPage() {
   const { category, type } = useParams();
+  const navigation = useNavigate();
 
   useEffect(() => {
     window.scrollTo({
@@ -15,12 +17,17 @@ function PolicyPage() {
     });
   }, [category, type]);
 
-  if (category === "user" && type === "service") return <UserService />;
-  if (category === "user" && type === "privacy") return <UserPrivacy />;
-  if (category === "user" && type === "location") return <UserLocation />;
-  if (category === "driver" && type === "service") return <DriverService />;
-  if (category === "driver" && type === "privacy") return <DriverPrivacy />;
-  return <div>PolicyPage</div>;
+  if (category === "user") {
+    if (type === "service") return <UserService />;
+    if (type === "privacy") return <UserPrivacy />;
+    if (type === "location") return <UserLocation />;
+  }
+  if (category === "driver") {
+    if (type === "service") return <DriverService />;
+    if (type === "privacy") return <DriverPrivacy />;
+    if (type === "location") return <DriverLocation />;
+  }
+  return navigation("/", { replace: true });
 }
 
 export default PolicyPage;

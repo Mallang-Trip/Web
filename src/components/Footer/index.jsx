@@ -27,7 +27,10 @@ function Footer() {
           개인정보처리방침
         </button>
         <div>|</div>
-        <button className="hover:underline underline-offset-2 focus:outline-none">
+        <button
+          className="hover:underline underline-offset-2 focus:outline-none"
+          onClick={() => navigation("/policy/user/location")}
+        >
           위치기반 서비스 이용약관
         </button>
         <div>|</div>
@@ -44,16 +47,25 @@ function Footer() {
             회사 소개
           </button>
           <div>|</div>
-          <button className="hover:underline underline-offset-2 focus:outline-none">
+          <button
+            className="hover:underline underline-offset-2 focus:outline-none"
+            onClick={() => navigation("/policy/user/service")}
+          >
             이용약관
           </button>
           <div>|</div>
-          <button className="hover:underline underline-offset-2 text-primary focus:outline-none">
+          <button
+            className="hover:underline underline-offset-2 text-primary focus:outline-none"
+            onClick={() => navigation("/policy/user/privacy")}
+          >
             개인정보처리방침
           </button>
         </div>
         <div className="mt-2 flex gap-3 justify-center items-center flex-wrap">
-          <button className="hover:underline underline-offset-2 focus:outline-none">
+          <button
+            className="hover:underline underline-offset-2 focus:outline-none"
+            onClick={() => navigation("/policy/user/location")}
+          >
             위치기반 서비스 이용약관
           </button>
           <div>|</div>

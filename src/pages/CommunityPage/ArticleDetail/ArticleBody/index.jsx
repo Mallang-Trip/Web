@@ -57,6 +57,7 @@ function ArticleBody({
   const deleteArticleHandler = async () => {
     try {
       await deleteMyArticle(articleId);
+      document.body.classList.remove("overflow-hidden");
       navigation("/community/main", { replace: true });
     } catch (e) {
       console.log(e);

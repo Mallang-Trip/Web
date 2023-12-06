@@ -10,6 +10,7 @@ function ArticleItem({
   title,
   content,
   updatedAt,
+  createdAt,
   commentsCount,
   image,
 }) {
@@ -39,7 +40,7 @@ function ArticleItem({
             {content}
           </p>
           <p className="text-xs text-darkgray font-medium">
-            {dateToGapKorean(updatedAt, false)}
+            {dateToGapKorean(updatedAt || createdAt, false)}
           </p>
           <p className="text-xs text-darkgray font-medium mt-4">
             {`댓글 ${commentsCount}개`}

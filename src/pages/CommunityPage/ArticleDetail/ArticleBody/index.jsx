@@ -36,6 +36,7 @@ function ArticleBody({
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
@@ -43,6 +44,8 @@ function ArticleBody({
   };
 
   const heartClickHandler = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+
     try {
       heart ? await unLikeArticle(articleId) : await likeArticle(articleId);
       setHeart(!heart);
@@ -191,6 +194,14 @@ function ArticleBody({
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => deleteArticleHandler()}
+      />
+      <CheckModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+        message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => navigation("/login")}
       />
     </>
   );

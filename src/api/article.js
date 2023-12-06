@@ -4,7 +4,7 @@ export const getArticleList = async (type, page) =>
   await GET(`/article?type=${type}&page=${page}`);
 
 export const getArticleDetail = async (articleId) =>
-  await GET(`/article/${articleId}`);
+  await GET(`/article/${articleId}`, true);
 
 export const getMyArticleList = async (page) =>
   await GET(`/article/my?page=${page}`, true);

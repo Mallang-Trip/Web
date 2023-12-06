@@ -512,15 +512,15 @@ function UserService() {
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-center">
+                  <th scope="col" className="w-1/3 px-6 py-3 text-center">
                     청약 철회 기간
                     <br />
                     (해당 일자의 23:59까지)
                   </th>
-                  <th scope="col" className="px-6 py-3 text-center">
+                  <th scope="col" className="w-1/3 px-6 py-3 text-center">
                     위약금
                   </th>
-                  <th scope="col" className="px-6 py-3 text-center">
+                  <th scope="col" className="w-1/3 px-6 py-3 text-center">
                     환급되는 금액
                   </th>
                 </tr>

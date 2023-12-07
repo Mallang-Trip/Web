@@ -25,7 +25,6 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
       });
 
       tmapMarker.on("click", function (evt) {
-        console.log(marker);
         markerData.unshift(marker);
         initTmap();
         setClicked(true);

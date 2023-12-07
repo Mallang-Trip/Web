@@ -15,7 +15,6 @@ function ArticleDetail() {
     try {
       const result = await getArticleDetail(articleId);
       setArticle(result.payload);
-      console.log(result);
     } catch (e) {
       console.log(e);
     }

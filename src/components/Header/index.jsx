@@ -24,6 +24,7 @@ function Header() {
   const header_profile = useRef();
   const user_menu = useRef();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchArticleKeyword, setSearchArticleKeyword] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const getMenuPosition = () => {
@@ -44,6 +45,17 @@ function Header() {
 
     setSearchKeyword("");
     navigation(`/search/place/${searchKeyword}`);
+  };
+
+  const searchArticleHandler = (e) => {
+    e.preventDefault();
+    if (searchArticleKeyword === "") return;
+
+    const replacePage = location.pathname.slice(0, 17) === "/community/search";
+    setSearchArticleKeyword("");
+    navigation(`/community/search/${searchArticleKeyword}`, {
+      replace: replacePage,
+    });
   };
 
   const showSearchBox = () => {
@@ -223,16 +235,29 @@ function Header() {
                   ></path>
                 </svg>
               </div>
-              <form onSubmit={searchHandler}>
-                <input
-                  type="text"
-                  className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
-                  placeholder="여행지를 검색해보세요"
-                  value={searchKeyword}
-                  onChange={(e) => setSearchKeyword(e.target.value)}
-                />
-                <button type="submit" className="hidden" />
-              </form>
+              {location.pathname.substring(0, 10) === "/community" ? (
+                <form onSubmit={searchArticleHandler}>
+                  <input
+                    type="text"
+                    className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
+                    placeholder="게시글을 검색해보세요"
+                    value={searchArticleKeyword}
+                    onChange={(e) => setSearchArticleKeyword(e.target.value)}
+                  />
+                  <button type="submit" className="hidden" />
+                </form>
+              ) : (
+                <form onSubmit={searchHandler}>
+                  <input
+                    type="text"
+                    className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
+                    placeholder="여행지를 검색해보세요"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                  />
+                  <button type="submit" className="hidden" />
+                </form>
+              )}
             </div>
           </div>
         )}
@@ -286,7 +311,7 @@ function Header() {
             <li>
               <button
                 onClick={() => {
-                  navigation("/party/history");
+                  navigation("/my/party/history");
                   setShowUserMenu(false);
                 }}
                 className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -305,7 +330,7 @@ function Header() {
             <li>
               <button
                 onClick={() => {
-                  navigation("/driver/apply");
+                  navigation("/my/driver/apply");
                   setShowUserMenu(false);
                 }}
                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

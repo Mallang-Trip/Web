@@ -24,10 +24,12 @@ import EditCoursePage from "./pages/EditCoursePage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage";
 import CommunitySearchPage from "./pages/CommunitySearchPage";
+import PolicyPage from "./pages/PolicyPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthIntroPage = Auth(IntroPage, null);
+  const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
   const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
   const AuthReservationPage = Auth(ReservationPage, true);
@@ -54,6 +56,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuthLandingPage />} />
           <Route path="/intro" element={<AuthIntroPage />} />
+          <Route path="/policy/:category/:type" element={<AuthPolicyPage />} />
           <Route path="/party/:partyId" element={<AuthPartyPage />} />
           <Route
             path="/party/course/suggest/:partyId"
@@ -68,7 +71,6 @@ function App() {
             element={<AuthPartyApprovalPage />}
           />
           <Route path="/party/new/:step" element={<AuthNewPartyPage />} />
-          <Route path="/party/history" element={<AuthPartyHistoryPage />} />
           <Route
             path="/driver/profile/:driverId"
             element={<AuthDriverProfilePage />}
@@ -76,7 +78,8 @@ function App() {
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
           <Route path="/my/heart" element={<AuthMyHeartPage />} />
           <Route path="/my/article" element={<AuthMyArticlePage />} />
-          <Route path="/driver/apply" element={<AuthDriverApplyPage />} />
+          <Route path="/my/party/history" element={<AuthPartyHistoryPage />} />
+          <Route path="/my/driver/apply" element={<AuthDriverApplyPage />} />
           <Route
             path="/search/place/:keyword"
             element={<AuthSearchPlacePage />}
@@ -88,7 +91,7 @@ function App() {
           <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
           <Route path="/community/:articleId" element={<AuthCommunityPage />} />
           <Route
-            path="/community/post/:id"
+            path="/community/post/:articleId"
             element={<AuthCommunityPostPage />}
           />
           <Route

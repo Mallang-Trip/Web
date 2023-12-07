@@ -8,7 +8,7 @@ function ArticleBodyForm({
   setContent,
   submitHandler,
 }) {
-  const { id } = useParams();
+  const { articleId } = useParams();
   const textareaRef = useRef();
 
   const titleHandler = (e) => {
@@ -45,7 +45,7 @@ function ArticleBodyForm({
           type="submit"
           className="h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
         >
-          {id === "new" ? "등록하기" : "수정하기"}
+          {articleId === "new" ? "등록하기" : "수정하기"}
         </button>
       </div>
     </form>

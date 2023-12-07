@@ -7,10 +7,15 @@ function SearchPlacePage() {
 
   return (
     <PageContainer>
-      <div className="text-2xl pt-8 py-4 text-black">
+      <p className="text-2xl text-black font-bold my-9">
         가고 싶은 여행지를 찾아요
-      </div>
-      <PlaceMap search={true} newPlace={true} keyword={keyword} detail={true} />
+      </p>
+      <PlaceMap
+        search={true}
+        newPlace={false}
+        keyword={keyword}
+        detail={true}
+      />
     </PageContainer>
   );
 }

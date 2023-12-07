@@ -4,10 +4,13 @@ export const getArticleList = async (type, page) =>
   await GET(`/article?type=${type}&page=${page}`);
 
 export const getArticleDetail = async (articleId) =>
-  await GET(`/article/${articleId}`);
+  await GET(`/article/${articleId}`, true);
 
 export const getMyArticleList = async (page) =>
   await GET(`/article/my?page=${page}`, true);
+
+export const getMyCommentList = async (page) =>
+  await GET(`/article/comment/my?page=${page}`, true);
 
 export const postNewArticle = async (body) =>
   await POST(`/article`, body, true);
@@ -35,3 +38,9 @@ export const likeArticle = async (articleId) =>
 
 export const unLikeArticle = async (articleId) =>
   await DELETE(`/article/dibs/${articleId}`, true);
+
+export const searchArticle = async (keyword, type, page) =>
+  await GET(
+    `/article/search?type=${type}&keyword=${keyword}&page=${page}`,
+    true
+  );

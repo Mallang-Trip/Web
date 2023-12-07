@@ -5,9 +5,15 @@ function ArticleList({ articleData }) {
   if (articleData.length === 0) return <NoArticleData />;
   return (
     <div>
-      {articleData.map((article) => (
-        <ArticleItem key={article.articleId} {...article} />
-      ))}
+      {articleData.map(
+        (article) =>
+          !article.articleDeleted && (
+            <ArticleItem
+              key={article.articleId + article.createdAt}
+              {...article}
+            />
+          )
+      )}
     </div>
   );
 }

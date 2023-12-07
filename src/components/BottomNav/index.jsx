@@ -31,6 +31,7 @@ function BottomNav() {
         <button
           type="button"
           className="inline-flex flex-col items-center justify-center px-0"
+          onClick={() => navigation("/talk")}
         >
           {checkLocation() === "talk" ? (
             <img src={TalkPrimary} alt="말랑톡" className="w-6 h-4 mb-1" />

@@ -7,6 +7,7 @@ import Logo from "../../assets/images/logo.png";
 import profileImage from "../../assets/images/profileImage.png";
 import headerBack from "../../assets/svg/header-back.svg";
 import HeaderChat from "../../assets/svg/HeaderChat.svg";
+import HeaderChatPrimary from "../../assets/svg/HeaderChatPrimary.svg";
 import HeaderCommunity from "../../assets/svg/HeaderCommunity.svg";
 import HeaderCommunityPrimary from "../../assets/svg/HeaderCommunityPrimary.svg";
 import HeaderHeart from "../../assets/svg/HeaderHeart.svg";
@@ -61,7 +62,8 @@ function Header() {
   const showSearchBox = () => {
     return (
       location.pathname.slice(0, 13) !== "/search/place" &&
-      location.pathname.slice(0, 6) !== "/intro"
+      location.pathname.slice(0, 6) !== "/intro" &&
+      location.pathname.slice(0, 5) !== "/talk"
     );
   };
 
@@ -150,11 +152,22 @@ function Header() {
             >
               <li className="my-auto">
                 <Link
-                  to="/"
-                  className="flex flex-row items-center py-2 pl-3 pr-4 text-gray-900 rounded bg-primary md:bg-transparent md:hover:text-primary md:p-0"
+                  to="/talk"
+                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
+                    location.pathname.substring(0, 5) === "/talk"
+                      ? "text-primary"
+                      : "text-gray-900"
+                  }`}
                 >
-                  <img src={HeaderChat} alt="말랑톡" />
-                  <span>말랑톡</span>
+                  <img
+                    src={
+                      location.pathname.substring(0, 5) === "/talk"
+                        ? HeaderChatPrimary
+                        : HeaderChat
+                    }
+                    alt="말랑톡"
+                  />
+                  <span className="mx-1">말랑톡</span>
                 </Link>
               </li>
               <li className="my-auto">

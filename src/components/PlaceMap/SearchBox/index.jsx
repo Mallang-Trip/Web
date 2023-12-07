@@ -3,7 +3,7 @@ import cross from "../../../assets/svg/cross.svg";
 function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }) {
   return (
     <div className="absolute top-0 left-0 w-full flex justify-center">
-      <div className="relative flex w-48 md:w-64 mt-4">
+      <div className="relative flex w-64 mt-4">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
             className="w-5 h-5 text-primary"

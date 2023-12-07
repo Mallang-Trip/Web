@@ -8,7 +8,7 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 
-    const mapWidth = window.screen.width > 900 ? 900 : window.screen.width;
+    const mapWidth = window.screen.width > 900 ? 900 : window.screen.width - 16;
     const mapHeight = (mapWidth * 740) / 900;
 
     const map = new Tmapv3.Map("TMapApp", {

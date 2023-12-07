@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import PageContainer from "../../components/PageContainer";
 import BlueContaner from "./BlueContaner";
 import PartyList from "./PartyList";
+import NewPartyButton from "./NewPartyButton";
 
 function LandingPage() {
   const user = useSelector((state) => state.user);
@@ -36,6 +37,7 @@ function LandingPage() {
         {user.nickname ? `${user.nickname} 님께 추천하는 파티` : "추천 파티"}
       </div>
       <PartyList region={region} nowDate={nowDate} num={num} price={price} />
+      <NewPartyButton />
     </PageContainer>
   );
 }

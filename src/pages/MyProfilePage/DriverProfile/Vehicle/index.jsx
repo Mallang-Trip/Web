@@ -13,7 +13,7 @@ function Vehicle({
   return (
     <>
       <p className="text-lg font-bold text-black mt-12 mb-5">차종</p>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Information
           title={"모델 명"}
           content={driverInfo.vehicleModel}

@@ -20,7 +20,7 @@ function Profile({
     if (e.target.value.length <= 15) setIntroduction(e.target.value);
   };
   const imageHandler = () => {
-    let imageFile = document.getElementById("profileImage_input").files[0];
+    const imageFile = imageRef.current.files[0];
     setProfileImage(imageFile || undefined);
   };
 

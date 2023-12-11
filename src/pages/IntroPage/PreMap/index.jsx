@@ -19,7 +19,7 @@ function PreMap() {
           <br />
           PRE-MAP의 지원을 받았습니다.
         </div>
-        <div className="flex flex-col md:flex-row items-center gap-5">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-5">
           <div className="border-2 border-[#F4F4F4] rounded-full py-2 px-4 text-[#F4F4F4] text-xs md:text-sm font-bold">
             2023.08
           </div>

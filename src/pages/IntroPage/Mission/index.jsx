@@ -1,17 +1,14 @@
-import { useRef } from "react";
 import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
 
 function Mission() {
-  const missionRef = useRef();
-  const viewMission = useIntersectionObserver(missionRef);
+  const [ref, isIntersecting] = useIntersectionObserver();
 
   return (
     <div className="w-full h-[700px] bg-white flex justify-center items-center text-center px-2 md:px-0">
       <div
-        ref={missionRef}
-        id="mission"
+        ref={ref}
         className={`${
-          viewMission ? "animate-fade-up animate-ease-in" : "opacity-0"
+          isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
         }`}
       >
         <p className="text-xl text-primary">OUR MISSION</p>

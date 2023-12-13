@@ -1,17 +1,11 @@
-import { useRef } from "react";
 import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
 
 function ServiceList() {
-  const serviceRef = useRef();
-  const matchingRef = useRef();
-  const webRef = useRef();
-  const talkRef = useRef();
-  const communityRef = useRef();
-  const viewService = useIntersectionObserver(serviceRef);
-  const viewMatching = useIntersectionObserver(matchingRef);
-  const viewWeb = useIntersectionObserver(webRef);
-  const viewTalk = useIntersectionObserver(talkRef);
-  const viewCommunity = useIntersectionObserver(communityRef);
+  const [serviceRef, viewService] = useIntersectionObserver();
+  const [matchingRef, viewMatching] = useIntersectionObserver();
+  const [webRef, viewWeb] = useIntersectionObserver();
+  const [talkRef, viewTalk] = useIntersectionObserver();
+  const [communityRef, viewCommunity] = useIntersectionObserver();
 
   return (
     <div className="max-w-4xl my-80 mx-auto px-2">

@@ -14,7 +14,7 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
   return (
     <>
       <p className="text-lg font-bold text-black mt-6 mb-5">기본 정보</p>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Information
           title={"활동 가능 지역"}
           content={driverInfo.region}

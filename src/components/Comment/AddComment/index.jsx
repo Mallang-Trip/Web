@@ -29,7 +29,7 @@ function AddComment({ id, isDriver, reload, setReload }) {
   };
 
   const imageHandler = () => {
-    const imageFile = document.getElementById("commentImage_input").files[0];
+    const imageFile = imageRef.current.files[0];
     setCommentImage(imageFile || undefined);
   };
 

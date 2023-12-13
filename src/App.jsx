@@ -4,6 +4,7 @@ import MainLayout from "./components/MainLayout";
 import Auth from "./hoc/Auth";
 import LandingPage from "./pages/LandingPage";
 import IntroPage from "./pages/IntroPage";
+import PolicyPage from "./pages/PolicyPage";
 import LoginPage from "./pages/LoginPage";
 import LoginSearchPage from "./pages/LoginSearchPage";
 import PartyPage from "./pages/PartyPage";
@@ -24,7 +25,7 @@ import EditCoursePage from "./pages/EditCoursePage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage";
 import CommunitySearchPage from "./pages/CommunitySearchPage";
-import PolicyPage from "./pages/PolicyPage";
+import TalkPage from "./pages/TalkPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -49,6 +50,7 @@ function App() {
   const AuthCommunityPage = Auth(CommunityPage, null);
   const AuthCommunityPostPage = Auth(CommunityPostPage, true);
   const AuthCommunitySearchPage = Auth(CommunitySearchPage, null);
+  const AuthTalkPage = Auth(TalkPage, true);
 
   return (
     <div>
@@ -98,6 +100,7 @@ function App() {
             path="/community/search/:keyword"
             element={<AuthCommunitySearchPage />}
           />
+          <Route path="/talk" element={<AuthTalkPage />} />
         </Route>
 
         <Route path="/login" element={<AuthLoginPage />} />

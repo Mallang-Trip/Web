@@ -1,20 +1,17 @@
-import { useRef } from "react";
 import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
 import introIcon from "../../../assets/images/intro_icon.png";
 import { useNavigate } from "react-router-dom";
 
 function MallangTrip() {
   const navigation = useNavigate();
-  const mallangTripRef = useRef();
-  const viewMallangTrip = useIntersectionObserver(mallangTripRef);
+  const [ref, isIntersecting] = useIntersectionObserver();
 
   return (
     <div className="w-full h-[700px] bg-skyblue flex justify-center items-center text-center px-2 md:px-0">
       <div
-        ref={mallangTripRef}
-        id="mallangTrip"
+        ref={ref}
         className={`${
-          viewMallangTrip ? "animate-fade-up animate-ease-in" : "opacity-0"
+          isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
         }`}
       >
         <p className="text-xl md:text-3xl text-black font-bold">

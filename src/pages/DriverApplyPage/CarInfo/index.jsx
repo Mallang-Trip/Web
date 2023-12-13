@@ -13,7 +13,7 @@ function CarInfo({
   const imageRef = useRef();
 
   const imageHandler = () => {
-    const imageFile = document.getElementById("carImage_input").files[0];
+    const imageFile = imageRef.current.files[0];
     setCarImage(imageFile || undefined);
   };
 

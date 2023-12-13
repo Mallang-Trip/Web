@@ -1,10 +1,8 @@
-import { useRef } from "react";
 import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
 import introLogo from "../../../assets/images/intro_logo.png";
 
 function Vision() {
-  const visionRef = useRef();
-  const viewVision = useIntersectionObserver(visionRef);
+  const [ref, isIntersecting] = useIntersectionObserver();
 
   return (
     <div className="flex min-h-[650px] relative">
@@ -15,11 +13,10 @@ function Vision() {
       />
 
       <div
+        ref={ref}
         className={`w-full my-auto px-2 md:px-0 ${
-          viewVision ? "animate-fade-up animate-ease-in" : "opacity-0"
+          isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
         }`}
-        ref={visionRef}
-        id="vision"
       >
         <p className="text-xl text-primary">VISION</p>
         <p className="text-xl md:text-3xl text-black font-bold mt-1 mb-5">

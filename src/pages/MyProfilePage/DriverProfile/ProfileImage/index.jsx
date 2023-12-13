@@ -10,7 +10,7 @@ function ProfileImage({
   profileImageHandler,
 }) {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-5">
       <div
         className="w-[170px] h-[170px] rounded-full relative"
         onMouseEnter={() => modifyMode && setModifyProfileImage(true)}

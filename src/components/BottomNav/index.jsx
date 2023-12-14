@@ -26,7 +26,7 @@ function BottomNav() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-[#D9D9D9] rounded-t-2xl md:hidden">
+    <div className="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-[#D9D9D9] rounded-t-2xl md:hidden">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
         <button
           type="button"

@@ -230,8 +230,12 @@ function Header() {
             </ul>
           </div>
         </div>
-        {showSearchBox() && showSearch && (
-          <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block transition-all duration-700">
+        {showSearchBox() && (
+          <div
+            className={`relative hidden md:block max-w-screen-xl mx-auto transition-all duration-500 overflow-hidden ${
+              showSearch ? "max-h-14 pb-4" : "max-h-0 pb-0"
+            }`}
+          >
             <div className="relative w-64 ml-auto mr-9 lg:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg

@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from "react";
-import { getCertificationCode, searchId } from "../../../../../api/users";
+import {
+  getCertificationCode,
+  searchId,
+  searchPassword,
+} from "../../../../../api/users";
 import ConfirmModal from "../../../../../components/ConfirmModal";
 
-function SearchAcount({ mode, setMode, setCompleteSearch, setLoginId }) {
+function SearchAcount({
+  mode,
+  setMode,
+  setCompleteSearch,
+  setLoginId,
+  phoneNumber,
+  setPhoneNumber,
+  code,
+  setCode,
+}) {
   const phoneNumberInput = useRef();
   const codeInput = useRef();
-  const [phoneNumber, setEmail] = useState("");
-  const [code, setCode] = useState("");
   const [codeTransmission, setCodeTransmission] = useState(false);
   const [limit, setLimit] = useState(-1);
   const [timer, setTimer] = useState(undefined);
@@ -15,7 +26,8 @@ function SearchAcount({ mode, setMode, setCompleteSearch, setLoginId }) {
   const [showCodeInvalidModal, setShowCodeInvalidModal] = useState(false);
   const [showCodeErrorModal, setShowCodeErrorModal] = useState(false);
 
-  const phoneNumberHandler = (e) => setEmail(e.target.value.replace(/\D/g, ""));
+  const phoneNumberHandler = (e) =>
+    setPhoneNumber(e.target.value.replace(/\D/g, ""));
   const codeHandler = (e) => setCode(e.target.value.replace(/\D/g, ""));
 
   const sendCode = async () => {
@@ -47,8 +59,13 @@ function SearchAcount({ mode, setMode, setCompleteSearch, setLoginId }) {
     if (limit <= 0) return setShowCodeInvalidModal(true);
 
     if (mode === "password") {
-      console.log(code);
-      setMode("NewPassword");
+      try {
+        const result = await searchPassword(phoneNumber, code);
+        if (result.statusCode === 401) return setShowCodeErrorModal(true);
+        setMode("NewPassword");
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       try {
         const result = await searchId(phoneNumber, code);
@@ -82,11 +99,16 @@ function SearchAcount({ mode, setMode, setCompleteSearch, setLoginId }) {
 
   useEffect(() => {
     phoneNumberInput.current.focus();
+    setPhoneNumber("");
+    setCode("");
+    setCodeTransmission(false);
+    setLimit(-1);
+    timer && clearInterval(timer);
 
     return () => {
       timer && clearInterval(timer);
     };
-  }, []);
+  }, [mode]);
 
   return (
     <>

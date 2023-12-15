@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
+import { putNewPassword } from "../../../../../api/users";
 
-function NewPassword({ setCompleteSearch }) {
+function NewPassword({ setCompleteSearch, phoneNumber, code }) {
+  const passwordInput = useRef();
   const passwordConfirmInput = useRef();
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
@@ -17,13 +19,25 @@ function NewPassword({ setCompleteSearch }) {
     if (passwordError) setPasswordError(false);
   };
 
-  const changePassword = () => {
+  const changePassword = async () => {
     if (!newPasswordConfirm) return;
-
+    if (!passwordValid) return;
     if (newPassword !== newPasswordConfirm) {
       setPasswordError(true);
       passwordConfirmInput.current.focus();
-    } else setCompleteSearch(true);
+      return;
+    }
+
+    try {
+      await putNewPassword({
+        code: code,
+        phoneNumber: phoneNumber,
+        newPassword: newPassword,
+      });
+      setCompleteSearch(true);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -33,17 +47,19 @@ function NewPassword({ setCompleteSearch }) {
           type="password"
           name="newPassword"
           placeholder="새롭게 변경할 비밀번호를 입력해 주세요."
-          className={`w-[550px] border-b appearance-none border-darkgray focus:outline-none focus:border-primary ${
+          className={`w-full border-b appearance-none border-darkgray focus:outline-none focus:border-primary ${
             newPassword && "font-mono"
           }`}
           value={newPassword}
           onChange={newPasswordHandler}
+          ref={passwordInput}
         />
         {!passwordValid && (
-          <span className="absolute left-0 text-xs text-red-500 top-7">
+          <span className="absolute left-0 text-xs text-red-500 top-8">
             영문, 특수기호를 포함해 최소 8자리를 입력해주세요.
           </span>
         )}
+        <div className="w-[125px] h-[30px]"></div>
       </div>
       <div className="relative flex flex-row">
         <input
@@ -66,7 +82,7 @@ function NewPassword({ setCompleteSearch }) {
           type="button"
           onClick={changePassword}
           className={`w-[125px] h-[30px] text-xs rounded-full border ${
-            newPasswordConfirm
+            newPasswordConfirm && passwordValid
               ? "text-white bg-primary border-primary"
               : "text-darkgray bg-white border-darkgray"
           }`}

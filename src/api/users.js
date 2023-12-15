@@ -1,4 +1,4 @@
-import { GET, POST } from "../utils/axios";
+import { GET, POST, PUT } from "../utils/axios";
 
 export const signup = async (data) => await POST("/signup", data);
 
@@ -16,3 +16,9 @@ export const getCertificationCode = async (phoneNumber) =>
 
 export const searchId = async (phoneNumber, code) =>
   await GET(`/certification/id?phoneNumber=${phoneNumber}&code=${code}`);
+
+export const searchPassword = async (phoneNumber, code) =>
+  await GET(`/certification/password?phoneNumber=${phoneNumber}&code=${code}`);
+
+export const putNewPassword = async (data) =>
+  await PUT(`/certification/password`, data);

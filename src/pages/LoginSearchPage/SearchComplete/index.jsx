@@ -1,27 +1,26 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function SearchComplete(props) {
+function SearchComplete({ mode, setMode, setCompleteSearch, loginId }) {
   const navigation = useNavigate();
 
   const goLogin = () => navigation("/login", { replace: true });
   const goHome = () => navigation("/", { replace: true });
   const goSearchPassword = () => {
-    props.setMode("password");
-    props.setCompleteSearch(false);
+    setMode("password");
+    setCompleteSearch(false);
   };
 
   return (
     <div className="w-[656px] mx-auto mt-10">
       <div className="h-[200px] text-center flex flex-col justify-center">
-        {props.mode === "NewPassword" ? (
+        {mode === "NewPassword" ? (
           <div>
             비밀번호 재설정이 완료되었습니다. <br />
             새로 설정된 비밀번호로 로그인 해주세요.
           </div>
         ) : (
           <div>
-            회원님의 아이디는 <span className="text-primary">malangtrip</span>{" "}
+            회원님의 아이디는 <span className="text-primary">{loginId}</span>{" "}
             (으)로 등록되어 있습니다.
           </div>
         )}
@@ -34,7 +33,7 @@ function SearchComplete(props) {
         >
           로그인
         </button>
-        {props.mode !== "NewPassword" && (
+        {mode !== "NewPassword" && (
           <button
             type="button"
             className="h-12 text-white rounded-full text-md w-80 bg-primary"

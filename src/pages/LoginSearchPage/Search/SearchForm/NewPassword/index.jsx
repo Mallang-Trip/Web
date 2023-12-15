@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-function NewPassword(props) {
+function NewPassword({ setCompleteSearch }) {
   const passwordConfirmInput = useRef();
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
@@ -23,7 +23,7 @@ function NewPassword(props) {
     if (newPassword !== newPasswordConfirm) {
       setPasswordError(true);
       passwordConfirmInput.current.focus();
-    } else props.setCompleteSearch(true);
+    } else setCompleteSearch(true);
   };
 
   return (

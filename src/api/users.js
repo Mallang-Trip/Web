@@ -10,3 +10,9 @@ export const refresh = async () => await GET("/refresh-token", true);
 
 export const checkDuplication = async (type, value) =>
   await GET(`/check-duplication?type=${type}&value=${value}`);
+
+export const getCertificationCode = async (phoneNumber) =>
+  await GET(`/certification?phoneNumber=${phoneNumber}`);
+
+export const searchId = async (phoneNumber, code) =>
+  await GET(`/certification/id?phoneNumber=${phoneNumber}&code=${code}`);

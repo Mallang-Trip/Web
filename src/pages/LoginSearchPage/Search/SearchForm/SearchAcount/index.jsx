@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import ConfirmModal from "../../../components/ConfirmModal";
+import { useEffect, useRef, useState } from "react";
+import { getCertificationCode, searchId } from "../../../../../api/users";
+import ConfirmModal from "../../../../../components/ConfirmModal";
 
-function SearchAcount(props) {
+function SearchAcount({ mode, setMode, setCompleteSearch, setLoginId }) {
   const phoneNumberInput = useRef();
   const codeInput = useRef();
   const [phoneNumber, setEmail] = useState("");
@@ -11,46 +12,54 @@ function SearchAcount(props) {
   const [timer, setTimer] = useState(undefined);
   const [showNoInputModal, setShowNoInputModal] = useState(false);
   const [showNoUserModal, setShowNoUserModal] = useState(false);
+  const [showCodeInvalidModal, setShowCodeInvalidModal] = useState(false);
   const [showCodeErrorModal, setShowCodeErrorModal] = useState(false);
 
   const phoneNumberHandler = (e) => setEmail(e.target.value.replace(/\D/g, ""));
   const codeHandler = (e) => setCode(e.target.value.replace(/\D/g, ""));
 
-  const sendCode = () => {
+  const sendCode = async () => {
     if (!phoneNumber) return setShowNoInputModal(true);
-    if (phoneNumber === "010") return setShowNoUserModal(true);
+    if (!/^010\d{8}$/.test(phoneNumber)) return setShowNoInputModal(true);
 
-    setCodeTransmission(true);
-    setLimit(300);
-    codeInput.current.focus();
+    try {
+      const result = await getCertificationCode(phoneNumber);
+      if (result.statusCode === 20000) return setShowNoUserModal(true);
 
-    if (!timer) {
-      setTimer(
-        setInterval(() => {
-          setLimit((prevLimit) => prevLimit - 1);
-        }, 1000)
-      );
+      setCodeTransmission(true);
+      setLimit(300);
+      codeInput.current.focus();
+
+      if (!timer) {
+        setTimer(
+          setInterval(() => {
+            setLimit((prevLimit) => prevLimit - 1);
+          }, 1000)
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  const codeSubmit = () => {
+  const codeSubmit = async () => {
     if (!code) return;
-    if (code === "0") return setShowCodeErrorModal(true);
+    if (limit <= 0) return setShowCodeInvalidModal(true);
 
-    if (props.mode === "password") {
+    if (mode === "password") {
       console.log(code);
-      props.setMode("NewPassword");
+      setMode("NewPassword");
     } else {
-      console.log(code);
-      props.setCompleteSearch(true);
+      try {
+        const result = await searchId(phoneNumber, code);
+        if (result.statusCode === 401) return setShowCodeErrorModal(true);
+        setLoginId(result.payload.loginId);
+        setCompleteSearch(true);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
-
-  useEffect(() => {
-    return () => {
-      clearInterval(timer);
-    };
-  }, [timer]);
 
   useEffect(() => {
     if (!showNoInputModal) phoneNumberInput.current.focus();
@@ -61,14 +70,22 @@ function SearchAcount(props) {
   }, [showNoUserModal]);
 
   useEffect(() => {
-    if (!showCodeErrorModal) {
+    if (!showCodeInvalidModal) {
       setCode("");
-      codeInput.current.focus();
+      phoneNumberInput.current.focus();
     }
+  }, [showCodeInvalidModal]);
+
+  useEffect(() => {
+    if (!showCodeErrorModal) codeInput.current.focus();
   }, [showCodeErrorModal]);
 
   useEffect(() => {
     phoneNumberInput.current.focus();
+
+    return () => {
+      timer && clearInterval(timer);
+    };
   }, []);
 
   return (
@@ -131,13 +148,20 @@ function SearchAcount(props) {
       <ConfirmModal
         showModal={showNoInputModal}
         setShowModal={setShowNoInputModal}
-        message={"휴대전화 번호를 입력해 주세요."}
+        message={"휴대전화 번호를 정확하게 입력해 주세요."}
       />
       <ConfirmModal
         showModal={showNoUserModal}
         setShowModal={setShowNoUserModal}
         message={
           "회원 정보가 존재하지 않습니다.\n입력하신 정보를 확인해 주세요."
+        }
+      />
+      <ConfirmModal
+        showModal={showCodeInvalidModal}
+        setShowModal={setShowCodeInvalidModal}
+        message={
+          "인증 유효기간이 만료되었습니다.\n인증번호를 다시 요청해주세요."
         }
       />
       <ConfirmModal

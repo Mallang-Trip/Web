@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function DriverProfile({
   profileImg,
@@ -24,7 +25,7 @@ function DriverProfile({
     >
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={profileImg}
+        src={profileImg || basicProfileImage}
         alt={name}
       />
       <div className="absolute top-0 left-0 flex flex-col items-center justify-between w-full h-full p-3 text-base text-darkgray">

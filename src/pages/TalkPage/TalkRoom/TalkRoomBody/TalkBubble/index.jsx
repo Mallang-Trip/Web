@@ -1,3 +1,5 @@
+import basicProfileImage from "../../../../../assets/images/profileImage.png";
+
 function TalkBubble({
   type,
   isMyMessage,
@@ -24,7 +26,7 @@ function TalkBubble({
         {!isMyMessage && !isPrevSame && (
           <img
             className="mr-2 w-10 h-10 rounded-full hover:cursor-pointer"
-            src={profileImg}
+            src={profileImg || basicProfileImage}
             alt="Profile_Image"
             // onClick={showProfile}
           />

@@ -1,3 +1,5 @@
+import basicProfileImage from "../../../../assets/images/profileImage.png";
+
 function TalkItem({
   id,
   profileImg,
@@ -19,7 +21,7 @@ function TalkItem({
         <div className="flex flex-row">
           <img
             className="mr-3 w-16 h-16 rounded-full"
-            src={profileImg}
+            src={profileImg || basicProfileImage}
             alt="Profile_Image"
           />
           <div className="flex flex-col gap-2 text-left">

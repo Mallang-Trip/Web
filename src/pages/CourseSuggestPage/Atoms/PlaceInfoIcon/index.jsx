@@ -1,4 +1,3 @@
-import React from "react";
 import Heart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 

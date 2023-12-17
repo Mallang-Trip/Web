@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import info from "../../../assets/svg/Polygon 3.svg";
-import baseProfileImage from "../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function Header({ category, setCategory }) {
   const user = useSelector((state) => state.user);
@@ -41,7 +41,7 @@ function Header({ category, setCategory }) {
             onClick={() => changeHandler("드라이버 프로필")}
           >
             <img
-              src={user.profileImg || baseProfileImage}
+              src={user.profileImg || basicProfileImage}
               alt="driver_profile"
               className="w-8 h-8 rounded-full mr-2.5"
             />
@@ -54,7 +54,7 @@ function Header({ category, setCategory }) {
             onClick={() => changeHandler("여행자 프로필")}
           >
             <img
-              src={user.profileImg || baseProfileImage}
+              src={user.profileImg || basicProfileImage}
               alt="driver_profile"
               className="w-8 h-8 rounded-full mr-2.5"
             />

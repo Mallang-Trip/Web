@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import ModalCloser from "./ModalCloser";
-import ProfileImage from "../../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
 
@@ -28,7 +28,7 @@ function ProfileModal({ showModal, setShowModal, name }) {
       <div className="m-auto shadow w-96 bg-white rounded-xl">
         <ModalCloser closeModal={closeModal} />
         <ProfileInfo
-          profileImage={ProfileImage}
+          profileImage={basicProfileImage}
           name={name}
           introduction={"즐거운 여행 다녀요!"}
         />

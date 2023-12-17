@@ -4,7 +4,7 @@ import {
   deleteDestinationComment,
   putDestinationComment,
 } from "../../../../api/destination";
-import baseProfileImage from "../../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
 import Info from "../../../../assets/svg/info.svg";
 
@@ -82,7 +82,7 @@ function Comment({
           src={
             profileImg.slice(0, 23) === "https://mallang-trip-db"
               ? profileImg
-              : baseProfileImage
+              : basicProfileImage
           }
         />
         <div className="text-sm ml-1.5 mr-1">{nickname}</div>

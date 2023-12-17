@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import profileImage from "../../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ProfileImage({
   modifyMode,
@@ -22,7 +22,7 @@ function ProfileImage({
           src={
             modifyProfileImage
               ? URL.createObjectURL(modifyProfileImage)
-              : user.profileImg || profileImage
+              : user.profileImg || basicProfileImage
           }
           alt="profileImage"
           className="w-full h-full rounded-full"

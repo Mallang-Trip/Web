@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import profileImage from "../../assets/images/profileImage.png";
+import basicProfileImage from "../../assets/images/profileImage.png";
 import Talk from "../../assets/svg/bottom-talk.svg";
 import Community from "../../assets/svg/bottom-community.svg";
 import Home from "../../assets/svg/bottom-home.svg";
@@ -115,7 +115,7 @@ function BottomNav() {
             className={`w-9 h-9 rounded-full ${
               checkLocation() === "my" && "ring ring-primary ring-offset-1"
             }`}
-            src={user.profileImg || profileImage}
+            src={user.profileImg || basicProfileImage}
             alt="User_Profile_Image"
           />
         </button>

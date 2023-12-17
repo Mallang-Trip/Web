@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
 import CheckModal from "../CheckModal";
 import Logo from "../../assets/images/logo.png";
-import profileImage from "../../assets/images/profileImage.png";
+import basicProfileImage from "../../assets/images/profileImage.png";
 import headerBack from "../../assets/svg/header-back.svg";
 import HeaderChat from "../../assets/svg/HeaderChat.svg";
 import HeaderChatPrimary from "../../assets/svg/HeaderChatPrimary.svg";
@@ -222,7 +222,7 @@ function Header() {
                 >
                   <img
                     className="rounded-full w-9 h-9"
-                    src={user.profileImg || profileImage}
+                    src={user.profileImg || basicProfileImage}
                     alt="User_Profile_Image"
                   />
                 </button>

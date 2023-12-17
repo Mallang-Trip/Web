@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../assets/images/kakaoIcon.png";
+import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
   const Kakao = window.Kakao;
@@ -28,9 +29,7 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
         PARTY_IMAGE1: partyImages[0],
         PARTY_IMAGE2: partyImages[1] || partyImages[0],
         PARTY_IMAGE3: partyImages[2] || partyImages[0],
-        PROFILE_IMAGE:
-          user.profileImg ||
-          "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/bd59ea22-f029-432d-b658-0279188e2198mallangtrip_icon.png",
+        PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
         PARTY_NAME: partyName,
         PARTY_ID: partyId,

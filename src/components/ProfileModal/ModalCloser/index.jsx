@@ -1,4 +1,4 @@
-import closeIcon from "../../../../../assets/svg/x-modal-icon.svg";
+import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 
 function ModalCloser({ closeModal }) {
   return (

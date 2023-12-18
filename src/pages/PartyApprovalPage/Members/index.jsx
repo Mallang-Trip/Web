@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProfileModal from "./ProfileModal";
+import ProfileModal from "../../../components/ProfileModal";
 
 function Members() {
   const [showModal, setShowModal] = useState(false);

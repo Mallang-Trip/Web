@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HourPrice from "../../../../DriverApplyPage/Accout/HourPrice";
 
 function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
+  const modalRef = useRef();
+  const confirmButtonRef = useRef();
   const [hour, setHour] = useState([]);
   const [money, setMoney] = useState([]);
 
-  const cancelHandler = () => {
-    setShowModal(false);
-  };
+  const cancelHandler = () => setShowModal(false);
 
   const confirmHandler = () => {
     const prices = [];
@@ -26,19 +26,32 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
     setShowModal(false);
   };
 
-  useEffect(() => {
-    if (showModal) {
-      document.body.classList.add("overflow-hidden");
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) cancelHandler();
+  };
 
-      const basicHour = ["", "", "", "", ""];
-      const basicMoney = ["", "", "", "", ""];
-      driverInfo.prices.forEach((item, index) => {
-        basicHour[index] = item.hours.toString();
-        basicMoney[index] = item.price.toString();
-      });
-      setHour(basicHour);
-      setMoney(basicMoney);
-    } else document.body.classList.remove("overflow-hidden");
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") cancelHandler();
+    else if (event.key === "Enter") confirmButtonRef.current.click();
+  };
+
+  useEffect(() => {
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    const basicHour = ["", "", "", "", ""];
+    const basicMoney = ["", "", "", "", ""];
+    driverInfo.prices.forEach((item, index) => {
+      basicHour[index] = item.hours.toString();
+      basicMoney[index] = item.price.toString();
+    });
+    setHour(basicHour);
+    setMoney(basicMoney);
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -46,6 +59,8 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
       className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 scale-100 flex ${
         showModal && "active"
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="relative w-full max-w-4xl max-h-full m-auto">
         <div className="relative bg-white rounded-lg shadow">
@@ -97,6 +112,7 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
               <button
                 className="w-full text-white bg-primary border border-primary font-medium rounded-lg px-5 py-2.5 text-center"
                 onClick={confirmHandler}
+                ref={confirmButtonRef}
               >
                 확인
               </button>

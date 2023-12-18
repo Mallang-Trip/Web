@@ -1,7 +1,7 @@
 function BankButton({ name, bank, setBank }) {
   return (
     <button
-      className={`h-12 text-sm rounded-lg text-center ${
+      className={`h-12 text-sm rounded-lg text-center focus:outline-none ${
         bank === name
           ? "text-primary bg-skyblue"
           : "text-darkgray bg-lightgray hover:bg-skyblue"

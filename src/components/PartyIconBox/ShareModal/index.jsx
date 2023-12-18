@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
@@ -8,6 +8,7 @@ import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
   const Kakao = window.Kakao;
+  const modalRef = useRef();
   const { partyId } = useParams();
   const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
@@ -37,6 +38,16 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
     });
   };
 
+  const closeModal = () => setShowModal(false);
+
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") closeModal();
+  };
+
   useEffect(() => {
     if (!copyComplete) return;
 
@@ -46,8 +57,13 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
   }, [copyComplete]);
 
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -55,6 +71,8 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="relative h-44 whitespace-pre bg-white rounded-xl pl-7 pr-12 py-6">
@@ -72,7 +90,7 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
             src={closeIcon}
             alt="close"
             className="absolute top-6 right-6 cursor-pointer rounded hover:bg-gray-200"
-            onClick={() => setShowModal(false)}
+            onClick={closeModal}
           />
 
           <div className="mt-5 flex justify-between">

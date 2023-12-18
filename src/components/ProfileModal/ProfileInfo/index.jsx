@@ -1,4 +1,4 @@
-import basicProfileImage from "../../../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function ProfileInfo({ profileImage, name, introduction }) {
   return (

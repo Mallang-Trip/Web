@@ -13,8 +13,14 @@ function ImageModal({
   const modalRef = useRef();
   const scrollRef = useRef();
 
+  const closeModal = () => setShowModal(false);
+
   const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) setShowModal(false);
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") closeModal();
   };
 
   useEffect(() => {
@@ -25,17 +31,22 @@ function ImageModal({
   }, [imageIdx]);
 
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
     <div
-      ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="w-full max-w-[900px] mx-auto absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 overflow-x-auto noScrollBar">
         <div className="w-full relative">

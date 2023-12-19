@@ -6,8 +6,6 @@ function ButtonBox() {
       <Button name="채팅하기" />
       <Button name="신고하기" />
       <Button name="차단하기" />
-      <Button name="작성 글" />
-      <Button name="작성 댓글" />
     </div>
   );
 }

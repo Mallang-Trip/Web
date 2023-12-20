@@ -2,6 +2,7 @@ import basicProfileImage from "../../../../../assets/images/profileImage.png";
 
 function TalkBubble({
   type,
+  setShowProfileModal,
   isMyMessage,
   profileImg,
   message,
@@ -28,7 +29,7 @@ function TalkBubble({
             className="mr-2 w-10 h-10 rounded-full hover:cursor-pointer"
             src={profileImg || basicProfileImage}
             alt="Profile_Image"
-            // onClick={showProfile}
+            onClick={() => setShowProfileModal(true)}
           />
         )}
         <div className="flex flex-col gap-1">

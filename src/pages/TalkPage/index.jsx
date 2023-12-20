@@ -4,6 +4,7 @@ import basicProfileImage from "../../assets/images/profileImage.png";
 import TalkList from "./TalkList";
 import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
+import ProfileModal from "../../components/ProfileModal";
 
 const talkList = [
   {
@@ -34,6 +35,7 @@ const talkList = [
 
 function TalkPage() {
   const [openTalkId, setOpenTalkId] = useState(0);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
@@ -47,8 +49,18 @@ function TalkPage() {
         openTalkId={openTalkId}
         setOpenTalkId={setOpenTalkId}
       />
-      <TalkRoom openTalkId={openTalkId} setOpenTalkId={setOpenTalkId} />
+      <TalkRoom
+        openTalkId={openTalkId}
+        setOpenTalkId={setOpenTalkId}
+        setShowProfileModal={setShowProfileModal}
+      />
       <BlankSpace />
+
+      <ProfileModal
+        showModal={showProfileModal}
+        setShowModal={setShowProfileModal}
+        name={"jelly217"}
+      />
     </PageContainer>
   );
 }

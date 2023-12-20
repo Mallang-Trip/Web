@@ -4,7 +4,7 @@ import TalkRoomBody from "./TalkRoomBody";
 import TalkRoomForm from "./TalkRoomForm";
 import TalkRoomWrapper from "./TalkRoomWrapper";
 
-function TalkRoom({ openTalkId, setOpenTalkId }) {
+function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const [openRoom, setOpenRoom] = useState(false);
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
 
@@ -40,7 +40,7 @@ function TalkRoom({ openTalkId, setOpenTalkId }) {
     >
       <TalkRoomWrapper>
         <TalkRoomHead name={"jelly217"} closeRoomHandler={closeRoomHandler} />
-        <TalkRoomBody />
+        <TalkRoomBody setShowProfileModal={setShowProfileModal} />
         <TalkRoomForm />
       </TalkRoomWrapper>
     </div>

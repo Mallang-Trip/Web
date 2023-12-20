@@ -127,12 +127,13 @@ const talkData = [
   },
 ];
 
-function TalkRoomBody() {
+function TalkRoomBody({ setShowProfileModal }) {
   return (
     <div className="flex flex-col h-full overflow-y-auto px-2 noScrollBar">
       {talkData.map((talk, index) => (
         <TalkBubble
           key={talk.id}
+          setShowProfileModal={setShowProfileModal}
           isPrevSame={
             index > 0 && talk.isMyMessage === talkData[index - 1].isMyMessage
           }

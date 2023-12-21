@@ -113,7 +113,7 @@ function BottomNav() {
         >
           <img
             className={`w-9 h-9 rounded-full ${
-              checkLocation() === "my" && "ring ring-primary ring-offset-1"
+              checkLocation() === "my" && "ring-2 ring-primary ring-offset-1"
             }`}
             src={user.profileImg || basicProfileImage}
             alt="User_Profile_Image"

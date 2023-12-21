@@ -1,49 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Stomp } from "@stomp/stompjs";
+import { getChatList } from "../../api/chat";
+import SockJS from "sockjs-client/dist/sockjs";
+import properties from "../../config/properties";
 import PageContainer from "../../components/PageContainer";
-import basicProfileImage from "../../assets/images/profileImage.png";
 import TalkList from "./TalkList";
 import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
 import ProfileModal from "../../components/ProfileModal";
-import { getChatList } from "../../api/chat";
-
-const talkList = [
-  {
-    id: 1,
-    profileImg: basicProfileImage,
-    nickName: "jelly217",
-    lastChat: "안녕하세요. 저는 누구누구 입니다 블라블라블라블라블라블라블라",
-    time: "3분 전",
-    readCount: 5,
-  },
-  {
-    id: 2,
-    profileImg: basicProfileImage,
-    nickName: "abcd",
-    lastChat: "안녕ㅎ세요!",
-    time: "어제",
-    readCount: 3,
-  },
-  {
-    id: 3,
-    profileImg: basicProfileImage,
-    nickName: "나비",
-    lastChat: "ㅎㅇㅎㅇ~",
-    time: "12월 7일",
-    readCount: 0,
-  },
-];
 
 function TalkPage() {
+  const client = useRef();
+  const user = useSelector((state) => state.user);
   const [openTalkId, setOpenTalkId] = useState(0);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [chatList, setChatList] = useState([]);
+
+  const ACCESSTOKEN = {
+    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
+  };
+
+  const subscribeChatListWS = () => {
+    client.current.subscribe(
+      `/sub/list/${user.userId}`,
+      (newList) => {
+        console.log(newList); // TODO: 새로운 채팅방 리스트 업데이트
+      },
+      ACCESSTOKEN
+    );
+  };
+
+  const connectChatListWS = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS(properties.baseURL + "/ws/chat");
+      return sock;
+    });
+
+    client.current.connect(ACCESSTOKEN, subscribeChatListWS);
+  };
 
   const getChatListFunc = async () => {
     try {
       const result = await getChatList();
       setChatList(result.payload);
-      console.log(result.payload);
+      connectChatListWS();
     } catch (e) {
       console.log(e);
     }
@@ -53,7 +54,10 @@ function TalkPage() {
     getChatListFunc();
 
     document.body.classList.add("overflow-hidden");
-    return () => document.body.classList.remove("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+      if (client.current) client.current.deactivate();
+    };
   }, []);
 
   return (

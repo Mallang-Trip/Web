@@ -16,6 +16,8 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const [roomData, setRoomData] = useState({});
 
   const closeRoomHandler = () => {
+    if (client.current) client.current.deactivate();
+
     setOpenTalkId(0);
     setOpenRoomAnimation(false);
     setTimeout(() => setOpenRoom(false), 550);
@@ -26,11 +28,26 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
     setTimeout(() => setOpenRoomAnimation(true), 50);
   };
 
+  const sendMessageHandler = (message) => {
+    if (!client.current.connected) return;
+
+    const header = { ...ACCESSTOKEN, "room-id": openTalkId };
+
+    client.current.publish({
+      destination: "/pub/write",
+      headers: header,
+      body: JSON.stringify({
+        type: "TEXT",
+        content: message,
+      }),
+    });
+  };
+
   const subscribeChatRoomWS = () => {
     client.current.subscribe(
       `/sub/room/${openTalkId}`,
-      (newChatData) => {
-        console.log(newChatData);
+      (newChat) => {
+        console.log(JSON.parse(newChat.body));
       },
       ACCESSTOKEN
     );
@@ -65,10 +82,6 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
     setOpenRoom(false);
     setOpenRoomAnimation(false);
     setTimeout(openRoomHandler, 50);
-
-    return () => {
-      if (client.current) client.current.deactivate();
-    };
   }, [openTalkId]);
 
   if (!openRoom) return null;
@@ -84,7 +97,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
           closeRoomHandler={closeRoomHandler}
         />
         <TalkRoomBody setShowProfileModal={setShowProfileModal} />
-        <TalkRoomForm />
+        <TalkRoomForm sendMessageHandler={sendMessageHandler} />
       </TalkRoomWrapper>
     </div>
   );

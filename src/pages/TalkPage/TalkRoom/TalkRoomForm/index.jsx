@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-function TalkRoomForm() {
+function TalkRoomForm({ sendMessageHandler }) {
   const [message, setMessage] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (message === "") return;
 
-    alert(message);
+    sendMessageHandler(message);
     setMessage("");
   };
 

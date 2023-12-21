@@ -21,8 +21,8 @@ function TalkPage() {
   const subscribeChatListWS = () => {
     client.current.subscribe(
       `/sub/list/${user.userId}`,
-      (newList) => {
-        console.log(newList); // TODO: 새로운 채팅방 리스트 업데이트
+      (newChatList) => {
+        setChatList(JSON.parse(newChatList.body));
       },
       ACCESSTOKEN
     );

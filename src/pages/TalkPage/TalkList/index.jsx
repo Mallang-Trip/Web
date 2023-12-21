@@ -2,7 +2,7 @@ import EditButton from "../../../components/EditButton";
 import NoTalkList from "./NoTalkList";
 import TalkItem from "./TalkItem";
 
-function TalkList({ talkList, openTalkId, setOpenTalkId }) {
+function TalkList({ chatList, openTalkId, setOpenTalkId }) {
   return (
     <aside className="fixed top-14 left-0 z-30 w-full md:w-[450px] h-screen">
       <div className="overflow-y-auto pb-32 md:pb-20 px-3 h-full bg-white md:border-r border-[#D9D9D9] noScrollBar">
@@ -13,15 +13,15 @@ function TalkList({ talkList, openTalkId, setOpenTalkId }) {
             onClick={() => console.log("채팅방 편집")}
           />
         </div>
-        {talkList.length > 0 ? (
+        {chatList.length > 0 ? (
           <ul className="space-y-2 border-b border-solid border-[#D9D9D9] py-3 mb-5">
-            {talkList.map((talk) => {
+            {chatList.map((chat) => {
               return (
                 <TalkItem
-                  key={talk.id}
+                  key={chat.chatRoomId}
                   openTalkId={openTalkId}
                   setOpenTalkId={setOpenTalkId}
-                  {...talk}
+                  {...chat}
                 />
               );
             })}

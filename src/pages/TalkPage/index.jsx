@@ -5,6 +5,7 @@ import TalkList from "./TalkList";
 import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
 import ProfileModal from "../../components/ProfileModal";
+import { getChatList } from "../../api/chat";
 
 const talkList = [
   {
@@ -36,8 +37,21 @@ const talkList = [
 function TalkPage() {
   const [openTalkId, setOpenTalkId] = useState(0);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [chatList, setChatList] = useState([]);
+
+  const getChatListFunc = async () => {
+    try {
+      const result = await getChatList();
+      setChatList(result.payload);
+      console.log(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
+    getChatListFunc();
+
     document.body.classList.add("overflow-hidden");
     return () => document.body.classList.remove("overflow-hidden");
   }, []);
@@ -45,7 +59,7 @@ function TalkPage() {
   return (
     <PageContainer>
       <TalkList
-        talkList={talkList}
+        chatList={chatList}
         openTalkId={openTalkId}
         setOpenTalkId={setOpenTalkId}
       />

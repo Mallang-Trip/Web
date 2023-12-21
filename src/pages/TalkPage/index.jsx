@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Stomp } from "@stomp/stompjs";
 import { getChatList } from "../../api/chat";
+import { ACCESSTOKEN } from "../../global";
 import SockJS from "sockjs-client/dist/sockjs";
 import properties from "../../config/properties";
 import PageContainer from "../../components/PageContainer";
@@ -16,10 +17,6 @@ function TalkPage() {
   const [openTalkId, setOpenTalkId] = useState(0);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [chatList, setChatList] = useState([]);
-
-  const ACCESSTOKEN = {
-    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
-  };
 
   const subscribeChatListWS = () => {
     client.current.subscribe(

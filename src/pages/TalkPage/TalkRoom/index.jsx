@@ -14,6 +14,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const [openRoom, setOpenRoom] = useState(false);
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
   const [roomData, setRoomData] = useState({});
+  const header = { ...ACCESSTOKEN, "room-id": openTalkId };
 
   const closeRoomHandler = () => {
     if (client.current) client.current.deactivate();
@@ -28,10 +29,17 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
     setTimeout(() => setOpenRoomAnimation(true), 50);
   };
 
-  const sendMessageHandler = (message) => {
+  const readMessage = () => {
     if (!client.current.connected) return;
 
-    const header = { ...ACCESSTOKEN, "room-id": openTalkId };
+    client.current.publish({
+      destination: "/pub/read",
+      headers: header,
+    });
+  };
+
+  const sendMessageHandler = (message) => {
+    if (!client.current.connected) return;
 
     client.current.publish({
       destination: "/pub/write",
@@ -48,6 +56,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
       `/sub/room/${openTalkId}`,
       (newChat) => {
         console.log(JSON.parse(newChat.body));
+        readMessage();
       },
       ACCESSTOKEN
     );

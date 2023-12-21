@@ -73,3 +73,26 @@ export const chatListDateToGapKorean = (date) => {
 
   return `${year}년 ${month}월 ${day}일`;
 };
+
+export const dateToKoreanDay = (date) => {
+  const koreanDay = ["일", "월", "화", "수", "목", "금", "토"];
+  const pivot = new Date(date);
+
+  const year = pivot.getFullYear();
+  const month = pivot.getMonth() + 1;
+  const day = pivot.getDate();
+  const dayOfWeek = pivot.getDay();
+
+  return `${year}년 ${month}월 ${day}일 ${koreanDay[dayOfWeek]}요일`;
+};
+
+export const dateToKoreanTime = (date) => {
+  const pivot = new Date(date);
+
+  const hours = pivot.getHours();
+  const minutes = pivot.getMinutes();
+
+  return `${hours >= 12 ? "오후" : "오전"} ${numberTo00(
+    hours % 12 || 12
+  )}:${numberTo00(minutes)}`;
+};

@@ -60,6 +60,8 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
       },
       ACCESSTOKEN
     );
+
+    readMessage();
   };
 
   const connectChatRoomWS = () => {
@@ -105,7 +107,10 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
           name={roomData.roomName}
           closeRoomHandler={closeRoomHandler}
         />
-        <TalkRoomBody setShowProfileModal={setShowProfileModal} />
+        <TalkRoomBody
+          messages={roomData.messages}
+          setShowProfileModal={setShowProfileModal}
+        />
         <TalkRoomForm sendMessageHandler={sendMessageHandler} />
       </TalkRoomWrapper>
     </div>

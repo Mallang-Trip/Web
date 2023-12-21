@@ -23,6 +23,7 @@ function TalkPage() {
       `/sub/list/${user.userId}`,
       (newChatList) => {
         setChatList(JSON.parse(newChatList.body));
+        console.log(JSON.parse(newChatList.body));
       },
       ACCESSTOKEN
     );

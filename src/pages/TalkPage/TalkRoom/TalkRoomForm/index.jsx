@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function TalkRoomForm({ sendMessageHandler }) {
+function TalkRoomForm({ sendMessageHandler, setShowImageModal }) {
   const [message, setMessage] = useState("");
 
   const submitHandler = (e) => {
@@ -14,7 +14,11 @@ function TalkRoomForm({ sendMessageHandler }) {
   return (
     <form onSubmit={submitHandler}>
       <div className="flex items-center px-3">
-        <button className="p-1 text-primary">
+        <button
+          type="button"
+          className="p-1 text-primary focus:outline-none"
+          onClick={() => setShowImageModal(true)}
+        >
           <svg
             aria-hidden="true"
             className="w-7 h-7"

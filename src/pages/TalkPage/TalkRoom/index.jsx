@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getChatRoomData } from "../../../api/chat";
+import { uploadImage } from "../../../api/image";
 import { ACCESSTOKEN } from "../../../global";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
@@ -8,13 +9,15 @@ import TalkRoomHead from "./TalkRoomHead";
 import TalkRoomBody from "./TalkRoomBody";
 import TalkRoomForm from "./TalkRoomForm";
 import TalkRoomWrapper from "./TalkRoomWrapper";
+import ImageModal from "./ImageModal";
 
 function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const client = useRef();
+  const header = { ...ACCESSTOKEN, "room-id": openTalkId };
   const [openRoom, setOpenRoom] = useState(false);
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
   const [roomData, setRoomData] = useState({});
-  const header = { ...ACCESSTOKEN, "room-id": openTalkId };
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const closeRoomHandler = () => {
     if (client.current) client.current.deactivate();
@@ -36,6 +39,28 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
       destination: "/pub/read",
       headers: header,
     });
+  };
+
+  const sendImageHandler = async (image) => {
+    if (!client.current.connected) return;
+    if (!image) return alert("사진을 첨부해주세요.");
+
+    try {
+      const imageURL = await uploadImage(image);
+
+      client.current.publish({
+        destination: "/pub/write",
+        headers: header,
+        body: JSON.stringify({
+          type: "IMAGE",
+          content: imageURL,
+        }),
+      });
+
+      setShowImageModal(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const sendMessageHandler = (message) => {
@@ -84,7 +109,6 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
       const result = await getChatRoomData(openTalkId);
       setRoomData(result.payload);
       connectChatRoomWS();
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -117,7 +141,16 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
           messages={roomData.messages}
           setShowProfileModal={setShowProfileModal}
         />
-        <TalkRoomForm sendMessageHandler={sendMessageHandler} />
+        <TalkRoomForm
+          sendMessageHandler={sendMessageHandler}
+          setShowImageModal={setShowImageModal}
+        />
+
+        <ImageModal
+          showModal={showImageModal}
+          setShowModal={setShowImageModal}
+          sendImageHandler={sendImageHandler}
+        />
       </TalkRoomWrapper>
     </div>
   );

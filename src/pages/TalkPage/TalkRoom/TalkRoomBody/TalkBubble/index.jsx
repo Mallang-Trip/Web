@@ -42,7 +42,7 @@ function TalkBubble({
             {!isMyMessage && !isPrevSameUser && (
               <p className="text-sm text-black font-bold">{nickname}</p>
             )}
-            {content ? (
+            {type === "TEXT" ? (
               <div
                 className={`${isMyMessage ? "bg-skyblue" : "bg-[#F4F4F4]"} ${
                   !isMyMessage && isPrevSameUser && "ml-12"
@@ -52,7 +52,7 @@ function TalkBubble({
               </div>
             ) : (
               <img
-                src={image}
+                src={content}
                 alt="chatImage"
                 className={`${
                   !isMyMessage && isPrevSameUser && "ml-12"

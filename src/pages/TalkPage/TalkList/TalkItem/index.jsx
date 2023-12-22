@@ -14,6 +14,16 @@ function TalkItem({
   headCount,
   isGroup,
 }) {
+  const lastMessage = () => {
+    if (
+      content.slice(0, 64) ===
+      "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/"
+    )
+      return "사진";
+
+    return content;
+  };
+
   return (
     <li>
       <button
@@ -38,7 +48,7 @@ function TalkItem({
               )}
             </div>
             <p className="w-full text-sm text-darkgray font-medium overflow-hidden line-clamp-1">
-              {content}
+              {lastMessage()}
             </p>
           </div>
         </div>

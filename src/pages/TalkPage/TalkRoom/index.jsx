@@ -54,8 +54,14 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const subscribeChatRoomWS = () => {
     client.current.subscribe(
       `/sub/room/${openTalkId}`,
-      (newChat) => {
-        console.log(JSON.parse(newChat.body));
+      (messages) => {
+        setRoomData((roomData) => {
+          return {
+            ...roomData,
+            messages: [...roomData.messages, JSON.parse(messages.body)],
+          };
+        });
+
         readMessage();
       },
       ACCESSTOKEN

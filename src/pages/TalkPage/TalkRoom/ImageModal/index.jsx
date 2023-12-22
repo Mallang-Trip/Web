@@ -22,9 +22,6 @@ function ImageModal({ showModal, setShowModal, sendImageHandler }) {
   };
 
   useEffect(() => {
-    if (!showModal) return document.body.classList.remove("overflow-hidden");
-    document.body.classList.add("overflow-hidden");
-
     setImage(undefined);
 
     document.addEventListener("keydown", handleKeyPress);

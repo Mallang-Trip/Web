@@ -10,6 +10,7 @@ import TalkRoomBody from "./TalkRoomBody";
 import TalkRoomForm from "./TalkRoomForm";
 import TalkRoomWrapper from "./TalkRoomWrapper";
 import ImageModal from "./ImageModal";
+import TalkMenu from "./TalkMenu";
 
 function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const client = useRef();
@@ -18,6 +19,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
   const [roomData, setRoomData] = useState({});
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const closeRoomHandler = () => {
     if (client.current) client.current.deactivate();
@@ -136,6 +138,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
         <TalkRoomHead
           name={roomData.roomName}
           closeRoomHandler={closeRoomHandler}
+          setShowMenu={setShowMenu}
         />
         <TalkRoomBody
           messages={roomData.messages}
@@ -151,6 +154,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
           setShowModal={setShowImageModal}
           sendImageHandler={sendImageHandler}
         />
+        <TalkMenu showMenu={showMenu} setShowMenu={setShowMenu} />
       </TalkRoomWrapper>
     </div>
   );

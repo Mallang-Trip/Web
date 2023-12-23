@@ -1,6 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import MenuCloser from "./MenuCloser";
+import MenuHead from "./MenuHead";
+import MenuMembers from "./MenuMembers";
+import ExitButton from "./ExitButton";
 
-function TalkMenu({ showMenu, setShowMenu }) {
+function TalkMenu({
+  showMenu,
+  setShowMenu,
+  chatRoomId,
+  roomName,
+  headCount,
+  isGroup,
+  members,
+}) {
   const modalRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
   const [openMenuAnimation, setOpenMenuAnimation] = useState(false);
@@ -43,11 +55,18 @@ function TalkMenu({ showMenu, setShowMenu }) {
       onClick={(e) => modalOutSideClick(e)}
     >
       <div
-        className={`w-80 h-full ml-auto bg-white transition-transform duration-500 ${
+        className={`w-80 h-full flex flex-col ml-auto bg-white transition-transform duration-500 relative ${
           openMenuAnimation ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        TalkMenu
+        <MenuCloser setShowMenu={setShowMenu} />
+        <MenuHead roomName={roomName} headCount={headCount} />
+        <MenuMembers
+          members={members}
+          isGroup={isGroup}
+          chatRoomId={chatRoomId}
+        />
+        <ExitButton chatRoomId={chatRoomId} />
       </div>
     </div>
   );

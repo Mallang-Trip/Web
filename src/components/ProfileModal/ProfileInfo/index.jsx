@@ -1,15 +1,15 @@
 import basicProfileImage from "../../../assets/images/profileImage.png";
 
-function ProfileInfo({ profileImage, name, introduction }) {
+function ProfileInfo({ profileImg, nickname, introduction }) {
   return (
-    <div className="flex justify-center my-12 gap-5">
+    <div className="flex justify-center my-12 gap-8">
       <img
-        src={profileImage || basicProfileImage}
-        alt="profileImage"
-        className="w-2/5 h-2/5"
+        src={profileImg || basicProfileImage}
+        alt={nickname}
+        className="w-40 h-40 rounded-full"
       />
       <div className="flex flex-col justify-center items-center gap-2">
-        <p className="text-2xl text-black font-bold">{name}</p>
+        <p className="text-2xl text-black font-bold">{nickname}</p>
         <p className="text-sm text-primary">{introduction}</p>
       </div>
     </div>

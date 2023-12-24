@@ -3,7 +3,11 @@ import { useSelector } from "react-redux";
 import TalkBubble from "./TalkBubble";
 import chatArrowIcon from "../../../../assets/svg/right-arrow.svg";
 
-function TalkRoomBody({ messages = [], setShowProfileModal }) {
+function TalkRoomBody({
+  messages = [],
+  setShowProfileModal,
+  setProfileUserId,
+}) {
   const talkRoomRef = useRef();
   const user = useSelector((state) => state.user);
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -49,6 +53,7 @@ function TalkRoomBody({ messages = [], setShowProfileModal }) {
         <TalkBubble
           key={message.messageId}
           setShowProfileModal={setShowProfileModal}
+          setProfileUserId={setProfileUserId}
           isPrevSameDate={
             index > 0 &&
             message.createdAt.slice(0, 10) ===

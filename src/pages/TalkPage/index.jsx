@@ -9,13 +9,11 @@ import PageContainer from "../../components/PageContainer";
 import TalkList from "./TalkList";
 import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
-import ProfileModal from "../../components/ProfileModal";
 
 function TalkPage() {
   const client = useRef();
   const user = useSelector((state) => state.user);
   const [openTalkId, setOpenTalkId] = useState(0);
-  const [showProfileModal, setShowProfileModal] = useState(false);
   const [chatList, setChatList] = useState([]);
 
   const subscribeChatListWS = () => {
@@ -67,16 +65,9 @@ function TalkPage() {
       <TalkRoom
         openTalkId={openTalkId}
         setOpenTalkId={setOpenTalkId}
-        setShowProfileModal={setShowProfileModal}
         getChatListFunc={getChatListFunc}
       />
       <BlankSpace />
-
-      <ProfileModal
-        showModal={showProfileModal}
-        setShowModal={setShowProfileModal}
-        name={"jelly217"}
-      />
     </PageContainer>
   );
 }

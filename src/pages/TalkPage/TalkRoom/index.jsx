@@ -11,13 +11,9 @@ import TalkRoomForm from "./TalkRoomForm";
 import TalkRoomWrapper from "./TalkRoomWrapper";
 import ImageModal from "./ImageModal";
 import TalkMenu from "./TalkMenu";
+import ProfileModal from "../../../components/ProfileModal";
 
-function TalkRoom({
-  openTalkId,
-  setOpenTalkId,
-  setShowProfileModal,
-  getChatListFunc,
-}) {
+function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   const client = useRef();
   const header = { ...ACCESSTOKEN, "room-id": openTalkId };
   const [openRoom, setOpenRoom] = useState(false);
@@ -25,6 +21,8 @@ function TalkRoom({
   const [roomData, setRoomData] = useState({});
   const [showImageModal, setShowImageModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileUserId, setProfileUserId] = useState(0);
 
   const closeRoomHandler = () => {
     if (client.current) client.current.deactivate();
@@ -148,26 +146,35 @@ function TalkRoom({
         <TalkRoomBody
           messages={roomData.messages}
           setShowProfileModal={setShowProfileModal}
+          setProfileUserId={setProfileUserId}
         />
         <TalkRoomForm
           sendMessageHandler={sendMessageHandler}
           setShowImageModal={setShowImageModal}
         />
 
-        <ImageModal
-          showModal={showImageModal}
-          setShowModal={setShowImageModal}
-          sendImageHandler={sendImageHandler}
-        />
         <TalkMenu
           showMenu={showMenu}
           setShowMenu={setShowMenu}
           getChatRoomDataFunc={getChatRoomDataFunc}
           getChatListFunc={getChatListFunc}
           closeRoomHandler={closeRoomHandler}
+          setShowProfileModal={setShowProfileModal}
+          setProfileUserId={setProfileUserId}
           {...roomData}
         />
       </TalkRoomWrapper>
+
+      <ImageModal
+        showModal={showImageModal}
+        setShowModal={setShowImageModal}
+        sendImageHandler={sendImageHandler}
+      />
+      <ProfileModal
+        showModal={showProfileModal}
+        setShowModal={setShowProfileModal}
+        userId={profileUserId}
+      />
     </div>
   );
 }

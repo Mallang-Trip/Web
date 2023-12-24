@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 function ImageModal({ showModal, setShowModal, sendImageHandler }) {
   const modalRef = useRef();
   const imageRef = useRef();
+  const $body = document.body;
   const [image, setImage] = useState(undefined);
 
   const closeModal = () => setShowModal(false);
@@ -29,15 +31,15 @@ function ImageModal({ showModal, setShowModal, sendImageHandler }) {
     };
   }, [showModal]);
 
-  return (
+  return createPortal(
     <div
-      className={`modal-container absolute top-0 left-0 z-50 w-full h-full bg-darkgray bg-opacity-50 scale-100 flex ${
+      className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-96 rounded-xl">
+      <div className="m-auto shadow w-96 bg-white rounded-xl">
         <div className="h-80 bg-white rounded-t-xl pt-5 px-6">
           <p className="text-xl text-black font-bold">사진 전송</p>
 
@@ -79,7 +81,8 @@ function ImageModal({ showModal, setShowModal, sendImageHandler }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    $body
   );
 }
 

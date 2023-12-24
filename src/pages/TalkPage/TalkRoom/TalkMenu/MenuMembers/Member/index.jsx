@@ -1,10 +1,22 @@
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
-function Member({ userId, profileImg, nickname, introduction }) {
+function Member({
+  userId,
+  profileImg,
+  nickname,
+  introduction,
+  setShowProfileModal,
+  setProfileUserId,
+}) {
+  const showProfileHandler = () => {
+    setProfileUserId(userId);
+    setShowProfileModal(true);
+  };
+
   return (
     <button
       className="w-full my-1 p-2 flex items-center hover:bg-[#F4F4F4] rounded-lg focus:outline-none"
-      onClick={() => console.log(userId)}
+      onClick={showProfileHandler}
     >
       <img
         className="mr-3 w-10 h-10 rounded-full"

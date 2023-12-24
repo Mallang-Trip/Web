@@ -2,7 +2,14 @@ import { useState } from "react";
 import Member from "./Member";
 import InviteModal from "./InviteModal";
 
-function MenuMembers({ members, isGroup, chatRoomId, getChatRoomDataFunc }) {
+function MenuMembers({
+  members,
+  isGroup,
+  chatRoomId,
+  getChatRoomDataFunc,
+  setShowProfileModal,
+  setProfileUserId,
+}) {
   const [showInviteModal, setShowInviteModal] = useState(false);
 
   return (
@@ -20,7 +27,12 @@ function MenuMembers({ members, isGroup, chatRoomId, getChatRoomDataFunc }) {
           )}
         </div>
         {members.map((member) => (
-          <Member key={member.userId} {...member} />
+          <Member
+            key={member.userId}
+            setShowProfileModal={setShowProfileModal}
+            setProfileUserId={setProfileUserId}
+            {...member}
+          />
         ))}
       </div>
 

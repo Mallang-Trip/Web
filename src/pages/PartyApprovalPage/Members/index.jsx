@@ -3,12 +3,8 @@ import ProfileModal from "../../../components/ProfileModal";
 
 function Members() {
   const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState("");
 
-  const clickHandler = (e) => {
-    setName(e.target.innerHTML.replace(" 드라이버", ""));
-    setShowModal(true);
-  };
+  const clickHandler = () => setShowModal(true);
 
   return (
     <>
@@ -41,7 +37,7 @@ function Members() {
       <ProfileModal
         showModal={showModal}
         setShowModal={setShowModal}
-        name={name}
+        userId={2}
       />
     </>
   );

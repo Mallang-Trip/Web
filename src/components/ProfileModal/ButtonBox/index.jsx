@@ -1,6 +1,6 @@
 import Button from "./Button";
 
-function ButtonBox() {
+function ButtonBox({ userId }) {
   return (
     <div className="flex justify-center flex-wrap gap-3 mb-12">
       <Button name="채팅하기" />

@@ -15,6 +15,8 @@ function TalkMenu({
   getChatRoomDataFunc,
   getChatListFunc,
   closeRoomHandler,
+  setShowProfileModal,
+  setProfileUserId,
 }) {
   const modalRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
@@ -40,6 +42,10 @@ function TalkMenu({
 
     const $leaveChatModal = document.getElementById("leave-chat-modal");
     if ($leaveChatModal && $leaveChatModal.classList.contains("active")) return;
+
+    const $userProfileModal = document.getElementById("user-profile-modal");
+    if ($userProfileModal && $userProfileModal.classList.contains("active"))
+      return;
 
     if (event.key === "Escape") setShowMenu(false);
   };
@@ -75,6 +81,8 @@ function TalkMenu({
           isGroup={isGroup}
           chatRoomId={chatRoomId}
           getChatRoomDataFunc={getChatRoomDataFunc}
+          setShowProfileModal={setShowProfileModal}
+          setProfileUserId={setProfileUserId}
         />
         <ExitButton
           chatRoomId={chatRoomId}

@@ -22,3 +22,6 @@ export const searchPassword = async (phoneNumber, code) =>
 
 export const putNewPassword = async (data) =>
   await PUT(`/certification/password`, data);
+
+export const searchUser = async (nickName) =>
+  await GET(`/user/search?nickname=${nickName}`, true);

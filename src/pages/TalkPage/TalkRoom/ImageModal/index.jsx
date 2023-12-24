@@ -13,7 +13,6 @@ function ImageModal({ showModal, setShowModal, sendImageHandler }) {
 
   const handleKeyPress = (event) => {
     if (event.key === "Escape") closeModal();
-    else if (event.key === "Enter") sendImageHandler(image);
   };
 
   const imageHandler = () => {

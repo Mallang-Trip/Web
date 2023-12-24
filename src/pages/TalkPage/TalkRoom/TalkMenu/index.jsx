@@ -12,6 +12,7 @@ function TalkMenu({
   headCount,
   isGroup,
   members,
+  getChatRoomDataFunc,
 }) {
   const modalRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
@@ -32,6 +33,9 @@ function TalkMenu({
   };
 
   const handleKeyPress = (event) => {
+    const $inviteModal = document.getElementById("invite-modal");
+    if ($inviteModal && $inviteModal.classList.contains("active")) return;
+
     if (event.key === "Escape") setShowMenu(false);
   };
 
@@ -65,6 +69,7 @@ function TalkMenu({
           members={members}
           isGroup={isGroup}
           chatRoomId={chatRoomId}
+          getChatRoomDataFunc={getChatRoomDataFunc}
         />
         <ExitButton chatRoomId={chatRoomId} />
       </div>

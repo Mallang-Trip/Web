@@ -154,7 +154,12 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
           setShowModal={setShowImageModal}
           sendImageHandler={sendImageHandler}
         />
-        <TalkMenu showMenu={showMenu} setShowMenu={setShowMenu} {...roomData} />
+        <TalkMenu
+          showMenu={showMenu}
+          setShowMenu={setShowMenu}
+          getChatRoomDataFunc={getChatRoomDataFunc}
+          {...roomData}
+        />
       </TalkRoomWrapper>
     </div>
   );

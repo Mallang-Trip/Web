@@ -12,7 +12,12 @@ import TalkRoomWrapper from "./TalkRoomWrapper";
 import ImageModal from "./ImageModal";
 import TalkMenu from "./TalkMenu";
 
-function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
+function TalkRoom({
+  openTalkId,
+  setOpenTalkId,
+  setShowProfileModal,
+  getChatListFunc,
+}) {
   const client = useRef();
   const header = { ...ACCESSTOKEN, "room-id": openTalkId };
   const [openRoom, setOpenRoom] = useState(false);
@@ -158,6 +163,8 @@ function TalkRoom({ openTalkId, setOpenTalkId, setShowProfileModal }) {
           showMenu={showMenu}
           setShowMenu={setShowMenu}
           getChatRoomDataFunc={getChatRoomDataFunc}
+          getChatListFunc={getChatListFunc}
+          closeRoomHandler={closeRoomHandler}
           {...roomData}
         />
       </TalkRoomWrapper>

@@ -68,6 +68,7 @@ function TalkPage() {
         openTalkId={openTalkId}
         setOpenTalkId={setOpenTalkId}
         setShowProfileModal={setShowProfileModal}
+        getChatListFunc={getChatListFunc}
       />
       <BlankSpace />
 

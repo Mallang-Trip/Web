@@ -88,6 +88,7 @@ function TalkMenu({
           chatRoomId={chatRoomId}
           getChatListFunc={getChatListFunc}
           closeRoomHandler={closeRoomHandler}
+          setShowMenu={setShowMenu}
         />
       </div>
     </div>

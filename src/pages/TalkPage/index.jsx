@@ -61,6 +61,7 @@ function TalkPage() {
         chatList={chatList}
         openTalkId={openTalkId}
         setOpenTalkId={setOpenTalkId}
+        getChatListFunc={getChatListFunc}
       />
       <TalkRoom
         openTalkId={openTalkId}

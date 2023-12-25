@@ -10,3 +10,9 @@ export const inviteMemberAPI = async (chatRoomId, userIds) =>
 
 export const leaveChat = async (chatRoomId) =>
   await DELETE(`/chat/leave/${chatRoomId}`, true);
+
+export const makeNewGroupChat = async (userIds, roomName) =>
+  await GET(`/chat/groupChat?userId=${userIds}&roomName=${roomName}`, true);
+
+export const makeNewCoupleChat = async (userId) =>
+  await GET(`/chat/coupleChat?userId=${userId}`, true);

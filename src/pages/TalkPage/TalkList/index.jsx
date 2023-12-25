@@ -2,7 +2,7 @@ import NewTalkButton from "./NewTalkButton";
 import NoTalkList from "./NoTalkList";
 import TalkItem from "./TalkItem";
 
-function TalkList({ chatList, openTalkId, setOpenTalkId }) {
+function TalkList({ chatList, openTalkId, setOpenTalkId, getChatListFunc }) {
   return (
     <aside className="fixed top-14 left-0 z-30 w-full md:w-[450px] h-screen">
       <div className="overflow-y-auto pb-32 md:pb-20 px-3 h-full bg-white md:border-r border-[#D9D9D9] noScrollBar">
@@ -27,7 +27,10 @@ function TalkList({ chatList, openTalkId, setOpenTalkId }) {
         )}
       </div>
 
-      <NewTalkButton />
+      <NewTalkButton
+        getChatListFunc={getChatListFunc}
+        setOpenTalkId={setOpenTalkId}
+      />
     </aside>
   );
 }

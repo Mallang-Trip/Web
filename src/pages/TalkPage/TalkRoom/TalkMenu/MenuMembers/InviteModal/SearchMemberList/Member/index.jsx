@@ -13,7 +13,10 @@ function Member({
 
   const clickHandler = () => {
     if (isSelected()) return;
-    setInviteMember([...inviteMember, { userId: userId, nickName: nickname }]);
+    setInviteMember([
+      ...inviteMember,
+      { userId: userId, nickName: nickname, profileImg: profileImg },
+    ]);
   };
 
   return (

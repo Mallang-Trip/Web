@@ -2,12 +2,18 @@ import { useState } from "react";
 import { leaveChat } from "../../../../../api/chat";
 import ExitCheckModal from "./ExitCheckModal";
 
-function ExitButton({ chatRoomId, getChatListFunc, closeRoomHandler }) {
+function ExitButton({
+  chatRoomId,
+  getChatListFunc,
+  closeRoomHandler,
+  setShowMenu,
+}) {
   const [showModal, setShowModal] = useState(false);
 
   const leaveChatHandler = async () => {
     try {
       await leaveChat(chatRoomId);
+      setShowMenu(false);
       setShowModal(false);
       closeRoomHandler();
       getChatListFunc();

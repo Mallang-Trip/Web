@@ -9,6 +9,7 @@ function MenuMembers({
   getChatRoomDataFunc,
   setShowProfileModal,
   setProfileUserId,
+  setShowMenu,
 }) {
   const [showInviteModal, setShowInviteModal] = useState(false);
 
@@ -41,6 +42,7 @@ function MenuMembers({
         setShowModal={setShowInviteModal}
         chatRoomId={chatRoomId}
         getChatRoomDataFunc={getChatRoomDataFunc}
+        setShowMenu={setShowMenu}
       />
     </>
   );

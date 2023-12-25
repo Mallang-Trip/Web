@@ -27,6 +27,8 @@ function TalkPage() {
   };
 
   const connectChatListWS = () => {
+    if (client.current) return;
+
     client.current = Stomp.over(() => {
       const sock = new SockJS(properties.baseURL + "/ws/chat");
       return sock;

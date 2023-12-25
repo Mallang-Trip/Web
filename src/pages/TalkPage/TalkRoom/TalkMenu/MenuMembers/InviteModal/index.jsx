@@ -11,6 +11,7 @@ function InviteModal({
   setShowModal,
   chatRoomId,
   getChatRoomDataFunc,
+  setShowMenu,
 }) {
   const modalRef = useRef();
   const $body = document.body;
@@ -47,6 +48,7 @@ function InviteModal({
       alert("초대가 완료되었습니다.");
       getChatRoomDataFunc();
       closeModal();
+      setShowMenu(false);
     } catch (e) {
       console.log(e);
     }

@@ -75,7 +75,7 @@ function TalkMenu({
         }`}
       >
         <MenuCloser setShowMenu={setShowMenu} />
-        <MenuHead roomName={roomName} headCount={headCount} />
+        <MenuHead roomName={roomName} headCount={headCount} isGroup={isGroup} />
         <MenuMembers
           members={members}
           isGroup={isGroup}
@@ -83,6 +83,7 @@ function TalkMenu({
           getChatRoomDataFunc={getChatRoomDataFunc}
           setShowProfileModal={setShowProfileModal}
           setProfileUserId={setProfileUserId}
+          setShowMenu={setShowMenu}
         />
         <ExitButton
           chatRoomId={chatRoomId}

@@ -26,13 +26,24 @@ const regionData = [
 function RegionModal({ showModal, setShowModal, regionClickHandler }) {
   const modalRef = useRef();
 
+  const closeModal = () => setShowModal(false);
+
   const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) setShowModal(false);
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") closeModal();
   };
 
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -43,7 +54,7 @@ function RegionModal({ showModal, setShowModal, regionClickHandler }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-full max-h-4/5 max-w-screen-xl rounded-xl">
+      <div className="m-auto shadow w-4/5 lg:w-full max-h-4/5 max-w-screen-xl rounded-xl">
         <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 md:grid-cols-3 lg:grid-cols-4 h-full bg-white rounded-xl overflow-auto noScrollBar">
           <Anywhere regionClickHandler={regionClickHandler} />
           {regionData.map((item) => (

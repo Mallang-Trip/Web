@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import profileImage from "../../assets/images/profileImage.png";
+import basicProfileImage from "../../assets/images/profileImage.png";
 import Talk from "../../assets/svg/bottom-talk.svg";
 import Community from "../../assets/svg/bottom-community.svg";
 import Home from "../../assets/svg/bottom-home.svg";
@@ -26,7 +26,7 @@ function BottomNav() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-[#D9D9D9] rounded-t-2xl md:hidden">
+    <div className="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-[#D9D9D9] rounded-t-2xl md:hidden">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
         <button
           type="button"
@@ -113,9 +113,9 @@ function BottomNav() {
         >
           <img
             className={`w-9 h-9 rounded-full ${
-              checkLocation() === "my" && "ring ring-primary ring-offset-1"
+              checkLocation() === "my" && "ring-2 ring-primary ring-offset-1"
             }`}
-            src={user.profileImg || profileImage}
+            src={user.profileImg || basicProfileImage}
             alt="User_Profile_Image"
           />
         </button>

@@ -1,53 +1,75 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Stomp } from "@stomp/stompjs";
+import { getChatList } from "../../api/chat";
+import { ACCESSTOKEN } from "../../global";
+import SockJS from "sockjs-client/dist/sockjs";
+import properties from "../../config/properties";
 import PageContainer from "../../components/PageContainer";
-import basicProfileImage from "../../assets/images/profileImage.png";
 import TalkList from "./TalkList";
 import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
 
-const talkList = [
-  {
-    id: 1,
-    profileImg: basicProfileImage,
-    nickName: "jelly217",
-    lastChat: "안녕하세요. 저는 누구누구 입니다 블라블라블라블라블라블라블라",
-    time: "3분 전",
-    readCount: 5,
-  },
-  {
-    id: 2,
-    profileImg: basicProfileImage,
-    nickName: "abcd",
-    lastChat: "안녕ㅎ세요!",
-    time: "어제",
-    readCount: 3,
-  },
-  {
-    id: 3,
-    profileImg: basicProfileImage,
-    nickName: "나비",
-    lastChat: "ㅎㅇㅎㅇ~",
-    time: "12월 7일",
-    readCount: 0,
-  },
-];
-
 function TalkPage() {
+  const client = useRef();
+  const user = useSelector((state) => state.user);
   const [openTalkId, setOpenTalkId] = useState(0);
+  const [chatList, setChatList] = useState([]);
+
+  const subscribeChatListWS = () => {
+    client.current.subscribe(
+      `/sub/list/${user.userId}`,
+      (newChatList) => {
+        setChatList(JSON.parse(newChatList.body));
+      },
+      ACCESSTOKEN
+    );
+  };
+
+  const connectChatListWS = () => {
+    if (client.current) return;
+
+    client.current = Stomp.over(() => {
+      const sock = new SockJS(properties.baseURL + "/ws/chat");
+      return sock;
+    });
+
+    client.current.connect(ACCESSTOKEN, subscribeChatListWS);
+  };
+
+  const getChatListFunc = async () => {
+    try {
+      const result = await getChatList();
+      setChatList(result.payload);
+      connectChatListWS();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
+    getChatListFunc();
+
     document.body.classList.add("overflow-hidden");
-    return () => document.body.classList.remove("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+      if (client.current) client.current.deactivate();
+    };
   }, []);
 
   return (
     <PageContainer>
       <TalkList
-        talkList={talkList}
+        chatList={chatList}
         openTalkId={openTalkId}
         setOpenTalkId={setOpenTalkId}
+        getChatListFunc={getChatListFunc}
       />
-      <TalkRoom openTalkId={openTalkId} setOpenTalkId={setOpenTalkId} />
+      <TalkRoom
+        openTalkId={openTalkId}
+        setOpenTalkId={setOpenTalkId}
+        getChatListFunc={getChatListFunc}
+      />
       <BlankSpace />
     </PageContainer>
   );

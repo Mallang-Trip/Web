@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../assets/images/kakaoIcon.png";
+import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
   const Kakao = window.Kakao;
+  const modalRef = useRef();
   const { partyId } = useParams();
   const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
@@ -28,14 +30,22 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
         PARTY_IMAGE1: partyImages[0],
         PARTY_IMAGE2: partyImages[1] || partyImages[0],
         PARTY_IMAGE3: partyImages[2] || partyImages[0],
-        PROFILE_IMAGE:
-          user.profileImg ||
-          "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/bd59ea22-f029-432d-b658-0279188e2198mallangtrip_icon.png",
+        PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
         PARTY_NAME: partyName,
         PARTY_ID: partyId,
       },
     });
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") closeModal();
   };
 
   useEffect(() => {
@@ -47,8 +57,13 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
   }, [copyComplete]);
 
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -56,6 +71,8 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="relative h-44 whitespace-pre bg-white rounded-xl pl-7 pr-12 py-6">
@@ -73,7 +90,7 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
             src={closeIcon}
             alt="close"
             className="absolute top-6 right-6 cursor-pointer rounded hover:bg-gray-200"
-            onClick={() => setShowModal(false)}
+            onClick={closeModal}
           />
 
           <div className="mt-5 flex justify-between">

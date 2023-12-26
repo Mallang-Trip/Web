@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import profileImage from "../../../../../../assets/images/profileImage.png";
 import { postNewReply } from "../../../../../../api/article";
+import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
 function ReplyForm({ commentId, reloadArticle }) {
   const user = useSelector((state) => state.user);
@@ -25,7 +25,7 @@ function ReplyForm({ commentId, reloadArticle }) {
       onSubmit={applySubmitHandler}
     >
       <img
-        src={user.profileImg || profileImage}
+        src={user.profileImg || basicProfileImage}
         alt="profile_image"
         className="w-11 h-11 rounded-full"
       />

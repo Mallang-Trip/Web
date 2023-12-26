@@ -1,4 +1,4 @@
-import profileImage from "../../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ProfileImage({
   modifyMode,
@@ -20,7 +20,7 @@ function ProfileImage({
           src={
             newProfileImage
               ? URL.createObjectURL(newProfileImage)
-              : driverInfo.profileImg || profileImage
+              : driverInfo.profileImg || basicProfileImage
           }
           alt="profileImage"
           className="w-full h-full rounded-full"

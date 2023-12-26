@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { putPassword } from "../../../../../api/profile";
 
 function NewPasswordModal({ showModal, setShowModal }) {
+  const modalRef = useRef();
   const [nowPassword, setNowPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordAgain, setNewPasswordAgain] = useState("");
@@ -9,6 +10,13 @@ function NewPasswordModal({ showModal, setShowModal }) {
   const [newPasswordValidation, setNewPasswordValidation] = useState(true);
   const [newPasswordAgainValidation, setNewPasswordAgainValidation] =
     useState(true);
+
+  const closeModal = () => {
+    setNowPassword("");
+    setNewPassword("");
+    setNewPasswordAgain("");
+    setShowModal(false);
+  };
 
   const nowPasswordHandler = (e) => {
     setNowPasswordValidation(true);
@@ -39,19 +47,29 @@ function NewPasswordModal({ showModal, setShowModal }) {
       if (result.statusCode === 401) setNowPasswordValidation(false);
       else {
         alert("비밀번호가 변경되었습니다.");
-        setNowPassword("");
-        setNewPassword("");
-        setNewPasswordAgain("");
-        setShowModal(false);
+        closeModal();
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") closeModal();
+  };
+
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -59,15 +77,15 @@ function NewPasswordModal({ showModal, setShowModal }) {
       className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 scale-100 flex ${
         showModal && "active"
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="relative w-full max-w-xl max-h-full m-auto">
         <div className="relative bg-white rounded-lg shadow">
           <button
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-            onClick={() => {
-              setShowModal(false);
-            }}
+            onClick={closeModal}
           >
             <svg
               aria-hidden="true"

@@ -13,7 +13,7 @@ function DayButton({ weekly, setWeekly, eng, kor }) {
 
   return (
     <button
-      className={`w-10 h-10 rounded-full ${
+      className={`w-10 h-10 rounded-full focus:outline-none ${
         weekly.includes(eng)
           ? "bg-skyblue text-primary"
           : "bg-[#F4F4F4] text-darkgray"

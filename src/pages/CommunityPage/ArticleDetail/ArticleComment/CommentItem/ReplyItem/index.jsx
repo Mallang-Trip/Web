@@ -3,6 +3,7 @@ import { dateToGapKorean } from "../../../../../../utils";
 import { useState } from "react";
 import { deleteMyReply } from "../../../../../../api/article";
 import CheckModal from "../../../../../../components/CheckModal";
+import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
 function ReplyItem({
   reloadArticle,
@@ -32,7 +33,7 @@ function ReplyItem({
       <div className="py-5">
         <div className="flex gap-2.5">
           <img
-            src={profileImg}
+            src={profileImg || basicProfileImage}
             alt="profile_image"
             className="w-10 h-10 rounded-full"
           />

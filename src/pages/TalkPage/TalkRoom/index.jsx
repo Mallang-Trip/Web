@@ -1,14 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getChatRoomData } from "../../../api/chat";
+import { uploadImage } from "../../../api/image";
+import { ACCESSTOKEN } from "../../../global";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client/dist/sockjs";
+import properties from "../../../config/properties";
 import TalkRoomHead from "./TalkRoomHead";
 import TalkRoomBody from "./TalkRoomBody";
 import TalkRoomForm from "./TalkRoomForm";
 import TalkRoomWrapper from "./TalkRoomWrapper";
+import ImageModal from "./ImageModal";
+import TalkMenu from "./TalkMenu";
+import ProfileModal from "../../../components/ProfileModal";
 
-function TalkRoom({ openTalkId, setOpenTalkId }) {
+function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
+  const client = useRef();
+  const header = { ...ACCESSTOKEN, "room-id": openTalkId };
   const [openRoom, setOpenRoom] = useState(false);
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
+  const [roomData, setRoomData] = useState({});
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileUserId, setProfileUserId] = useState(0);
 
   const closeRoomHandler = () => {
+    if (client.current) client.current.deactivate();
+
     setOpenTalkId(0);
     setOpenRoomAnimation(false);
     setTimeout(() => setOpenRoom(false), 550);
@@ -19,12 +37,95 @@ function TalkRoom({ openTalkId, setOpenTalkId }) {
     setTimeout(() => setOpenRoomAnimation(true), 50);
   };
 
+  const readMessage = () => {
+    if (!client.current.connected) return;
+
+    client.current.publish({
+      destination: "/pub/read",
+      headers: header,
+    });
+  };
+
+  const sendImageHandler = async (image) => {
+    if (!client.current.connected) return;
+    if (!image) return alert("사진을 첨부해주세요.");
+
+    try {
+      const imageURL = await uploadImage(image);
+
+      client.current.publish({
+        destination: "/pub/write",
+        headers: header,
+        body: JSON.stringify({
+          type: "IMAGE",
+          content: imageURL,
+        }),
+      });
+
+      setShowImageModal(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const sendMessageHandler = (message) => {
+    if (!client.current.connected) return;
+
+    client.current.publish({
+      destination: "/pub/write",
+      headers: header,
+      body: JSON.stringify({
+        type: "TEXT",
+        content: message,
+      }),
+    });
+  };
+
+  const subscribeChatRoomWS = () => {
+    client.current.subscribe(
+      `/sub/room/${openTalkId}`,
+      (messages) => {
+        setRoomData((roomData) => {
+          return {
+            ...roomData,
+            messages: [...roomData.messages, JSON.parse(messages.body)],
+          };
+        });
+
+        readMessage();
+      },
+      ACCESSTOKEN
+    );
+
+    readMessage();
+  };
+
+  const connectChatRoomWS = () => {
+    if (client.current) return;
+
+    client.current = Stomp.over(() => {
+      const sock = new SockJS(properties.baseURL + "/ws/chat");
+      return sock;
+    });
+
+    client.current.connect(ACCESSTOKEN, subscribeChatRoomWS);
+  };
+
+  const getChatRoomDataFunc = async () => {
+    try {
+      const result = await getChatRoomData(openTalkId);
+      setRoomData(result.payload);
+      connectChatRoomWS();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (openTalkId === 0) return;
 
-    // TODO: 채팅 내역 불러오기 (API)
+    getChatRoomDataFunc();
 
-    // 채팅방 등장
     if (!openRoom) return openRoomHandler();
     setOpenRoom(false);
     setOpenRoomAnimation(false);
@@ -39,10 +140,43 @@ function TalkRoom({ openTalkId, setOpenTalkId }) {
       }`}
     >
       <TalkRoomWrapper>
-        <TalkRoomHead name={"jelly217"} closeRoomHandler={closeRoomHandler} />
-        <TalkRoomBody />
-        <TalkRoomForm />
+        <TalkRoomHead
+          name={roomData.roomName}
+          closeRoomHandler={closeRoomHandler}
+          setShowMenu={setShowMenu}
+        />
+        <TalkRoomBody
+          messages={roomData.messages}
+          setShowProfileModal={setShowProfileModal}
+          setProfileUserId={setProfileUserId}
+        />
+        <TalkRoomForm
+          sendMessageHandler={sendMessageHandler}
+          setShowImageModal={setShowImageModal}
+        />
+
+        <TalkMenu
+          showMenu={showMenu}
+          setShowMenu={setShowMenu}
+          getChatRoomDataFunc={getChatRoomDataFunc}
+          getChatListFunc={getChatListFunc}
+          closeRoomHandler={closeRoomHandler}
+          setShowProfileModal={setShowProfileModal}
+          setProfileUserId={setProfileUserId}
+          {...roomData}
+        />
       </TalkRoomWrapper>
+
+      <ImageModal
+        showModal={showImageModal}
+        setShowModal={setShowImageModal}
+        sendImageHandler={sendImageHandler}
+      />
+      <ProfileModal
+        showModal={showProfileModal}
+        setShowModal={setShowProfileModal}
+        userId={profileUserId}
+      />
     </div>
   );
 }

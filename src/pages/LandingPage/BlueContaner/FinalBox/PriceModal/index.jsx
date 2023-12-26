@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { priceToString } from "../../../../../utils";
 
 function PriceModal({
@@ -9,16 +9,31 @@ function PriceModal({
   setFilterPrice,
 }) {
   const modalRef = useRef();
-
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) setShowModal(false);
-  };
+  const buttonRef = useRef();
 
   const closeModal = () => {
     setFilterPrice(price);
-    document.body.classList.remove("overflow-hidden");
     setShowModal(false);
   };
+
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") setShowModal(false);
+    else if (event.key === "Enter") buttonRef.current.click();
+  };
+
+  useEffect(() => {
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [showModal]);
 
   return (
     <div
@@ -40,7 +55,7 @@ function PriceModal({
                 />
               </div>
               <input
-                className="absolute w-full h-6 bg-transparent slider z-20 top-0 left-0"
+                className="absolute w-full h-6 bg-transparent slider z-20 top-0 left-0 focus:outline-none"
                 type="range"
                 min={0}
                 max={1010000}
@@ -58,6 +73,7 @@ function PriceModal({
         <button
           className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"
           onClick={closeModal}
+          ref={buttonRef}
         >
           확인
         </button>

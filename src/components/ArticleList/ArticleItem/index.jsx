@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import basicProfileImage from "../../../assets/images/profileImage.png";
 import { dateToGapKorean } from "../../../utils";
+import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function ArticleItem({
   articleId,

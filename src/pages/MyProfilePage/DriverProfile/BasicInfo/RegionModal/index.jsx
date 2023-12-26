@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Region from "./Region";
 import jeju from "../../../../../assets/images/제주도 이미지.jpg";
 import gangwon from "../../../../../assets/images/강원도 이미지.jpg";
@@ -25,22 +25,36 @@ const regionData = [
 ];
 
 function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
+  const modalRef = useRef();
+  const confirmButtonRef = useRef();
   const [region, setRegion] = useState(driverInfo.region);
 
-  const cancelHandler = () => {
-    setShowModal(false);
-  };
+  const cancelHandler = () => setShowModal(false);
 
   const confirmHandler = () => {
     setDriverInfo({ ...driverInfo, region: region });
     setShowModal(false);
   };
 
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) cancelHandler();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") cancelHandler();
+    else if (event.key === "Enter") confirmButtonRef.current.click();
+  };
+
   useEffect(() => {
-    if (showModal) {
-      document.body.classList.add("overflow-hidden");
-      setRegion(driverInfo.region);
-    } else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    setRegion(driverInfo.region);
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -48,15 +62,15 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
       className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 scale-100 flex ${
         showModal && "active"
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="relative w-full max-w-4xl max-h-full m-auto">
         <div className="relative bg-white rounded-lg shadow">
           <button
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-            onClick={() => {
-              setShowModal(false);
-            }}
+            onClick={cancelHandler}
           >
             <svg
               aria-hidden="true"
@@ -97,6 +111,7 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
               <button
                 className="w-full text-white bg-primary border border-primary font-medium rounded-lg px-5 py-2.5 text-center"
                 onClick={confirmHandler}
+                ref={confirmButtonRef}
               >
                 확인
               </button>

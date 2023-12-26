@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
 import CheckModal from "../CheckModal";
 import Logo from "../../assets/images/logo.png";
-import profileImage from "../../assets/images/profileImage.png";
+import basicProfileImage from "../../assets/images/profileImage.png";
 import headerBack from "../../assets/svg/header-back.svg";
 import HeaderChat from "../../assets/svg/HeaderChat.svg";
 import HeaderChatPrimary from "../../assets/svg/HeaderChatPrimary.svg";
@@ -218,11 +218,11 @@ function Header() {
               >
                 <button
                   type="button"
-                  className="flex mr-3 text-sm rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+                  className="flex mr-3 text-sm rounded-full md:mr-0"
                 >
                   <img
                     className="rounded-full w-9 h-9"
-                    src={user.profileImg || profileImage}
+                    src={user.profileImg || basicProfileImage}
                     alt="User_Profile_Image"
                   />
                 </button>
@@ -230,8 +230,12 @@ function Header() {
             </ul>
           </div>
         </div>
-        {showSearchBox() && showSearch && (
-          <div className="relative hidden max-w-screen-xl pb-4 mx-auto md:block transition-all duration-700">
+        {showSearchBox() && (
+          <div
+            className={`relative hidden md:block max-w-screen-xl mx-auto transition-all duration-500 overflow-hidden ${
+              showSearch ? "max-h-14 pb-4" : "max-h-0 pb-0"
+            }`}
+          >
             <div className="relative w-64 ml-auto mr-9 lg:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
@@ -353,7 +357,10 @@ function Header() {
             </li>
             <li>
               <button
-                onClick={() => setShowLogoutModal(true)}
+                onClick={() => {
+                  setShowLogoutModal(true);
+                  setShowUserMenu(false);
+                }}
                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 로그아웃

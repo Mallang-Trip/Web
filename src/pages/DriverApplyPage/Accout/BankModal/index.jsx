@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import BankButton from "./BankButton";
 
 const bankList = [
@@ -29,9 +29,26 @@ const bankList = [
 ];
 
 function BankModal({ showModal, setShowModal, bank, setBank }) {
+  const modalRef = useRef();
+
+  const closeModal = () => setShowModal(false);
+
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) closeModal();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape" || event.key === "Enter") closeModal();
+  };
+
   useEffect(() => {
-    if (showModal) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    document.body.classList.add("overflow-hidden");
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, [showModal]);
 
   return (
@@ -39,6 +56,8 @@ function BankModal({ showModal, setShowModal, bank, setBank }) {
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
+      ref={modalRef}
+      onClick={(e) => modalOutSideClick(e)}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="grid grid-cols-4 gap-2 h-96 bg-white rounded-t-xl p-4">
@@ -48,7 +67,7 @@ function BankModal({ showModal, setShowModal, bank, setBank }) {
         </div>
         <button
           className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"
-          onClick={() => setShowModal(false)}
+          onClick={closeModal}
         >
           확인
         </button>

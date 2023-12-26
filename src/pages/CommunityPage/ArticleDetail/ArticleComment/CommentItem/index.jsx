@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { dateToGapKorean } from "../../../../../utils";
+import { deleteMyComment } from "../../../../../api/article";
 import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
-import { deleteMyComment } from "../../../../../api/article";
 import CheckModal from "../../../../../components/CheckModal";
+import basicProfileImage from "../../../../../assets/images/profileImage.png";
 
 function CommentItem({
   reloadArticle,
@@ -35,7 +36,7 @@ function CommentItem({
     <div className="py-5">
       <div className="flex gap-2.5">
         <img
-          src={profileImg}
+          src={profileImg || basicProfileImage}
           alt="profile_image"
           className="w-10 h-10 rounded-full"
         />

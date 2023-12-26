@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { postNewComment } from "../../../../../api/article";
-import profileImage from "../../../../../assets/images/profileImage.png";
+import basicProfileImage from "../../../../../assets/images/profileImage.png";
 
 function CommentForm({ reloadArticle }) {
   const user = useSelector((state) => state.user);
@@ -33,7 +33,7 @@ function CommentForm({ reloadArticle }) {
       onSubmit={commentSubmitHandler}
     >
       <img
-        src={user.profileImg || profileImage}
+        src={user.profileImg || basicProfileImage}
         alt="profile_image"
         className="w-11 h-11 rounded-full"
       />

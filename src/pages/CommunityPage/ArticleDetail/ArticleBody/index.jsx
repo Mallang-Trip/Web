@@ -14,6 +14,7 @@ import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
 import CheckModal from "../../../../components/CheckModal";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ArticleBody({
   articleId,
@@ -74,7 +75,7 @@ function ArticleBody({
         <div className="flex justify-between mb-3">
           <div className="flex gap-2.5">
             <img
-              src={profileImg}
+              src={profileImg || basicProfileImage}
               alt="profile_image"
               className="w-10 h-10 rounded-full"
             />

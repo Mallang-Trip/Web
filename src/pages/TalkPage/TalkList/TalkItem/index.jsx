@@ -36,7 +36,9 @@ function TalkItem({
           <img
             className="mr-3 w-16 h-16 rounded-full"
             src={
-              isGroup ? groupTalkImage : profileImages[0] || basicProfileImage
+              isGroup
+                ? groupTalkImage
+                : (profileImages && profileImages[0]) || basicProfileImage
             }
             alt="Profile_Image"
           />

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getChatRoomData } from "../../../api/chat";
 import { uploadImage } from "../../../api/image";
-import { ACCESSTOKEN } from "../../../global";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
 import properties from "../../../config/properties";
@@ -14,6 +13,9 @@ import TalkMenu from "./TalkMenu";
 import ProfileModal from "../../../components/ProfileModal";
 
 function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
+  const ACCESSTOKEN = {
+    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
+  };
   const client = useRef();
   const header = { ...ACCESSTOKEN, "room-id": openTalkId };
   const [openRoom, setOpenRoom] = useState(false);

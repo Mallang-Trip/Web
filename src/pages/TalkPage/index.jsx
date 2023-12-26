@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Stomp } from "@stomp/stompjs";
 import { getChatList } from "../../api/chat";
-import { ACCESSTOKEN } from "../../global";
 import SockJS from "sockjs-client/dist/sockjs";
 import properties from "../../config/properties";
 import PageContainer from "../../components/PageContainer";
@@ -11,6 +10,9 @@ import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
 
 function TalkPage() {
+  const ACCESSTOKEN = {
+    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
+  };
   const client = useRef();
   const user = useSelector((state) => state.user);
   const [openTalkId, setOpenTalkId] = useState(0);

@@ -59,12 +59,20 @@ function TalkRoomBody({
             message.createdAt.slice(0, 10) ===
               messages[index - 1].createdAt.slice(0, 10)
           }
+          isNextSameDate={
+            index < messages.length - 1 &&
+            message.createdAt.slice(0, 10) ===
+              messages[index + 1].createdAt.slice(0, 10)
+          }
           isPrevSameUser={
-            index > 0 && message.userId === messages[index - 1].userId
+            index > 0 &&
+            message.userId === messages[index - 1].userId &&
+            messages[index - 1].type !== "INFO"
           }
           isNextSameUser={
             index < messages.length - 1 &&
-            message.userId === messages[index + 1].userId
+            message.userId === messages[index + 1].userId &&
+            messages[index + 1].type !== "INFO"
           }
           isMyMessage={message.userId === user.userId}
           {...message}

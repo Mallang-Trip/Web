@@ -101,7 +101,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   };
 
   const connectChatRoomWS = () => {
-    if (client.current) return;
+    if (client.current) client.current.deactivate();
 
     client.current = Stomp.over(() => {
       const sock = new SockJS(properties.baseURL + "/ws/chat");

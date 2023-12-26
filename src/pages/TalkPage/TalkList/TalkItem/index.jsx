@@ -1,9 +1,9 @@
-import basicProfileImage from "../../../../assets/images/profileImage.png";
 import { chatListDateToGapKorean } from "../../../../utils";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
+import groupTalkImage from "../../../../assets/images/groupTalkImage.png";
 
 function TalkItem({
   chatRoomId,
-  // profileImg,
   profileImages,
   roomName,
   content,
@@ -35,7 +35,9 @@ function TalkItem({
         <div className="flex flex-row">
           <img
             className="mr-3 w-16 h-16 rounded-full"
-            src={profileImages[0] || basicProfileImage}
+            src={
+              isGroup ? groupTalkImage : profileImages[0] || basicProfileImage
+            }
             alt="Profile_Image"
           />
           <div className="flex flex-col gap-2 text-left">

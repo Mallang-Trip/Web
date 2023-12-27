@@ -233,10 +233,10 @@ function Header() {
         {showSearchBox() && (
           <div
             className={`relative hidden md:block max-w-screen-xl mx-auto transition-all duration-500 overflow-hidden ${
-              showSearch ? "max-h-14 pb-4" : "max-h-0 pb-0"
+              showSearch ? "max-h-14" : "max-h-0"
             }`}
           >
-            <div className="relative w-64 ml-auto mr-9 lg:w-96">
+            <div className="relative w-64 ml-auto my-2 mr-9 lg:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   className="w-5 h-5 text-primary"

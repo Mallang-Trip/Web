@@ -38,6 +38,8 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
     };
 
     useEffect(() => {
+      window.scrollTo({ top: 0 });
+
       if (!user.auth && localStorage.getItem("accessToken")) {
         dispatch(__asyncAuth()).then((payload) => {
           checkRender(
@@ -46,7 +48,7 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
           );
         });
       } else checkRender(user.auth, user.isAdmin);
-    });
+    }, []);
 
     if (loading) return <Loading full={true} />;
     else return <SpecificComponent />;

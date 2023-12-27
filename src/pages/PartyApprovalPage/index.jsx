@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
@@ -29,10 +29,6 @@ function PartyApprovalPage() {
 
   useEffect(() => {
     getPartyData();
-
-    window.scrollTo({
-      top: 0,
-    });
   }, [partyId]);
 
   if (!partyData.partyId) return <Loading full={true} />;

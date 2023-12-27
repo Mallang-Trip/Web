@@ -119,9 +119,7 @@ function CourseSuggestPage() {
   useEffect(() => {
     getPartyData();
 
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   }, [partyId]);
 
   useEffect(() => {

@@ -24,6 +24,7 @@ function DestinationPage() {
 
   useEffect(() => {
     getDestinationInfo();
+    window.scrollTo({ top: 0 });
   }, [destinationId, destinationInfoReload]);
 
   if (!destinationInfo.destinationId) return <Loading full={true} />;

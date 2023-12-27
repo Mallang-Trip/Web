@@ -12,9 +12,7 @@ function PolicyPage() {
   const navigation = useNavigate();
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   }, [category, type]);
 
   if (category === "user") {

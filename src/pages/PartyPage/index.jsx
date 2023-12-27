@@ -30,11 +30,9 @@ function PartyPage() {
     }
   };
   useEffect(() => {
-    getPartyData();
+    window.scrollTo({ top: 0 });
 
-    window.scrollTo({
-      top: 0,
-    });
+    getPartyData();
   }, [partyId]);
 
   if (!partyData.partyId) return <Loading full={true} />;

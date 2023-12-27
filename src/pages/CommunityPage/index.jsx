@@ -52,9 +52,7 @@ function CommunityPage() {
   }, [category]);
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   }, [articleId]);
 
   return (

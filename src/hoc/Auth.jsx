@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __asyncAuth } from "../redux/modules/userSlice";
 import Loading from "../components/Loading";
@@ -13,6 +13,7 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
   function AuthenticationCheck() {
     const navigation = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(true);
 
@@ -20,13 +21,19 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
       if (!isAuth) {
         // 로그인 X
         if (option === true) return navigation("/login", { replace: true });
-        else setLoading(false);
+        else {
+          const delay = location.pathname === "/" ? 1000 : 0;
+          setTimeout(() => setLoading(false), delay);
+        }
       } else {
         // 로그인 O
         if (adminRoute && !isAdmin) return navigation("/", { replace: true });
 
         if (option === false) return navigation("/", { replace: true });
-        else setLoading(false);
+        else {
+          const delay = location.pathname === "/" ? 1000 : 0;
+          setTimeout(() => setLoading(false), delay);
+        }
       }
     };
 

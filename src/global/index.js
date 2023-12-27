@@ -1,3 +1,1 @@
-export const ACCESSTOKEN = {
-  "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
-};
+export const url = "https://mallangtrip.com/";

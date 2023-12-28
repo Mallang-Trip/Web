@@ -27,6 +27,7 @@ import CommunityPostPage from "./pages/CommunityPostPage";
 import CommunitySearchPage from "./pages/CommunitySearchPage";
 import TalkPage from "./pages/TalkPage";
 import NotifyPage from "./pages/NotifyPage";
+import HelpPage from "./pages/HelpPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -53,6 +54,7 @@ function App() {
   const AuthCommunitySearchPage = Auth(CommunitySearchPage, null);
   const AuthTalkPage = Auth(TalkPage, true);
   const AuthNotifyPage = Auth(NotifyPage, true);
+  const AuthHelpPage = Auth(HelpPage, null);
 
   return (
     <div>
@@ -104,6 +106,7 @@ function App() {
           />
           <Route path="/talk" element={<AuthTalkPage />} />
           <Route path="/notify" element={<AuthNotifyPage />} />
+          <Route path="/help/:id" element={<AuthHelpPage />} />
         </Route>
 
         <Route path="/login" element={<AuthLoginPage />} />

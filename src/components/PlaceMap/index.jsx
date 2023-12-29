@@ -4,6 +4,7 @@ import { getSearchInfo } from "../../api/destination";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
 import RoundBtn from "./RoundBtn";
+import CheckModal from "../CheckModal";
 import ConfirmModal from "../ConfirmModal";
 
 function PlaceMap({ search, newPlace, keyword, detail }) {
@@ -11,6 +12,7 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [clickedData, setClickedData] = useState({});
 
@@ -26,6 +28,9 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
     } catch (e) {
       console.log(e);
     }
+  };
+  const addPlaceHandler = () => {
+    setShowAddModal(true);
   };
 
   useEffect(() => {
@@ -55,7 +60,10 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
       </div>
       {newPlace && (
         <div className="absolute md:top-5 right-0 top-16 mr-56">
-          <RoundBtn name={"새로운 장소 추가"} />
+          <RoundBtn
+            name={"새로운 장소 추가"}
+            onClick={() => addPlaceHandler()}
+          />
         </div>
       )}
       {newPlace && clicked && !detail && (
@@ -79,6 +87,14 @@ function PlaceMap({ search, newPlace, keyword, detail }) {
         showModal={showModal}
         setShowModal={setShowModal}
         message={"검색 결과가 없습니다."}
+      />
+      <CheckModal
+        showModal={showAddModal}
+        setShowModal={setShowAddModal}
+        message={"새로운 장소를 추가하시겠습니까?"}
+        noText="아니요"
+        yesText="네"
+        yesHandler={"ㅇ"}
       />
     </div>
   );

@@ -22,7 +22,7 @@ import DriverApplyPage from "./pages/DriverApplyPage";
 import EditCoursePage from "./pages/EditCoursePage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage";
-
+import AddImagePage from "./pages/AddImagePage";
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthIntroPage = Auth(IntroPage, null);
@@ -43,6 +43,7 @@ function App() {
   const AuthDestinationPage = Auth(DestinationPage, null);
   const AuthCommunityPage = Auth(CommunityPage, null);
   const AuthCommunityPostPage = Auth(CommunityPostPage, true);
+  const AuthAddImagePage = Auth(AddImagePage, true);
 
   return (
     <div>
@@ -70,6 +71,7 @@ function App() {
             element={<AuthDriverProfilePage />}
           />
           <Route path="/my/profile" element={<AuthMyProfilePage />} />
+          <Route path="/add/image/:partyId" element={<AuthAddImagePage />} />
           <Route path="/my/heart" element={<AuthMyHeartPage />} />
           <Route path="/driver/apply" element={<AuthDriverApplyPage />} />
           <Route

@@ -1,7 +1,7 @@
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import DragIcon from "../../../assets/svg/dragIcon.svg";
 
-function CourseDnD({ course, startDate, courseData, setCourseData }) {
+function CourseDnD({ name, course, startDate, courseData, setCourseData }) {
   const handleChange = (result) => {
     if (!result.destination) return;
     const items = [...courseData];
@@ -13,7 +13,7 @@ function CourseDnD({ course, startDate, courseData, setCourseData }) {
   return (
     <>
       <div className="mt-12 mb-6 font-bold flex flex-col items-center gap-10">
-        <div className="text-boldblue text-2xl">파티명을 입력해주세요</div>
+        <div className="text-boldblue text-2xl">{name}</div>
         <div className="text-darkgray text-xl">
           {startDate.replaceAll("-", ".")}
         </div>

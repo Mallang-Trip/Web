@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCourseDetail } from "../../api/course";
 import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
@@ -15,15 +15,24 @@ import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
 import Revenue from "./Revenue";
 import Platform from "./Platform";
 import CourseDnD from "../CourseSuggestPage/CourseDnD";
-
+import Course from "../MyProfilePage/DriverProfile/PartyCourse/Course";
+import PlaceMap from "../../components/PlaceMap";
+import CheckModal from "../../components/CheckModal";
 function EditCoursePage() {
   const [images, setImages] = useState([]);
   const [courseData, setCourseData] = useState({});
   const [partyData, setPartyData] = useState({});
+  const [partyCourse, setPartyCourse] = useState({});
   const { courseId } = useParams();
+  const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState("");
+
+  const navigate = useNavigate();
   const getCourseInfo = async () => {
     try {
       const result = await getCourseDetail(courseId);
+      // console.log(result);
       setImages(result.payload.images);
       setCourseData(result.payload);
     } catch (e) {
@@ -33,23 +42,26 @@ function EditCoursePage() {
   const getPartyData = async () => {
     try {
       const result = await getPartyDetail(courseId);
-      console.log(result.payload);
+      console.log(result);
       setPartyData(result.payload);
+      setPartyCourse(result.payload.course.days[0].destinations);
     } catch (e) {
       console.log(e);
     }
+  };
+  const onClickHandler = () => {
+    navigate();
   };
   useEffect(() => {
     getCourseInfo();
   }, []);
 
   useEffect(() => {
-    if (!partyData.partyId) return;
     getPartyData();
-    console.log(partyData);
-  }, []);
+  }, [courseId]);
 
   if (!courseData.courseId) return null;
+  if (!partyData.partyId) return null;
 
   return (
     <PageContainer>
@@ -62,6 +74,14 @@ function EditCoursePage() {
       <PersonLimit capacity={courseData.capacity} />
       <ToTalCredit totalPrice={courseData.days[0].price} />
       <Platform />
+      <CourseDnD
+        name={partyData.course.name}
+        course={partyData.course}
+        startDate={partyData.startDate}
+        courseData={partyCourse}
+        setCourseData={setPartyCourse}
+      />
+      <PlaceMap search={true} newPlace={true} />
     </PageContainer>
   );
 }

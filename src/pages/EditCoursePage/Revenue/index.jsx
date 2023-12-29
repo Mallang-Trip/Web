@@ -1,8 +1,9 @@
-function Revenue({ myRevenue }) {
+function Revenue({ hours, price, order }) {
   return (
     <div>
-      <div className=" text-2xl font-bold">나의 수익</div>
-      <div>{myRevenue}</div>
+      <div className="text-xl text-darkgray">
+        {order}일차 {hours}시간 {price}만원
+      </div>
     </div>
   );
 }

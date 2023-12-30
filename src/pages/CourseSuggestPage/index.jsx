@@ -119,9 +119,7 @@ function CourseSuggestPage() {
   useEffect(() => {
     getPartyData();
 
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   }, [partyId]);
 
   useEffect(() => {
@@ -165,6 +163,7 @@ function CourseSuggestPage() {
       <TravelerBox memberCount={memberCount} />
       <TravelerGreet content={content} setContent={setContent} />
       <CourseDnD
+        name={partyData.course?.name}
         course={partyData.course}
         startDate={partyData.startDate}
         courseData={courseData}

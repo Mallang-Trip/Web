@@ -107,10 +107,10 @@ function CommunityPostPage() {
   };
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
-    if (articleId !== "new") getArticleData();
+    window.scrollTo({ top: 0 });
+
+    if (articleId === "new") return;
+    getArticleData();
   }, [articleId]);
 
   return (

@@ -42,9 +42,7 @@ function MyArticlePage() {
     if (page === 0) getMyArticleListFunc();
     setPage(0);
 
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   }, [tabCategory]);
 
   return (

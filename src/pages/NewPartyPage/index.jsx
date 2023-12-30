@@ -74,6 +74,10 @@ function NewPartyPage() {
     settingDriverInfo();
   }, [driverId]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [step]);
+
   return (
     <PageContainer>
       {step === "1" && (

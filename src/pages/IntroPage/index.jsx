@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Title from "./Title";
 import Vision from "./Vision";
 import ServiceList from "./ServiceList";
@@ -8,12 +7,6 @@ import MallangTrip from "./MallangTrip";
 import BottomInfo from "./BottomInfo";
 
 function IntroPage() {
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
-  }, []);
-
   return (
     <div>
       <Title />

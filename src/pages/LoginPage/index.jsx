@@ -1,4 +1,3 @@
-import React from "react";
 import PageContainer from "../../components/PageContainer";
 import Logo from "../../assets/images/logo.png";
 import LoginForm from "./LoginForm";

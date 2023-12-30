@@ -41,9 +41,7 @@ function CommunitySearchPage() {
     if (page === 0) getArticleData();
     setPage(0);
 
-    window.scrollTo({
-      top: 0,
-    });
+    window.scrollTo({ top: 0 });
   }, [keyword]);
 
   return (

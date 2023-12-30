@@ -62,10 +62,6 @@ function Reservation({ member, date, driverInfo, planData }) {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, []);
-
   if (!driverInfo.driverId || !planData.courseId)
     return <Loading full={true} />;
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { applyDriver } from "../../api/driver";
 import { uploadImage } from "../../api/image";
 import PageContainer from "../../components/PageContainer";
@@ -71,12 +71,6 @@ function DriverApplyPage() {
       setShowModal(false);
     }
   };
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
-  }, []);
 
   return (
     <PageContainer>

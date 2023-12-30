@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
 import CheckModal from "../CheckModal";
@@ -104,9 +104,12 @@ function Header() {
             <img src={headerBack} alt="back" className="w-6 h-6" />
           </button>
           <div className="flex flex-row">
-            <Link to="/" className="flex items-center">
+            <button
+              onClick={() => navigation("/")}
+              className="flex items-center"
+            >
               <img src={Logo} className="mr-3 w-28" alt="Mallang_Trip_Logo" />
-            </Link>
+            </button>
           </div>
           <button
             className="flex items-center md:hidden"
@@ -151,8 +154,8 @@ function Header() {
               } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-32 md:mt-0 md:border-0 md:bg-white`}
             >
               <li className="my-auto">
-                <Link
-                  to="/talk"
+                <button
+                  onClick={() => navigation("/talk")}
                   className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
                     location.pathname.substring(0, 5) === "/talk"
                       ? "text-primary"
@@ -168,11 +171,11 @@ function Header() {
                     alt="말랑톡"
                   />
                   <span className="mx-1">말랑톡</span>
-                </Link>
+                </button>
               </li>
               <li className="my-auto">
-                <Link
-                  to="/community/main"
+                <button
+                  onClick={() => navigation("/community/main")}
                   className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
                     location.pathname.substring(0, 10) === "/community"
                       ? "text-primary"
@@ -188,11 +191,11 @@ function Header() {
                     alt="커뮤니티"
                   />
                   <span className="mx-1">커뮤니티</span>
-                </Link>
+                </button>
               </li>
               <li className="my-auto">
-                <Link
-                  to="/my/heart"
+                <button
+                  onClick={() => navigation("/my/heart")}
                   className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
                     location.pathname === "/my/heart"
                       ? "text-primary"
@@ -208,7 +211,7 @@ function Header() {
                     alt="찜"
                   />
                   <span className="mx-1">찜</span>
-                </Link>
+                </button>
               </li>
               <li
                 className="my-auto"
@@ -233,10 +236,10 @@ function Header() {
         {showSearchBox() && (
           <div
             className={`relative hidden md:block max-w-screen-xl mx-auto transition-all duration-500 overflow-hidden ${
-              showSearch ? "max-h-14 pb-4" : "max-h-0 pb-0"
+              showSearch ? "max-h-14" : "max-h-0"
             }`}
           >
-            <div className="relative w-64 ml-auto mr-9 lg:w-96">
+            <div className="relative w-64 ml-auto my-2 mr-9 lg:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   className="w-5 h-5 text-primary"
@@ -307,12 +310,33 @@ function Header() {
               </button>
             </li>
             <li>
-              <Link
-                to="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <button
+                onClick={() => {
+                  navigation("/notify");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 relative"
+              >
+                알림
+                <span className="absolute top-1.5 left-1/2 translate-x-4">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                  </span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  alert("준비중 입니다.");
+                  // navigation("/notify");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 예약 내역
-              </Link>
+              </button>
             </li>
             <li>
               <button
@@ -337,12 +361,15 @@ function Header() {
               </button>
             </li>
             <li>
-              <Link
-                to="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <button
+                onClick={() => {
+                  navigation("/help/list");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 고객 센터
-              </Link>
+              </button>
             </li>
             <li>
               <button

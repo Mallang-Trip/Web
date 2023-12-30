@@ -40,12 +40,6 @@ function DriverProfilePage() {
     );
   }, [selectedCourseId]);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
-  }, []);
-
   if (!driverInfo.driverId) return <Loading full={true} />;
   return (
     <PageContainer>

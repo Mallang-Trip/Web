@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CalendarModal from "./CalendarModal";
 
 function SecondBox({ nowDate, setNowDate }) {

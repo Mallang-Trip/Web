@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { makePhoneNumber } from "../../../../utils";
 
 function TravelerInput({ index }) {

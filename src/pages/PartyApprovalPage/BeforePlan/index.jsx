@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import info from "../../../assets/svg/Polygon 3.svg";
 import PartyPlan from "../../../components/PartyPlan";
 

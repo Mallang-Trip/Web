@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactComponent as Check } from "../../../../assets/svg/agree-check.svg";
 
 function ItemAgree(props) {

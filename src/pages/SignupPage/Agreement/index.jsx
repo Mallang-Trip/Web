@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
 import AgreeItem from "../AgreeItem";
 
@@ -25,7 +25,7 @@ const agreementData = [
   },
 ];
 
-function Agreement(props) {
+function Agreement({ setActiveNext }) {
   const [allChecked, setAllChecked] = useState(false);
   const [checked, setChecked] = useState([false, false, false, false, false]);
 
@@ -44,9 +44,9 @@ function Agreement(props) {
     if (checked.indexOf(false) < 0) setAllChecked(true);
     else setAllChecked(false);
 
-    if (checked.slice(0, 3).indexOf(false) < 0) props.setActiveNext(true);
-    else props.setActiveNext(false);
-  }, [checked, props]);
+    if (checked.slice(0, 3).indexOf(false) < 0) setActiveNext(true);
+    else setActiveNext(false);
+  }, [checked]);
 
   return (
     <div className="flex flex-col items-center gap-3 mt-12 text-sm">

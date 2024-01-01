@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
 import { signup, checkDuplication } from "../../api/users";

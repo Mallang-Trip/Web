@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
 import startMarker from "../../../assets/images/start_marker.png";
 import endMarker from "../../../assets/images/end_marker.png";

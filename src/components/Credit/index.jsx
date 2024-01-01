@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
 
 function Credit({ shakeCredit, register, setRegister }) {

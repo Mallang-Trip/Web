@@ -1,5 +1,3 @@
-import React from "react";
-
 function ReservationButton({ suggestHandler }) {
   return (
     <div className="flex justify-center my-20">

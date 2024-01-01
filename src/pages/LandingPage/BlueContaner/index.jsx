@@ -1,4 +1,3 @@
-import React from "react";
 import FirstBox from "./FirstBox";
 import SecondBox from "./SecondBox";
 import ThirdBox from "./ThirdBox";

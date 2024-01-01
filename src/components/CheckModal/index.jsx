@@ -33,7 +33,7 @@ function CheckModal({
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-screen bg-darkgray bg-opacity-50 scale-100 flex ${
+      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
       }`}
       ref={modalRef}

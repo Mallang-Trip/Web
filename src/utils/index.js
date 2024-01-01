@@ -1,3 +1,8 @@
+export function setScreenHeight() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
 export function makePhoneNumber(value) {
   value = value.replace(/[^0-9]/g, "");
   return value.replace(

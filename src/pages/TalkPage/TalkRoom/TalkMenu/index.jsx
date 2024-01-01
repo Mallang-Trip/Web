@@ -63,7 +63,7 @@ function TalkMenu({
   if (!openMenu) return null;
   return (
     <div
-      className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full h-screen bg-darkgray transition-all duration-700 ${
+      className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full h-real-screen bg-darkgray transition-all duration-700 ${
         openMenuAnimation ? "bg-opacity-50" : "bg-opacity-0"
       }`}
       ref={modalRef}

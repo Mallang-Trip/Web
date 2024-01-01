@@ -137,7 +137,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   if (!openRoom) return null;
   return (
     <div
-      className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full pl-0 md:pl-[450px] h-screen transition-transform duration-500 bg-white ${
+      className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full pl-0 md:pl-[450px] h-real-screen transition-transform duration-500 bg-white ${
         openRoomAnimation ? "translate-x-0" : "translate-x-full"
       }`}
     >

@@ -94,7 +94,7 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <div className="flex flex-col justify-center h-screen">
+      <div className="flex flex-col justify-center h-real-screen">
         <div className="flex justify-center">
           <img
             src={Logo}

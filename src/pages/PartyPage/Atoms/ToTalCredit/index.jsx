@@ -1,4 +1,3 @@
-import React from "react";
 import { priceToString } from "../../../../utils";
 
 function ToTalCredit({ totalPrice }) {

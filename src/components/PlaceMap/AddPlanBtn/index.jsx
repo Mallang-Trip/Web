@@ -1,5 +1,3 @@
-import React from "react";
-
 function AddPlanBtn({ name }) {
   return (
     <div className="absolute bottom-0 left-0 pr-18 flex justify-center ">

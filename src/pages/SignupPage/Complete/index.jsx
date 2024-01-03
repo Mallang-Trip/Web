@@ -1,7 +1,6 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Complete(props) {
+function Complete() {
   const navigation = useNavigate();
 
   const goLogin = () => navigation("/login");

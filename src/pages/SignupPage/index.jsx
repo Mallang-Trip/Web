@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
 import { signup, checkDuplication } from "../../api/users";
@@ -94,7 +94,7 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <div className="flex flex-col justify-center h-screen">
+      <div className="flex flex-col justify-center h-real-screen">
         <div className="flex justify-center">
           <img
             src={Logo}

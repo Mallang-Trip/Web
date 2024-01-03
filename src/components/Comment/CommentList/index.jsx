@@ -1,4 +1,3 @@
-import React from "react";
 import Down from "../../../assets/svg/Polygon 3.svg";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PriceModal from "./PriceModal";
 
 function FinalBox({ price, setPrice }) {

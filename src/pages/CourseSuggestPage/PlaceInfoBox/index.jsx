@@ -1,4 +1,3 @@
-import React from "react";
 import PlaceInfoTitle from "../Atoms/PlaceInfoTitle";
 import PartyImageBox from "../../../components/PartyImageBox";
 import PartyIconBox from "../../../components/PartyIconBox";

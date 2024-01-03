@@ -1,5 +1,3 @@
-import React from "react";
-
 function FilterBtn({ title, filterItem, setFilterItem }) {
   return (
     <button

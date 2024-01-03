@@ -1,5 +1,3 @@
-import React from "react";
-
 function NumberText({ memberCount }) {
   return (
     <div className="flex">

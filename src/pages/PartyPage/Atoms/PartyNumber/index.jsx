@@ -1,5 +1,3 @@
-import React from "react";
-
 function PartyNumber({ headcount, capacity }) {
   return (
     <div className="pb-6">

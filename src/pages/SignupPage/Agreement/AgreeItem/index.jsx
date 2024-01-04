@@ -1,18 +1,21 @@
-import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
+import { useNavigate } from "react-router-dom";
+import { ReactComponent as Check } from "../../../../assets/svg/agree-check.svg";
 
-function AgreeItem({ index, checked, title }) {
+function AgreeItem({ checkedHandler, checked, id, title, url }) {
+  const navigation = useNavigate();
+
   return (
     <div className="w-4/5 sm:w-3/5 lg:w-2/5 py-3 rounded-lg">
       <input
-        id={`agree${index}`}
+        id={`agree${id}`}
         type="checkbox"
         className="hidden"
         checked={checked}
-        onChange={(e) => checkedHandler(e, index)}
+        onChange={(e) => checkedHandler(e, id)}
       />
       <div className="flex items-center h-full">
         <label
-          htmlFor={`agree${index}`}
+          htmlFor={`agree${id}`}
           className="flex items-center cursor-pointer"
         >
           <div className="relative w-3 h-3 mx-3 border border-darkgray">
@@ -20,9 +23,12 @@ function AgreeItem({ index, checked, title }) {
           </div>
           <span className="text-darkgray">{title}</span>
         </label>
-        <span className="mr-3 ml-auto text-[#6F6F6F] text-xs underline underline-offset-2 cursor-pointer whitespace-nowrap">
+        <button
+          className="mr-3 ml-auto text-[#6F6F6F] text-xs underline underline-offset-2 whitespace-nowrap"
+          onClick={() => navigation(url)}
+        >
           전문보기
-        </span>
+        </button>
       </div>
     </div>
   );

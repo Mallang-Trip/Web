@@ -7,7 +7,7 @@ function PartyList({ region, nowDate, num, price }) {
   const [partyData, setPartyData] = useState([]);
 
   const getData = async () => {
-    const regionQuery = region === "아무데나" ? "all" : region;
+    const regionQuery = region === "모든 지역" ? "all" : region;
     const nowDateQuery =
       nowDate.length === 0
         ? ["all", "all"]

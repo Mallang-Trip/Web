@@ -1,7 +1,7 @@
-function RegionButton({ image, name, price, regionClickHandler }) {
+function RegionButton({ image, name, regionClickHandler }) {
   return (
     <div
-      className="relative h-64 cursor-pointer"
+      className="relative h-44 md:h-52 cursor-pointer"
       onClick={() => regionClickHandler(name)}
     >
       <img
@@ -9,9 +9,8 @@ function RegionButton({ image, name, price, regionClickHandler }) {
         src={image}
         alt={name}
       />
-      <div className="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full text-xl text-white">
-        <div>{name}</div>
-        <div>{price}</div>
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
+        {name}
       </div>
     </div>
   );

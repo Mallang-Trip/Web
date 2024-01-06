@@ -20,12 +20,18 @@ function BottomNav() {
     else if (location.pathname.substring(0, 10) === "/community")
       return "community";
     else if (location.pathname === "/my/heart") return "my_heart";
-    else if (location.pathname.substring(0, 3) === "/my") return "my";
+    else if (
+      location.pathname.substring(0, 3) === "/my" ||
+      location.pathname.substring(0, 7) === "/notify" ||
+      location.pathname.substring(0, 5) === "/help" ||
+      location.pathname.substring(0, 6) === "/admin"
+    )
+      return "my";
     else return "home";
   };
 
   return (
-    <div className="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-[#D9D9D9] rounded-t-2xl md:hidden">
+    <div className="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-x border-[#D9D9D9] rounded-t-2xl md:hidden">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
         <button
           type="button"
@@ -108,7 +114,7 @@ function BottomNav() {
         <button
           type="button"
           className="inline-flex flex-col items-center justify-center px-0"
-          onClick={() => navigation("/my/profile")}
+          onClick={() => navigation("/my/menu")}
         >
           <img
             className={`w-9 h-9 rounded-full ${

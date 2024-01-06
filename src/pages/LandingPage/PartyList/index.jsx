@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import PartyBox from "../Atoms/PartyBox";
 import { getPartyList } from "../../../api/party";
 import { dateToString } from "../../../utils";
+import PartyBox from "../Atoms/PartyBox";
+import NoParty from "./NoParty";
 
 function PartyList({ region, nowDate, num, price }) {
   const [partyData, setPartyData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getData = async () => {
     const regionQuery = region === "모든 지역" ? "all" : region;
@@ -25,6 +27,8 @@ function PartyList({ region, nowDate, num, price }) {
       setPartyData(result.payload);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,6 +36,8 @@ function PartyList({ region, nowDate, num, price }) {
     getData();
   }, [region, nowDate, num, price]);
 
+  if (loading) return null;
+  if (partyData.length === 0) return <NoParty />;
   return (
     <div className="grid grid-cols-1 gap-10 px-6 mx-auto md:grid-cols-3 lg:grid-cols-4">
       {partyData.map((item) => (

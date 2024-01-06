@@ -58,7 +58,7 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
           }
           selectRange={true}
           calendarType="gregory"
-          className="border border-white"
+          className="border border-white rounded-t-xl"
         />
         <div className="flex">
           <button

@@ -21,7 +21,7 @@ function HolidayDate({ date, setDate }) {
           selectRange={false}
           calendarType="gregory"
           minDate={new Date()}
-          className="border border-white"
+          className="border border-primary rounded-lg"
         />
       </div>
     </>

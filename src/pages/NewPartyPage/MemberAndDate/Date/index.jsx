@@ -22,7 +22,7 @@ function Date({ date, setDate }) {
           }
           selectRange={false}
           calendarType="gregory"
-          className="border border-white"
+          className="border border-primary rounded-lg"
         />
       </div>
     </>

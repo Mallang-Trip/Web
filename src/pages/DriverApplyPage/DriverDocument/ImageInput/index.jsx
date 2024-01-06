@@ -6,7 +6,7 @@ function ImageInput({ title, image, name, imageHandler }) {
   return (
     <>
       <p className="text-lg text-black">{title}</p>
-      <div className="flex justify-center w-full h-[200px] my-8 relative">
+      <div className="flex justify-center w-full h-[200px] mt-8 mb-16 relative">
         <div
           className="w-[300px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
           onClick={() => imageRef.current.click()}

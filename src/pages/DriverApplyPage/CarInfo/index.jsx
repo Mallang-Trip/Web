@@ -58,7 +58,7 @@ function CarInfo({
           />
         </div>
       </div>
-      <div className="w-3/4 mx-auto">
+      <div className="w-full md:w-3/4 mx-auto">
         <input
           type="text"
           name="model_name"
@@ -71,7 +71,7 @@ function CarInfo({
         <input
           type="text"
           name="max_num"
-          placeholder="승객들의 최대 탑승 가능 정원을 숫자로 입력해주세요"
+          placeholder="승객들의 최대 탑승 가능 정원을 입력해주세요"
           className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={maxNum}
           onChange={(e) => setMaxNum(onlyNumber(e.target.value))}

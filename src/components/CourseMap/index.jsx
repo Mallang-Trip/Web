@@ -62,7 +62,6 @@ function CourseMap({ markerData }) {
   };
 
   const initTmap = async () => {
-    console.log(mapRef.current.offsetWidth);
     // 지도 Dom clear
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);

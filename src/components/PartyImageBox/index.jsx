@@ -19,8 +19,8 @@ function PartyImageBox({ images, name }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 mt-2 rounded-3xl overflow-hidden">
-        <div className="overflow-hidden max-h-[500px]">
+      <div className="grid grid-cols-2 mt-2.5 rounded-3xl overflow-hidden min-h-[150px] max-h-[500px]">
+        <div className="overflow-hidden h-full">
           <img
             className="object-cover w-full h-full rounded-l-3xl transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
             src={IMAGES[0]}
@@ -28,7 +28,7 @@ function PartyImageBox({ images, name }) {
             onClick={() => imageClickHandler(0)}
           />
         </div>
-        <div className="grid grid-cols-2 max-h-[500px] overflow-hidden">
+        <div className="grid grid-cols-2 h-full overflow-hidden">
           <div className="overflow-hidden">
             <img
               className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"

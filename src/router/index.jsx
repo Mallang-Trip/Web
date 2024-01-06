@@ -27,6 +27,7 @@ import CommunitySearchPage from "../pages/CommunitySearchPage";
 import TalkPage from "../pages/TalkPage";
 import NotifyPage from "../pages/NotifyPage";
 import HelpPage from "../pages/HelpPage";
+import AdminPage from "../pages/AdminPage";
 
 function Router() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -54,6 +55,7 @@ function Router() {
   const AuthTalkPage = Auth(TalkPage, true);
   const AuthNotifyPage = Auth(NotifyPage, true);
   const AuthHelpPage = Auth(HelpPage, null);
+  const AuthAdminPage = Auth(AdminPage, true, true);
 
   return (
     <Routes>
@@ -105,6 +107,7 @@ function Router() {
         <Route path="/talk" element={<AuthTalkPage />} />
         <Route path="/notify" element={<AuthNotifyPage />} />
         <Route path="/help/:id" element={<AuthHelpPage />} />
+        <Route path="/admin" element={<AuthAdminPage />} />
       </Route>
 
       <Route path="/login" element={<AuthLoginPage />} />

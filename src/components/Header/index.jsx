@@ -298,6 +298,19 @@ function Header() {
             </span>
           </div>
           <ul className="py-2">
+            {user.isAdmin && (
+              <li>
+                <button
+                  onClick={() => {
+                    navigation("/admin");
+                    setShowUserMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  관리자
+                </button>
+              </li>
+            )}
             <li>
               <button
                 onClick={() => {

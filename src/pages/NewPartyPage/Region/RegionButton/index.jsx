@@ -1,14 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function RegionButton({
-  name,
-  image,
-  price,
-  setRegion,
-  member,
-  driverId,
-  date,
-}) {
+function RegionButton({ name, image, setRegion, member, driverId, date }) {
   const navigation = useNavigate();
 
   return (
@@ -26,9 +18,8 @@ function RegionButton({
         src={image}
         alt={name}
       />
-      <div className="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full text-xl text-white">
-        <div>{name}</div>
-        <div>{price}</div>
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
+        {name}
       </div>
     </div>
   );

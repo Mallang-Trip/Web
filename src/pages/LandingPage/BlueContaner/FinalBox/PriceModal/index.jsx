@@ -67,7 +67,7 @@ function PriceModal({
             </div>
           </div>
           <div className="text-xl text-primary">{`최고 금액: ${
-            price > 1000000 ? "상관없이" : priceToString(price) + "원"
+            price > 1000000 ? "모든 가격" : priceToString(price) + "원"
           }`}</div>
         </div>
         <button

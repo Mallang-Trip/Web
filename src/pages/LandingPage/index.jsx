@@ -7,7 +7,7 @@ import NewPartyButton from "./NewPartyButton";
 
 function LandingPage() {
   const user = useSelector((state) => state.user);
-  const [region, setRegion] = useState("아무데나");
+  const [region, setRegion] = useState("모든 지역");
   const [nowDate, setNowDate] = useState([]);
   const [num, setNum] = useState(1);
   const [price, setPrice] = useState(1010000);

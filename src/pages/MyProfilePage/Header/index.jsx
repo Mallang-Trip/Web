@@ -13,12 +13,12 @@ function Header({ category, setCategory }) {
   };
 
   if (user.role !== "ROLE_DRIVER")
-    return <p className="my-9 text-2xl font-bold text-black">나의 프로필</p>;
+    return <p className="mb-9 text-2xl font-bold text-black">나의 프로필</p>;
   else
     return (
       <div className="relative">
         <button
-          className="mt-9 text-2xl font-bold text-black flex gap-2 items-center focus:outline-none"
+          className="text-2xl font-bold text-black flex gap-2 items-center focus:outline-none"
           onClick={() => setShowToggle(!showToggle)}
         >
           <span>{category}</span>

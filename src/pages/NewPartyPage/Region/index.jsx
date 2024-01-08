@@ -1,25 +1,5 @@
 import RegionButton from "./RegionButton";
-import jeju from "../../../assets/images/제주도 이미지.jpg";
-import gangwon from "../../../assets/images/강원도 이미지.jpg";
-import uleng from "../../../assets/images/울릉도 이미지.jpg";
-
-const regionData = [
-  {
-    image: jeju,
-    name: "제주도",
-    price: "9시간 18만원",
-  },
-  {
-    image: gangwon,
-    name: "강원도",
-    price: "10시간 20만원",
-  },
-  {
-    image: uleng,
-    name: "울릉도",
-    price: "가격 변동제",
-  },
-];
+import { regionData } from "../../../utils/data";
 
 function Region({ setRegion, member, driverId, date }) {
   return (

@@ -19,7 +19,7 @@ function Stepper({ step }) {
             <span className={`${step === 1 && "text-blue-600"}`}>1</span>
           )}
           <span
-            className={`absolute top-14 -left-1 w-24 ${
+            className={`absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
               step >= 1 ? "text-black" : "text-darkgray"
             }`}
           >
@@ -43,7 +43,7 @@ function Stepper({ step }) {
             <span className={`${step === 2 && "text-blue-600"}`}>2</span>
           )}
           <span
-            className={`absolute top-14 -left-1 w-24 ${
+            className={`absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
               step >= 2 ? "text-black" : "text-darkgray"
             }`}
           >
@@ -67,7 +67,7 @@ function Stepper({ step }) {
             <span className={`${step === 3 && "text-blue-600"}`}>3</span>
           )}
           <span
-            className={`absolute top-14 -left-1 w-24 ${
+            className={`absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
               step >= 3 ? "text-black" : "text-darkgray"
             }`}
           >
@@ -91,7 +91,7 @@ function Stepper({ step }) {
             <span className={`${step === 4 && "text-blue-600"}`}>4</span>
           )}
           <span
-            className={`absolute top-14 -left-2 w-24 ${
+            className={`absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
               step >= 4 ? "text-black" : "text-darkgray"
             }`}
           >
@@ -111,11 +111,11 @@ function Stepper({ step }) {
             <span className={`${step === 5 && "text-blue-600"}`}>5</span>
           )}
           <span
-            className={`absolute top-14 -left-4 w-24 ${
+            className={`absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
               step >= 5 ? "text-black" : "text-darkgray"
             }`}
           >
-            드라이버 소개
+            소개
           </span>
         </span>
       </li>

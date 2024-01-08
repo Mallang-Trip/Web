@@ -1,27 +1,6 @@
 import { useEffect, useRef } from "react";
-import Anywhere from "./Anywhere";
+import { regionData } from "../../../../../utils/data";
 import RegionButton from "./RegionButton";
-import jeju from "../../../../../assets/images/제주도 이미지.jpg";
-import gangwon from "../../../../../assets/images/강원도 이미지.jpg";
-import uleng from "../../../../../assets/images/울릉도 이미지.jpg";
-
-const regionData = [
-  {
-    image: jeju,
-    name: "제주도",
-    price: "9시간 18만원",
-  },
-  {
-    image: gangwon,
-    name: "강원도",
-    price: "10시간 20만원",
-  },
-  {
-    image: uleng,
-    name: "울릉도",
-    price: "가격 변동제",
-  },
-];
 
 function RegionModal({ showModal, setShowModal, regionClickHandler }) {
   const modalRef = useRef();
@@ -54,17 +33,22 @@ function RegionModal({ showModal, setShowModal, regionClickHandler }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-4/5 lg:w-full max-h-4/5 max-w-screen-xl rounded-xl">
-        <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 md:grid-cols-3 lg:grid-cols-4 h-full bg-white rounded-xl overflow-auto noScrollBar">
-          <Anywhere regionClickHandler={regionClickHandler} />
+      <div className="m-auto shadow w-full max-w-[700px] rounded-xl">
+        <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 md:grid-cols-3 h-full bg-white rounded-t-xl max-h-[600px] overflow-auto noScrollBar">
           {regionData.map((item) => (
             <RegionButton
-              key={item.image}
-              {...item}
+              key={item.name}
               regionClickHandler={regionClickHandler}
+              {...item}
             />
           ))}
         </div>
+        <button
+          className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"
+          onClick={() => regionClickHandler("모든 지역")}
+        >
+          모든 지역
+        </button>
       </div>
     </div>
   );

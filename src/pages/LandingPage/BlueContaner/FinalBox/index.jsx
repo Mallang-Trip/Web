@@ -10,7 +10,7 @@ function FinalBox({ price, setPrice }) {
       <div
         className="w-full h-32 my-auto bg-white rounded-r-lg cursor-pointer"
         onClick={() => {
-          setModalPrice(price === "상관없이" ? 1010000 : price);
+          setModalPrice(price === "모든 가격" ? 1010000 : price);
           setShowModal(true);
         }}
       >
@@ -18,7 +18,7 @@ function FinalBox({ price, setPrice }) {
           가격범위
         </p>
         <p className="text-base md:text-xl text-center text-black">
-          {price > 1000000 ? "상관없이" : `~${price / 10000}만원`}
+          {price > 1000000 ? "모든 가격" : `~${price / 10000}만원`}
         </p>
         {price <= 1000000 && (
           <p className="text-sm text-center text-darkgray">(1인당)</p>

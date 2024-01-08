@@ -7,13 +7,16 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
   const confirmButtonRef = useRef();
   const [date, setDate] = useState(nowDate);
 
-  const closeModal = () => {
-    setDate([]);
-    setShowModal(false);
-  };
+  const closeModal = () => setShowModal(false);
 
   const modalOutSideClick = (e) => {
     if (modalRef.current === e.target) closeModal();
+  };
+
+  const allDateHandler = () => {
+    setDate([]);
+    setNowDate([]);
+    setShowModal(false);
   };
 
   const confirmHandler = () => {
@@ -30,6 +33,8 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
 
+    setDate(nowDate);
+
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
@@ -44,7 +49,7 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="mx-auto my-auto rounded-xl bg-white p-5">
+      <div className="mx-auto my-auto rounded-xl bg-white">
         <Calendar
           onChange={setDate}
           value={date}
@@ -53,11 +58,17 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
           }
           selectRange={true}
           calendarType="gregory"
-          className="border border-white"
+          className="border border-white rounded-t-xl"
         />
-        <div className="flex justify-center mt-5">
+        <div className="flex">
           <button
-            className="bg-primary rounded-full text-white w-20 h-9"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            onClick={allDateHandler}
+          >
+            모든 일정
+          </button>
+          <button
+            className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
             onClick={confirmHandler}
             ref={confirmButtonRef}
           >

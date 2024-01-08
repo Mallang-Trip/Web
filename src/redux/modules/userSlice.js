@@ -93,7 +93,7 @@ const userSlice = createSlice({
       state.role = payload.payload.role;
       state.introduction = payload.payload.introduction;
       state.profileImg = payload.payload.profileImg;
-      state.isAdmin = false;
+      state.isAdmin = payload.payload.role === "ROLE_ADMIN";
       state.suspended = payload.payload.suspended;
       state.deleted = payload.payload.deleted;
     });

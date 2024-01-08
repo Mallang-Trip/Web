@@ -18,7 +18,7 @@ function SecondBox({ nowDate, setNowDate }) {
             ? `${nowDate[0].getMonth() + 1}/${nowDate[0].getDate()} ~ ${
                 nowDate[1].getMonth() + 1
               }/${nowDate[1].getDate()}`
-            : "언제나"}
+            : "모든 일정"}
         </p>
       </div>
       <CalendarModal

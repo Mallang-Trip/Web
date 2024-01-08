@@ -9,6 +9,7 @@ import LoginSearchPage from "../pages/LoginSearchPage";
 import PartyPage from "../pages/PartyPage";
 import SignupPage from "../pages/SignupPage";
 import CourseSuggestPage from "../pages/CourseSuggestPage";
+import MyMenuPage from "../pages/MyMenuPage";
 import MyProfilePage from "../pages/MyProfilePage";
 import MyHeartPage from "../pages/MyHeartPage";
 import MyArticlePage from "../pages/MyArticlePage";
@@ -27,6 +28,7 @@ import CommunitySearchPage from "../pages/CommunitySearchPage";
 import TalkPage from "../pages/TalkPage";
 import NotifyPage from "../pages/NotifyPage";
 import HelpPage from "../pages/HelpPage";
+import AdminPage from "../pages/AdminPage";
 
 function Router() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -39,6 +41,7 @@ function Router() {
   const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
+  const AuthMyMenuPage = Auth(MyMenuPage, true);
   const AuthMyProfilePage = Auth(MyProfilePage, true);
   const AuthMyHeartPage = Auth(MyHeartPage, true);
   const AuthMyArticlePage = Auth(MyArticlePage, true);
@@ -54,6 +57,7 @@ function Router() {
   const AuthTalkPage = Auth(TalkPage, true);
   const AuthNotifyPage = Auth(NotifyPage, true);
   const AuthHelpPage = Auth(HelpPage, null);
+  const AuthAdminPage = Auth(AdminPage, true, true);
 
   return (
     <Routes>
@@ -79,6 +83,7 @@ function Router() {
           path="/driver/profile/:driverId"
           element={<AuthDriverProfilePage />}
         />
+        <Route path="/my/menu" element={<AuthMyMenuPage />} />
         <Route path="/my/profile" element={<AuthMyProfilePage />} />
         <Route path="/my/heart" element={<AuthMyHeartPage />} />
         <Route path="/my/article" element={<AuthMyArticlePage />} />
@@ -105,6 +110,7 @@ function Router() {
         <Route path="/talk" element={<AuthTalkPage />} />
         <Route path="/notify" element={<AuthNotifyPage />} />
         <Route path="/help/:id" element={<AuthHelpPage />} />
+        <Route path="/admin" element={<AuthAdminPage />} />
       </Route>
 
       <Route path="/login" element={<AuthLoginPage />} />

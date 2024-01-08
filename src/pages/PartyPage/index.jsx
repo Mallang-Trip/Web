@@ -72,7 +72,7 @@ function PartyPage() {
         course={partyData.course}
         startDate={partyData.startDate}
       />
-      <CourseMap partyId={partyData.partyId} markerData={markerData} />
+      <CourseMap markerData={markerData} />
       <ReservBtn partyId={partyData.partyId} />
     </PageContainer>
   );

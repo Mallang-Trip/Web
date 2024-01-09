@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import mallangTripIcon from "../../../assets/images/intro_icon.png";
+import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function Profile() {
   const user = useSelector((state) => state.user);
@@ -7,7 +8,7 @@ function Profile() {
   return (
     <div className="flex items-center gap-4 border border-primary p-3 rounded-lg">
       <img
-        src={user.profileImg}
+        src={user.profileImg || basicProfileImage}
         alt={user.nickname}
         className="w-12 h-12 rounded-full"
       />

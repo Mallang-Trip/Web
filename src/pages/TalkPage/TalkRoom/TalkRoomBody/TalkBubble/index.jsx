@@ -62,7 +62,7 @@ function TalkBubble({
                 alt="chatImage"
                 className={`${
                   !isMyMessage && isPrevSameDate && isPrevSameUser && "ml-12"
-                } rounded-lg max-w-[200px] md:max-w-[400px]`}
+                } rounded-lg h-32 md:h-56`}
               />
             )}
           </div>

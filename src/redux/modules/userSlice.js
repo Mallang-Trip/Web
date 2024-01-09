@@ -48,6 +48,9 @@ const __asyncAuth = createAsyncThunk("userSlice/asyncAuth", async () => {
       const auth_result = await auth();
       return { ...auth_result.payload, auth: true };
     } catch {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+
       return { auth: false };
     }
   }

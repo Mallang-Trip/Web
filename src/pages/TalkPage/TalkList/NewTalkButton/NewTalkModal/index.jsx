@@ -95,8 +95,8 @@ function NewTalkModal({
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="mx-auto mt-14 shadow w-96 h-4/5 rounded-xl">
-        <div className="flex flex-col h-full px-9 bg-white rounded-t-xl">
+      <div className="mx-auto w-96 h-full rounded-xl flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col h-3/5 px-9 bg-white rounded-t-xl">
           <p className="text-xl text-black font-bold mt-9 mb-5">
             새로운 말랑톡
           </p>
@@ -125,7 +125,7 @@ function NewTalkModal({
             />
           )}
         </div>
-        <div className="flex">
+        <div className="w-full flex">
           <button
             className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
             onClick={closeModal}

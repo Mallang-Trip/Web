@@ -30,7 +30,9 @@ function SearchAcount({
     setPhoneNumber(e.target.value.replace(/\D/g, ""));
   const codeHandler = (e) => setCode(e.target.value.replace(/\D/g, ""));
 
-  const sendCode = async () => {
+  const sendCode = async (e) => {
+    e.preventDefault();
+
     if (!phoneNumber) return setShowNoInputModal(true);
     if (!/^010\d{8}$/.test(phoneNumber)) return setShowNoInputModal(true);
 
@@ -54,7 +56,9 @@ function SearchAcount({
     }
   };
 
-  const codeSubmit = async () => {
+  const codeSubmit = async (e) => {
+    e.preventDefault();
+
     if (!code) return;
     if (limit <= 0) return setShowCodeInvalidModal(true);
 
@@ -112,52 +116,73 @@ function SearchAcount({
 
   return (
     <>
-      <div>
-        <div className="flex flex-row mb-8">
-          <input
-            type="text"
-            name="phoneNumber"
-            placeholder="휴대전화 번호를 입력해 주세요. (‘-’제외)"
-            className="w-full border-b appearance-none border-darkgray focus:outline-none focus:border-primary"
-            value={phoneNumber}
-            onChange={phoneNumberHandler}
-            ref={phoneNumberInput}
-          />
-          <button
-            type="button"
-            onClick={sendCode}
-            className="w-[125px] h-[30px] text-xs text-darkgray bg-white rounded-full border border-darkgray hover:text-white hover:bg-primary hover:border-primary"
-          >
-            {codeTransmission ? "인증번호 재전송" : "인증번호 전송"}
-          </button>
-        </div>
-        <div className="relative flex flex-row">
-          <input
-            type="text"
-            name="code"
-            placeholder="인증번호를 입력해 주세요."
-            className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-            value={code}
-            onChange={codeHandler}
-            ref={codeInput}
-          />
-          <button
-            type="button"
-            onClick={codeSubmit}
-            className={`w-[125px] h-[30px] text-xs rounded-full border ${
-              code
-                ? "text-white bg-primary border-primary"
-                : "text-darkgray bg-white border-darkgray"
-            }`}
-          >
-            확인
-          </button>
-          <span className="absolute top-1 right-28">
-            {limit >= 0 ? `${Math.floor(limit / 60)}분 ${limit % 60}초` : ""}
-          </span>
-        </div>
+      <div className="flex flex-col gap-8">
+        <form onSubmit={sendCode}>
+          <div className="block mb-2 text-base font-medium text-black">
+            휴대전화 번호를 입력해 주세요.{" "}
+            <span className="text-red-600 font-bold">*</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <input
+              type="text"
+              name="phoneNumber"
+              placeholder="휴대전화 번호를 입력해 주세요."
+              className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+              value={phoneNumber}
+              onChange={phoneNumberHandler}
+              ref={phoneNumberInput}
+            />
+            <button
+              type="submit"
+              className={`w-[125px] h-10 text-xs rounded-lg border ${
+                phoneNumber
+                  ? "text-white bg-primary border-primary"
+                  : "text-darkgray bg-white border-darkgray"
+              }`}
+            >
+              {codeTransmission ? "인증번호 재전송" : "인증번호 전송"}
+            </button>
+          </div>
+          <p className="mt-2 text-xs text-red-600 font-medium">
+            숫자만 입력 가능합니다.
+          </p>
+        </form>
+
+        <form onSubmit={codeSubmit}>
+          <div className="block mb-2 text-base font-medium text-black">
+            인증번호를 입력해 주세요.{" "}
+            <span className="text-red-600 font-bold">*</span>
+          </div>
+          <div className="flex items-center gap-1.5 relative">
+            <input
+              type="text"
+              name="code"
+              placeholder="인증번호를 입력해 주세요."
+              className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+              value={code}
+              onChange={codeHandler}
+              ref={codeInput}
+            />
+            <button
+              type="submit"
+              className={`w-[125px] h-10 text-xs rounded-lg border ${
+                code
+                  ? "text-white bg-primary border-primary"
+                  : "text-darkgray bg-white border-darkgray"
+              }`}
+            >
+              확인
+            </button>
+            <span className="absolute top-1/2 right-28 transform -translate-y-1/2 mr-2 text-sm">
+              {limit >= 0 ? `${Math.floor(limit / 60)}분 ${limit % 60}초` : ""}
+            </span>
+          </div>
+          <p className="mt-2 text-xs text-red-600 font-medium">
+            숫자만 입력 가능합니다.
+          </p>
+        </form>
         {codeTransmission && (
-          <div className="mt-10 text-xs">
+          <div className="text-xs">
             인증번호 발송에는 시간이 소요되며 하루 최대 5회까지 전송할 수
             있습니다.
             <br />

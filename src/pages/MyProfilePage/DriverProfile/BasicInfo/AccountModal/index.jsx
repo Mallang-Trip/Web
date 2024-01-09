@@ -12,7 +12,9 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
     setShowModal(false);
   };
 
-  const confirmHandler = () => {
+  const confirmHandler = (e) => {
+    e.preventDefault();
+
     setDriverInfo({
       ...driverInfo,
       bank: bank,
@@ -37,7 +39,10 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
         showModal && "active"
       }`}
     >
-      <div className="relative w-full max-w-4xl max-h-full m-auto">
+      <form
+        className="relative w-full max-w-4xl max-h-full m-auto"
+        onSubmit={confirmHandler}
+      >
         <div className="relative bg-white rounded-t-lg">
           <button
             type="button"
@@ -64,57 +69,75 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             <h3 className="mb-4 text-xl font-bold text-gray-900">
               입금 계좌 수정하기
             </h3>
-
-            <div className="my-9 mx-auto px-2 lg:px-24">
-              <div className="mb-5 text-lg font-bold text-black">
-                입금 받을 계좌 정보
+            <div className="flex flex-col gap-8">
+              <div>
+                <div className="block mb-2 text-base font-medium text-black">
+                  은행을 선택해주세요{" "}
+                  <span className="text-red-600 font-bold">*</span>
+                </div>
+                <input
+                  type="text"
+                  name="bank_name"
+                  className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 caret-white cursor-pointer"
+                  placeholder="은행을 선택해주세요"
+                  value={bank}
+                  onChange={() => {}}
+                  onClick={() => setShowBankModal(true)}
+                  autoComplete="off"
+                />
               </div>
-              <input
-                type="text"
-                name="bank_name"
-                placeholder="은행을 선택해주세요"
-                className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-                value={bank}
-                onChange={() => {}}
-                onClick={() => setShowBankModal(true)}
-                autoComplete="off"
-              />
-              <input
-                type="text"
-                name="accout_name"
-                placeholder="예금주 성함(본인)을 입력해주세요"
-                className="w-full my-12 border-b border-darkgray focus:outline-none focus:border-primary"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                autoComplete="off"
-              />
-              <input
-                type="text"
-                name="accout_number"
-                placeholder="계좌번호를 숫자로만 입력해주세요"
-                className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
-                value={onlyNumber(accoutNumber)}
-                onChange={(e) => setAccoutNumber(e.target.value)}
-                autoComplete="off"
-              />
+              <div>
+                <div className="block mb-2 text-base font-medium text-black">
+                  예금주 성함(본인)을 입력해주세요{" "}
+                  <span className="text-red-600 font-bold">*</span>
+                </div>
+                <input
+                  type="text"
+                  name="accout_name"
+                  className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+                  placeholder="예금주 성함(본인)을 입력해주세요"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+              <div>
+                <div className="block mb-2 text-base font-medium text-black">
+                  계좌번호를 입력해주세요{" "}
+                  <span className="text-red-600 font-bold">*</span>
+                </div>
+                <input
+                  type="text"
+                  name="accout_number"
+                  className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+                  placeholder="계좌번호를 입력해주세요"
+                  value={onlyNumber(accoutNumber)}
+                  onChange={(e) => setAccoutNumber(e.target.value)}
+                  autoComplete="off"
+                />
+                <p className="mt-2 text-xs text-red-600 font-medium">
+                  숫자만 입력 가능합니다.
+                </p>
+              </div>
             </div>
           </div>
         </div>
         <div className="flex">
           <button
+            type="button"
             className="w-full h-16 text-lg text-center text-darkgray rounded-bl-lg bg-[#F4F4F4]"
             onClick={cancelHandler}
           >
             취소
           </button>
           <button
+            type="submit"
             className="w-full h-16 text-lg text-center text-white rounded-br-lg bg-primary"
-            onClick={confirmHandler}
           >
             확인
           </button>
         </div>
-      </div>
+      </form>
 
       <BankModal
         showModal={showBankModal}

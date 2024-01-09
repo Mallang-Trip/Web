@@ -5,7 +5,7 @@ function AgreeItem({ checkedHandler, checked, id, title, url }) {
   const navigation = useNavigate();
 
   return (
-    <div className="w-4/5 sm:w-3/5 lg:w-2/5 py-3 rounded-lg">
+    <div className="w-full sm:w-3/5 lg:w-2/5 py-3 rounded-lg">
       <input
         id={`agree${id}`}
         type="checkbox"

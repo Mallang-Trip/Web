@@ -24,7 +24,7 @@ function DriverDocument({
   }, [driverLicense, taxiLicense, insurance]);
 
   return (
-    <div className="mx-10">
+    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8">
       <ImageInput
         title="운전면허증"
         image={driverLicense}

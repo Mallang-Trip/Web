@@ -28,12 +28,12 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
           <input
             type="text"
             placeholder="말랑톡방 이름을 정해주세요."
-            className="w-full pb-1 border-b border-darkgray text-sm placeholder:text-darkgray focus:outline-none focus:border-primary"
+            className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
             value={roomName}
             onChange={(e) => setRoomName(e.target.value.slice(0, 20))}
           />
           <span
-            className={`absolute top-0 right-0 text-sm ${
+            className={`absolute top-1/2 right-2 trnasform -translate-y-1/2 text-sm ${
               roomName.length === 20 ? "text-primary" : "text-darkgray"
             }`}
           >
@@ -41,7 +41,7 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
           </span>
         </div>
         <div className="text-xs text-darkgray">
-          말랑톡 시작 전, 내가 설정한 그룹 채팅방의 사진과 이름은 다른 모든 대화
+          말랑톡 시작 전, 내가 설정한 그룹 채팅방의 이름은 다른 모든 대화
           상대에게도 동일하게 보입니다.
         </div>
       </div>

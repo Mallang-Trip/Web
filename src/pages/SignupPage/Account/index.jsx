@@ -67,85 +67,101 @@ function Account({
   ]);
 
   return (
-    <div className="w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
-      <div className="relative flex flex-row w-full my-4">
+    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-6 mt-12">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          이메일을 입력해 주세요.{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="email"
           name="email"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="이메일을 입력해 주세요."
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={email}
           onChange={emailHandler}
         />
-        <span
-          className={`absolute left-0 text-xs text-red-500 top-6 ${
-            validationEmail && "hidden"
-          }`}
+        <p
+          className={`mt-2 text-xs font-medium ${
+            !validationEmail ? "text-red-600" : "text-white"
+          } ${validationEmail && email ? "hidden" : "block"}`}
         >
           이메일 형식이 잘못되었습니다.
-        </span>
-        <span
-          className={`absolute left-0 text-xs text-red-500 top-6 ${
-            emailDuplication ? "inline" : "hidden"
-          }`}
+        </p>
+        <p
+          className={`mt-2 text-xs font-medium ${
+            emailDuplication ? "text-red-600" : "text-white"
+          } ${validationEmail && email ? "block" : "hidden"}`}
         >
           이미 사용중인 이메일입니다.
-        </span>
+        </p>
       </div>
-      <div className="relative flex flex-row w-full my-4">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          사용하실 아이디를 입력해 주세요.{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
           name="id"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="사용하실 아이디를 입력해 주세요."
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={id}
           onChange={idHandler}
         />
-        <span
-          className={`absolute left-0 text-xs text-red-500 top-6 ${
-            idDuplication ? "inline" : "hidden"
+        <p
+          className={`mt-2 text-xs font-medium ${
+            idDuplication ? "text-red-600" : "text-white"
           }`}
         >
           이미 사용중인 아이디입니다.
-        </span>
+        </p>
       </div>
-      <div className="relative flex flex-row w-full my-4">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          사용하실 비밀번호를 입력해 주세요.{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="password"
           name="password"
-          placeholder="영문, 특수기호를 포함한 비밀번호 최소 8자리를 입력해 주세요."
-          className={`w-full border-b border-darkgray focus:outline-none focus:border-primary ${
+          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
             password && "font-mono"
           }`}
+          placeholder="사용하실 비밀번호를 입력해 주세요."
           value={password}
           onChange={passwordHandler}
         />
-        <span
-          className={`absolute left-0 text-xs text-red-500 top-6 ${
-            validationPassword && "hidden"
+        <p
+          className={`mt-2 text-xs font-medium ${
+            !validationPassword ? "text-red-600" : "text-white"
           }`}
         >
-          영문, 특수기호를 포함해 최소 8자리를 입력해주세요.
-        </span>
+          영문, 특수기호를 포함해 8자리 이상 입력해 주세요.
+        </p>
       </div>
-      <div className="relative flex flex-row w-full my-4">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          비밀번호를 다시 한번 입력해 주세요.{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="password"
           name="passwordAgain"
-          placeholder="비밀번호를 다시 한번 입력해 주세요."
-          className={`w-full border-b border-darkgray focus:outline-none focus:border-primary ${
+          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
             passwordAgain && "font-mono"
           }`}
+          placeholder="비밀번호를 다시 한번 입력해 주세요."
           value={passwordAgain}
           onChange={passwordAgainHandler}
         />
-        <span
-          className={`absolute left-0 text-xs text-red-500 top-6 ${
-            validationPasswordAgain && "hidden"
+        <p
+          className={`mt-2 text-xs font-medium ${
+            !validationPasswordAgain ? "text-red-600" : "text-white"
           }`}
         >
           비밀번호가 일치하지 않습니다.
-        </span>
+        </p>
       </div>
     </div>
   );

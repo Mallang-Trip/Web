@@ -6,7 +6,6 @@ import {
 } from "../../../../api/destination";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
-import Info from "../../../../assets/svg/info.svg";
 
 function Comment({
   profileImg,
@@ -85,10 +84,9 @@ function Comment({
               : basicProfileImage
           }
         />
-        <div className="text-sm ml-1.5 mr-1">{nickname}</div>
-        <img src={Info} />
-        <div className="mx-2.5 flex">
-          <img className="mb-1 mr-1" src={Star} />
+        <div className="text-sm font-bold ml-1.5 mr-1">{nickname}</div>
+        <div className="ml-2.5 flex items-center gap-1">
+          <img src={Star} />
           <input
             type="number"
             step={"0.1"}

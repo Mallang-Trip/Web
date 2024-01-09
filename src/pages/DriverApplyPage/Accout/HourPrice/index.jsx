@@ -27,11 +27,11 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
     );
   else
     return (
-      <div className="flex gap-1 justify-center items-center h-14 my-5">
+      <div className="flex gap-1.5 justify-center items-center h-14 my-5">
         <input
           type="text"
           name="hour"
-          className="w-8 border-b border-darkgray focus:outline-none focus:border-primary text-center"
+          className="w-12 text-center border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block p-2.5"
           value={onlyNumber(hour[index])}
           onChange={hourHandler}
           autoComplete="off"
@@ -40,7 +40,7 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
         <input
           type="text"
           name="money"
-          className="w-20 border-b border-darkgray focus:outline-none focus:border-primary text-center"
+          className="w-24 text-center border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block p-2.5"
           value={onlyNumber(money[index]).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           onChange={moneyHandler}
           autoComplete="off"

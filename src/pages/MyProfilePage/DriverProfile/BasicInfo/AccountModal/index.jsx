@@ -33,12 +33,12 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 scale-100 flex ${
+      className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal && "active"
       }`}
     >
       <div className="relative w-full max-w-4xl max-h-full m-auto">
-        <div className="relative bg-white rounded-lg shadow">
+        <div className="relative bg-white rounded-t-lg">
           <button
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -98,22 +98,21 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
                 autoComplete="off"
               />
             </div>
-
-            <div className="w-full px-2 mt-5 flex justify-between gap-5">
-              <button
-                className="w-full text-darkgray bg-white border border-darkgray font-medium rounded-lg px-5 py-2.5 text-center"
-                onClick={cancelHandler}
-              >
-                취소
-              </button>
-              <button
-                className="w-full text-white bg-primary border border-primary font-medium rounded-lg px-5 py-2.5 text-center"
-                onClick={confirmHandler}
-              >
-                확인
-              </button>
-            </div>
           </div>
+        </div>
+        <div className="flex">
+          <button
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-lg bg-[#F4F4F4]"
+            onClick={cancelHandler}
+          >
+            취소
+          </button>
+          <button
+            className="w-full h-16 text-lg text-center text-white rounded-br-lg bg-primary"
+            onClick={confirmHandler}
+          >
+            확인
+          </button>
         </div>
       </div>
 

@@ -16,7 +16,11 @@ function Profile() {
         <p className="text-lg text-gray-900 font-bold">{user.nickname}</p>
         <p className="text-sm text-gray-500">{user.email}</p>
       </div>
-      <img src={mallangTripIcon} alt="말랑트립" className="h-12 ml-auto" />
+      <img
+        src={mallangTripIcon}
+        alt="말랑트립"
+        className="h-12 ml-auto transform translate-x-3"
+      />
     </div>
   );
 }

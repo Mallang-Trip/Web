@@ -12,7 +12,7 @@ function PartyBox({
   const navigate = useNavigate();
 
   const onClickHandler = () => {
-    navigate(`/party/${partyId}`);
+    navigate(`/party/detail/${partyId}`);
   };
 
   return (

@@ -8,7 +8,8 @@ function PartyPlan({ edit, startDate, course }) {
   const navigate = useNavigate();
   const [planData, setPlanData] = useState([]);
 
-  const clickHander = () => navigate(`/party/course/suggest/${partyId}`);
+  // const clickHander = () => navigate(`/party/course/suggest/${partyId}`);
+  const clickHander = () => alert("업데이트 준비 중");
 
   useEffect(() => {
     setPlanData(course.days[0].destinations);

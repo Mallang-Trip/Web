@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
 
-function Credit({ shakeCredit, register, setRegister }) {
+function Credit({ shakeCredit, register, setRegister, creditRef }) {
   const [showText, setShowText] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function Credit({ shakeCredit, register, setRegister }) {
   }, [register]);
 
   return (
-    <div className="my-20">
+    <div className="mt-20 mb-7" ref={creditRef}>
       <button
         className={`${shakeCredit && "animate-shake"} ${
           register && "cursor-default"
@@ -46,7 +46,7 @@ function Credit({ shakeCredit, register, setRegister }) {
       </button>
       <p
         className={`${
-          showText ? "text-[#FF0000]" : "text-white"
+          showText ? "text-red-600" : "text-white"
         } text-sm text-center mt-1`}
       >
         결제 수단을 등록해 주세요!

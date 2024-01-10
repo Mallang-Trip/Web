@@ -72,7 +72,7 @@ function CommentItem({
             showReply ? "max-h-[1000px] " : "max-h-0"
           }`}
         >
-          <div className="ml-8">
+          <div className="ml-4">
             {replies.map((reply) => (
               <ReplyItem
                 key={reply.replyId}

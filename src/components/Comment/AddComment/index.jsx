@@ -37,7 +37,7 @@ function AddComment({ id, isDriver, reload, setReload }) {
     if (!user.auth) return setShowModal(true);
 
     if (star <= 0) {
-      setConfirmMessage("별점을 입력해주세요.");
+      setConfirmMessage("평점을 입력해주세요.");
       setShowConfirmModal(true);
       return;
     }
@@ -77,7 +77,7 @@ function AddComment({ id, isDriver, reload, setReload }) {
     <>
       <div className="w-full min-h-48 border-2 border-black rounded-[20px] p-3 relative">
         <div className="flex gap-2 mb-3">
-          <div className="text-lg font-bold">MyMyID</div>
+          <div className="text-lg font-bold">{user.nickname}</div>
           <div className="flex gap-1 text-sm items-center">
             <div>평점: </div>
             <input

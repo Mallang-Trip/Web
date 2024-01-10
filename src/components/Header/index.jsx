@@ -427,6 +427,7 @@ function Header() {
           dispatch(logout());
           setShowUserMenu(false);
           setShowLogoutModal(false);
+          navigation("/", { replace: true });
         }}
       />
     </>

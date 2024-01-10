@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Vector from "../../../src/assets/images/Vector.png";
+import Vector from "../../../src/assets/svg/Vector.svg";
 
 function HeadTitle({ name, driverName, driverId, isDriver }) {
   const navigation = useNavigate();
@@ -8,13 +8,13 @@ function HeadTitle({ name, driverName, driverId, isDriver }) {
     <>
       <div className="text-2xl font-bold text-black">{name}</div>
       {isDriver === true && (
-        <span
-          className="text-sm text-darkgray cursor-pointer"
+        <div
+          className="mt-1 text-sm text-darkgray cursor-pointer flex gap-1 items-center"
           onClick={() => navigation(`/driver/profile/${driverId}`)}
         >
           <span>{`${driverName} 드라이버`}</span>
-          <img src={Vector} className="inline-block ml-1.5 mt-[2px]" />
-        </span>
+          <img src={Vector} alt={driverName} />
+        </div>
       )}
     </>
   );

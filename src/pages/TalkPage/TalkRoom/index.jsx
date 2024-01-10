@@ -25,6 +25,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileUserId, setProfileUserId] = useState(0);
+  const [sendImageLoading, setSendImageLoading] = useState(false);
 
   const closeRoomHandler = () => {
     if (client.current) client.current.deactivate();
@@ -53,6 +54,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
     if (!image) return alert("사진을 첨부해주세요.");
 
     try {
+      setSendImageLoading(true);
       const imageURL = await uploadImage(image);
 
       client.current.publish({
@@ -67,6 +69,8 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
       setShowImageModal(false);
     } catch (e) {
       console.log(e);
+    } finally {
+      setSendImageLoading(false);
     }
   };
 
@@ -173,6 +177,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
         showModal={showImageModal}
         setShowModal={setShowImageModal}
         sendImageHandler={sendImageHandler}
+        sendImageLoading={sendImageLoading}
       />
       <ProfileModal
         showModal={showProfileModal}

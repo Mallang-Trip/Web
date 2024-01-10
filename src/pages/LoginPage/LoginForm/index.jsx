@@ -36,8 +36,8 @@ function LoginForm() {
         <input
           type="id"
           name="id"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="아이디를 입력해 주세요."
-          className="w-full mb-10 border-b border-darkgray focus:outline-none focus:border-primary"
           value={id}
           onChange={idHandler}
         />
@@ -45,7 +45,7 @@ function LoginForm() {
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
-          className={`w-full border-b border-darkgray mb-12 focus:outline-none focus:border-primary ${
+          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 mt-6 mb-12 ${
             password && "font-mono"
           }`}
           value={password}

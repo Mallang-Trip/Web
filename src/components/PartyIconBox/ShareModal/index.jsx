@@ -80,7 +80,7 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
             공유하기
             <span
               className={`text-sm font-normal ml-10 ${
-                copyComplete ? "text-red-500" : "text-white"
+                copyComplete ? "text-red-600" : "text-white"
               }`}
             >
               링크가 복사되었습니다!

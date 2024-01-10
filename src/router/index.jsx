@@ -65,7 +65,7 @@ function Router() {
         <Route path="/" element={<AuthLandingPage />} />
         <Route path="/intro" element={<AuthIntroPage />} />
         <Route path="/policy/:category/:type" element={<AuthPolicyPage />} />
-        <Route path="/party/:partyId" element={<AuthPartyPage />} />
+        <Route path="/party/:type/:partyId" element={<AuthPartyPage />} />
         <Route
           path="/party/course/suggest/:partyId"
           element={<AuthCourseSuggestPage />}

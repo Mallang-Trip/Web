@@ -30,39 +30,46 @@ function Profile({
   }, [nickName]);
 
   return (
-    <div className="w-4/5 md:w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
-      <div className="relative flex flex-row w-full my-4">
+    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-6 mt-12">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          닉네임을 입력해 주세요. (최대 10자){" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
           name="nickName"
-          placeholder="닉네임을 입력해 주세요. (최대 10자)"
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          placeholder="닉네임을 입력해 주세요."
           value={nickName}
           onChange={nickNameHandler}
         />
-        <span
-          className={`absolute left-0 text-xs text-red-500 top-6 ${
-            nickNameDuplication ? "inline" : "hidden"
+        <p
+          className={`mt-2 text-xs font-medium ${
+            nickNameDuplication ? "text-red-600" : "text-white"
           }`}
         >
           이미 사용중인 닉네임입니다.
-        </span>
+        </p>
       </div>
-      <div className="relative flex flex-row w-full my-4">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          (선택 사항) 15자 이내로 한줄소개를 적어주세요.
+        </div>
         <input
           type="text"
           name="introduction"
-          placeholder="(선택 사항) 15자 이내로 한줄소개를 적어주세요."
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          placeholder="한줄소개를 적어주세요."
           value={introduction}
           onChange={introductionHandler}
         />
       </div>
-      <div className="relative w-full my-4">
-        <p className="text-sm font-medium text-primary">
+      <div className="mt-4">
+        <div className="block mb-2 text-base font-medium text-black">
           (선택 사항) 프로필 사진을 업로드해주세요
-        </p>
-        <div className="flex justify-center h-[200px] mt-8 relative">
+        </div>
+        <div className="flex justify-center h-[200px] mt-8 relative mb-12 md:mb-0">
           <div
             className="w-[200px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
             onClick={() => imageRef.current.click()}

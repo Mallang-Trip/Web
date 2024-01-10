@@ -33,7 +33,7 @@ function ReplyForm({ commentId, reloadArticle }) {
         type="text"
         value={newReply}
         onChange={(e) => setNewReply(e.target.value)}
-        className="w-full focus:outline-none bg-[#F4F4F4] py-2.5 px-5 text-base rounded-lg"
+        className="w-full focus:outline-primary bg-[#F4F4F4] py-2.5 px-5 text-base rounded-lg"
         placeholder="답글을 입력해주세요."
       />
       <button

@@ -167,7 +167,7 @@ function ArticleBody({
           {partyId && (
             <button
               className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
-              onClick={() => navigation(`/party/${partyId}`)}
+              onClick={() => navigation(`/party/detail/${partyId}`)}
             >
               {`${partyName} 구경하기`}
             </button>

@@ -4,9 +4,12 @@ function ImageInput({ title, image, name, imageHandler }) {
   const imageRef = useRef();
 
   return (
-    <>
-      <p className="text-lg text-black">{title}</p>
-      <div className="flex justify-center w-full h-[200px] mt-8 mb-16 relative">
+    <div>
+      <div className="block mb-2 text-base font-medium text-black">
+        {title + " "}
+        <span className="text-red-600 font-bold">*</span>
+      </div>
+      <div className="flex justify-center w-full h-[200px] mt-4 mb-16 relative">
         <div
           className="w-[300px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
           onClick={() => imageRef.current.click()}
@@ -38,7 +41,7 @@ function ImageInput({ title, image, name, imageHandler }) {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

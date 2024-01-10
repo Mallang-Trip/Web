@@ -2,11 +2,10 @@ import { GET, POST } from "../utils/axios";
 
 export const getPartyList = async (region, nowDate, num, price) =>
   await GET(
-    `/party/list?region=${region}&headcount=${num}&startDate=${nowDate[0]}&endDate=${nowDate[1]}&maxPrice=${price}`
+    `/party/search?region=${region}&headcount=${num}&startDate=${nowDate[0]}&endDate=${nowDate[1]}&maxPrice=${price}`
   );
 
-export const getPartyDetail = async (partyId) =>
-  await GET(`/party/view/${partyId}`);
+export const getPartyDetail = async (partyId) => await GET(`/party/${partyId}`);
 
 export const postPartyJoin = async (data) =>
   await POST("/party/join", data, true);

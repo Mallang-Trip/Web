@@ -49,32 +49,39 @@ function PersonalInfo({
   }, [name, birthDate, region, gender, setActiveNext]);
 
   return (
-    <div className="w-3/5 flex flex-col items-center gap-3 mt-12 mx-auto text-sm">
-      <div className="relative flex flex-row w-full my-5">
+    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8 mt-20">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          성함을 입력해주세요. <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
           name="name"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="성함을 입력해주세요."
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={name}
           onChange={nameHandler}
         />
-        <span className="absolute left-0 text-xs text-red-500 top-6">
-          성함은 추후 수정 불가능하니 신중하게 입력해주세요!
-        </span>
+        <p className="mt-2 text-xs text-red-600 font-medium">
+          성함은 추후 수정 불가능하니 신중하게 입력해주세요.
+        </p>
       </div>
-      <div className="relative flex flex-row w-full my-5">
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          생년월일 8자리를 입력해주세요.{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
           name="birthDate"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="생년월일 8자리를 입력해주세요."
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={birthDate}
           onChange={birthDateHandler}
         />
-        <span className="absolute left-0 text-xs text-red-500 top-6">
-          숫자만 입력 가능합니다
-        </span>
+        <p className="mt-2 text-xs text-red-600 font-medium">
+          숫자만 입력 가능합니다.
+        </p>
       </div>
       <div className="grid w-full grid-cols-2 sm:grid-cols-4 my-5 text-center">
         <div className="text-lg font-bold leading-7">국적</div>

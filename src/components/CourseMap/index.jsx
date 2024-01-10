@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import axios from "axios";
-import startMarker from "../../assets/images/start_marker.png";
-import endMarker from "../../assets/images/end_marker.png";
+import startMarker from "../../assets/svg/start_marker.svg";
+import endMarker from "../../assets/svg/end_marker.svg";
 
 function CourseMap({ markerData }) {
   const mapRef = useRef();

@@ -7,11 +7,11 @@ import HeadTitle from "../CourseSuggestPage/HeadTitle";
 import PartyImageBox from "../../components/PartyImageBox";
 import EditButton from "../../components/EditButton";
 import PartyPlan from "../../components/PartyPlan";
-import Period from "../PartyPage/Atoms/Period";
+import Period from "../PartyPage/PartyDate";
 import EditPeriod from "../../components/EditPeriod";
-import PartyNumber from "../PartyPage/Atoms/PartyNumber";
+import PartyNumber from "../PartyPage/PartyMember";
 import PersonLimit from "../../components/PersonLimit";
-import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
+import ToTalPrice from "../PartyPage/ToTalPrice";
 import Revenue from "./Revenue";
 import Platform from "./Platform";
 import CourseDnD from "../CourseSuggestPage/CourseDnD";
@@ -72,7 +72,7 @@ function EditCoursePage() {
       </div>
       <EditPeriod />
       <PersonLimit capacity={courseData.capacity} />
-      <ToTalCredit totalPrice={courseData.days[0].price} />
+      <ToTalPrice totalPrice={courseData.days[0].price} />
       <Platform />
       <CourseDnD
         name={partyData.course.name}

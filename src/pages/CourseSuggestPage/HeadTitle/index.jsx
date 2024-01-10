@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Vector from "../../../assets/images/Vector.png";
+import Vector from "../../../assets/svg/Vector.svg";
 
 function HeadTitle({ name, driverName, driverId, isDriver }) {
   const navigation = useNavigate();

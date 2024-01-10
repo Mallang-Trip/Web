@@ -7,9 +7,9 @@ import HeadTitle from "../../components/HeadTitle";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
 import FirstCredit from "../../components/FirstCredit";
-import Period from "../PartyPage/Atoms/Period";
+import Period from "../PartyPage/PartyDate";
 import SecondCredit from "../../components/SecondCredit";
-import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
+import ToTalPrice from "../PartyPage/ToTalPrice";
 import PartyNumberBox from "./PartyNumberBox";
 import TravelerBox from "./TravelerBox";
 import TravelerGreet from "./Atoms/TravelerGreet";
@@ -153,7 +153,7 @@ function CourseSuggestPage() {
         memberCount={memberCount}
         setMemberCount={setMemberCount}
       />
-      <ToTalCredit totalPrice={partyData.course?.totalPrice} />
+      <ToTalPrice totalPrice={partyData.course?.totalPrice} />
       <FirstCredit
         totalPrice={partyData.course?.totalPrice}
         capacity={partyData.capacity}

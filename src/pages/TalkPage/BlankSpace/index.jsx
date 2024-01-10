@@ -6,7 +6,7 @@ function BlankSpace() {
       <img
         src={mallangTripIcon}
         alt="말랑트립"
-        className="mx-auto"
+        className="mx-auto w-40"
         style={{ marginTop: `${window.screen.height / 2 - 346}px` }}
       />
     </div>

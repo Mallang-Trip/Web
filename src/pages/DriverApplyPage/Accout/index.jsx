@@ -31,51 +31,73 @@ function Accout({
   }, [bank, name, accoutNumber, hour, money]);
 
   return (
-    <div className="w-3/4 mx-auto">
-      <p className="mb-6 text-lg text-black">입금 받을 계좌 정보</p>
-      <div className="mx-auto">
+    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8">
+      <p className="text-xl text-black font-bold">입금 계좌 정보</p>
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          은행을 선택해주세요 <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
-          name="bank_name"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 caret-white cursor-pointer"
           placeholder="은행을 선택해주세요"
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
           value={bank}
           onChange={() => {}}
           onClick={() => setShowModal(true)}
           autoComplete="off"
         />
+      </div>
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          예금주 성함(본인)을 입력해주세요{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
-          name="accout_name"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="예금주 성함(본인)을 입력해주세요"
-          className="w-full my-12 border-b border-darkgray focus:outline-none focus:border-primary"
           value={name}
           onChange={(e) => setName(e.target.value)}
           autoComplete="off"
         />
+      </div>
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          계좌번호를 입력해주세요{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
         <input
           type="text"
-          name="accout_number"
-          placeholder="계좌번호를 숫자로만 입력해주세요"
-          className="w-full border-b border-darkgray focus:outline-none focus:border-primary"
+          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          placeholder="계좌번호를 입력해주세요"
           value={onlyNumber(accoutNumber)}
           onChange={(e) => setAccoutNumber(e.target.value)}
           autoComplete="off"
         />
+        <p className="mt-2 text-xs text-red-600 font-medium">
+          숫자만 입력 가능합니다.
+        </p>
       </div>
-
-      <p className="mt-16 mb-6 text-lg text-black">가격 설정</p>
-      {Array.from({ length: 5 }, (_, index) => index).map((i) => (
-        <HourPrice
-          key={i}
-          hour={hour}
-          setHour={setHour}
-          money={money}
-          setMoney={setMoney}
-          index={i}
-          isShow={i === 0}
-        />
-      ))}
+      <div>
+        <p className="mt-16 text-xl text-black font-bold">운행 가격 설정</p>
+        <div className="block mt-8 text-base font-medium text-black">
+          시간당 운행 가격을 설정해주세요. (최대 5개){" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
+      </div>
+      <div>
+        {Array.from({ length: 5 }, (_, index) => index).map((i) => (
+          <HourPrice
+            key={i}
+            hour={hour}
+            setHour={setHour}
+            money={money}
+            setMoney={setMoney}
+            index={i}
+            isShow={i === 0}
+          />
+        ))}
+      </div>
       <BankModal
         showModal={showModal}
         setShowModal={setShowModal}

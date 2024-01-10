@@ -6,25 +6,23 @@ import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
 import PartyIconBox from "../../components/PartyIconBox";
 import PartyImageBox from "../../components/PartyImageBox";
-import FirstCredit from "../../components/FirstCredit";
-import Period from "./Atoms/Period";
-import PartyNumber from "./Atoms/PartyNumber";
-import SecondCredit from "../../components/SecondCredit";
-import ToTalCredit from "./Atoms/ToTalCredit";
-import ReservBtn from "./ReservBtn";
-import CourseMap from "../../components/CourseMap";
 import Loading from "../../components/Loading";
+import PartyDate from "./PartyDate";
+import PartyMember from "./PartyMember";
+import ToTalPrice from "./ToTalPrice";
+import JoinButton from "./JoinButton";
+import CourseMap from "../../components/CourseMap";
+import CreditInfo from "./CreditInfo";
 
 function PartyPage() {
   const { partyId } = useParams();
   const [partyData, setPartyData] = useState({});
-  const [markerData, setMarkerData] = useState({});
 
   const getPartyData = async () => {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
-      setMarkerData(result.payload.course.days[0].destinations);
+      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -39,41 +37,43 @@ function PartyPage() {
   return (
     <PageContainer>
       <HeadTitle
-        name={partyData.course?.name}
+        name={partyData.course.name}
         driverName={partyData.driverName}
         driverId={partyData.driverId}
         isDriver={true}
       />
       <PartyImageBox
-        images={partyData.course?.images}
-        name={partyData.course?.name}
+        images={partyData.course.images}
+        name={partyData.course.name}
       />
       <PartyIconBox
-        images={partyData.course?.images}
-        name={partyData.course?.name}
+        images={partyData.course.images}
+        name={partyData.course.name}
         dibs={false}
         type={"party"}
         id={partyData.partyId}
       />
-      <Period startDate={partyData.startDate} endDate={partyData.endDate} />
-      <PartyNumber
+      <PartyDate startDate={partyData.startDate} />
+      <PartyMember
         headcount={partyData.headcount}
         capacity={partyData.capacity}
+        members={partyData.members}
+        driverId={partyData.driverId}
+        driverName={partyData.driverName}
+        myParty={partyData.myParty}
       />
-      <ToTalCredit totalPrice={partyData.course?.totalPrice} />
-      <FirstCredit
-        totalPrice={partyData.course?.totalPrice}
+      <ToTalPrice totalPrice={partyData.course?.totalPrice} />
+      <CreditInfo
+        totalPrice={partyData.course.totalPrice}
         capacity={partyData.capacity}
-        memberCount={1}
       />
-      <SecondCredit totalPrice={partyData.course?.totalPrice} />
       <PartyPlan
         edit={true}
         course={partyData.course}
         startDate={partyData.startDate}
       />
-      <CourseMap markerData={markerData} />
-      <ReservBtn partyId={partyData.partyId} />
+      <CourseMap markerData={partyData.course.days[0].destinations} />
+      <JoinButton partyId={partyData.partyId} />
     </PageContainer>
   );
 }

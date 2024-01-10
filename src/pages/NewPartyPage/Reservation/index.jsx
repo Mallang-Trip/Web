@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { postNewParty } from "../../../api/party";
 import PartyImageBox from "../../../components/PartyImageBox";
 import PartyNumberBox from "../../CourseSuggestPage/PartyNumberBox";
-import ToTalCredit from "../../PartyPage/Atoms/ToTalCredit";
+import ToTalPrice from "../../PartyPage/ToTalPrice";
 import FirstCredit from "../../../components/FirstCredit";
 import SecondCredit from "../../../components/SecondCredit";
 import TravelerBox from "../../CourseSuggestPage/TravelerBox";
@@ -83,7 +83,7 @@ function Reservation({ member, date, driverInfo, planData }) {
           setMemberCount={setMemberCount}
         />
       </div>
-      <ToTalCredit totalPrice={planData?.totalPrice} />
+      <ToTalPrice totalPrice={planData?.totalPrice} />
       <FirstCredit
         totalPrice={planData?.totalPrice}
         capacity={planData.capacity}

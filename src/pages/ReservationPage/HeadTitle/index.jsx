@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Vector from "../../../assets/images/Vector.png";
+import Vector from "../../../assets/svg/Vector.svg";
 import { dateToStringHan } from "../../../utils";
 
 function HeadTitle({ name, driverName, driverId, startDate, endDate }) {

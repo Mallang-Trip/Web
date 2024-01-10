@@ -1,4 +1,4 @@
-import Vector from "../../../assets/images/Vector.png";
+import Vector from "../../../assets/svg/Vector.svg";
 import { useNavigate } from "react-router-dom";
 
 function HeadTitle({ name, driverName, driverId }) {

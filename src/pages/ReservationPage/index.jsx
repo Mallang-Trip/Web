@@ -4,7 +4,7 @@ import { getPartyDetail, postPartyJoin } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
 import PartyImageBox from "../../components/PartyImageBox";
 import PartyNumberBox from "../CourseSuggestPage/PartyNumberBox";
-import ToTalCredit from "../PartyPage/Atoms/ToTalCredit";
+import ToTalPrice from "../PartyPage/ToTalPrice";
 import FirstCredit from "../../components/FirstCredit";
 import SecondCredit from "../../components/SecondCredit";
 import TravelerBox from "../CourseSuggestPage/TravelerBox";
@@ -103,7 +103,7 @@ function ReservationPage() {
           setMemberCount={setMemberCount}
         />
       </div>
-      <ToTalCredit totalPrice={partyData.course?.totalPrice} />
+      <ToTalPrice totalPrice={partyData.course?.totalPrice} />
       <FirstCredit
         totalPrice={partyData.course?.totalPrice}
         capacity={partyData.capacity}

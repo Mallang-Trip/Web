@@ -23,6 +23,7 @@ import JoinAgreement from "./JoinAgreement";
 import MallangReady from "./MallangReady";
 // import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
+import QuitButton from "./QuitButton";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -226,7 +227,11 @@ function PartyPage() {
           />
         </>
       )}
-      <JoinButton joinHandler={joinHandler} />
+      {partyData.myParty ? (
+        <QuitButton getPartyData={getPartyData} />
+      ) : (
+        <JoinButton joinHandler={joinHandler} />
+      )}
       {type === "join" && <BottomRefund />}
 
       <CheckModal

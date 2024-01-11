@@ -22,6 +22,9 @@ export const postPartyJoin = async (partyId, data) =>
 export const putMallangReady = async (partyId, ready) =>
   await PUT(`/party/ready/${partyId}?ready=${ready}`, {}, true);
 
+export const deleteQuitParty = async (partyId) =>
+  await DELETE(`/party/quit/${partyId}`, true);
+
 export const postNewParty = async (data) =>
   await POST("/party/start", data, true);
 

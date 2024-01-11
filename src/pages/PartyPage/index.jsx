@@ -115,7 +115,6 @@ function PartyPage() {
         capacity={partyData.capacity}
         members={partyData.members}
         driverId={partyData.driverId}
-        driverName={partyData.driverName}
         myParty={partyData.myParty}
       />
       <ToTalPrice totalPrice={partyData.course?.totalPrice} />

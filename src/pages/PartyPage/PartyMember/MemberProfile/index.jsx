@@ -1,8 +1,24 @@
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
-function MemberProfile({ profileImg, nickname, ageRange, gender, myParty }) {
+function MemberProfile({
+  userId,
+  profileImg,
+  nickname,
+  introduction,
+  ageRange,
+  gender,
+  myParty,
+  setShowProfileModal,
+  setUserId,
+}) {
   return (
-    <div className="shrink-0 w-40 flex flex-col items-center py-5 border-[1.5px] border-[#D9D9D9] rounded-2xl">
+    <button
+      className="shrink-0 w-40 flex flex-col items-center py-5 border-[1.5px] border-[#D9D9D9] rounded-2xl"
+      onClick={() => {
+        setUserId(userId);
+        setShowProfileModal(true);
+      }}
+    >
       <img
         src={profileImg || basicProfileImage}
         alt={nickname}
@@ -11,7 +27,7 @@ function MemberProfile({ profileImg, nickname, ageRange, gender, myParty }) {
       <p className="text-base text-black font-bold my-2.5">{nickname}</p>
       <div className="h-7 text-[10px] leading-[10px] text-darkgray font-medium flex flex-col gap-1.5 justify-center items-center">
         <p className="mx-2 overflow-hidden line-clamp-1 text-center">
-          안녕하세요 행복한 사람이에요!
+          {introduction || "자기소개 없음"}
         </p>
         {ageRange && (
           <p>{`${ageRange}대 | ${gender === "MALE" ? "남" : "여"}`}</p>
@@ -22,7 +38,7 @@ function MemberProfile({ profileImg, nickname, ageRange, gender, myParty }) {
           말랑레디 OFF
         </div>
       )}
-    </div>
+    </button>
   );
 }
 

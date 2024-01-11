@@ -13,7 +13,6 @@ import MyMenuPage from "../pages/MyMenuPage";
 import MyProfilePage from "../pages/MyProfilePage";
 import MyHeartPage from "../pages/MyHeartPage";
 import MyArticlePage from "../pages/MyArticlePage";
-import ReservationPage from "../pages/ReservationPage";
 import PartyApprovalPage from "../pages/PartyApprovalPage";
 import NewPartyPage from "../pages/NewPartyPage";
 import PartyHistoryPage from "../pages/PartyHistoryPage";
@@ -36,7 +35,6 @@ function Router() {
   const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
   const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
-  const AuthReservationPage = Auth(ReservationPage, true);
   const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
@@ -69,10 +67,6 @@ function Router() {
         <Route
           path="/party/course/suggest/:partyId"
           element={<AuthCourseSuggestPage />}
-        />
-        <Route
-          path="/party/reservation/:partyId"
-          element={<AuthReservationPage />}
         />
         <Route
           path="/party/approval/:type/:partyId"

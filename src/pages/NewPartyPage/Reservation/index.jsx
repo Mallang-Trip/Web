@@ -11,11 +11,11 @@ import TravelerGreet from "../../CourseSuggestPage/Atoms/TravelerGreet";
 import PartyPlan from "../../../components/PartyPlan";
 import Credit from "../../../components/Credit";
 import Agreement from "../../CourseSuggestPage/AddAgree";
-import ReservationButton from "../../ReservationPage/ReservationButton";
 import BottomRefund from "../../../components/BottomRefund";
 import CheckModal from "../../../components/CheckModal";
-import HeadTitle from "../../ReservationPage/HeadTitle";
 import Loading from "../../../components/Loading";
+import ReservationButton from "./ReservationButton";
+import HeadTitle from "./HeadTitle";
 
 function Reservation({ member, date, driverInfo, planData }) {
   const navigation = useNavigate();

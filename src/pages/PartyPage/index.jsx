@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getPartyDetail } from "../../api/party";
+import { getPartyDetail, postPartyJoin } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
 import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
@@ -20,23 +20,26 @@ import JoinMember from "./JoinMember";
 import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
-import ConfirmModal from "../../components/ConfirmModal";
+// import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 
 function PartyPage() {
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
   const { type, partyId } = useParams();
+  const companionsRef = useRef();
   const creditRef = useRef();
   const agreementRef = useRef();
   const [partyData, setPartyData] = useState({});
   const [memberCount, setMemberCount] = useState(1);
+  const [companions, setCompanions] = useState([]);
   const [content, setContent] = useState("");
   const [registerCredit, setRegisterCredit] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [shakeCompanions, setShakeCompanions] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const joinHandler = () => {
@@ -44,6 +47,34 @@ function PartyPage() {
 
     if (type === "detail") return navigation(`/party/join/${partyId}`);
 
+    // 동행자 정보 입력 체크
+    if (memberCount > 1) {
+      let checkValid = true;
+
+      companions.slice(0, memberCount - 1).forEach((item) => {
+        if (!item.name || !item.phoneNumber) {
+          checkValid = false;
+        }
+      });
+
+      if (!checkValid) {
+        if (companionsRef.current) {
+          const containerRect = companionsRef.current.getBoundingClientRect();
+          const scrollY =
+            containerRect.top +
+            window.scrollY -
+            window.innerHeight / 2 +
+            containerRect.height / 2;
+
+          window.scrollTo({ top: scrollY });
+        }
+
+        setShakeCompanions(true);
+        setTimeout(() => setShakeCompanions(false), 1000);
+        return;
+      }
+    }
+    // 결제 수단 등록 체크
     if (!registerCredit) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
@@ -60,6 +91,7 @@ function PartyPage() {
       setTimeout(() => setShakeCredit(false), 1000);
       return;
     }
+    // 약관 동의 체크
     if (agreeChecked.filter((i) => i === false).length > 0) {
       if (agreementRef.current) {
         const containerRect = agreementRef.current.getBoundingClientRect();
@@ -77,13 +109,33 @@ function PartyPage() {
       return;
     }
 
-    setShowModal(true);
+    setShowJoinModal(true);
+  };
+
+  const joinPartyHandler = async () => {
+    setShowJoinModal(false);
+
+    try {
+      const body = {
+        changeCourse: false,
+        content: content,
+        headcount: memberCount,
+        companions: companions.slice(0, memberCount - 1),
+      };
+
+      await postPartyJoin(partyId, body);
+      getPartyData();
+      navigation(-1, { replace: true });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const getPartyData = async () => {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
+      window.scrollTo({ top: 0 });
       console.log(result.payload);
     } catch (e) {
       console.log(e);
@@ -136,7 +188,13 @@ function PartyPage() {
             capacity={partyData.capacity}
             headcount={partyData.headcount}
           />
-          <JoinMemberInfo memberCount={memberCount} />
+          <JoinMemberInfo
+            companionsRef={companionsRef}
+            memberCount={memberCount}
+            companions={companions}
+            setCompanions={setCompanions}
+            shakeCompanions={shakeCompanions}
+          />
           <JoinGreeting content={content} setContent={setContent} />
         </>
       )}
@@ -163,12 +221,8 @@ function PartyPage() {
         </>
       )}
       <JoinButton joinHandler={joinHandler} />
-      <BottomRefund />
-      <ConfirmModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        message={"현재는 이용이 불가능합니다.\n베타 테스트를 기다려주세요 :)"}
-      />
+      {type === "join" && <BottomRefund />}
+
       <CheckModal
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
@@ -176,6 +230,14 @@ function PartyPage() {
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => navigation("/login")}
+      />
+      <CheckModal
+        showModal={showJoinModal}
+        setShowModal={setShowJoinModal}
+        message={`[${partyData.course.name}]\n\n위 파티에 가입하시겠습니까?`}
+        noText="취소"
+        yesText="확인"
+        yesHandler={() => joinPartyHandler()}
       />
     </PageContainer>
   );

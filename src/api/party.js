@@ -16,8 +16,8 @@ export const deleteUnLikeParty = async (partyId) =>
 
 export const getLikeParty = async () => await GET("/party/dibs", true);
 
-export const postPartyJoin = async (data) =>
-  await POST("/party/join", data, true);
+export const postPartyJoin = async (partyId, data) =>
+  await POST(`/party/join/${partyId}`, data, true);
 
 export const postNewParty = async (data) =>
   await POST("/party/start", data, true);

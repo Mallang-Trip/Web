@@ -1,9 +1,17 @@
-import { useState } from "react";
 import { makePhoneNumber } from "../../../../utils";
 
-function FriendInfo({ index }) {
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+function FriendInfo({ index, companions, setCompanions }) {
+  const nameHandler = (e) => {
+    const tempCompanions = [...companions];
+    tempCompanions[index].name = e.target.value;
+    setCompanions(tempCompanions);
+  };
+
+  const phoneNumberHandler = (e) => {
+    const tempCompanions = [...companions];
+    tempCompanions[index].phoneNumber = e.target.value;
+    setCompanions(tempCompanions);
+  };
 
   return (
     <div className="flex flex-col gap-2 text-sm text-darkgray font-medium">
@@ -13,8 +21,8 @@ function FriendInfo({ index }) {
         <input
           type="text"
           className={`w-32 focus:outline-none text-primary placeholder:text-primary`}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={companions[index].name}
+          onChange={nameHandler}
           placeholder="직접 입력해 주세요."
         />
       </div>
@@ -23,8 +31,8 @@ function FriendInfo({ index }) {
         <input
           type="text"
           className={`w-32 focus:outline-none text-primary placeholder:text-primary`}
-          value={makePhoneNumber(phoneNumber)}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          value={makePhoneNumber(companions[index].phoneNumber)}
+          onChange={phoneNumberHandler}
           placeholder="직접 입력해 주세요."
         />
       </div>

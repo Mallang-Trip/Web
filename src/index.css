@@ -53,6 +53,8 @@ body {
   font-family: "NotoSansKR500", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+  color: black;
 }
 
 .font-thin {

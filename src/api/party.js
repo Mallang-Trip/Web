@@ -1,4 +1,4 @@
-import { DELETE, GET, POST } from "../utils/axios";
+import { DELETE, GET, POST, PUT } from "../utils/axios";
 
 export const getPartyList = async (region, nowDate, num, price) =>
   await GET(
@@ -18,6 +18,9 @@ export const getLikeParty = async () => await GET("/party/dibs", true);
 
 export const postPartyJoin = async (partyId, data) =>
   await POST(`/party/join/${partyId}`, data, true);
+
+export const putMallangReady = async (partyId, ready) =>
+  await PUT(`/party/ready/${partyId}?ready=${ready}`, {}, true);
 
 export const postNewParty = async (data) =>
   await POST("/party/start", data, true);

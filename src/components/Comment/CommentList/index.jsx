@@ -1,4 +1,4 @@
-import Down from "../../../assets/svg/Polygon 3.svg";
+import Down from "../../../assets/svg/more-info-black.svg";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 

@@ -20,6 +20,7 @@ import JoinMember from "./JoinMember";
 import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
+import MallangReady from "./MallangReady";
 // import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 
@@ -124,23 +125,25 @@ function PartyPage() {
       };
 
       await postPartyJoin(partyId, body);
-      getPartyData();
       navigation(-1, { replace: true });
+      getPartyData(true);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const getPartyData = async () => {
+  const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
-      window.scrollTo({ top: 0 });
+
+      if (toScrollTop) window.scrollTo({ top: 0 });
       console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
   };
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
 
@@ -175,6 +178,9 @@ function PartyPage() {
         driverId={partyData.driverId}
         myParty={partyData.myParty}
       />
+      {partyData.myParty && (
+        <MallangReady partyData={partyData} getPartyData={getPartyData} />
+      )}
       <ToTalPrice totalPrice={partyData.course?.totalPrice} />
       <CreditInfo
         totalPrice={partyData.course.totalPrice}

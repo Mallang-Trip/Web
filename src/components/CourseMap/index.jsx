@@ -144,7 +144,7 @@ function CourseMap({ markerData }) {
 
   useEffect(() => {
     initTmap();
-  }, [markerData]);
+  }, []);
 
   return <div ref={mapRef} id="TMapApp" className="w-full mx-auto" />;
 }

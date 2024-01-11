@@ -1,3 +1,4 @@
+import Status from "./Status";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function MemberProfile({
@@ -9,6 +10,7 @@ function MemberProfile({
   gender,
   companions = [],
   myParty,
+  ready,
   setShowProfileModal,
   setUserId,
 }) {
@@ -41,11 +43,7 @@ function MemberProfile({
           <p>{`${ageRange}대 | ${gender === "MALE" ? "남" : "여"}`}</p>
         )}
       </div>
-      {myParty && (
-        <div className="mt-3 py-1.5 px-4 rounded-full text-xs font-medium text-[#B4B4B4] bg-[#F4F4F4]">
-          말랑레디 OFF
-        </div>
-      )}
+      {myParty && <Status ready={ready} />}
     </button>
   );
 }

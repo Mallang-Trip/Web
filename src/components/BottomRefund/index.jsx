@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FeeTable from "./FeeTable";
-import info from "../../assets/svg/Polygon 3.svg";
+import info from "../../assets/svg/more-info-black.svg";
 import refundDiagram from "../../assets/svg/refund-diagram.svg";
 
 function BottomRefund() {

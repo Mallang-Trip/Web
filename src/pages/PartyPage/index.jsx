@@ -111,7 +111,7 @@ function PartyPage() {
       <PartyIconBox
         images={partyData.course.images}
         name={partyData.course.name}
-        dibs={false}
+        dibs={partyData.dibs}
         type={"party"}
         id={partyData.partyId}
       />

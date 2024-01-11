@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { deleteUnLikeParty, postLikeParty } from "../../api/party";
 import {
   deleteUnLikeDestination,
   postLikeDestination,
@@ -22,17 +23,19 @@ function PartyIconBox({ id, type, images, name, dibs }) {
   const heartClickHandler = async () => {
     if (!user.auth) return setShowLoginModal(true);
 
-    if (type === "destination") {
-      try {
-        heart
-          ? await deleteUnLikeDestination(id)
-          : await postLikeDestination(id);
-        setHeart(!heart);
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
+    const isParty = type === "party";
+
+    try {
+      heart
+        ? isParty
+          ? await deleteUnLikeParty(id)
+          : await deleteUnLikeDestination(id)
+        : isParty
+        ? await postLikeParty(id)
+        : await postLikeDestination(id);
       setHeart(!heart);
+    } catch (e) {
+      console.log(e);
     }
   };
 

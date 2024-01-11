@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getLikeParty } from "../../api/party";
 import { getLikeDestination } from "../../api/destination";
 import PageContainer from "../../components/PageContainer";
 import HeartItem from "./HeartItem";
@@ -9,9 +10,9 @@ function MyHeartPage() {
 
   const getMyHeartData = async () => {
     try {
-      const result = await getLikeDestination();
-      setMyHeartData(result.payload);
-      console.log(result);
+      const party = await getLikeParty();
+      const destination = await getLikeDestination();
+      setMyHeartData([...party.payload, ...destination.payload]);
     } catch (e) {
       console.log(e);
     }
@@ -29,7 +30,7 @@ function MyHeartPage() {
       ) : (
         <div className="grid grid-cols-1 gap-10 mt-9 mx-auto md:grid-cols-3 lg:grid-cols-4">
           {myHeartData.map((item, index) => (
-            <HeartItem key={index} destination={item} />
+            <HeartItem key={index} {...item} />
           ))}
         </div>
       )}

@@ -22,7 +22,7 @@ function LoginForm() {
     };
 
     dispatch(__asyncLogin(body)).then((response) => {
-      if (response.payload) navigation("/", { replace: true });
+      if (response.payload) navigation(-1, { replace: true });
       else setShowErrorModal(true);
     });
   };

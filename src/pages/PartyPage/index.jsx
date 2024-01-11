@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
 import HeadTitle from "../../components/HeadTitle";
@@ -20,9 +21,11 @@ import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
 import ConfirmModal from "../../components/ConfirmModal";
+import CheckModal from "../../components/CheckModal";
 
 function PartyPage() {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
   const { type, partyId } = useParams();
   const creditRef = useRef();
   const agreementRef = useRef();
@@ -34,8 +37,11 @@ function PartyPage() {
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const joinHandler = () => {
+    if (!user.auth) return setShowLoginModal(true);
+
     if (type === "detail") return navigation(`/party/join/${partyId}`);
 
     if (!registerCredit) {
@@ -162,6 +168,14 @@ function PartyPage() {
         showModal={showModal}
         setShowModal={setShowModal}
         message={"현재는 이용이 불가능합니다.\n베타 테스트를 기다려주세요 :)"}
+      />
+      <CheckModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+        message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => navigation("/login")}
       />
     </PageContainer>
   );

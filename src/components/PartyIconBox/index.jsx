@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   deleteUnLikeDestination,
   postLikeDestination,
@@ -8,12 +10,18 @@ import EmptyHeart from "../../assets/svg/EmptyHeart.svg";
 import ChatBox from "../../assets/svg/EmptyChatIcon.svg";
 import shareIcon from "../../assets/svg/share.svg";
 import ShareModal from "./ShareModal";
+import CheckModal from "../CheckModal";
 
 function PartyIconBox({ id, type, images, name, dibs }) {
-  const [showShareModal, setShowShareModal] = useState(false);
+  const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
   const [heart, setHeart] = useState(dibs);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const heartClickHandler = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+
     if (type === "destination") {
       try {
         heart
@@ -48,6 +56,14 @@ function PartyIconBox({ id, type, images, name, dibs }) {
         setShowModal={setShowShareModal}
         partyImages={images}
         partyName={name}
+      />
+      <CheckModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+        message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => navigation("/login")}
       />
     </>
   );

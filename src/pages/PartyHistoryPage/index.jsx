@@ -11,7 +11,7 @@ function PartyHistoryPage() {
     try {
       const result = await getPartyHistory();
       setMyHistoryData(result.payload);
-      console.log(result);
+      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -29,7 +29,7 @@ function PartyHistoryPage() {
       ) : (
         <div className="grid grid-cols-1 gap-10 mt-9 mx-auto md:grid-cols-3 lg:grid-cols-4">
           {myHistoryData.map((item) => (
-            <PartyItem key={item.partyId} party={item} />
+            <PartyItem key={item.partyId} {...item} />
           ))}
         </div>
       )}

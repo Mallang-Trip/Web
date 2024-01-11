@@ -45,13 +45,9 @@ function JoinAgreement({ checked, setChecked, shakeAgree, agreementRef }) {
 
   return (
     <div ref={agreementRef} className={`${shakeAgree && "animate-shake"}`}>
-      <div className="w-full sm:w-3/5 lg:w-2/5 mx-auto text-2xl text-black font-bold flex justify-between">
-        <div className="w-full">필수 약관</div>
-        <div
-          className={`${
-            showText ? "text-red-600" : "text-white"
-          } w-full text-sm mt-1`}
-        >
+      <div className="w-full sm:w-3/5 lg:w-2/5 font-bold flex gap-10 items-center">
+        <div className="text-2xl text-black">필수 약관</div>
+        <div className={`${showText ? "text-red-600" : "text-white"} text-sm`}>
           필수 약관에 동의해 주세요!
         </div>
       </div>

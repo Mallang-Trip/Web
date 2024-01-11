@@ -39,8 +39,8 @@ function JoinMemberInfo({
       }`}
       ref={companionsRef}
     >
-      <div className="w-full flex gap-5 items-center">
-        <p className="text-lg text-black font-bold">여행자 정보</p>
+      <div className="w-full flex gap-5 items-center font-bold">
+        <p className="text-lg text-black">여행자 정보</p>
         <div className={`${showText ? "text-red-600" : "text-white"} text-sm`}>
           동행자 정보를 모두 입력해주세요.
         </div>

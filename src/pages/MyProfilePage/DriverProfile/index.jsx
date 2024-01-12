@@ -9,8 +9,9 @@ import Vehicle from "./Vehicle";
 import Price from "./Price";
 import PartyCourse from "./PartyCourse";
 import Loading from "../../../components/Loading";
+import ConfirmModal from "../../../components/ConfirmModal";
 
-function DriverProfile({ driverInfo, setDriverInfo }) {
+function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   const profileImageRef = useRef();
   const vehicleImageRef = useRef();
   const [modifyMode, setModifyMode] = useState(false);
@@ -18,6 +19,7 @@ function DriverProfile({ driverInfo, setDriverInfo }) {
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
   const [newVehicleImage, setNewVehicleImage] = useState(undefined);
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
@@ -58,8 +60,10 @@ function DriverProfile({ driverInfo, setDriverInfo }) {
 
     try {
       await putDriverMyInfo(body);
-      alert("프로필 정보가 성공적으로 수정되었습니다.");
-      window.location.reload();
+
+      setShowCompleteModal(true);
+      setModifyMode(false);
+      getMyDriverInfo();
     } catch (e) {
       console.log(e);
     }
@@ -114,6 +118,12 @@ function DriverProfile({ driverInfo, setDriverInfo }) {
         setDriverInfo={setDriverInfo}
       />
       <PartyCourse driverInfo={driverInfo} />
+
+      <ConfirmModal
+        showModal={showCompleteModal}
+        setShowModal={setShowCompleteModal}
+        message="프로필 정보 수정이 완료되었습니다."
+      />
     </>
   );
 }

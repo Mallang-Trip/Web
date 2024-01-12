@@ -48,7 +48,11 @@ function MyProfilePage() {
       {category === "여행자 프로필" ? (
         <UserProfile />
       ) : (
-        <DriverProfile driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
+        <DriverProfile
+          driverInfo={driverInfo}
+          setDriverInfo={setDriverInfo}
+          getMyDriverInfo={getMyDriverInfo}
+        />
       )}
     </PageContainer>
   );

@@ -24,6 +24,7 @@ import MallangReady from "./MallangReady";
 import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 import QuitButton from "./QuitButton";
+import JoinModal from "./JoinModal";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -140,25 +141,6 @@ function PartyPage() {
     setShowJoinModal(true);
   };
 
-  const joinPartyHandler = async () => {
-    setShowJoinModal(false);
-
-    try {
-      const body = {
-        changeCourse: false,
-        content: content,
-        headcount: memberCount,
-        companions: companions.slice(0, memberCount - 1),
-      };
-
-      await postPartyJoin(partyId, body);
-      navigation(-1, { replace: true });
-      getPartyData(true);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
@@ -268,13 +250,17 @@ function PartyPage() {
         yesText="확인"
         yesHandler={() => navigation("/login")}
       />
-      <CheckModal
+      <JoinModal
         showModal={showJoinModal}
         setShowModal={setShowJoinModal}
-        message={`[${partyData.course.name}]\n\n위 파티에 가입하시겠습니까?`}
-        noText="취소"
-        yesText="확인"
-        yesHandler={() => joinPartyHandler()}
+        content={content}
+        memberCount={memberCount}
+        companions={companions}
+        getPartyData={getPartyData}
+        capacity={partyData.capacity}
+        headcount={partyData.headcount}
+        totalPrice={partyData.course.totalPrice}
+        partyName={partyData.course.name}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

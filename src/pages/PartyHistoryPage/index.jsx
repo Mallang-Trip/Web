@@ -11,7 +11,6 @@ function PartyHistoryPage() {
     try {
       const result = await getPartyHistory();
       setMyHistoryData(result.payload);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }

@@ -21,7 +21,7 @@ import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
 import MallangReady from "./MallangReady";
-// import ConfirmModal from "../../components/ConfirmModal";
+import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 import QuitButton from "./QuitButton";
 
@@ -43,11 +43,37 @@ function PartyPage() {
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
+  const [joinErrorMessage, setJoinErrorMessage] = useState("");
 
   const joinHandler = () => {
     if (!user.auth) return setShowLoginModal(true);
 
-    if (type === "detail") return navigation(`/party/join/${partyId}`);
+    if (type === "detail") {
+      if (partyData.capacity === partyData.headcount) {
+        setJoinErrorMessage("인원이 모두 차서 가입이 불가능합니다.");
+        setShowJoinErrorModal(true);
+        return;
+      }
+      if (
+        partyData.partyStatus === "CANCELED_BY_EXPIRATION" ||
+        partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
+        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT"
+      ) {
+        setJoinErrorMessage("이미 기한이 만료 또는 취소된 파티입니다.");
+        setShowJoinErrorModal(true);
+        return;
+      }
+      if (partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") {
+        setJoinErrorMessage(
+          "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
+        );
+        setShowJoinErrorModal(true);
+        return;
+      }
+
+      return navigation(`/party/join/${partyId}`);
+    }
 
     // 동행자 정보 입력 체크
     if (memberCount > 1) {
@@ -238,8 +264,8 @@ function PartyPage() {
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
       <CheckModal
@@ -249,6 +275,11 @@ function PartyPage() {
         noText="취소"
         yesText="확인"
         yesHandler={() => joinPartyHandler()}
+      />
+      <ConfirmModal
+        showModal={showJoinErrorModal}
+        setShowModal={setShowJoinErrorModal}
+        message={joinErrorMessage}
       />
     </PageContainer>
   );

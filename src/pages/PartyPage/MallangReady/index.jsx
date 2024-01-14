@@ -19,7 +19,7 @@ function MallangReady({ partyData, getPartyData }) {
 
   useEffect(() => {
     setReady(
-      partyData.members.filter((item) => item.userId === user.userId)[0].ready
+      partyData.members.filter((item) => item.userId === user.userId)[0]?.ready
     );
   }, []);
 
@@ -28,7 +28,7 @@ function MallangReady({ partyData, getPartyData }) {
       <p className="text-lg text-black font-bold">말랑레디</p>
       <div className="my-2.5 flex justify-center sm:justify-start sm:ml-48 items-center">
         <button
-          className={`w-44 py-3 text-lg font-bold border rounded-full hover:bg-primary hover:border-primary hover:text-white ${
+          className={`w-44 py-3 text-lg font-bold border rounded-full ${
             ready
               ? "bg-primary text-white border-primary"
               : "bg-white text-darkgray border-darkgray"

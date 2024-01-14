@@ -4,7 +4,7 @@ import InviteModal from "./InviteModal";
 
 function MenuMembers({
   members,
-  isGroup,
+  type,
   chatRoomId,
   getChatRoomDataFunc,
   setShowProfileModal,
@@ -16,9 +16,9 @@ function MenuMembers({
   return (
     <>
       <div className="h-full px-4 pb-16 overflow-y-auto noScrollBar">
-        <div className="mb-3 flex justify-between items-center">
+        <div className="h-[30px] mb-3 flex justify-between items-center">
           <p className="text-lg text-black font-bold">대화 상대</p>
-          {isGroup && (
+          {(type === "GROUP" || type === "PARTY_PUBLIC") && (
             <button
               className="bg-skyblue text-primary py-1.5 px-3 text-xs rounded-lg border border-primary focus:outline-none"
               onClick={() => setShowInviteModal(true)}

@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setPartyRoomId } from "../../redux/modules/talkRoomSlice";
+import { getPartyChatId } from "../../api/chat";
 import { deleteUnLikeParty, postLikeParty } from "../../api/party";
 import {
   deleteUnLikeDestination,
@@ -15,6 +17,7 @@ import CheckModal from "../CheckModal";
 
 function PartyIconBox({ id, type, images, name, dibs }) {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [heart, setHeart] = useState(dibs);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -39,10 +42,22 @@ function PartyIconBox({ id, type, images, name, dibs }) {
     }
   };
 
+  const goPartyChat = async () => {
+    try {
+      const result = await getPartyChatId(id);
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div className="flex gap-2 justify-end mr-1.5 mt-2 mb-4">
-        <img className="cursor-pointer" src={ChatBox} />
+        {type === "party" && (
+          <img className="cursor-pointer" src={ChatBox} onClick={goPartyChat} />
+        )}
         <img
           className="cursor-pointer"
           src={heart ? FillHeart : EmptyHeart}

@@ -34,7 +34,7 @@ function MenuHead({
             <span
               className={`text-xl text-black font-bold ${
                 partyId &&
-                "hover:underline hover:underline-offset-4 cursor-pointer text-primary"
+                "hover:underline hover:underline-offset-2 cursor-pointer text-primary"
               }`}
               onClick={() => partyId && navigation(`/party/detail/${partyId}`)}
             >

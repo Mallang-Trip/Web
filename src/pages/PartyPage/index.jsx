@@ -52,7 +52,9 @@ function PartyPage() {
 
     if (type === "detail") {
       if (partyData.capacity === partyData.headcount) {
-        setJoinErrorMessage("인원이 모두 차서 가입이 불가능합니다.");
+        setJoinErrorMessage(
+          "이미 인원이 모두 찬 파티이므로\n가입 또는 코스 수정 제안이 불가능합니다."
+        );
         setShowJoinErrorModal(true);
         return;
       }

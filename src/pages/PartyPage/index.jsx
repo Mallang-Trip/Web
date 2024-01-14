@@ -188,9 +188,14 @@ function PartyPage() {
         members={partyData.members}
         driverId={partyData.driverId}
         myParty={partyData.myParty}
+        driverReady={partyData.driverReady}
       />
       {partyData.myParty && (
-        <MallangReady partyData={partyData} getPartyData={getPartyData} />
+        <MallangReady
+          members={partyData.members}
+          driverReady={partyData.driverReady}
+          getPartyData={getPartyData}
+        />
       )}
       <ToTalPrice totalPrice={partyData.course?.totalPrice} />
       <CreditInfo

@@ -3,7 +3,14 @@ import { getUserInfo } from "../../../api/users";
 import ProfileModal from "../../../components/ProfileModal";
 import MemberProfile from "./MemberProfile";
 
-function PartyMember({ headcount, capacity, members, driverId, myParty }) {
+function PartyMember({
+  headcount,
+  capacity,
+  members,
+  driverId,
+  myParty,
+  driverReady,
+}) {
   const [driverInfo, setDriverInfo] = useState({});
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -33,6 +40,7 @@ function PartyMember({ headcount, capacity, members, driverId, myParty }) {
             myParty={myParty}
             setShowProfileModal={setShowProfileModal}
             setUserId={setUserId}
+            ready={driverReady}
             {...driverInfo}
           />
           {members.map((item) => (

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import WhatReady from "./WhatReady";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { putMallangReady } from "../../../api/party";
+import WhatReady from "./WhatReady";
 
-function MallangReady({ partyData, getPartyData }) {
+function MallangReady({ members, driverReady, getPartyData }) {
   const user = useSelector((state) => state.user);
+  const { partyId } = useParams();
   const [ready, setReady] = useState(false);
 
   const readyClickHandler = async () => {
     try {
-      await putMallangReady(partyData.partyId, !ready);
+      await putMallangReady(partyId, !ready);
       setReady(!ready);
       getPartyData();
     } catch (e) {
@@ -18,9 +20,9 @@ function MallangReady({ partyData, getPartyData }) {
   };
 
   useEffect(() => {
-    setReady(
-      partyData.members.filter((item) => item.userId === user.userId)[0]?.ready
-    );
+    if (user.role === "ROLE_DRIVER") setReady(driverReady);
+    else
+      setReady(members.filter((item) => item.userId === user.userId)[0]?.ready);
   }, []);
 
   return (

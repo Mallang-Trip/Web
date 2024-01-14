@@ -8,18 +8,18 @@ function BottomRefund() {
 
   return (
     <div className="w-full sm:w-3/5 mx-auto mt-14">
-      <div
-        className="flex gap-2 items-center mb-5 cursor-pointer"
+      <button
+        className="flex gap-2 items-center mb-5"
         onClick={() => setShowRefund(!showRefund)}
       >
-        <div className="text-lg text-black font-bold">환불 정책</div>
+        <span className="text-lg text-black font-bold">환불 정책</span>
         <img
           src={info}
           className={`transition-transform duration-500 ${
             showRefund ? "rotate-180" : "rotate-0"
           }`}
         />
-      </div>
+      </button>
       <div
         className={`flex flex-col gap-7 text-sm text-darkgray font-medium overflow-hidden transition-all duration-500 ${
           showRefund ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"

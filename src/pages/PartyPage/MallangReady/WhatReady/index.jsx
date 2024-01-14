@@ -6,18 +6,18 @@ function WhatReady() {
 
   return (
     <div>
-      <div
-        className="flex gap-1.5 items-center mb-1.5 cursor-pointer"
+      <button
+        className="flex gap-1.5 items-center mb-1.5"
         onClick={() => setShowWhat(!showWhat)}
       >
-        <div className="text-base text-darkgray font-bold">말랑레디란?</div>
+        <span className="text-base text-darkgray font-bold">말랑레디란?</span>
         <img
           src={info}
           className={`transition-transform duration-500 ${
             showWhat ? "rotate-180" : "rotate-0"
           }`}
         />
-      </div>
+      </button>
       <div
         className={`text-sm text-darkgray font-medium overflow-hidden transition-all duration-500 ${
           showWhat ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"

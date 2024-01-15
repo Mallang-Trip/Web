@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { makePhoneNumber } from "../../../../utils";
+import { makePhoneNumber } from "../../../../../utils";
 
 function TravelerInfo() {
   const user = useSelector((state) => state.user);

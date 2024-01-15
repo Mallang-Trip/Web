@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
+import { ReactComponent as Check } from "../../../../assets/svg/agree-check.svg";
 import ItemAgree from "./ItemAgree";
 
 const agreementData = [

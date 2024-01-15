@@ -1,4 +1,4 @@
-import { ReactComponent as Check } from "../../../../assets/svg/agree-check.svg";
+import { ReactComponent as Check } from "../../../../../assets/svg/agree-check.svg";
 
 function ItemAgree({ index, checked, checkedHandler, title }) {
   return (

@@ -1,4 +1,4 @@
-import NumberText from "../Atoms/NumberText";
+import NumberText from "./NumberText";
 import ProfileButton from "./ProfileButton";
 
 function PartyNumberBox({ memberCount, setMemberCount }) {

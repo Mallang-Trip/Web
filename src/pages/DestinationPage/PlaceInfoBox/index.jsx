@@ -1,4 +1,4 @@
-import PlaceInfoTitle from "../Atoms/PlaceInfoTitle";
+import PlaceInfoTitle from "./PlaceInfoTitle";
 import PartyImageBox from "../../../components/PartyImageBox";
 import PartyIconBox from "../../../components/PartyIconBox";
 

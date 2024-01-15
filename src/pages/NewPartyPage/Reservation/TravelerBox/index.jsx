@@ -1,6 +1,6 @@
-import TravelerInfo from "../Atoms/TravelerInfo";
-import TravelerTitle from "../Atoms/TravelerTitle";
-import TravelerInput from "../Atoms/TravelerInput";
+import TravelerInfo from "./TravelerInfo";
+import TravelerTitle from "./TravelerTitle";
+import TravelerInput from "./TravelerInput";
 
 function TravelerBox({ memberCount }) {
   return (

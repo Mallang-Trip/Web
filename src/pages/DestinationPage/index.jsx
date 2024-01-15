@@ -4,8 +4,8 @@ import { getDestinationDetail } from "../../api/destination";
 import PageContainer from "../../components/PageContainer";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
-import PlaceInfoBox from "../CourseSuggestPage/PlaceInfoBox";
-import Detailed from "../CourseSuggestPage/Atoms/Detailed";
+import PlaceInfoBox from "./PlaceInfoBox";
+import Detailed from "./Detailed";
 import Loading from "../../components/Loading";
 
 function DestinationPage() {

@@ -8,7 +8,6 @@ import LoginPage from "../pages/LoginPage";
 import LoginSearchPage from "../pages/LoginSearchPage";
 import PartyPage from "../pages/PartyPage";
 import SignupPage from "../pages/SignupPage";
-import CourseSuggestPage from "../pages/CourseSuggestPage";
 import MyMenuPage from "../pages/MyMenuPage";
 import MyProfilePage from "../pages/MyProfilePage";
 import MyHeartPage from "../pages/MyHeartPage";
@@ -20,7 +19,6 @@ import DriverProfilePage from "../pages/DriverProfilePage";
 import SearchPlacePage from "../pages/SearchPlacePage";
 import DestinationPage from "../pages/DestinationPage";
 import DriverApplyPage from "../pages/DriverApplyPage";
-import EditCoursePage from "../pages/EditCoursePage";
 import CommunityPage from "../pages/CommunityPage";
 import CommunityPostPage from "../pages/CommunityPostPage";
 import CommunitySearchPage from "../pages/CommunitySearchPage";
@@ -34,7 +32,6 @@ function Router() {
   const AuthIntroPage = Auth(IntroPage, null);
   const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
-  const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
   const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
@@ -65,10 +62,6 @@ function Router() {
         <Route path="/policy/:category/:type" element={<AuthPolicyPage />} />
         <Route path="/party/:type/:partyId" element={<AuthPartyPage />} />
         <Route
-          path="/party/course/suggest/:partyId"
-          element={<AuthCourseSuggestPage />}
-        />
-        <Route
           path="/party/approval/:type/:partyId"
           element={<AuthPartyApprovalPage />}
         />
@@ -91,7 +84,6 @@ function Router() {
           path="/destination/detail/:destinationId"
           element={<AuthDestinationPage />}
         />
-        <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
         <Route path="/community/:articleId" element={<AuthCommunityPage />} />
         <Route
           path="/community/post/:articleId"

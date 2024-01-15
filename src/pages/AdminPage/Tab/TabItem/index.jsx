@@ -5,8 +5,8 @@ function TabItem({ items, onClickCategoryHandler, category }) {
   console.log(category);
   return (
     <button
-      className={`text-lg py-3 px-1 focus:outline-none whitespace-nowrap${
-        category === items ? "text-primary" : "text-black hovertext-primary"
+      className={`text-xl py-3 px-4 focus:outline-none whitespace-nowrap ${
+        category === items ? "text-primary" : "text-black hover:text-primary"
       }`}
       onClick={(e) => onClickCategoryHandler(e)}
     >

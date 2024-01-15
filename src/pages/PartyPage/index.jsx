@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getPartyDetail, postPartyJoin } from "../../api/party";
+import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
 import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
@@ -25,6 +25,8 @@ import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 import QuitButton from "./QuitButton";
 import JoinModal from "./JoinModal";
+import CourseDnD from "./CourseDnD";
+import PlaceMap from "../../components/PlaceMap";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -46,34 +48,56 @@ function PartyPage() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
+  const [courseData, setCourseData] = useState([]);
+
+  const checkJoinEdit = () => {
+    if (partyData.capacity === partyData.headcount) {
+      setJoinErrorMessage(
+        "이미 인원이 모두 찬 파티이므로\n가입 또는 코스 수정 제안이 불가능합니다."
+      );
+      setShowJoinErrorModal(true);
+      return false;
+    }
+    if (
+      partyData.partyStatus === "CANCELED_BY_EXPIRATION" ||
+      partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
+      partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT"
+    ) {
+      setJoinErrorMessage("이미 기한이 만료 또는 취소된 파티입니다.");
+      setShowJoinErrorModal(true);
+      return false;
+    }
+    if (partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") {
+      setJoinErrorMessage(
+        "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
+      );
+      setShowJoinErrorModal(true);
+      return false;
+    }
+    return true;
+  };
+
+  const editHandler = () => {
+    if (!user.auth) return setShowLoginModal(true);
+
+    if (type === "detail") {
+      if (partyData.myParty) {
+        setJoinErrorMessage("파티원은 코스 수정 제안이 불가능합니다.");
+        setShowJoinErrorModal(true);
+        return false;
+      }
+
+      if (!checkJoinEdit()) return;
+
+      return navigation(`/party/edit/${partyId}`);
+    }
+  };
 
   const joinHandler = () => {
     if (!user.auth) return setShowLoginModal(true);
 
     if (type === "detail") {
-      if (partyData.capacity === partyData.headcount) {
-        setJoinErrorMessage(
-          "이미 인원이 모두 찬 파티이므로\n가입 또는 코스 수정 제안이 불가능합니다."
-        );
-        setShowJoinErrorModal(true);
-        return;
-      }
-      if (
-        partyData.partyStatus === "CANCELED_BY_EXPIRATION" ||
-        partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
-        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT"
-      ) {
-        setJoinErrorMessage("이미 기한이 만료 또는 취소된 파티입니다.");
-        setShowJoinErrorModal(true);
-        return;
-      }
-      if (partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") {
-        setJoinErrorMessage(
-          "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
-        );
-        setShowJoinErrorModal(true);
-        return;
-      }
+      if (!checkJoinEdit()) return;
 
       return navigation(`/party/join/${partyId}`);
     }
@@ -202,7 +226,7 @@ function PartyPage() {
         totalPrice={partyData.course.totalPrice}
         capacity={partyData.capacity}
       />
-      {type === "join" && (
+      {(type === "join" || type === "edit") && (
         <>
           <JoinMember
             memberCount={memberCount}
@@ -220,13 +244,36 @@ function PartyPage() {
           <JoinGreeting content={content} setContent={setContent} />
         </>
       )}
-      <PartyPlan
-        edit={true}
-        course={partyData.course}
-        startDate={partyData.startDate}
-      />
-      <CourseMap markerData={partyData.course.days[0].destinations} />
-      {type === "join" && (
+      {type === "edit" ? (
+        <>
+          <CourseDnD
+            name={partyData.course.name}
+            course={partyData.course}
+            startDate={partyData.startDate}
+            hours={partyData.course.days[0].hours}
+            courseData={courseData}
+            setCourseData={setCourseData}
+          />
+          <PlaceMap
+            search={true}
+            newPlace={true}
+            detail={false}
+            courseData={courseData}
+            setCourseData={setCourseData}
+          />
+        </>
+      ) : (
+        <>
+          <PartyPlan
+            edit={true}
+            course={partyData.course}
+            startDate={partyData.startDate}
+            editHandler={editHandler}
+          />
+          <CourseMap markerData={partyData.course.days[0].destinations} />
+        </>
+      )}
+      {(type === "join" || type === "edit") && (
         <>
           <Credit
             shakeCredit={shakeCredit}
@@ -247,7 +294,7 @@ function PartyPage() {
       ) : (
         <JoinButton joinHandler={joinHandler} />
       )}
-      {type === "join" && <BottomRefund />}
+      {(type === "join" || type === "edit") && <BottomRefund />}
 
       <CheckModal
         showModal={showLoginModal}

@@ -11,6 +11,7 @@ function MemberProfile({
   companions = [],
   myParty,
   ready,
+  agreement,
   setShowProfileModal,
   setUserId,
 }) {
@@ -43,7 +44,7 @@ function MemberProfile({
           <p>{`${ageRange}대 | ${gender === "MALE" ? "남" : "여"}`}</p>
         )}
       </div>
-      {myParty && <Status ready={ready} />}
+      {myParty && <Status ready={ready} agreement={agreement} />}
     </button>
   );
 }

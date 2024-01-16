@@ -10,6 +10,8 @@ function PartyMember({
   driverId,
   myParty,
   driverReady,
+  partyStatus,
+  proposal,
 }) {
   const [driverInfo, setDriverInfo] = useState({});
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -41,14 +43,36 @@ function PartyMember({
             setShowProfileModal={setShowProfileModal}
             setUserId={setUserId}
             ready={driverReady}
+            agreement={proposal?.driverAgreement}
             {...driverInfo}
           />
+          {partyStatus === "WAITING_JOIN_APPROVAL" && (
+            <MemberProfile
+              myParty={true}
+              setShowProfileModal={setShowProfileModal}
+              setUserId={setUserId}
+              ready={false}
+              agreement={"PROPOSER"}
+              userId={proposal?.proposerId}
+              profileImg={proposal?.proposerProfileImg}
+              nickname={proposal?.proposerNickname}
+              introduction={"제안자 입니다."}
+              ageRange={proposal?.proposerAgeRange}
+              gender={proposal?.proposerGender}
+              companions={proposal?.proposerCompanions}
+            />
+          )}
           {members.map((item) => (
             <MemberProfile
               key={item.userId}
               myParty={myParty}
               setShowProfileModal={setShowProfileModal}
               setUserId={setUserId}
+              agreement={
+                proposal?.memberAgreement?.filter(
+                  (member) => member.userId === item.userId
+                )[0].status
+              }
               {...item}
             />
           ))}

@@ -219,6 +219,8 @@ function PartyPage() {
         driverId={partyData.driverId}
         myParty={partyData.myParty}
         driverReady={partyData.driverReady}
+        partyStatus={partyData.partyStatus}
+        proposal={partyData.proposal}
       />
       {partyData.myParty && partyData.partyStatus === "RECRUITING" && (
         <MallangReady

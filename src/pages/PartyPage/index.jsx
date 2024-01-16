@@ -28,6 +28,7 @@ import JoinModal from "./JoinModal";
 import EditModal from "./EditModal";
 import CourseDnD from "./CourseDnD";
 import PlaceMap from "../../components/PlaceMap";
+import EditAgreement from "./EditAgreement";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -196,6 +197,8 @@ function PartyPage() {
         driverName={partyData.driverName}
         driverId={partyData.driverId}
         isDriver={true}
+        partyStatus={partyData.partyStatus}
+        myParty={partyData.myParty}
       />
       <PartyImageBox
         images={partyData.course.images}
@@ -217,10 +220,17 @@ function PartyPage() {
         myParty={partyData.myParty}
         driverReady={partyData.driverReady}
       />
-      {partyData.myParty && (
+      {partyData.myParty && partyData.partyStatus === "RECRUITING" && (
         <MallangReady
           members={partyData.members}
           driverReady={partyData.driverReady}
+          getPartyData={getPartyData}
+        />
+      )}
+      {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
+        <EditAgreement
+          myParty={partyData.myParty}
+          createdAt={partyData.proposal?.createdAt}
           getPartyData={getPartyData}
         />
       )}

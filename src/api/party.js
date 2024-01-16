@@ -25,6 +25,9 @@ export const putMallangReady = async (partyId, ready) =>
 export const putProposalAccept = async (partyId, accept) =>
   await PUT(`/party/proposal/${partyId}?accept=${accept}`, {}, true);
 
+export const deleteProposalCancel = async (partyId) =>
+  await DELETE(`/party/proposal/${partyId}`, true);
+
 export const deleteQuitParty = async (partyId) =>
   await DELETE(`/party/quit/${partyId}`, true);
 

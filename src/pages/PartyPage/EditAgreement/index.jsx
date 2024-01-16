@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { numberTo00 } from "../../../utils";
 import AcceptModal from "./AcceptModal";
+import CancelModal from "./CancelModal";
 
 function EditAgreement({ myParty, createdAt, getPartyData }) {
   const [diffMinute, setDiffMinute] = useState(0);
   const [accept, setAccept] = useState(true);
-  const [showAcceptModal, setShowAcceptModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const diffMinuteHandler = () => setDiffMinute((diffMinute) => diffMinute - 1);
 
@@ -23,13 +24,13 @@ function EditAgreement({ myParty, createdAt, getPartyData }) {
   return (
     <>
       <div className="my-7">
-        <div className="flex gap-5">
+        <div className="flex gap-5 ml-0 sm:ml-10">
           {myParty && (
             <button
               className="h-12 text-darkgray rounded-full text-base font-bold w-full sm:w-80 bg-white border border-darkgray"
               onClick={() => {
                 setAccept(false);
-                setShowAcceptModal(true);
+                setShowModal(true);
               }}
             >
               제안 거절
@@ -39,7 +40,7 @@ function EditAgreement({ myParty, createdAt, getPartyData }) {
             className="h-12 text-white rounded-full text-base font-bold w-full sm:w-80 bg-primary border border-primary"
             onClick={() => {
               setAccept(true);
-              setShowAcceptModal(true);
+              setShowModal(true);
             }}
           >
             {myParty ? "제안 승인" : "제안 취소하기"}
@@ -68,13 +69,20 @@ function EditAgreement({ myParty, createdAt, getPartyData }) {
           </div>
         )}
       </div>
-
-      <AcceptModal
-        showModal={showAcceptModal}
-        setShowModal={setShowAcceptModal}
-        getPartyData={getPartyData}
-        accept={accept}
-      />
+      {myParty ? (
+        <AcceptModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          getPartyData={getPartyData}
+          accept={accept}
+        />
+      ) : (
+        <CancelModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          getPartyData={getPartyData}
+        />
+      )}
     </>
   );
 }

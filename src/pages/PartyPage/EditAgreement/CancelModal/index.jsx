@@ -1,24 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { putProposalAccept } from "../../../../api/party";
+import { deleteProposalCancel } from "../../../../api/party";
 
-function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
+function CancelModal({ showModal, setShowModal, getPartyData }) {
   const modalRef = useRef();
   const { partyId } = useParams();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const acceptHandler = async () => {
+  const cancelHandler = async () => {
     if (loading) return;
 
     try {
       setLoading(true);
 
-      await putProposalAccept(partyId, accept);
+      await deleteProposalCancel(partyId);
 
-      if (accept) setMessage("코스 변경 제안이 승인되었습니다.");
-      else setMessage("코스 변경 제안이 거절되었습니다.");
+      setMessage("코스 변경 제안이 취소되었습니다.");
       setComplete(true);
     } catch (e) {
       console.log(e);
@@ -28,7 +27,7 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
   };
 
   const closeModal = () => {
-    if (complete) getPartyData();
+    if (complete) getPartyData(true);
 
     setShowModal(false);
   };
@@ -46,12 +45,7 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
     document.body.classList.add("overflow-hidden");
 
     setComplete(false);
-
-    if (accept) setMessage("코스 변경 제안을 승인하시겠습니까?");
-    else
-      setMessage(
-        "코스 변경 제안을 거절하시겠습니까?\n\n거절할 경우 제안은 취소되고\n원래 코스대로 복구됩니다."
-      );
+    setMessage("코스 변경 제안을 취소하시겠습니까?");
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {
@@ -81,7 +75,7 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
             </button>
             <button
               className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
-              onClick={acceptHandler}
+              onClick={cancelHandler}
             >
               확인
             </button>
@@ -99,4 +93,4 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
   );
 }
 
-export default AcceptModal;
+export default CancelModal;

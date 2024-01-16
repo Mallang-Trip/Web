@@ -25,6 +25,7 @@ import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 import QuitButton from "./QuitButton";
 import JoinModal from "./JoinModal";
+import EditModal from "./EditModal";
 import CourseDnD from "./CourseDnD";
 import PlaceMap from "../../components/PlaceMap";
 
@@ -45,6 +46,7 @@ function PartyPage() {
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
@@ -164,7 +166,8 @@ function PartyPage() {
       return;
     }
 
-    setShowJoinModal(true);
+    if (type === "join") return setShowJoinModal(true);
+    if (type === "edit") return setShowEditModal(true);
   };
 
   const getPartyData = async (toScrollTop = false) => {
@@ -315,6 +318,20 @@ function PartyPage() {
         headcount={partyData.headcount}
         totalPrice={partyData.course.totalPrice}
         partyName={partyData.course.name}
+      />
+      <EditModal
+        showModal={showEditModal}
+        setShowModal={setShowEditModal}
+        content={content}
+        memberCount={memberCount}
+        companions={companions}
+        getPartyData={getPartyData}
+        capacity={partyData.capacity}
+        headcount={partyData.headcount}
+        totalPrice={partyData.course.totalPrice}
+        partyName={partyData.course.name}
+        course={partyData.course}
+        courseData={courseData}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

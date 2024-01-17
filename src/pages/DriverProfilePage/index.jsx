@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import PageContainer from "../../components/PageContainer";
 import PartyImageBox from "../../components/PartyImageBox";
-import DriverInfo from "../NewPartyPage/Course/DriverInfo";
-import TextArea from "../NewPartyPage/Course/TextArea";
-import CourseList from "../NewPartyPage/Course/CourseList";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
 import Loading from "../../components/Loading";
+import DriverInfo from "../NewPartyPage/Course/DriverInfo";
+import CourseList from "../NewPartyPage/Course/CourseList";
+import ServiceRegion from "./ServiceRegion";
+import IconBox from "./IconBox";
 
 function DriverProfilePage() {
   const navigation = useNavigate();
@@ -16,6 +17,7 @@ function DriverProfilePage() {
   const [driverInfo, setDriverInfo] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(0);
   const [reload, setReload] = useState(false);
+  const courseImgs = driverInfo?.courses?.map((item) => item.courseImg);
 
   const settingDriverInfo = async () => {
     try {
@@ -49,8 +51,16 @@ function DriverProfilePage() {
         avgRate={driverInfo.avgRate}
         introduction={driverInfo.introduction}
       />
-      <PartyImageBox images={[driverInfo.profileImg]} name={driverInfo.name} />
-      <TextArea title={"서비스 지역"} content={driverInfo.region} />
+      <PartyImageBox
+        images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}
+        name={driverInfo.name}
+      />
+      <IconBox
+        images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}
+        name={driverInfo.name}
+        introduction={driverInfo.introduction}
+      />
+      <ServiceRegion region={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}

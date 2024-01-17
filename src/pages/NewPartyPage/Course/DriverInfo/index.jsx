@@ -3,17 +3,17 @@ import star from "../../../../assets/svg/star.svg";
 function DriverInfo({ name, reservationCount, avgRate, introduction }) {
   return (
     <>
-      <div className="mb-1 pt-6 flex">
+      <div className="flex">
         <p className="text-2xl font-bold">{`${name} 드라이버`}</p>
-        <div className="flex gap-1 m-2 mt-3 text-xs">
-          <span>{`예약 ${reservationCount}회`}</span>
+        <div className="flex gap-1 items-center ml-2 text-xs">
+          <span className="whitespace-nowrap">{`예약 ${reservationCount}회`}</span>
           <span>|</span>
-          <img className="mb-1" src={star} />
+          <img src={star} />
           <span>{avgRate ? avgRate.toFixed(1) : "0.0"}</span>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black w-full h-32 p-2 text-darkgray text-sm">
+      <div className="rounded-2xl border border-black w-full h-32 my-2 p-2 text-darkgray text-sm">
         {introduction}
       </div>
     </>

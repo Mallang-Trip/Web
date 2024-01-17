@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import closeIcon from "../../../assets/svg/x-modal-icon.svg";
-import copyIcon from "../../../assets/svg/CopyIcon.svg";
-import kakaoIcon from "../../../assets/images/kakaoIcon.png";
-import basicProfileImage from "../../../assets/images/profileImage.png";
+import closeIcon from "../../../../assets/svg/x-modal-icon.svg";
+import copyIcon from "../../../../assets/svg/CopyIcon.svg";
+import kakaoIcon from "../../../../assets/images/kakaoIcon.png";
+import basicProfileImage from "../../../../assets/images/profileImage.png";
 
-function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
+function ShareModal({ showModal, setShowModal, images, name, introduction }) {
   const Kakao = window.Kakao;
   const modalRef = useRef();
-  const { partyId } = useParams();
+  const { driverId } = useParams();
   const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
 
@@ -27,14 +27,14 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
-        IMAGE1: partyImages[0],
-        IMAGE2: partyImages[1] || partyImages[0],
-        IMAGE3: partyImages[2] || partyImages[0],
+        IMAGE1: images[0],
+        IMAGE2: images[1] || images[0],
+        IMAGE3: images[2] || images[0],
         PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
-        TITLE: partyName,
-        DESCRIPTION: `${partyName}에 초대합니다!`,
-        URL: `party/detail/${partyId}`,
+        TITLE: name,
+        DESCRIPTION: introduction,
+        URL: `driver/profile/${driverId}`,
       },
     });
   };

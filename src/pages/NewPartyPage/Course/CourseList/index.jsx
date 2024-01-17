@@ -7,9 +7,9 @@ function CourseList({
   availableNewCourse,
 }) {
   return (
-    <div className="my-6">
-      <p className="text-lg font-bold mb-1">현재 예약 가능한 코스</p>
-      <div className="flex gap-2">
+    <div className="flex flex-col gap-1 my-7">
+      <p className="text-lg text-black font-bold">현재 예약 가능한 코스</p>
+      <div className="flex gap-2 mt-1.5">
         {courses.map((item) => (
           <CourseItem
             {...item}

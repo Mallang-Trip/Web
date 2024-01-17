@@ -24,7 +24,7 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
       });
 
       tmapMarker.on("click", (e) => {
-        map.setZoom(15);
+        map.setZoom(13);
         map.setCenter(new Tmapv3.LatLng(marker.lat, marker.lon));
         setClicked(true);
         setClickedData(marker);

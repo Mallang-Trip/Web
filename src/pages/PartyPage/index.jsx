@@ -27,7 +27,7 @@ import QuitButton from "./QuitButton";
 import JoinModal from "./JoinModal";
 import EditModal from "./EditModal";
 import CourseDnD from "./CourseDnD";
-import PlaceMap from "../../components/PlaceMap";
+import EditMap from "./EditMap";
 import EditAgreement from "./EditAgreement";
 
 function PartyPage() {
@@ -270,13 +270,7 @@ function PartyPage() {
             courseData={courseData}
             setCourseData={setCourseData}
           />
-          <PlaceMap
-            search={true}
-            newPlace={true}
-            detail={false}
-            courseData={courseData}
-            setCourseData={setCourseData}
-          />
+          <EditMap courseData={courseData} setCourseData={setCourseData} />
         </>
       ) : (
         <>
@@ -286,7 +280,10 @@ function PartyPage() {
             startDate={partyData.startDate}
             editHandler={editHandler}
           />
-          <CourseMap markerData={partyData.course.days[0].destinations} />
+          <CourseMap
+            markerData={partyData.course.days[0].destinations}
+            reload={false}
+          />
         </>
       )}
       {(type === "join" || type === "edit") && (

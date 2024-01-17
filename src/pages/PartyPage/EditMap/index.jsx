@@ -22,7 +22,11 @@ function EditMap({ courseData, setCourseData }) {
           setCourseData={setCourseData}
         />
       ) : (
-        <CourseMap markerData={courseData} reload={true} />
+        <CourseMap
+          markerData={courseData}
+          reload={true}
+          mapName="TMAP_COURSE"
+        />
       )}
     </div>
   );

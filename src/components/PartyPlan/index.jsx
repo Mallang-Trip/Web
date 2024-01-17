@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PlanBox from "./PlanBox";
 import EditButton from "../EditButton";
 
-function PartyPlan({ edit, startDate, course, editHandler }) {
+function PartyPlan({ edit, startDate, course, editHandler, comment }) {
   const [planData, setPlanData] = useState([]);
 
   useEffect(() => {
@@ -12,10 +12,15 @@ function PartyPlan({ edit, startDate, course, editHandler }) {
   return (
     <div className="w-full md:w-3/4 px-5 mx-auto my-20">
       <div className="flex justify-between items-center text-lg sm:text-2xl text-black font-bold">
-        <p>[{course.name}] 일정</p>
+        <p>
+          [{course.name}] 일정{" "}
+          {comment && (
+            <span className="text-sm sm:text-lg text-primary">({comment})</span>
+          )}
+        </p>
         {edit && <EditButton onClick={editHandler} title={"코스 바꾸기"} />}
       </div>
-      <p className="text-md md:text-xl font-bold text-darkgray mt-10 mb-6">
+      <p className="text-md md:text-xl font-bold text-darkgray mt-8 mb-6">
         {`${startDate.slice(0, 4)}.${startDate.slice(5, 7)}.${startDate.slice(
           8,
           10

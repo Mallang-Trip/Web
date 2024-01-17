@@ -39,7 +39,7 @@ function PartyMember({
         </div>
         <div className="w-full flex gap-2.5 flex-nowrap overflow-x-auto noScrollBar">
           <MemberProfile
-            myParty={myParty}
+            myParty={myParty || partyStatus === "WAITING_JOIN_APPROVAL"}
             setShowProfileModal={setShowProfileModal}
             setUserId={setUserId}
             ready={driverReady}
@@ -56,7 +56,7 @@ function PartyMember({
               userId={proposal?.proposerId}
               profileImg={proposal?.proposerProfileImg}
               nickname={proposal?.proposerNickname}
-              introduction={"제안자 입니다."}
+              introduction={proposal.content || "제안자 입니다."}
               ageRange={proposal?.proposerAgeRange}
               gender={proposal?.proposerGender}
               companions={proposal?.proposerCompanions}
@@ -65,7 +65,7 @@ function PartyMember({
           {members.map((item) => (
             <MemberProfile
               key={item.userId}
-              myParty={myParty}
+              myParty={myParty || partyStatus === "WAITING_JOIN_APPROVAL"}
               setShowProfileModal={setShowProfileModal}
               setUserId={setUserId}
               agreement={

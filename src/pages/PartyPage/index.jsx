@@ -70,7 +70,7 @@ function PartyPage() {
       setShowJoinErrorModal(true);
       return false;
     }
-    if (partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") {
+    if (partyData.partyStatus === "WAITING_JOIN_APPROVAL") {
       setJoinErrorMessage(
         "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
       );
@@ -235,6 +235,13 @@ function PartyPage() {
           createdAt={partyData.proposal?.createdAt}
           getPartyData={getPartyData}
           proposalId={partyData.proposal?.proposalId}
+          agreement={[
+            {
+              userId: partyData.driverId,
+              status: partyData.proposal.driverAgreement,
+            },
+            ...partyData.proposal.memberAgreement,
+          ]}
         />
       )}
       <ToTalPrice totalPrice={partyData.course?.totalPrice} />
@@ -260,6 +267,23 @@ function PartyPage() {
           <JoinGreeting content={content} setContent={setContent} />
         </>
       )}
+      {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
+        <>
+          <PartyPlan
+            edit={false}
+            course={partyData.proposal.course}
+            startDate={partyData.startDate}
+            editHandler={editHandler}
+            comment="새로 제안된 파티 코스"
+          />
+          <CourseMap
+            markerData={partyData.proposal.course.days[0].destinations}
+            reload={false}
+            mapName="TMAP_COURSE_NEW"
+          />
+          <hr className="w-full max-w-[900px] bg-darkgray/30 my-20 mx-auto h-px border-0" />
+        </>
+      )}
       {type === "edit" ? (
         <>
           <CourseDnD
@@ -275,14 +299,19 @@ function PartyPage() {
       ) : (
         <>
           <PartyPlan
-            edit={true}
+            edit={partyData.partyStatus === "RECRUITING"}
             course={partyData.course}
             startDate={partyData.startDate}
             editHandler={editHandler}
+            comment={
+              partyData.partyStatus === "WAITING_JOIN_APPROVAL" &&
+              "기존 파티 코스"
+            }
           />
           <CourseMap
             markerData={partyData.course.days[0].destinations}
             reload={false}
+            mapName="TMAP_COURSE_BEFORE"
           />
         </>
       )}

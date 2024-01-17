@@ -154,7 +154,7 @@ function EditModal({
       onClick={(e) => modalOutSideClick(e)}
     >
       <div className="m-auto shadow w-96 rounded-xl">
-        <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
+        <div className="flex flex-col justify-center h-80 text-center text-black whitespace-pre bg-white rounded-t-xl">
           {message}
         </div>
         {!complete ? (

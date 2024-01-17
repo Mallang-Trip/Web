@@ -234,6 +234,7 @@ function PartyPage() {
           myParty={partyData.myParty}
           createdAt={partyData.proposal?.createdAt}
           getPartyData={getPartyData}
+          proposalId={partyData.proposal?.proposalId}
         />
       )}
       <ToTalPrice totalPrice={partyData.course?.totalPrice} />

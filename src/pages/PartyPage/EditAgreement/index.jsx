@@ -3,7 +3,7 @@ import { numberTo00 } from "../../../utils";
 import AcceptModal from "./AcceptModal";
 import CancelModal from "./CancelModal";
 
-function EditAgreement({ myParty, createdAt, getPartyData }) {
+function EditAgreement({ myParty, createdAt, getPartyData, proposalId }) {
   const [diffMinute, setDiffMinute] = useState(0);
   const [accept, setAccept] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -75,12 +75,14 @@ function EditAgreement({ myParty, createdAt, getPartyData }) {
           setShowModal={setShowModal}
           getPartyData={getPartyData}
           accept={accept}
+          proposalId={proposalId}
         />
       ) : (
         <CancelModal
           showModal={showModal}
           setShowModal={setShowModal}
           getPartyData={getPartyData}
+          proposalId={proposalId}
         />
       )}
     </>

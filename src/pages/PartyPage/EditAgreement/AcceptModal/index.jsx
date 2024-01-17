@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import { putProposalAccept } from "../../../../api/party";
 
-function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
+function AcceptModal({
+  showModal,
+  setShowModal,
+  getPartyData,
+  accept,
+  proposalId,
+}) {
   const modalRef = useRef();
-  const { partyId } = useParams();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -15,7 +19,7 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }) {
     try {
       setLoading(true);
 
-      await putProposalAccept(partyId, accept);
+      await putProposalAccept(proposalId, accept);
 
       if (accept) setMessage("코스 변경 제안이 승인되었습니다.");
       else setMessage("코스 변경 제안이 거절되었습니다.");

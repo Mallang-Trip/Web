@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import { deleteProposalCancel } from "../../../../api/party";
 
-function CancelModal({ showModal, setShowModal, getPartyData }) {
+function CancelModal({ showModal, setShowModal, getPartyData, proposalId }) {
   const modalRef = useRef();
-  const { partyId } = useParams();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -15,7 +13,7 @@ function CancelModal({ showModal, setShowModal, getPartyData }) {
     try {
       setLoading(true);
 
-      await deleteProposalCancel(partyId);
+      await deleteProposalCancel(proposalId);
 
       setMessage("코스 변경 제안이 취소되었습니다.");
       setComplete(true);

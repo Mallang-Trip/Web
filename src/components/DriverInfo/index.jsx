@@ -1,4 +1,4 @@
-import star from "../../../../assets/svg/star.svg";
+import star from "../../assets/svg/star.svg";
 
 function DriverInfo({ name, reservationCount, avgRate, introduction }) {
   return (

@@ -6,8 +6,8 @@ import PartyImageBox from "../../components/PartyImageBox";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
 import Loading from "../../components/Loading";
-import DriverInfo from "../NewPartyPage/Course/DriverInfo";
-import CourseList from "../NewPartyPage/Course/CourseList";
+import DriverInfo from "../../components/DriverInfo";
+import CourseList from "../../components/CourseList";
 import ServiceRegion from "./ServiceRegion";
 import IconBox from "./IconBox";
 

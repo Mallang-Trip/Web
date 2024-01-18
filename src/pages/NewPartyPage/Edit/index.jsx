@@ -9,7 +9,7 @@ import CourseList from "../../../components/CourseList";
 import TextArea from "../Atom/TextArea";
 import ReservationButton from "../Atom/ReservationButton";
 
-function Course({
+function Edit({
   date,
   driverInfo,
   planData,
@@ -81,4 +81,4 @@ function Course({
   );
 }
 
-export default Course;
+export default Edit;

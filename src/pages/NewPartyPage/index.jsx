@@ -7,6 +7,7 @@ import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
 import Course from "./Course";
+import Edit from "./Edit";
 import Reservation from "./Reservation";
 import PageButton from "./PageButton";
 
@@ -110,6 +111,17 @@ function NewPartyPage() {
       )}
       {step === "4" && (
         <Course
+          date={date}
+          driverInfo={driverInfo}
+          planData={planData}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+          member={member}
+          region={region}
+        />
+      )}
+      {step === "5" && (
+        <Edit
           date={date}
           driverInfo={driverInfo}
           planData={planData}

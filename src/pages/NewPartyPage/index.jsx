@@ -20,6 +20,7 @@ function NewPartyPage() {
   const [driverId, setDriverId] = useState(0);
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
+  const [nextOK, setNextOK] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(
     location.state ? location.state.selectedCourseId : -1
   );
@@ -94,6 +95,7 @@ function NewPartyPage() {
           setMember={setMember}
           date={date}
           setDate={setDate}
+          setNextOK={setNextOK}
         />
       )}
       {step === "3" && (
@@ -103,6 +105,7 @@ function NewPartyPage() {
           region={region}
           driverId={driverId}
           setDriverId={setDriverId}
+          setNextOK={setNextOK}
         />
       )}
       {step === "4" && (
@@ -129,6 +132,7 @@ function NewPartyPage() {
         member={member}
         date={date}
         driverId={driverId}
+        nextOK={nextOK}
       />
     </PageContainer>
   );

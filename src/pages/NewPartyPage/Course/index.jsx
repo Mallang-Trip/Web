@@ -1,11 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import { priceToString } from "../../../utils";
+import { useNavigate, useParams } from "react-router-dom";
+import { dateToStringHan, priceToString } from "../../../utils";
 import PartyImageBox from "../../../components/PartyImageBox";
-import SecondCredit from "./SecondCredit";
+import PartyPlan from "../../../components/PartyPlan";
+import CourseMap from "../../../components/CourseMap";
+import CreditInfo from "../../PartyPage/CreditInfo";
 import DriverInfo from "./DriverInfo";
 import TextArea from "./TextArea";
 import CourseList from "./CourseList";
-import PartyPlan from "./PartyPlan";
 import ReservationButton from "./ReservationButton";
 
 function Course({
@@ -17,6 +18,7 @@ function Course({
   member,
   region,
 }) {
+  const { step } = useParams();
   const navigation = useNavigate();
 
   if (!driverInfo.driverId || !planData.courseId) return null;
@@ -38,43 +40,39 @@ function Course({
         ]}
         name={driverInfo.name}
       />
-      <TextArea title={"서비스 지역"} content={driverInfo.region} />
+      <TextArea title="서비스 지역" content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
         availableNewCourse={true}
       />
+      <TextArea title="날짜" content={dateToStringHan(date)} />
       <TextArea
-        title={"날짜 선택"}
-        content={`${date.slice(0, 4)}년 ${date.slice(5, 7)}월 ${date.slice(
-          8,
-          10
-        )}일~${date.slice(0, 4)}년 ${date.slice(5, 7)}월 ${date.slice(
-          8,
-          10
-        )}일`}
+        title="전체 파티 여행비"
+        content={`${priceToString(planData.totalPrice)}원`}
       />
-      <TextArea
-        title={"전체 파티 여행비"}
-        content={`${priceToString(
-          planData.totalPrice
-        )}원 (참여 가능한 최대 인원 ${planData.capacity}명)`}
+      <CreditInfo
+        totalPrice={planData.totalPrice}
+        capacity={planData.capacity}
       />
-      <TextArea
-        title={"나의 1차 결제금"}
-        content={`${priceToString(planData.totalPrice / 4)}원`}
-      />
-      <SecondCredit totalPrice={planData.totalPrice} />
       <PartyPlan
-        planData={planData}
-        startDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(
-          8,
-          10
-        )}`}
+        edit={step === "4"}
+        course={planData}
+        startDate={date}
+        editHandler={() =>
+          navigation(
+            `/party/new/5?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
+          )
+        }
+      />
+      <CourseMap
+        markerData={planData.days[0].destinations}
+        reload={true}
+        mapName="TMAP_COURSE_BEFORE"
       />
       <ReservationButton
-        clickHander={() =>
+        joinHander={() =>
           navigation(
             `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
           )

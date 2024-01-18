@@ -299,7 +299,7 @@ function PartyPage() {
       ) : (
         <>
           <PartyPlan
-            edit={partyData.partyStatus === "RECRUITING"}
+            edit={partyData.partyStatus === "RECRUITING" && type === "detail"}
             course={partyData.course}
             startDate={partyData.startDate}
             editHandler={editHandler}

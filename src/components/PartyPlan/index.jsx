@@ -7,7 +7,7 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }) {
 
   useEffect(() => {
     setPlanData(course.days[0].destinations);
-  }, []);
+  }, [course]);
 
   return (
     <div className="w-full md:w-3/4 px-5 mx-auto my-20">

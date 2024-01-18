@@ -1,5 +1,5 @@
 import Calendar from "react-calendar";
-import "../../../../../NewPartyPage/MemberAndDate/Date/index.css";
+import "../../../../../NewPartyPage/MemberAndDate/PartyDate/index.css";
 
 function HolidayDate({ date, setDate }) {
   return (

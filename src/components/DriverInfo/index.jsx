@@ -1,11 +1,23 @@
 import star from "../../assets/svg/star.svg";
+import basicProfileImage from "../../assets/images/profileImage.png";
 
-function DriverInfo({ name, reservationCount, avgRate, introduction }) {
+function DriverInfo({
+  name,
+  reservationCount,
+  avgRate,
+  introduction,
+  profileImg,
+}) {
   return (
     <>
-      <div className="flex">
+      <div className="flex items-center gap-2">
+        <img
+          src={profileImg || basicProfileImage}
+          alt={name}
+          className="w-10 h-10 rounded-full"
+        />
         <p className="text-2xl text-black font-bold">{`${name} 드라이버`}</p>
-        <div className="flex gap-1 items-center ml-2 text-xs">
+        <div className="flex gap-1 items-center text-xs">
           <span className="whitespace-nowrap">{`예약 ${reservationCount}회`}</span>
           <span>|</span>
           <img src={star} />

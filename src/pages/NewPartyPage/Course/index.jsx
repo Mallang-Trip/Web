@@ -28,17 +28,9 @@ function Course({
         reservationCount={driverInfo.reservationCount}
         avgRate={driverInfo.avgRate}
         introduction={driverInfo.introduction}
+        profileImg={driverInfo.profileImg}
       />
-      <PartyImageBox
-        images={[
-          driverInfo.profileImg,
-          planData.images[0],
-          planData.images[1] || planData.images[0],
-          planData.images[2] || planData.images[0],
-          planData.images[3] || planData.images[0],
-        ]}
-        name={driverInfo.name}
-      />
+      <PartyImageBox images={planData.images} name={driverInfo.name} />
       <TextArea title="서비스 지역" content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}

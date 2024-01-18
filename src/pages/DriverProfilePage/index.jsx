@@ -50,6 +50,7 @@ function DriverProfilePage() {
         reservationCount={driverInfo.reservationCount}
         avgRate={driverInfo.avgRate}
         introduction={driverInfo.introduction}
+        profileImg={driverInfo.profileImg}
       />
       <PartyImageBox
         images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}

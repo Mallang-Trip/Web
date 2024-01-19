@@ -12,6 +12,9 @@ function CourseDnD({
   hours,
   courseData,
   setCourseData,
+  nameChange = false,
+  newName,
+  setNewName,
 }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -36,7 +39,17 @@ function CourseDnD({
   return (
     <>
       <div className="mt-20 font-bold flex flex-col items-center gap-6">
-        <div className="text-boldblue text-2xl">{name}</div>
+        {nameChange ? (
+          <input
+            type="text"
+            className="w-full text-boldblue text-2xl text-center focus:outline-none placeholder:text-darkgray"
+            placeholder="파티명을 입력해주세요"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+          />
+        ) : (
+          <div className="text-boldblue text-2xl">{name}</div>
+        )}
         <div className="text-primary text-lg">
           {`${dateToStringHan(startDate)} (${hours}시간)`}
         </div>

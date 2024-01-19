@@ -25,7 +25,7 @@ function Course({
 
   if (!driverInfo.driverId || !planData.courseId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
+    <div>
       <DriverInfo
         name={driverInfo.name}
         reservationCount={driverInfo.reservationCount}

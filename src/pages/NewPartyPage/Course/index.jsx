@@ -39,7 +39,7 @@ function Course({
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
-        availableNewCourse={true}
+        availableNewCourse={false}
       />
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <TextArea

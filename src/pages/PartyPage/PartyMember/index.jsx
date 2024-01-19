@@ -43,7 +43,11 @@ function PartyMember({
             setShowProfileModal={setShowProfileModal}
             setUserId={setUserId}
             ready={driverReady}
-            agreement={proposal?.driverAgreement}
+            agreement={
+              partyStatus === "WAITING_DRIVER_APPROVAL"
+                ? "WAITING"
+                : proposal?.driverAgreement
+            }
             {...driverInfo}
           />
           {partyStatus === "WAITING_JOIN_APPROVAL" && (
@@ -69,9 +73,11 @@ function PartyMember({
               setShowProfileModal={setShowProfileModal}
               setUserId={setUserId}
               agreement={
-                proposal?.memberAgreement?.filter(
-                  (member) => member.userId === item.userId
-                )[0].status
+                partyStatus === "WAITING_DRIVER_APPROVAL"
+                  ? "PROPOSER"
+                  : proposal?.memberAgreement?.filter(
+                      (member) => member.userId === item.userId
+                    )[0].status
               }
               {...item}
             />

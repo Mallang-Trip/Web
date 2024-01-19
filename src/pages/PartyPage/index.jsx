@@ -29,6 +29,7 @@ import EditModal from "./EditModal";
 import CourseDnD from "./CourseDnD";
 import EditMap from "./EditMap";
 import EditAgreement from "./EditAgreement";
+import CancelNewPartyButton from "./CancelNewPartyButton";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -332,7 +333,11 @@ function PartyPage() {
         </>
       )}
       {partyData.myParty ? (
-        <QuitButton getPartyData={getPartyData} />
+        partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ? (
+          <CancelNewPartyButton />
+        ) : (
+          <QuitButton getPartyData={getPartyData} />
+        )
       ) : (
         <JoinButton joinHandler={joinHandler} />
       )}

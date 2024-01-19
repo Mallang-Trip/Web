@@ -14,6 +14,7 @@ import ChatBox from "../../assets/svg/EmptyChatIcon.svg";
 import shareIcon from "../../assets/svg/share.svg";
 import ShareModal from "./ShareModal";
 import CheckModal from "../CheckModal";
+import ConfirmModal from "../ConfirmModal";
 
 function PartyIconBox({ id, type, images, name, dibs }) {
   const navigation = useNavigate();
@@ -22,6 +23,8 @@ function PartyIconBox({ id, type, images, name, dibs }) {
   const [heart, setHeart] = useState(dibs);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const heartClickHandler = async () => {
     if (!user.auth) return setShowLoginModal(true);
@@ -45,6 +48,13 @@ function PartyIconBox({ id, type, images, name, dibs }) {
   const goPartyChat = async () => {
     try {
       const result = await getPartyChatId(id);
+
+      if (result.statusCode !== 200) {
+        setErrorMessage(result.message);
+        setShowErrorModal(true);
+        return;
+      }
+
       dispatch(setPartyRoomId(result.payload.chatRoomId));
       navigation("/talk");
     } catch (e) {
@@ -82,6 +92,11 @@ function PartyIconBox({ id, type, images, name, dibs }) {
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => navigation("/login")}
+      />
+      <ConfirmModal
+        showModal={showErrorModal}
+        setShowModal={setShowErrorModal}
+        message={errorMessage}
       />
     </>
   );

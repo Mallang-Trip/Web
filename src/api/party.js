@@ -34,4 +34,7 @@ export const deleteQuitParty = async (partyId) =>
 export const postNewParty = async (data) =>
   await POST("/party/create", data, true);
 
+export const deleteNewParty = async (partyId) =>
+  await DELETE(`/party/create/${partyId}`, true);
+
 export const getPartyHistory = async () => await GET(`/party/history`, true);

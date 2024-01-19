@@ -63,7 +63,7 @@ function Course({
       <CourseMap
         markerData={planData.days[0].destinations}
         reload={true}
-        mapName="TMAP_COURSE_BEFORE"
+        mapName="TMAP_COURSE"
       />
       <ReservationButton
         joinHander={() =>

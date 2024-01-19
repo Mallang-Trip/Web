@@ -7,6 +7,7 @@ import Credit from "../../../components/Credit";
 import BottomRefund from "../../../components/BottomRefund";
 import TextArea from "../Atom/TextArea";
 import ReservationButton from "../Atom/ReservationButton";
+import CreateModal from "../Atom/CreateModal";
 import CreditInfo from "../../PartyPage/CreditInfo";
 import JoinMember from "../../PartyPage/JoinMember";
 import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
@@ -14,7 +15,6 @@ import JoinGreeting from "../../PartyPage/JoinGreeting";
 import CourseDnD from "../../PartyPage/CourseDnD";
 import EditMap from "../../PartyPage/EditMap";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
-import EditModal from "./EditModal";
 
 function Edit({
   date,
@@ -123,7 +123,7 @@ function Edit({
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
-        availableNewCourse={true}
+        availableNewCourse={false}
       />
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <TextArea
@@ -175,7 +175,7 @@ function Edit({
       <ReservationButton joinHander={joinHandler} />
       <BottomRefund />
 
-      <EditModal
+      <CreateModal
         showModal={showEditModal}
         setShowModal={setShowEditModal}
         content={content}

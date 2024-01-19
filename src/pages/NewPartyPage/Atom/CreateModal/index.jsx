@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postNewParty } from "../../../../api/party";
 
-function EditModal({
+function CreateModal({
   showModal,
   setShowModal,
   content,
@@ -22,7 +22,7 @@ function EditModal({
   const [complete, setComplete] = useState(false);
   const [partyId, setPartyId] = useState(-1);
 
-  const joinHandler = async () => {
+  const createHandler = async () => {
     if (loading) return;
 
     try {
@@ -48,11 +48,14 @@ function EditModal({
       };
 
       const result = await postNewParty(body);
-      setPartyId(result.payload.partyId);
 
-      setMessage(
-        "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
-      );
+      if (result.statusCode === 200) {
+        setPartyId(result.payload.partyId);
+        setMessage(
+          "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+        );
+      } else setMessage(result.message);
+
       setComplete(true);
     } catch (e) {
       console.log(e);
@@ -62,7 +65,12 @@ function EditModal({
   };
 
   const closeModal = () => {
-    if (complete) navigation(`/party/detail/${partyId}`, { replace: true });
+    if (
+      complete &&
+      message ===
+        "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+    )
+      navigation(`/party/detail/${partyId}`, { replace: true });
 
     setShowModal(false);
   };
@@ -112,7 +120,7 @@ function EditModal({
             </button>
             <button
               className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
-              onClick={joinHandler}
+              onClick={createHandler}
             >
               확인
             </button>
@@ -130,4 +138,4 @@ function EditModal({
   );
 }
 
-export default EditModal;
+export default CreateModal;

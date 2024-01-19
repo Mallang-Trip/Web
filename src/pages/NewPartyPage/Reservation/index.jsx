@@ -1,127 +1,183 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { postNewParty } from "../../../api/party";
+import { useEffect, useRef, useState } from "react";
+import { dateToStringHan, priceToString } from "../../../utils";
 import PartyImageBox from "../../../components/PartyImageBox";
-import PartyNumberBox from "./PartyNumberBox";
-import ToTalPrice from "../../PartyPage/ToTalPrice";
-import FirstCredit from "../../../components/FirstCredit";
-import SecondCredit from "../../../components/SecondCredit";
-import TravelerBox from "./TravelerBox";
-import TravelerGreet from "./TravelerGreet";
-import PartyPlan from "../../../components/PartyPlan";
+import DriverInfo from "../../../components/DriverInfo";
+import CourseList from "../../../components/CourseList";
 import Credit from "../../../components/Credit";
-import Agreement from "./AddAgree";
 import BottomRefund from "../../../components/BottomRefund";
-import CheckModal from "../../../components/CheckModal";
-import Loading from "../../../components/Loading";
-import ReservationButton from "./ReservationButton";
-import HeadTitle from "./HeadTitle";
+import CourseMap from "../../../components/CourseMap";
+import PartyPlan from "../../../components/PartyPlan";
+import TextArea from "../Atom/TextArea";
+import ReservationButton from "../Atom/ReservationButton";
+import CreateModal from "../Atom/CreateModal";
+import CreditInfo from "../../PartyPage/CreditInfo";
+import JoinMember from "../../PartyPage/JoinMember";
+import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
+import JoinGreeting from "../../PartyPage/JoinGreeting";
+import JoinAgreement from "../../PartyPage/JoinAgreement";
 
-function Reservation({ member, date, driverInfo, planData }) {
-  const navigation = useNavigate();
-  const [register, setRegister] = useState(false);
-  const [agreeChecked, setAgreeChecked] = useState([false, false]);
-  const [shakeCredit, setShakeCredit] = useState(false);
-  const [shakeAgree, setShakeAgree] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+function Reservation({
+  date,
+  driverInfo,
+  planData,
+  selectedCourseId,
+  setSelectedCourseId,
+  member,
+}) {
+  const companionsRef = useRef();
+  const creditRef = useRef();
+  const agreementRef = useRef();
   const [content, setContent] = useState("");
-  const [memberCount, setMemberCount] = useState(member);
+  const [memberCount, setMemberCount] = useState(1);
+  const [companions, setCompanions] = useState([]);
+  const [shakeCompanions, setShakeCompanions] = useState(false);
+  const [shakeCredit, setShakeCredit] = useState(false);
+  const [registerCredit, setRegisterCredit] = useState(false);
+  const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [shakeAgree, setShakeAgree] = useState(false);
+  const [showJoinModal, setShowJoinModal] = useState(false);
 
-  const suggestHandler = () => {
-    if (!register) {
+  const joinHandler = () => {
+    // 동행자 정보 입력 체크
+    if (memberCount > 1) {
+      let checkValid = true;
+
+      companions.slice(0, memberCount - 1).forEach((item) => {
+        if (!item.name || !item.phoneNumber) {
+          checkValid = false;
+        }
+      });
+
+      if (!checkValid) {
+        if (companionsRef.current) {
+          const containerRect = companionsRef.current.getBoundingClientRect();
+          const scrollY =
+            containerRect.top +
+            window.scrollY -
+            window.innerHeight / 2 +
+            containerRect.height / 2;
+
+          window.scrollTo({ top: scrollY });
+        }
+
+        setShakeCompanions(true);
+        setTimeout(() => setShakeCompanions(false), 1000);
+        return;
+      }
+    }
+    // 결제 수단 등록 체크
+    if (!registerCredit) {
+      if (creditRef.current) {
+        const containerRect = creditRef.current.getBoundingClientRect();
+        const scrollY =
+          containerRect.top +
+          window.scrollY -
+          window.innerHeight / 2 +
+          containerRect.height / 2;
+
+        window.scrollTo({ top: scrollY });
+      }
+
       setShakeCredit(true);
       setTimeout(() => setShakeCredit(false), 1000);
       return;
     }
+    // 약관 동의 체크
     if (agreeChecked.filter((i) => i === false).length > 0) {
+      if (agreementRef.current) {
+        const containerRect = agreementRef.current.getBoundingClientRect();
+        const scrollY =
+          containerRect.top +
+          window.scrollY -
+          window.innerHeight / 2 +
+          containerRect.height / 2;
+
+        window.scrollTo({ top: scrollY });
+      }
+
       setShakeAgree(true);
       setTimeout(() => setShakeAgree(false), 1000);
       return;
     }
 
-    setShowModal(true);
+    setShowJoinModal(true);
   };
 
-  const reservationHandler = async () => {
-    try {
-      const body = {
-        changeCourse: false,
-        content: content,
-        courseId: planData.courseId,
-        driverId: driverInfo.driverId,
-        endDate: date,
-        headcount: member,
-        startDate: date,
-      };
+  useEffect(() => setMemberCount(member), [member]);
 
-      const result = await postNewParty(body);
-
-      navigation(`/party/approval/reservation/${result.payload.partyId}`);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  if (!driverInfo.driverId || !planData.courseId)
-    return <Loading full={true} />;
+  if (!driverInfo.driverId || !planData.courseId) return null;
   return (
-    <div className="px-2 md:px-5 mb-24">
-      <HeadTitle
-        name={planData?.name}
-        driverName={driverInfo.name}
-        driverId={driverInfo.driverId}
-        startDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(
-          8,
-          10
-        )}`}
-        endDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(8, 10)}`}
+    <div>
+      <DriverInfo
+        name={driverInfo.name}
+        reservationCount={driverInfo.reservationCount}
+        avgRate={driverInfo.avgRate}
+        introduction={driverInfo.introduction}
+        profileImg={driverInfo.profileImg}
       />
-      <PartyImageBox images={planData?.images} name={planData?.name} />
-      <div className="mt-7">
-        <PartyNumberBox
-          memberCount={memberCount}
-          setMemberCount={setMemberCount}
-        />
-      </div>
-      <ToTalPrice totalPrice={planData?.totalPrice} />
-      <FirstCredit
-        totalPrice={planData?.totalPrice}
+      <PartyImageBox images={planData.images} name={driverInfo.name} />
+      <TextArea title="서비스 지역" content={driverInfo.region} />
+      <CourseList
+        courses={driverInfo.courses}
+        selectedCourseId={selectedCourseId}
+        setSelectedCourseId={setSelectedCourseId}
+        availableNewCourse={false}
+      />
+      <TextArea title="날짜" content={dateToStringHan(date)} />
+      <TextArea
+        title="전체 파티 여행비"
+        content={`${priceToString(planData.totalPrice)}원`}
+      />
+      <CreditInfo
+        totalPrice={planData.totalPrice}
         capacity={planData.capacity}
-        memberCount={memberCount}
       />
-      <SecondCredit totalPrice={planData?.totalPrice} />
-      <TravelerBox memberCount={memberCount} />
-      <TravelerGreet content={content} setContent={setContent} />
-      <PartyPlan
-        edit={false}
-        course={planData}
-        startDate={`${date.slice(0, 4)}.${date.slice(5, 7)}.${date.slice(
-          8,
-          10
-        )}`}
+      <JoinMember
+        memberCount={memberCount}
+        setMemberCount={setMemberCount}
+        capacity={planData.capacity}
+        headcount={0}
+      />
+      <JoinMemberInfo
+        companionsRef={companionsRef}
+        memberCount={memberCount}
+        companions={companions}
+        setCompanions={setCompanions}
+        shakeCompanions={shakeCompanions}
+      />
+      <JoinGreeting content={content} setContent={setContent} />
+      <PartyPlan edit={false} course={planData} startDate={date} />
+      <CourseMap
+        markerData={planData.days[0].destinations}
+        reload={true}
+        mapName="TMAP_COURSE"
       />
       <Credit
         shakeCredit={shakeCredit}
-        register={register}
-        setRegister={setRegister}
+        register={registerCredit}
+        setRegister={setRegisterCredit}
+        creditRef={creditRef}
       />
-      <Agreement
+      <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}
         shakeAgree={shakeAgree}
+        agreementRef={agreementRef}
       />
-      <ReservationButton suggestHandler={suggestHandler} />
+      <ReservationButton joinHander={joinHandler} />
       <BottomRefund />
 
-      <CheckModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        message={
-          "예약을 확정하기 위해\n24시간 내로 드라이버와 여행자들의 동의를 구합니다.\n\n전원 동의 즉시 1차 자동결제가 이루어집니다.\n1차 결제금은 [N]원 입니다.\n\n예약하시겠습니까?"
-        }
-        noText="취소"
-        yesText="확인"
-        yesHandler={() => reservationHandler()}
+      <CreateModal
+        showModal={showJoinModal}
+        setShowModal={setShowJoinModal}
+        content={content}
+        memberCount={memberCount}
+        companions={companions}
+        date={date}
+        name={planData.name}
+        course={planData}
+        courseData={planData.days[0].destinations}
+        driverId={driverInfo.driverId}
       />
     </div>
   );

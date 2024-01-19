@@ -129,15 +129,16 @@ function NewPartyPage() {
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}
           member={member}
-          region={region}
         />
       )}
       {step === "6" && (
         <Reservation
-          member={member}
           date={date}
           driverInfo={driverInfo}
           planData={planData}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+          member={member}
         />
       )}
       <PageButton

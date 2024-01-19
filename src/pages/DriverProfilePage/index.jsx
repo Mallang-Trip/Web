@@ -16,7 +16,6 @@ function DriverProfilePage() {
   const { driverId } = useParams();
   const [driverInfo, setDriverInfo] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(0);
-  const [reload, setReload] = useState(false);
   const courseImgs = driverInfo?.courses?.map((item) => item.courseImg);
 
   const settingDriverInfo = async () => {
@@ -30,7 +29,7 @@ function DriverProfilePage() {
 
   useEffect(() => {
     settingDriverInfo();
-  }, [driverId, reload]);
+  }, [driverId]);
 
   useEffect(() => {
     if (selectedCourseId === 0) return;
@@ -71,14 +70,12 @@ function DriverProfilePage() {
       <CommentList
         reviews={driverInfo.reviews}
         isDriver={true}
-        reload={reload}
-        setReload={setReload}
+        reloadData={settingDriverInfo}
       />
       <AddComment
         id={driverId}
         isDriver={true}
-        reload={reload}
-        setReload={setReload}
+        reloadData={settingDriverInfo}
       />
     </PageContainer>
   );

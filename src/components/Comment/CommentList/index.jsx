@@ -1,7 +1,7 @@
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 
-function CommentList({ reviews, isDriver, reload, setReload }) {
+function CommentList({ reviews, isDriver, reloadData }) {
   const user = useSelector((state) => state.user);
 
   return (
@@ -16,8 +16,7 @@ function CommentList({ reviews, isDriver, reload, setReload }) {
           {...item}
           isMyComment={user.userId === item.userId}
           isDriver={isDriver}
-          reload={reload}
-          setReload={setReload}
+          reloadData={reloadData}
         />
       ))}
     </div>

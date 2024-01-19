@@ -16,8 +16,7 @@ function Comment({
   reviewId,
   images,
   isDriver,
-  reload,
-  setReload,
+  reloadData,
 }) {
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
@@ -47,7 +46,7 @@ function Comment({
         if (isDriver) await deleteComment(reviewId);
         else await deleteDestinationComment(reviewId);
 
-        setReload(!reload);
+        reloadData();
       } catch (e) {
         console.log(e);
       }
@@ -66,7 +65,7 @@ function Comment({
       if (isDriver) await putComment(body, reviewId);
       else await putDestinationComment(body, reviewId);
 
-      setReload(!reload);
+      reloadData();
       setModifyMode(false);
     } catch (e) {
       console.log(e);

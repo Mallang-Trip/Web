@@ -8,7 +8,7 @@ import cameraIcon from "../../../assets/svg/camera.svg";
 import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
 
-function AddComment({ id, isDriver, reload, setReload }) {
+function AddComment({ id, isDriver, reloadData }) {
   const imageRef = useRef();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
@@ -63,7 +63,7 @@ function AddComment({ id, isDriver, reload, setReload }) {
         setConfirmMessage("이미 등록된 댓글이 있습니다.");
         setShowConfirmModal(true);
       } else {
-        setReload(!reload);
+        reloadData();
         setStar("");
         setComment("");
       }
@@ -75,7 +75,7 @@ function AddComment({ id, isDriver, reload, setReload }) {
 
   return (
     <>
-      <div className="w-full min-h-48 border-2 border-black rounded-[20px] p-3 relative">
+      <div className="w-full min-h-48 border-2 border-primary rounded-[20px] p-3 relative">
         <div className="flex gap-2 mb-3">
           <div className="text-lg font-bold">{user.nickname}</div>
           <div className="flex gap-1 text-sm items-center">

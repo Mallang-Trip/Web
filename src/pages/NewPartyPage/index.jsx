@@ -118,6 +118,7 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
+          settingDriverInfo={settingDriverInfo}
         />
       )}
       {step === "5" && (

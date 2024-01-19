@@ -6,6 +6,8 @@ import CourseMap from "../../../components/CourseMap";
 import CreditInfo from "../../PartyPage/CreditInfo";
 import DriverInfo from "../../../components/DriverInfo";
 import CourseList from "../../../components/CourseList";
+import CommentList from "../../../components/Comment/CommentList";
+import AddComment from "../../../components/Comment/AddComment";
 import TextArea from "../Atom/TextArea";
 import ReservationButton from "../Atom/ReservationButton";
 
@@ -17,6 +19,7 @@ function Course({
   setSelectedCourseId,
   member,
   region,
+  settingDriverInfo,
 }) {
   const navigation = useNavigate();
 
@@ -68,6 +71,16 @@ function Course({
             `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
           )
         }
+      />
+      <CommentList
+        reviews={driverInfo.reviews}
+        isDriver={true}
+        reloadData={settingDriverInfo}
+      />
+      <AddComment
+        id={driverInfo.driverId}
+        isDriver={true}
+        reloadData={settingDriverInfo}
       />
     </div>
   );

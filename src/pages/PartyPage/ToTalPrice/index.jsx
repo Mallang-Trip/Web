@@ -1,7 +1,7 @@
 import { priceToString } from "../../../utils";
 
 function ToTalPrice({ totalPrice, isDriver, partyStatus }) {
-  if (partyStatus === "CANCELED_BY_DRIVER_REFUSED") return null;
+  if (partyStatus === "CANCELED_BY_DRIVER_REFUSED" && isDriver) return null;
   return (
     <div className="flex flex-col gap-1 my-7">
       <p className="text-lg text-black font-bold">

@@ -256,12 +256,14 @@ function PartyPage() {
         user.userId === partyData.driverId && (
           <NewPartyAgreement getPartyData={getPartyData} />
         )}
-      {user.userId !== partyData.driverId && (
-        <CreditInfo
-          totalPrice={partyData.course.totalPrice}
-          capacity={partyData.capacity}
-        />
-      )}
+      {user.userId !== partyData.driverId &&
+        partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
+        partyData.partyStatus !== "CANCELED_BY_PROPOSER" && (
+          <CreditInfo
+            totalPrice={partyData.course.totalPrice}
+            capacity={partyData.capacity}
+          />
+        )}
       {(type === "join" || type === "edit") && (
         <>
           <JoinMember
@@ -356,7 +358,10 @@ function PartyPage() {
       ) : (
         <JoinButton joinHandler={joinHandler} />
       )}
-      {(type === "join" || type === "edit") && <BottomRefundUser />}
+      {(type === "join" ||
+        type === "edit" ||
+        partyData.partyStatus === "WAITING_DRIVER_APPROVAL") &&
+        user.userId !== partyData.driverId && <BottomRefundUser />}
       {user.userId === partyData.driverId && <BottomRefundDriver />}
 
       <CheckModal

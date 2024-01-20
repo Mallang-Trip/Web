@@ -3,7 +3,7 @@ import FeeTable from "./FeeTable";
 import info from "../../assets/svg/more-info-black.svg";
 import refundDiagram from "../../assets/svg/refund-diagram.svg";
 
-function BottomRefund() {
+function BottomRefundUser() {
   const [showRefund, setShowRefund] = useState(false);
 
   return (
@@ -75,4 +75,4 @@ function BottomRefund() {
   );
 }
 
-export default BottomRefund;
+export default BottomRefundUser;

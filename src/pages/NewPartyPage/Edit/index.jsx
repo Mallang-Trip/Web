@@ -4,7 +4,7 @@ import PartyImageBox from "../../../components/PartyImageBox";
 import DriverInfo from "../../../components/DriverInfo";
 import CourseList from "../../../components/CourseList";
 import Credit from "../../../components/Credit";
-import BottomRefund from "../../../components/BottomRefund";
+import BottomRefundUser from "../../../components/BottomRefundUser";
 import TextArea from "../Atom/TextArea";
 import ReservationButton from "../Atom/ReservationButton";
 import CreateModal from "../Atom/CreateModal";
@@ -173,7 +173,7 @@ function Edit({
         agreementRef={agreementRef}
       />
       <ReservationButton joinHander={joinHandler} />
-      <BottomRefund />
+      <BottomRefundUser />
 
       <CreateModal
         showModal={showEditModal}

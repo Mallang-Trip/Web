@@ -1,9 +1,10 @@
 import { useState } from "react";
 import CancelModal from "./CancelModal";
 
-function CancelNewPartyButton() {
+function CancelNewPartyButton({ isDriver }) {
   const [showModal, setShowModal] = useState(false);
 
+  if (isDriver) return null;
   return (
     <>
       <div className="flex justify-center mt-20">

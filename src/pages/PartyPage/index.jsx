@@ -10,7 +10,8 @@ import PartyImageBox from "../../components/PartyImageBox";
 import CourseMap from "../../components/CourseMap";
 import Loading from "../../components/Loading";
 import Credit from "../../components/Credit";
-import BottomRefund from "../../components/BottomRefund";
+import BottomRefundUser from "../../components/BottomRefundUser";
+import BottomRefundDriver from "../../components/BottomRefundDriver";
 import PartyDate from "./PartyDate";
 import PartyMember from "./PartyMember";
 import ToTalPrice from "./ToTalPrice";
@@ -30,6 +31,7 @@ import CourseDnD from "./CourseDnD";
 import EditMap from "./EditMap";
 import EditAgreement from "./EditAgreement";
 import CancelNewPartyButton from "./CancelNewPartyButton";
+import NewPartyAgreement from "./NewPartyAgreement";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -245,11 +247,20 @@ function PartyPage() {
           ]}
         />
       )}
-      <ToTalPrice totalPrice={partyData.course?.totalPrice} />
-      <CreditInfo
-        totalPrice={partyData.course.totalPrice}
-        capacity={partyData.capacity}
+      <ToTalPrice
+        totalPrice={partyData.course?.totalPrice}
+        isDriver={user.userId === partyData.driverId}
       />
+      {partyData.partyStatus === "WAITING_DRIVER_APPROVAL" &&
+        user.userId === partyData.driverId && (
+          <NewPartyAgreement getPartyData={getPartyData} />
+        )}
+      {user.userId !== partyData.driverId && (
+        <CreditInfo
+          totalPrice={partyData.course.totalPrice}
+          capacity={partyData.capacity}
+        />
+      )}
       {(type === "join" || type === "edit") && (
         <>
           <JoinMember
@@ -334,14 +345,15 @@ function PartyPage() {
       )}
       {partyData.myParty ? (
         partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ? (
-          <CancelNewPartyButton />
+          <CancelNewPartyButton isDriver={user.userId === partyData.driverId} />
         ) : (
           <QuitButton getPartyData={getPartyData} />
         )
       ) : (
         <JoinButton joinHandler={joinHandler} />
       )}
-      {(type === "join" || type === "edit") && <BottomRefund />}
+      {(type === "join" || type === "edit") && <BottomRefundUser />}
+      {user.userId === partyData.driverId && <BottomRefundDriver />}
 
       <CheckModal
         showModal={showLoginModal}

@@ -32,6 +32,7 @@ import EditMap from "./EditMap";
 import EditAgreement from "./EditAgreement";
 import CancelNewPartyButton from "./CancelNewPartyButton";
 import NewPartyAgreement from "./NewPartyAgreement";
+import NotFoundParty from "./NotFoundParty";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -177,7 +178,8 @@ function PartyPage() {
   const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
-      setPartyData(result.payload);
+      if (result.statusCode === 200) setPartyData(result.payload);
+      else setPartyData({ partyId: -1 });
 
       if (toScrollTop) window.scrollTo({ top: 0 });
       console.log(result.payload);
@@ -193,6 +195,7 @@ function PartyPage() {
   }, [type, partyId]);
 
   if (!partyData.partyId) return <Loading full={true} />;
+  if (partyData.partyId === -1) return <NotFoundParty />;
   return (
     <PageContainer>
       <HeadTitle

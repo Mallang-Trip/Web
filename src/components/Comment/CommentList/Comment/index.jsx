@@ -73,7 +73,7 @@ function Comment({
   };
 
   return (
-    <div className="mt-7">
+    <div className="mt-3">
       <div className="flex items-center">
         <img
           className="w-10 h-10 rounded-full"

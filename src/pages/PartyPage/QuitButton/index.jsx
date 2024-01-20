@@ -4,7 +4,11 @@ import QuitModal from "./QuitModal";
 function QuitButton({ getPartyData, partyStatus }) {
   const [showModal, setShowModal] = useState(false);
 
-  if (partyStatus === "CANCELED_BY_DRIVER_REFUSED") return null;
+  if (
+    partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
+    partyStatus === "CANCELED_BY_PROPOSER"
+  )
+    return null;
   return (
     <>
       <div className="flex justify-center mt-20">

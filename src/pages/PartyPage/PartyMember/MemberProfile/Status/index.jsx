@@ -17,6 +17,12 @@ function Status({ ready, agreement }) {
         제안 거절
       </div>
     );
+  if (agreement === "CANCELED")
+    return (
+      <div className="w-[104px] mt-3 py-1.5 rounded-full text-xs font-medium text-[#E30000] bg-[#FFEAEA]">
+        제안 취소
+      </div>
+    );
   if (agreement === "PROPOSER")
     return (
       <div className="w-[104px] mt-3 py-1.5 rounded-full text-xs font-medium text-primary bg-skyblue">

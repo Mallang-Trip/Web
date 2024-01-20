@@ -46,6 +46,8 @@ function PartyMember({
             agreement={
               partyStatus === "WAITING_DRIVER_APPROVAL"
                 ? "WAITING"
+                : partyStatus === "CANCELED_BY_DRIVER_REFUSED"
+                ? "REFUSE"
                 : proposal?.driverAgreement
             }
             {...driverInfo}
@@ -73,7 +75,8 @@ function PartyMember({
               setShowProfileModal={setShowProfileModal}
               setUserId={setUserId}
               agreement={
-                partyStatus === "WAITING_DRIVER_APPROVAL"
+                partyStatus === "WAITING_DRIVER_APPROVAL" ||
+                partyStatus === "CANCELED_BY_DRIVER_REFUSED"
                   ? "PROPOSER"
                   : proposal?.memberAgreement?.filter(
                       (member) => member.userId === item.userId

@@ -250,6 +250,7 @@ function PartyPage() {
       <ToTalPrice
         totalPrice={partyData.course?.totalPrice}
         isDriver={user.userId === partyData.driverId}
+        partyStatus={partyData.partyStatus}
       />
       {partyData.partyStatus === "WAITING_DRIVER_APPROVAL" &&
         user.userId === partyData.driverId && (
@@ -347,7 +348,10 @@ function PartyPage() {
         partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ? (
           <CancelNewPartyButton isDriver={user.userId === partyData.driverId} />
         ) : (
-          <QuitButton getPartyData={getPartyData} />
+          <QuitButton
+            getPartyData={getPartyData}
+            partyStatus={partyData.partyStatus}
+          />
         )
       ) : (
         <JoinButton joinHandler={joinHandler} />

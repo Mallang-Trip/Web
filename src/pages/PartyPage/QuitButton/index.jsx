@@ -1,9 +1,10 @@
 import { useState } from "react";
 import QuitModal from "./QuitModal";
 
-function QuitButton({ getPartyData }) {
+function QuitButton({ getPartyData, partyStatus }) {
   const [showModal, setShowModal] = useState(false);
 
+  if (partyStatus === "CANCELED_BY_DRIVER_REFUSED") return null;
   return (
     <>
       <div className="flex justify-center mt-20">

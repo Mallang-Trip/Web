@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { getMyParty } from "../../api/party";
+import { useSelector } from "react-redux";
+import { getMyParty, getMyDriverParty } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
+import Loading from "../../components/Loading";
 import NoReservationData from "./NoReservationData";
 import ReservationList from "./ReservationList";
-import Loading from "../../components/Loading";
 
 function MyReservationPage() {
+  const user = useSelector((state) => state.user);
   const [myReservationData, setMyReservationData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +15,10 @@ function MyReservationPage() {
     setLoading(true);
 
     try {
-      const result = await getMyParty();
+      const result =
+        user.role === "ROLE_DRIVER"
+          ? await getMyDriverParty()
+          : await getMyParty();
       setMyReservationData(result.payload);
     } catch (e) {
       console.log(e);

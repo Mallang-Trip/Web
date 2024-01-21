@@ -43,3 +43,5 @@ export const putNewPartyAccept = async (partyId, accept) =>
 export const getPartyHistory = async () => await GET("/party/history", true);
 
 export const getMyParty = async () => await GET("/party/my", true);
+
+export const getMyDriverParty = async () => await GET("/party/driver", true);

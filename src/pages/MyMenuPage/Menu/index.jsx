@@ -39,7 +39,7 @@ function Menu() {
         </button>
         <button
           className="w-full flex justify-between p-4 my-2"
-          onClick={() => alert("준비중 입니다.")}
+          onClick={() => navigation("/my/reservation")}
         >
           <span className="text-base">예약 내역</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />

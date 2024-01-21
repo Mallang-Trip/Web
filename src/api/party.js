@@ -40,4 +40,6 @@ export const deleteNewParty = async (partyId) =>
 export const putNewPartyAccept = async (partyId, accept) =>
   await PUT(`/party/create/${partyId}?accept=${accept}`, {}, true);
 
-export const getPartyHistory = async () => await GET(`/party/history`, true);
+export const getPartyHistory = async () => await GET("/party/history", true);
+
+export const getMyParty = async () => await GET("/party/my", true);

@@ -12,6 +12,7 @@ import MyMenuPage from "../pages/MyMenuPage";
 import MyProfilePage from "../pages/MyProfilePage";
 import MyHeartPage from "../pages/MyHeartPage";
 import MyArticlePage from "../pages/MyArticlePage";
+import MyReservationPage from "../pages/MyReservationPage";
 import PartyApprovalPage from "../pages/PartyApprovalPage";
 import NewPartyPage from "../pages/NewPartyPage";
 import PartyHistoryPage from "../pages/PartyHistoryPage";
@@ -40,6 +41,7 @@ function Router() {
   const AuthMyProfilePage = Auth(MyProfilePage, true);
   const AuthMyHeartPage = Auth(MyHeartPage, true);
   const AuthMyArticlePage = Auth(MyArticlePage, true);
+  const AuthMyReservationPage = Auth(MyReservationPage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
@@ -74,6 +76,7 @@ function Router() {
         <Route path="/my/profile" element={<AuthMyProfilePage />} />
         <Route path="/my/heart" element={<AuthMyHeartPage />} />
         <Route path="/my/article" element={<AuthMyArticlePage />} />
+        <Route path="/my/reservation" element={<AuthMyReservationPage />} />
         <Route path="/my/party/history" element={<AuthPartyHistoryPage />} />
         <Route path="/my/driver/apply" element={<AuthDriverApplyPage />} />
         <Route

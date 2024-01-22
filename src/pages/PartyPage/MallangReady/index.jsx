@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { putMallangReady } from "../../../api/party";
+import { computeGapDay } from "../../../utils";
 import WhatReady from "./WhatReady";
 
-function MallangReady({ members, driverReady, getPartyData }) {
+function MallangReady({
+  members,
+  driverReady,
+  getPartyData,
+  partyStatus,
+  startDate,
+}) {
   const user = useSelector((state) => state.user);
   const { partyId } = useParams();
   const [ready, setReady] = useState(false);
@@ -25,6 +32,8 @@ function MallangReady({ members, driverReady, getPartyData }) {
       setReady(members.filter((item) => item.userId === user.userId)[0]?.ready);
   }, []);
 
+  if (computeGapDay(startDate) <= 0 && partyStatus !== "RECRUITING")
+    return null;
   return (
     <div className="my-7">
       <p className="text-lg text-black font-bold">말랑레디</p>
@@ -36,8 +45,13 @@ function MallangReady({ members, driverReady, getPartyData }) {
               : "bg-white text-darkgray border-darkgray"
           }`}
           onClick={readyClickHandler}
+          disabled={partyStatus !== "RECRUITING"}
         >
-          {`말랑레디 ${ready ? "ON" : "OFF"}`}
+          {partyStatus === "RECRUITING"
+            ? `말랑레디 ${ready ? "ON" : "OFF"}`
+            : computeGapDay(startDate) > 2
+            ? "말랑트립 확정"
+            : "말랑트립 최종 확정"}
         </button>
       </div>
       <WhatReady />

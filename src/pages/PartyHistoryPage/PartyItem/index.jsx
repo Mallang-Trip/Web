@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { customRoundOne } from "../../../utils";
 
 function PartyItem({
   partyId,
@@ -28,9 +29,9 @@ function PartyItem({
       <div className="w-full absolute bottom-0 left-0 flex justify-center text-white bg-black bg-opacity-50 py-1 rounded-b-lg">
         {`${startDate
           .slice(5)
-          .replace("-", "/")} | ${headcount}/${capacity}명 | ${
+          .replace("-", "/")} | ${headcount}/${capacity}명 | ${customRoundOne(
           price / 10000
-        }만원`}
+        )}만원`}
       </div>
     </div>
   );

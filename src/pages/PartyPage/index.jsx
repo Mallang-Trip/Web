@@ -12,6 +12,8 @@ import Loading from "../../components/Loading";
 import Credit from "../../components/Credit";
 import BottomRefundUser from "../../components/BottomRefundUser";
 import BottomRefundDriver from "../../components/BottomRefundDriver";
+import ConfirmModal from "../../components/ConfirmModal";
+import CheckModal from "../../components/CheckModal";
 import PartyDate from "./PartyDate";
 import PartyMember from "./PartyMember";
 import ToTalPrice from "./ToTalPrice";
@@ -22,8 +24,7 @@ import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
 import MallangReady from "./MallangReady";
-import ConfirmModal from "../../components/ConfirmModal";
-import CheckModal from "../../components/CheckModal";
+import DriverReview from "./DriverReview";
 import QuitButton from "./QuitButton";
 import JoinModal from "./JoinModal";
 import EditModal from "./EditModal";
@@ -228,13 +229,26 @@ function PartyPage() {
         partyStatus={partyData.partyStatus}
         proposal={partyData.proposal}
       />
-      {partyData.myParty && partyData.partyStatus === "RECRUITING" && (
-        <MallangReady
-          members={partyData.members}
-          driverReady={partyData.driverReady}
-          getPartyData={getPartyData}
-        />
-      )}
+      {partyData.myParty &&
+        (partyData.partyStatus === "RECRUITING" ||
+          partyData.partyStatus === "SEALED") && (
+          <MallangReady
+            members={partyData.members}
+            driverReady={partyData.driverReady}
+            getPartyData={getPartyData}
+            partyStatus={partyData.partyStatus}
+            startDate={partyData.startDate}
+          />
+        )}
+      {partyData.myParty &&
+        (partyData.partyStatus === "SEALED" ||
+          partyData.partyStatus === "DAY_OF_TRAVEL" ||
+          partyData.partyStatus === "FINISHED") && (
+          <DriverReview
+            driverId={partyData.driverId}
+            startDate={partyData.startDate}
+          />
+        )}
       {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
         <EditAgreement
           myParty={partyData.myParty}
@@ -261,10 +275,15 @@ function PartyPage() {
         )}
       {user.userId !== partyData.driverId &&
         partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
-        partyData.partyStatus !== "CANCELED_BY_PROPOSER" && (
+        partyData.partyStatus !== "CANCELED_BY_PROPOSER" &&
+        partyData.partyStatus !== "CANCELED_BY_ALL_QUIT" &&
+        partyData.partyStatus !== "CANCELED_BY_DRIVER_QUIT" && (
           <CreditInfo
             totalPrice={partyData.course.totalPrice}
             capacity={partyData.capacity}
+            partyStatus={partyData.partyStatus}
+            paymentAmount={partyData.reservation?.paymentAmount}
+            createdAt={partyData.reservation?.createdAt}
           />
         )}
       {(type === "join" || type === "edit") && (
@@ -356,6 +375,10 @@ function PartyPage() {
           <QuitButton
             getPartyData={getPartyData}
             partyStatus={partyData.partyStatus}
+            startDate={partyData.startDate}
+            paymentAmount={partyData.reservation?.paymentAmount}
+            isDriver={user.userId === partyData.driverId}
+            totalPrice={partyData.course.totalPrice}
           />
         )
       ) : (
@@ -363,7 +386,10 @@ function PartyPage() {
       )}
       {(type === "join" ||
         type === "edit" ||
-        partyData.partyStatus === "WAITING_DRIVER_APPROVAL") &&
+        partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ||
+        partyData.partyStatus === "SEALED" ||
+        partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
+        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT") &&
         user.userId !== partyData.driverId && <BottomRefundUser />}
       {user.userId === partyData.driverId && <BottomRefundDriver />}
 

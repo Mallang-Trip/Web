@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 function ConfirmModal({ showModal, setShowModal, message }) {
   const modalRef = useRef();
@@ -23,7 +24,7 @@ function ConfirmModal({ showModal, setShowModal, message }) {
     };
   }, [showModal]);
 
-  return (
+  return createPortal(
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
@@ -42,7 +43,8 @@ function ConfirmModal({ showModal, setShowModal, message }) {
           확인
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

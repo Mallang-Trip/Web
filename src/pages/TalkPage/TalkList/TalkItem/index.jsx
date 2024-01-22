@@ -12,7 +12,7 @@ function TalkItem({
   openTalkId,
   setOpenTalkId,
   headCount,
-  isGroup,
+  type,
 }) {
   const lastMessage = () => {
     if (
@@ -36,7 +36,7 @@ function TalkItem({
           <img
             className="mr-3 w-16 h-16 rounded-full"
             src={
-              isGroup
+              type !== "COUPLE"
                 ? groupTalkImage
                 : (profileImages && profileImages[0]) || basicProfileImage
             }
@@ -45,8 +45,8 @@ function TalkItem({
           <div className="flex flex-col gap-2 text-left">
             <div className="flex gap-4 items-center">
               <span className="text-lg text-black font-bold">{roomName}</span>
-              {isGroup && (
-                <span className="text-sm text-[#D9D9D9] font-bold">
+              {type !== "COUPLE" && (
+                <span className="text-sm text-darkgray/80 font-bold">
                   {headCount + "명"}
                 </span>
               )}

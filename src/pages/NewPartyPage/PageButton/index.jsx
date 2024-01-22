@@ -1,20 +1,25 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-function PageButton({ region, member, date, driverId }) {
+function PageButton({ region, member, date, driverId, nextOK }) {
   const { step } = useParams();
   const navigation = useNavigate();
 
   if (step !== "2" && step !== "3") return null;
   return (
-    <div className="w-full max-w-4xl flex justify-between my-24 mx-auto px-4">
+    <div className="w-full flex justify-center gap-7 my-24 mx-auto px-4">
       <button
-        className="h-10 bg-white border rounded-full text-darkgray text-sm w-32 border-darkgray"
+        className="h-12 bg-white rounded-full text-darkgray text-sm w-64 border border-darkgray"
         onClick={() => navigation(-1)}
       >
         뒤로가기
       </button>
       <button
-        className="h-10 text-white rounded-full text-sm w-32 bg-primary"
+        className={`h-12 rounded-full text-sm w-64 border ${
+          nextOK
+            ? "text-white bg-primary border-primary"
+            : "text-darkgray bg-white border-darkgray"
+        }`}
+        disabled={!nextOK}
         onClick={() =>
           navigation(
             `/party/new/${

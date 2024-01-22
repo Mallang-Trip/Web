@@ -8,12 +8,11 @@ import LoginPage from "../pages/LoginPage";
 import LoginSearchPage from "../pages/LoginSearchPage";
 import PartyPage from "../pages/PartyPage";
 import SignupPage from "../pages/SignupPage";
-import CourseSuggestPage from "../pages/CourseSuggestPage";
 import MyMenuPage from "../pages/MyMenuPage";
 import MyProfilePage from "../pages/MyProfilePage";
 import MyHeartPage from "../pages/MyHeartPage";
 import MyArticlePage from "../pages/MyArticlePage";
-import ReservationPage from "../pages/ReservationPage";
+import MyReservationPage from "../pages/MyReservationPage";
 import PartyApprovalPage from "../pages/PartyApprovalPage";
 import NewPartyPage from "../pages/NewPartyPage";
 import PartyHistoryPage from "../pages/PartyHistoryPage";
@@ -21,7 +20,6 @@ import DriverProfilePage from "../pages/DriverProfilePage";
 import SearchPlacePage from "../pages/SearchPlacePage";
 import DestinationPage from "../pages/DestinationPage";
 import DriverApplyPage from "../pages/DriverApplyPage";
-import EditCoursePage from "../pages/EditCoursePage";
 import CommunityPage from "../pages/CommunityPage";
 import CommunityPostPage from "../pages/CommunityPostPage";
 import CommunitySearchPage from "../pages/CommunitySearchPage";
@@ -35,8 +33,6 @@ function Router() {
   const AuthIntroPage = Auth(IntroPage, null);
   const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
-  const AuthCourseSuggestPage = Auth(CourseSuggestPage, true);
-  const AuthReservationPage = Auth(ReservationPage, true);
   const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
@@ -45,6 +41,7 @@ function Router() {
   const AuthMyProfilePage = Auth(MyProfilePage, true);
   const AuthMyHeartPage = Auth(MyHeartPage, true);
   const AuthMyArticlePage = Auth(MyArticlePage, true);
+  const AuthMyReservationPage = Auth(MyReservationPage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
@@ -67,14 +64,6 @@ function Router() {
         <Route path="/policy/:category/:type" element={<AuthPolicyPage />} />
         <Route path="/party/:type/:partyId" element={<AuthPartyPage />} />
         <Route
-          path="/party/course/suggest/:partyId"
-          element={<AuthCourseSuggestPage />}
-        />
-        <Route
-          path="/party/reservation/:partyId"
-          element={<AuthReservationPage />}
-        />
-        <Route
           path="/party/approval/:type/:partyId"
           element={<AuthPartyApprovalPage />}
         />
@@ -87,6 +76,7 @@ function Router() {
         <Route path="/my/profile" element={<AuthMyProfilePage />} />
         <Route path="/my/heart" element={<AuthMyHeartPage />} />
         <Route path="/my/article" element={<AuthMyArticlePage />} />
+        <Route path="/my/reservation" element={<AuthMyReservationPage />} />
         <Route path="/my/party/history" element={<AuthPartyHistoryPage />} />
         <Route path="/my/driver/apply" element={<AuthDriverApplyPage />} />
         <Route
@@ -97,7 +87,6 @@ function Router() {
           path="/destination/detail/:destinationId"
           element={<AuthDestinationPage />}
         />
-        <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
         <Route path="/community/:articleId" element={<AuthCommunityPage />} />
         <Route
           path="/community/post/:articleId"

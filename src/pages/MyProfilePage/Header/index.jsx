@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import info from "../../../assets/svg/Polygon 3.svg";
+import info from "../../../assets/svg/more-info-black.svg";
 import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function Header({ category, setCategory }) {

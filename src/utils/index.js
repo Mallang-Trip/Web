@@ -3,6 +3,24 @@ export function setScreenHeight() {
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 
+export function setColorTheme() {
+  // if (
+  //   localStorage.getItem("color-theme") === "dark" ||
+  //   (!("color-theme" in localStorage) &&
+  //     window.matchMedia("(prefers-color-scheme: dark)").matches)
+  // ) {
+  //   document.documentElement.classList.add("dark");
+  //   localStorage.setItem("color-theme", "dark");
+  // } else {
+  //   document.documentElement.classList.remove("dark");
+  //   localStorage.setItem("color-theme", "light");
+  // }
+
+  /* 우선, 라이트 모드만 적용 (다크 모드 기획 없음) */
+  document.documentElement.classList.remove("dark");
+  localStorage.setItem("color-theme", "light");
+}
+
 export function makePhoneNumber(value) {
   value = value.replace(/[^0-9]/g, "");
   return value.replace(

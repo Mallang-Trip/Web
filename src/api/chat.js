@@ -16,3 +16,6 @@ export const makeNewGroupChat = async (userIds, roomName) =>
 
 export const makeNewCoupleChat = async (userId) =>
   await GET(`/chat/coupleChat?userId=${userId}`, true);
+
+export const getPartyChatId = async (partyId) =>
+  await GET(`/chat/party/${partyId}`, true);

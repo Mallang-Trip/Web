@@ -27,13 +27,14 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
-        PARTY_IMAGE1: partyImages[0],
-        PARTY_IMAGE2: partyImages[1] || partyImages[0],
-        PARTY_IMAGE3: partyImages[2] || partyImages[0],
+        IMAGE1: partyImages[0],
+        IMAGE2: partyImages[1] || partyImages[0],
+        IMAGE3: partyImages[2] || partyImages[0],
         PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
-        PARTY_NAME: partyName,
-        PARTY_ID: partyId,
+        TITLE: partyName,
+        DESCRIPTION: `${partyName}에 초대합니다!`,
+        URL: `party/detail/${partyId}`,
       },
     });
   };

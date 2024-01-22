@@ -26,5 +26,4 @@ export const putNewPassword = async (data) =>
 export const searchUser = async (nickName) =>
   await GET(`/user/search?nickname=${nickName}`, true);
 
-export const getUserInfo = async (userId) =>
-  await GET(`/user/info/${userId}`, true);
+export const getUserInfo = async (userId) => await GET(`/user/info/${userId}`);

@@ -7,6 +7,7 @@ import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
 import Course from "./Course";
+import Edit from "./Edit";
 import Reservation from "./Reservation";
 import PageButton from "./PageButton";
 
@@ -20,6 +21,7 @@ function NewPartyPage() {
   const [driverId, setDriverId] = useState(0);
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
+  const [nextOK, setNextOK] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(
     location.state ? location.state.selectedCourseId : -1
   );
@@ -94,6 +96,7 @@ function NewPartyPage() {
           setMember={setMember}
           date={date}
           setDate={setDate}
+          setNextOK={setNextOK}
         />
       )}
       {step === "3" && (
@@ -103,6 +106,7 @@ function NewPartyPage() {
           region={region}
           driverId={driverId}
           setDriverId={setDriverId}
+          setNextOK={setNextOK}
         />
       )}
       {step === "4" && (
@@ -114,14 +118,27 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
+          settingDriverInfo={settingDriverInfo}
+        />
+      )}
+      {step === "5" && (
+        <Edit
+          date={date}
+          driverInfo={driverInfo}
+          planData={planData}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+          member={member}
         />
       )}
       {step === "6" && (
         <Reservation
-          member={member}
           date={date}
           driverInfo={driverInfo}
           planData={planData}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+          member={member}
         />
       )}
       <PageButton
@@ -129,6 +146,7 @@ function NewPartyPage() {
         member={member}
         date={date}
         driverId={driverId}
+        nextOK={nextOK}
       />
     </PageContainer>
   );

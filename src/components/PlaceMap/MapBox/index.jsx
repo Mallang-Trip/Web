@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { getAllMarkers } from "../../../api/destination";
 
 function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
   const mapRef = useRef();
@@ -8,14 +7,14 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 
-    const mapWidth = window.screen.width > 900 ? 900 : window.screen.width - 16;
+    const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
     const mapHeight = (mapWidth * 740) / 900;
 
     const map = new Tmapv3.Map("TMapApp", {
       center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
       width: mapWidth + "px",
       height: mapHeight + "px",
-      zoom: 15,
+      zoom: 11,
     });
 
     markerData.forEach((marker) => {
@@ -24,9 +23,9 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
         map: map,
       });
 
-      tmapMarker.on("click", function (evt) {
-        markerData.unshift(marker);
-        initTmap();
+      tmapMarker.on("click", (e) => {
+        map.setZoom(13);
+        map.setCenter(new Tmapv3.LatLng(marker.lat, marker.lon));
         setClicked(true);
         setClickedData(marker);
       });
@@ -39,17 +38,27 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
     });
   };
 
-  const getMarkerData = async () => {
-    try {
-      const result = await getAllMarkers();
-      setMarkerData(result.payload);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    if (markerData.length === 0) getMarkerData();
+    if (markerData.length === 0)
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setMarkerData([
+            {
+              destinationId: -1,
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            },
+          ]);
+        },
+        () =>
+          setMarkerData([
+            {
+              destinationId: -1,
+              lat: 37.2840931,
+              lon: 127.0453753,
+            },
+          ])
+      );
     else initTmap();
   }, [markerData]);
 

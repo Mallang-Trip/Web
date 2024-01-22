@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getPartyDetail } from "../../api/party";
 import PageContainer from "../../components/PageContainer";
 import HeadTitle from "../../components/HeadTitle";
@@ -9,7 +10,8 @@ import PartyImageBox from "../../components/PartyImageBox";
 import CourseMap from "../../components/CourseMap";
 import Loading from "../../components/Loading";
 import Credit from "../../components/Credit";
-import BottomRefund from "../../components/BottomRefund";
+import BottomRefundUser from "../../components/BottomRefundUser";
+import BottomRefundDriver from "../../components/BottomRefundDriver";
 import PartyDate from "./PartyDate";
 import PartyMember from "./PartyMember";
 import ToTalPrice from "./ToTalPrice";
@@ -19,25 +21,122 @@ import JoinMember from "./JoinMember";
 import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
+import MallangReady from "./MallangReady";
 import ConfirmModal from "../../components/ConfirmModal";
+import CheckModal from "../../components/CheckModal";
+import QuitButton from "./QuitButton";
+import JoinModal from "./JoinModal";
+import EditModal from "./EditModal";
+import CourseDnD from "./CourseDnD";
+import EditMap from "./EditMap";
+import EditAgreement from "./EditAgreement";
+import CancelNewPartyButton from "./CancelNewPartyButton";
+import NewPartyAgreement from "./NewPartyAgreement";
+import NotFoundParty from "./NotFoundParty";
 
 function PartyPage() {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
   const { type, partyId } = useParams();
+  const companionsRef = useRef();
   const creditRef = useRef();
   const agreementRef = useRef();
   const [partyData, setPartyData] = useState({});
   const [memberCount, setMemberCount] = useState(1);
+  const [companions, setCompanions] = useState([]);
   const [content, setContent] = useState("");
   const [registerCredit, setRegisterCredit] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [shakeCompanions, setShakeCompanions] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showJoinModal, setShowJoinModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
+  const [joinErrorMessage, setJoinErrorMessage] = useState("");
+  const [courseData, setCourseData] = useState([]);
+
+  const checkJoinEdit = () => {
+    if (partyData.capacity === partyData.headcount) {
+      setJoinErrorMessage(
+        "이미 인원이 모두 찬 파티이므로\n가입 또는 코스 수정 제안이 불가능합니다."
+      );
+      setShowJoinErrorModal(true);
+      return false;
+    }
+    if (
+      partyData.partyStatus === "CANCELED_BY_EXPIRATION" ||
+      partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
+      partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT"
+    ) {
+      setJoinErrorMessage("이미 기한이 만료 또는 취소된 파티입니다.");
+      setShowJoinErrorModal(true);
+      return false;
+    }
+    if (partyData.partyStatus === "WAITING_JOIN_APPROVAL") {
+      setJoinErrorMessage(
+        "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
+      );
+      setShowJoinErrorModal(true);
+      return false;
+    }
+    return true;
+  };
+
+  const editHandler = () => {
+    if (!user.auth) return setShowLoginModal(true);
+
+    if (type === "detail") {
+      if (partyData.myParty) {
+        setJoinErrorMessage("파티원은 코스 수정 제안이 불가능합니다.");
+        setShowJoinErrorModal(true);
+        return false;
+      }
+
+      if (!checkJoinEdit()) return;
+
+      return navigation(`/party/edit/${partyId}`);
+    }
+  };
 
   const joinHandler = () => {
-    if (type === "detail") return navigation(`/party/join/${partyId}`);
+    if (!user.auth) return setShowLoginModal(true);
 
+    if (type === "detail") {
+      if (!checkJoinEdit()) return;
+
+      return navigation(`/party/join/${partyId}`);
+    }
+
+    // 동행자 정보 입력 체크
+    if (memberCount > 1) {
+      let checkValid = true;
+
+      companions.slice(0, memberCount - 1).forEach((item) => {
+        if (!item.name || !item.phoneNumber) {
+          checkValid = false;
+        }
+      });
+
+      if (!checkValid) {
+        if (companionsRef.current) {
+          const containerRect = companionsRef.current.getBoundingClientRect();
+          const scrollY =
+            containerRect.top +
+            window.scrollY -
+            window.innerHeight / 2 +
+            containerRect.height / 2;
+
+          window.scrollTo({ top: scrollY });
+        }
+
+        setShakeCompanions(true);
+        setTimeout(() => setShakeCompanions(false), 1000);
+        return;
+      }
+    }
+    // 결제 수단 등록 체크
     if (!registerCredit) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
@@ -54,6 +153,7 @@ function PartyPage() {
       setTimeout(() => setShakeCredit(false), 1000);
       return;
     }
+    // 약관 동의 체크
     if (agreeChecked.filter((i) => i === false).length > 0) {
       if (agreementRef.current) {
         const containerRect = agreementRef.current.getBoundingClientRect();
@@ -71,18 +171,23 @@ function PartyPage() {
       return;
     }
 
-    setShowModal(true);
+    if (type === "join") return setShowJoinModal(true);
+    if (type === "edit") return setShowEditModal(true);
   };
 
-  const getPartyData = async () => {
+  const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
-      setPartyData(result.payload);
+      if (result.statusCode === 200) setPartyData(result.payload);
+      else setPartyData({ partyId: -1 });
+
+      if (toScrollTop) window.scrollTo({ top: 0 });
       console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
   };
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
 
@@ -90,6 +195,7 @@ function PartyPage() {
   }, [type, partyId]);
 
   if (!partyData.partyId) return <Loading full={true} />;
+  if (partyData.partyId === -1) return <NotFoundParty />;
   return (
     <PageContainer>
       <HeadTitle
@@ -97,6 +203,8 @@ function PartyPage() {
         driverName={partyData.driverName}
         driverId={partyData.driverId}
         isDriver={true}
+        partyStatus={partyData.partyStatus}
+        myParty={partyData.myParty}
       />
       <PartyImageBox
         images={partyData.course.images}
@@ -105,7 +213,7 @@ function PartyPage() {
       <PartyIconBox
         images={partyData.course.images}
         name={partyData.course.name}
-        dibs={false}
+        dibs={partyData.dibs}
         type={"party"}
         id={partyData.partyId}
       />
@@ -115,15 +223,51 @@ function PartyPage() {
         capacity={partyData.capacity}
         members={partyData.members}
         driverId={partyData.driverId}
-        driverName={partyData.driverName}
         myParty={partyData.myParty}
+        driverReady={partyData.driverReady}
+        partyStatus={partyData.partyStatus}
+        proposal={partyData.proposal}
       />
-      <ToTalPrice totalPrice={partyData.course?.totalPrice} />
-      <CreditInfo
-        totalPrice={partyData.course.totalPrice}
-        capacity={partyData.capacity}
+      {partyData.myParty && partyData.partyStatus === "RECRUITING" && (
+        <MallangReady
+          members={partyData.members}
+          driverReady={partyData.driverReady}
+          getPartyData={getPartyData}
+        />
+      )}
+      {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
+        <EditAgreement
+          myParty={partyData.myParty}
+          createdAt={partyData.proposal?.createdAt}
+          getPartyData={getPartyData}
+          proposalId={partyData.proposal?.proposalId}
+          agreement={[
+            {
+              userId: partyData.driverId,
+              status: partyData.proposal.driverAgreement,
+            },
+            ...partyData.proposal.memberAgreement,
+          ]}
+        />
+      )}
+      <ToTalPrice
+        totalPrice={partyData.course?.totalPrice}
+        isDriver={user.userId === partyData.driverId}
+        partyStatus={partyData.partyStatus}
       />
-      {type === "join" && (
+      {partyData.partyStatus === "WAITING_DRIVER_APPROVAL" &&
+        user.userId === partyData.driverId && (
+          <NewPartyAgreement getPartyData={getPartyData} />
+        )}
+      {user.userId !== partyData.driverId &&
+        partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
+        partyData.partyStatus !== "CANCELED_BY_PROPOSER" && (
+          <CreditInfo
+            totalPrice={partyData.course.totalPrice}
+            capacity={partyData.capacity}
+          />
+        )}
+      {(type === "join" || type === "edit") && (
         <>
           <JoinMember
             memberCount={memberCount}
@@ -131,17 +275,65 @@ function PartyPage() {
             capacity={partyData.capacity}
             headcount={partyData.headcount}
           />
-          <JoinMemberInfo memberCount={memberCount} />
+          <JoinMemberInfo
+            companionsRef={companionsRef}
+            memberCount={memberCount}
+            companions={companions}
+            setCompanions={setCompanions}
+            shakeCompanions={shakeCompanions}
+          />
           <JoinGreeting content={content} setContent={setContent} />
         </>
       )}
-      <PartyPlan
-        edit={true}
-        course={partyData.course}
-        startDate={partyData.startDate}
-      />
-      <CourseMap markerData={partyData.course.days[0].destinations} />
-      {type === "join" && (
+      {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
+        <>
+          <PartyPlan
+            edit={false}
+            course={partyData.proposal.course}
+            startDate={partyData.startDate}
+            editHandler={editHandler}
+            comment="새로 제안된 파티 코스"
+          />
+          <CourseMap
+            markerData={partyData.proposal.course.days[0].destinations}
+            reload={false}
+            mapName="TMAP_COURSE_NEW"
+          />
+          <hr className="w-full max-w-[900px] bg-darkgray/30 my-20 mx-auto h-px border-0" />
+        </>
+      )}
+      {type === "edit" ? (
+        <>
+          <CourseDnD
+            name={partyData.course.name}
+            course={partyData.course}
+            startDate={partyData.startDate}
+            hours={partyData.course.days[0].hours}
+            courseData={courseData}
+            setCourseData={setCourseData}
+          />
+          <EditMap courseData={courseData} setCourseData={setCourseData} />
+        </>
+      ) : (
+        <>
+          <PartyPlan
+            edit={partyData.partyStatus === "RECRUITING" && type === "detail"}
+            course={partyData.course}
+            startDate={partyData.startDate}
+            editHandler={editHandler}
+            comment={
+              partyData.partyStatus === "WAITING_JOIN_APPROVAL" &&
+              "기존 파티 코스"
+            }
+          />
+          <CourseMap
+            markerData={partyData.course.days[0].destinations}
+            reload={false}
+            mapName="TMAP_COURSE_BEFORE"
+          />
+        </>
+      )}
+      {(type === "join" || type === "edit") && (
         <>
           <Credit
             shakeCredit={shakeCredit}
@@ -157,12 +349,62 @@ function PartyPage() {
           />
         </>
       )}
-      <JoinButton joinHandler={joinHandler} />
-      <BottomRefund />
+      {partyData.myParty ? (
+        partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ? (
+          <CancelNewPartyButton isDriver={user.userId === partyData.driverId} />
+        ) : (
+          <QuitButton
+            getPartyData={getPartyData}
+            partyStatus={partyData.partyStatus}
+          />
+        )
+      ) : (
+        <JoinButton joinHandler={joinHandler} />
+      )}
+      {(type === "join" ||
+        type === "edit" ||
+        partyData.partyStatus === "WAITING_DRIVER_APPROVAL") &&
+        user.userId !== partyData.driverId && <BottomRefundUser />}
+      {user.userId === partyData.driverId && <BottomRefundDriver />}
+
+      <CheckModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+        message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
+        noText="취소"
+        yesText="확인"
+        yesHandler={() => navigation("/login")}
+      />
+      <JoinModal
+        showModal={showJoinModal}
+        setShowModal={setShowJoinModal}
+        content={content}
+        memberCount={memberCount}
+        companions={companions}
+        getPartyData={getPartyData}
+        capacity={partyData.capacity}
+        headcount={partyData.headcount}
+        totalPrice={partyData.course.totalPrice}
+        partyName={partyData.course.name}
+      />
+      <EditModal
+        showModal={showEditModal}
+        setShowModal={setShowEditModal}
+        content={content}
+        memberCount={memberCount}
+        companions={companions}
+        getPartyData={getPartyData}
+        capacity={partyData.capacity}
+        headcount={partyData.headcount}
+        totalPrice={partyData.course.totalPrice}
+        partyName={partyData.course.name}
+        course={partyData.course}
+        courseData={courseData}
+      />
       <ConfirmModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        message={"현재는 이용이 불가능합니다.\n베타 테스트를 기다려주세요 :)"}
+        showModal={showJoinErrorModal}
+        setShowModal={setShowJoinErrorModal}
+        message={joinErrorMessage}
       />
     </PageContainer>
   );

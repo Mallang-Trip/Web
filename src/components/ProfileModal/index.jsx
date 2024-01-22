@@ -4,11 +4,13 @@ import { getUserInfo } from "../../api/users";
 import ModalCloser from "./ModalCloser";
 import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
+import Loading from "../Loading";
 
 function ProfileModal({ showModal, setShowModal, userId = 0 }) {
   const modalRef = useRef();
   const $body = document.body;
   const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const closeModal = () => setShowModal(false);
 
@@ -23,11 +25,15 @@ function ProfileModal({ showModal, setShowModal, userId = 0 }) {
   const getUserInfoFunc = async () => {
     if (userId === 0) return;
 
+    setLoading(true);
+
     try {
       const result = await getUserInfo(userId);
       setUserInfo(result.payload);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,8 +59,16 @@ function ProfileModal({ showModal, setShowModal, userId = 0 }) {
     >
       <div className="m-auto shadow w-96 bg-white rounded-xl">
         <ModalCloser closeModal={() => setShowModal(false)} />
-        <ProfileInfo {...userInfo} />
-        <ButtonBox userId={userInfo.userId} />
+        {loading ? (
+          <div className="w-full h-[344px] flex justify-center items-center">
+            <Loading />
+          </div>
+        ) : (
+          <>
+            <ProfileInfo {...userInfo} />
+            <ButtonBox userId={userInfo.userId} />
+          </>
+        )}
       </div>
     </div>,
     $body

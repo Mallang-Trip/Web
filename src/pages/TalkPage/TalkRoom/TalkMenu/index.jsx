@@ -10,13 +10,16 @@ function TalkMenu({
   chatRoomId,
   roomName,
   headCount,
-  isGroup,
+  type,
   members,
   getChatRoomDataFunc,
   getChatListFunc,
   closeRoomHandler,
   setShowProfileModal,
   setProfileUserId,
+  openTalkId,
+  setRoomId,
+  partyId,
 }) {
   const modalRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
@@ -75,10 +78,17 @@ function TalkMenu({
         }`}
       >
         <MenuCloser setShowMenu={setShowMenu} />
-        <MenuHead roomName={roomName} headCount={headCount} isGroup={isGroup} />
+        <MenuHead
+          roomName={roomName}
+          headCount={headCount}
+          type={type}
+          openTalkId={openTalkId}
+          setRoomId={setRoomId}
+          partyId={partyId}
+        />
         <MenuMembers
           members={members}
-          isGroup={isGroup}
+          type={type}
           chatRoomId={chatRoomId}
           getChatRoomDataFunc={getChatRoomDataFunc}
           setShowProfileModal={setShowProfileModal}

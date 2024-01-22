@@ -1,11 +1,14 @@
-import Date from "./Date";
+import { useEffect } from "react";
+import PartyDate from "./PartyDate";
 import Member from "./Member";
 
-function MemberAndDate({ member, setMember, date, setDate }) {
+function MemberAndDate({ member, setMember, date, setDate, setNextOK }) {
+  useEffect(() => setNextOK(true));
+
   return (
     <>
       <Member member={member} setMember={setMember} />
-      <Date date={date} setDate={setDate} />
+      <PartyDate date={date} setDate={setDate} />
     </>
   );
 }

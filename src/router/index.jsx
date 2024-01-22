@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../components/MainLayout";
+import LoginLayout from "../components/LoginLayout";
 import Auth from "../hoc/Auth";
 import LandingPage from "../pages/LandingPage";
 import IntroPage from "../pages/IntroPage";
@@ -102,9 +103,11 @@ function Router() {
         <Route path="/admin" element={<AuthAdminPage />} />
       </Route>
 
-      <Route path="/login" element={<AuthLoginPage />} />
-      <Route path="/login/search/:target" element={<AuthLoginSearchPage />} />
-      <Route path="/signup" element={<AuthSignupPage />} />
+      <Route element={<LoginLayout />}>
+        <Route path="/login" element={<AuthLoginPage />} />
+        <Route path="/login/search/:target" element={<AuthLoginSearchPage />} />
+        <Route path="/signup" element={<AuthSignupPage />} />
+      </Route>
     </Routes>
   );
 }

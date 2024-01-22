@@ -14,6 +14,8 @@ function QuitModal({
   partyStatus,
   startDate,
   paymentAmount,
+  isDriver,
+  totalPrice,
 }) {
   const modalRef = useRef();
   const { partyId } = useParams();
@@ -33,6 +35,20 @@ function QuitModal({
     else return 100;
   };
 
+  const chargeMoneyDriver = () => {
+    const gapDay = computeGapDay(startDate);
+
+    if (gapDay >= 8) return 0;
+    if (gapDay === 7) return 5;
+    if (gapDay === 6) return 10;
+    if (gapDay === 5) return 15;
+    if (gapDay === 4) return 20;
+    if (gapDay === 3) return 25;
+    if (gapDay === 2) return 30;
+    if (gapDay === 1) return 35;
+    else return 40;
+  };
+
   const quitParty = async () => {
     if (loading) return;
 
@@ -43,22 +59,37 @@ function QuitModal({
       else await deleteQuitParty(partyId);
 
       setTimeout(() => {
-        if (partyStatus === "SEALED")
-          setMessage(
-            <div>
-              예약을 취소하였습니다.
-              <br />
-              <br />
-              환급금{" "}
-              <span className="text-primary">
-                {priceToString(
-                  Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
-                )}
-              </span>
-              원은 3영업일 내에 지급될 예정입니다.
-            </div>
-          );
-        else setMessage("파티를 탈퇴하였습니다.");
+        if (partyStatus === "SEALED") {
+          if (isDriver)
+            setMessage(
+              <div>
+                예약이 취소되었습니다.
+                <br />
+                <br />
+                <span className="text-primary">
+                  {priceToString(
+                    Math.floor((chargeMoneyDriver() / 100) * totalPrice)
+                  )}
+                </span>
+                원 지불을 위해 말랑트립 고객센터로 연락주세요.
+              </div>
+            );
+          else
+            setMessage(
+              <div>
+                예약을 취소하였습니다.
+                <br />
+                <br />
+                환급금{" "}
+                <span className="text-primary">
+                  {priceToString(
+                    Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
+                  )}
+                </span>
+                원은 3영업일 내에 지급될 예정입니다.
+              </div>
+            );
+        } else setMessage("파티를 탈퇴하였습니다.");
 
         setLoading(false);
         setComplete(true);
@@ -94,30 +125,46 @@ function QuitModal({
     setComplete(false);
     setLoading(false);
 
-    if (partyStatus === "SEALED")
-      setMessage(
-        <div>
-          예약을 취소하시겠습니까?
-          <br />
-          <br />
-          지금 예약을 취소할 시<br />
-          <br />
-          위약금은{" "}
-          <span className="text-primary">
-            {priceToString(Math.floor((chargeMoney() / 100) * paymentAmount))}
-          </span>
-          원이며,
-          <br />
-          환급금은 총{" "}
-          <span className="text-primary">
-            {priceToString(
-              Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
-            )}
-          </span>
-          원입니다.
-        </div>
-      );
-    else setMessage("파티를 탈퇴하시겠습니까?");
+    if (partyStatus === "SEALED") {
+      if (isDriver)
+        setMessage(
+          <div>
+            예약을 취소하시겠습니까?
+            <br />
+            <br />
+            예약 취소시 위약금으로{" "}
+            <span className="text-primary">
+              {priceToString(
+                Math.floor((chargeMoneyDriver() / 100) * totalPrice)
+              )}
+            </span>
+            원을 지불해야 합니다.
+          </div>
+        );
+      else
+        setMessage(
+          <div>
+            예약을 취소하시겠습니까?
+            <br />
+            <br />
+            지금 예약을 취소할 시<br />
+            <br />
+            위약금은{" "}
+            <span className="text-primary">
+              {priceToString(Math.floor((chargeMoney() / 100) * paymentAmount))}
+            </span>
+            원이며,
+            <br />
+            환급금은 총{" "}
+            <span className="text-primary">
+              {priceToString(
+                Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
+              )}
+            </span>
+            원입니다.
+          </div>
+        );
+    } else setMessage("파티를 탈퇴하시겠습니까?");
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

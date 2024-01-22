@@ -377,6 +377,8 @@ function PartyPage() {
             partyStatus={partyData.partyStatus}
             startDate={partyData.startDate}
             paymentAmount={partyData.reservation?.paymentAmount}
+            isDriver={user.userId === partyData.driverId}
+            totalPrice={partyData.course.totalPrice}
           />
         )
       ) : (

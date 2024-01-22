@@ -2,7 +2,14 @@ import { useState } from "react";
 import { computeGapDay } from "../../../utils";
 import QuitModal from "./QuitModal";
 
-function QuitButton({ getPartyData, partyStatus, startDate, paymentAmount }) {
+function QuitButton({
+  getPartyData,
+  partyStatus,
+  startDate,
+  paymentAmount,
+  isDriver,
+  totalPrice,
+}) {
   const [showModal, setShowModal] = useState(false);
 
   if (
@@ -29,6 +36,8 @@ function QuitButton({ getPartyData, partyStatus, startDate, paymentAmount }) {
         partyStatus={partyStatus}
         startDate={startDate}
         paymentAmount={paymentAmount}
+        isDriver={isDriver}
+        totalPrice={totalPrice}
       />
     </>
   );

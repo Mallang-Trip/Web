@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { computeGapDay } from "../../../utils";
 import QuitModal from "./QuitModal";
 
 function QuitButton({ getPartyData, partyStatus, startDate, paymentAmount }) {
@@ -7,7 +8,8 @@ function QuitButton({ getPartyData, partyStatus, startDate, paymentAmount }) {
   if (
     partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
     partyStatus === "CANCELED_BY_PROPOSER" ||
-    partyStatus === "CANCELED_BY_ALL_QUIT"
+    partyStatus === "CANCELED_BY_ALL_QUIT" ||
+    computeGapDay(startDate) <= 2
   )
     return null;
   return (

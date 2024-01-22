@@ -236,6 +236,7 @@ function PartyPage() {
             driverReady={partyData.driverReady}
             getPartyData={getPartyData}
             partyStatus={partyData.partyStatus}
+            startDate={partyData.startDate}
           />
         )}
       {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (

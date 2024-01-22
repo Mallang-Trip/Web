@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { putMallangReady } from "../../../api/party";
 import WhatReady from "./WhatReady";
 
-function MallangReady({ members, driverReady, getPartyData }) {
+function MallangReady({ members, driverReady, getPartyData, partyStatus }) {
   const user = useSelector((state) => state.user);
   const { partyId } = useParams();
   const [ready, setReady] = useState(false);
@@ -36,8 +36,11 @@ function MallangReady({ members, driverReady, getPartyData }) {
               : "bg-white text-darkgray border-darkgray"
           }`}
           onClick={readyClickHandler}
+          disabled={partyStatus !== "RECRUITING"}
         >
-          {`말랑레디 ${ready ? "ON" : "OFF"}`}
+          {partyStatus === "RECRUITING"
+            ? `말랑레디 ${ready ? "ON" : "OFF"}`
+            : "말랑트립 확정"}
         </button>
       </div>
       <WhatReady />

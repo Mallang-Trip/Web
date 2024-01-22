@@ -31,6 +31,9 @@ export const deleteProposalCancel = async (proposalId) =>
 export const deleteQuitParty = async (partyId) =>
   await DELETE(`/party/quit/${partyId}`, true);
 
+export const deleteQuitReservationParty = async (partyId) =>
+  await DELETE(`/party/reservation/${partyId}`, true);
+
 export const postNewParty = async (data) =>
   await POST("/party/create", data, true);
 

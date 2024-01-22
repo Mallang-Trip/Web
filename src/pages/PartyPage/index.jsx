@@ -228,13 +228,16 @@ function PartyPage() {
         partyStatus={partyData.partyStatus}
         proposal={partyData.proposal}
       />
-      {partyData.myParty && partyData.partyStatus === "RECRUITING" && (
-        <MallangReady
-          members={partyData.members}
-          driverReady={partyData.driverReady}
-          getPartyData={getPartyData}
-        />
-      )}
+      {partyData.myParty &&
+        (partyData.partyStatus === "RECRUITING" ||
+          partyData.partyStatus === "SEALED") && (
+          <MallangReady
+            members={partyData.members}
+            driverReady={partyData.driverReady}
+            getPartyData={getPartyData}
+            partyStatus={partyData.partyStatus}
+          />
+        )}
       {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
         <EditAgreement
           myParty={partyData.myParty}
@@ -265,6 +268,9 @@ function PartyPage() {
           <CreditInfo
             totalPrice={partyData.course.totalPrice}
             capacity={partyData.capacity}
+            partyStatus={partyData.partyStatus}
+            paymentAmount={partyData.reservation?.paymentAmount}
+            createdAt={partyData.reservation?.createdAt}
           />
         )}
       {(type === "join" || type === "edit") && (
@@ -356,6 +362,8 @@ function PartyPage() {
           <QuitButton
             getPartyData={getPartyData}
             partyStatus={partyData.partyStatus}
+            startDate={partyData.startDate}
+            paymentAmount={partyData.reservation?.paymentAmount}
           />
         )
       ) : (
@@ -363,7 +371,8 @@ function PartyPage() {
       )}
       {(type === "join" ||
         type === "edit" ||
-        partyData.partyStatus === "WAITING_DRIVER_APPROVAL") &&
+        partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ||
+        partyData.partyStatus === "SEALED") &&
         user.userId !== partyData.driverId && <BottomRefundUser />}
       {user.userId === partyData.driverId && <BottomRefundDriver />}
 

@@ -1,14 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { deleteQuitParty } from "../../../../api/party";
+import {
+  deleteQuitParty,
+  deleteQuitReservationParty,
+} from "../../../../api/party";
+import { computeGapDay, priceToString } from "../../../../utils";
 import Loading from "../../../../components/Loading";
 
-function QuitModal({ showModal, setShowModal, getPartyData }) {
+function QuitModal({
+  showModal,
+  setShowModal,
+  getPartyData,
+  partyStatus,
+  startDate,
+  paymentAmount,
+}) {
   const modalRef = useRef();
   const { partyId } = useParams();
-  const [message, setMessage] = useState("파티를 탈퇴하시겠습니까?");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const isBeforeQuit = message === "파티를 탈퇴하시겠습니까?";
+  const [complete, setComplete] = useState(false);
+
+  const chargeMoney = () => {
+    const gapDay = computeGapDay(startDate);
+
+    if (gapDay >= 8) return 0;
+    if (gapDay === 7) return 10;
+    if (gapDay === 6) return 25;
+    if (gapDay === 5) return 50;
+    if (gapDay === 4) return 75;
+    if (gapDay === 3) return 90;
+    else return 100;
+  };
 
   const quitParty = async () => {
     if (loading) return;
@@ -16,11 +39,29 @@ function QuitModal({ showModal, setShowModal, getPartyData }) {
     try {
       setLoading(true);
 
-      await deleteQuitParty(partyId);
+      if (partyStatus === "SEALED") await deleteQuitReservationParty(partyId);
+      else await deleteQuitParty(partyId);
 
       setTimeout(() => {
-        setMessage("파티를 탈퇴하였습니다.");
+        if (partyStatus === "SEALED")
+          setMessage(
+            <div>
+              예약을 취소하였습니다.
+              <br />
+              <br />
+              환급금{" "}
+              <span className="text-primary">
+                {priceToString(
+                  Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
+                )}
+              </span>
+              원은 3영업일 내에 지급될 예정입니다.
+            </div>
+          );
+        else setMessage("파티를 탈퇴하였습니다.");
+
         setLoading(false);
+        setComplete(true);
       }, 3000);
     } catch (e) {
       console.log(e);
@@ -30,7 +71,7 @@ function QuitModal({ showModal, setShowModal, getPartyData }) {
 
   const closeModal = () => {
     if (loading) return;
-    if (!isBeforeQuit) getPartyData(true);
+    if (complete) getPartyData(true);
     setShowModal(false);
   };
 
@@ -41,7 +82,7 @@ function QuitModal({ showModal, setShowModal, getPartyData }) {
   const handleKeyPress = (event) => {
     if (event.key === "Escape") closeModal();
     else if (event.key === "Enter") {
-      if (isBeforeQuit) quitParty();
+      if (!complete) quitParty();
       else closeModal();
     }
   };
@@ -50,8 +91,33 @@ function QuitModal({ showModal, setShowModal, getPartyData }) {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
 
-    setMessage("파티를 탈퇴하시겠습니까?");
+    setComplete(false);
     setLoading(false);
+
+    if (partyStatus === "SEALED")
+      setMessage(
+        <div>
+          예약을 취소하시겠습니까?
+          <br />
+          <br />
+          지금 예약을 취소할 시<br />
+          <br />
+          위약금은{" "}
+          <span className="text-primary">
+            {priceToString(Math.floor((chargeMoney() / 100) * paymentAmount))}
+          </span>
+          원이며,
+          <br />
+          환급금은 총{" "}
+          <span className="text-primary">
+            {priceToString(
+              Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
+            )}
+          </span>
+          원입니다.
+        </div>
+      );
+    else setMessage("파티를 탈퇴하시겠습니까?");
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {
@@ -71,7 +137,7 @@ function QuitModal({ showModal, setShowModal, getPartyData }) {
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
           {loading ? <Loading /> : message}
         </div>
-        {isBeforeQuit ? (
+        {!complete ? (
           <div className="flex">
             <button
               className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"

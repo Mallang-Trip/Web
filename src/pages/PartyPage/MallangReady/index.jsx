@@ -32,6 +32,8 @@ function MallangReady({
       setReady(members.filter((item) => item.userId === user.userId)[0]?.ready);
   }, []);
 
+  if (computeGapDay(startDate) <= 0 && partyStatus !== "RECRUITING")
+    return null;
   return (
     <div className="my-7">
       <p className="text-lg text-black font-bold">말랑레디</p>

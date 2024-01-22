@@ -12,6 +12,8 @@ import Loading from "../../components/Loading";
 import Credit from "../../components/Credit";
 import BottomRefundUser from "../../components/BottomRefundUser";
 import BottomRefundDriver from "../../components/BottomRefundDriver";
+import ConfirmModal from "../../components/ConfirmModal";
+import CheckModal from "../../components/CheckModal";
 import PartyDate from "./PartyDate";
 import PartyMember from "./PartyMember";
 import ToTalPrice from "./ToTalPrice";
@@ -22,8 +24,7 @@ import JoinMemberInfo from "./JoinMemberInfo";
 import JoinGreeting from "./JoinGreeting";
 import JoinAgreement from "./JoinAgreement";
 import MallangReady from "./MallangReady";
-import ConfirmModal from "../../components/ConfirmModal";
-import CheckModal from "../../components/CheckModal";
+import DriverReview from "./DriverReview";
 import QuitButton from "./QuitButton";
 import JoinModal from "./JoinModal";
 import EditModal from "./EditModal";
@@ -236,6 +237,15 @@ function PartyPage() {
             driverReady={partyData.driverReady}
             getPartyData={getPartyData}
             partyStatus={partyData.partyStatus}
+            startDate={partyData.startDate}
+          />
+        )}
+      {partyData.myParty &&
+        (partyData.partyStatus === "SEALED" ||
+          partyData.partyStatus === "DAY_OF_TRAVEL" ||
+          partyData.partyStatus === "FINISHED") && (
+          <DriverReview
+            driverId={partyData.driverId}
             startDate={partyData.startDate}
           />
         )}

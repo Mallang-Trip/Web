@@ -81,6 +81,8 @@ function PartyMember({
                   ? "PROPOSER"
                   : partyStatus === "CANCELED_BY_PROPOSER"
                   ? "CANCELED"
+                  : partyStatus === "CANCELED_BY_ALL_QUIT"
+                  ? "EXIT"
                   : proposal?.memberAgreement?.filter(
                       (member) => member.userId === item.userId
                     )[0].status

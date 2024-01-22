@@ -6,7 +6,8 @@ function QuitButton({ getPartyData, partyStatus, startDate, paymentAmount }) {
 
   if (
     partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
-    partyStatus === "CANCELED_BY_PROPOSER"
+    partyStatus === "CANCELED_BY_PROPOSER" ||
+    partyStatus === "CANCELED_BY_ALL_QUIT"
   )
     return null;
   return (

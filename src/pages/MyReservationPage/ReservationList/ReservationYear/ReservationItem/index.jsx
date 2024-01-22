@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { dateToStringHan } from "../../../../../utils";
+import { customRoundOne, dateToStringHan } from "../../../../../utils";
 
 const statusObj = {
   RECRUITING: "가입 중",
@@ -44,9 +44,9 @@ function ReservationItem({
           <p className="text-xl font-bold">{name}</p>
           <p className="text-sm">{`${dateToStringHan(startDate).slice(
             6
-          )} | ${headcount}/${capacity}명 | ${
+          )} | ${headcount}/${capacity}명 | ${customRoundOne(
             (price * capacity) / 10000
-          }만원 | ${driverName} 드라이버`}</p>
+          )}만원 | ${driverName} 드라이버`}</p>
           <p className="text-sm">{statusObj[status]}</p>
         </div>
       </div>

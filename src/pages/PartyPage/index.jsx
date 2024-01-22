@@ -264,7 +264,8 @@ function PartyPage() {
         )}
       {user.userId !== partyData.driverId &&
         partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
-        partyData.partyStatus !== "CANCELED_BY_PROPOSER" && (
+        partyData.partyStatus !== "CANCELED_BY_PROPOSER" &&
+        partyData.partyStatus !== "CANCELED_BY_ALL_QUIT" && (
           <CreditInfo
             totalPrice={partyData.course.totalPrice}
             capacity={partyData.capacity}
@@ -372,7 +373,8 @@ function PartyPage() {
       {(type === "join" ||
         type === "edit" ||
         partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ||
-        partyData.partyStatus === "SEALED") &&
+        partyData.partyStatus === "SEALED" ||
+        partyData.partyStatus === "CANCELED_BY_ALL_QUIT") &&
         user.userId !== partyData.driverId && <BottomRefundUser />}
       {user.userId === partyData.driverId && <BottomRefundDriver />}
 

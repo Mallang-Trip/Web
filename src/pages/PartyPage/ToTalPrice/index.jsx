@@ -3,6 +3,7 @@ import { priceToString } from "../../../utils";
 function ToTalPrice({ totalPrice, isDriver, partyStatus }) {
   if (
     partyStatus === "CANCELED_BY_ALL_QUIT" ||
+    partyStatus === "CANCELED_BY_DRIVER_QUIT" ||
     (partyStatus === "CANCELED_BY_DRIVER_REFUSED" && isDriver)
   )
     return null;

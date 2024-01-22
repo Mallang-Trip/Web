@@ -49,6 +49,8 @@ function PartyMember({
                 ? "WAITING"
                 : partyStatus === "CANCELED_BY_DRIVER_REFUSED"
                 ? "REFUSE"
+                : partyStatus === "CANCELED_BY_DRIVER_QUIT"
+                ? "EXIT"
                 : proposal?.driverAgreement
             }
             {...driverInfo}

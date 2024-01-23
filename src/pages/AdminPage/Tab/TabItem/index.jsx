@@ -1,8 +1,6 @@
 import React from "react";
 
 function TabItem({ items, onClickCategoryHandler, category }) {
-  console.log(items);
-  console.log(category);
   return (
     <button
       className={`text-xl py-3 px-4 focus:outline-none whitespace-nowrap ${

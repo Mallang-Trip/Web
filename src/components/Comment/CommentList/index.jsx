@@ -1,16 +1,14 @@
-import Down from "../../../assets/svg/Polygon 3.svg";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 
-function CommentList({ reviews, isDriver, reload, setReload }) {
+function CommentList({ reviews, isDriver, reloadData }) {
   const user = useSelector((state) => state.user);
 
   return (
-    <>
-      <div className="flex">
+    <div className="my-7">
+      <div className="flex gap-1.5 items-center">
         <div className="text-lg font-bold">댓글</div>
-        <div className="text-sm mt-1 ml-1.5">{reviews.length}</div>
-        <img className="m-1" src={Down} />
+        <div className="text-sm font-medium">{reviews.length}</div>
       </div>
       {reviews.map((item) => (
         <Comment
@@ -18,12 +16,10 @@ function CommentList({ reviews, isDriver, reload, setReload }) {
           {...item}
           isMyComment={user.userId === item.userId}
           isDriver={isDriver}
-          reload={reload}
-          setReload={setReload}
+          reloadData={reloadData}
         />
       ))}
-      <button className="text-sm text-darkgray mt-7 mb-6">댓글 더보기</button>
-    </>
+    </div>
   );
 }
 

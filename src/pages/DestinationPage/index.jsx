@@ -4,14 +4,13 @@ import { getDestinationDetail } from "../../api/destination";
 import PageContainer from "../../components/PageContainer";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
-import PlaceInfoBox from "../CourseSuggestPage/PlaceInfoBox";
-import Detailed from "../CourseSuggestPage/Atoms/Detailed";
+import PlaceInfoBox from "./PlaceInfoBox";
+import Detailed from "./Detailed";
 import Loading from "../../components/Loading";
 
 function DestinationPage() {
   const { destinationId } = useParams();
   const [destinationInfo, setDestinationInfo] = useState({});
-  const [destinationInfoReload, setDestinationInfoReload] = useState(false);
 
   const getDestinationInfo = async () => {
     try {
@@ -25,7 +24,7 @@ function DestinationPage() {
   useEffect(() => {
     getDestinationInfo();
     window.scrollTo({ top: 0 });
-  }, [destinationId, destinationInfoReload]);
+  }, [destinationId]);
 
   if (!destinationInfo.destinationId) return <Loading full={true} />;
   return (
@@ -39,14 +38,12 @@ function DestinationPage() {
       <CommentList
         reviews={destinationInfo.reviews || []}
         isDriver={false}
-        reload={destinationInfoReload}
-        setReload={setDestinationInfoReload}
+        reloadData={getDestinationInfo}
       />
       <AddComment
         id={destinationId}
         isDriver={false}
-        reload={destinationInfoReload}
-        setReload={setDestinationInfoReload}
+        reloadData={getDestinationInfo}
       />
     </PageContainer>
   );

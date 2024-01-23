@@ -1,13 +1,16 @@
 import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { __asyncAuth } from "../../../redux/modules/userSlice";
 import { uploadProfileImage } from "../../../api/image";
 import { putProfile } from "../../../api/profile";
+import ConfirmModal from "../../../components/ConfirmModal";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import BasicInfo from "./BasicInfo";
 import LoginInfo from "./LoginInfo";
 
 function UserProfile() {
+  const dispatch = useDispatch();
   const imageRef = useRef();
   const user = useSelector((state) => state.user);
   const [modifyMode, setModifyMode] = useState(false);
@@ -16,6 +19,7 @@ function UserProfile() {
   const [introduction, setIntroduction] = useState(user.introduction);
   const [email, setEmail] = useState(user.email);
   const [modifyProfileImage, setModifyProfileImage] = useState(undefined);
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
@@ -42,8 +46,9 @@ function UserProfile() {
         profileImg: profileImageURL,
       });
 
-      alert("프로필 정보가 성공적으로 수정되었습니다.");
-      window.location.reload();
+      setShowCompleteModal(true);
+      setModifyMode(false);
+      dispatch(__asyncAuth());
     } catch (e) {
       console.log(e);
     }
@@ -74,6 +79,12 @@ function UserProfile() {
         modifyMode={modifyMode}
         email={email}
         emailHandler={emailHandler}
+      />
+
+      <ConfirmModal
+        showModal={showCompleteModal}
+        setShowModal={setShowCompleteModal}
+        message="프로필 정보 수정이 완료되었습니다."
       />
     </>
   );

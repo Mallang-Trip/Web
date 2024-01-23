@@ -16,8 +16,7 @@ function Comment({
   reviewId,
   images,
   isDriver,
-  reload,
-  setReload,
+  reloadData,
 }) {
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
@@ -47,7 +46,7 @@ function Comment({
         if (isDriver) await deleteComment(reviewId);
         else await deleteDestinationComment(reviewId);
 
-        setReload(!reload);
+        reloadData();
       } catch (e) {
         console.log(e);
       }
@@ -66,7 +65,7 @@ function Comment({
       if (isDriver) await putComment(body, reviewId);
       else await putDestinationComment(body, reviewId);
 
-      setReload(!reload);
+      reloadData();
       setModifyMode(false);
     } catch (e) {
       console.log(e);
@@ -74,7 +73,7 @@ function Comment({
   };
 
   return (
-    <div className="mt-7">
+    <div className="mt-3">
       <div className="flex items-center">
         <img
           className="w-10 h-10 rounded-full"
@@ -119,7 +118,7 @@ function Comment({
       </div>
       <input
         type="text"
-        className={`w-full text-sm mt-2 bg-white focus:outline-none ${
+        className={`w-full text-sm ml-11 mt-2 bg-white focus:outline-none ${
           modifyMode && "text-primary"
         }`}
         value={newContent}

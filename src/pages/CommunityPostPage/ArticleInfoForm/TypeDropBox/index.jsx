@@ -1,4 +1,4 @@
-import info from "../../../../assets/svg/Polygon 3.svg";
+import info from "../../../../assets/svg/more-info-black.svg";
 
 function TypeDropBox({
   showDropBox,

@@ -17,8 +17,10 @@ function MemberButton({ title, memberCount, setMemberCount, selected }) {
 
   return (
     <button
-      className={`w-[87px] h-8 text-sm border border-current rounded-full hover:bg-primary hover:text-white ${
-        name === "+" ? "bg-white" : "bg-primary text-white"
+      className={`w-[87px] h-8 text-sm border rounded-full focus:outline-none ${
+        name === "+"
+          ? "bg-white text-darkgray border-darkgray"
+          : "bg-primary text-white border-primary"
       } ${title === "본인" ? "cursor-default" : "cursor-pointer"}`}
       onClick={clickHandler}
     >

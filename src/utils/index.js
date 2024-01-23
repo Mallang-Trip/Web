@@ -3,6 +3,24 @@ export function setScreenHeight() {
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 
+export function setColorTheme() {
+  // if (
+  //   localStorage.getItem("color-theme") === "dark" ||
+  //   (!("color-theme" in localStorage) &&
+  //     window.matchMedia("(prefers-color-scheme: dark)").matches)
+  // ) {
+  //   document.documentElement.classList.add("dark");
+  //   localStorage.setItem("color-theme", "dark");
+  // } else {
+  //   document.documentElement.classList.remove("dark");
+  //   localStorage.setItem("color-theme", "light");
+  // }
+
+  /* 우선, 라이트 모드만 적용 (다크 모드 기획 없음) */
+  document.documentElement.classList.remove("dark");
+  localStorage.setItem("color-theme", "light");
+}
+
 export function makePhoneNumber(value) {
   value = value.replace(/[^0-9]/g, "");
   return value.replace(
@@ -61,6 +79,27 @@ export const dateToGapKorean = (date, withTime) => {
     }시 ${minutes}분`;
 };
 
+export const dateToKoreanDataTime = (date) => {
+  const year = date.slice(0, 4);
+  const month = date.slice(5, 7);
+  const day = date.slice(8, 10);
+  const hours = date.slice(11, 13);
+  const minutes = date.slice(14, 16);
+  const seconds = date.slice(17, 19);
+
+  return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}:${seconds}`;
+};
+
+export const computeGapDay = (date) => {
+  const now = new Date();
+  const pivot = new Date(date);
+
+  const diff = pivot.getTime() - now.getTime();
+  const diffDay = Math.ceil(diff / (24 * 60 * 60 * 1000));
+
+  return diffDay - 1;
+};
+
 export const chatListDateToGapKorean = (date) => {
   const pivot = new Date(date);
   const now = new Date();
@@ -100,4 +139,12 @@ export const dateToKoreanTime = (date) => {
   return `${hours >= 12 ? "오후" : "오전"} ${numberTo00(
     hours % 12 || 12
   )}:${numberTo00(minutes)}`;
+};
+
+export const customRoundOne = (number) => {
+  const roundedNumber = Math.round(number * 10) / 10;
+
+  return Math.floor(roundedNumber) === roundedNumber
+    ? Math.floor(roundedNumber)
+    : roundedNumber;
 };

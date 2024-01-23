@@ -3,7 +3,7 @@ import MemberButton from "./MemberButton";
 function JoinMember({ memberCount, setMemberCount, capacity, headcount }) {
   return (
     <div className="flex flex-col gap-1 my-7">
-      <div className="flex items-end gap-1.5">
+      <div className="flex items-center gap-1.5">
         <p className="text-lg text-black font-bold">참여 인원</p>
         <p className="text-sm text-darkgray font-bold">{`${memberCount}명`}</p>
       </div>

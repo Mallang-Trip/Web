@@ -1,10 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import groupTalkImage from "../../../../../assets/images/groupTalkImage.png";
+import PartyToggle from "./PartyToggle";
 
-function MenuHead({ roomName, headCount, isGroup }) {
+const roomType = {
+  COUPLE: "개인 말랑톡",
+  GROUP: "그룹 말랑톡",
+  PARTY_PUBLIC: "파티 공개 말랑톡",
+  PARTY_PRIVATE: "파티원 전용 말랑톡",
+};
+
+function MenuHead({
+  roomName,
+  headCount,
+  type,
+  openTalkId,
+  setRoomId,
+  partyId,
+}) {
+  const navigation = useNavigate();
+
   return (
     <>
       <div className="pt-16 px-4 flex gap-4">
-        {isGroup && (
+        {type !== "COUPLE" && (
           <img
             src={groupTalkImage}
             alt={roomName}
@@ -12,12 +30,21 @@ function MenuHead({ roomName, headCount, isGroup }) {
           />
         )}
         <div className="flex flex-col gap-2">
-          <p className="text-xl text-black font-bold">{roomName}</p>
-          <p className="text-sm text-darkgray">{`${headCount}명 참여중 ${
-            isGroup ? "(그룹 말랑톡)" : "(개인 말랑톡)"
-          }`}</p>
+          <p>
+            <span
+              className={`text-xl text-black font-bold ${
+                partyId &&
+                "hover:underline hover:underline-offset-2 cursor-pointer text-primary"
+              }`}
+              onClick={() => partyId && navigation(`/party/detail/${partyId}`)}
+            >
+              {roomName}
+            </span>
+          </p>
+          <p className="text-sm text-darkgray">{`${headCount}명 참여중 (${roomType[type]})`}</p>
         </div>
       </div>
+      <PartyToggle type={type} openTalkId={openTalkId} setRoomId={setRoomId} />
       <hr className="bg-darkgray/30 my-4 h-px border-0 mx-3" />
     </>
   );

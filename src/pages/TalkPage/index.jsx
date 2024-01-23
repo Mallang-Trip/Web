@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setPartyRoomId } from "../../redux/modules/talkRoomSlice";
 import { Stomp } from "@stomp/stompjs";
 import { getChatList } from "../../api/chat";
 import SockJS from "sockjs-client/dist/sockjs";
@@ -10,6 +11,8 @@ import TalkRoom from "./TalkRoom";
 import BlankSpace from "./BlankSpace";
 
 function TalkPage() {
+  const dispatch = useDispatch();
+  const partyRoomId = useSelector((state) => state.talkRoom.partyRoomId);
   const ACCESSTOKEN = {
     "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
   };
@@ -51,6 +54,11 @@ function TalkPage() {
 
   useEffect(() => {
     getChatListFunc();
+
+    if (partyRoomId !== 0) {
+      setOpenTalkId(partyRoomId);
+      dispatch(setPartyRoomId(0));
+    }
 
     document.body.classList.add("overflow-hidden");
     return () => {

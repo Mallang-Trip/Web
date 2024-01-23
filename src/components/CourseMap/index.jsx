@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import startMarker from "../../assets/svg/start_marker.svg";
 import endMarker from "../../assets/svg/end_marker.svg";
 
-function CourseMap({ markerData }) {
+function CourseMap({ markerData, reload, mapName }) {
   const mapRef = useRef();
+  const [isDrawMap, setIsDrawMap] = useState(false);
 
   const addMarker = (lat, lon, tag, map) => {
     let imgURL = null;
@@ -70,7 +71,7 @@ function CourseMap({ markerData }) {
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
     const mapHeight = (mapWidth * 740) / 900;
 
-    const map = new Tmapv3.Map("TMapApp", {
+    const map = new Tmapv3.Map(mapName, {
       center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
       width: mapWidth + "px",
       height: mapHeight + "px",
@@ -143,10 +144,13 @@ function CourseMap({ markerData }) {
   };
 
   useEffect(() => {
+    if (!reload && isDrawMap) return;
+
     initTmap();
+    setIsDrawMap(true);
   }, [markerData]);
 
-  return <div ref={mapRef} id="TMapApp" className="w-full mx-auto" />;
+  return <div ref={mapRef} id={mapName} className="w-full mx-auto" />;
 }
 
 export default CourseMap;

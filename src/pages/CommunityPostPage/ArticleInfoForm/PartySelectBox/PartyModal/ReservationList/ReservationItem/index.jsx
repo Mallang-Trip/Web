@@ -1,3 +1,5 @@
+import { customRoundOne } from "../../../../../../../utils";
+
 function ReservationItem({
   selectPartyHandler,
   partyId,
@@ -31,9 +33,12 @@ function ReservationItem({
             <p className="text-xl font-bold">{name}</p>
             <p className="text-sm">{`${startDate
               .slice(5)
-              .replace("-", "/")} | ${headcount}/${capacity}명 | ${
+              .replace(
+                "-",
+                "/"
+              )} | ${headcount}/${capacity}명 | ${customRoundOne(
               price / 10000
-            }만원 | ${driverName} 드라이버`}</p>
+            )}만원 | ${driverName} 드라이버`}</p>
           </div>
         </div>
       </div>

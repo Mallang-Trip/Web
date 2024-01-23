@@ -7,19 +7,19 @@ function Member({ member, setMember }) {
 
   return (
     <>
-      <div className="pb-3 pl-5 mx-auto text-2xl text-black font-bold">
+      <div className="pl-6 mx-auto text-2xl text-black font-bold">
         예약 인원을 선택해주세요
       </div>
-      <div className="w-full flex justify-center items-center mt-10 gap-5 text-3xl text-primary">
+      <div className="w-full flex justify-center items-center mt-7 gap-5 text-3xl text-primary">
         <RemoveIcon
           onClick={setDecrease}
-          className="border-2 border-red-500 rounded-full text-red-500 cursor-pointer"
+          className="border-2 border-red-500 rounded-full text-red-500 cursor-pointer hover:ring ring-red-500/50"
           fontSize="large"
         />
-        <div>{member}명</div>
+        <div className="w-16 text-center">{member}명</div>
         <AddIcon
           onClick={setIncrease}
-          className="border-2 border-primary rounded-full text-primary cursor-pointer"
+          className="border-2 border-primary rounded-full text-primary cursor-pointer hover:ring ring-primary/50"
           fontSize="large"
         />
       </div>

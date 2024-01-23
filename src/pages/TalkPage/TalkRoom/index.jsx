@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setPublicRoomId } from "../../../redux/modules/talkRoomSlice";
 import { getChatRoomData } from "../../../api/chat";
 import { uploadImage } from "../../../api/image";
 import { Stomp } from "@stomp/stompjs";
@@ -13,11 +15,8 @@ import TalkMenu from "./TalkMenu";
 import ProfileModal from "../../../components/ProfileModal";
 
 function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
-  const ACCESSTOKEN = {
-    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
-  };
+  const dispatch = useDispatch();
   const client = useRef();
-  const header = { ...ACCESSTOKEN, "room-id": openTalkId };
   const [openRoom, setOpenRoom] = useState(false);
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
   const [roomData, setRoomData] = useState({});
@@ -26,6 +25,11 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileUserId, setProfileUserId] = useState(0);
   const [sendImageLoading, setSendImageLoading] = useState(false);
+  const [roomId, setRoomId] = useState(0);
+  const ACCESSTOKEN = {
+    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
+  };
+  const header = { ...ACCESSTOKEN, "room-id": roomId };
 
   const closeRoomHandler = () => {
     if (client.current) client.current.deactivate();
@@ -89,7 +93,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
 
   const subscribeChatRoomWS = () => {
     client.current.subscribe(
-      `/sub/room/${openTalkId}`,
+      `/sub/room/${roomId}`,
       (messages) => {
         setRoomData((roomData) => {
           return {
@@ -119,7 +123,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
 
   const getChatRoomDataFunc = async () => {
     try {
-      const result = await getChatRoomData(openTalkId);
+      const result = await getChatRoomData(roomId);
       setRoomData(result.payload);
       connectChatRoomWS();
     } catch (e) {
@@ -128,9 +132,21 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   };
 
   useEffect(() => {
-    if (openTalkId === 0) return;
+    if (!roomData.myParty) dispatch(setPublicRoomId(null));
+    else if (roomData.publicRoomId)
+      dispatch(setPublicRoomId(roomData.publicRoomId));
+  }, [roomData]);
+
+  useEffect(() => {
+    if (roomId === 0) return;
 
     getChatRoomDataFunc();
+  }, [roomId]);
+
+  useEffect(() => {
+    if (openTalkId === 0) return;
+
+    setRoomId(openTalkId);
 
     if (!openRoom) return openRoomHandler();
     setOpenRoom(false);
@@ -169,6 +185,9 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
           closeRoomHandler={closeRoomHandler}
           setShowProfileModal={setShowProfileModal}
           setProfileUserId={setProfileUserId}
+          openTalkId={openTalkId}
+          setRoomId={setRoomId}
+          partyId={roomData.partyId}
           {...roomData}
         />
       </TalkRoomWrapper>

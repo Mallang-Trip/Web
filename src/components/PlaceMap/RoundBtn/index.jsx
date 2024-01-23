@@ -1,7 +1,7 @@
 function RoundBtn({ name, onClick }) {
   return (
     <button
-      className="py-2 px-4 text-white bg-primary text-sm md:text-lg rounded-full hover:bg-sky-700"
+      className="py-2 px-10 text-white bg-primary text-sm md:text-base rounded-full"
       onClick={() => onClick()}
     >
       {name}

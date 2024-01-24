@@ -11,7 +11,7 @@ function ImageInput({ title, image, name, imageHandler }) {
       </div>
       <div className="flex justify-center w-full h-[200px] mt-4 mb-16 relative">
         <div
-          className="w-[300px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
+          className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
           onClick={() => imageRef.current.click()}
         >
           {image && (

@@ -52,7 +52,7 @@ function NewPassword({ setCompleteSearch, phoneNumber, code }) {
         <input
           type="password"
           name="newPassword"
-          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
             newPassword && "font-mono"
           }`}
           placeholder="새롭게 변경할 비밀번호를 입력해 주세요."
@@ -76,7 +76,7 @@ function NewPassword({ setCompleteSearch, phoneNumber, code }) {
         <input
           type="password"
           name="newPasswordConfirm"
-          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
             newPasswordConfirm && "font-mono"
           }`}
           placeholder="비밀번호를 다시 한번 입력해 주세요."

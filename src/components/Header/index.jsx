@@ -135,7 +135,7 @@ function Header() {
               onClick={() => navigation("/login")}
               className={`${
                 user.auth ? "hidden" : "flex"
-              } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
+              } flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
             >
               로그인
             </button>
@@ -144,7 +144,7 @@ function Header() {
               onClick={() => navigation("/signup")}
               className={`${
                 user.auth ? "hidden" : "flex"
-              } flex-row text-[#000000] font-medium rounded-lg text-sm px-5 py-2 text-center`}
+              } flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center`}
             >
               회원가입
             </button>

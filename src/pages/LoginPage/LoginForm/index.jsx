@@ -42,7 +42,7 @@ function LoginForm() {
           ref={idRef}
           type="text"
           name="id"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="아이디를 입력해 주세요."
           value={id}
           onChange={idHandler}
@@ -52,7 +52,7 @@ function LoginForm() {
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
-          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 mt-6 mb-12 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 mt-6 mb-12 ${
             password && "font-mono"
           }`}
           value={password}

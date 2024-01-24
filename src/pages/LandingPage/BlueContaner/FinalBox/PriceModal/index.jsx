@@ -48,7 +48,7 @@ function PriceModal({
           <div className="text-xl text-black">1인당 가격범위 설정</div>
           <div className="px-12">
             <div className="w-full h-6 relative flex items-center mb-1.5">
-              <div className="w-full h-2 rounded-full bg-[#d9d9d9] relative">
+              <div className="w-full h-2 rounded-full bg-mediumgray relative">
                 <div
                   className="h-2 rounded-full bg-primary absolute top-0 left-0"
                   style={{ width: `${price / 10100}%` }}

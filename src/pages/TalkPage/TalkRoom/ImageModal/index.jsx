@@ -53,7 +53,7 @@ function ImageModal({
               <Loading />
             ) : (
               <div
-                className="w-[300px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
+                className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
                 onClick={() => imageRef.current.click()}
               >
                 {image && (
@@ -77,7 +77,7 @@ function ImageModal({
         </div>
         <div className="flex">
           <button
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
             onClick={closeModal}
           >
             취소

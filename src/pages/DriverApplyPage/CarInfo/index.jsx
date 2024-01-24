@@ -31,7 +31,7 @@ function CarInfo({
         </div>
         <div className="flex justify-center w-full h-[200px] mt-4 mb-16 relative">
           <div
-            className="w-[300px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
+            className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
             onClick={() => imageRef.current.click()}
           >
             {carImage && (
@@ -70,7 +70,7 @@ function CarInfo({
         <input
           type="text"
           id="model_name"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="차량의 모델 이름"
           value={modelName}
           onChange={(e) => setModelName(e.target.value)}
@@ -85,7 +85,7 @@ function CarInfo({
         <input
           type="text"
           id="max_num"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="승객들의 최대 탑승 가능 정원"
           value={maxNum}
           onChange={(e) => setMaxNum(onlyNumber(e.target.value))}

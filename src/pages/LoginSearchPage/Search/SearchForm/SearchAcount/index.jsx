@@ -127,7 +127,7 @@ function SearchAcount({
               type="text"
               name="phoneNumber"
               placeholder="휴대전화 번호를 입력해 주세요."
-              className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+              className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
               value={phoneNumber}
               onChange={phoneNumberHandler}
               ref={phoneNumberInput}
@@ -158,7 +158,7 @@ function SearchAcount({
               type="text"
               name="code"
               placeholder="인증번호를 입력해 주세요."
-              className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+              className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
               value={code}
               onChange={codeHandler}
               ref={codeInput}

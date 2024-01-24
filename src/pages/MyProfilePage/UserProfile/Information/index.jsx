@@ -8,7 +8,7 @@ function Information({
 }) {
   if (modifyMode === undefined)
     return (
-      <div className="flex justify-between py-4 px-6 rounded-xl bg-[#F4F4F4] text-sm text-darkgray">
+      <div className="flex justify-between py-4 px-6 rounded-xl bg-lightgray text-sm text-darkgray">
         <span>{title}</span>
         <span>{content}</span>
       </div>
@@ -17,7 +17,7 @@ function Information({
     return (
       <div
         className={`flex gap-5 py-4 px-6 rounded-xl whitespace-nowrap text-sm ${
-          modifyMode ? "text-primary bg-skyblue" : "text-darkgray bg-[#F4F4F4]"
+          modifyMode ? "text-primary bg-skyblue" : "text-darkgray bg-lightgray"
         } ${modifyMode && onClick && "cursor-pointer"}`}
         onClick={onClick}
       >
@@ -26,7 +26,7 @@ function Information({
           <input
             type="text"
             className={`w-full focus:outline-none text-right ${
-              modifyMode ? "bg-skyblue" : "bg-[#F4F4F4]"
+              modifyMode ? "bg-skyblue" : "bg-lightgray"
             } ${modifyMode && onClick && "cursor-pointer caret-transparent"}`}
             value={content}
             onChange={onChangeHandler}

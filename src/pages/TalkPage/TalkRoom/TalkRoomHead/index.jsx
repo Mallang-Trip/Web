@@ -3,7 +3,7 @@ import headerBack from "../../../../assets/svg/header-back.svg";
 
 function TalkRoomHead({ closeRoomHandler, name, setShowMenu }) {
   return (
-    <div className="flex justify-between pl-1 pt-3 pb-2 h-16 border-b border-solid border-[#D9D9D9]">
+    <div className="flex justify-between pl-1 pt-3 pb-2 h-16 border-b border-solid border-mediumgray">
       <div className="flex gap-1 items-center">
         <button
           className="p-1 rounded-lg focus:outline-none hover:bg-darkgray/10"

@@ -36,7 +36,7 @@ function StepButton({
           className={`${
             activeNext
               ? "h-10 text-white rounded-full text-sm w-28 bg-primary"
-              : "h-10 bg-[#F4F4F4] border rounded-full text-darkgray text-sm w-28 border-[#F4F4F4]"
+              : "h-10 bg-lightgray border rounded-full text-darkgray text-sm w-28 border-lightgray"
           }`}
           disabled={!activeNext}
           onClick={nextHandler}

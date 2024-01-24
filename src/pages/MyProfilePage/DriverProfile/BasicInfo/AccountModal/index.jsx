@@ -78,7 +78,7 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
                 <input
                   type="text"
                   name="bank_name"
-                  className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 caret-white cursor-pointer"
+                  className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 caret-white cursor-pointer"
                   placeholder="은행을 선택해주세요"
                   value={bank}
                   onChange={() => {}}
@@ -94,7 +94,7 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
                 <input
                   type="text"
                   name="accout_name"
-                  className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+                  className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
                   placeholder="예금주 성함(본인)을 입력해주세요"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -109,7 +109,7 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
                 <input
                   type="text"
                   name="accout_number"
-                  className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+                  className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
                   placeholder="계좌번호를 입력해주세요"
                   value={onlyNumber(accoutNumber)}
                   onChange={(e) => setAccoutNumber(e.target.value)}
@@ -125,7 +125,7 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
         <div className="flex">
           <button
             type="button"
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-lg bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-lg bg-lightgray"
             onClick={cancelHandler}
           >
             취소

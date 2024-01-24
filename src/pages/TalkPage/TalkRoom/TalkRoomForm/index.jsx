@@ -35,7 +35,7 @@ function TalkRoomForm({ sendMessageHandler, setShowImageModal }) {
         </button>
         <input
           type="text"
-          className="block mx-2 p-2.5 w-full text-sm text-black bg-white rounded-lg border border-[#D9D9D9] focus:outline-none focus:border-primary"
+          className="block mx-2 p-2.5 w-full text-sm text-black bg-white rounded-lg border border-mediumgray focus:outline-none focus:border-primary"
           placeholder="메시지를 입력해주세요."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -43,7 +43,7 @@ function TalkRoomForm({ sendMessageHandler, setShowImageModal }) {
         <button
           type="submit"
           className={`w-20 h-10 p-2 text-sm rounded-lg ${
-            !message ? "bg-[#F4F4F4] text-darkgray" : "bg-primary text-white"
+            !message ? "bg-lightgray text-darkgray" : "bg-primary text-white"
           }`}
           disabled={!message}
         >

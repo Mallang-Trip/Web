@@ -76,7 +76,7 @@ function Account({
         <input
           type="email"
           name="email"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="이메일을 입력해 주세요."
           value={email}
           onChange={emailHandler}
@@ -104,7 +104,7 @@ function Account({
         <input
           type="text"
           name="id"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="사용하실 아이디를 입력해 주세요."
           value={id}
           onChange={idHandler}
@@ -125,7 +125,7 @@ function Account({
         <input
           type="password"
           name="password"
-          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
             password && "font-mono"
           }`}
           placeholder="사용하실 비밀번호를 입력해 주세요."
@@ -148,7 +148,7 @@ function Account({
         <input
           type="password"
           name="passwordAgain"
-          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
             passwordAgain && "font-mono"
           }`}
           placeholder="비밀번호를 다시 한번 입력해 주세요."

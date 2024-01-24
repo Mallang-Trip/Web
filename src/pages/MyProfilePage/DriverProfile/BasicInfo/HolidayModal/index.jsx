@@ -81,7 +81,7 @@ function HolidayModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
         </div>
         <div className="flex">
           <button
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-lg bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-lg bg-lightgray"
             onClick={cancelHandler}
           >
             취소

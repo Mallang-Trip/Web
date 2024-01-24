@@ -31,7 +31,7 @@ function Header({ category, setCategory }) {
         </button>
         <div
           className={`absolute top-10 left-0 w-40 z-10 rounded-xl bg-white text-xs shadow-sm transition-all duration-500 overflow-hidden ${
-            showToggle ? "max-h-40 border border-[#D9D9D9]" : "max-h-0"
+            showToggle ? "max-h-40 border border-mediumgray" : "max-h-0"
           }`}
         >
           <button

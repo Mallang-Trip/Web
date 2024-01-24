@@ -13,7 +13,7 @@ function TypeDropBox({
 
   return (
     <div
-      className={`w-[200px] border border-[#D9D9D9] rounded-lg overflow-hidden transition-all duration-500 ${
+      className={`w-[200px] border border-mediumgray rounded-lg overflow-hidden transition-all duration-500 ${
         showDropBox ? "max-h-[1000px]" : "max-h-[50px]"
       }`}
     >

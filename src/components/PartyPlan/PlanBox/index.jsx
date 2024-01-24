@@ -1,6 +1,6 @@
 function PlanBox({ index, name, time }) {
   return (
-    <div className="relative w-full h-16 md:h-[83px] mb-6 rounded-full bg-[#EAF4FF] font-bold">
+    <div className="relative w-full h-16 md:h-[83px] mb-6 rounded-full bg-skyblue font-bold">
       <div className="w-10 h-10 md:w-14 md:h-14 absolute left-4 top-3 rounded-full bg-primary text-white text-lg flex justify-center items-center">
         {index}
       </div>

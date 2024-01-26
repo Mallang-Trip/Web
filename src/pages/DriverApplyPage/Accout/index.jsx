@@ -39,7 +39,7 @@ function Accout({
         </div>
         <input
           type="text"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 caret-white cursor-pointer"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 caret-white cursor-pointer"
           placeholder="은행을 선택해주세요"
           value={bank}
           onChange={() => {}}
@@ -54,7 +54,7 @@ function Accout({
         </div>
         <input
           type="text"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="예금주 성함(본인)을 입력해주세요"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -68,7 +68,7 @@ function Accout({
         </div>
         <input
           type="text"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="계좌번호를 입력해주세요"
           value={onlyNumber(accoutNumber)}
           onChange={(e) => setAccoutNumber(e.target.value)}

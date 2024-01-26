@@ -92,7 +92,7 @@ function InviteModal({
         </div>
         <div className="w-full flex">
           <button
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
             onClick={closeModal}
           >
             취소

@@ -39,7 +39,7 @@ function Profile({
         <input
           type="text"
           name="nickName"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="닉네임을 입력해 주세요."
           value={nickName}
           onChange={nickNameHandler}
@@ -59,7 +59,7 @@ function Profile({
         <input
           type="text"
           name="introduction"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="한줄소개를 적어주세요."
           value={introduction}
           onChange={introductionHandler}
@@ -71,7 +71,7 @@ function Profile({
         </div>
         <div className="flex justify-center h-[200px] mt-8 relative mb-12 md:mb-0">
           <div
-            className="w-[200px] h-[200px] bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer"
+            className="w-[200px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
             onClick={() => imageRef.current.click()}
           >
             {profileImage && (

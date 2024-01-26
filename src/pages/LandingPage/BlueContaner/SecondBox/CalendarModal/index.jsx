@@ -62,7 +62,7 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
         />
         <div className="flex">
           <button
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
             onClick={allDateHandler}
           >
             모든 일정

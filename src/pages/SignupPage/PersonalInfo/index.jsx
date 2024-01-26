@@ -57,7 +57,7 @@ function PersonalInfo({
         <input
           type="text"
           name="name"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="성함을 입력해주세요."
           value={name}
           onChange={nameHandler}
@@ -74,7 +74,7 @@ function PersonalInfo({
         <input
           type="text"
           name="birthDate"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="생년월일 8자리를 입력해주세요."
           value={birthDate}
           onChange={birthDateHandler}

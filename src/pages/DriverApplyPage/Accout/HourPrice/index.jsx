@@ -19,7 +19,7 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
   if (!show)
     return (
       <div
-        className="w-[300px] h-14 mx-auto my-5 bg-[#EAF4FF] border border-dashed border-primary rounded-2xl cursor-pointer flex justify-center items-center"
+        className="w-[300px] h-14 mx-auto my-5 bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer flex justify-center items-center"
         onClick={() => setShow(true)}
       >
         <img src={primaryPlus} alt="plus" />
@@ -31,7 +31,7 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
         <input
           type="text"
           name="hour"
-          className="w-12 text-center border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block p-2.5"
+          className="w-12 text-center border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block p-2.5"
           value={onlyNumber(hour[index])}
           onChange={hourHandler}
           autoComplete="off"
@@ -40,7 +40,7 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
         <input
           type="text"
           name="money"
-          className="w-24 text-center border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block p-2.5"
+          className="w-24 text-center border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block p-2.5"
           value={onlyNumber(money[index]).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           onChange={moneyHandler}
           autoComplete="off"

@@ -71,7 +71,7 @@ function ArticleBody({
 
   return (
     <>
-      <div className="w-full pt-5 pb-8 border-b border-[#D9D9D9]">
+      <div className="w-full pt-5 pb-8 border-b border-mediumgray">
         <div className="flex justify-between mb-3">
           <div className="flex gap-2.5">
             <img
@@ -81,7 +81,7 @@ function ArticleBody({
             />
             <div className="h-10 flex flex-col justify-center">
               <p className="text-sm text-black font-bold">{nickname}</p>
-              <p className="text-sm text-[#3E3E3E] font-medium">
+              <p className="text-sm text-boldgray font-medium">
                 {dateToGapKorean(updatedAt, true)}
               </p>
             </div>
@@ -106,7 +106,7 @@ function ArticleBody({
             )}
             <div
               className={`w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
-                showMore ? "max-h-[100px] border border-[#D9D9D9]" : "max-h-0"
+                showMore ? "max-h-[100px] border border-mediumgray" : "max-h-0"
               }`}
             >
               <button
@@ -161,7 +161,7 @@ function ArticleBody({
               </div>
             )}
           </div>
-          <p className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
+          <p className="w-full text-base text-boldgray font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
           </p>
           {partyId && (

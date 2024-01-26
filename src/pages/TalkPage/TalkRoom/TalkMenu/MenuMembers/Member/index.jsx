@@ -15,7 +15,7 @@ function Member({
 
   return (
     <button
-      className="w-full my-1 p-2 flex items-center hover:bg-[#F4F4F4] rounded-lg focus:outline-none"
+      className="w-full my-1 p-2 flex items-center hover:bg-lightgray rounded-lg focus:outline-none"
       onClick={showProfileHandler}
     >
       <img

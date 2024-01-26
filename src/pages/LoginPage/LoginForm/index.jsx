@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "../../../redux/modules/userSlice";
@@ -7,6 +7,8 @@ import ConfirmModal from "../../../components/ConfirmModal";
 function LoginForm() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
+  const idRef = useRef();
+  const passwordRef = useRef();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -15,6 +17,9 @@ function LoginForm() {
   const passwordHandler = (e) => setPassword(e.target.value);
   const loginHandler = (e) => {
     e.preventDefault();
+
+    idRef.current.blur();
+    passwordRef.current.blur();
 
     const body = {
       id: id,
@@ -34,18 +39,20 @@ function LoginForm() {
         onSubmit={loginHandler}
       >
         <input
-          type="id"
+          ref={idRef}
+          type="text"
           name="id"
-          className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
           placeholder="아이디를 입력해 주세요."
           value={id}
           onChange={idHandler}
         />
         <input
+          ref={passwordRef}
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
-          className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 mt-6 mb-12 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 mt-6 mb-12 ${
             password && "font-mono"
           }`}
           value={password}

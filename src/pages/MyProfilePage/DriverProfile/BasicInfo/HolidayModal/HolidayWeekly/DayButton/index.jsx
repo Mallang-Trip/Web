@@ -16,7 +16,7 @@ function DayButton({ weekly, setWeekly, eng, kor }) {
       className={`w-10 h-10 rounded-full focus:outline-none ${
         weekly.includes(eng)
           ? "bg-skyblue text-primary"
-          : "bg-[#F4F4F4] text-darkgray"
+          : "bg-lightgray text-darkgray"
       }`}
       onClick={clickHandler}
     >

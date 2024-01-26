@@ -28,7 +28,7 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
           <input
             type="text"
             placeholder="말랑톡방 이름을 정해주세요."
-            className="border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+            className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
             value={roomName}
             onChange={(e) => setRoomName(e.target.value.slice(0, 20))}
           />

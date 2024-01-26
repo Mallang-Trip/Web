@@ -2,7 +2,7 @@ import exampleImg from "../../../../assets/images/단양.jpg";
 
 function ArticleBody({ type }) {
   return (
-    <div className="w-full px-6 pb-10 border-b border-[#D9D9D9]">
+    <div className="w-full px-6 pb-10 border-b border-mediumgray">
       {type === "notice" && (
         <p className="mt-4 text-xs text-darkgray font-medium">
           작성일 2023.08.09

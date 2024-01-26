@@ -45,7 +45,7 @@ function CheckModal({
         </div>
         <div className="flex">
           <button
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
             onClick={closeModal}
           >
             {noText}

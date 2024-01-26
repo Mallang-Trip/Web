@@ -23,7 +23,7 @@ function ImageInput({ images, setImages, index }) {
   return (
     <>
       <div
-        className="w-20 h-20 bg-[#EAF4FF] border border-dashed border-primary rounded-lg cursor-pointer flex justify-center items-center"
+        className="w-20 h-20 bg-skyblue border border-dashed border-primary rounded-lg cursor-pointer flex justify-center items-center"
         onClick={() => imageRef.current.click()}
       >
         {images[index] ? (

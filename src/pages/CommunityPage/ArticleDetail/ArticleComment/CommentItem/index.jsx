@@ -42,13 +42,13 @@ function CommentItem({
         />
         <div className="h-10 flex flex-col justify-center">
           <p className="text-sm text-black font-bold">{nickname}</p>
-          <p className="text-sm text-[#3E3E3E] font-medium">
+          <p className="text-sm text-boldgray font-medium">
             {dateToGapKorean(createdAt)}
           </p>
         </div>
       </div>
       <div className="ml-[50px]">
-        <div className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-2.5 mb-5">
+        <div className="w-full text-base text-boldgray font-medium whitespace-pre-wrap mt-2.5 mb-5">
           {content}
         </div>
         <div className="flex gap-8 text-xs">
@@ -68,7 +68,7 @@ function CommentItem({
           )}
         </div>
         <div
-          className={`w-full transition-all duration-500 overflow-hidden border-l-2 border-[#F4F4F4] mt-5 ${
+          className={`w-full transition-all duration-500 overflow-hidden border-l-2 border-lightgray mt-5 ${
             showReply ? "max-h-[1000px] " : "max-h-0"
           }`}
         >

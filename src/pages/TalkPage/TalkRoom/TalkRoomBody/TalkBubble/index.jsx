@@ -50,9 +50,9 @@ function TalkBubble({
             )}
             {type === "TEXT" ? (
               <div
-                className={`${isMyMessage ? "bg-skyblue" : "bg-[#F4F4F4]"} ${
+                className={`${isMyMessage ? "bg-skyblue" : "bg-lightgray"} ${
                   !isMyMessage && isPrevSameDate && isPrevSameUser && "ml-12"
-                } text-[#3E3E3E] text-sm p-4 rounded-lg max-w-[200px] md:max-w-[400px]`}
+                } text-boldgray text-sm p-4 rounded-lg max-w-[200px] md:max-w-[400px]`}
               >
                 {content}
               </div>
@@ -68,7 +68,7 @@ function TalkBubble({
           </div>
           {(!isNextSameUser || !isNextSameDate) && (
             <div
-              className={`mt-auto mx-2 text-xs text-[#3E3E3E] ${
+              className={`mt-auto mx-2 text-xs text-boldgray ${
                 isMyMessage ? "ml-auto" : "mr-auto"
               }`}
             >

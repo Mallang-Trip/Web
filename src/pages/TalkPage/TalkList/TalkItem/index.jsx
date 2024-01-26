@@ -27,8 +27,8 @@ function TalkItem({
   return (
     <li>
       <button
-        className={`w-full flex justify-between py-3 px-3 rounded-lg hover:bg-[#F4F4F4] group focus:outline-none ${
-          openTalkId === chatRoomId ? "bg-[#F4F4F4]" : "bg-white"
+        className={`w-full flex justify-between py-3 px-3 rounded-lg hover:bg-lightgray group focus:outline-none ${
+          openTalkId === chatRoomId ? "bg-lightgray" : "bg-white"
         }`}
         onClick={() => setOpenTalkId(chatRoomId)}
       >

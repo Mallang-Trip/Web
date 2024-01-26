@@ -19,7 +19,7 @@ function MemberProfile({
 
   return (
     <button
-      className="shrink-0 w-40 flex flex-col items-center py-5 border-[1.5px] border-[#D9D9D9] rounded-2xl relative"
+      className="shrink-0 w-40 flex flex-col items-center py-5 border-[1.5px] border-mediumgray rounded-2xl relative"
       onClick={() => {
         setUserId(userId);
         setShowProfileModal(true);
@@ -31,7 +31,7 @@ function MemberProfile({
         className="w-20 h-20 rounded-full"
       />
       {companionsCount > 0 && (
-        <div className="w-9 h-9 flex justify-center items-center bg-[#DBF4FF] text-xs text-[#1F6A95] font-bold rounded-full absolute top-[70px] left-[92px]">
+        <div className="w-9 h-9 flex justify-center items-center bg-[#DBF4FF] text-xs text-boldblue font-bold rounded-full absolute top-[70px] left-[92px]">
           {`+${companionsCount}명`}
         </div>
       )}

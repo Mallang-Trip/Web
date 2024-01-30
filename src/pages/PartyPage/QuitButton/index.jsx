@@ -16,7 +16,7 @@ function QuitButton({
     partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
     partyStatus === "CANCELED_BY_PROPOSER" ||
     partyStatus === "CANCELED_BY_ALL_QUIT" ||
-    computeGapDay(startDate) <= 2
+    (partyStatus !== "RECRUITING" && computeGapDay(startDate) <= 2)
   )
     return null;
   return (

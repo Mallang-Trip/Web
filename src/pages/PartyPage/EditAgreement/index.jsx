@@ -6,6 +6,7 @@ import CancelModal from "./CancelModal";
 
 function EditAgreement({
   myParty,
+  partyStatus,
   createdAt,
   getPartyData,
   proposalId,
@@ -73,8 +74,10 @@ function EditAgreement({
             <br />
             시간을 초과하면 제안은 취소되고 원래 코스대로 복구됩니다.
             <br />그 전에 파티원 전원이{" "}
-            <span className="text-primary">승인을 만장일치하면</span> 코스가
-            변경되며 제안자가 파티에 가입하게 됩니다.
+            <span className="text-primary">승인을 만장일치하면</span>
+            {partyStatus === "WAITING_JOIN_APPROVAL"
+              ? " 코스가 변경되며 제안자가 파티에 가입하게 됩니다."
+              : " 코스가 변경됩니다."}
             <br />
             <span className="text-primary">한 명이라도 거절하면</span> 제안은
             취소되고 원래 코스대로 복구됩니다.

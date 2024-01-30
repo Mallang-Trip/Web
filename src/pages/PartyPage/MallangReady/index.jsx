@@ -27,9 +27,18 @@ function MallangReady({
   };
 
   useEffect(() => {
-    if (user.role === "ROLE_DRIVER") setReady(driverReady);
+    if (user.role === "ROLE_DRIVER")
+      setReady(
+        driverReady ||
+          partyStatus === "SEALED" ||
+          partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+      );
     else
-      setReady(members.filter((item) => item.userId === user.userId)[0]?.ready);
+      setReady(
+        members.filter((item) => item.userId === user.userId)[0]?.ready ||
+          partyStatus === "SEALED" ||
+          partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+      );
   }, []);
 
   if (computeGapDay(startDate) <= 0 && partyStatus !== "RECRUITING")

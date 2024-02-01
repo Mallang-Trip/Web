@@ -66,7 +66,11 @@ function ProfileModal({ showModal, setShowModal, userId = 0 }) {
         ) : (
           <>
             <ProfileInfo {...userInfo} />
-            <ButtonBox userId={userInfo.userId} />
+            <ButtonBox
+              userId={userInfo.userId}
+              nickname={userInfo.nickname}
+              setShowModal={setShowModal}
+            />
           </>
         )}
       </div>

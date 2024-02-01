@@ -65,7 +65,7 @@ function TalkPage() {
       document.body.classList.remove("overflow-hidden");
       if (client.current) client.current.deactivate();
     };
-  }, []);
+  }, [partyRoomId]);
 
   return (
     <PageContainer>

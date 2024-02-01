@@ -19,3 +19,11 @@ export const makeNewCoupleChat = async (userId) =>
 
 export const getPartyChatId = async (partyId) =>
   await GET(`/chat/party/${partyId}`, true);
+
+export const getChatBlockList = async () => await GET("/chat/block", true);
+
+export const blockUser = async (userId) =>
+  await POST(`/chat/block/${userId}`, {}, true);
+
+export const nonBlockUser = async (userId) =>
+  await DELETE(`/chat/block/${userId}`, true);

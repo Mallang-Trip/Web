@@ -55,11 +55,18 @@ function QuitModal({
     try {
       setLoading(true);
 
-      if (partyStatus === "SEALED") await deleteQuitReservationParty(partyId);
+      if (
+        partyStatus === "SEALED" ||
+        partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+      )
+        await deleteQuitReservationParty(partyId);
       else await deleteQuitParty(partyId);
 
       setTimeout(() => {
-        if (partyStatus === "SEALED") {
+        if (
+          partyStatus === "SEALED" ||
+          partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+        ) {
           if (isDriver)
             setMessage(
               <div>
@@ -125,7 +132,10 @@ function QuitModal({
     setComplete(false);
     setLoading(false);
 
-    if (partyStatus === "SEALED") {
+    if (
+      partyStatus === "SEALED" ||
+      partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+    ) {
       if (isDriver)
         setMessage(
           <div>

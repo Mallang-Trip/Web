@@ -16,7 +16,7 @@ function QuitButton({
     partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
     partyStatus === "CANCELED_BY_PROPOSER" ||
     partyStatus === "CANCELED_BY_ALL_QUIT" ||
-    computeGapDay(startDate) <= 2
+    (partyStatus !== "RECRUITING" && computeGapDay(startDate) <= 2)
   )
     return null;
   return (
@@ -26,7 +26,10 @@ function QuitButton({
           className="h-14 text-white rounded-full text-lg font-bold w-64 md:w-80 bg-primary focus:outline-none"
           onClick={() => setShowModal(true)}
         >
-          {partyStatus === "SEALED" ? "예약 취소하기" : "파티 탈퇴하기"}
+          {partyStatus === "SEALED" ||
+          partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+            ? "예약 취소하기"
+            : "파티 탈퇴하기"}
         </button>
       </div>
       <QuitModal

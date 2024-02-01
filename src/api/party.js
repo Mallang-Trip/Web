@@ -22,6 +22,9 @@ export const postPartyJoin = async (partyId, data) =>
 export const putMallangReady = async (partyId, ready) =>
   await PUT(`/party/ready/${partyId}?ready=${ready}`, {}, true);
 
+export const putPartyCourse = async (partyId, body) =>
+  await PUT(`/party/course/${partyId}`, body, true);
+
 export const putProposalAccept = async (proposalId, accept) =>
   await PUT(`/party/proposal/${proposalId}?accept=${accept}`, {}, true);
 

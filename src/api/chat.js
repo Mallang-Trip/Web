@@ -27,3 +27,6 @@ export const blockUser = async (userId) =>
 
 export const nonBlockUser = async (userId) =>
   await DELETE(`/chat/block/${userId}`, true);
+
+export const kickPartyChatUser = async (chatRoomId, userId) =>
+  await DELETE(`/chat/party/${chatRoomId}?userId=${userId}`, true);

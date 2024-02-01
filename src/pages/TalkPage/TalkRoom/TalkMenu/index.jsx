@@ -40,6 +40,9 @@ function TalkMenu({
   };
 
   const handleKeyPress = (event) => {
+    const $kickModal = document.getElementById("kick-modal");
+    if ($kickModal && $kickModal.classList.contains("active")) return;
+
     const $inviteModal = document.getElementById("invite-modal");
     if ($inviteModal && $inviteModal.classList.contains("active")) return;
 

@@ -25,7 +25,7 @@ function ExitButton({
   return (
     <>
       <button
-        className="absolute bottom-0 left-0 w-full bg-skyblue text-primary py-4 focus:outline-none"
+        className="absolute bottom-0 left-0 w-full bg-skyblue rounded-bl-2xl text-primary py-4 focus:outline-none"
         onClick={() => setShowModal(true)}
       >
         말랑톡 나가기

@@ -73,7 +73,7 @@ function TalkMenu({
       onClick={(e) => modalOutSideClick(e)}
     >
       <div
-        className={`w-80 h-full flex flex-col ml-auto bg-white transition-transform duration-500 relative ${
+        className={`w-80 h-full flex flex-col ml-auto bg-white rounded-l-2xl transition-transform duration-500 relative ${
           openMenuAnimation ? "translate-x-0" : "translate-x-full"
         }`}
       >

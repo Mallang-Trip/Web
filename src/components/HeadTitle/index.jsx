@@ -21,6 +21,9 @@ function HeadTitle({
             {myParty ? "수정 제안 결정 중" : "코스 변경 제안 중"}
           </p>
         )}
+        {partyStatus === "CANCELED_BY_EXPIRATION" && (
+          <p className="text-[#E30000] text-lg">모집 기간 만료</p>
+        )}
       </div>
       {isDriver === true && (
         <div

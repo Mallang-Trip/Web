@@ -39,27 +39,25 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
   };
 
   useEffect(() => {
-    if (markerData.length === 0)
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setMarkerData([
-            {
-              destinationId: -1,
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            },
-          ]);
+    if (markerData.length === 0) {
+      setMarkerData([
+        {
+          destinationId: -1,
+          lat: 37.283192168869,
+          lon: 127.044128202435,
         },
-        () =>
-          setMarkerData([
-            {
-              destinationId: -1,
-              lat: 37.2840931,
-              lon: 127.0453753,
-            },
-          ])
-      );
-    else initTmap();
+      ]);
+
+      navigator.geolocation.getCurrentPosition((position) => {
+        setMarkerData([
+          {
+            destinationId: -1,
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          },
+        ]);
+      });
+    } else initTmap();
   }, [markerData]);
 
   return <div id="TMapApp" className="w-full mx-auto" ref={mapRef} />;

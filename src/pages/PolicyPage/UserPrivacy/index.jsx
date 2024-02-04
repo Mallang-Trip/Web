@@ -204,13 +204,12 @@ function UserPrivacy() {
           </BodyTab>
           <br />
           ② 제1항에 따른 권리 행사는 회사에 대해 서면, 전화, 전자우편,
-          모사전송(FAX) 등을 통하여 하실 수 있으며 회사는 이에 대해 지체없이
-          조치하겠습니다.
+          모사전송(FAX) 등을 통해 가능하며 회사는 이에 대해 즉각 조치하겠습니다.
           <br />
           <br />
           ③ 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을
-          통하여 하실 수도 있습니다. 이 경우 “개인정보 처리 방법에 관한
-          고시(제2020-7호)” 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.
+          통해서 가능합니다. 이 경우 "개인정보 처리 방법에 관한
+          고시(제2020-7호)" 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.
           <br />
           <br />
           ④ 개인정보 열람 및 처리정지 요구는 「개인정보 보호법」 제35조 제4항,
@@ -284,35 +283,35 @@ function UserPrivacy() {
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     수집하는 행태정보의 항목
                   </th>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     행태정보 수집 방법
                   </th>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     행태정보 수집 목적
                   </th>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     보유, 이용기간 및 이후 정보처리 방법
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 <tr>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     이용자 식별정보, 활동내역, 방문자 수, 방문시간대, 접속경로,
                     페이지뷰, 이용자 장치 및 브라우저 정보, 유입소스,
                     소요시간이탈률 등
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     이용자의 웹사이트 및 앱 방문/실행 시 자동수집
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     이용자의 관심, 성향에 기반한 맞춤형 광고, 이용자 이용행태
                     데이터 분석을 통한 서비스 개선
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     수집 목적 달성 시까지 보유, 수집 목적 달성 후 폐기
                   </td>
                 </tr>
@@ -390,10 +389,11 @@ function UserPrivacy() {
           <br />
           <br />▶ 개인정보 보호 담당부서
           <BodyTab>
-            부서명 : OOO 팀<br />
-            담당자 : OOO
+            부서명 : 기획팀
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            담당자 : 김제윤
+            <br />
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 10 조 (추가적인 이용·제공 판단기준)"}>
@@ -433,19 +433,20 @@ function UserPrivacy() {
           <br />
           <br />▶ 개인정보 보호책임자
           <BodyTab>
-            성명 : OOO
+            부서명 : 기획팀
             <br />
-            직책 : OOO 팀장
+            담당자 : 김제윤
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
             <br />※ 개인정보 보호 담당부서로 연결됩니다.
           </BodyTab>
           <br />▶ 개인정보 보호 담당부서
           <BodyTab>
-            부서명 : OOO 팀<br />
-            담당자 : OOO
+            부서명 : 기획팀
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            담당자 : 김제윤
+            <br />
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
           <br />② 정보주체는 회사의 서비스를 이용하시면서 발생한 모든 개인정보
           보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보
@@ -459,11 +460,11 @@ function UserPrivacy() {
           <br />
           <br />▶ 개인정보 열람청구 접수·처리 부서
           <BodyTab>
-            부서명 : OOO
+            부서명 : 기획팀
             <br />
-            담당자 : OOO
+            담당자 : 김제윤
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 13 조 (권익침해 구제방법)"}>
@@ -522,7 +523,7 @@ function UserPrivacy() {
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 14 조 (개인정보 처리방침 변경)"}>
-          ① 이 개인정보 처리방침은 2023. 12. 1.부터 적용됩니다.
+          ① 이 개인정보 처리방침은 2024. 1. 30.부터 적용됩니다.
         </BodyContent>
       </PolicyContainer>
     </PageContainer>

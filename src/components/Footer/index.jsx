@@ -12,31 +12,29 @@ function Footer() {
         >
           회사 소개
         </button>
-        <div>|</div>
+        <span>|</span>
         <button
           className="hover:underline underline-offset-2 focus:outline-none"
           onClick={() => navigation("/policy/user/service")}
         >
           이용약관
         </button>
-        <div>|</div>
+        <span>|</span>
         <button
           className="hover:underline underline-offset-2 text-primary focus:outline-none"
           onClick={() => navigation("/policy/user/privacy")}
         >
           개인정보처리방침
         </button>
-        <div>|</div>
+        <span>|</span>
         <button
           className="hover:underline underline-offset-2 focus:outline-none"
           onClick={() => navigation("/policy/user/location")}
         >
           위치기반 서비스 이용약관
         </button>
-        <div>|</div>
-        <button className="hover:underline underline-offset-2 focus:outline-none">
-          환불 및 위약금 정책
-        </button>
+        <span>|</span>
+        <span>통신판매업신고번호 2024-경기의왕-0056호</span>
       </div>
       <div className="sm:hidden">
         <div className="flex gap-3 justify-center items-center flex-wrap">
@@ -46,14 +44,14 @@ function Footer() {
           >
             회사 소개
           </button>
-          <div>|</div>
+          <span>|</span>
           <button
             className="hover:underline underline-offset-2 focus:outline-none"
             onClick={() => navigation("/policy/user/service")}
           >
             이용약관
           </button>
-          <div>|</div>
+          <span>|</span>
           <button
             className="hover:underline underline-offset-2 text-primary focus:outline-none"
             onClick={() => navigation("/policy/user/privacy")}
@@ -68,14 +66,12 @@ function Footer() {
           >
             위치기반 서비스 이용약관
           </button>
-          <div>|</div>
-          <button className="hover:underline underline-offset-2 focus:outline-none">
-            환불 및 위약금 정책
-          </button>
+          <span>|</span>
+          <span>통신판매업신고번호 2024-경기의왕-0056호</span>
         </div>
       </div>
       <div className="flex justify-center items-center pt-3">
-        Copyright ⓒ 2023 mallangtrip. All rights reserved.
+        Copyright ⓒ 2024 mallangtrip. All rights reserved.
       </div>
     </div>
   );

@@ -18,10 +18,10 @@ export const putComment = async (data, reviewId) =>
 export const deleteComment = async (reviewId) =>
   await DELETE(`/driver/review/${reviewId}`, true);
 
-export const applyDriver = async (data) =>
-  await POST(`/driver/apply`, data, true);
-
-export const getDriverMyInfo = async () => await GET(`/driver/my`, true);
+export const getDriverMyInfo = async () => await GET("/driver/my", true);
 
 export const putDriverMyInfo = async (data) =>
-  await PUT(`/driver/my`, data, true);
+  await PUT("/driver/my", data, true);
+
+export const applyDriver = async (data) =>
+  await POST("/driver/apply", data, true);

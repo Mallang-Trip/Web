@@ -128,7 +128,7 @@ function DriverApplyPage() {
           setIntroduction={setIntroduction}
         />
       )}
-      {step === 6 && <Complete />}
+      {step === 6 && <Complete setStep={setStep} />}
 
       <StepButton
         activeNext={activeNext}

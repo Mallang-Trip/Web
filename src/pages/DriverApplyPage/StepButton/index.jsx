@@ -23,10 +23,10 @@ function StepButton({
   if (step > 5) return null;
   return (
     <>
-      <div className="flex justify-center mt-16 gap-12">
+      <div className="w-full flex justify-center gap-7 mt-16 mx-auto px-4">
         <button
           type="button"
-          className="h-10 bg-white border rounded-full text-darkgray text-sm w-28 border-darkgray"
+          className="h-10 bg-white border rounded-full text-darkgray text-sm w-64 border-darkgray"
           onClick={prevHandler}
         >
           이전
@@ -35,8 +35,8 @@ function StepButton({
           type="button"
           className={`${
             activeNext
-              ? "h-10 text-white rounded-full text-sm w-28 bg-primary"
-              : "h-10 bg-lightgray border rounded-full text-darkgray text-sm w-28 border-lightgray"
+              ? "h-10 text-white rounded-full text-sm w-64 bg-primary"
+              : "h-10 bg-lightgray border rounded-full text-darkgray text-sm w-64 border-lightgray"
           }`}
           disabled={!activeNext}
           onClick={nextHandler}

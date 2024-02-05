@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
 function Member({
@@ -7,10 +8,26 @@ function Member({
   introduction,
   setShowProfileModal,
   setProfileUserId,
+  type,
+  setKickUser,
+  setShowKickModal,
 }) {
+  const user = useSelector((state) => state.user);
+  const publicRoomId = useSelector((state) => state.talkRoom.publicRoomId);
+
   const showProfileHandler = () => {
     setProfileUserId(userId);
     setShowProfileModal(true);
+  };
+
+  const kickHandler = async (e) => {
+    e.stopPropagation();
+
+    setKickUser({
+      userId: userId,
+      nickname: nickname,
+    });
+    setShowKickModal(true);
   };
 
   return (
@@ -29,6 +46,14 @@ function Member({
           {introduction}
         </p>
       </div>
+      {type === "PARTY_PUBLIC" && publicRoomId && userId !== user.userId && (
+        <div
+          className="w-16 bg-[#FFEAEA] text-[#E30000] py-1.5 px-2 text-xs rounded-lg border border-[#E30000] focus:outline-none"
+          onClick={kickHandler}
+        >
+          강퇴
+        </div>
+      )}
     </button>
   );
 }

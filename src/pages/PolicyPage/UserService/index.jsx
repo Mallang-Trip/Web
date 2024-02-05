@@ -16,7 +16,7 @@ function UserService() {
         <BodyContent title={"제 1 조 (목적)"}>
           이 약관은 말랑트립(이하 '회사'라 한다)이 운영하는 말랑트립 웹사이트 및
           앱(이하 '웹사이트 및 앱'이라 한다)에서 제공하는 택시 카풀 여행 플랫폼
-          서비스를 이용함에 있어 회사와 회원의 권리․의무 및 책임사항을 규정함을
+          서비스를 이용함에 있어 회사와 회원의 권리, 의무 및 책임사항을 규정함을
           목적으로 합니다.
         </BodyContent>
         <BodyContent title={"제 2 조 (정의)"}>
@@ -48,14 +48,22 @@ function UserService() {
           함께 받는 회원들의 모임 또는 여행 플랜을 말합니다.
           <br />
           <br />
-          ⑦ "말랑레디"라 함은 드라이버 서비스를 신청한 회원들이 가입한 파티의
-          여행 인원을 더 이상 변경할 수 없도록 고정하고 확정시키기 위해서 대금을
-          지급하고 청약철회 할 수 없음에 동의하는 의사표시를 말합니다.
+          ⑦ "말랑레디"라 함은 드라이버 서비스를 신청한 회원들이 여행의 일정과
+          일행 명단을 확정시키기 위해서 대금을 지급할 준비가 완료되었다는
+          의사표시를 말합니다.
           <br />
-          <br />⑧ "말랑트립 확정"이라 함은 드라이버를 포함하여 한 파티에 참여한
-          모든 회원이 웹사이트 및 앱에서 말랑레디를 한 사람도 빠짐없이
-          활성화시켰을 때 결제가 이루어지고 더 이상 환불받을 수 없는 상태를
+          <br />
+          ⑧ "말랑트립 확정"이라 함은 한 파티에 참여한 모든 회원들이 대금 지급
+          절차가 이루어져 회원과 드라이버간 계약이 성립된 상태를 말합니다.
+          <br />
+          <br />
+          ⑨ "말랑트립 최종 확정"이라 함은 말랑트립 확정 이후 여행 2일 전날이
+          되어 위약금이 결제 금액의 100%로서 청약 철회할 수 없는 상태를
           말합니다.
+          <br />
+          <br />⑩ "독점 예약"이라 함은 회원이 파티를 최초로 개설할 때 가질 수
+          있는 선택권으로서, 예약자 본인 및 본인의 일행만이 예약과 결제를
+          단독으로 진행할 것이라는 의사표시를 말합니다.
         </BodyContent>
         <BodyContent title={"제 3 조 (약관 등의 명시와 설명 및 개정)"}>
           ① 회사는 이 약관의 내용과 상호 및 대표자 성명, 영업소 소재지
@@ -134,7 +142,7 @@ function UserService() {
           있습니다. 이 경우에는 변경된 서비스의 내용 및 제공일자를 명시하여
           현재의 서비스의 내용을 게시한 곳에 즉시 공지합니다.
         </BodyContent>
-        <BodyContent title={"제 5 조 (개인정보의 중단)"}>
+        <BodyContent title={"제 5 조 (서비스의 중단)"}>
           ① 회사는 컴퓨터 등 정보통신설비의 보수점검․교체 및 고장, 통신의 두절
           등의 사유가 발생한 경우에는 서비스의 제공을 일시적으로 중단할 수
           있습니다.
@@ -299,9 +307,9 @@ function UserService() {
             있다고 판단하는 경우
           </BodyTab>
           <br />
-          ② 회사가 회원의 드라이브 서비스 신청을 접수하면, 아래와 같이 다른 회원
-          또는 드라이버에게 회원의 서비스 신청 내용과 아래 각 목의 정보들이
-          제공됩니다.
+          ② 말랑트립 확정 상태 이전에 회사가 회원의 드라이브 서비스 신청을
+          접수하면, 아래와 같이 다른 회원 또는 드라이버에게 회원의 서비스 신청
+          내용과 아래 각 목의 정보들이 제공됩니다.
           <br />
           <br />
           <BodyTab>
@@ -333,12 +341,23 @@ function UserService() {
             </BodyTab>
           </BodyTab>
           <br />
-          ③ 위 제2항에 따라 드라이버 및 파티에 이미 참여한 다른 회원들이(기존
-          파티 참여의 경우) 회원의 서비스 신청을 모두 승낙하여 이 승낙이 회사를
-          통해 회원에게 도달하면 회원과 드라이버간 계약이 성립된 것으로 봅니다.
+          ③ 드라이버가 최초로 파티를 개설하려는 회원의 드라이브 서비스 신청을
+          승낙한 이후 파티가 생성되면, 그 파티에 가입하려는 다른 회원들은 코스
+          변경 제안 외에는 별도의 조건 없이 그 파티에 즉시 가입할 수 있습니다.
           <br />
           <br />
-          ④ 회사는 위 제3항에 따라 회원과 드라이버간 계약이 성립되고, 제11조에
+          ④ 회원이 드라이버를 선정하여 파티를 최초로 개설할 때 독점 예약을
+          활성화하여 드라이브 서비스를 신청했다면 드라이버가 독점 예약 드라이브
+          서비스 신청을 승낙한 직후 말랑트립 확정 상태가 됩니다.
+          <br />
+          <br />
+          ⑤ 위 제2항, 제3항에 따라 파티의 여석이 0이 되거나 드라이버 및 파티에
+          이미 참여한 다른 회원들이(기존 파티 참여의 경우) 말랑레디를 한 명도
+          빠짐없이 ON으로 활성화한 상태가 회사를 통해 회원에게 도달하면 회원과
+          드라이버간 계약이 성립된 것으로 봅니다.
+          <br />
+          <br />
+          ⑥ 회사는 위 제3항에 따라 회원과 드라이버간 계약이 성립되고, 제11조에
           따라 회원의 대금 지급이 완료된 것을 확인하면, 여행 당일 드라이버에게
           회원에 대한 아래 각 호의 정보를 제공합니다.
           <br />
@@ -347,9 +366,11 @@ function UserService() {
             1. 회원의 성명
             <br />
             2. 회원의 연락처
+            <br />
+            3. 회원의 생년월일
           </BodyTab>
           <br />
-          ⑤ 회사는 위 제3항에 따라 회원과 드라이버간 계약이 성립되고, 제11조에
+          ⑦ 회사는 위 제3항에 따라 회원과 드라이버간 계약이 성립되고, 제11조에
           따라 회원의 대금 지급이 완료된 것을 확인하면, 여행 당일 회원에게
           드라이버에 대한 아래 각 호의 정보를 제공합니다.
           <br />
@@ -495,6 +516,17 @@ function UserService() {
           서비스를 제공할 수 없게 된 때에는 드라이브 서비스를 제공하지 못하게
           되었음을 확인한 날부터 3영업일 이내에 회원이 이미 결제한 대금을
           환급하거나 환급에 필요한 조치를 취합니다.
+          <br />
+          <br />
+          ② 회사는 회원이 임의로 예약을 취소하는 경우에는 예약 취소일로부터
+          3영업일 이내에 제15조에서 정한 위약금을 제외한 나머지 금액이 있는 경우
+          이를 환급하거나 환급에 필요한 조치를 취합니다.
+          <br />
+          <br />③ 회사는 같은 여행에 참여한 다른 여행자 회원이 말랑트립 확정
+          상태에서 예약을 취소하는 경우 남아있는 나머지 여행자 회원들의 예약금을
+          예약 취소일로부터 3영업일 이내에 전액 환급함과 동시에 예약 취소한
+          회원을 제외한 인원 그대로 드라이브 서비스 계약 이전 상태인 말랑트립
+          확정 전 상태로 되돌립니다.
         </BodyContent>
         <BodyContent title={"제 15 조 (청약철회 및 변경)"}>
           ① 드라이버를 포함하여 소속된 파티의 모든 회원들이 웹사이트 및 앱에
@@ -512,49 +544,64 @@ function UserService() {
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="w-1/3 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/3 px-4 py-2 text-center">
                     청약 철회 기간
                     <br />
                     (해당 일자의 23:59까지)
                   </th>
-                  <th scope="col" className="w-1/3 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/3 px-4 py-2 text-center">
                     위약금
                   </th>
-                  <th scope="col" className="w-1/3 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/3 px-4 py-2 text-center">
                     환급되는 금액
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 <tr>
-                  <td className="px-6 py-4 text-center">여행 8일 전날까지</td>
-                  <td className="px-6 py-4 text-center">없음</td>
-                  <td className="px-6 py-4 text-center">결제금액 전액</td>
+                  <td className="px-4 py-4 text-center">여행 8일 전날까지</td>
+                  <td className="px-4 py-4 text-center">없음</td>
+                  <td className="px-4 py-4 text-center">결제금액 전액</td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 text-center">여행 6일 전날까지</td>
-                  <td className="px-6 py-4 text-center">결제금액의 25%</td>
-                  <td className="px-6 py-4 text-center">결제금액의 75%</td>
+                  <td className="px-4 py-4 text-center">여행 7일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 10%</td>
+                  <td className="px-4 py-4 text-center">결제금액의 90%</td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 text-center">여행 4일 전날까지</td>
-                  <td className="px-6 py-4 text-center">결제금액의 50%</td>
-                  <td className="px-6 py-4 text-center">결제금액의 50%</td>
+                  <td className="px-4 py-4 text-center">여행 6일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 25%</td>
+                  <td className="px-4 py-4 text-center">결제금액의 75%</td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 text-center">여행 2일 전날까지</td>
-                  <td className="px-6 py-4 text-center">결제금액의 75%</td>
-                  <td className="px-6 py-4 text-center">결제금액의 25%</td>
+                  <td className="px-4 py-4 text-center">여행 5일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 50%</td>
+                  <td className="px-4 py-4 text-center">결제금액의 50%</td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 text-center">여행 1일 전날까지</td>
-                  <td className="px-6 py-4 text-center">결제금액의 90%</td>
-                  <td className="px-6 py-4 text-center">결제금액의 10%</td>
+                  <td className="px-4 py-4 text-center">여행 4일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 75%</td>
+                  <td className="px-4 py-4 text-center">결제금액의 25%</td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 text-center">여행 당일</td>
-                  <td className="px-6 py-4 text-center">결제금액의 100%</td>
-                  <td className="px-6 py-4 text-center">없음</td>
+                  <td className="px-4 py-4 text-center">여행 3일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 90%</td>
+                  <td className="px-4 py-4 text-center">결제금액의 10%</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-4 text-center">여행 2일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 100%</td>
+                  <td className="px-4 py-4 text-center">없음</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-4 text-center">여행 1일 전날까지</td>
+                  <td className="px-4 py-4 text-center">결제금액의 100%</td>
+                  <td className="px-4 py-4 text-center">없음</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-4 text-center">여행 당일</td>
+                  <td className="px-4 py-4 text-center">결제금액의 100%</td>
+                  <td className="px-4 py-4 text-center">없음</td>
                 </tr>
               </tbody>
             </table>
@@ -565,16 +612,41 @@ function UserService() {
           별도 고지합니다.
           <br />
           <br />
-          ④ 회원이 드라이브 서비스의 코스 변경을 하고자 하는 경우에는 파티에
-          참여한 다른 회원들과 해당 파티에 지정된 드라이버에게 변경 제안을 보낼
-          수 있고, 이들 전원이 승낙하는 경우에 한해서 코스를 변경할 수 있습니다.
+          ④ 청약 철회에 따라 회원이 부담한 위약금은 파티에 참여하는 다른
+          회원들의 이익을 위해 사용될 수 있습니다. 단, 청약 철회한 회원은 예약을
+          취소한 파티에 재참여가 불가능합니다.
           <br />
-          <br />⑤ 한 파티를 예약한 회원들이 드라이버를 포함하여 말랑레디를 전원
-          활성화하기 이전까지는 대금 지급을 하지 않으므로 드라이브 서비스를
-          신청했던 파티를 취소하거나 다시 가입할 수 있습니다.
+          <br />⑤ 회원이 드라이브 서비스의 코스 변경을 하고자 하는 경우에는
+          파티에 참여한 다른 회원들과 해당 파티에 지정된 드라이버에게 변경
+          제안을 보낼 수 있고, 이들 전원이 승낙하는 경우에 한해서 코스를 변경할
+          수 있습니다. 만약 전원 승낙이 없는 경우에는 코스 변경은 불가합니다.
+        </BodyContent>
+        <BodyContent title={"제 16 조 (청약철회의 효과)"}>
+          ① 회사는 회원이 청약철회를 신청한 경우 3영업일 이내에 회원이 지불한
+          대금에서 제15조 제2항에 따른 위약금을 제외한 대금을 환급합니다.
+          <br />
+          <br />
+          ② 회원의 결제수단 오류로 대금 결제가 되지 않았던 경우에는 회사는
+          별도로 회원에게 위약금을 청구할 수 있습니다.
+          <br />
+          <br />
+          ③ 회사는 위 대금을 환급함에 있어서 회원이 신용카드 또는 전자화폐 등의
+          결제수단으로 대금을 지급한 때에는 당해 결제수단을 제공한 사업자로
+          하여금 재화 등의 대금의 청구를 일부 또는 전부 취소하도록 요청할 수
+          있고, 이에 따른 조치가 어려운 경우에는 회사는 회원이 웹사이트 및 앱에
+          등록한 환급계좌로 환급하며, 만약 회원이 환급계좌를 등록하지 않은
+          경우에는 지체없이 회원에게 환급 예정인 사실과 환급계좌를 고지해달라는
+          내용의 통지를 합니다.
+          <br />
+          <br />④ 회사가 회사의 귀책으로 회원에게 환급을 지연한 때에는 그
+          지연기간에 대하여 「전자상거래 등에서의 소비자보호에 관한 법률
+          시행령」제21조의3에서 정하는 지연이자율을 곱하여 산정한 지연이자를
+          지급합니다. 단, 회원이 환급계좌를 정확하게 등록하지 않았거나, 회사의
+          요청에도 지체없이 환급계좌를 알려오지 않는 등 회원의 귀책으로 인해
+          환급이 지연되는 기간 동안에는 지연이자를 지급하지 않습니다.
         </BodyContent>
         <BodyContent
-          title={"제 16 조 (드라이브 서비스와 관련한 회사의 의무 및 면책)"}
+          title={"제 17 조 (드라이브 서비스와 관련한 회사의 의무 및 면책)"}
         >
           ① 드라이브 서비스에 대한 계약은 회원과 드라이버간에 체결되는 것으로서,
           회사는 이를 중개할 뿐, 직접적인 계약의 당사자가 아니므로 드라이브
@@ -583,7 +655,7 @@ function UserService() {
           <br />
           ② 드라이버가 회사나 회원의 사전 승인 없이 무단으로 드라이브 서비스를
           제공하지 않은 경우, 회사는 우선적으로 회원에게 미이행 서비스 대금을
-          환급하고 쿠폰 지급 등 회사가 정한 보상 조치를 합니다.
+          환급하고 해당 드라이버에게 필요한 조치를 취합니다.
           <br />
           <br />
           ③ 회사는 드라이버가 성실하게 드라이브 서비스를 제공할 수 있도록 교육,
@@ -602,7 +674,7 @@ function UserService() {
           다른 회원이나 제3자의 고의·과실으로 발생한 사고 및 손해에 대해서도
           회사 및 드라이버는 책임지지 않습니다.
         </BodyContent>
-        <BodyContent title={"제 17 조 (드라이브 서비스의 변경)"}>
+        <BodyContent title={"제 18 조 (드라이브 서비스의 변경)"}>
           ① 제13조 제2항에 따라 드라이버는 긴급상황이나 불가피한 상황이 발생 시
           여행을 중단하거나 코스를 변경할 수 있습니다.
           <br />
@@ -632,7 +704,7 @@ function UserService() {
             경우, 회원들은 드라이버에게 적절한 현금 보상을 하여야 합니다.
           </BodyTab>
         </BodyContent>
-        <BodyContent title={"제 18 조 (계약의 해지)"}>
+        <BodyContent title={"제 19 조 (계약의 해지)"}>
           ① 다음 각 호의 사유가 있는 경우 회원과 드라이버는 여행 시작 전이나
           여행 중이더라도 상호 드라이브 계약을 해지할 수 있습니다. 다만
           해지하고자 하는 당사자가 해지 사유를 입증할 수 있어야 합니다.
@@ -653,7 +725,7 @@ function UserService() {
           환급되지 않습니다. 본조에서 정한 해지 및 환급은 회원과 드라이버 상호간
           손해배상청구에 영향을 미치지 않습니다.
         </BodyContent>
-        <BodyContent title={"제 19 조 (드라이버 평가)"}>
+        <BodyContent title={"제 20 조 (드라이버 평가)"}>
           ① 회원은 드라이브 서비스가 종료된 후 웹사이트 및 앱에 안내된 방법에
           따라 드라이버에 대한 평가를 남길 수 있습니다.
           <br />
@@ -664,7 +736,7 @@ function UserService() {
         </BodyContent>
 
         <BodyTitle title={"제 3 절 그 외 회사와 회원의 권리 의무"} />
-        <BodyContent title={"제 20 조 (회사의 의무)"}>
+        <BodyContent title={"제 21 조 (회사의 의무)"}>
           ① 회사는 법령과 이 약관이 금지하거나 공서양속에 반하는 행위를 하지
           않으며 이 약관이 정하는 바에 따라 지속적이고, 안정적으로 서비스를
           제공하는데 최선을 다하여야 합니다.
@@ -685,7 +757,7 @@ function UserService() {
           <br />⑤ 회사는 드라이버에 대한 주기적인 교육을 하여 드라이버가 원활한
           드라이브 서비스 제공을 할 수 있도록 적극 협조합니다.
         </BodyContent>
-        <BodyContent title={"제 21 조 (회원의 의무)"}>
+        <BodyContent title={"제 22 조 (회원의 의무)"}>
           ① 회원의 ID와 비밀번호에 관한 관리책임은 회원 본인에게 있고, 회원은
           자신의 ID 및 비밀번호를 제3자에게 이용하게 해서는 안 됩니다.
           <br />
@@ -738,11 +810,11 @@ function UserService() {
           <br />⑧ 회원이 웹사이트 및 앱에 게시한 컨텐츠가 수사나 재판의 대상이
           되는 경우, 회사는 수사기관이나 법원에 협조합니다.
         </BodyContent>
-        <BodyContent title={"제 22 조 (손해배상)"}>
+        <BodyContent title={"제 23 조 (손해배상)"}>
           회원이 불법행위나 채무불이행, 본 약관의 위반으로 회사나 드라이버, 다른
           회원 및 제3자에게 손해를 끼친 경우 회원은 그 손해를 배상합니다.
         </BodyContent>
-        <BodyContent title={"제 23 조 (회사의 면책 및 분쟁해결)"}>
+        <BodyContent title={"제 24 조 (회사의 면책 및 분쟁해결)"}>
           ① 회사는 회원과 드라이버간 드라이브 서비스 제공 계약을 중개하는
           것이므로, 양 당사자들의 채무 불이행이나 불법행위에 대하여 그
           상대방에게 책임지지 않습니다.
@@ -762,7 +834,7 @@ function UserService() {
           있습니다. 다만, 회원과 광고주 및 제휴업체 등과의 거래에 따른 책임은
           회사가 지지 않습니다.
         </BodyContent>
-        <BodyContent title={"제 24 조 (개인정보보호)"}>
+        <BodyContent title={"제 25 조 (개인정보보호)"}>
           ① 회사는 회원의 개인정보 수집 시 서비스제공을 위하여 필요한 범위에서
           최소한의 개인정보를 수집하며, 개인정보를 수집·이용하는 때에는
           당사자에게 그 목적을 고지하고 동의를 받습니다.
@@ -774,7 +846,7 @@ function UserService() {
           불구하고 제3자의 불법행위로 인하여 개인정보가 유출된 경우에는 회사는
           책임지지 않습니다.
         </BodyContent>
-        <BodyContent title={"제 25 조 (재판권 및 준거법)"}>
+        <BodyContent title={"제 26 조 (재판권 및 준거법)"}>
           ① 회사와 회원 간에 발생한 분쟁에 관한 소송의 관할은 민사소송법에
           따릅니다.
           <br />

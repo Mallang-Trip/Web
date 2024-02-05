@@ -113,7 +113,7 @@ function DriverPrivacy() {
           </BodyTab>
           <br />
           3. 고충처리
-          <BodyTab>· 필수항목 : 닉네임, 이메일, 휴대전화번호</BodyTab>
+          <BodyTab>· 필수항목 : 성명, 이메일, 휴대전화번호</BodyTab>
           <br />
           4. 인터넷 서비스 이용과정에서 아래 개인정보 항목이 자동으로 생성되어
           수집될 수 있습니다.
@@ -285,35 +285,35 @@ function DriverPrivacy() {
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     수집하는 행태정보의 항목
                   </th>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     행태정보 수집 방법
                   </th>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     행태정보 수집 목적
                   </th>
-                  <th scope="col" className="w-1/4 px-6 py-3 text-center">
+                  <th scope="col" className="w-1/4 px-4 py-2 text-center">
                     보유, 이용기간 및 이후 정보처리 방법
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 <tr>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     이용자 식별정보, 활동내역, 방문자 수, 방문시간대, 접속경로,
                     페이지뷰, 이용자 장치 및 브라우저 정보, 유입소스,
                     소요시간이탈률 등
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     이용자의 웹사이트 및 앱 방문/실행 시 자동수집
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     이용자의 관심, 성향에 기반한 맞춤형 광고, 이용자 이용행태
                     데이터 분석을 통한 서비스 개선
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     수집 목적 달성 시까지 보유, 수집 목적 달성 후 폐기
                   </td>
                 </tr>
@@ -337,7 +337,7 @@ function DriverPrivacy() {
           맞춤형 광고를 차단·허용할 수 있습니다.
           <br /> <br />▶ 스마트폰의 광고식별자 차단/허용
           <BodyTab>
-            (1) (안드로이드) ① 설정 → ② 개인정보보호 → ③ 광고 → ③ 광고 ID 재설정
+            (1) (안드로이드) ① 설정 → ② 개인정보보호 → ③ 광고 → ④ 광고 ID 재설정
             또는 광고ID 삭제
             <br />
             (2) (아이폰) ① 설정 → ② 개인정보보호 → ③ 추적 → ④ 앱이 추적을
@@ -388,10 +388,11 @@ function DriverPrivacy() {
           <br />
           <br />▶ 개인정보 보호 담당부서
           <BodyTab>
-            부서명 : OOO 팀<br />
-            담당자 : OOO
+            부서명 : 기획팀
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            담당자 : 김제윤
+            <br />
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 10 조 (추가적인 이용·제공 판단기준)"}>
@@ -408,8 +409,7 @@ function DriverPrivacy() {
             2. 이용·제공 목적 : 드라이브 서비스의 원활한 중개
             <br />
             <br />
-            3. 보유 및 이용기간 : 목적 달성 시 즉시 파기 3. 보유 및 이용기간 :
-            목적 달성 시 즉시 파기
+            3. 보유 및 이용기간 : 목적 달성 시 즉시 파기
           </BodyTab>
           <br />② 회사는 이에 따라 정보주체의 동의 없이 추가적인 이용·제공을
           하기 위해서 다음과 같은 사항을 고려하였습니다.
@@ -434,19 +434,20 @@ function DriverPrivacy() {
           <br />
           <br />▶ 개인정보 보호책임자
           <BodyTab>
-            성명 : OOO
+            부서명 : 기획팀
             <br />
-            직책 : OOO 팀장
+            담당자 : 김제윤
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
             <br />※ 개인정보 보호 담당부서로 연결됩니다.
           </BodyTab>
           <br />▶ 개인정보 보호 담당부서
           <BodyTab>
-            부서명 : OOO 팀<br />
-            담당자 : OOO
+            부서명 : 기획팀
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            담당자 : 김제윤
+            <br />
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
           <br />② 정보주체는 회사의 서비스를 이용하시면서 발생한 모든 개인정보
           보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보
@@ -460,11 +461,11 @@ function DriverPrivacy() {
           <br />
           <br />▶ 개인정보 열람청구 접수·처리 부서
           <BodyTab>
-            부서명 : OOO
+            부서명 : 기획팀
             <br />
-            담당자 : OOO
+            담당자 : 김제윤
             <br />
-            {"연락처 : <전화번호>, <이메일>, <팩스번호>"}
+            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 13 조 (권익침해 구제방법)"}>
@@ -523,16 +524,7 @@ function DriverPrivacy() {
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 14 조 (개인정보 처리방침 변경)"}>
-          ① 이 개인정보 처리방침은 2023. 12. 1.부터 적용됩니다.
-          <br />
-          <br />
-          ② 이전의 개인정보 처리방침은 아래에서 확인하실 수 있습니다.
-          <br />
-          <br />
-          <BodyTab>
-            - 20XX. X. X ~ 20XX. X. X 적용 (클릭)
-            <br />- 20XX. X. X ~ 20XX. X. X 적용 (클릭)
-          </BodyTab>
+          ① 이 개인정보 처리방침은 2024. 01. 30.부터 적용됩니다.
         </BodyContent>
       </PolicyContainer>
     </PageContainer>

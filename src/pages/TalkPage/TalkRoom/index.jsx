@@ -147,6 +147,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
     if (openTalkId === 0) return;
 
     setRoomId(openTalkId);
+    setShowMenu(false);
 
     if (!openRoom) return openRoomHandler();
     setOpenRoom(false);

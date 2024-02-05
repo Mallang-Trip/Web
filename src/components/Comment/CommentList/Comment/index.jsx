@@ -114,7 +114,7 @@ function Comment({
       </div>
       <input
         type="text"
-        className={`w-full text-sm ml-11 mt-2 bg-white focus:outline-none ${
+        className={`w-4/5 text-sm ml-11 mt-2 bg-white focus:outline-none ${
           modifyMode && "text-primary"
         }`}
         value={newContent}

@@ -19,14 +19,14 @@ function Complete({ setStep }) {
       <div className="w-full flex justify-center gap-7 mt-16 mx-auto px-4">
         <button
           type="button"
-          className="h-10 bg-[#FFEAEA] border rounded-full text-[#E30000] text-sm w-64 border-[#E30000]"
+          className="h-12 bg-[#FFEAEA] border rounded-full text-[#E30000] text-sm w-64 border-[#E30000]"
           onClick={() => console.log("취소")}
         >
           제출 취소하기
         </button>
         <button
           type="button"
-          className="h-10 bg-skyblue border rounded-full text-primary text-sm w-64 border-primary"
+          className="h-12 bg-skyblue border rounded-full text-primary text-sm w-64 border-primary"
           onClick={() => setStep(1)}
         >
           제출 내용 수정하기

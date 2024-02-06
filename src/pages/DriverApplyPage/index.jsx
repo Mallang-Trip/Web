@@ -6,6 +6,7 @@ import {
 } from "../../api/driver";
 import { uploadImage } from "../../api/image";
 import PageContainer from "../../components/PageContainer";
+import Loading from "../../components/Loading";
 import Title from "./Title";
 import Stepper from "./Stepper";
 import CarInfo from "./CarInfo";
@@ -15,7 +16,7 @@ import Accout from "./Accout";
 import DriverDocument from "./DriverDocument";
 import Introduction from "./Introduction";
 import Complete from "./Complete";
-import Loading from "../../components/Loading";
+import DriverAccept from "./DriverAccept";
 
 function DriverApplyPage() {
   const [step, setStep] = useState(1);
@@ -98,7 +99,7 @@ function DriverApplyPage() {
     try {
       const result = await getDriverApply();
       console.log(result);
-      if (result?.payload?.status === "WAITING") {
+      if (result.statusCode === 200) {
         setName(result.payload.accountHolder);
         setAccoutNumber(result.payload.accountNumber);
         setBank(result.payload.bank);
@@ -121,7 +122,8 @@ function DriverApplyPage() {
         setHour(hours);
         setMoney(moneys);
 
-        setStep(6);
+        if (result.payload.status === "WAITING") setStep(6);
+        else if (result.payload.status === "ACCEPTED") setStep(7);
       }
     } catch (e) {
       console.log(e);
@@ -194,6 +196,7 @@ function DriverApplyPage() {
         />
       )}
       {step === 6 && <Complete setStep={setStep} />}
+      {step === 7 && <DriverAccept />}
 
       <StepButton
         activeNext={activeNext}

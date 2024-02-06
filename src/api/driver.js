@@ -30,3 +30,6 @@ export const postDriverApply = async (data) =>
 
 export const putDriverApply = async (data) =>
   await PUT("/driver/apply", data, true);
+
+export const deleteDriverApply = async () =>
+  await DELETE("/driver/apply", true);

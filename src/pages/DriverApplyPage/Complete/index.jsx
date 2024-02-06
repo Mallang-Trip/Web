@@ -1,6 +1,10 @@
+import { useState } from "react";
+import CancelModal from "./CancelModal";
 import logo from "../../../assets/images/logo.png";
 
 function Complete({ setStep }) {
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
   return (
     <>
       <div className="w-96 mt-24 mx-auto py-10 bg-skyblue rounded-lg shadow-lg">
@@ -20,7 +24,7 @@ function Complete({ setStep }) {
         <button
           type="button"
           className="h-12 bg-[#FFEAEA] border rounded-full text-[#E30000] text-sm w-64 border-[#E30000]"
-          onClick={() => console.log("취소")}
+          onClick={() => setShowCancelModal(true)}
         >
           제출 취소하기
         </button>
@@ -32,6 +36,11 @@ function Complete({ setStep }) {
           제출 내용 수정하기
         </button>
       </div>
+
+      <CancelModal
+        showModal={showCancelModal}
+        setShowModal={setShowCancelModal}
+      />
     </>
   );
 }

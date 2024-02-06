@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { applyDriver } from "../../api/driver";
+import { useEffect, useState } from "react";
+import { postDriverApply, getDriverApply } from "../../api/driver";
 import { uploadImage } from "../../api/image";
 import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
@@ -15,6 +15,7 @@ import Complete from "./Complete";
 function DriverApplyPage() {
   const [step, setStep] = useState(1);
   const [activeNext, setActiveNext] = useState(false);
+  const [driverId, setDriverId] = useState(0);
   const [carImage, setCarImage] = useState(undefined);
   const [modelName, setModelName] = useState("");
   const [maxNum, setMaxNum] = useState("");
@@ -63,7 +64,7 @@ function DriverApplyPage() {
         vehicleNumber: "00가0000",
       };
 
-      await applyDriver(body);
+      await postDriverApply(body);
       setStep(step + 1);
       setShowModal(false);
     } catch (e) {
@@ -71,6 +72,45 @@ function DriverApplyPage() {
       setShowModal(false);
     }
   };
+
+  const getDriverApplyFunc = async () => {
+    try {
+      const result = await getDriverApply();
+      console.log(result);
+      if (result.statusCode === 200) {
+        setName(result.payload.accountHolder);
+        setAccoutNumber(result.payload.accountNumber);
+        setBank(result.payload.bank);
+        setDriverId(result.payload.driverId);
+        setDriverLicense(result.payload.driverLicenceImg);
+        setInsurance(result.payload.insuranceLicenceImg);
+        setIntroduction(result.payload.introduction);
+        setRegion(result.payload.region);
+        setTaxiLicense(result.payload.taxiLicenceImg);
+        setMaxNum(result.payload.vehicleCapacity.toString());
+        setCarImage(result.payload.vehicleImg);
+        setModelName(result.payload.vehicleModel);
+
+        const hours = ["", "", "", "", ""];
+        const moneys = ["", "", "", "", ""];
+        result.payload.prices.forEach((item, index) => {
+          hours[index] = item.hours.toString();
+          moneys[index] = item.price.toString();
+        });
+        setHour(hours);
+        setMoney(moneys);
+      }
+      if (result.statusCode === 404) return;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getDriverApplyFunc();
+  }, []);
+
+  useEffect(() => window.scrollTo({ top: 0 }), [step]);
 
   return (
     <PageContainer>

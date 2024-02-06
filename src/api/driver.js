@@ -23,5 +23,7 @@ export const getDriverMyInfo = async () => await GET("/driver/my", true);
 export const putDriverMyInfo = async (data) =>
   await PUT("/driver/my", data, true);
 
-export const applyDriver = async (data) =>
+export const getDriverApply = async () => await GET("/driver/apply", true);
+
+export const postDriverApply = async (data) =>
   await POST("/driver/apply", data, true);

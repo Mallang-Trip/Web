@@ -17,7 +17,9 @@ function ImageInput({ title, image, name, imageHandler }) {
           {image && (
             <img
               className="object-cover w-full h-full rounded-2xl"
-              src={URL.createObjectURL(image)}
+              src={
+                typeof image === "string" ? image : URL.createObjectURL(image)
+              }
               alt={name}
             />
           )}

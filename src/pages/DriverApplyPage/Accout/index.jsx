@@ -94,7 +94,7 @@ function Accout({
             money={money}
             setMoney={setMoney}
             index={i}
-            isShow={i === 0}
+            isShow={i === 0 || hour[i]}
           />
         ))}
       </div>

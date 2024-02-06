@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { postDriverApply, getDriverApply } from "../../api/driver";
+import {
+  postDriverApply,
+  getDriverApply,
+  putDriverApply,
+} from "../../api/driver";
 import { uploadImage } from "../../api/image";
 import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
@@ -11,6 +15,7 @@ import Accout from "./Accout";
 import DriverDocument from "./DriverDocument";
 import Introduction from "./Introduction";
 import Complete from "./Complete";
+import Loading from "../../components/Loading";
 
 function DriverApplyPage() {
   const [step, setStep] = useState(1);
@@ -30,14 +35,30 @@ function DriverApplyPage() {
   const [insurance, setInsurance] = useState(undefined);
   const [introduction, setIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const submitHandler = async () => {
-    const carImageURL = carImage ? await uploadImage(carImage) : null;
-    const driverLicenseURL = driverLicense
-      ? await uploadImage(driverLicense)
-      : null;
-    const taxiLicenseURL = taxiLicense ? await uploadImage(taxiLicense) : null;
-    const insuranceURL = insurance ? await uploadImage(insurance) : null;
+    const carImageURL = !carImage
+      ? null
+      : typeof carImage === "string"
+      ? carImage
+      : await uploadImage(carImage);
+    const driverLicenseURL = !driverLicense
+      ? null
+      : typeof driverLicense === "string"
+      ? driverLicense
+      : await uploadImage(driverLicense);
+    const taxiLicenseURL = !taxiLicense
+      ? null
+      : typeof taxiLicense === "string"
+      ? taxiLicense
+      : await uploadImage(taxiLicense);
+    const insuranceURL = !insurance
+      ? null
+      : typeof insurance === "string"
+      ? insurance
+      : await uploadImage(insurance);
+
     const prices = [];
     for (let i = 0; i < 5; i++) {
       if (hour[i] && money[i])
@@ -64,7 +85,7 @@ function DriverApplyPage() {
         vehicleNumber: "00가0000",
       };
 
-      await postDriverApply(body);
+      driverId ? await putDriverApply(body) : await postDriverApply(body);
       setStep(step + 1);
       setShowModal(false);
     } catch (e) {
@@ -77,7 +98,7 @@ function DriverApplyPage() {
     try {
       const result = await getDriverApply();
       console.log(result);
-      if (result.statusCode === 200) {
+      if (result?.payload?.status === "WAITING") {
         setName(result.payload.accountHolder);
         setAccoutNumber(result.payload.accountNumber);
         setBank(result.payload.bank);
@@ -99,10 +120,13 @@ function DriverApplyPage() {
         });
         setHour(hours);
         setMoney(moneys);
+
+        setStep(6);
       }
-      if (result.statusCode === 404) return;
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,6 +136,7 @@ function DriverApplyPage() {
 
   useEffect(() => window.scrollTo({ top: 0 }), [step]);
 
+  if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
       <Title step={step} />

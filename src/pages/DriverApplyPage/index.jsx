@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   postDriverApply,
   getDriverApply,
@@ -19,6 +20,7 @@ import Complete from "./Complete";
 import DriverAccept from "./DriverAccept";
 
 function DriverApplyPage() {
+  const user = useSelector((state) => state.user);
   const [step, setStep] = useState(1);
   const [activeNext, setActiveNext] = useState(false);
   const [driverId, setDriverId] = useState(0);
@@ -134,7 +136,10 @@ function DriverApplyPage() {
   };
 
   useEffect(() => {
-    getDriverApplyFunc();
+    if (user.role === "ROLE_DRIVER") {
+      setStep(8);
+      setLoading(false);
+    } else getDriverApplyFunc();
   }, []);
 
   useEffect(() => window.scrollTo({ top: 0 }), [step]);

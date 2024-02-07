@@ -123,7 +123,8 @@ function DriverApplyPage() {
         setMoney(moneys);
 
         if (result.payload.status === "WAITING") setStep(6);
-        else if (result.payload.status === "ACCEPTED") setStep(7);
+        else if (result.payload.status === "REFUSED") setStep(7);
+        else if (result.payload.status === "ACCEPTED") setStep(8);
       }
     } catch (e) {
       console.log(e);
@@ -196,7 +197,7 @@ function DriverApplyPage() {
         />
       )}
       {step === 6 && <Complete setStep={setStep} />}
-      {step === 7 && <DriverAccept />}
+      {step >= 7 && <DriverAccept step={step} setStep={setStep} />}
 
       <StepButton
         activeNext={activeNext}

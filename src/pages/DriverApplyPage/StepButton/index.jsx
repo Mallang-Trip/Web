@@ -9,10 +9,7 @@ function StepButton({
   setShowModal,
   submitHandler,
 }) {
-  const prevHandler = () => {
-    if (step === 1) return;
-    setStep(step - 1);
-  };
+  const prevHandler = () => setStep(step - 1);
 
   const nextHandler = () => {
     if (step === 5) return setShowModal(true);
@@ -26,7 +23,12 @@ function StepButton({
       <div className="w-full flex justify-center gap-7 mt-16 mx-auto px-4">
         <button
           type="button"
-          className="h-12 bg-white border rounded-full text-darkgray text-sm w-64 border-darkgray"
+          className={`${
+            step !== 1
+              ? "h-12 bg-white border rounded-full text-darkgray text-sm w-64 border-darkgray"
+              : "h-12 bg-lightgray border rounded-full text-darkgray text-sm w-64 border-lightgray"
+          }`}
+          disabled={step === 1}
           onClick={prevHandler}
         >
           이전

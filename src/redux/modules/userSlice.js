@@ -15,8 +15,8 @@ const initialState = {
   role: "",
   introduction: "",
   profileImg: "",
+  customerKey: "",
   isAdmin: false,
-  suspended: false,
   deleted: false,
 };
 
@@ -76,8 +76,8 @@ const userSlice = createSlice({
       state.role = "";
       state.introduction = "";
       state.profileImg = "";
+      state.customerKey = "";
       state.isAdmin = false;
-      state.suspended = false;
       state.deleted = false;
     },
   },
@@ -96,8 +96,8 @@ const userSlice = createSlice({
       state.role = payload.payload.role;
       state.introduction = payload.payload.introduction;
       state.profileImg = payload.payload.profileImg;
+      state.customerKey = payload.payload.customerKey;
       state.isAdmin = payload.payload.role === "ROLE_ADMIN";
-      state.suspended = payload.payload.suspended;
       state.deleted = payload.payload.deleted;
     });
   },

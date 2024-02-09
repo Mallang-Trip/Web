@@ -14,7 +14,6 @@ import MyProfilePage from "../pages/MyProfilePage";
 import MyHeartPage from "../pages/MyHeartPage";
 import MyArticlePage from "../pages/MyArticlePage";
 import MyReservationPage from "../pages/MyReservationPage";
-import PartyApprovalPage from "../pages/PartyApprovalPage";
 import NewPartyPage from "../pages/NewPartyPage";
 import PartyHistoryPage from "../pages/PartyHistoryPage";
 import DriverProfilePage from "../pages/DriverProfilePage";
@@ -34,7 +33,6 @@ function Router() {
   const AuthIntroPage = Auth(IntroPage, null);
   const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
-  const AuthPartyApprovalPage = Auth(PartyApprovalPage, true);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
   const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
@@ -64,10 +62,6 @@ function Router() {
         <Route path="/intro" element={<AuthIntroPage />} />
         <Route path="/policy/:category/:type" element={<AuthPolicyPage />} />
         <Route path="/party/:type/:partyId" element={<AuthPartyPage />} />
-        <Route
-          path="/party/approval/:type/:partyId"
-          element={<AuthPartyApprovalPage />}
-        />
         <Route path="/party/new/:step" element={<AuthNewPartyPage />} />
         <Route
           path="/driver/profile/:driverId"

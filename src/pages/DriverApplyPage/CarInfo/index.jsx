@@ -37,7 +37,11 @@ function CarInfo({
             {carImage && (
               <img
                 className="object-cover w-full h-full rounded-2xl"
-                src={URL.createObjectURL(carImage)}
+                src={
+                  typeof carImage === "string"
+                    ? carImage
+                    : URL.createObjectURL(carImage)
+                }
                 alt="car_Image"
               />
             )}

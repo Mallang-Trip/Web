@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
+import basicProfileImage from "../../assets/images/profileImage.png";
 import PageContainer from "../../components/PageContainer";
 import PartyImageBox from "../../components/PartyImageBox";
 import CommentList from "../../components/Comment/CommentList";
@@ -56,7 +57,11 @@ function DriverProfilePage() {
         name={driverInfo.name}
       />
       <IconBox
-        images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}
+        images={[
+          driverInfo.profileImg || basicProfileImage,
+          ...courseImgs,
+          ...courseImgs,
+        ]}
         name={driverInfo.name}
         introduction={driverInfo.introduction}
       />

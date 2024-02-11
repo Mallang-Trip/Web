@@ -28,8 +28,8 @@ function ShareModal({ showModal, setShowModal, images, name, introduction }) {
       templateId: 99453,
       templateArgs: {
         IMAGE1: images[0],
-        IMAGE2: images[1] || images[0],
-        IMAGE3: images[2] || images[0],
+        IMAGE2: images[1],
+        IMAGE3: images[2],
         PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
         TITLE: name,

@@ -36,7 +36,12 @@ function CreateModal({
         startDate: date,
         endDate: date,
         cardId: cardId,
-        companions: companions.slice(0, memberCount - 1),
+        companions: companions.slice(0, memberCount - 1).map((member) => {
+          return {
+            ...member,
+            phoneNumber: member.phoneNumber.replace(/-/g, ""),
+          };
+        }),
         course: {
           ...course,
           name: newName || name,

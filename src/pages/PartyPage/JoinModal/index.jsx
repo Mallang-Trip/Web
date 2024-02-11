@@ -35,7 +35,12 @@ function JoinModal({
         content: content,
         headcount: memberCount,
         cardId: cardId,
-        companions: companions.slice(0, memberCount - 1),
+        companions: companions.slice(0, memberCount - 1).map((member) => {
+          return {
+            ...member,
+            phoneNumber: member.phoneNumber.replace(/-/g, ""),
+          };
+        }),
       };
 
       await postPartyJoin(partyId, body);

@@ -33,6 +33,7 @@ function Edit({
   const [shakeCompanions, setShakeCompanions] = useState(false);
   const [newName, setNewName] = useState("");
   const [courseData, setCourseData] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
   const [shakeCredit, setShakeCredit] = useState(false);
   const [registerCredit, setRegisterCredit] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
@@ -164,6 +165,8 @@ function Edit({
         shakeCredit={shakeCredit}
         register={registerCredit}
         setRegister={setRegisterCredit}
+        selectedCard={selectedCard}
+        setSelectedCard={setSelectedCard}
         creditRef={creditRef}
       />
       <JoinAgreement
@@ -186,6 +189,7 @@ function Edit({
         newName={newName}
         course={planData}
         courseData={courseData}
+        cardId={selectedCard.id}
         driverId={driverInfo.driverId}
       />
     </div>

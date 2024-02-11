@@ -36,11 +36,18 @@ const cardCompanyCode = {
   "4V": "VISA",
 };
 
-function Credit({ shakeCredit, register, setRegister, creditRef }) {
+function Credit({
+  shakeCredit,
+  register,
+  setRegister,
+  selectedCard,
+  setSelectedCard,
+  creditRef,
+}) {
   const user = useSelector((state) => state.user);
   const [showText, setShowText] = useState(false);
   const [brandpay, setBrandpay] = useState(null);
-  const [selectedCard, setSelectedCard] = useState({});
+  // const [selectedCard, setSelectedCard] = useState({});
 
   const clientKey = "test_ck_6BYq7GWPVvyRLRDOKx9w3NE5vbo1";
   const customerKey = user.customerKey;
@@ -127,7 +134,7 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
         } w-[304px] h-[196px] bg-skyblue text-primary rounded-2xl mx-auto block focus:outline-none`}
         onClick={toss_addPaymentMethod}
       >
-        {register ? (
+        {register && selectedCard.id ? (
           <div className="w-full h-full flex flex-col justify-between items-start p-4">
             <div className="w-full flex justify-between items-center">
               <div className="flex items-center gap-1 text-sm">

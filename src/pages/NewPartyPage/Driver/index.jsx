@@ -43,7 +43,7 @@ function Driver({ region, driverId, setDriverId, date, member, setNextOK }) {
       </div>
       {driverData.length === 0 && (
         <div className="w-full text-center">
-          {"해당 지역에 등록된 드라이버가 없습니다."}
+          {"예약 가능한 드라이버가 없습니다."}
         </div>
       )}
     </>

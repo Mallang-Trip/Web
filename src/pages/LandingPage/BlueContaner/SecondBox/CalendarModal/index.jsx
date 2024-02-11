@@ -56,6 +56,7 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
+          minDate={new Date()}
           selectRange={true}
           calendarType="gregory"
           className="border border-white rounded-t-xl"

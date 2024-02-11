@@ -47,7 +47,6 @@ function Credit({
   const user = useSelector((state) => state.user);
   const [showText, setShowText] = useState(false);
   const [brandpay, setBrandpay] = useState(null);
-  // const [selectedCard, setSelectedCard] = useState({});
 
   const clientKey = "test_ck_6BYq7GWPVvyRLRDOKx9w3NE5vbo1";
   const customerKey = user.customerKey;

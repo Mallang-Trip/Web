@@ -17,6 +17,7 @@ function EditModal({
   course,
   myParty,
   courseData,
+  cardId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -49,6 +50,7 @@ function EditModal({
             changeCourse: true,
             content: content,
             headcount: memberCount,
+            cardId: cardId,
             companions: companions.slice(0, memberCount - 1),
             newCourse: {
               ...course,

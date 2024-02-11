@@ -14,6 +14,7 @@ function JoinModal({
   headcount,
   totalPrice,
   partyName,
+  cardId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -33,6 +34,7 @@ function JoinModal({
         changeCourse: false,
         content: content,
         headcount: memberCount,
+        cardId: cardId,
         companions: companions.slice(0, memberCount - 1),
       };
 

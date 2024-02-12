@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { basicProfileImage } from "../../../../global";
 import closeIcon from "../../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../../assets/images/kakaoIcon.png";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ShareModal({ showModal, setShowModal, images, name, introduction }) {
   const Kakao = window.Kakao;
@@ -27,7 +27,7 @@ function ShareModal({ showModal, setShowModal, images, name, introduction }) {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
-        IMAGE1: images[0],
+        IMAGE1: images[0] || basicProfileImage,
         IMAGE2: images[1],
         IMAGE3: images[2],
         PROFILE_IMAGE: user.profileImg || basicProfileImage,

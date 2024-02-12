@@ -525,7 +525,7 @@ function UserPrivacy() {
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 14 조 (개인정보 처리방침 변경)"}>
-          ① 이 개인정보 처리방침은 2024. 1. 30.부터 적용됩니다.
+          ① 이 개인정보 처리방침은 2024. 01. 30.부터 적용됩니다.
         </BodyContent>
       </PolicyContainer>
     </PageContainer>

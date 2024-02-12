@@ -7,8 +7,8 @@ import {
   unLikeArticle,
 } from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
+import ShareModal from "./ShareModal";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
-import ShareModal from "../../../../components/PartyIconBox/ShareModal";
 import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
@@ -186,8 +186,10 @@ function ArticleBody({
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}
-        partyImages={images}
-        partyName={title}
+        articleId={articleId}
+        images={images}
+        title={title}
+        nickname={nickname}
       />
       <CheckModal
         showModal={showDeleteModal}

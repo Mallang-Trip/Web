@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { basicProfileImage } from "../../../global";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../assets/images/kakaoIcon.png";
-import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
   const Kakao = window.Kakao;

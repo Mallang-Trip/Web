@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { basicProfileImage } from "../../../../global";
-import closeIcon from "../../../../assets/svg/x-modal-icon.svg";
-import copyIcon from "../../../../assets/svg/CopyIcon.svg";
-import kakaoIcon from "../../../../assets/images/kakaoIcon.png";
+import { basicProfileImage } from "../../../../../global";
+import closeIcon from "../../../../../assets/svg/x-modal-icon.svg";
+import copyIcon from "../../../../../assets/svg/CopyIcon.svg";
+import kakaoIcon from "../../../../../assets/images/kakaoIcon.png";
 
-function ShareModal({ showModal, setShowModal, images, name, introduction }) {
+function ShareModal({
+  showModal,
+  setShowModal,
+  articleId,
+  images,
+  title,
+  nickname,
+}) {
   const Kakao = window.Kakao;
   const modalRef = useRef();
-  const { driverId } = useParams();
   const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
 
@@ -32,9 +37,9 @@ function ShareModal({ showModal, setShowModal, images, name, introduction }) {
         IMAGE3: images[2],
         PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
-        TITLE: name,
-        DESCRIPTION: introduction,
-        URL: `driver/profile/${driverId}`,
+        TITLE: title,
+        DESCRIPTION: `'${nickname}'님이 작성한 커뮤니티 게시글을 공유했습니다!`,
+        URL: `community/${articleId}`,
       },
     });
   };

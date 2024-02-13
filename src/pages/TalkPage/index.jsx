@@ -53,19 +53,21 @@ function TalkPage() {
   };
 
   useEffect(() => {
-    getChatListFunc();
-
     if (partyRoomId !== 0) {
       setOpenTalkId(partyRoomId);
       dispatch(setPartyRoomId(0));
     }
+  }, [partyRoomId]);
+
+  useEffect(() => {
+    getChatListFunc();
 
     document.body.classList.add("overflow-hidden");
     return () => {
       document.body.classList.remove("overflow-hidden");
       if (client.current) client.current.deactivate();
     };
-  }, [partyRoomId]);
+  }, []);
 
   return (
     <PageContainer>

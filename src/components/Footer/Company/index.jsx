@@ -1,6 +1,8 @@
-function BottomInfo() {
+import { Link } from "react-router-dom";
+
+function Company() {
   return (
-    <div className="mt-14 mb-10 flex justify-center flex-col sm:flex-row gap-6 sm:gap-12 md:gap-36 mx-5 sm:mx-12 pl-14 sm:pl-0">
+    <div className="mb-10 flex justify-center flex-col sm:flex-row gap-6 sm:gap-12 md:gap-36 mx-5 sm:mx-12 pl-5 sm:pl-0">
       <div className="text-xs text-darkgray">
         <p className="text-sm text-boldgray font-bold mb-2.5">말랑트립</p>
         <p>대표: 김제윤</p>
@@ -15,10 +17,19 @@ function BottomInfo() {
       </div>
       <div className="text-xs text-darkgray">
         <p className="text-sm text-boldgray font-bold mb-2.5">SNS</p>
-        <p>INSTAGRAM: @mallang_trip</p>
+        <p>
+          INSTAGRAM:{" "}
+          <Link
+            to="https://www.instagram.com/mallang_trip/?hl=ko"
+            target="_blank"
+            className="hover:underline underline-offset-4"
+          >
+            @mallang_trip
+          </Link>
+        </p>
       </div>
     </div>
   );
 }
 
-export default BottomInfo;
+export default Company;

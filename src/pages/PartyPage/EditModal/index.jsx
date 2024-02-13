@@ -17,6 +17,7 @@ function EditModal({
   course,
   myParty,
   courseData,
+  cardId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -49,7 +50,13 @@ function EditModal({
             changeCourse: true,
             content: content,
             headcount: memberCount,
-            companions: companions.slice(0, memberCount - 1),
+            cardId: cardId,
+            companions: companions.slice(0, memberCount - 1).map((member) => {
+              return {
+                ...member,
+                phoneNumber: member.phoneNumber.replace(/-/g, ""),
+              };
+            }),
             newCourse: {
               ...course,
               days: [

@@ -4,7 +4,6 @@ import ServiceList from "./ServiceList";
 import PreMap from "./PreMap";
 import Mission from "./Mission";
 import MallangTrip from "./MallangTrip";
-import BottomInfo from "./BottomInfo";
 
 function IntroPage() {
   return (
@@ -15,7 +14,6 @@ function IntroPage() {
       <PreMap />
       <Mission />
       <MallangTrip />
-      <BottomInfo />
     </div>
   );
 }

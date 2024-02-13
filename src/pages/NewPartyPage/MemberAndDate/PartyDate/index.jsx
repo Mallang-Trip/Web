@@ -2,6 +2,10 @@ import Calendar from "react-calendar";
 import "./index.css";
 
 function PartyDate({ date, setDate }) {
+  const today = new Date();
+  const after_4_month = new Date(today);
+  after_4_month.setMonth(after_4_month.getMonth() + 4);
+
   return (
     <>
       <div className="pl-6 mt-16 mb-7 mx-auto text-2xl text-black font-bold">
@@ -20,7 +24,8 @@ function PartyDate({ date, setDate }) {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
-          minDate={new Date()}
+          minDate={today}
+          maxDate={after_4_month}
           selectRange={false}
           calendarType="gregory"
           className="border border-primary rounded-lg"

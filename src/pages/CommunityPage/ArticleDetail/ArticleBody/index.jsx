@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
+import { getChatBlockList, makeNewCoupleChat } from "../../../../api/chat";
 import {
   deleteMyArticle,
   likeArticle,
   unLikeArticle,
 } from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
+import ShareModal from "./ShareModal";
+import CheckModal from "../../../../components/CheckModal";
+import ConfirmModal from "../../../../components/ConfirmModal";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
-import ShareModal from "../../../../components/PartyIconBox/ShareModal";
+import ChatBox from "../../../../assets/svg/EmptyChatIcon.svg";
 import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
-import CheckModal from "../../../../components/CheckModal";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ArticleBody({
@@ -29,6 +33,7 @@ function ArticleBody({
   partyId,
   userId,
 }) {
+  const dispatch = useDispatch();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
   const [imageIdx, setImageIdx] = useState(0);
@@ -38,6 +43,8 @@ function ArticleBody({
   const [showMore, setShowMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isChatBlock, setIsChatBlock] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
@@ -65,9 +72,37 @@ function ArticleBody({
     }
   };
 
+  const goCoupleChat = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+    if (isChatBlock) return setShowBlockModal(true);
+
+    try {
+      const result = await makeNewCoupleChat(userId);
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const checkChatBlock = async () => {
+    if (!user.auth) return setIsChatBlock(false);
+
+    try {
+      const result = await getChatBlockList();
+      setIsChatBlock(result.payload.some((item) => item.userId === userId));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     setHeart(dibs);
   }, [dibs]);
+
+  useEffect(() => {
+    checkChatBlock();
+  }, []);
 
   return (
     <>
@@ -87,6 +122,13 @@ function ArticleBody({
             </div>
           </div>
           <div className="flex gap-2 items-center relative">
+            {user.userId !== userId && (
+              <img
+                className="cursor-pointer"
+                src={ChatBox}
+                onClick={goCoupleChat}
+              />
+            )}
             <img
               className="cursor-pointer"
               src={heart ? FillHeart : EmptyHeart}
@@ -166,7 +208,7 @@ function ArticleBody({
           </p>
           {partyId && (
             <button
-              className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
+              className="w-80 h-12 text-white rounded-full text-sm font-bold bg-primary px-10 mx-auto mt-12"
               onClick={() => navigation(`/party/detail/${partyId}`)}
             >
               {`${partyName} 구경하기`}
@@ -186,8 +228,10 @@ function ArticleBody({
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}
-        partyImages={images}
-        partyName={title}
+        articleId={articleId}
+        images={images}
+        title={title}
+        nickname={nickname}
       />
       <CheckModal
         showModal={showDeleteModal}
@@ -204,6 +248,11 @@ function ArticleBody({
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => navigation("/login")}
+      />
+      <ConfirmModal
+        showModal={showBlockModal}
+        setShowModal={setShowBlockModal}
+        message={"차단한 유저에게\n말랑톡을 보낼 수 없습니다."}
       />
     </>
   );

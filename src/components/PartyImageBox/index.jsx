@@ -17,6 +17,7 @@ function PartyImageBox({ images, name }) {
     setShowImageModal(true);
   };
 
+  if (!IMAGES[0]) return null;
   return (
     <>
       <div className="grid grid-cols-2 mt-2.5 rounded-3xl overflow-hidden min-h-[150px] max-h-[500px]">

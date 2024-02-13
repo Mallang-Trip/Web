@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 
 function ConfirmModal({ showModal, setShowModal, message }) {
   const modalRef = useRef();
+  const location = useLocation();
 
   const closeModal = () => setShowModal(false);
 
@@ -15,7 +17,11 @@ function ConfirmModal({ showModal, setShowModal, message }) {
   };
 
   useEffect(() => {
-    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    if (!showModal) {
+      if (location.pathname !== "/talk")
+        document.body.classList.remove("overflow-hidden");
+      return;
+    }
     document.body.classList.add("overflow-hidden");
 
     document.addEventListener("keydown", handleKeyPress);

@@ -186,7 +186,6 @@ function PartyPage() {
       else setPartyData({ partyId: -1 });
 
       if (toScrollTop) window.scrollTo({ top: 0 });
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }

@@ -69,15 +69,13 @@ function CourseMap({ markerData, reload, mapName }) {
 
     // 지도
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
-    const mapHeight = (mapWidth * 740) / 900;
+    const mapHeight = 600;
 
     const map = new Tmapv3.Map(mapName, {
       center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
       width: mapWidth + "px",
       height: mapHeight + "px",
       zoom: 15,
-      zoomControl: true,
-      scrollwheel: true,
     });
 
     // 마커

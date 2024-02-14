@@ -8,7 +8,7 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
       mapRef.current.removeChild(mapRef.current.firstChild);
 
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
-    const mapHeight = (mapWidth * 740) / 900;
+    const mapHeight = 600;
 
     const map = new Tmapv3.Map("TMapApp", {
       center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),

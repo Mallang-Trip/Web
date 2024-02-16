@@ -401,15 +401,11 @@ function PartyPage() {
       ) : (
         <JoinButton joinHandler={joinHandler} />
       )}
-      {(type === "join" ||
-        type === "edit" ||
-        partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ||
-        partyData.partyStatus === "SEALED" ||
-        partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
-        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT" ||
-        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
-        user.userId !== partyData.driverId && <BottomRefundUser />}
-      {user.userId === partyData.driverId && <BottomRefundDriver />}
+      {user.userId === partyData.driverId ? (
+        <BottomRefundDriver />
+      ) : (
+        <BottomRefundUser />
+      )}
 
       <CheckModal
         showModal={showLoginModal}

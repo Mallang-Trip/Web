@@ -1,6 +1,5 @@
 import React from "react";
 import TabItem from "./TabItem";
-import { useNavigate } from "react-router-dom";
 const tabList = [
   "기본 페이지 전환",
   "신고 내역",
@@ -25,10 +24,9 @@ const tabList = [
 function Tab({ category, setCategory }) {
   const onClickCategoryHandler = (e) => {
     setCategory(e.currentTarget.innerText);
-    console.log(e.target.innerText);
   };
   return (
-    <div className="mt-3">
+    <div className="mt-3 ">
       {tabList.map((items) => (
         <TabItem
           items={items}

@@ -1,16 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import Tab from "./Tab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function AdminPage() {
-  const [category, setCategory] = useState("어드민 홈");
   const navigate = useNavigate();
-  if (category === "기본 페이지 전환") {
-    navigate("");
-  }
-  if (category === "신고 내역") {
-    navigate("/admin/reportRecord");
-  }
+  const [category, setCategory] = useState("");
+
+  useEffect(() => {
+    console.log(category);
+
+    if (category === "기본 페이지 전환") {
+      navigate("/");
+    }
+    if (category === "신고 내역") {
+      navigate("/admin/reportRecord");
+    }
+  }, [category]);
+
   return (
     <PageContainer>
       <div className="text-2xl text-black font-bold">관리자 페이지</div>

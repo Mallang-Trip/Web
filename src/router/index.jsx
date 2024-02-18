@@ -28,6 +28,7 @@ import TalkPage from "../pages/TalkPage";
 import NotifyPage from "../pages/NotifyPage";
 import HelpPage from "../pages/HelpPage";
 import AdminPage from "../pages/AdminPage";
+import ReportPage from "../pages/reportPage";
 
 function Router() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -56,6 +57,7 @@ function Router() {
   const AuthNotifyPage = Auth(NotifyPage, true);
   const AuthHelpPage = Auth(HelpPage, null);
   const AuthAdminPage = Auth(AdminPage, true, true);
+  const AuthReportPage = Auth(ReportPage, true, true);
 
   return (
     <Routes>
@@ -101,6 +103,7 @@ function Router() {
         <Route path="/notify" element={<AuthNotifyPage />} />
         <Route path="/help/:id" element={<AuthHelpPage />} />
         <Route path="/admin" element={<AuthAdminPage />} />
+        <Route path="/admin/reportRecord" element={<AuthReportPage />} />
       </Route>
 
       <Route element={<LoginLayout />}>

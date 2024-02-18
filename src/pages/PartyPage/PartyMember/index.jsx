@@ -42,7 +42,11 @@ function PartyMember({
             myParty={myParty || partyStatus === "WAITING_JOIN_APPROVAL"}
             setShowProfileModal={setShowProfileModal}
             setUserId={setUserId}
-            ready={driverReady}
+            ready={
+              driverReady ||
+              partyStatus === "SEALED" ||
+              partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+            }
             agreement={
               partyStatus === "WAITING_DRIVER_APPROVAL" ||
               partyStatus === "CANCELED_BY_PROPOSER"
@@ -51,6 +55,9 @@ function PartyMember({
                 ? "REFUSE"
                 : partyStatus === "CANCELED_BY_DRIVER_QUIT"
                 ? "EXIT"
+                : partyStatus === "WAITING_COURSE_CHANGE_APPROVAL" &&
+                  proposal?.proposerId === driverId
+                ? "PROPOSER"
                 : proposal?.driverAgreement
             }
             {...driverInfo}
@@ -79,7 +86,8 @@ function PartyMember({
               setUserId={setUserId}
               agreement={
                 partyStatus === "WAITING_DRIVER_APPROVAL" ||
-                partyStatus === "CANCELED_BY_DRIVER_REFUSED"
+                partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
+                proposal?.proposerId === item.userId
                   ? "PROPOSER"
                   : partyStatus === "CANCELED_BY_PROPOSER"
                   ? "CANCELED"
@@ -90,6 +98,11 @@ function PartyMember({
                     )[0].status
               }
               {...item}
+              ready={
+                item.ready ||
+                partyStatus === "SEALED" ||
+                partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+              }
             />
           ))}
         </div>

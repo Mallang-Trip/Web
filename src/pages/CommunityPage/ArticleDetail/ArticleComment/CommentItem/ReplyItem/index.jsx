@@ -39,13 +39,13 @@ function ReplyItem({
           />
           <div className="h-10 flex flex-col justify-center">
             <p className="text-sm text-black font-bold">{nickname}</p>
-            <p className="text-sm text-[#3E3E3E] font-medium">
+            <p className="text-sm text-boldgray font-medium">
               {dateToGapKorean(createdAt)}
             </p>
           </div>
         </div>
         <div className="ml-[50px]">
-          <div className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-2.5 mb-5">
+          <div className="w-full text-base text-boldgray font-medium whitespace-pre-wrap mt-2.5 mb-5">
             {content}
           </div>
           <div className="flex gap-8 text-xs text-darkgray">

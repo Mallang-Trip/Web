@@ -1,7 +1,7 @@
 function Status({ ready, agreement }) {
   if (agreement === "WAITING")
     return (
-      <div className="w-[104px] mt-3 py-1.5 rounded-full text-xs font-medium text-[#B4B4B4] bg-[#F4F4F4]">
+      <div className="w-[104px] mt-3 py-1.5 rounded-full text-xs font-medium text-[#B4B4B4] bg-lightgray">
         확인 전
       </div>
     );
@@ -43,7 +43,7 @@ function Status({ ready, agreement }) {
     );
   else
     return (
-      <div className="w-[104px] mt-3 py-1.5 rounded-full text-xs font-medium text-[#B4B4B4] bg-[#F4F4F4]">
+      <div className="w-[104px] mt-3 py-1.5 rounded-full text-xs font-medium text-[#B4B4B4] bg-lightgray">
         말랑레디 OFF
       </div>
     );

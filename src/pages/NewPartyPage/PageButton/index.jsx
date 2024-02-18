@@ -17,7 +17,7 @@ function PageButton({ region, member, date, driverId, nextOK }) {
         className={`h-12 rounded-full text-sm w-64 border ${
           nextOK
             ? "text-white bg-primary border-primary"
-            : "text-darkgray bg-white border-darkgray"
+            : "text-darkgray bg-lightgray border-lightgray"
         }`}
         disabled={!nextOK}
         onClick={() =>

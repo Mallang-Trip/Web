@@ -52,7 +52,7 @@ function JoinAgreement({ checked, setChecked, shakeAgree, agreementRef }) {
         </div>
       </div>
       <div className="flex flex-col items-center gap-3 mt-8 text-sm">
-        <div className="w-full sm:w-3/5 lg:w-2/5 py-3 rounded-lg bg-[#EAF4FF]">
+        <div className="w-full sm:w-3/5 lg:w-2/5 py-3 rounded-lg bg-skyblue">
           <input
             id="agreeAll"
             type="checkbox"

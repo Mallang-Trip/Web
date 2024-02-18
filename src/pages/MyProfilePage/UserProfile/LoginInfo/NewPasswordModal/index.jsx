@@ -118,7 +118,7 @@ function NewPasswordModal({ showModal, setShowModal }) {
                   <input
                     type="password"
                     id="nowPassword"
-                    className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+                    className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
                       nowPassword && "font-mono"
                     }`}
                     placeholder="현재 사용하고 있는 비밀번호를 입력해주세요."
@@ -146,7 +146,7 @@ function NewPasswordModal({ showModal, setShowModal }) {
                   <input
                     type="password"
                     id="newPassword"
-                    className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+                    className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
                       newPassword && "font-mono"
                     }`}
                     placeholder="변경하실 비밀번호를 입력해 주세요."
@@ -174,7 +174,7 @@ function NewPasswordModal({ showModal, setShowModal }) {
                   <input
                     type="password"
                     id="newPasswordAgain"
-                    className={`border border-[#D9D9D9] text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+                    className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
                       newPasswordAgain && "font-mono"
                     }`}
                     placeholder="새로운 비밀번호를 다시 한번 입력해 주세요."

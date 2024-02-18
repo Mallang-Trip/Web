@@ -57,9 +57,13 @@ function PartyPage() {
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const [courseData, setCourseData] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
 
   const checkJoinEdit = () => {
-    if (partyData.capacity === partyData.headcount) {
+    if (
+      partyData.partyStatus === "RECRUITING" &&
+      partyData.capacity === partyData.headcount
+    ) {
       setJoinErrorMessage(
         "이미 인원이 모두 찬 파티이므로\n가입 또는 코스 수정 제안이 불가능합니다."
       );
@@ -75,7 +79,10 @@ function PartyPage() {
       setShowJoinErrorModal(true);
       return false;
     }
-    if (partyData.partyStatus === "WAITING_JOIN_APPROVAL") {
+    if (
+      partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
+      partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+    ) {
       setJoinErrorMessage(
         "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
       );
@@ -89,12 +96,6 @@ function PartyPage() {
     if (!user.auth) return setShowLoginModal(true);
 
     if (type === "detail") {
-      if (partyData.myParty) {
-        setJoinErrorMessage("파티원은 코스 수정 제안이 불가능합니다.");
-        setShowJoinErrorModal(true);
-        return false;
-      }
-
       if (!checkJoinEdit()) return;
 
       return navigation(`/party/edit/${partyId}`);
@@ -103,6 +104,8 @@ function PartyPage() {
 
   const joinHandler = () => {
     if (!user.auth) return setShowLoginModal(true);
+
+    if (partyData.myParty && type === "edit") return setShowEditModal(true);
 
     if (type === "detail") {
       if (!checkJoinEdit()) return;
@@ -205,7 +208,9 @@ function PartyPage() {
         driverId={partyData.driverId}
         isDriver={true}
         partyStatus={partyData.partyStatus}
-        myParty={partyData.myParty}
+        myParty={
+          partyData.myParty && partyData.proposal?.proposerId !== user.userId
+        }
       />
       <PartyImageBox
         images={partyData.course.images}
@@ -229,9 +234,29 @@ function PartyPage() {
         partyStatus={partyData.partyStatus}
         proposal={partyData.proposal}
       />
+      {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
+        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
+        <EditAgreement
+          myParty={
+            partyData.myParty && partyData.proposal?.proposerId !== user.userId
+          }
+          partyStatus={partyData.partyStatus}
+          createdAt={partyData.proposal?.createdAt}
+          getPartyData={getPartyData}
+          proposalId={partyData.proposal?.proposalId}
+          agreement={[
+            {
+              userId: partyData.driverId,
+              status: partyData.proposal.driverAgreement,
+            },
+            ...partyData.proposal.memberAgreement,
+          ]}
+        />
+      )}
       {partyData.myParty &&
         (partyData.partyStatus === "RECRUITING" ||
-          partyData.partyStatus === "SEALED") && (
+          partyData.partyStatus === "SEALED" ||
+          partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
           <MallangReady
             members={partyData.members}
             driverReady={partyData.driverReady}
@@ -249,21 +274,6 @@ function PartyPage() {
             startDate={partyData.startDate}
           />
         )}
-      {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
-        <EditAgreement
-          myParty={partyData.myParty}
-          createdAt={partyData.proposal?.createdAt}
-          getPartyData={getPartyData}
-          proposalId={partyData.proposal?.proposalId}
-          agreement={[
-            {
-              userId: partyData.driverId,
-              status: partyData.proposal.driverAgreement,
-            },
-            ...partyData.proposal.memberAgreement,
-          ]}
-        />
-      )}
       <ToTalPrice
         totalPrice={partyData.course?.totalPrice}
         isDriver={user.userId === partyData.driverId}
@@ -286,7 +296,7 @@ function PartyPage() {
             createdAt={partyData.reservation?.createdAt}
           />
         )}
-      {(type === "join" || type === "edit") && (
+      {!partyData.myParty && (type === "join" || type === "edit") && (
         <>
           <JoinMember
             memberCount={memberCount}
@@ -304,7 +314,8 @@ function PartyPage() {
           <JoinGreeting content={content} setContent={setContent} />
         </>
       )}
-      {partyData.partyStatus === "WAITING_JOIN_APPROVAL" && (
+      {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
+        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
         <>
           <PartyPlan
             edit={false}
@@ -336,12 +347,17 @@ function PartyPage() {
       ) : (
         <>
           <PartyPlan
-            edit={partyData.partyStatus === "RECRUITING" && type === "detail"}
+            edit={
+              type === "detail" &&
+              ((partyData.partyStatus === "RECRUITING" && !partyData.myParty) ||
+                (partyData.partyStatus === "SEALED" && partyData.myParty))
+            }
             course={partyData.course}
             startDate={partyData.startDate}
             editHandler={editHandler}
             comment={
-              partyData.partyStatus === "WAITING_JOIN_APPROVAL" &&
+              (partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
+                partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
               "기존 파티 코스"
             }
           />
@@ -352,12 +368,14 @@ function PartyPage() {
           />
         </>
       )}
-      {(type === "join" || type === "edit") && (
+      {!partyData.myParty && (type === "join" || type === "edit") && (
         <>
           <Credit
             shakeCredit={shakeCredit}
             register={registerCredit}
             setRegister={setRegisterCredit}
+            selectedCard={selectedCard}
+            setSelectedCard={setSelectedCard}
             creditRef={creditRef}
           />
           <JoinAgreement
@@ -368,7 +386,7 @@ function PartyPage() {
           />
         </>
       )}
-      {partyData.myParty ? (
+      {partyData.myParty && type !== "edit" ? (
         partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ? (
           <CancelNewPartyButton isDriver={user.userId === partyData.driverId} />
         ) : (
@@ -389,7 +407,8 @@ function PartyPage() {
         partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ||
         partyData.partyStatus === "SEALED" ||
         partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
-        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT") &&
+        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT" ||
+        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
         user.userId !== partyData.driverId && <BottomRefundUser />}
       {user.userId === partyData.driverId && <BottomRefundDriver />}
 
@@ -412,6 +431,7 @@ function PartyPage() {
         headcount={partyData.headcount}
         totalPrice={partyData.course.totalPrice}
         partyName={partyData.course.name}
+        cardId={selectedCard.id}
       />
       <EditModal
         showModal={showEditModal}
@@ -425,7 +445,9 @@ function PartyPage() {
         totalPrice={partyData.course.totalPrice}
         partyName={partyData.course.name}
         course={partyData.course}
+        myParty={partyData.myParty}
         courseData={courseData}
+        cardId={selectedCard.id}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

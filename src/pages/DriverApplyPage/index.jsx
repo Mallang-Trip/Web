@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { applyDriver } from "../../api/driver";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  postDriverApply,
+  getDriverApply,
+  putDriverApply,
+} from "../../api/driver";
 import { uploadImage } from "../../api/image";
 import PageContainer from "../../components/PageContainer";
+import Loading from "../../components/Loading";
 import Title from "./Title";
 import Stepper from "./Stepper";
 import CarInfo from "./CarInfo";
@@ -11,10 +17,13 @@ import Accout from "./Accout";
 import DriverDocument from "./DriverDocument";
 import Introduction from "./Introduction";
 import Complete from "./Complete";
+import DriverAccept from "./DriverAccept";
 
 function DriverApplyPage() {
+  const user = useSelector((state) => state.user);
   const [step, setStep] = useState(1);
   const [activeNext, setActiveNext] = useState(false);
+  const [driverId, setDriverId] = useState(0);
   const [carImage, setCarImage] = useState(undefined);
   const [modelName, setModelName] = useState("");
   const [maxNum, setMaxNum] = useState("");
@@ -29,14 +38,30 @@ function DriverApplyPage() {
   const [insurance, setInsurance] = useState(undefined);
   const [introduction, setIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const submitHandler = async () => {
-    const carImageURL = carImage ? await uploadImage(carImage) : null;
-    const driverLicenseURL = driverLicense
-      ? await uploadImage(driverLicense)
-      : null;
-    const taxiLicenseURL = taxiLicense ? await uploadImage(taxiLicense) : null;
-    const insuranceURL = insurance ? await uploadImage(insurance) : null;
+    const carImageURL = !carImage
+      ? null
+      : typeof carImage === "string"
+      ? carImage
+      : await uploadImage(carImage);
+    const driverLicenseURL = !driverLicense
+      ? null
+      : typeof driverLicense === "string"
+      ? driverLicense
+      : await uploadImage(driverLicense);
+    const taxiLicenseURL = !taxiLicense
+      ? null
+      : typeof taxiLicense === "string"
+      ? taxiLicense
+      : await uploadImage(taxiLicense);
+    const insuranceURL = !insurance
+      ? null
+      : typeof insurance === "string"
+      ? insurance
+      : await uploadImage(insurance);
+
     const prices = [];
     for (let i = 0; i < 5; i++) {
       if (hour[i] && money[i])
@@ -63,7 +88,7 @@ function DriverApplyPage() {
         vehicleNumber: "00가0000",
       };
 
-      await applyDriver(body);
+      driverId ? await putDriverApply(body) : await postDriverApply(body);
       setStep(step + 1);
       setShowModal(false);
     } catch (e) {
@@ -72,6 +97,54 @@ function DriverApplyPage() {
     }
   };
 
+  const getDriverApplyFunc = async () => {
+    try {
+      const result = await getDriverApply();
+      console.log(result);
+      if (result.statusCode === 200) {
+        setName(result.payload.accountHolder);
+        setAccoutNumber(result.payload.accountNumber);
+        setBank(result.payload.bank);
+        setDriverId(result.payload.driverId);
+        setDriverLicense(result.payload.driverLicenceImg);
+        setInsurance(result.payload.insuranceLicenceImg);
+        setIntroduction(result.payload.introduction);
+        setRegion(result.payload.region);
+        setTaxiLicense(result.payload.taxiLicenceImg);
+        setMaxNum(result.payload.vehicleCapacity.toString());
+        setCarImage(result.payload.vehicleImg);
+        setModelName(result.payload.vehicleModel);
+
+        const hours = ["", "", "", "", ""];
+        const moneys = ["", "", "", "", ""];
+        result.payload.prices.forEach((item, index) => {
+          hours[index] = item.hours.toString();
+          moneys[index] = item.price.toString();
+        });
+        setHour(hours);
+        setMoney(moneys);
+
+        if (result.payload.status === "WAITING") setStep(6);
+        else if (result.payload.status === "REFUSED") setStep(7);
+        else if (result.payload.status === "ACCEPTED") setStep(8);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user.role === "ROLE_DRIVER") {
+      setStep(8);
+      setLoading(false);
+    } else getDriverApplyFunc();
+  }, []);
+
+  useEffect(() => window.scrollTo({ top: 0 }), [step]);
+
+  if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
       <Title step={step} />
@@ -128,7 +201,8 @@ function DriverApplyPage() {
           setIntroduction={setIntroduction}
         />
       )}
-      {step === 6 && <Complete />}
+      {step === 6 && <Complete setStep={setStep} />}
+      {step >= 7 && <DriverAccept step={step} setStep={setStep} />}
 
       <StepButton
         activeNext={activeNext}

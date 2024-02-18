@@ -2,7 +2,7 @@ import CheckIcon from "./CheckIcon";
 
 function Stepper({ step }) {
   return (
-    <ol className="flex items-center w-full mb-20 text-sm text-[#D9D9D9]">
+    <ol className="flex items-center w-full mb-20 text-sm text-mediumgray">
       <li
         className={`flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${
           step > 1 ? "after:border-blue-100" : "after:border-lightgray"

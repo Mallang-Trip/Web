@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { postPartyJoin } from "../../../api/party";
+import { postPartyJoin, putPartyCourse } from "../../../api/party";
 import { priceToString } from "../../../utils";
 
 function EditModal({
@@ -15,7 +15,9 @@ function EditModal({
   totalPrice,
   partyName,
   course,
+  myParty,
   courseData,
+  cardId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -31,23 +33,44 @@ function EditModal({
     try {
       setLoading(true);
 
-      const body = {
-        changeCourse: true,
-        content: content,
-        headcount: memberCount,
-        companions: companions.slice(0, memberCount - 1),
-        newCourse: {
-          ...course,
-          days: [
-            {
-              ...course.days[0],
-              destinations: courseData.map((item) => item.destinationId),
+      const body = myParty
+        ? {
+            content: "",
+            course: {
+              ...course,
+              days: [
+                {
+                  ...course.days[0],
+                  destinations: courseData.map((item) => item.destinationId),
+                },
+              ],
             },
-          ],
-        },
-      };
+          }
+        : {
+            changeCourse: true,
+            content: content,
+            headcount: memberCount,
+            cardId: cardId,
+            companions: companions.slice(0, memberCount - 1).map((member) => {
+              return {
+                ...member,
+                phoneNumber: member.phoneNumber.replace(/-/g, ""),
+              };
+            }),
+            newCourse: {
+              ...course,
+              days: [
+                {
+                  ...course.days[0],
+                  destinations: courseData.map((item) => item.destinationId),
+                },
+              ],
+            },
+          };
 
-      await postPartyJoin(partyId, body);
+      myParty
+        ? await putPartyCourse(partyId, body)
+        : await postPartyJoin(partyId, body);
 
       setMessage(
         <div>
@@ -57,11 +80,15 @@ function EditModal({
           다음 페이지에서
           <br />
           파티원들의 제안 승낙 여부를 확인할 수 있습니다.
-          <br />
-          <br />
-          24시간 내 전원 동의할 경우
-          <br />
-          즉시 파티에 가입하게 됩니다.
+          {!myParty && (
+            <>
+              <br />
+              <br />
+              24시간 내 전원 동의할 경우
+              <br />
+              즉시 파티에 가입하게 됩니다.
+            </>
+          )}
         </div>
       );
       setComplete(true);
@@ -95,7 +122,7 @@ function EditModal({
 
     setComplete(false);
 
-    if (isMemberFull)
+    if (!myParty && isMemberFull)
       setMessage(
         <div>
           <span className="text-primary">[{partyName}]</span>
@@ -132,7 +159,9 @@ function EditModal({
           드라이버와 여행자들의 동의를 구합니다.
           <br />
           <br />
-          24시간 내 전원 동의 즉시 파티에 가입하게 됩니다.
+          {myParty
+            ? "24시간 내 전원 동의 즉시 변경안이 확정됩니다."
+            : "24시간 내 전원 동의 즉시 파티에 가입하게 됩니다."}
           <br />
           <br />
           파티원들에게 제안을 보내시겠습니까?
@@ -160,7 +189,7 @@ function EditModal({
         {!complete ? (
           <div className="flex">
             <button
-              className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+              className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
               onClick={closeModal}
             >
               취소

@@ -77,13 +77,9 @@ function Comment({
       <div className="flex items-center">
         <img
           className="w-10 h-10 rounded-full"
-          src={
-            profileImg.slice(0, 23) === "https://mallang-trip-db"
-              ? profileImg
-              : basicProfileImage
-          }
+          src={profileImg || basicProfileImage}
         />
-        <div className="text-sm font-bold ml-1.5 mr-1">{nickname}</div>
+        <div className="text-sm font-bold px-2.5">{nickname}</div>
         <div className="ml-2.5 flex items-center gap-1">
           <img src={Star} />
           <input
@@ -118,7 +114,7 @@ function Comment({
       </div>
       <input
         type="text"
-        className={`w-full text-sm ml-11 mt-2 bg-white focus:outline-none ${
+        className={`w-4/5 text-sm ml-11 mt-2 bg-white focus:outline-none ${
           modifyMode && "text-primary"
         }`}
         value={newContent}

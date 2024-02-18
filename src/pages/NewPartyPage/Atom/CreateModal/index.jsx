@@ -13,6 +13,7 @@ function CreateModal({
   newName,
   course,
   courseData,
+  cardId,
   driverId,
 }) {
   const navigation = useNavigate();
@@ -34,7 +35,13 @@ function CreateModal({
         headcount: memberCount,
         startDate: date,
         endDate: date,
-        companions: companions.slice(0, memberCount - 1),
+        cardId: cardId,
+        companions: companions.slice(0, memberCount - 1).map((member) => {
+          return {
+            ...member,
+            phoneNumber: member.phoneNumber.replace(/-/g, ""),
+          };
+        }),
         course: {
           ...course,
           name: newName || name,
@@ -113,7 +120,7 @@ function CreateModal({
         {!complete ? (
           <div className="flex">
             <button
-              className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+              className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
               onClick={closeModal}
             >
               취소

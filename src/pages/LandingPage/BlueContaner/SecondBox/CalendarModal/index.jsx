@@ -56,13 +56,14 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
+          minDate={new Date()}
           selectRange={true}
           calendarType="gregory"
           className="border border-white rounded-t-xl"
         />
         <div className="flex">
           <button
-            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
             onClick={allDateHandler}
           >
             모든 일정

@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
+import { getChatBlockList, makeNewCoupleChat } from "../../../../api/chat";
 import {
   deleteMyArticle,
   likeArticle,
   unLikeArticle,
 } from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
+import ShareModal from "./ShareModal";
+import CheckModal from "../../../../components/CheckModal";
+import ConfirmModal from "../../../../components/ConfirmModal";
 import ImageModal from "../../../../components/PartyImageBox/ImageModal";
-import ShareModal from "../../../../components/PartyIconBox/ShareModal";
+import ChatBox from "../../../../assets/svg/EmptyChatIcon.svg";
 import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
-import CheckModal from "../../../../components/CheckModal";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ArticleBody({
@@ -29,6 +33,7 @@ function ArticleBody({
   partyId,
   userId,
 }) {
+  const dispatch = useDispatch();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
   const [imageIdx, setImageIdx] = useState(0);
@@ -38,6 +43,8 @@ function ArticleBody({
   const [showMore, setShowMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isChatBlock, setIsChatBlock] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
 
   const imageClickHandler = (idx) => {
     setImageIdx(idx);
@@ -65,13 +72,41 @@ function ArticleBody({
     }
   };
 
+  const goCoupleChat = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+    if (isChatBlock) return setShowBlockModal(true);
+
+    try {
+      const result = await makeNewCoupleChat(userId);
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const checkChatBlock = async () => {
+    if (!user.auth) return setIsChatBlock(false);
+
+    try {
+      const result = await getChatBlockList();
+      setIsChatBlock(result.payload.some((item) => item.userId === userId));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     setHeart(dibs);
   }, [dibs]);
 
+  useEffect(() => {
+    checkChatBlock();
+  }, []);
+
   return (
     <>
-      <div className="w-full pt-5 pb-8 border-b border-[#D9D9D9]">
+      <div className="w-full pt-5 pb-8 border-b border-mediumgray">
         <div className="flex justify-between mb-3">
           <div className="flex gap-2.5">
             <img
@@ -81,12 +116,19 @@ function ArticleBody({
             />
             <div className="h-10 flex flex-col justify-center">
               <p className="text-sm text-black font-bold">{nickname}</p>
-              <p className="text-sm text-[#3E3E3E] font-medium">
+              <p className="text-sm text-boldgray font-medium">
                 {dateToGapKorean(updatedAt, true)}
               </p>
             </div>
           </div>
           <div className="flex gap-2 items-center relative">
+            {user.userId !== userId && (
+              <img
+                className="cursor-pointer"
+                src={ChatBox}
+                onClick={goCoupleChat}
+              />
+            )}
             <img
               className="cursor-pointer"
               src={heart ? FillHeart : EmptyHeart}
@@ -106,7 +148,7 @@ function ArticleBody({
             )}
             <div
               className={`w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
-                showMore ? "max-h-[100px] border border-[#D9D9D9]" : "max-h-0"
+                showMore ? "max-h-[100px] border border-mediumgray" : "max-h-0"
               }`}
             >
               <button
@@ -161,12 +203,12 @@ function ArticleBody({
               </div>
             )}
           </div>
-          <p className="w-full text-base text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
+          <p className="w-full text-base text-boldgray font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
           </p>
           {partyId && (
             <button
-              className="w-80 text-white rounded-full text-sm font-bold bg-primary py-2.5 px-10 mx-auto mt-12"
+              className="w-80 h-12 text-white rounded-full text-sm font-bold bg-primary px-10 mx-auto mt-12"
               onClick={() => navigation(`/party/detail/${partyId}`)}
             >
               {`${partyName} 구경하기`}
@@ -186,8 +228,10 @@ function ArticleBody({
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}
-        partyImages={images}
-        partyName={title}
+        articleId={articleId}
+        images={images}
+        title={title}
+        nickname={nickname}
       />
       <CheckModal
         showModal={showDeleteModal}
@@ -204,6 +248,11 @@ function ArticleBody({
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => navigation("/login")}
+      />
+      <ConfirmModal
+        showModal={showBlockModal}
+        setShowModal={setShowBlockModal}
+        message={"차단한 유저에게\n말랑톡을 보낼 수 없습니다."}
       />
     </>
   );

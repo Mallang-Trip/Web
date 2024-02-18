@@ -4,7 +4,7 @@ function PriceInfo({ modifyMode, content, setShowModal }) {
       className={`py-4 px-6 rounded-xl whitespace-nowrap text-sm text-center ${
         modifyMode
           ? "text-primary bg-skyblue cursor-pointer"
-          : "text-darkgray bg-[#F4F4F4]"
+          : "text-darkgray bg-lightgray"
       }`}
       onClick={() => modifyMode && setShowModal(true)}
     >

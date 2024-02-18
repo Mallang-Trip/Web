@@ -1,13 +1,20 @@
-import Button from "./Button";
+import { useSelector } from "react-redux";
+import MyProfileButton from "./MyProfileButton";
+import ButtonList from "./ButtonList";
 
-function ButtonBox({ userId }) {
-  return (
-    <div className="flex justify-center flex-wrap gap-3 mb-12">
-      <Button name="채팅하기" />
-      <Button name="신고하기" />
-      <Button name="차단하기" />
-    </div>
-  );
+function ButtonBox({ userId, setShowModal, nickname }) {
+  const user = useSelector((state) => state.user);
+
+  if (user.userId === userId)
+    return <MyProfileButton setShowModal={setShowModal} />;
+  else
+    return (
+      <ButtonList
+        userId={userId}
+        setShowModal={setShowModal}
+        nickname={nickname}
+      />
+    );
 }
 
 export default ButtonBox;

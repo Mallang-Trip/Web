@@ -18,7 +18,7 @@ function ArticleItem({
 
   return (
     <div
-      className="py-5 border-b border-[#D9D9D9] cursor-pointer"
+      className="py-5 border-b border-mediumgray cursor-pointer"
       onClick={() => navigation(`/community/${articleId}`)}
     >
       <div className="flex gap-2.5 mb-3">
@@ -29,14 +29,14 @@ function ArticleItem({
         />
         <div className="h-10 flex flex-col justify-center">
           <p className="text-sm text-black font-bold">{nickname}</p>
-          <p className="text-sm text-[#3E3E3E] font-medium">{introduction}</p>
+          <p className="text-sm text-boldgray font-medium">{introduction}</p>
         </div>
       </div>
 
       <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
         <div className="w-full">
           <p className="text-lg text-black font-bold">{title}</p>
-          <p className="w-full text-sm text-[#3E3E3E] font-medium whitespace-pre-wrap mt-3 mb-4">
+          <p className="w-full text-sm text-boldgray font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
           </p>
           <p className="text-xs text-darkgray font-medium">

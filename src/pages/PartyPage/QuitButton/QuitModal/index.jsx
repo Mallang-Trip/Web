@@ -55,11 +55,18 @@ function QuitModal({
     try {
       setLoading(true);
 
-      if (partyStatus === "SEALED") await deleteQuitReservationParty(partyId);
+      if (
+        partyStatus === "SEALED" ||
+        partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+      )
+        await deleteQuitReservationParty(partyId);
       else await deleteQuitParty(partyId);
 
       setTimeout(() => {
-        if (partyStatus === "SEALED") {
+        if (
+          partyStatus === "SEALED" ||
+          partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+        ) {
           if (isDriver)
             setMessage(
               <div>
@@ -125,7 +132,10 @@ function QuitModal({
     setComplete(false);
     setLoading(false);
 
-    if (partyStatus === "SEALED") {
+    if (
+      partyStatus === "SEALED" ||
+      partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+    ) {
       if (isDriver)
         setMessage(
           <div>
@@ -187,7 +197,7 @@ function QuitModal({
         {!complete ? (
           <div className="flex">
             <button
-              className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-[#F4F4F4]"
+              className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
               onClick={closeModal}
             >
               취소

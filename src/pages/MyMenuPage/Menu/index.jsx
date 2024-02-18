@@ -13,7 +13,7 @@ function Menu() {
 
   return (
     <>
-      <div className="w-full mt-8 border-y-[1.5px] border-[#D9D9D9]">
+      <div className="w-full mt-8 border-y-[1.5px] border-mediumgray">
         {user.isAdmin && (
           <button
             className="w-full flex justify-between p-4 my-2"

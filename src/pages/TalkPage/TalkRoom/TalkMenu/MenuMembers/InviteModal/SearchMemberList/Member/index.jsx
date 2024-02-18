@@ -21,8 +21,8 @@ function Member({
 
   return (
     <button
-      className={`w-full my-2 p-2 flex items-center hover:bg-[#F4F4F4] rounded-lg border focus:outline-none ${
-        isSelected() ? "bg-[#F4F4F4] border-primary" : "bg-white border-white"
+      className={`w-full my-2 p-2 flex items-center hover:bg-lightgray rounded-lg border focus:outline-none ${
+        isSelected() ? "bg-lightgray border-primary" : "bg-white border-white"
       }`}
       onClick={clickHandler}
     >

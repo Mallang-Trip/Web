@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import Member from "./Member";
 import InviteModal from "./InviteModal";
+import KickModal from "./KickModal";
 
 function MenuMembers({
   members,
@@ -11,6 +13,12 @@ function MenuMembers({
   setProfileUserId,
   setShowMenu,
 }) {
+  const user = useSelector((state) => state.user);
+  const [kickUser, setKickUser] = useState({
+    userId: 0,
+    nickname: "",
+  });
+  const [showKickModal, setShowKickModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
 
   return (
@@ -27,16 +35,32 @@ function MenuMembers({
             </button>
           )}
         </div>
-        {members.map((member) => (
-          <Member
-            key={member.userId}
-            setShowProfileModal={setShowProfileModal}
-            setProfileUserId={setProfileUserId}
-            {...member}
-          />
-        ))}
+        {members
+          .sort((a, b) => {
+            if (a.userId === user.userId) return -1;
+            if (b.userId === user.userId) return 1;
+            return 0;
+          })
+          .map((member) => (
+            <Member
+              key={member.userId}
+              setShowProfileModal={setShowProfileModal}
+              setProfileUserId={setProfileUserId}
+              type={type}
+              setKickUser={setKickUser}
+              setShowKickModal={setShowKickModal}
+              {...member}
+            />
+          ))}
       </div>
 
+      <KickModal
+        showModal={showKickModal}
+        setShowModal={setShowKickModal}
+        chatRoomId={chatRoomId}
+        getChatRoomDataFunc={getChatRoomDataFunc}
+        {...kickUser}
+      />
       <InviteModal
         showModal={showInviteModal}
         setShowModal={setShowInviteModal}

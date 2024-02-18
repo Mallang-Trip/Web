@@ -10,6 +10,11 @@ function CourseList({
     <div className="flex flex-col gap-1 my-7">
       <p className="text-lg text-black font-bold">드라이버의 제안 코스</p>
       <div className="flex gap-2 mt-1">
+        {courses.length === 0 && (
+          <div className="text-sm text-darkgray font-medium">
+            제안 코스가 없습니다.
+          </div>
+        )}
         {courses.map((item) => (
           <CourseItem
             {...item}

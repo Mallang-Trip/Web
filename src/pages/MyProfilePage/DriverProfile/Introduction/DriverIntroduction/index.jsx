@@ -2,7 +2,7 @@ function DriverIntroduction({ modifyMode, content, onChangeHandler }) {
   return (
     <div
       className={`py-4 px-6 rounded-xl whitespace-nowrap text-sm relative ${
-        modifyMode ? "text-primary bg-skyblue" : "text-darkgray bg-[#F4F4F4]"
+        modifyMode ? "text-primary bg-skyblue" : "text-darkgray bg-lightgray"
       }`}
     >
       <textarea

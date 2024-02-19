@@ -27,7 +27,7 @@ import TalkPage from "../pages/TalkPage";
 import NotifyPage from "../pages/NotifyPage";
 import HelpPage from "../pages/HelpPage";
 import AdminPage from "../pages/AdminPage";
-import ReportPage from "../pages/reportPage";
+import ReportPage from "../pages/ReportPage";
 import TossPaymentPage from "../pages/TossPaymentPage";
 
 function Router() {

@@ -30,12 +30,13 @@ function NewPartyPage() {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
-      if (!location.state)
+      if (selectedCourseId <= 0 || !selectedCourseId)
         setSelectedCourseId(result.payload.courses[0].courseId);
     } catch (e) {
       console.log(e);
     }
   };
+
   const getCourseDetailFunc = async () => {
     try {
       const result = await getCourseDetail(selectedCourseId);

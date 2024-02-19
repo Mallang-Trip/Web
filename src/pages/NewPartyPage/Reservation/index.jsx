@@ -35,7 +35,6 @@ function Reservation({
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
   const [companions, setCompanions] = useState([
     {
       name: "",
@@ -210,8 +209,6 @@ function Reservation({
         shakeCredit={shakeCredit}
         register={registerCredit}
         setRegister={setRegisterCredit}
-        selectedCard={selectedCard}
-        setSelectedCard={setSelectedCard}
         creditRef={creditRef}
         backupInputData={backupInputData}
       />
@@ -234,7 +231,6 @@ function Reservation({
         name={planData.name}
         course={planData}
         courseData={planData.days[0].destinations}
-        cardId={selectedCard.id}
         driverId={driverInfo.driverId}
       />
     </div>

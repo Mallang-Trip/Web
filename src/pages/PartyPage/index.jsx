@@ -56,7 +56,6 @@ function PartyPage() {
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const [courseData, setCourseData] = useState([]);
-  const [selectedCard, setSelectedCard] = useState({});
   const [companions, setCompanions] = useState([
     {
       name: "",
@@ -428,8 +427,6 @@ function PartyPage() {
             shakeCredit={shakeCredit}
             register={registerCredit}
             setRegister={setRegisterCredit}
-            selectedCard={selectedCard}
-            setSelectedCard={setSelectedCard}
             creditRef={creditRef}
             backupInputData={backupInputData}
           />
@@ -482,7 +479,6 @@ function PartyPage() {
         headcount={partyData.headcount}
         totalPrice={partyData.course.totalPrice}
         partyName={partyData.course.name}
-        cardId={selectedCard.id}
       />
       <EditModal
         showModal={showEditModal}
@@ -498,7 +494,6 @@ function PartyPage() {
         course={partyData.course}
         myParty={partyData.myParty}
         courseData={courseData}
-        cardId={selectedCard.id}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

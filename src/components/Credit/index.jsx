@@ -42,8 +42,6 @@ function Credit({
   shakeCredit,
   register,
   setRegister,
-  selectedCard,
-  setSelectedCard,
   creditRef,
   backupInputData,
 }) {

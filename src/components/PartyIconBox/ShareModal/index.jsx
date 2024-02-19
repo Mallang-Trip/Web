@@ -6,10 +6,10 @@ import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../assets/images/kakaoIcon.png";
 
-function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
+function ShareModal({ showModal, setShowModal, partyImages, partyName, type }) {
   const Kakao = window.Kakao;
   const modalRef = useRef();
-  const { partyId } = useParams();
+  const { partyId, destinationId } = useParams();
   const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
 
@@ -33,8 +33,14 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName }) {
         PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
         TITLE: partyName,
-        DESCRIPTION: `${partyName}에 초대합니다!`,
-        URL: `party/detail/${partyId}`,
+        DESCRIPTION:
+          type === "party"
+            ? `${partyName}에 초대합니다!`
+            : `${partyName}에 방문해보세요!`,
+        URL:
+          type === "party"
+            ? `party/detail/${partyId}`
+            : `destination/detail/${destinationId}`,
       },
     });
   };

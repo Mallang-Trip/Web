@@ -84,6 +84,7 @@ function PartyIconBox({ id, type, images, name, dibs }) {
         setShowModal={setShowShareModal}
         partyImages={images}
         partyName={name}
+        type={type}
       />
       <CheckModal
         showModal={showLoginModal}

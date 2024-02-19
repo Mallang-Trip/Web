@@ -44,7 +44,6 @@ function PartyPage() {
   const agreementRef = useRef();
   const [partyData, setPartyData] = useState({});
   const [memberCount, setMemberCount] = useState(1);
-  const [companions, setCompanions] = useState([]);
   const [content, setContent] = useState("");
   const [registerCredit, setRegisterCredit] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
@@ -57,7 +56,20 @@ function PartyPage() {
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const [courseData, setCourseData] = useState([]);
-  const [selectedCard, setSelectedCard] = useState({});
+  const [companions, setCompanions] = useState([
+    {
+      name: "",
+      phoneNumber: "",
+    },
+    {
+      name: "",
+      phoneNumber: "",
+    },
+    {
+      name: "",
+      phoneNumber: "",
+    },
+  ]);
 
   const checkJoinEdit = () => {
     if (
@@ -186,11 +198,52 @@ function PartyPage() {
       else setPartyData({ partyId: -1 });
 
       if (toScrollTop) window.scrollTo({ top: 0 });
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     }
   };
+
+  const backupInputData = () => {
+    const data = {
+      memberCount: memberCount,
+      companions: companions,
+      content: content,
+      agreeChecked: agreeChecked,
+      courseData: courseData,
+    };
+
+    localStorage.setItem("backup", JSON.stringify(data));
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem("payment")) {
+      localStorage.removeItem("backup");
+      return;
+    }
+
+    const backupData = JSON.parse(localStorage.getItem("backup"));
+    localStorage.removeItem("payment");
+    localStorage.removeItem("backup");
+
+    setMemberCount(backupData.memberCount);
+    setCompanions(backupData.companions);
+    setContent(backupData.content);
+    setAgreeChecked(backupData.agreeChecked);
+    setCourseData(backupData.courseData);
+
+    setTimeout(() => {
+      if (creditRef.current) {
+        const containerRect = creditRef.current.getBoundingClientRect();
+        const scrollY =
+          containerRect.top +
+          window.scrollY -
+          window.innerHeight / 2 +
+          containerRect.height / 2;
+
+        window.scrollTo({ top: scrollY, behavior: "smooth" });
+      }
+    }, 500);
+  }, [creditRef]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -374,9 +427,8 @@ function PartyPage() {
             shakeCredit={shakeCredit}
             register={registerCredit}
             setRegister={setRegisterCredit}
-            selectedCard={selectedCard}
-            setSelectedCard={setSelectedCard}
             creditRef={creditRef}
+            backupInputData={backupInputData}
           />
           <JoinAgreement
             checked={agreeChecked}
@@ -402,15 +454,11 @@ function PartyPage() {
       ) : (
         <JoinButton joinHandler={joinHandler} />
       )}
-      {(type === "join" ||
-        type === "edit" ||
-        partyData.partyStatus === "WAITING_DRIVER_APPROVAL" ||
-        partyData.partyStatus === "SEALED" ||
-        partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
-        partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT" ||
-        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
-        user.userId !== partyData.driverId && <BottomRefundUser />}
-      {user.userId === partyData.driverId && <BottomRefundDriver />}
+      {user.userId === partyData.driverId ? (
+        <BottomRefundDriver />
+      ) : (
+        <BottomRefundUser />
+      )}
 
       <CheckModal
         showModal={showLoginModal}
@@ -431,7 +479,6 @@ function PartyPage() {
         headcount={partyData.headcount}
         totalPrice={partyData.course.totalPrice}
         partyName={partyData.course.name}
-        cardId={selectedCard.id}
       />
       <EditModal
         showModal={showEditModal}
@@ -447,7 +494,6 @@ function PartyPage() {
         course={partyData.course}
         myParty={partyData.myParty}
         courseData={courseData}
-        cardId={selectedCard.id}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { loadBrandPay } from "@tosspayments/brandpay-sdk";
+import { loadTossPayments } from "@tosspayments/payment-sdk";
+import { deletePayment, getPayment } from "../../api/payment";
+import CheckModal from "../CheckModal";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
 
 const cardCompanyCode = {
@@ -40,82 +42,60 @@ function Credit({
   shakeCredit,
   register,
   setRegister,
-  selectedCard,
-  setSelectedCard,
   creditRef,
+  backupInputData,
 }) {
   const user = useSelector((state) => state.user);
+  const [cardInfo, setCardInfo] = useState({});
   const [showText, setShowText] = useState(false);
-  const [brandpay, setBrandpay] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const clientKey = "test_ck_6BYq7GWPVvyRLRDOKx9w3NE5vbo1";
+  const clientKey = "test_ck_vZnjEJeQVxRLkWa007gD8PmOoBN0";
   const customerKey = user.customerKey;
 
-  const toss_openSettings = (e) => {
-    e.stopPropagation();
+  const toss_addPaymentMethod = (type) => {
+    if (type === "new" && register) return;
 
-    brandpay.openSettings().catch((error) => {
-      console.log(error);
-      if (error.code === "USER_CANCEL") toss_getPaymentMethods();
+    loadTossPayments(clientKey).then((tossPayments) => {
+      backupInputData();
+
+      tossPayments
+        .requestBillingAuth("카드", {
+          customerKey: customerKey,
+          successUrl: window.location.origin + "/payment/success",
+          failUrl: window.location.origin + "/payment/fail",
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   };
 
-  const toss_addPaymentMethod = () => {
-    if (register) return;
-
-    brandpay
-      .addPaymentMethod("카드")
-      .then(({ selectedMethodId, cards }) => {
-        if (!selectedMethodId) return setRegister(false);
-
-        setSelectedCard(
-          cards.filter((card) => card.id === selectedMethodId)[0]
-        );
-
-        setRegister(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const deletePaymentData = async () => {
+    try {
+      await deletePayment();
+      setCardInfo({});
+      setRegister(false);
+      setShowDeleteModal(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const toss_getPaymentMethods = () => {
-    brandpay
-      .getPaymentMethods()
-      .then(({ selectedMethodId, cards }) => {
-        if (!selectedMethodId) return setRegister(false);
-
-        setSelectedCard(
-          cards.filter((card) => card.id === selectedMethodId)[0]
-        );
-
-        setRegister(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const toss_loadBrandPay = async () => {
-    const brandpay = await loadBrandPay(clientKey, customerKey, {
-      redirectUrl: "https://mallangtrip-server.com/api/payment",
-      ui: {
-        highlightColor: "#3182f6",
-        buttonStyle: "default",
-        labels: {
-          oneTouchPay: "말랑트립 원터치결제",
-        },
-      },
-      windowTarget: "iframe",
-    });
-
-    setBrandpay(brandpay);
+  const getPaymentData = async () => {
+    try {
+      const result = await getPayment();
+      if (result.statusCode === 404) return setRegister(false);
+      setCardInfo(result.payload);
+      setRegister(true);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
-    if (!brandpay) toss_loadBrandPay();
-    else toss_getPaymentMethods();
-  }, [brandpay]);
+    getPaymentData();
+  }, []);
 
   useEffect(() => {
     if (shakeCredit) setShowText(true);
@@ -126,55 +106,72 @@ function Credit({
   }, [register]);
 
   return (
-    <div className="mt-20 mb-7" ref={creditRef}>
-      <button
-        className={`${shakeCredit && "animate-shake"} ${
-          register && "cursor-default"
-        } w-[304px] h-[196px] bg-skyblue text-primary rounded-2xl mx-auto block focus:outline-none`}
-        onClick={toss_addPaymentMethod}
-      >
-        {register && selectedCard.id ? (
-          <div className="w-full h-full flex flex-col justify-between items-start p-4">
-            <div className="w-full flex justify-between items-center">
-              <div className="flex items-center gap-1 text-sm">
-                <img
+    <>
+      <div className="mt-20 mb-7" ref={creditRef}>
+        <button
+          className={`${shakeCredit && "animate-shake"} ${
+            register && "cursor-default"
+          } w-[304px] h-[196px] bg-skyblue text-primary rounded-2xl mx-auto block focus:outline-none`}
+          onClick={() => toss_addPaymentMethod("new")}
+        >
+          {register && cardInfo.number ? (
+            <div className="w-full h-full flex flex-col justify-between items-start p-4">
+              <div className="w-full flex justify-between items-center">
+                <div className="flex items-center gap-1 text-sm">
+                  {/* <img
                   src={selectedCard.icons.normal.url}
-                  alt={cardCompanyCode[selectedCard.issuerCode]}
+                  alt={cardCompanyCode[cardInfo.issuerCode]}
                   className="w-6"
-                />
-                <span>{cardCompanyCode[selectedCard.issuerCode]}</span>
+                /> */}
+                  <span>{cardCompanyCode[cardInfo.issuerCode]}</span>
+                </div>
+                <div
+                  className="text-xs underline underline-offset-4 cursor-pointer"
+                  onClick={() => toss_addPaymentMethod("change")}
+                >
+                  결제 수단 변경
+                </div>
               </div>
-              <div
-                className="text-xs underline underline-offset-4 cursor-pointer"
-                onClick={toss_openSettings}
-              >
-                결제 수단 관리
+              <div className="w-full flex flex-col gap-1 items-start text-lg font-bold">
+                <div className="text-lg font-bold">{`${cardInfo.cardType}카드 (${cardInfo.ownerType})`}</div>
+                <div className="w-full flex justify-between items-center">
+                  <div className="text-base font-medium">
+                    {cardInfo.number.match(/.{1,4}/g).join(" ")}
+                  </div>
+                  <div
+                    className="text-xs text-[#E30000] font-medium underline underline-offset-4 cursor-pointer"
+                    onClick={() => setShowDeleteModal(true)}
+                  >
+                    결제 수단 삭제
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col gap-1 items-start text-lg font-bold">
-              <div className="text-lg font-bold">{`${selectedCard.cardName} ${
-                selectedCard.alias && `(${selectedCard.alias})`
-              }`}</div>
-              <div className="text-base font-medium">
-                {selectedCard.cardNumber.match(/.{1,4}/g).join(" ")}
-              </div>
+          ) : (
+            <div className="flex flex-col justify-center items-center gap-3">
+              <div className="text-lg">결제 수단 등록</div>
+              <img src={PlusBtn} />
             </div>
-          </div>
-        ) : (
-          <div className="flex flex-col justify-center items-center gap-3">
-            <div className="text-lg">결제 수단 등록</div>
-            <img src={PlusBtn} />
-          </div>
-        )}
-      </button>
-      <p
-        className={`${
-          showText ? "text-red-600" : "text-white"
-        } text-sm text-center mt-1`}
-      >
-        결제 수단을 등록해 주세요!
-      </p>
-    </div>
+          )}
+        </button>
+        <p
+          className={`${
+            showText ? "text-red-600" : "text-white"
+          } text-sm text-center mt-1`}
+        >
+          결제 수단을 등록해 주세요!
+        </p>
+      </div>
+
+      <CheckModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        message="결제 수단을 삭제하시겠습니까?"
+        noText="취소"
+        yesText="확인"
+        yesHandler={() => deletePaymentData()}
+      />
+    </>
   );
 }
 

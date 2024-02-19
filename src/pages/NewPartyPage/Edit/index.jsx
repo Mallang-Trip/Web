@@ -27,18 +27,30 @@ function Edit({
   const companionsRef = useRef();
   const creditRef = useRef();
   const agreementRef = useRef();
+  const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
-  const [memberCount, setMemberCount] = useState(1);
-  const [companions, setCompanions] = useState([]);
-  const [shakeCompanions, setShakeCompanions] = useState(false);
   const [newName, setNewName] = useState("");
-  const [courseData, setCourseData] = useState([]);
-  const [selectedCard, setSelectedCard] = useState({});
-  const [shakeCredit, setShakeCredit] = useState(false);
-  const [registerCredit, setRegisterCredit] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [courseData, setCourseData] = useState([]);
+  const [registerCredit, setRegisterCredit] = useState(false);
+  const [shakeCompanions, setShakeCompanions] = useState(false);
+  const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [companions, setCompanions] = useState([
+    {
+      name: "",
+      phoneNumber: "",
+    },
+    {
+      name: "",
+      phoneNumber: "",
+    },
+    {
+      name: "",
+      phoneNumber: "",
+    },
+  ]);
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크
@@ -106,7 +118,51 @@ function Edit({
     setShowEditModal(true);
   };
 
-  useEffect(() => setMemberCount(member), [member]);
+  const backupInputData = () => {
+    const data = {
+      selectedCourseId: selectedCourseId,
+      memberCount: memberCount,
+      companions: companions,
+      content: content,
+      newName: newName,
+      agreeChecked: agreeChecked,
+      courseData: courseData,
+    };
+
+    localStorage.setItem("backup", JSON.stringify(data));
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem("payment")) {
+      localStorage.removeItem("backup");
+      return;
+    }
+
+    const backupData = JSON.parse(localStorage.getItem("backup"));
+    localStorage.removeItem("payment");
+    localStorage.removeItem("backup");
+
+    setSelectedCourseId(backupData.selectedCourseId);
+    setMemberCount(backupData.memberCount);
+    setCompanions(backupData.companions);
+    setContent(backupData.content);
+    setNewName(backupData.newName);
+    setAgreeChecked(backupData.agreeChecked);
+    setCourseData(backupData.courseData);
+
+    setTimeout(() => {
+      if (creditRef.current) {
+        const containerRect = creditRef.current.getBoundingClientRect();
+        const scrollY =
+          containerRect.top +
+          window.scrollY -
+          window.innerHeight / 2 +
+          containerRect.height / 2;
+
+        window.scrollTo({ top: scrollY, behavior: "smooth" });
+      }
+    }, 500);
+  }, [creditRef]);
 
   if (!driverInfo.driverId || !planData.courseId) return null;
   return (
@@ -165,9 +221,8 @@ function Edit({
         shakeCredit={shakeCredit}
         register={registerCredit}
         setRegister={setRegisterCredit}
-        selectedCard={selectedCard}
-        setSelectedCard={setSelectedCard}
         creditRef={creditRef}
+        backupInputData={backupInputData}
       />
       <JoinAgreement
         checked={agreeChecked}
@@ -189,7 +244,6 @@ function Edit({
         newName={newName}
         course={planData}
         courseData={courseData}
-        cardId={selectedCard.id}
         driverId={driverInfo.driverId}
       />
     </div>

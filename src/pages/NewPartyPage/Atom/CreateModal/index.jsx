@@ -13,7 +13,6 @@ function CreateModal({
   newName,
   course,
   courseData,
-  cardId,
   driverId,
 }) {
   const navigation = useNavigate();
@@ -35,7 +34,6 @@ function CreateModal({
         headcount: memberCount,
         startDate: date,
         endDate: date,
-        cardId: cardId,
         companions: companions.slice(0, memberCount - 1).map((member) => {
           return {
             ...member,

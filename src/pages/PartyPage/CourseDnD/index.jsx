@@ -34,7 +34,11 @@ function CourseDnD({
     );
   };
 
-  useEffect(() => setCourseData(course.days[0].destinations), []);
+  useEffect(() => {
+    if (courseData.length === 0) {
+      setCourseData(course.days[0].destinations);
+    }
+  }, []);
 
   return (
     <>

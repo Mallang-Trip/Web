@@ -15,23 +15,6 @@ function JoinMemberInfo({
     if (shakeCompanions) setShowText(true);
   }, [shakeCompanions]);
 
-  useEffect(() => {
-    setCompanions([
-      {
-        name: "",
-        phoneNumber: "",
-      },
-      {
-        name: "",
-        phoneNumber: "",
-      },
-      {
-        name: "",
-        phoneNumber: "",
-      },
-    ]);
-  }, []);
-
   return (
     <div
       className={`my-7 flex flex-col gap-6 ${

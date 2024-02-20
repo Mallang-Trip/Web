@@ -56,6 +56,22 @@ const __asyncAuth = createAsyncThunk("userSlice/asyncAuth", async () => {
   }
 });
 
+const __asyncRefreshAuth = createAsyncThunk("userSlice/asyncAuth", async () => {
+  try {
+    const refresh_result = await refresh();
+    localStorage.setItem("accessToken", refresh_result.payload.accessToken);
+    localStorage.setItem("refreshToken", refresh_result.payload.refreshToken);
+
+    const auth_result = await auth();
+    return { ...auth_result.payload, auth: true };
+  } catch {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    return { auth: false };
+  }
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -105,4 +121,4 @@ const userSlice = createSlice({
 
 export default userSlice;
 export const { logout } = userSlice.actions;
-export { __asyncLogin, __asyncAuth };
+export { __asyncLogin, __asyncAuth, __asyncRefreshAuth };

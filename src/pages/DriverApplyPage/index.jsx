@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { __asyncRefreshAuth } from "../../redux/modules/userSlice";
 import {
   postDriverApply,
   getDriverApply,
@@ -20,6 +21,7 @@ import Complete from "./Complete";
 import DriverAccept from "./DriverAccept";
 
 function DriverApplyPage() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [step, setStep] = useState(1);
   const [activeNext, setActiveNext] = useState(false);
@@ -92,7 +94,7 @@ function DriverApplyPage() {
       setStep(step + 1);
       setShowModal(false);
     } catch (e) {
-      alert("이미 제출된 내용을 심사중이거나, 오류가 발생했습니다.");
+      alert("오류가 발생했습니다.");
       setShowModal(false);
     }
   };
@@ -126,7 +128,10 @@ function DriverApplyPage() {
 
         if (result.payload.status === "WAITING") setStep(6);
         else if (result.payload.status === "REFUSED") setStep(7);
-        else if (result.payload.status === "ACCEPTED") setStep(8);
+        else if (result.payload.status === "ACCEPTED") {
+          setStep(8);
+          dispatch(__asyncRefreshAuth());
+        }
       }
     } catch (e) {
       console.log(e);

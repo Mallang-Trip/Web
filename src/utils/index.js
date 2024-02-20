@@ -97,7 +97,7 @@ export const computeGapDay = (date) => {
   const diff = pivot.getTime() - now.getTime();
   const diffDay = Math.ceil(diff / (24 * 60 * 60 * 1000));
 
-  return diffDay - 1;
+  return diffDay;
 };
 
 export const chatListDateToGapKorean = (date) => {

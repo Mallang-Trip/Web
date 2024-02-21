@@ -328,7 +328,11 @@ function PartyPage() {
           />
         )}
       <ToTalPrice
-        totalPrice={partyData.course?.totalPrice}
+        totalPrice={
+          user.userId === partyData.driverId
+            ? partyData.course?.totalPrice
+            : partyData.course?.totalPrice - partyData.course?.discountPrice
+        }
         isDriver={user.userId === partyData.driverId}
         partyStatus={partyData.partyStatus}
       />
@@ -342,7 +346,9 @@ function PartyPage() {
         partyData.partyStatus !== "CANCELED_BY_ALL_QUIT" &&
         partyData.partyStatus !== "CANCELED_BY_DRIVER_QUIT" && (
           <CreditInfo
-            totalPrice={partyData.course.totalPrice}
+            totalPrice={
+              partyData.course?.totalPrice - partyData.course?.discountPrice
+            }
             capacity={partyData.capacity}
             partyStatus={partyData.partyStatus}
             paymentAmount={partyData.reservation?.paymentAmount}
@@ -448,7 +454,9 @@ function PartyPage() {
             startDate={partyData.startDate}
             paymentAmount={partyData.reservation?.paymentAmount}
             isDriver={user.userId === partyData.driverId}
-            totalPrice={partyData.course.totalPrice}
+            totalPrice={
+              partyData.course?.totalPrice - partyData.course?.discountPrice
+            }
           />
         )
       ) : (
@@ -477,7 +485,9 @@ function PartyPage() {
         getPartyData={getPartyData}
         capacity={partyData.capacity}
         headcount={partyData.headcount}
-        totalPrice={partyData.course.totalPrice}
+        totalPrice={
+          partyData.course?.totalPrice - partyData.course?.discountPrice
+        }
         partyName={partyData.course.name}
       />
       <EditModal
@@ -489,7 +499,9 @@ function PartyPage() {
         getPartyData={getPartyData}
         capacity={partyData.capacity}
         headcount={partyData.headcount}
-        totalPrice={partyData.course.totalPrice}
+        totalPrice={
+          partyData.course?.totalPrice - partyData.course?.discountPrice
+        }
         partyName={partyData.course.name}
         course={partyData.course}
         myParty={partyData.myParty}

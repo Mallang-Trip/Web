@@ -41,8 +41,13 @@ function DriverApplyPage() {
   const [introduction, setIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const submitHandler = async () => {
+    if (submitLoading) return;
+
+    setSubmitLoading(true);
+
     const carImageURL = !carImage
       ? null
       : typeof carImage === "string"
@@ -96,6 +101,8 @@ function DriverApplyPage() {
     } catch (e) {
       alert("오류가 발생했습니다.");
       setShowModal(false);
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -217,6 +224,7 @@ function DriverApplyPage() {
         showModal={showModal}
         setShowModal={setShowModal}
         submitHandler={submitHandler}
+        submitLoading={submitLoading}
       />
     </PageContainer>
   );

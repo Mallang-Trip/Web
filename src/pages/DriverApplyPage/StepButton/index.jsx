@@ -1,4 +1,5 @@
 import CheckModal from "../../../components/CheckModal";
+import Loading from "../../../components/Loading";
 
 function StepButton({
   activeNext,
@@ -8,6 +9,7 @@ function StepButton({
   showModal,
   setShowModal,
   submitHandler,
+  submitLoading,
 }) {
   const prevHandler = () => setStep(step - 1);
 
@@ -50,7 +52,13 @@ function StepButton({
       <CheckModal
         showModal={showModal}
         setShowModal={setShowModal}
-        message={"드라이버 등록을 위해\n작성하신 내용을 제출하시겠습니까?"}
+        message={
+          submitLoading ? (
+            <Loading />
+          ) : (
+            "드라이버 등록을 위해\n작성하신 내용을 제출하시겠습니까?"
+          )
+        }
         noText={"취소"}
         yesText={"확인"}
         yesHandler={submitHandler}

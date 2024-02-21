@@ -102,7 +102,7 @@ function DriverApplyPage() {
   const getDriverApplyFunc = async () => {
     try {
       const result = await getDriverApply();
-      console.log(result);
+
       if (result.statusCode === 200) {
         setName(result.payload.accountHolder);
         setAccoutNumber(result.payload.accountNumber);

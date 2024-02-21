@@ -24,7 +24,9 @@ function Accout({
       name &&
       onlyNumber(accoutNumber) &&
       onlyNumber(hour[0]) &&
-      onlyNumber(money[0])
+      onlyNumber(money[0]) &&
+      onlyNumber(accoutNumber).length >= 10 &&
+      onlyNumber(accoutNumber).length <= 14
     )
       setActiveNext(true);
     else setActiveNext(false);
@@ -74,8 +76,17 @@ function Accout({
           onChange={(e) => setAccoutNumber(e.target.value)}
           autoComplete="off"
         />
-        <p className="mt-2 text-xs text-red-600 font-medium">
-          숫자만 입력 가능합니다.
+        <p
+          className={`mt-2 text-xs font-medium ${
+            onlyNumber(accoutNumber).length >= 10 &&
+            onlyNumber(accoutNumber).length <= 14
+              ? "text-white"
+              : "text-red-600"
+          }`}
+        >
+          {onlyNumber(accoutNumber).length === 0
+            ? "숫자만 입력 가능합니다."
+            : "계좌번호를 정확하게 입력해주세요."}
         </p>
       </div>
       <div>

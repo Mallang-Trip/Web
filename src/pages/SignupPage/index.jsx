@@ -19,8 +19,9 @@ function SignupPage() {
 
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [region, setRegion] = useState("");
   const [gender, setGender] = useState("");
+  const [carrier, setCarrier] = useState("");
+  const [region, setRegion] = useState("");
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -117,6 +118,8 @@ function SignupPage() {
             setRegion={setRegion}
             gender={gender}
             setGender={setGender}
+            carrier={carrier}
+            setCarrier={setCarrier}
           />
         ) : step === 2 ? (
           <Account

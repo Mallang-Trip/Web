@@ -15,7 +15,13 @@ function TossPaymentPage() {
 
       if (result.statusCode === 200) {
         localStorage.setItem("payment", true);
-        setTimeout(() => navigation(-1), 3000);
+        setTimeout(
+          () =>
+            navigation(JSON.parse(localStorage.getItem("backup")).redirect, {
+              replace: true,
+            }),
+          3000
+        );
       } else {
         navigation("/payment/fail", { replace: true });
       }

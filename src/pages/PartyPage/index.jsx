@@ -210,6 +210,7 @@ function PartyPage() {
       content: content,
       agreeChecked: agreeChecked,
       courseData: courseData,
+      redirect: window.location.href.replace(window.location.origin, ""),
     };
 
     localStorage.setItem("backup", JSON.stringify(data));

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { leaveChat } from "../../../../../api/chat";
 import ExitCheckModal from "./ExitCheckModal";
 
@@ -8,11 +9,12 @@ function ExitButton({
   closeRoomHandler,
   setShowMenu,
 }) {
+  const privateRoomId = useSelector((state) => state.talkRoom.privateRoomId);
   const [showModal, setShowModal] = useState(false);
 
   const leaveChatHandler = async () => {
     try {
-      await leaveChat(chatRoomId);
+      await leaveChat(privateRoomId || chatRoomId);
       setShowMenu(false);
       setShowModal(false);
       closeRoomHandler();

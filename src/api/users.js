@@ -27,3 +27,9 @@ export const searchUser = async (nickName) =>
   await GET(`/user/search?nickname=${nickName}`, true);
 
 export const getUserInfo = async (userId) => await GET(`/user/info/${userId}`);
+
+export const postIdentification = async (data) =>
+  await POST("/identification", data);
+
+export const postIdentificationConfirm = async (impUid, otp) =>
+  await POST(`/identification/confirm?impUid=${impUid}&otp=${otp}`, {});

@@ -5,13 +5,16 @@ function Searchbuttons() {
 
   return (
     <div className="flex justify-center m-5 mx-auto text-sm text-darkgray">
-      <button type="button" onClick={() => navigation("/login/search/id")}>
+      <button
+        type="button"
+        onClick={() => navigation("/login/search/id", { replace: true })}
+      >
         아이디 찾기
       </button>
       <span className="mx-1">|</span>
       <button
         type="button"
-        onClick={() => navigation("/login/search/password")}
+        onClick={() => navigation("/login/search/password", { replace: true })}
       >
         비밀번호 찾기
       </button>

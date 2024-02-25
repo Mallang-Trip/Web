@@ -123,6 +123,7 @@ function Reservation({
       companions: companions,
       content: content,
       agreeChecked: agreeChecked,
+      redirect: window.location.href.replace(window.location.origin, ""),
     };
 
     localStorage.setItem("backup", JSON.stringify(data));

@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setPublicRoomId } from "../../../redux/modules/talkRoomSlice";
+import {
+  setPrivateRoomId,
+  setPublicRoomId,
+} from "../../../redux/modules/talkRoomSlice";
 import { getChatRoomData } from "../../../api/chat";
 import { uploadImage } from "../../../api/image";
 import { Stomp } from "@stomp/stompjs";
@@ -132,9 +135,15 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   };
 
   useEffect(() => {
-    if (!roomData.myParty) dispatch(setPublicRoomId(null));
-    else if (roomData.publicRoomId)
-      dispatch(setPublicRoomId(roomData.publicRoomId));
+    if (!roomData.myParty) {
+      dispatch(setPrivateRoomId(null));
+      dispatch(setPublicRoomId(null));
+      return;
+    }
+    if (roomData.type !== "PARTY_PRIVATE") return;
+
+    dispatch(setPrivateRoomId(roomData.chatRoomId));
+    dispatch(setPublicRoomId(roomData.publicRoomId));
   }, [roomData]);
 
   useEffect(() => {

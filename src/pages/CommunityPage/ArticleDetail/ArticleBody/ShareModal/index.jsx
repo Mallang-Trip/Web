@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { basicProfileImage } from "../../../../../global";
+import { basicProfileImage, thumbnailImage } from "../../../../../global";
 import closeIcon from "../../../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../../../assets/images/kakaoIcon.png";
@@ -32,13 +32,13 @@ function ShareModal({
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
-        IMAGE1: images[0] || basicProfileImage,
-        IMAGE2: images[1],
-        IMAGE3: images[2],
+        IMAGE1: images[0] || thumbnailImage,
+        IMAGE2: images[1] || null,
+        IMAGE3: images[2] || null,
         PROFILE_IMAGE: user.profileImg || basicProfileImage,
         PROFILE_NAME: user.nickname || "말랑트립",
         TITLE: title,
-        DESCRIPTION: `'${nickname}'님이 작성한 커뮤니티 게시글을 공유했습니다!`,
+        DESCRIPTION: `"${nickname}"님이 작성한 커뮤니티 게시글을 공유했습니다!`,
         URL: `community/${articleId}`,
       },
     });

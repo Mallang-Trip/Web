@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
 import { signup, checkDuplication } from "../../api/users";
+import { basicProfileImage } from "../../global";
 import PageContainer from "../../components/PageContainer";
 import Logo from "../../assets/images/logo.png";
 import Agreement from "./Agreement";
@@ -16,11 +17,7 @@ function SignupPage() {
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-
-  const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [region, setRegion] = useState("");
-  const [gender, setGender] = useState("");
+  const [impUid, setImpUid] = useState("");
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +25,6 @@ function SignupPage() {
   const [nickName, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [profileImage, setProfileImage] = useState(undefined);
-
   const [emailDuplication, setEmailDuplication] = useState(false);
   const [idDuplication, setIdDuplication] = useState(false);
   const [nickNameDuplication, setNickNameDuplication] = useState(false);
@@ -68,29 +64,30 @@ function SignupPage() {
     try {
       const profileImageURL = profileImage
         ? await uploadProfileImage(profileImage)
-        : null;
+        : basicProfileImage;
 
       const body = {
-        id: id,
-        password: password,
+        country: true ? "local" : "foreginer",
         email: email,
-        name: name,
-        birthday: birthDate,
-        country: region === "내국인" ? "local" : "foreginer",
-        gender: gender === "남자" ? "male" : "female",
-        phoneNumber: "010" + Math.floor(10000000 + Math.random() * 90000000),
-        nickname: nickName,
+        id: id,
+        impUid: impUid,
         introduction: introduction,
+        nickname: nickName,
+        password: password,
         profileImg: profileImageURL,
       };
 
-      await signup(body);
-
-      setStep(step + 1);
+      const result = await signup(body);
+      if (result.statusCode === 200) setStep(step + 1);
+      else setShowErrorModal(true);
     } catch {
       setShowErrorModal(true);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [step]);
 
   return (
     <PageContainer>
@@ -108,15 +105,9 @@ function SignupPage() {
           <Agreement setActiveNext={setActiveNext} />
         ) : step === 1 ? (
           <PersonalInfo
-            setActiveNext={setActiveNext}
-            name={name}
-            setName={setName}
-            birthDate={birthDate}
-            setBirthDate={setBirthDate}
-            region={region}
-            setRegion={setRegion}
-            gender={gender}
-            setGender={setGender}
+            setStep={setStep}
+            impUid={impUid}
+            setImpUid={setImpUid}
           />
         ) : step === 2 ? (
           <Account
@@ -149,7 +140,7 @@ function SignupPage() {
         ) : (
           <Complete />
         )}
-        {step !== 4 && (
+        {step !== 1 && step !== 4 && (
           <div className="flex justify-center mt-16">
             <button
               type="button"

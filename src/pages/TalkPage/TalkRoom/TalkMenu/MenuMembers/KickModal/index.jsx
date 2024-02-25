@@ -60,8 +60,7 @@ function KickModal({
   };
 
   useEffect(() => {
-    if (!showModal) return document.body.classList.remove("overflow-hidden");
-    document.body.classList.add("overflow-hidden");
+    if (!showModal) return;
 
     setComplete(false);
 

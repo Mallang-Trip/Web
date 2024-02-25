@@ -26,9 +26,14 @@ function SearchAcount({
   const [showCodeInvalidModal, setShowCodeInvalidModal] = useState(false);
   const [showCodeErrorModal, setShowCodeErrorModal] = useState(false);
 
-  const phoneNumberHandler = (e) =>
+  const phoneNumberHandler = (e) => {
+    if (e.target.value.length > 11) return;
     setPhoneNumber(e.target.value.replace(/\D/g, ""));
-  const codeHandler = (e) => setCode(e.target.value.replace(/\D/g, ""));
+  };
+  const codeHandler = (e) => {
+    if (e.target.value.length > 6) return;
+    setCode(e.target.value.replace(/\D/g, ""));
+  };
 
   const sendCode = async (e) => {
     e.preventDefault();
@@ -38,7 +43,7 @@ function SearchAcount({
 
     try {
       const result = await getCertificationCode(phoneNumber);
-      if (result.statusCode === 20000) return setShowNoUserModal(true);
+      if (result.statusCode !== 200) return setShowNoUserModal(true);
 
       setCodeTransmission(true);
       setLimit(300);
@@ -65,7 +70,7 @@ function SearchAcount({
     if (mode === "password") {
       try {
         const result = await searchPassword(phoneNumber, code);
-        if (result.statusCode === 401) return setShowCodeErrorModal(true);
+        if (result.statusCode !== 200) return setShowCodeErrorModal(true);
         setMode("NewPassword");
       } catch (e) {
         console.log(e);
@@ -73,7 +78,7 @@ function SearchAcount({
     } else {
       try {
         const result = await searchId(phoneNumber, code);
-        if (result.statusCode === 401) return setShowCodeErrorModal(true);
+        if (result.statusCode !== 200) return setShowCodeErrorModal(true);
         setLoginId(result.payload.loginId);
         setCompleteSearch(true);
       } catch (e) {

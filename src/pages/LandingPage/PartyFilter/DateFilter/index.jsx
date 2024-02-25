@@ -1,17 +1,17 @@
 import { useState } from "react";
 import CalendarModal from "./CalendarModal";
 
-function SecondBox({ nowDate, setNowDate }) {
+function DateFilter({ nowDate, setNowDate }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <div className="w-full h-32 my-auto bg-white cursor-pointer">
-        <p className="mt-3 mb-5 ml-2 text-gray-500 text-xs md:text-base text-gray">
+        <p className="mt-3 mb-5 ml-2 text-gray-500 text-base text-gray">
           가능한 일정
         </p>
         <p
-          className="text-base md:text-xl text-black text-center"
+          className="text-xl text-black text-center"
           onClick={() => setShowModal(true)}
         >
           {nowDate.length
@@ -31,4 +31,4 @@ function SecondBox({ nowDate, setNowDate }) {
   );
 }
 
-export default SecondBox;
+export default DateFilter;

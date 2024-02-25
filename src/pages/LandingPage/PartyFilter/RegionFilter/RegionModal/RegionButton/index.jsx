@@ -1,7 +1,7 @@
 function RegionButton({ image, name, regionClickHandler }) {
   return (
     <div
-      className="relative h-44 md:h-52 cursor-pointer"
+      className="relative h-48 cursor-pointer"
       onClick={() => regionClickHandler(name)}
     >
       <img

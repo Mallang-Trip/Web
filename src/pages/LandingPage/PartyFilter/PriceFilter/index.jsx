@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PriceModal from "./PriceModal";
 
-function FinalBox({ price, setPrice }) {
+function PriceFilter({ price, setPrice }) {
   const [showModal, setShowModal] = useState(false);
   const [modalPrice, setModalPrice] = useState(1010000);
 
@@ -14,10 +14,10 @@ function FinalBox({ price, setPrice }) {
           setShowModal(true);
         }}
       >
-        <p className="mt-3 mb-5 ml-2 text-gray-500 text-xs md:text-base text-gray">
+        <p className="mt-3 mb-5 ml-2 text-gray-500 text-base text-gray">
           가격범위
         </p>
-        <p className="text-base md:text-xl text-center text-black">
+        <p className="text-xl text-center text-black">
           {price > 1000000 ? "모든 가격" : `~${price / 10000}만원`}
         </p>
         {price <= 1000000 && (
@@ -35,4 +35,4 @@ function FinalBox({ price, setPrice }) {
   );
 }
 
-export default FinalBox;
+export default PriceFilter;

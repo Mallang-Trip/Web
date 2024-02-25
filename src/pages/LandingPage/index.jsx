@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import PageContainer from "../../components/PageContainer";
-import BlueContaner from "./BlueContaner";
+import PartyFilter from "./PartyFilter";
 import PartyList from "./PartyList";
 import NewPartyButton from "./NewPartyButton";
 
@@ -17,7 +17,7 @@ function LandingPage() {
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl pb-3 pl-5 mx-auto overflow-hidden text-2xl font-bold">
         어디로 떠나고 싶으신가요?
       </div>
-      <BlueContaner
+      <PartyFilter
         region={region}
         setRegion={setRegion}
         nowDate={nowDate}

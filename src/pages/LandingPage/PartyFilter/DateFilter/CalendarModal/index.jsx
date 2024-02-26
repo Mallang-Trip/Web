@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setNowDate } from "../../../../../redux/modules/partyFilterSlice";
 import Calendar from "react-calendar";
 import "./index.css";
 
-function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
+function CalendarModal({ showModal, setShowModal }) {
+  const dispatch = useDispatch();
+  const nowDate = useSelector((state) => state.partyFilter.nowDate);
   const modalRef = useRef();
   const confirmButtonRef = useRef();
   const [date, setDate] = useState(nowDate);
@@ -15,12 +19,12 @@ function CalendarModal({ showModal, setShowModal, nowDate, setNowDate }) {
 
   const allDateHandler = () => {
     setDate([]);
-    setNowDate([]);
+    dispatch(setNowDate([]));
     setShowModal(false);
   };
 
   const confirmHandler = () => {
-    setNowDate(date);
+    dispatch(setNowDate(date));
     setShowModal(false);
   };
 

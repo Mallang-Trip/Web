@@ -1,23 +1,20 @@
 import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setPrice } from "../../../../../redux/modules/partyFilterSlice";
 import { priceToString } from "../../../../../utils";
 
-function PriceModal({
-  showModal,
-  setShowModal,
-  price,
-  setPrice,
-  setFilterPrice,
-}) {
+function PriceModal({ showModal, setShowModal, modalPrice, setModalPrice }) {
+  const dispatch = useDispatch();
   const modalRef = useRef();
   const buttonRef = useRef();
 
   const closeModal = () => {
-    setFilterPrice(price);
+    dispatch(setPrice(modalPrice));
     setShowModal(false);
   };
 
   const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
+    if (modalRef.current === e.target) setShowModal(false);
   };
 
   const handleKeyPress = (event) => {
@@ -72,7 +69,7 @@ function PriceModal({
               <div className="w-full h-2 rounded-full bg-mediumgray relative">
                 <div
                   className="h-2 rounded-full bg-primary absolute top-0 left-0"
-                  style={{ width: `${price / 10100}%` }}
+                  style={{ width: `${modalPrice / 10100}%` }}
                 />
               </div>
               <input
@@ -81,14 +78,16 @@ function PriceModal({
                 min={0}
                 max={1010000}
                 step={10000}
-                name="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                name="modalPrice"
+                value={modalPrice}
+                onChange={(e) => setModalPrice(e.target.value)}
               />
             </div>
           </div>
           <div className="text-xl text-primary">{`최고 금액: ${
-            price > 1000000 ? "모든 가격" : priceToString(price) + "원"
+            modalPrice > 1000000
+              ? "모든 가격"
+              : priceToString(modalPrice) + "원"
           }`}</div>
         </div>
         <button

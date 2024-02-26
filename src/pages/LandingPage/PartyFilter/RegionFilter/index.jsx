@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setRegion } from "../../../../redux/modules/partyFilterSlice";
 import RegionModal from "./RegionModal";
 
-function RegionFilter({ region, setRegion }) {
+function RegionFilter() {
+  const dispatch = useDispatch();
+  const region = useSelector((state) => state.partyFilter.region);
   const [showModal, setShowModal] = useState(false);
 
   const regionClickHandler = (target) => {
-    setRegion(target);
+    dispatch(setRegion(target));
     setShowModal(false);
   };
 

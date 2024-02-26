@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getPartyList } from "../../../api/party";
 import { dateToString } from "../../../utils";
 import PartyBox from "./PartyBox";
 import NoParty from "./NoParty";
 
-function PartyList({ region, nowDate, num, price }) {
+function PartyList() {
+  const { region, nowDate, num, price } = useSelector(
+    (state) => state.partyFilter
+  );
   const [partyData, setPartyData] = useState([]);
   const [loading, setLoading] = useState(true);
 

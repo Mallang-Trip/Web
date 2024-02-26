@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import PriceModal from "./PriceModal";
 
-function PriceFilter({ price, setPrice }) {
+function PriceFilter() {
+  const price = useSelector((state) => state.partyFilter.price);
   const [showModal, setShowModal] = useState(false);
   const [modalPrice, setModalPrice] = useState(1010000);
 
@@ -27,9 +29,8 @@ function PriceFilter({ price, setPrice }) {
       <PriceModal
         showModal={showModal}
         setShowModal={setShowModal}
-        price={modalPrice}
-        setPrice={setModalPrice}
-        setFilterPrice={setPrice}
+        modalPrice={modalPrice}
+        setModalPrice={setModalPrice}
       />
     </>
   );

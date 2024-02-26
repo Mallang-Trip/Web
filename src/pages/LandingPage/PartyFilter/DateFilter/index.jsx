@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import CalendarModal from "./CalendarModal";
 
-function DateFilter({ nowDate, setNowDate }) {
+function DateFilter() {
+  const nowDate = useSelector((state) => state.partyFilter.nowDate);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -21,12 +23,7 @@ function DateFilter({ nowDate, setNowDate }) {
             : "모든 일정"}
         </p>
       </div>
-      <CalendarModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        nowDate={nowDate}
-        setNowDate={setNowDate}
-      />
+      <CalendarModal showModal={showModal} setShowModal={setShowModal} />
     </>
   );
 }

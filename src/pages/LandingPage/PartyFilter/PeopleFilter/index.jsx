@@ -1,11 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setNum } from "../../../../redux/modules/partyFilterSlice";
 import minusGray from "../../../../assets/svg/people_minus_gray.svg";
 import minusPrimary from "../../../../assets/svg/people_minus_primary.svg";
 import plusgray from "../../../../assets/svg/people_plus_gray.svg";
 import plusPrimary from "../../../../assets/svg/people_plus_primary.svg";
 
-function PeopleFilter({ num, setNum }) {
-  const setIncrease = () => setNum(num + 1);
-  const setDecrease = () => setNum(num - 1);
+function PeopleFilter() {
+  const dispatch = useDispatch();
+  const num = useSelector((state) => state.partyFilter.num);
+
+  const setIncrease = () => dispatch(setNum(num + 1));
+  const setDecrease = () => dispatch(setNum(num - 1));
 
   return (
     <div className="w-full h-32 my-auto bg-white">

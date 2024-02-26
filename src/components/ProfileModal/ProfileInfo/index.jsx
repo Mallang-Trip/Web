@@ -8,9 +8,11 @@ function ProfileInfo({ profileImg, nickname, introduction }) {
         alt={nickname}
         className="w-40 h-40 rounded-full"
       />
-      <div className="flex flex-col justify-center items-center gap-2">
+      <div className="w-28 flex flex-col justify-center items-center text-center gap-3">
         <p className="text-2xl text-black font-bold">{nickname}</p>
-        <p className="text-sm text-primary">{introduction}</p>
+        <p className="text-sm text-primary font-medium">
+          {introduction || "자기소개 없음"}
+        </p>
       </div>
     </div>
   );

@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setDeleteNotification,
+  setNotification,
+} from "../../../redux/modules/notificationSlice";
 import {
   deleteNotification,
   getNotification,
@@ -10,7 +15,8 @@ import EmptyNotify from "./EmptyNotify";
 
 function NotifyList() {
   const navigation = useNavigate();
-  const [notify, setNotify] = useState([]);
+  const dispatch = useDispatch();
+  const notification = useSelector((state) => state.notification.notification);
   const url = {
     PARTY: "/party/detail/",
     ARTICLE: "/community/",
@@ -19,18 +25,19 @@ function NotifyList() {
 
   const clickNotifyHandler = (alarmId, type, targetId) => {
     putNotification(alarmId);
-    if (type !== "NONE") navigation(url[type] + targetId);
+    if (type === "NONE") getNotificationFunc();
+    else navigation(url[type] + targetId);
   };
 
   const deleteNotifyHandler = (alarmId) => {
     deleteNotification(alarmId);
-    setNotify(notify.filter((item) => item.alarmId !== alarmId));
+    dispatch(setDeleteNotification(alarmId));
   };
 
   const getNotificationFunc = async () => {
     try {
       const result = await getNotification();
-      setNotify(result.payload.contents);
+      dispatch(setNotification(result.payload));
     } catch (e) {
       console.log(e);
     }
@@ -42,10 +49,10 @@ function NotifyList() {
 
   return (
     <div className="w-full">
-      {notify.length === 0 ? (
+      {notification.length === 0 ? (
         <EmptyNotify />
       ) : (
-        notify.map((item) => (
+        notification.map((item) => (
           <NotifyItem
             key={item.alarmId}
             clickNotifyHandler={clickNotifyHandler}

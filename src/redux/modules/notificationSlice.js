@@ -1,0 +1,26 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  notification: [],
+  uncheckedCount: 0,
+};
+
+const notificationSlice = createSlice({
+  name: "notification",
+  initialState,
+  reducers: {
+    setNotification: (state, payload) => {
+      state.notification = payload.payload.contents;
+      state.uncheckedCount = payload.payload.uncheckedCount;
+    },
+    setDeleteNotification: (state, payload) => {
+      state.notification = state.notification.filter(
+        (item) => item.alarmId !== payload.payload
+      );
+    },
+  },
+});
+
+export default notificationSlice;
+export const { setNotification, setDeleteNotification } =
+  notificationSlice.actions;

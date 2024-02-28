@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { notificationDateToGapKorean } from "../../../../utils";
 import notifyPrimary from "../../../../assets/svg/notify-primary.svg";
 import notifyDarkgray from "../../../../assets/svg/notify-darkgray.svg";
 
@@ -6,7 +7,7 @@ function NotifyItem({
   alarmId,
   content,
   checked,
-  date = "02월 28일",
+  createdAt,
   type,
   targetId,
   clickNotifyHandler,
@@ -35,7 +36,9 @@ function NotifyItem({
     >
       <div className="w-full">{content}</div>
       <div className="w-28 flex gap-4 md:gap-5 whitespace-nowrap">
-        <span className="w-16">{date}</span>
+        <span className="w-16 text-center">
+          {notificationDateToGapKorean(createdAt)}
+        </span>
         <button
           onClick={deleteHandler}
           className={`w-6 h-6 rounded-lg ${

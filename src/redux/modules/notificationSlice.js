@@ -14,9 +14,17 @@ const notificationSlice = createSlice({
       state.uncheckedCount = payload.payload.uncheckedCount;
     },
     setDeleteNotification: (state, payload) => {
-      state.notification = state.notification.filter(
+      const newNotification = state.notification.filter(
         (item) => item.alarmId !== payload.payload
       );
+
+      state.notification = newNotification;
+      state.uncheckedCount = newNotification.reduce((count, item) => {
+        if (!item.checked) {
+          return count + 1;
+        }
+        return count;
+      }, 0);
     },
   },
 });

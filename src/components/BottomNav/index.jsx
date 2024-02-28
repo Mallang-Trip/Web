@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Ping from "../Ping";
 import basicProfileImage from "../../assets/images/profileImage.png";
 import Talk from "../../assets/svg/bottom-talk.svg";
 import Community from "../../assets/svg/bottom-community.svg";
@@ -12,8 +13,11 @@ import HeartPrimary from "../../assets/svg/bottom-heart-primary.svg";
 
 function BottomNav() {
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
   const location = useLocation();
+  const user = useSelector((state) => state.user);
+  const uncheckedCount = useSelector(
+    (state) => state.notification.uncheckedCount
+  );
 
   const checkLocation = () => {
     if (location.pathname === "/talk") return "talk";
@@ -113,7 +117,7 @@ function BottomNav() {
         </button>
         <button
           type="button"
-          className="inline-flex flex-col items-center justify-center px-0"
+          className="inline-flex flex-col items-center justify-center px-0 relative"
           onClick={() => navigation("/my/menu")}
         >
           <img
@@ -123,6 +127,7 @@ function BottomNav() {
             src={user.profileImg || basicProfileImage}
             alt="User_Profile_Image"
           />
+          {uncheckedCount > 0 && <Ping top="3" left="7" />}
         </button>
       </div>
     </div>

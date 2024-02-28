@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getNotification, putNotification } from "../../../api/notification";
+import {
+  deleteNotification,
+  getNotification,
+  putNotification,
+} from "../../../api/notification";
 import NotifyItem from "./NotifyItem";
 import EmptyNotify from "./EmptyNotify";
 
@@ -19,6 +23,7 @@ function NotifyList() {
   };
 
   const deleteNotifyHandler = (alarmId) => {
+    deleteNotification(alarmId);
     setNotify(notify.filter((item) => item.alarmId !== alarmId));
   };
 

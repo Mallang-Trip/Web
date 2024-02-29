@@ -95,7 +95,7 @@ function Header() {
       setNotificationTimer(
         setInterval(() => {
           getNotificationFunc();
-        }, 10000)
+        }, 60 * 1000)
       );
     }
   }, [user.auth]);

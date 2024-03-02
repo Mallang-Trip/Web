@@ -1,9 +1,20 @@
-import { useEffect, useRef } from "react";
-import { regionData } from "../../../../../utils/data";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setRegion } from "../../../../redux/modules/partyFilterSlice";
+import { regionData } from "../../../../utils/data";
 import RegionButton from "./RegionButton";
 
-function RegionModal({ showModal, setShowModal, regionClickHandler }) {
+function RegionModal({ showModal, setShowModal }) {
+  const dispatch = useDispatch();
   const modalRef = useRef();
+  const region = useSelector((state) => state.partyFilter.region);
+  const [selectedRegion, setSelectedRegion] = useState("");
+
+  const regionClickHandler = (target) => {
+    dispatch(setRegion(target));
+    setShowModal(false);
+  };
 
   const closeModal = () => setShowModal(false);
 
@@ -19,13 +30,15 @@ function RegionModal({ showModal, setShowModal, regionClickHandler }) {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
 
+    setSelectedRegion(region);
+
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [showModal]);
 
-  return (
+  return createPortal(
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
@@ -57,24 +70,34 @@ function RegionModal({ showModal, setShowModal, regionClickHandler }) {
               ></path>
             </svg>
           </button>
-          <div className="grid grid-cols-2 gap-8 px-6 mx-auto pb-8 md:grid-cols-3 overflow-auto noScrollBar">
+          <div className="flex flex-wrap justify-between gap-8 px-6 mx-auto pb-8 overflow-auto noScrollBar">
             {regionData.map((item) => (
               <RegionButton
                 key={item.name}
-                regionClickHandler={regionClickHandler}
+                selectedRegion={selectedRegion}
+                setSelectedRegion={setSelectedRegion}
                 {...item}
               />
             ))}
           </div>
         </div>
-        <button
-          className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"
-          onClick={() => regionClickHandler("모든 지역")}
-        >
-          모든 지역
-        </button>
+        <div className="flex">
+          <button
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
+            onClick={() => regionClickHandler("모든 지역")}
+          >
+            모든 지역
+          </button>
+          <button
+            className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
+            onClick={() => regionClickHandler(selectedRegion)}
+          >
+            확인
+          </button>
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setNowDate } from "../../../../../redux/modules/partyFilterSlice";
+import { setNowDate } from "../../../../redux/modules/partyFilterSlice";
 import Calendar from "react-calendar";
 import "./index.css";
 
-function CalendarModal({ showModal, setShowModal }) {
+function DateModal({ showModal, setShowModal }) {
   const dispatch = useDispatch();
   const nowDate = useSelector((state) => state.partyFilter.nowDate);
   const modalRef = useRef();
@@ -45,7 +46,7 @@ function CalendarModal({ showModal, setShowModal }) {
     };
   }, [showModal]);
 
-  return (
+  return createPortal(
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
@@ -92,7 +93,7 @@ function CalendarModal({ showModal, setShowModal }) {
             className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
             onClick={allDateHandler}
           >
-            모든 일정
+            모든 날짜
           </button>
           <button
             className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
@@ -103,8 +104,9 @@ function CalendarModal({ showModal, setShowModal }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
-export default CalendarModal;
+export default DateModal;

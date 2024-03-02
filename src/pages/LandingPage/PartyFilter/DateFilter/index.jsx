@@ -8,21 +8,25 @@ function DateFilter() {
 
   return (
     <>
-      <div className="w-full h-32 my-auto bg-white cursor-pointer">
-        <p className="mt-3 mb-5 ml-2 text-gray-500 text-base text-gray">
+      <button
+        className="w-full h-full px-8 py-6 flex flex-col justify-between rounded-l-3xl border-r border-gray300"
+        onClick={() => setShowModal(true)}
+      >
+        <p className="text-base leading-5 text-gray700 font-medium">
           가능한 일정
         </p>
         <p
-          className="text-xl text-black text-center"
-          onClick={() => setShowModal(true)}
+          className={`text-2xl leading-7 font-bold ${
+            nowDate.length ? "text-gray800" : "text-gray400"
+          }`}
         >
           {nowDate.length
             ? `${nowDate[0].getMonth() + 1}/${nowDate[0].getDate()} ~ ${
                 nowDate[1].getMonth() + 1
               }/${nowDate[1].getDate()}`
-            : "모든 일정"}
+            : "모든 날짜"}
         </p>
-      </div>
+      </button>
       <CalendarModal showModal={showModal} setShowModal={setShowModal} />
     </>
   );

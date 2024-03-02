@@ -12,6 +12,10 @@ module.exports = {
         boldgray: "#3E3E3E",
         boldblue: "#1F6A95",
         skyblue: "#EAF4FF",
+        gray300: "#EFEFEF",
+        gray400: "#C8C8C8",
+        gray700: "#484649",
+        gray800: "#313033",
       },
       screens: {
         sm: "640px",

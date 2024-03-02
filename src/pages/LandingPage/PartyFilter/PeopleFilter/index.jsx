@@ -13,13 +13,11 @@ function PeopleFilter() {
   const setDecrease = () => dispatch(setNum(num - 1));
 
   return (
-    <div className="w-full h-32 my-auto bg-white">
-      <p className="mt-3 mb-5 ml-2 text-gray-500 text-base text-gray">
-        참여 인원
-      </p>
-      <div className="flex w-full flex-row justify-center items-center gap-4 text-xl text-black">
+    <div className="w-full h-full px-8 py-6 flex flex-col justify-between rounded-l-3xl border-r border-gray300">
+      <p className="text-base leading-5 text-gray700 font-medium">참여 인원</p>
+      <div className="w-full flex justify-start items-center">
         <button
-          className={`w-10 h-10 rounded-full ring-1 flex justify-center items-center ${
+          className={`w-7 h-7 rounded-full ring-1 flex justify-center items-center ${
             num === 1
               ? "bg-lightgray ring-[#BABABA]"
               : "bg-skyblue ring-primary"
@@ -29,9 +27,15 @@ function PeopleFilter() {
         >
           <img src={num === 1 ? minusGray : minusPrimary} />
         </button>
-        <div className="w-11 text-center">{num}명</div>
+        <div
+          className={`w-16 h-7 text-center text-2xl leading-7 font-bold ${
+            num === 1 ? "text-gray400" : "text-gray800"
+          }`}
+        >
+          {num}
+        </div>
         <button
-          className={`w-10 h-10 rounded-full ring-1 flex justify-center items-center ${
+          className={`w-7 h-7 rounded-full ring-1 flex justify-center items-center ${
             num === 10
               ? "bg-lightgray ring-[#BABABA]"
               : "bg-skyblue ring-primary"

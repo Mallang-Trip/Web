@@ -9,23 +9,24 @@ function PriceFilter() {
 
   return (
     <>
-      <div
-        className="w-full h-32 my-auto bg-white rounded-r-lg cursor-pointer"
+      <button
+        className="w-full h-full px-8 py-6 flex flex-col justify-between rounded-l-3xl"
         onClick={() => {
           setModalPrice(price === "모든 가격" ? 1010000 : price);
           setShowModal(true);
         }}
       >
-        <p className="mt-3 mb-5 ml-2 text-gray-500 text-base text-gray">
-          가격범위
+        <p className="text-base leading-5 text-gray700 font-medium">
+          1인당 가격 범위
         </p>
-        <p className="text-xl text-center text-black">
+        <p
+          className={`text-2xl leading-7 font-bold ${
+            price > 1000000 ? "text-gray400" : "text-gray800"
+          }`}
+        >
           {price > 1000000 ? "모든 가격" : `~${price / 10000}만원`}
         </p>
-        {price <= 1000000 && (
-          <p className="text-sm text-center text-darkgray">(1인당)</p>
-        )}
-      </div>
+      </button>
       <PriceModal
         showModal={showModal}
         setShowModal={setShowModal}

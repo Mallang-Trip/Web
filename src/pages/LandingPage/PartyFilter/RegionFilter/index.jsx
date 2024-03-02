@@ -15,15 +15,19 @@ function RegionFilter() {
 
   return (
     <>
-      <div
-        className="w-full h-32 my-auto bg-white rounded-l-lg cursor-pointer"
+      <button
+        className="w-full h-full px-8 py-6 flex flex-col justify-between rounded-l-3xl border-r border-gray300"
         onClick={() => setShowModal(true)}
       >
-        <p className="mt-3 mb-5 ml-2 text-gray-500 text-base text-gray">
-          목적지
+        <p className="text-base leading-5 text-gray700 font-medium">목적지</p>
+        <p
+          className={`text-2xl leading-7 text-gray400 font-bold  ${
+            region === "모든 지역" ? "text-gray400" : "text-gray800"
+          }`}
+        >
+          {region}
         </p>
-        <p className="text-xl text-black text-center">{region}</p>
-      </div>
+      </button>
       <RegionModal
         showModal={showModal}
         setShowModal={setShowModal}

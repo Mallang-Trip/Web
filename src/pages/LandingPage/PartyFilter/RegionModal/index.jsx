@@ -48,9 +48,12 @@ function RegionModal({ showModal, setShowModal }) {
     >
       <div className="m-auto shadow w-full max-w-[700px] rounded-xl">
         <div className="h-full bg-white rounded-t-xl max-h-[600px] relative">
-          <p className="text-xl font-bold text-black px-6 py-5">
-            목적지를 선택해주세요.
-          </p>
+          <div className="px-6 py-5">
+            <p className="text-lg font-bold text-black mb-1">목적지</p>
+            <p className="text-sm font-medium text-boldgray">
+              원하는 목적지를 선택해주세요.
+            </p>
+          </div>
           <button
             type="button"
             className="absolute top-4 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -70,7 +73,7 @@ function RegionModal({ showModal, setShowModal }) {
               ></path>
             </svg>
           </button>
-          <div className="flex flex-wrap justify-between gap-8 px-6 mx-auto pb-8 overflow-auto noScrollBar">
+          <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 sm:grid-cols-3 h-full bg-white rounded-t-xl max-h-[500px] overflow-auto noScrollBar">
             {regionData.map((item) => (
               <RegionButton
                 key={item.name}

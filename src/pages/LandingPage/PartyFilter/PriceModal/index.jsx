@@ -45,8 +45,15 @@ function PriceModal({ showModal, setShowModal }) {
       onClick={(e) => modalOutSideClick(e)}
     >
       <div className="m-auto shadow w-96 rounded-xl">
-        <div className="flex flex-col gap-10 justify-center h-64 text-center bg-white rounded-t-xl relative">
-          <div className="text-xl font-bold text-black">1인당 가격 범위</div>
+        <div className="w-full h-64 text-center bg-white rounded-t-xl relative">
+          <div className="absolute top-0 left-0 text-left px-6 pt-5">
+            <p className="text-lg font-bold text-black mb-1">
+              1인당 가격 범위 설정
+            </p>
+            <p className="text-sm font-medium text-boldgray">
+              1인당 최대 가격을 설정해주세요.
+            </p>
+          </div>
           <button
             type="button"
             className="absolute top-4 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -66,30 +73,32 @@ function PriceModal({ showModal, setShowModal }) {
               ></path>
             </svg>
           </button>
-          <div className="px-12">
-            <div className="w-full h-6 relative flex items-center mb-1.5">
-              <div className="w-full h-2 rounded-full bg-mediumgray relative">
-                <div
-                  className="h-2 rounded-full bg-primary absolute top-0 left-0"
-                  style={{ width: `${modalPrice / 10100}%` }}
+          <div className="w-full h-full pt-20 flex flex-col justify-center gap-10">
+            <div className="px-12">
+              <div className="w-full h-6 relative flex items-center mb-1.5">
+                <div className="w-full h-2 rounded-full bg-mediumgray relative">
+                  <div
+                    className="h-2 rounded-full bg-primary absolute top-0 left-0"
+                    style={{ width: `${modalPrice / 10100}%` }}
+                  />
+                </div>
+                <input
+                  className="absolute w-full h-6 bg-transparent slider z-20 top-0 left-0 focus:outline-none"
+                  type="range"
+                  min={0}
+                  max={1010000}
+                  step={10000}
+                  name="modalPrice"
+                  value={modalPrice}
+                  onChange={(e) => setModalPrice(e.target.value)}
                 />
               </div>
-              <input
-                className="absolute w-full h-6 bg-transparent slider z-20 top-0 left-0 focus:outline-none"
-                type="range"
-                min={0}
-                max={1010000}
-                step={10000}
-                name="modalPrice"
-                value={modalPrice}
-                onChange={(e) => setModalPrice(e.target.value)}
-              />
             </div>
-          </div>
-          <div className="text-xl text-primary">
-            {modalPrice > 1000000
-              ? "모든 가격"
-              : `최대 ${modalPrice / 10000}만원`}
+            <div className="text-xl text-primary">
+              {modalPrice > 1000000
+                ? "모든 가격"
+                : `최대 ${modalPrice / 10000}만원`}
+            </div>
           </div>
         </div>
         <button

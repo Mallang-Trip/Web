@@ -55,9 +55,12 @@ function DateModal({ showModal, setShowModal }) {
       onClick={(e) => modalOutSideClick(e)}
     >
       <div className="mx-auto my-auto rounded-xl bg-white relative">
-        <p className="text-xl font-bold text-black px-6 pt-5">
-          가능한 일정을 범위로 선택해주세요.
-        </p>
+        <div className="px-6 pt-5">
+          <p className="text-lg font-bold text-black mb-1">가능한 일정</p>
+          <p className="text-sm font-medium text-boldgray">
+            가능한 일정을 범위로 선택해주세요.
+          </p>
+        </div>
         <button
           type="button"
           className="absolute top-4 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"

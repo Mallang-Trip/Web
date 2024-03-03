@@ -1,13 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPrice } from "../../../../redux/modules/partyFilterSlice";
-import { priceToString } from "../../../../utils";
 
-function PriceModal({ showModal, setShowModal, modalPrice, setModalPrice }) {
+function PriceModal({ showModal, setShowModal }) {
   const dispatch = useDispatch();
   const modalRef = useRef();
   const buttonRef = useRef();
+  const price = useSelector((state) => state.partyFilter.price);
+  const [modalPrice, setModalPrice] = useState(1010000);
 
   const closeModal = () => {
     dispatch(setPrice(modalPrice));
@@ -26,6 +27,8 @@ function PriceModal({ showModal, setShowModal, modalPrice, setModalPrice }) {
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
+
+    setModalPrice(price);
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

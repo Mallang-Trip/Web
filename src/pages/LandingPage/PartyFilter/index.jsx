@@ -11,7 +11,6 @@ function PartyFilter() {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showDateModal, setShowDateModal] = useState(false);
   const [showPriceModal, setShowPriceModal] = useState(false);
-  const [modalPrice, setModalPrice] = useState(1010000);
 
   return (
     <>
@@ -19,18 +18,10 @@ function PartyFilter() {
         <RegionFilter setShowRegionModal={setShowRegionModal} />
         <DateFilter setShowDateModal={setShowDateModal} />
         <PeopleFilter />
-        <PriceFilter
-          setShowPriceModal={setShowPriceModal}
-          setModalPrice={setModalPrice}
-        />
+        <PriceFilter setShowPriceModal={setShowPriceModal} />
       </div>
       <DateModal showModal={showDateModal} setShowModal={setShowDateModal} />
-      <PriceModal
-        showModal={showPriceModal}
-        setShowModal={setShowPriceModal}
-        modalPrice={modalPrice}
-        setModalPrice={setModalPrice}
-      />
+      <PriceModal showModal={showPriceModal} setShowModal={setShowPriceModal} />
       <RegionModal
         showModal={showRegionModal}
         setShowModal={setShowRegionModal}

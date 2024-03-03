@@ -1,8 +1,5 @@
 import { useState } from "react";
-import RegionFilter from "./RegionFilter";
-import DateFilter from "./DateFilter";
-import PeopleFilter from "./PeopleFilter";
-import PriceFilter from "./PriceFilter";
+import Filter from "./Filter";
 import RegionModal from "./RegionModal";
 import DateModal from "./DateModal";
 import PeopleModal from "./PeopleModal";
@@ -16,12 +13,13 @@ function PartyFilter() {
 
   return (
     <>
-      <div className="hidden md:flex w-full h-28 bg-white rounded-3xl border border-gray300 shadow-md">
-        <RegionFilter setShowRegionModal={setShowRegionModal} />
-        <DateFilter setShowDateModal={setShowDateModal} />
-        <PeopleFilter />
-        <PriceFilter setShowPriceModal={setShowPriceModal} />
-      </div>
+      <Filter
+        setShowRegionModal={setShowRegionModal}
+        setShowDateModal={setShowDateModal}
+        setShowPeopleModal={setShowPeopleModal}
+        setShowPriceModal={setShowPriceModal}
+      />
+
       <RegionModal
         showModal={showRegionModal}
         setShowModal={setShowRegionModal}

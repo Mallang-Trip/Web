@@ -17,9 +17,12 @@ function DateFilter({ setShowDateModal }) {
         }`}
       >
         {nowDate.length
-          ? `${nowDate[0].getMonth() + 1}/${nowDate[0].getDate()} ~ ${
-              nowDate[1].getMonth() + 1
-            }/${nowDate[1].getDate()}`
+          ? `${String(nowDate[0].getMonth() + 1).padStart(2, "0")}.${String(
+              nowDate[0].getDate()
+            ).padStart(2, "0")} ~ ${String(nowDate[1].getMonth() + 1).padStart(
+              2,
+              "0"
+            )}.${String(nowDate[1].getDate()).padStart(2, "0")}`
           : "모든 날짜"}
       </p>
     </button>

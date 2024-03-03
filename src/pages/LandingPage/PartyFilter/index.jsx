@@ -3,13 +3,15 @@ import RegionFilter from "./RegionFilter";
 import DateFilter from "./DateFilter";
 import PeopleFilter from "./PeopleFilter";
 import PriceFilter from "./PriceFilter";
-import DateModal from "./DateModal";
-import PriceModal from "./PriceModal";
 import RegionModal from "./RegionModal";
+import DateModal from "./DateModal";
+import PeopleModal from "./PeopleModal";
+import PriceModal from "./PriceModal";
 
 function PartyFilter() {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showDateModal, setShowDateModal] = useState(false);
+  const [showPeopleModal, setShowPeopleModal] = useState(false);
   const [showPriceModal, setShowPriceModal] = useState(false);
 
   return (
@@ -20,12 +22,16 @@ function PartyFilter() {
         <PeopleFilter />
         <PriceFilter setShowPriceModal={setShowPriceModal} />
       </div>
-      <DateModal showModal={showDateModal} setShowModal={setShowDateModal} />
-      <PriceModal showModal={showPriceModal} setShowModal={setShowPriceModal} />
       <RegionModal
         showModal={showRegionModal}
         setShowModal={setShowRegionModal}
       />
+      <DateModal showModal={showDateModal} setShowModal={setShowDateModal} />
+      <PeopleModal
+        showModal={showPeopleModal}
+        setShowModal={setShowPeopleModal}
+      />
+      <PriceModal showModal={showPriceModal} setShowModal={setShowPriceModal} />
     </>
   );
 }

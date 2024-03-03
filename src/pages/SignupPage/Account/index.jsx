@@ -67,7 +67,7 @@ function Account({
   ]);
 
   return (
-    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-6 mt-12">
+    <div className="w-full sm:w-3/4 mx-auto flex flex-col gap-6 mt-12">
       <div>
         <div className="block mb-2 text-base font-medium text-black">
           이메일을 입력해 주세요.{" "}

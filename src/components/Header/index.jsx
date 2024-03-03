@@ -184,7 +184,7 @@ function Header() {
             <ul
               className={`${
                 user.auth ? "flex" : "hidden"
-              } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-32 md:mt-0 md:border-0 md:bg-white`}
+              } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-20 lg:space-x-32 md:mt-0 md:border-0 md:bg-white`}
             >
               <li className="my-auto">
                 <button
@@ -273,7 +273,7 @@ function Header() {
               showSearch ? "max-h-14" : "max-h-0"
             }`}
           >
-            <div className="relative w-64 ml-auto my-2 mr-9 lg:w-96">
+            <div className="relative w-64 ml-auto my-2 mr-9 xl:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   className="w-5 h-5 text-primary"

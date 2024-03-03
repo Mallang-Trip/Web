@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Company() {
   return (
-    <div className="mb-10 flex justify-center flex-col sm:flex-row gap-6 sm:gap-12 md:gap-36 mx-5 sm:mx-12 pl-5 sm:pl-0">
+    <div className="mb-10 flex justify-center flex-col sm:flex-row gap-6 sm:gap-12 lg:gap-36 mx-5 sm:mx-12 pl-5 sm:pl-0">
       <div className="text-xs text-darkgray">
         <p className="text-sm text-boldgray font-bold mb-2.5">말랑트립</p>
         <p>대표: 김제윤</p>

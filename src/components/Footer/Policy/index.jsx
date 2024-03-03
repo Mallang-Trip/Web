@@ -4,7 +4,7 @@ function Policy() {
   const navigation = useNavigate();
 
   return (
-    <div className="mt-5 mb-24 md:mb-5 px-3 font-medium text-xs text-darkgray">
+    <div className="mt-5 mb-24 lg:mb-5 px-3 font-medium text-xs text-darkgray">
       <div className="hidden sm:flex gap-3 justify-center items-center flex-wrap">
         <button
           className="hover:underline underline-offset-2 focus:outline-none"

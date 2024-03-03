@@ -62,7 +62,7 @@ function CommunityPage() {
       {articleId === "main" ? (
         <ArticleList articleData={articleData} />
       ) : (
-        <ArticleDetail />
+        <ArticleDetail getArticleListFunc={getArticleListFunc} />
       )}
       <div
         ref={endRef}

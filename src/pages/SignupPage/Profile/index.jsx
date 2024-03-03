@@ -30,7 +30,7 @@ function Profile({
   }, [nickName]);
 
   return (
-    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-6 mt-12">
+    <div className="w-full sm:w-3/4 mx-auto flex flex-col gap-6 mt-12">
       <div>
         <div className="block mb-2 text-base font-medium text-black">
           닉네임을 입력해 주세요. (최대 10자){" "}
@@ -69,7 +69,7 @@ function Profile({
         <div className="block mb-2 text-base font-medium text-black">
           (선택 사항) 프로필 사진을 업로드해주세요
         </div>
-        <div className="flex justify-center h-[200px] mt-8 relative mb-12 md:mb-0">
+        <div className="flex justify-center h-[200px] mt-8 relative mb-12 lg:mb-0">
           <div
             className="w-[200px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
             onClick={() => imageRef.current.click()}
@@ -82,7 +82,7 @@ function Profile({
               />
             )}
           </div>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 md:translate-x-[120px] md:translate-y-0">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 lg:translate-x-[120px] lg:translate-y-0">
             <label htmlFor="profileImage_input">
               <button
                 className="px-5 py-1 text-sm bg-white border rounded-full border-darkgray text-darkgray"

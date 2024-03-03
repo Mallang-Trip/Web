@@ -26,7 +26,7 @@ function PartyHistoryPage() {
       {myHistoryData.length === 0 ? (
         <NoHistoryData />
       ) : (
-        <div className="grid grid-cols-1 gap-10 mt-9 mx-auto md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 mt-9 mx-auto sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {myHistoryData.map((item) => (
             <PartyItem key={item.partyId} {...item} />
           ))}

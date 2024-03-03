@@ -4,7 +4,7 @@ import { getArticleDetail } from "../../../api/article";
 import ArticleBody from "./ArticleBody";
 import ArticleComment from "./ArticleComment";
 
-function ArticleDetail() {
+function ArticleDetail({ getArticleListFunc }) {
   const { articleId } = useParams();
   const [article, setArticle] = useState({});
   const [reload, setReload] = useState(false);
@@ -27,7 +27,7 @@ function ArticleDetail() {
   if (!article.articleId) return null;
   return (
     <>
-      <ArticleBody {...article} />
+      <ArticleBody {...article} getArticleListFunc={getArticleListFunc} />
       <ArticleComment
         comments={article.comments}
         reloadArticle={reloadArticle}

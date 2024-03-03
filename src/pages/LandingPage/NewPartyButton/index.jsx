@@ -7,7 +7,7 @@ function NewPartyButton() {
   return (
     <button
       type="button"
-      className="animate-bounce flex items-center justify-center fixed bottom-24 right-6 md:right-12 lg:right-40 bg-primary rounded-full w-14 h-14 focus:outline-none"
+      className="animate-bounce flex items-center justify-center fixed bottom-24 right-6 lg:right-12 xl:right-40 bg-primary rounded-full w-14 h-14 focus:outline-none"
       onClick={() =>
         navigation(
           `/party/new/1?region=${null}&member=${null}&date=${null}&driverId=${null}`

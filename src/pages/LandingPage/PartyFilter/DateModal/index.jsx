@@ -54,7 +54,11 @@ function DateModal({ showModal, setShowModal }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="mx-auto my-auto rounded-xl bg-white relative">
+      <div
+        className={`mx-auto mt-auto md:my-auto rounded-xl bg-white relative md:translate-y-0 duration-700 ${
+          showModal ? "translate-y-16" : "translate-y-full"
+        }`}
+      >
         <div className="px-6 pt-5">
           <p className="text-lg font-bold text-black mb-1">가능한 일정</p>
           <p className="text-sm font-medium text-boldgray">
@@ -91,6 +95,14 @@ function DateModal({ showModal, setShowModal }) {
           calendarType="gregory"
           className="border border-white rounded-t-xl"
         />
+        <div className="block md:hidden w-full p-5">
+          <button
+            className="w-full h-12 bg-primary text-white text-sm text-bold rounded-lg"
+            onClick={confirmHandler}
+          >
+            확인
+          </button>
+        </div>
         <div className="flex">
           <button
             className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"

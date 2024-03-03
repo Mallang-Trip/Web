@@ -46,7 +46,11 @@ function RegionModal({ showModal, setShowModal }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-full max-w-[700px] rounded-xl">
+      <div
+        className={`mx-auto mt-auto md:my-auto shadow w-full max-w-[700px] rounded-xl md:translate-y-0 duration-700 ${
+          showModal ? "translate-y-16" : "translate-y-full"
+        }`}
+      >
         <div className="h-full bg-white rounded-t-xl max-h-[600px] relative">
           <div className="px-6 py-5">
             <p className="text-lg font-bold text-black mb-1">목적지</p>
@@ -73,7 +77,7 @@ function RegionModal({ showModal, setShowModal }) {
               ></path>
             </svg>
           </button>
-          <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 sm:grid-cols-3 h-full bg-white rounded-t-xl max-h-[500px] overflow-auto noScrollBar">
+          <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 sm:grid-cols-3 h-full bg-white rounded-t-xl max-h-[400px] md:max-h-[500px] overflow-auto noScrollBar">
             {regionData.map((item) => (
               <RegionButton
                 key={item.name}
@@ -82,6 +86,14 @@ function RegionModal({ showModal, setShowModal }) {
                 {...item}
               />
             ))}
+          </div>
+          <div className="block md:hidden w-full p-5">
+            <button
+              className="w-full h-12 bg-primary text-white text-sm text-bold rounded-lg"
+              onClick={() => regionClickHandler(selectedRegion)}
+            >
+              확인
+            </button>
           </div>
         </div>
         <div className="flex">

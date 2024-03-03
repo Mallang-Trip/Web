@@ -44,8 +44,12 @@ function PriceModal({ showModal, setShowModal }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-96 rounded-xl">
-        <div className="w-full h-64 text-center bg-white rounded-t-xl relative">
+      <div
+        className={`mx-auto mt-auto md:my-auto shadow w-full md:w-96 rounded-xl duration-700 md:translate-y-0 ${
+          showModal ? "translate-y-16" : "translate-y-full"
+        }`}
+      >
+        <div className="w-full h-80 md:h-64 text-center bg-white rounded-t-xl relative">
           <div className="absolute top-0 left-0 text-left px-6 pt-5">
             <p className="text-lg font-bold text-black mb-1">
               1인당 가격 범위 설정
@@ -56,7 +60,7 @@ function PriceModal({ showModal, setShowModal }) {
           </div>
           <button
             type="button"
-            className="absolute top-4 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            className="absolute top-4 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center z-10"
             onClick={() => setShowModal(false)}
           >
             <svg
@@ -73,7 +77,7 @@ function PriceModal({ showModal, setShowModal }) {
               ></path>
             </svg>
           </button>
-          <div className="w-full h-full pt-20 flex flex-col justify-center gap-10">
+          <div className="w-full h-full pt-20 pb-20 md:pb-0 flex flex-col justify-center gap-10 relative">
             <div className="px-12">
               <div className="w-full h-6 relative flex items-center mb-1.5">
                 <div className="w-full h-2 rounded-full bg-mediumgray relative">
@@ -98,6 +102,14 @@ function PriceModal({ showModal, setShowModal }) {
               {modalPrice > 1000000
                 ? "모든 가격"
                 : `최대 ${modalPrice / 10000}만원`}
+            </div>
+            <div className="absolute bottom-0 left-0 block md:hidden w-full p-5">
+              <button
+                className="w-full h-12 bg-primary text-white text-sm text-bold rounded-lg"
+                onClick={closeModal}
+              >
+                확인
+              </button>
             </div>
           </div>
         </div>

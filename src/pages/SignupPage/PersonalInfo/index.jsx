@@ -157,7 +157,7 @@ function PersonalInfo({ setStep, impUid, setImpUid }) {
   }, []);
 
   return (
-    <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8 mt-20">
+    <div className="w-full sm:w-3/4 mx-auto flex flex-col gap-8 mt-20">
       <div>
         <div className="block mb-2 text-base font-medium text-black">
           성함을 입력해주세요. <span className="text-red-600 font-bold">*</span>

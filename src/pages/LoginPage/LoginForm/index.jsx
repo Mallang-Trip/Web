@@ -61,13 +61,13 @@ function LoginForm() {
         <div className="flex flex-col items-center gap-3">
           <button
             type="submit"
-            className="h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
+            className="h-12 text-white rounded-full text-md w-64 sm:w-80 bg-primary"
           >
             로그인
           </button>
           <button
             type="button"
-            className="h-12 bg-white border rounded-full text-darkgray text-md w-64 md:w-80 border-darkgray"
+            className="h-12 bg-white border rounded-full text-darkgray text-md w-64 sm:w-80 border-darkgray"
             onClick={() => navigation("/signup")}
           >
             회원가입

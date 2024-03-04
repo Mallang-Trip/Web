@@ -6,7 +6,7 @@ function Title() {
   return (
     <div
       ref={ref}
-      className={`mt-40 mb-10 text-2xl md:text-4xl text-black text-center font-bold ${
+      className={`my-40 text-2xl lg:text-4xl text-black text-center font-bold ${
         isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
       }`}
     >

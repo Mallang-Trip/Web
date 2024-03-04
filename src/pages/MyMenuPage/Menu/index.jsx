@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../redux/modules/userSlice";
+import Ping from "../../../components/Ping";
 import headerBack from "../../../assets/svg/header-back.svg";
 import CheckModal from "../../../components/CheckModal";
 
@@ -9,6 +10,9 @@ function Menu() {
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
+  const uncheckedCount = useSelector(
+    (state) => state.notification.uncheckedCount
+  );
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
@@ -34,7 +38,9 @@ function Menu() {
           className="w-full flex justify-between p-4 my-2"
           onClick={() => navigation("/notify")}
         >
-          <span className="text-base">알림</span>
+          <span className="text-base relative">
+            알림{uncheckedCount > 0 && <Ping top="0" left="4" />}
+          </span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button

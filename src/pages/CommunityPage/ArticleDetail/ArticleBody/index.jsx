@@ -32,6 +32,7 @@ function ArticleBody({
   partyName,
   partyId,
   userId,
+  getArticleListFunc,
 }) {
   const dispatch = useDispatch();
   const navigation = useNavigate();
@@ -65,6 +66,7 @@ function ArticleBody({
   const deleteArticleHandler = async () => {
     try {
       await deleteMyArticle(articleId);
+      await getArticleListFunc();
       document.body.classList.remove("overflow-hidden");
       navigation("/community/main", { replace: true });
     } catch (e) {

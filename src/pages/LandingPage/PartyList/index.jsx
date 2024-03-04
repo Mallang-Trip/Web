@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getPartyList } from "../../../api/party";
 import { dateToString } from "../../../utils";
 import PartyBox from "./PartyBox";
 import NoParty from "./NoParty";
 
-function PartyList({ region, nowDate, num, price }) {
+function PartyList() {
+  const { region, nowDate, num, price } = useSelector(
+    (state) => state.partyFilter
+  );
   const [partyData, setPartyData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +43,7 @@ function PartyList({ region, nowDate, num, price }) {
   if (loading) return null;
   if (partyData.length === 0) return <NoParty />;
   return (
-    <div className="grid grid-cols-1 gap-10 px-6 mx-auto md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-10 px-6 mx-auto sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {partyData.map((item) => (
         <PartyBox key={item.partyId} {...item} />
       ))}

@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
+import { setNotification } from "../../redux/modules/notificationSlice";
+import { getNotification } from "../../api/notification";
+import Ping from "../Ping";
 import CheckModal from "../CheckModal";
 import Logo from "../../assets/images/logo.png";
 import basicProfileImage from "../../assets/images/profileImage.png";
@@ -14,10 +17,14 @@ import HeaderHeart from "../../assets/svg/HeaderHeart.svg";
 import HeaderHeartPrimary from "../../assets/svg/HeaderHeartPrimary.svg";
 
 function Header() {
-  const user = useSelector((state) => state.user);
   const navigation = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector((state) => state.user);
+  const uncheckedCount = useSelector(
+    (state) => state.notification.uncheckedCount
+  );
+  const [notificationTimer, setNotificationTimer] = useState(undefined);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
   const [showSearch, setShowSearch] = useState(true);
@@ -66,6 +73,32 @@ function Header() {
       location.pathname.slice(0, 5) !== "/talk"
     );
   };
+
+  const getNotificationFunc = async () => {
+    try {
+      const result = await getNotification();
+      dispatch(setNotification(result.payload));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!user.auth) {
+      if (!notificationTimer) return;
+      clearInterval(notificationTimer);
+      setNotificationTimer(undefined);
+      dispatch(setNotification({ contents: [], uncheckedCount: 0 }));
+    } else {
+      if (notificationTimer) return;
+      getNotificationFunc();
+      setNotificationTimer(
+        setInterval(() => {
+          getNotificationFunc();
+        }, 60 * 1000)
+      );
+    }
+  }, [user.auth]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -151,7 +184,7 @@ function Header() {
             <ul
               className={`${
                 user.auth ? "flex" : "hidden"
-              } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-32 md:mt-0 md:border-0 md:bg-white`}
+              } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-20 lg:space-x-32 md:mt-0 md:border-0 md:bg-white`}
             >
               <li className="my-auto">
                 <button
@@ -221,13 +254,14 @@ function Header() {
               >
                 <button
                   type="button"
-                  className="flex mr-3 text-sm rounded-full md:mr-0"
+                  className="flex mr-3 text-sm rounded-full md:mr-0 relative"
                 >
                   <img
                     className="rounded-full w-9 h-9"
                     src={user.profileImg || basicProfileImage}
                     alt="User_Profile_Image"
                   />
+                  {uncheckedCount > 0 && <Ping top="0" left="3" />}
                 </button>
               </li>
             </ul>
@@ -239,7 +273,7 @@ function Header() {
               showSearch ? "max-h-14" : "max-h-0"
             }`}
           >
-            <div className="relative w-64 ml-auto my-2 mr-9 lg:w-96">
+            <div className="relative w-64 ml-auto my-2 mr-9 xl:w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   className="w-5 h-5 text-primary"
@@ -331,12 +365,7 @@ function Header() {
                 className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 relative"
               >
                 알림
-                <span className="absolute top-1.5 left-1/2 translate-x-4">
-                  <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                  </span>
-                </span>
+                {uncheckedCount > 0 && <Ping top="1.5" left="1/2" />}
               </button>
             </li>
             <li>

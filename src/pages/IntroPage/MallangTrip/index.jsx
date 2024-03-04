@@ -7,14 +7,14 @@ function MallangTrip() {
   const [ref, isIntersecting] = useIntersectionObserver();
 
   return (
-    <div className="w-full h-[700px] bg-skyblue flex justify-center items-center text-center px-2 md:px-0">
+    <div className="w-full h-[700px] bg-skyblue flex justify-center items-center text-center px-2 lg:px-0">
       <div
         ref={ref}
         className={`${
           isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
         }`}
       >
-        <p className="text-xl md:text-3xl text-black font-bold">
+        <p className="text-xl lg:text-3xl text-black font-bold">
           여행을 시작하는 것은 어렵지 않습니다.
           <br />
           우리와 함께 여행을 떠나볼까요?

@@ -17,22 +17,22 @@ function ServiceList() {
         }`}
       >
         <p className="text-xl text-primary">SERVICE</p>
-        <p className="text-xl md:text-3xl text-black font-bold mt-1 mb-5">
+        <p className="text-xl lg:text-3xl text-black font-bold mt-1 mb-5">
           편리하게 여행할 수 있도록
           <br />
           우리가 준비했어요
         </p>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div
           ref={matchingRef}
           id="matching"
-          className={`w-full md:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
             viewMatching ? "animate-fade-up animate-ease-in" : "opacity-0"
           }`}
         >
-          <p className="text-xl md:text-2xl font-bold text-black mb-24 whitespace-pre">
+          <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"다수의 여행자와\n드라이버 매칭 서비스"}
           </p>
           <p className="text-sm text-darkgray">
@@ -43,11 +43,11 @@ function ServiceList() {
         <div
           ref={webRef}
           id="web"
-          className={`w-full max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
             viewWeb ? "animate-fade-up animate-ease-in" : "opacity-0"
           }`}
         >
-          <p className="text-xl md:text-2xl font-bold text-black mb-24 whitespace-pre">
+          <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"웹과 모바일 동시 서비스\n "}
           </p>
           <p className="text-sm text-darkgray">
@@ -58,11 +58,11 @@ function ServiceList() {
         <div
           ref={talkRef}
           id="talk"
-          className={`w-full max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
             viewTalk ? "animate-fade-up animate-ease-in" : "opacity-0"
           }`}
         >
-          <p className="text-xl md:text-2xl font-bold text-black mb-24 whitespace-pre">
+          <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"말랑톡을 통한\n채팅 기능"}
           </p>
           <p className="text-sm text-darkgray">
@@ -73,11 +73,11 @@ function ServiceList() {
         <div
           ref={communityRef}
           id="community"
-          className={`w-full max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
             viewCommunity ? "animate-fade-up animate-ease-in" : "opacity-0"
           }`}
         >
-          <p className="text-xl md:text-2xl font-bold text-black mb-24 whitespace-pre">
+          <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"경험을 공유할 수 있는\n커뮤니티 서비스"}
           </p>
           <p className="text-sm text-darkgray">

@@ -1,3 +1,4 @@
+import TypeButton from "./TypeButton";
 import info from "../../../../assets/svg/more-info-black.svg";
 
 function TypeDropBox({
@@ -31,24 +32,21 @@ function TypeDropBox({
             }`}
           />
         </button>
-        <button
-          className="w-full h-[50px] flex justify-between items-center py-4 px-5 hover:bg-skyblue"
-          onClick={() => selectHandler("자유게시판")}
-        >
-          <span className="text-sm text-black">자유게시판</span>
-        </button>
-        <button
-          className="w-full h-[50px] flex justify-between items-center py-4 px-5 hover:bg-skyblue"
-          onClick={() => selectHandler("동행구해요")}
-        >
-          <span className="text-sm text-black">동행구해요</span>
-        </button>
-        <button
-          className="w-full h-[50px] flex justify-between items-center py-4 px-5 hover:bg-skyblue"
-          onClick={() => selectHandler("피드백")}
-        >
-          <span className="text-sm text-black">피드백</span>
-        </button>
+        <TypeButton
+          typeName="자유게시판"
+          selectedType={selectedType}
+          selectHandler={selectHandler}
+        />
+        <TypeButton
+          typeName="동행구해요"
+          selectedType={selectedType}
+          selectHandler={selectHandler}
+        />
+        <TypeButton
+          typeName="피드백"
+          selectedType={selectedType}
+          selectHandler={selectHandler}
+        />
       </div>
     </div>
   );

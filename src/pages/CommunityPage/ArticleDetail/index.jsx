@@ -13,7 +13,6 @@ function ArticleDetail({ getArticleListFunc }) {
 
   const getArticleDetailFunc = async () => {
     try {
-      setLoading(true);
       const result = await getArticleDetail(articleId);
 
       if (result.statusCode === 404) return setLoading(null);

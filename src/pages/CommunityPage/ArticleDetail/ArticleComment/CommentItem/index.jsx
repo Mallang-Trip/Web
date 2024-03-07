@@ -8,7 +8,7 @@ import CheckModal from "../../../../../components/CheckModal";
 import basicProfileImage from "../../../../../assets/images/profileImage.png";
 
 function CommentItem({
-  reloadArticle,
+  getArticleDetailFunc,
   commentId,
   profileImg,
   nickname,
@@ -26,7 +26,7 @@ function CommentItem({
     try {
       await deleteMyComment(commentId);
       setShowDeleteModal(false);
-      reloadArticle();
+      getArticleDetailFunc();
     } catch (e) {
       console.log(e);
     }
@@ -76,11 +76,14 @@ function CommentItem({
             {replies.map((reply) => (
               <ReplyItem
                 key={reply.replyId}
-                reloadArticle={reloadArticle}
+                getArticleDetailFunc={getArticleDetailFunc}
                 {...reply}
               />
             ))}
-            <ReplyForm commentId={commentId} reloadArticle={reloadArticle} />
+            <ReplyForm
+              commentId={commentId}
+              getArticleDetailFunc={getArticleDetailFunc}
+            />
           </div>
         </div>
       </div>

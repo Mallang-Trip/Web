@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { postNewReply } from "../../../../../../api/article";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
-function ReplyForm({ commentId, reloadArticle }) {
+function ReplyForm({ commentId, getArticleDetailFunc }) {
   const user = useSelector((state) => state.user);
   const [newReply, setNewReply] = useState("");
 
@@ -13,7 +13,7 @@ function ReplyForm({ commentId, reloadArticle }) {
     try {
       await postNewReply(commentId, newReply);
       setNewReply("");
-      reloadArticle();
+      getArticleDetailFunc();
     } catch (e) {
       console.log(e);
     }

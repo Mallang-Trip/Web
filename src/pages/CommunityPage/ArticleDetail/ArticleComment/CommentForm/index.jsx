@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { postNewComment } from "../../../../../api/article";
 import basicProfileImage from "../../../../../assets/images/profileImage.png";
 
-function CommentForm({ reloadArticle }) {
+function CommentForm({ getArticleDetailFunc }) {
   const user = useSelector((state) => state.user);
   const { articleId } = useParams();
   const [newComment, setNewComment] = useState("");
@@ -16,7 +16,7 @@ function CommentForm({ reloadArticle }) {
       await postNewComment(articleId, newComment);
 
       setNewComment("");
-      reloadArticle();
+      getArticleDetailFunc();
 
       window.scrollTo({
         top: document.body.scrollHeight,

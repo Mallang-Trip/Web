@@ -261,7 +261,7 @@ function Header() {
                     src={user.profileImg || basicProfileImage}
                     alt="User_Profile_Image"
                   />
-                  {uncheckedCount > 0 && <Ping top="0" left="3" />}
+                  {uncheckedCount > 0 && <Ping top="0" left="2" />}
                 </button>
               </li>
             </ul>

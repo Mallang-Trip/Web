@@ -6,7 +6,7 @@ import CheckModal from "../../../../../../components/CheckModal";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
 function ReplyItem({
-  reloadArticle,
+  getArticleDetailFunc,
   replyId,
   profileImg,
   nickname,
@@ -22,7 +22,7 @@ function ReplyItem({
     try {
       await deleteMyReply(replyId);
       setShowDeleteModal(false);
-      reloadArticle();
+      getArticleDetailFunc();
     } catch (e) {
       console.log(e);
     }

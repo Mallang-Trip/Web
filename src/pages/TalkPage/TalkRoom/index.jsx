@@ -153,7 +153,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   }, [roomId]);
 
   useEffect(() => {
-    if (openTalkId === 0) return;
+    if (openTalkId === 0) return setRoomId(0);
 
     setRoomId(openTalkId);
     setShowMenu(false);

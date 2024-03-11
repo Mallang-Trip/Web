@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CancelModal from "./CancelModal";
+import BottomButton from "../../../components/BottomButton";
 
 function CancelNewPartyButton({ isDriver }) {
   const [showModal, setShowModal] = useState(false);
@@ -7,7 +8,7 @@ function CancelNewPartyButton({ isDriver }) {
   if (isDriver) return null;
   return (
     <>
-      <div className="flex justify-center mt-20">
+      <div className="hidden md:flex justify-center mt-20">
         <button
           className="h-14 text-white rounded-full text-lg font-bold w-64 md:w-80 bg-primary focus:outline-none"
           onClick={() => setShowModal(true)}
@@ -15,6 +16,10 @@ function CancelNewPartyButton({ isDriver }) {
           가입 제안 취소하기
         </button>
       </div>
+      <BottomButton
+        text="가입 제안 취소하기"
+        onClick={() => setShowModal(true)}
+      />
       <CancelModal showModal={showModal} setShowModal={setShowModal} />
     </>
   );

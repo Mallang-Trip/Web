@@ -231,7 +231,7 @@ function Edit({
         shakeAgree={shakeAgree}
         agreementRef={agreementRef}
       />
-      <ReservationButton joinHander={joinHandler} />
+      <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
 
       <CreateModal

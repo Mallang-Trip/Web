@@ -66,7 +66,7 @@ function Course({
         mapName="TMAP_COURSE"
       />
       <ReservationButton
-        joinHander={() =>
+        joinHandler={() =>
           navigation(
             `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
           )

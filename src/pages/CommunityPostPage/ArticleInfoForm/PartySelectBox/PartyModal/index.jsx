@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getLikeDestination } from "../../../../../api/destination";
-import { getPartyList } from "../../../../../api/party";
+import { getLikeParty, getPartyList } from "../../../../../api/party";
 import PartyModalTab from "./PartyModalTab";
 import HeartList from "./HeartList";
 import NoPartyButton from "./NoPartyButton";
@@ -24,7 +23,7 @@ function PartyModal({ showModal, setShowModal, setSelectedParty }) {
 
   const getMyHeartData = async () => {
     try {
-      const result = await getLikeDestination();
+      const result = await getLikeParty();
       setMyHeartData(result.payload);
     } catch (e) {
       console.log(e);

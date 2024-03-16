@@ -4,7 +4,9 @@ function HeartList({ myHeartData, selectPartyHandler }) {
   if (myHeartData.length === 0)
     return (
       <div className="h-[430px] flex justify-center items-center">
-        <p className="text-center text-black">나의 찜 목록이 비어있습니다.</p>
+        <p className="text-base text-center text-black">
+          나의 파티 찜 목록이 비어있습니다.
+        </p>
       </div>
     );
   return (
@@ -12,8 +14,8 @@ function HeartList({ myHeartData, selectPartyHandler }) {
       {myHeartData.map((item, index) => (
         <HeartItem
           key={index}
-          destination={item}
           selectPartyHandler={selectPartyHandler}
+          {...item}
         />
       ))}
     </div>

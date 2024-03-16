@@ -10,7 +10,7 @@ function NoPartyButton({ selectPartyHandler }) {
           })
         }
       >
-        파티 선택 안 함
+        파티 선택 취소
       </button>
     </div>
   );

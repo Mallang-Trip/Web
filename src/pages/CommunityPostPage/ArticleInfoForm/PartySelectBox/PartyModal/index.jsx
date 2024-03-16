@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { getLikeParty, getPartyList } from "../../../../../api/party";
+import { useSelector } from "react-redux";
+import {
+  getLikeParty,
+  getMyDriverParty,
+  getMyParty,
+} from "../../../../../api/party";
 import PartyModalTab from "./PartyModalTab";
 import HeartList from "./HeartList";
 import NoPartyButton from "./NoPartyButton";
@@ -7,6 +12,7 @@ import ReservationList from "./ReservationList";
 
 function PartyModal({ showModal, setShowModal, setSelectedParty }) {
   const modalRef = useRef();
+  const user = useSelector((state) => state.user);
   const [isTabHeart, setIsTabHeart] = useState(true);
   const [myHeartData, setMyHeartData] = useState([]);
   const [myReservationData, setMyReservationData] = useState([]);
@@ -32,7 +38,10 @@ function PartyModal({ showModal, setShowModal, setSelectedParty }) {
 
   const getReservationData = async () => {
     try {
-      const result = await getPartyList("all", ["all", "all"], 1, 1010000);
+      const result =
+        user.role === "ROLE_DRIVER"
+          ? await getMyDriverParty()
+          : await getMyParty();
       setMyReservationData(result.payload);
     } catch (e) {
       console.log(e);

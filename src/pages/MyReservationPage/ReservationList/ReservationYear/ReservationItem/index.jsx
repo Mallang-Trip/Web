@@ -1,20 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { partyStatusObj } from "../../../../../utils/data";
 import { customRoundOne, dateToStringHan } from "../../../../../utils";
-
-const statusObj = {
-  RECRUITING: "가입 중",
-  WAITING_DRIVER_APPROVAL: "드라이버 승인 대기 중",
-  WAITING_JOIN_APPROVAL: "코스 변경 제안 중",
-  WAITING_COURSE_CHANGE_APPROVAL: "코스 변경 제안 중",
-  SEALED: "예약 중",
-  CANCELED_BY_DRIVER_REFUSED: "파티 제안 거절",
-  CANCELED_BY_PROPOSER: "파티 제안 취소",
-  CANCELED_BY_EXPIRATION: "모집 기간 만료",
-  CANCELED_BY_ALL_QUIT: "파티 취소",
-  CANCELED_BY_DRIVER_QUIT: "파티 취소",
-  DAY_OF_TRAVEL: "여행 당일",
-  FINISHED: "여행 완료",
-};
 
 function ReservationItem({
   partyId,
@@ -47,7 +33,7 @@ function ReservationItem({
           )} | ${headcount}/${capacity}명 | ${customRoundOne(
             (price * capacity) / 10000
           )}만원 | ${driverName} 드라이버`}</p>
-          <p className="text-sm">{statusObj[status]}</p>
+          <p className="text-sm">{partyStatusObj[status]}</p>
         </div>
       </div>
     </div>

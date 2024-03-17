@@ -9,7 +9,7 @@ function RegionMobileFilter({ setShowRegionModal }) {
       className="w-full h-12 flex gap-4 items-center px-4 text-sm font-bold bg-lightgray rounded-lg"
       onClick={() => setShowRegionModal(true)}
     >
-      <img src={partyFilterRegion} />
+      <img src={partyFilterRegion} alt="지역" />
       <span
         className={region === "모든 지역" ? "text-textgray" : "text-boldgray"}
       >

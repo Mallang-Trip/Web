@@ -9,7 +9,7 @@ function DateMobileFilter({ setShowDateModal }) {
       className="w-full h-12 flex gap-4 items-center px-4 text-sm font-bold bg-lightgray rounded-lg"
       onClick={() => setShowDateModal(true)}
     >
-      <img src={partyFilterDate} />
+      <img src={partyFilterDate} alt="일정" />
       <span className={nowDate.length ? "text-boldgray" : "text-textgray"}>
         {nowDate.length
           ? `${String(nowDate[0].getMonth() + 1).padStart(2, "0")}.${String(

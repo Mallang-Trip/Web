@@ -9,7 +9,7 @@ function PeopleMobileFilter({ setShowPeopleModal }) {
       className="w-full h-12 flex gap-4 items-center px-4 text-sm font-bold bg-lightgray rounded-lg"
       onClick={() => setShowPeopleModal(true)}
     >
-      <img src={partyFilterPeople} />
+      <img src={partyFilterPeople} alt="인원" />
       <span className={num === 1 ? "text-textgray" : "text-boldgray"}>
         {num === 1 ? "참여 인원" : `${num}명`}
       </span>

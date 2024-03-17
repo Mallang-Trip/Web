@@ -1,10 +1,14 @@
 {
+  "id": "mallangtrip",
+  "lang": "ko",
   "name": "말랑트립",
   "short_name": "말랑트립",
+  "description": "뚜벅이 여행자를 위한 말랑트립",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#469EFF",
+  "categories": ["travel"],
   "icons": [
     {
       "src": "./icons/apple-touch-icon-57x57.png",
@@ -36,7 +40,6 @@
       "sizes": "120x120",
       "type": "image/png"
     },
-
     {
       "src": "./icons/apple-touch-icon-144x144.png",
       "sizes": "144x144",
@@ -45,6 +48,11 @@
     {
       "src": "./icons/apple-touch-icon-152x152.png",
       "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/apple-touch-icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]

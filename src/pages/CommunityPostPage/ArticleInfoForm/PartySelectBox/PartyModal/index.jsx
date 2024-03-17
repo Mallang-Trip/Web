@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { getLikeDestination } from "../../../../../api/destination";
-import { getPartyList } from "../../../../../api/party";
+import { useSelector } from "react-redux";
+import {
+  getLikeParty,
+  getMyDriverParty,
+  getMyParty,
+} from "../../../../../api/party";
 import PartyModalTab from "./PartyModalTab";
 import HeartList from "./HeartList";
 import NoPartyButton from "./NoPartyButton";
 import ReservationList from "./ReservationList";
-import closeIcon from "../../../../../assets/svg/close_x_primary.svg";
 
 function PartyModal({ showModal, setShowModal, setSelectedParty }) {
   const modalRef = useRef();
+  const user = useSelector((state) => state.user);
   const [isTabHeart, setIsTabHeart] = useState(true);
   const [myHeartData, setMyHeartData] = useState([]);
   const [myReservationData, setMyReservationData] = useState([]);
@@ -25,7 +29,7 @@ function PartyModal({ showModal, setShowModal, setSelectedParty }) {
 
   const getMyHeartData = async () => {
     try {
-      const result = await getLikeDestination();
+      const result = await getLikeParty();
       setMyHeartData(result.payload);
     } catch (e) {
       console.log(e);
@@ -34,7 +38,10 @@ function PartyModal({ showModal, setShowModal, setSelectedParty }) {
 
   const getReservationData = async () => {
     try {
-      const result = await getPartyList("all", ["all", "all"], 1, 1010000);
+      const result =
+        user.role === "ROLE_DRIVER"
+          ? await getMyDriverParty()
+          : await getMyParty();
       setMyReservationData(result.payload);
     } catch (e) {
       console.log(e);
@@ -70,12 +77,25 @@ function PartyModal({ showModal, setShowModal, setSelectedParty }) {
     >
       <div className="m-auto shadow w-full max-w-[800px] h-[700px] px-8 py-9 bg-white rounded-lg relative">
         <p className="text-xl text-black font-bold">파티 선택</p>
-        <img
-          src={closeIcon}
-          alt="close"
-          className="absolute top-6 right-6 rounded-full hover:bg-skyblue cursor-pointer"
+        <button
+          type="button"
+          className="absolute top-6 right-6 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
           onClick={closeModal}
-        />
+        >
+          <svg
+            aria-hidden="true"
+            className="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </button>
         <PartyModalTab isTabHeart={isTabHeart} setIsTabHeart={setIsTabHeart} />
         {isTabHeart ? (
           <HeartList

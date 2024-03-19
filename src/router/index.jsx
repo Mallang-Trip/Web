@@ -29,6 +29,7 @@ import HelpPage from "../pages/HelpPage";
 import AdminPage from "../pages/AdminPage";
 import ReportPage from "../pages/ReportPage";
 import TossPaymentPage from "../pages/TossPaymentPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 function Router() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -108,6 +109,8 @@ function Router() {
         <Route path="/login/search/:target" element={<AuthLoginSearchPage />} />
         <Route path="/signup" element={<AuthSignupPage />} />
       </Route>
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

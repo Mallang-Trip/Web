@@ -20,7 +20,7 @@ function Menu() {
       <div className="w-full mt-8 border-y-[1.5px] border-mediumgray">
         {user.isAdmin && (
           <button
-            className="w-full flex justify-between p-4 my-2"
+            className="w-full flex justify-between p-4 my-0.5"
             onClick={() => navigation("/admin")}
           >
             <span className="text-base">관리자</span>
@@ -28,14 +28,14 @@ function Menu() {
           </button>
         )}
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/profile")}
         >
           <span className="text-base">나의 프로필</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/notify")}
         >
           <span className="text-base relative">
@@ -44,42 +44,42 @@ function Menu() {
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/reservation")}
         >
           <span className="text-base">예약 내역</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/article")}
         >
           <span className="text-base">작성글 내역</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/party/history")}
         >
           <span className="text-base">최근 본 파티</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/help/list")}
         >
           <span className="text-base">고객 센터</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/driver/apply")}
         >
           <span className="text-base">드라이버로 등록하기</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button
-          className="w-full flex justify-between p-4 my-2"
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => setShowLogoutModal(true)}
         >
           <span className="text-base">로그아웃</span>

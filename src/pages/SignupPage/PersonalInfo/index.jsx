@@ -8,14 +8,20 @@ import CompleteModal from "./CompleteModal";
 import ConfirmModal from "../../../components/ConfirmModal";
 import maskingIdentityNumber from "../../../assets/svg/masking_identity_number.svg";
 
-function PersonalInfo({ setStep, impUid, setImpUid }) {
+function PersonalInfo({
+  setStep,
+  impUid,
+  setImpUid,
+  name,
+  setName,
+  phoneNumber,
+  setPhoneNumber,
+}) {
   const phoneNumberInput = useRef();
   const codeInput = useRef();
-  const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [gender, setGender] = useState("");
   const [carrier, setCarrier] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
   const [limit, setLimit] = useState(-1);
   const [timer, setTimer] = useState(undefined);
@@ -214,8 +220,8 @@ function PersonalInfo({ setStep, impUid, setImpUid }) {
               carrier === "SKT"
                 ? "bg-skyblue text-primary border-primary"
                 : carrier === "KT"
-                ? "border-l-darkgray border-y-darkgray border-r-primary"
-                : "border-darkgray"
+                  ? "border-l-darkgray border-y-darkgray border-r-primary"
+                  : "border-darkgray"
             }`}
             onClick={() => setCarrier("SKT")}
           >
@@ -236,10 +242,10 @@ function PersonalInfo({ setStep, impUid, setImpUid }) {
               carrier === "LGT"
                 ? "bg-skyblue text-primary border-primary"
                 : carrier === "KT"
-                ? "border-r-darkgray border-y-darkgray border-l-primary"
-                : carrier.slice(0, 4) === "Mvno"
-                ? "border-l-darkgray border-y-darkgray border-r-primary"
-                : "border-darkgray"
+                  ? "border-r-darkgray border-y-darkgray border-l-primary"
+                  : carrier.slice(0, 4) === "Mvno"
+                    ? "border-l-darkgray border-y-darkgray border-r-primary"
+                    : "border-darkgray"
             }`}
             onClick={() => setCarrier("LGT")}
           >

@@ -24,6 +24,8 @@ function SignupPage() {
   const [passwordAgain, setPasswordAgain] = useState("");
   const [nickName, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [profileImage, setProfileImage] = useState(undefined);
   const [emailDuplication, setEmailDuplication] = useState(false);
   const [idDuplication, setIdDuplication] = useState(false);
@@ -72,8 +74,10 @@ function SignupPage() {
         id: id,
         impUid: impUid,
         introduction: introduction,
+        name: name,
         nickname: nickName,
         password: password,
+        phone: phoneNumber,
         profileImg: profileImageURL,
       };
 
@@ -108,6 +112,10 @@ function SignupPage() {
             setStep={setStep}
             impUid={impUid}
             setImpUid={setImpUid}
+            name={name}
+            setName={setName}
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
           />
         ) : step === 2 ? (
           <Account

@@ -27,7 +27,6 @@ import TalkPage from "../pages/TalkPage";
 import NotifyPage from "../pages/NotifyPage";
 import HelpPage from "../pages/HelpPage";
 import AdminPage from "../pages/AdminPage";
-import TossPaymentPage from "../pages/TossPaymentPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
 function Router() {
@@ -56,7 +55,6 @@ function Router() {
   const AuthNotifyPage = Auth(NotifyPage, true);
   const AuthHelpPage = Auth(HelpPage, null);
   const AuthAdminPage = Auth(AdminPage, true, true);
-  const AuthTossPaymentPage = Auth(TossPaymentPage, true);
 
   return (
     <Routes>
@@ -98,7 +96,6 @@ function Router() {
         <Route path="/notify" element={<AuthNotifyPage />} />
         <Route path="/help/:id" element={<AuthHelpPage />} />
         <Route path="/admin" element={<AuthAdminPage />} />
-        <Route path="/payment/:status" element={<AuthTossPaymentPage />} />
       </Route>
 
       <Route element={<LoginLayout />}>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { loadTossPayments } from "@tosspayments/payment-sdk";
 import { deletePayment, getPayment } from "../../api/payment";
 import CheckModal from "../CheckModal";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
@@ -56,19 +55,19 @@ function Credit({
   const toss_addPaymentMethod = (type) => {
     if (type === "new" && register) return;
 
-    loadTossPayments(clientKey).then((tossPayments) => {
-      backupInputData();
+    // loadTossPayments(clientKey).then((tossPayments) => {
+    //   backupInputData();
 
-      tossPayments
-        .requestBillingAuth("카드", {
-          customerKey: customerKey,
-          successUrl: window.location.origin + "/payment/success",
-          failUrl: window.location.origin + "/payment/fail",
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+    //   tossPayments
+    //     .requestBillingAuth("카드", {
+    //       customerKey: customerKey,
+    //       successUrl: window.location.origin + "/payment/success",
+    //       failUrl: window.location.origin + "/payment/fail",
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // });
   };
 
   const deletePaymentData = async () => {

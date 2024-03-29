@@ -1,8 +1,8 @@
 function Detailed({ content }) {
   return (
-    <div className="pb-8">
-      <p className="text-xl font-bold mb-1">상세설명</p>
-      <div className="text-sm md:text-base">{content}</div>
+    <div className="flex flex-col gap-1 my-7">
+      <p className="text-lg text-black font-bold">상세설명</p>
+      <div className="text-sm text-darkgray font-medium">{content}</div>
     </div>
   );
 }

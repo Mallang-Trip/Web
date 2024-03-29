@@ -61,13 +61,16 @@ function PlaceMap({ search, keyword, detail, courseData, setCourseData }) {
     submitHandler(undefined, keyword);
   }, [keyword]);
 
+  useEffect(() => {
+    if (!courseData || markerData.length) return;
+    setMarkerData(courseData);
+  }, [courseData]);
+
   return (
     <div className="relative">
       <div className="relative">
         <MapBox
           markerData={markerData}
-          setMarkerData={setMarkerData}
-          clicked={clicked}
           setClicked={setClicked}
           setClickedData={setClickedData}
         />

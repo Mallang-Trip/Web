@@ -16,6 +16,7 @@ import Loading from "../../Loading";
 import CommentList from "../../Comment/CommentList";
 import AddComment from "../../Comment/AddComment";
 import ConfirmModal from "../../ConfirmModal";
+import ImageBox from "../../ImageBox";
 
 function DestinationModal({
   showModal,
@@ -158,10 +159,9 @@ function DestinationModal({
                 </div>
               ) : (
                 <>
-                  <img
-                    src={destinationInfo.images[0]}
-                    alt={"name"}
-                    className="w-full rounded-lg"
+                  <ImageBox
+                    images={destinationInfo.images}
+                    name={destinationInfo.name}
                   />
                   <div className="flex gap-2 justify-end mt-2 mb-4">
                     <img

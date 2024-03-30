@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Zoom, Navigation, Pagination } from "swiper/modules";
 
@@ -25,7 +26,7 @@ function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
     };
   }, [showModal]);
 
-  return (
+  return createPortal(
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-90 scale-100 flex ${
         showModal ? "active" : ""
@@ -59,7 +60,8 @@ function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </div>,
+    document.body
   );
 }
 

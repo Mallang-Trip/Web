@@ -11,7 +11,7 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
   const [showMessageModal, setShowMessageModal] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [clickedData, setClickedData] = useState({});
   const [message, setMessage] = useState("");
 
@@ -23,7 +23,7 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
         replace: true,
       });
 
-    setClicked(false);
+    setShowDestinationModal(false);
     try {
       const result = await getSearchInfo(keyword || searchKeyword);
 
@@ -53,7 +53,7 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
       <div className="relative">
         <MapBox
           markerData={markerData}
-          setClicked={setClicked}
+          setShowDestinationModal={setShowDestinationModal}
           setClickedData={setClickedData}
         />
         {search && (
@@ -71,8 +71,8 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
         message={message}
       />
       <DestinationModal
-        showModal={clicked}
-        setShowModal={setClicked}
+        showModal={showDestinationModal}
+        setShowModal={setShowDestinationModal}
         courseData={courseData}
         setCourseData={setCourseData}
         clickedData={clickedData}

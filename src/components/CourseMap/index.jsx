@@ -2,20 +2,39 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import startMarker from "../../assets/svg/start_marker.svg";
 import endMarker from "../../assets/svg/end_marker.svg";
+import pointMarker from "../../assets/svg/point_marker.svg";
+import DestinationModal from "../PlaceMap/DestinationModal";
 
 function CourseMap({ markerData, reload, mapName }) {
   const mapRef = useRef();
   const [isDrawMap, setIsDrawMap] = useState(false);
+  const [showDestinationModal, setShowDestinationModal] = useState(false);
+  const [clickedData, setClickedData] = useState({});
 
-  const addMarker = (lat, lon, tag, map) => {
+  const addMarker = (destinationId, name, lat, lon, tag, map) => {
     let imgURL = null;
     if (tag === 0) imgURL = startMarker;
     else if (tag === markerData.length - 1) imgURL = endMarker;
+    else imgURL = pointMarker;
 
-    new Tmapv3.Marker({
-      position: new Tmapv3.LatLng(lat, lon),
-      icon: imgURL && imgURL,
+    const tmapMarker = new Tmapv2.Marker({
+      position: new Tmapv2.LatLng(lat, lon),
       map: map,
+      animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
+      animationLength: 500,
+      title: name,
+      label: name,
+      icon: imgURL,
+    });
+
+    tmapMarker._htmlElement.className = "cursor-pointer";
+    tmapMarker.addListener("click", () => {
+      setShowDestinationModal(true);
+      setClickedData({ destinationId: destinationId, name, name });
+    });
+    tmapMarker.addListener("touchend", () => {
+      setShowDestinationModal(true);
+      setClickedData({ destinationId: destinationId, name, name });
     });
   };
 
@@ -33,14 +52,14 @@ function CourseMap({ markerData, reload, mapName }) {
       if (feature.geometry.type == "LineString") {
         ar_line = [];
         for (let j = 0; j < feature.geometry.coordinates.length; j++) {
-          let startPt = new Tmapv3.LatLng(
+          let startPt = new Tmapv2.LatLng(
             feature.geometry.coordinates[j][1],
             feature.geometry.coordinates[j][0]
           );
           ar_line.push(startPt);
           pointArray.push(feature.geometry.coordinates[j]);
         }
-        const polyline = new Tmapv3.Polyline({
+        const polyline = new Tmapv2.Polyline({
           path: ar_line,
           strokeColor: "#ff0000",
           strokeWeight: 6,
@@ -71,16 +90,29 @@ function CourseMap({ markerData, reload, mapName }) {
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
     const mapHeight = 600;
 
-    const map = new Tmapv3.Map(mapName, {
-      center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
+    const map = new Tmapv2.Map(mapName, {
+      center: new Tmapv2.LatLng(markerData[0].lat, markerData[0].lon),
       width: mapWidth + "px",
       height: mapHeight + "px",
-      zoom: 15,
+      zoom: 12,
+      zoomControl: true,
+      scrollwheel: false,
     });
 
     // 마커
     markerData.forEach((marker, index) => {
-      addMarker(marker.lat, marker.lon, index, map);
+      setTimeout(
+        () =>
+          addMarker(
+            marker.destinationId,
+            marker.name,
+            marker.lat,
+            marker.lon,
+            index,
+            map
+          ),
+        200 * index
+      );
     });
 
     // 경로 탐색 API
@@ -114,21 +146,21 @@ function CourseMap({ markerData, reload, mapName }) {
         const geoData = drawData(res.data, map);
 
         // 경로탐색 결과 반경만큼 지도 레벨 조정
-        let newData = geoData[0];
-        let PTbounds = new Tmapv3.LatLngBounds();
+        const newData = geoData[0];
+        const PTbounds = new Tmapv2.LatLngBounds();
         for (let i = 0; i < newData.length; i++) {
-          let mData = newData[i];
-          let type = mData.geometry.type;
+          const mData = newData[i];
+          const type = mData.geometry.type;
 
           if (type == "Point") {
-            let linePt = new Tmapv3.LatLng(
+            const linePt = new Tmapv2.LatLng(
               mData.geometry.coordinates[1],
               mData.geometry.coordinates[0]
             );
             PTbounds.extend(linePt);
           } else {
-            for (var j = 0; j < mData.geometry.coordinates.length; j++) {
-              let linePt = new Tmapv3.LatLng(
+            for (let j = 0; j < mData.geometry.coordinates.length; j++) {
+              const linePt = new Tmapv2.LatLng(
                 mData.geometry.coordinates[j][1],
                 mData.geometry.coordinates[j][0]
               );
@@ -136,7 +168,13 @@ function CourseMap({ markerData, reload, mapName }) {
             }
           }
         }
-        map.fitBounds(PTbounds);
+        const margin = {
+          left: 50,
+          top: 100,
+          right: 50,
+          bottom: 100,
+        };
+        map.fitBounds(PTbounds, margin);
       })
       .catch((e) => console.log(e));
   };
@@ -148,7 +186,17 @@ function CourseMap({ markerData, reload, mapName }) {
     setIsDrawMap(true);
   }, [markerData]);
 
-  return <div ref={mapRef} id={mapName} className="w-full mx-auto" />;
+  return (
+    <>
+      <div ref={mapRef} id={mapName} className="w-full mx-auto" />{" "}
+      <DestinationModal
+        showModal={showDestinationModal}
+        setShowModal={setShowDestinationModal}
+        clickedData={clickedData}
+        searchPage={true}
+      />
+    </>
+  );
 }
 
 export default CourseMap;

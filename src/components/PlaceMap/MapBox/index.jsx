@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import pointMarker from "../../../assets/svg/point_marker.svg";
 
-function MapBox({ markerData, setClicked, setClickedData }) {
+function MapBox({ markerData, setShowDestinationModal, setClickedData }) {
   const mapRef = useRef();
 
   const initTmap = () => {
@@ -16,7 +16,8 @@ function MapBox({ markerData, setClicked, setClickedData }) {
       width: mapWidth + "px",
       height: mapHeight + "px",
       zoom: 12,
-      zoomControl: false,
+      zoomControl: true,
+      scrollwheel: false,
     });
 
     const PTbounds = new Tmapv2.LatLngBounds();
@@ -36,11 +37,11 @@ function MapBox({ markerData, setClicked, setClickedData }) {
 
       tmapMarker._htmlElement.className = "cursor-pointer";
       tmapMarker.addListener("click", () => {
-        setClicked(true);
+        setShowDestinationModal(true);
         setClickedData(marker);
       });
       tmapMarker.addListener("touchend", () => {
-        setClicked(true);
+        setShowDestinationModal(true);
         setClickedData(marker);
       });
     });

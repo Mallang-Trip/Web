@@ -30,11 +30,11 @@ function CourseMap({ markerData, reload, mapName }) {
     tmapMarker._htmlElement.className = "cursor-pointer";
     tmapMarker.addListener("click", () => {
       setShowDestinationModal(true);
-      setClickedData({ destinationId: destinationId, name, name });
+      setClickedData({ destinationId: destinationId, name: name });
     });
     tmapMarker.addListener("touchend", () => {
       setShowDestinationModal(true);
-      setClickedData({ destinationId: destinationId, name, name });
+      setClickedData({ destinationId: destinationId, name: name });
     });
   };
 

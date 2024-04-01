@@ -3,17 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { getSearchInfo } from "../../api/destination";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
-import ConfirmModal from "../ConfirmModal";
+import NoDataModal from "./NoDataModal";
 import DestinationModal from "./DestinationModal";
+import NewPlaceModal from "./NewPlaceModal";
 
 function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
   const navigation = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
-  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [showNoDataModal, setShowNoDataModal] = useState(false);
+  const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [clickedData, setClickedData] = useState({});
-  const [message, setMessage] = useState("");
 
   const submitHandler = async (e, keyword) => {
     if (e) e.preventDefault();
@@ -27,10 +28,8 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
     try {
       const result = await getSearchInfo(keyword || searchKeyword);
 
-      if (result.payload.length === 0) {
-        setShowMessageModal(true);
-        setMessage("검색 결과가 없습니다.");
-      } else setMarkerData(result.payload);
+      if (result.payload.length === 0) setShowNoDataModal(true);
+      else setMarkerData(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -65,10 +64,17 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
         )}
       </div>
 
-      <ConfirmModal
-        showModal={showMessageModal}
-        setShowModal={setShowMessageModal}
-        message={message}
+      <NoDataModal
+        showModal={showNoDataModal}
+        setShowModal={setShowNoDataModal}
+        searchPage={searchPage}
+        setShowNewPlaceModal={setShowNewPlaceModal}
+      />
+      <NewPlaceModal
+        showModal={showNewPlaceModal}
+        setShowModal={setShowNewPlaceModal}
+        markerData={markerData}
+        searchKeyword={searchKeyword}
       />
       <DestinationModal
         showModal={showDestinationModal}

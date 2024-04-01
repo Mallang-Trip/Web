@@ -75,6 +75,8 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
         setShowModal={setShowNewPlaceModal}
         markerData={markerData}
         searchKeyword={searchKeyword}
+        courseData={courseData}
+        setCourseData={setCourseData}
       />
       <DestinationModal
         showModal={showDestinationModal}

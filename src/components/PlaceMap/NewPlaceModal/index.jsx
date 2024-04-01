@@ -1,12 +1,59 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { uploadImage } from "../../../api/image";
+import { postNewDestinationUser } from "../../../api/destination";
 import axios from "axios";
 import pointMarker from "../../../assets/svg/point_marker.svg";
+import PlaceFormModal from "./PlaceFormModal";
+import ConfirmModal from "../../ConfirmModal";
 
-function NewPlaceModal({ showModal, setShowModal, markerData, searchKeyword }) {
+function NewPlaceModal({
+  showModal,
+  setShowModal,
+  markerData,
+  searchKeyword,
+  courseData,
+  setCourseData,
+}) {
   const modalRef = useRef();
   const mapRef = useRef();
   const [keyword, setKeyword] = useState("");
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [newPlaceInfo, setNewPlaceInfo] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const submitNewPlace = async () => {
+    if (loading) return;
+    if (newPlaceInfo.name === "") return alert("여행지 이름을 입력해주세요.");
+
+    try {
+      setLoading(true);
+      const imagesURL = await Promise.all(
+        newPlaceInfo.images.map(async (image) =>
+          typeof image === "string" ? image : await uploadImage(image)
+        )
+      );
+      const body = {
+        ...newPlaceInfo,
+        images: imagesURL,
+      };
+      const result = await postNewDestinationUser(body);
+      setCourseData([
+        ...courseData,
+        { ...newPlaceInfo, destinationId: result.payload.destinationId },
+      ]);
+      setShowFormModal(false);
+      setMessage("여행 일정에 추가되었습니다.");
+    } catch (e) {
+      console.log(e);
+      setMessage("여행지 등록에 실패했습니다.");
+    } finally {
+      setLoading(false);
+      setShowMessageModal(true);
+    }
+  };
 
   const initTmap = () => {
     if (mapRef.current.firstChild)
@@ -118,13 +165,26 @@ function NewPlaceModal({ showModal, setShowModal, markerData, searchKeyword }) {
 
           tmapMarker._htmlElement.className = "cursor-pointer";
           tmapMarker.addListener("click", () => {
-            // setShowDestinationModal(true);
-            // setClickedData(marker);
-            alert(`${address}\n${telNo}`);
+            setNewPlaceInfo({
+              address: `${address} (${telNo})`,
+              content: "",
+              images: [],
+              lat: lat,
+              lon: lon,
+              name: name,
+            });
+            setShowFormModal(true);
           });
           tmapMarker.addListener("touchend", () => {
-            // setShowDestinationModal(true);
-            // setClickedData(marker);
+            setNewPlaceInfo({
+              address: `${address} (${telNo})`,
+              content: "",
+              images: [],
+              lat: lat,
+              lon: lon,
+              name: name,
+            });
+            setShowFormModal(true);
           });
         }
         const margin = {
@@ -239,6 +299,18 @@ function NewPlaceModal({ showModal, setShowModal, markerData, searchKeyword }) {
           </button>
         </div>
       </div>
+      <PlaceFormModal
+        showModal={showFormModal}
+        setShowModal={setShowFormModal}
+        newPlaceInfo={newPlaceInfo}
+        setNewPlaceInfo={setNewPlaceInfo}
+        submitNewPlace={submitNewPlace}
+      />
+      <ConfirmModal
+        showModal={showMessageModal}
+        setShowModal={setShowMessageModal}
+        message={message}
+      />
     </>,
     document.body
   );

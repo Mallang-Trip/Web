@@ -17,7 +17,7 @@ function MapBox({ markerData, setShowDestinationModal, setClickedData }) {
       height: mapHeight + "px",
       zoom: 12,
       zoomControl: true,
-      scrollwheel: false,
+      scrollwheel: /Mobi/.test(navigator.userAgent),
     });
 
     const PTbounds = new Tmapv2.LatLngBounds();

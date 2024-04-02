@@ -75,7 +75,7 @@ function NewPlaceModal({
       height: mapHeight + "px",
       zoom: 12,
       zoomControl: true,
-      scrollwheel: false,
+      scrollwheel: /Mobi/.test(navigator.userAgent),
     });
 
     const PTbounds = new Tmapv2.LatLngBounds();
@@ -135,7 +135,7 @@ function NewPlaceModal({
           height: mapHeight + "px",
           zoom: 12,
           zoomControl: true,
-          scrollwheel: false,
+          scrollwheel: /Mobi/.test(navigator.userAgent),
         });
 
         const positionBounds = new Tmapv2.LatLngBounds();

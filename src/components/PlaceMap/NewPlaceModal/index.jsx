@@ -19,10 +19,17 @@ function NewPlaceModal({
   const mapRef = useRef();
   const [keyword, setKeyword] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
-  const [newPlaceInfo, setNewPlaceInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [newPlaceInfo, setNewPlaceInfo] = useState({
+    address: "",
+    content: "",
+    images: [],
+    lat: 0,
+    lon: 0,
+    name: "",
+  });
 
   const submitNewPlace = async () => {
     if (loading) return;

@@ -116,25 +116,38 @@ function CourseMap({ markerData, reload, mapName }) {
     });
 
     // 경로 탐색 API
-    let passList = markerData
-      .slice(1, markerData.length - 1)
-      .map((marker) => marker.lon + "," + marker.lat)
-      .join("_");
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const startTime = `${year}${month}${day}${hours}${minutes}`;
 
     axios
       .post(
-        "https://apis.openapi.sk.com/tmap/routes?version=1&format=json",
+        "https://apis.openapi.sk.com/tmap/routes/routeSequential30?version=1&format=json",
         {
-          startX: markerData[0].lon,
-          startY: markerData[0].lat,
-          endX: markerData[markerData.length - 1].lon,
-          endY: markerData[markerData.length - 1].lat,
-          passList: passList,
+          startName: markerData[0].name,
+          startX: markerData[0].lon.toString(),
+          startY: markerData[0].lat.toString(),
+          startTime: startTime,
+          endName: markerData[markerData.length - 1].name,
+          endX: markerData[markerData.length - 1].lon.toString(),
+          endY: markerData[markerData.length - 1].lat.toString(),
+          viaPoints: markerData
+            .slice(1, markerData.length - 1)
+            .map((marker) => {
+              return {
+                viaPointId: marker.destinationId.toString(),
+                viaPointName: marker.name,
+                viaX: marker.lon.toString(),
+                viaY: marker.lat.toString(),
+              };
+            }),
           reqCoordType: "WGS84GEO",
           resCoordType: "WGS84GEO",
-          angle: "172",
-          searchOption: 0,
-          trafficInfo: "Y",
+          searchOption: "0",
         },
         {
           headers: {
@@ -143,31 +156,13 @@ function CourseMap({ markerData, reload, mapName }) {
         }
       )
       .then((res) => {
-        const geoData = drawData(res.data, map);
+        drawData(res.data, map);
 
         // 경로탐색 결과 반경만큼 지도 레벨 조정
-        const newData = geoData[0];
         const PTbounds = new Tmapv2.LatLngBounds();
-        for (let i = 0; i < newData.length; i++) {
-          const mData = newData[i];
-          const type = mData.geometry.type;
-
-          if (type == "Point") {
-            const linePt = new Tmapv2.LatLng(
-              mData.geometry.coordinates[1],
-              mData.geometry.coordinates[0]
-            );
-            PTbounds.extend(linePt);
-          } else {
-            for (let j = 0; j < mData.geometry.coordinates.length; j++) {
-              const linePt = new Tmapv2.LatLng(
-                mData.geometry.coordinates[j][1],
-                mData.geometry.coordinates[j][0]
-              );
-              PTbounds.extend(linePt);
-            }
-          }
-        }
+        markerData.forEach((marker) => {
+          PTbounds.extend(new Tmapv2.LatLng(marker.lat, marker.lon));
+        });
         const margin = {
           left: 50,
           top: 100,

@@ -22,7 +22,6 @@ function PlaceFormModal({
     document.body.classList.add("overflow-hidden");
   }, [showModal]);
 
-  if (!newPlaceInfo?.name) return null;
   return (
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
@@ -134,7 +133,7 @@ function PlaceFormModal({
               </div>
             </div>
           </div>
-          <div className="block md:hidden w-full p-5">
+          <div className="block md:hidden w-full px-5 pb-5">
             <button
               className="w-full h-12 bg-primary text-white text-sm text-bold rounded-lg"
               onClick={submitNewPlace}

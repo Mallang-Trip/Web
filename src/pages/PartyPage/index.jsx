@@ -203,49 +203,6 @@ function PartyPage() {
     }
   };
 
-  const backupInputData = () => {
-    const data = {
-      memberCount: memberCount,
-      companions: companions,
-      content: content,
-      agreeChecked: agreeChecked,
-      courseData: courseData,
-      redirect: window.location.href.replace(window.location.origin, ""),
-    };
-
-    localStorage.setItem("backup", JSON.stringify(data));
-  };
-
-  useEffect(() => {
-    if (!localStorage.getItem("payment")) {
-      localStorage.removeItem("backup");
-      return;
-    }
-
-    const backupData = JSON.parse(localStorage.getItem("backup"));
-    localStorage.removeItem("payment");
-    localStorage.removeItem("backup");
-
-    setMemberCount(backupData.memberCount);
-    setCompanions(backupData.companions);
-    setContent(backupData.content);
-    setAgreeChecked(backupData.agreeChecked);
-    setCourseData(backupData.courseData);
-
-    setTimeout(() => {
-      if (creditRef.current) {
-        const containerRect = creditRef.current.getBoundingClientRect();
-        const scrollY =
-          containerRect.top +
-          window.scrollY -
-          window.innerHeight / 2 +
-          containerRect.height / 2;
-
-        window.scrollTo({ top: scrollY, behavior: "smooth" });
-      }
-    }, 500);
-  }, [creditRef]);
-
   useEffect(() => {
     window.scrollTo({ top: 0 });
 
@@ -432,7 +389,6 @@ function PartyPage() {
             register={registerCredit}
             setRegister={setRegisterCredit}
             creditRef={creditRef}
-            backupInputData={backupInputData}
           />
           <JoinAgreement
             checked={agreeChecked}

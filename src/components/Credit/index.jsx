@@ -6,13 +6,7 @@ import ConfirmModal from "../ConfirmModal";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
 import Logo from "../../assets/images/logo.png";
 
-function Credit({
-  shakeCredit,
-  register,
-  setRegister,
-  creditRef,
-  backupInputData,
-}) {
+function Credit({ shakeCredit, register, setRegister, creditRef }) {
   const PaypleCpayAuthCheck = window.PaypleCpayAuthCheck;
   const user = useSelector((state) => state.user);
   const [cardInfo, setCardInfo] = useState({});
@@ -56,7 +50,6 @@ function Credit({
       callbackFunction: paypleResult,
     };
 
-    backupInputData();
     PaypleCpayAuthCheck(paypleObj);
   };
 

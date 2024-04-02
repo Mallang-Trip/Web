@@ -1,5 +1,5 @@
 import PlaceInfoTitle from "./PlaceInfoTitle";
-import PartyImageBox from "../../../components/PartyImageBox";
+import ImageBox from "../../../components/ImageBox";
 import PartyIconBox from "../../../components/PartyIconBox";
 
 function PlaceInfoBox({
@@ -20,7 +20,7 @@ function PlaceInfoBox({
         avgRate={avgRate}
         address={address}
       />
-      <PartyImageBox images={images} name={name} />
+      <ImageBox images={images} name={name} />
       <PartyIconBox
         images={images}
         name={name}

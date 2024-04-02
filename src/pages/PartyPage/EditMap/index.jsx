@@ -17,7 +17,7 @@ function EditMap({ courseData, setCourseData }) {
         <PlaceMap
           search={true}
           newPlace={true}
-          detail={false}
+          searchPage={false}
           courseData={courseData}
           setCourseData={setCourseData}
         />

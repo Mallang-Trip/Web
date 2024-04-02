@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
+import pointMarker from "../../../assets/svg/point_marker.svg";
 
-function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
+function MapBox({ markerData, setShowDestinationModal, setClickedData }) {
   const mapRef = useRef();
 
   const initTmap = () => {
@@ -10,54 +11,53 @@ function MapBox({ markerData, setMarkerData, setClicked, setClickedData }) {
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
     const mapHeight = 600;
 
-    const map = new Tmapv3.Map("TMapApp", {
-      center: new Tmapv3.LatLng(markerData[0].lat, markerData[0].lon),
+    const map = new Tmapv2.Map("TMapApp", {
+      center: new Tmapv2.LatLng(markerData[0].lat, markerData[0].lon),
       width: mapWidth + "px",
       height: mapHeight + "px",
-      zoom: 11,
+      zoom: 12,
+      zoomControl: true,
+      scrollwheel: /Mobi/.test(navigator.userAgent),
     });
 
+    const PTbounds = new Tmapv2.LatLngBounds();
+
     markerData.forEach((marker) => {
-      const tmapMarker = new Tmapv3.Marker({
-        position: new Tmapv3.LatLng(marker.lat, marker.lon),
+      const tmapMarker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(marker.lat, marker.lon),
         map: map,
+        animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
+        animationLength: 500,
+        title: marker.name,
+        label: marker.name,
+        icon: pointMarker,
       });
 
-      tmapMarker.on("click", (e) => {
-        map.setZoom(13);
-        map.setCenter(new Tmapv3.LatLng(marker.lat, marker.lon));
-        setClicked(true);
+      PTbounds.extend(new Tmapv2.LatLng(marker.lat, marker.lon));
+
+      tmapMarker._htmlElement.className = "cursor-pointer";
+      tmapMarker.addListener("click", () => {
+        setShowDestinationModal(true);
+        setClickedData(marker);
+      });
+      tmapMarker.addListener("touchend", () => {
+        setShowDestinationModal(true);
         setClickedData(marker);
       });
     });
 
-    document.querySelectorAll(".vsm-marker").forEach((item) => {
-      item.addEventListener("mouseenter", () =>
-        item.classList.add("cursor-pointer")
-      );
-    });
+    const margin = {
+      left: 50,
+      top: 100,
+      right: 50,
+      bottom: 100,
+    };
+    map.fitBounds(PTbounds, margin);
   };
 
   useEffect(() => {
-    if (markerData.length === 0) {
-      setMarkerData([
-        {
-          destinationId: -1,
-          lat: 37.283192168869,
-          lon: 127.044128202435,
-        },
-      ]);
-
-      navigator.geolocation.getCurrentPosition((position) => {
-        setMarkerData([
-          {
-            destinationId: -1,
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          },
-        ]);
-      });
-    } else initTmap();
+    if (markerData.length === 0) return;
+    initTmap();
   }, [markerData]);
 
   return <div id="TMapApp" className="w-full mx-auto" ref={mapRef} />;

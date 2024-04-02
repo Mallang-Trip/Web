@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import PageContainer from "../../components/PageContainer";
-import PartyImageBox from "../../components/PartyImageBox";
+import ImageBox from "../../components/ImageBox";
 import CommentList from "../../components/Comment/CommentList";
 import AddComment from "../../components/Comment/AddComment";
 import Loading from "../../components/Loading";
@@ -51,7 +51,7 @@ function DriverProfilePage() {
         introduction={driverInfo.introduction}
         profileImg={driverInfo.profileImg}
       />
-      <PartyImageBox
+      <ImageBox
         images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}
         name={driverInfo.name}
       />

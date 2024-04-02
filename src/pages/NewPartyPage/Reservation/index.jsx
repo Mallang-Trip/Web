@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
-import PartyImageBox from "../../../components/PartyImageBox";
+import ImageBox from "../../../components/ImageBox";
 import DriverInfo from "../../../components/DriverInfo";
 import CourseList from "../../../components/CourseList";
 import Credit from "../../../components/Credit";
@@ -169,7 +169,7 @@ function Reservation({
         introduction={driverInfo.introduction}
         profileImg={driverInfo.profileImg}
       />
-      <PartyImageBox images={planData.images} name={driverInfo.name} />
+      <ImageBox images={planData.images} name={driverInfo.name} />
       <TextArea title="서비스 지역" content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}

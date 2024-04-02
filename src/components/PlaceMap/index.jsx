@@ -3,52 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { getSearchInfo } from "../../api/destination";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
-import RoundBtn from "./RoundBtn";
-import CheckModal from "../CheckModal";
-import ConfirmModal from "../ConfirmModal";
+import NoDataModal from "./NoDataModal";
+import DestinationModal from "./DestinationModal";
+import NewPlaceModal from "./NewPlaceModal";
 
-function PlaceMap({ search, keyword, detail, courseData, setCourseData }) {
+function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
   const navigation = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [showNoDataModal, setShowNoDataModal] = useState(false);
+  const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
+  const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [clickedData, setClickedData] = useState({});
-  const [message, setMessage] = useState("");
-
-  const addCourseHandler = () => {
-    setShowAddModal(false);
-
-    const exist = courseData.some(
-      (item) => item.destinationId === clickedData.destinationId
-    );
-
-    if (exist) setMessage("이미 여행 일정에 있습니다.");
-    else {
-      setCourseData([...courseData, clickedData]);
-      setMessage("여행 일정에 추가되었습니다.");
-    }
-
-    setShowModal(true);
-  };
 
   const submitHandler = async (e, keyword) => {
     if (e) e.preventDefault();
 
-    if (e && detail)
+    if (e && searchPage)
       navigation(`/search/place/${keyword || searchKeyword}`, {
         replace: true,
       });
 
-    setClicked(false);
+    setShowDestinationModal(false);
     try {
       const result = await getSearchInfo(keyword || searchKeyword);
 
-      if (result.payload.length === 0) {
-        setShowModal(true);
-        setMessage("검색 결과가 없습니다.");
-      } else setMarkerData(result.payload);
+      if (result.payload.length === 0) setShowNoDataModal(true);
+      else setMarkerData(result.payload);
     } catch (e) {
       console.log(e);
     }
@@ -61,14 +42,17 @@ function PlaceMap({ search, keyword, detail, courseData, setCourseData }) {
     submitHandler(undefined, keyword);
   }, [keyword]);
 
+  useEffect(() => {
+    if (!courseData || markerData.length) return;
+    setMarkerData(courseData);
+  }, [courseData]);
+
   return (
     <div className="relative">
       <div className="relative">
         <MapBox
           markerData={markerData}
-          setMarkerData={setMarkerData}
-          clicked={clicked}
-          setClicked={setClicked}
+          setShowDestinationModal={setShowDestinationModal}
           setClickedData={setClickedData}
         />
         {search && (
@@ -79,53 +63,28 @@ function PlaceMap({ search, keyword, detail, courseData, setCourseData }) {
           />
         )}
       </div>
-      {!detail && clicked && clickedData?.destinationId !== -1 && (
-        <div className="absolute bottom-5 left-0 w-full flex flex-col gap-3 justify-center items-center">
-          <RoundBtn
-            name={`[${clickedData.name}] 상세보기`}
-            onClick={() =>
-              window.open(
-                `/destination/detail/${clickedData.destinationId}`,
-                "_blank"
-              )
-            }
-          />
-          <RoundBtn
-            name={`여행 일정에 [${clickedData.name}] 추가하기`}
-            onClick={() => setShowAddModal(true)}
-          />
-        </div>
-      )}
-      {detail && clicked && clickedData?.destinationId !== -1 && (
-        <div className="absolute bottom-10 left-0 w-full flex justify-center items-center">
-          <RoundBtn
-            name={`[${clickedData.name}] 상세보기`}
-            onClick={() =>
-              navigation(`/destination/detail/${clickedData.destinationId}`)
-            }
-          />
-        </div>
-      )}
 
-      <ConfirmModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        message={message}
+      <NoDataModal
+        showModal={showNoDataModal}
+        setShowModal={setShowNoDataModal}
+        searchPage={searchPage}
+        setShowNewPlaceModal={setShowNewPlaceModal}
       />
-      <CheckModal
-        showModal={showAddModal}
-        setShowModal={setShowAddModal}
-        message={
-          <div>
-            <span className="text-primary text-lg">[{clickedData.name}]</span>
-            <br />
-            <br />
-            여행 일정에 추가하시겠습니까?
-          </div>
-        }
-        noText="아니요"
-        yesText="네"
-        yesHandler={() => addCourseHandler()}
+      <NewPlaceModal
+        showModal={showNewPlaceModal}
+        setShowModal={setShowNewPlaceModal}
+        markerData={markerData}
+        searchKeyword={searchKeyword}
+        courseData={courseData}
+        setCourseData={setCourseData}
+      />
+      <DestinationModal
+        showModal={showDestinationModal}
+        setShowModal={setShowDestinationModal}
+        courseData={courseData}
+        setCourseData={setCourseData}
+        clickedData={clickedData}
+        searchPage={searchPage}
       />
     </div>
   );

@@ -46,12 +46,12 @@ function Credit({
     };
 
     const paypleObj = {
-      clientKey: "test_DF55F29DA654A8CBC0F0A9DD4B556486",
+      clientKey: "945491C72C67EE1682010C472F92F433",
       PCD_PAY_TYPE: "card",
       PCD_PAY_WORK: "AUTH",
       PCD_CARD_VER: "01",
-      PCD_PAY_GOODS: "결제 수단 등록",
-      PCD_PAY_TOTAL: 100,
+      PCD_PAY_GOODS: "[말랑트립] 결제 수단 등록",
+      PCD_PAY_TOTAL: 0,
       PCD_RST_URL: "/",
       callbackFunction: paypleResult,
     };

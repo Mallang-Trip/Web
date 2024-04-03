@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { dateToStringHan, priceToString } from "../../../utils";
-import PartyImageBox from "../../../components/PartyImageBox";
+import ImageBox from "../../../components/ImageBox";
 import PartyPlan from "../../../components/PartyPlan";
 import CourseMap from "../../../components/CourseMap";
 import CreditInfo from "../../PartyPage/CreditInfo";
@@ -33,7 +33,7 @@ function Course({
         introduction={driverInfo.introduction}
         profileImg={driverInfo.profileImg}
       />
-      <PartyImageBox images={planData.images} name={driverInfo.name} />
+      <ImageBox images={planData.images} name={driverInfo.name} />
       <TextArea title="서비스 지역" content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}

@@ -10,9 +10,9 @@ import {
 } from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
 import ShareModal from "./ShareModal";
+import ImageBox from "../../../../components/ImageBox";
 import CheckModal from "../../../../components/CheckModal";
 import ConfirmModal from "../../../../components/ConfirmModal";
-import ImageModal from "../../../../components/PartyImageBox/ImageModal";
 import ChatBox from "../../../../assets/svg/EmptyChatIcon.svg";
 import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
@@ -37,8 +37,6 @@ function ArticleBody({
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
-  const [imageIdx, setImageIdx] = useState(0);
-  const [showImageModal, setShowImageModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -46,11 +44,6 @@ function ArticleBody({
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isChatBlock, setIsChatBlock] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
-
-  const imageClickHandler = (idx) => {
-    setImageIdx(idx);
-    setShowImageModal(true);
-  };
 
   const heartClickHandler = async () => {
     if (!user.auth) return setShowLoginModal(true);
@@ -171,39 +164,8 @@ function ArticleBody({
 
         <div className="flex flex-col">
           <p className="text-xl text-black font-bold">{title}</p>
-          <div className="w-full flex rounded-lg overflow-hidden mt-5 mb-8">
-            {images[0] && (
-              <div className="w-full overflow-hidden max-h-[500px]">
-                <img
-                  className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={images[0]}
-                  alt="article_image"
-                  onClick={() => imageClickHandler(0)}
-                />
-              </div>
-            )}
-            {images[1] && (
-              <div className="w-full flex flex-col overflow-hidden max-h-[500px]">
-                <div className="overflow-hidden">
-                  <img
-                    className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                    src={images[1]}
-                    alt="article_image"
-                    onClick={() => imageClickHandler(1)}
-                  />
-                </div>
-                {images[2] && (
-                  <div className="overflow-hidden">
-                    <img
-                      className="object-cover w-full h-full transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                      src={images[2]}
-                      alt="article_image"
-                      onClick={() => imageClickHandler(2)}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
+          <div className="w-full mt-2.5 mb-8">
+            <ImageBox images={images} name={title} />
           </div>
           <p className="w-full text-base text-boldgray font-medium whitespace-pre-wrap mt-3 mb-4">
             {content}
@@ -219,14 +181,6 @@ function ArticleBody({
         </div>
       </div>
 
-      <ImageModal
-        showModal={showImageModal}
-        setShowModal={setShowImageModal}
-        images={images}
-        imageIdx={imageIdx}
-        setImageIdx={setImageIdx}
-        name={title}
-      />
       <ShareModal
         showModal={showShareModal}
         setShowModal={setShowShareModal}

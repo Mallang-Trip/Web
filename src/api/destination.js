@@ -25,3 +25,6 @@ export const deleteUnLikeDestination = async (destinationId) =>
 
 export const getLikeDestination = async () =>
   await GET(`/destination/dibs`, true);
+
+export const postNewDestinationUser = async (body) =>
+  await POST("/destination/by-user", body, true);

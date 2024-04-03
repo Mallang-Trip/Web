@@ -6,7 +6,7 @@ import PageContainer from "../../components/PageContainer";
 import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
 import PartyIconBox from "../../components/PartyIconBox";
-import PartyImageBox from "../../components/PartyImageBox";
+import ImageBox from "../../components/ImageBox";
 import CourseMap from "../../components/CourseMap";
 import Loading from "../../components/Loading";
 import Credit from "../../components/Credit";
@@ -266,10 +266,7 @@ function PartyPage() {
           partyData.myParty && partyData.proposal?.proposerId !== user.userId
         }
       />
-      <PartyImageBox
-        images={partyData.course.images}
-        name={partyData.course.name}
-      />
+      <ImageBox images={partyData.course.images} name={partyData.course.name} />
       <PartyIconBox
         images={partyData.course.images}
         name={partyData.course.name}

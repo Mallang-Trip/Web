@@ -20,6 +20,7 @@ import DriverProfilePage from "../pages/DriverProfilePage";
 import SearchPlacePage from "../pages/SearchPlacePage";
 import DestinationPage from "../pages/DestinationPage";
 import DriverApplyPage from "../pages/DriverApplyPage";
+import DriverCoursePage from "../pages/DriverCoursePage";
 import CommunityPage from "../pages/CommunityPage";
 import CommunityPostPage from "../pages/CommunityPostPage";
 import CommunitySearchPage from "../pages/CommunitySearchPage";
@@ -43,6 +44,7 @@ function Router() {
   const AuthMyArticlePage = Auth(MyArticlePage, true);
   const AuthMyReservationPage = Auth(MyReservationPage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
+  const AuthDriverCoursePage = Auth(DriverCoursePage, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthLoginSearchPage = Auth(LoginSearchPage, false);
   const AuthSignupPage = Auth(SignupPage, false);
@@ -75,6 +77,10 @@ function Router() {
         <Route path="/my/reservation" element={<AuthMyReservationPage />} />
         <Route path="/my/party/history" element={<AuthPartyHistoryPage />} />
         <Route path="/my/driver/apply" element={<AuthDriverApplyPage />} />
+        <Route
+          path="/my/driver/course/:courseId"
+          element={<AuthDriverCoursePage />}
+        />
         <Route
           path="/search/place/:keyword"
           element={<AuthSearchPlacePage />}

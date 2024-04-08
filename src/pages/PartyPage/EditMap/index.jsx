@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseMap from "../../../components/CourseMap";
 import PlaceMap from "../../../components/PlaceMap";
 import ToggleButton from "./ToggleButton";
@@ -6,11 +6,16 @@ import ToggleButton from "./ToggleButton";
 function EditMap({ courseData, setCourseData }) {
   const [showSearchMap, setShowSearchMap] = useState(true);
 
+  useEffect(() => {
+    if (courseData.length === 0) setShowSearchMap(true);
+  }, [courseData]);
+
   return (
     <div>
       <ToggleButton
         showSearchMap={showSearchMap}
         setShowSearchMap={setShowSearchMap}
+        canToggle={courseData.length > 0}
       />
 
       {showSearchMap ? (

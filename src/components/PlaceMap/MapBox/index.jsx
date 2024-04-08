@@ -56,8 +56,30 @@ function MapBox({ markerData, setShowDestinationModal, setClickedData }) {
   };
 
   useEffect(() => {
-    if (markerData.length === 0) return;
-    initTmap();
+    if (markerData.length === 0) {
+      if (mapRef.current.firstChild)
+        mapRef.current.removeChild(mapRef.current.firstChild);
+
+      const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
+      const mapHeight = 600;
+
+      const map = new Tmapv2.Map("TMapApp", {
+        center: new Tmapv2.LatLng(37.398195688134, 126.96313827598239),
+        width: mapWidth + "px",
+        height: mapHeight + "px",
+        zoom: 15,
+        zoomControl: true,
+        scrollwheel: /Mobi/.test(navigator.userAgent),
+      });
+
+      new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(37.398195688134, 126.96313827598239),
+        map: map,
+        title: "말랑트립",
+        label: "말랑트립",
+        icon: pointMarker,
+      });
+    } else initTmap();
   }, [markerData]);
 
   return <div id="TMapApp" className="w-full mx-auto" ref={mapRef} />;

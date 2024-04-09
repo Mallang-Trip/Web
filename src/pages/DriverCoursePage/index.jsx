@@ -22,6 +22,8 @@ function DriverCoursePage() {
   const [prices, setPrices] = useState([]);
   const [priceIndex, setPriceIndex] = useState(0);
   const [destinations, setDestinations] = useState([]);
+  const [startTime, setStartTime] = useState("10:00");
+  const [endTime, setEndTime] = useState("");
 
   const getMyDriverInfo = async () => {
     try {
@@ -34,6 +36,17 @@ function DriverCoursePage() {
       navigation("/", { replace: true });
     }
   };
+
+  useEffect(() => {
+    if (!prices[priceIndex]?.hours) return;
+
+    const newEndTime =
+      String(
+        (Number(startTime.slice(0, 2)) + prices[priceIndex].hours) % 24
+      ).padStart(2, "0") + startTime.slice(2);
+
+    setEndTime(newEndTime);
+  }, [startTime, prices[priceIndex]?.hours]);
 
   useEffect(() => {
     getMyDriverInfo();
@@ -70,8 +83,9 @@ function DriverCoursePage() {
         hours={prices[priceIndex].hours}
         destinations={destinations}
         setDestinations={setDestinations}
-        startTime={"10:00"}
-        endTime={"18:00"}
+        startTime={startTime}
+        endTime={endTime}
+        setStartTime={setStartTime}
       />
       <EditMap courseData={destinations} setCourseData={setDestinations} />
       <SaveButton saveHandler={() => console.log("저장하기")} />

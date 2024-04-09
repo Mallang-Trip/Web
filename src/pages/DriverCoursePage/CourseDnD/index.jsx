@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import dragIcon from "../../../assets/svg/dragIcon.svg";
 import deleteIcon from "../../../assets/svg/x-modal-icon.svg";
+import TimeModal from "./TimeModal";
 
 function CourseDnD({
   name,
@@ -10,7 +12,10 @@ function CourseDnD({
   setDestinations,
   startTime,
   endTime,
+  setStartTime,
 }) {
+  const [showTimeModal, setShowTimeModal] = useState(false);
+
   const handleChange = (result) => {
     if (!result.destination) return;
     const items = [...destinations];
@@ -67,7 +72,10 @@ function CourseDnD({
                           className="ml-2.5 mr-5"
                         />
                         <div>{item.name}</div>
-                        <div className="ml-auto">
+                        <div
+                          className={`ml-auto ${index === 0 && "cursor-pointer"}`}
+                          onClick={() => index === 0 && setShowTimeModal(true)}
+                        >
                           {index === 0
                             ? startTime
                             : index === destinations.length - 1 && endTime}
@@ -88,6 +96,13 @@ function CourseDnD({
           )}
         </Droppable>
       </DragDropContext>
+
+      <TimeModal
+        showModal={showTimeModal}
+        setShowModal={setShowTimeModal}
+        startTime={startTime}
+        setStartTime={setStartTime}
+      />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BottomButton from "../../../components/BottomButton";
 
-function SaveButton({ saveHandler }) {
+function SaveButton({ courseId, saveHandler }) {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -22,11 +22,14 @@ function SaveButton({ saveHandler }) {
           className="h-14 text-white rounded-full text-lg font-bold w-64 md:w-80 bg-primary"
           onClick={saveHandler}
         >
-          등록하기
+          {courseId === "new" ? "등록하기" : "수정하기"}
         </button>
       </div>
       {scrollPosition > 300 && (
-        <BottomButton text={"등록하기"} onClick={saveHandler} />
+        <BottomButton
+          text={courseId === "new" ? "등록하기" : "수정하기"}
+          onClick={saveHandler}
+        />
       )}
     </>
   );

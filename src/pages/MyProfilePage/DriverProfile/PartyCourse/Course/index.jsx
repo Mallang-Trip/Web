@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 function Course({ courseImg, courseName, courseId }) {
+  const navigation = useNavigate();
+
   return (
     <button
       className="relative h-56 sm:h-64"
-      onClick={() => console.log(courseId)}
+      onClick={() => navigation(`/my/driver/course/${courseId}`)}
     >
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"

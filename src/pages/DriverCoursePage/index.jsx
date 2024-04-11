@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDriverMyInfo } from "../../api/driver";
-import { postNewCourse } from "../../api/course";
+import {
+  getCourseDetail,
+  postNewCourse,
+  putCourseDetail,
+} from "../../api/course";
 import { uploadImage } from "../../api/image";
 import { priceToString } from "../../utils";
 import PageContainer from "../../components/PageContainer";
@@ -32,7 +36,7 @@ function DriverCoursePage() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
 
-  const saveNewCourse = async () => {
+  const saveCourse = async () => {
     const destinationImages = destinations.reduce((acc, cur) => {
       if (typeof cur.image === "string") {
         acc.push(cur.image);
@@ -86,11 +90,23 @@ function DriverCoursePage() {
         totalDays: 1,
         totalPrice: prices[priceIndex].price,
       };
-      const result = await postNewCourse(body);
-      navigation(`/my/driver/course/${result.payload.courseId}`, {
-        replace: true,
-      });
-      setErrorMessage("파티 코스가 등록되었습니다.");
+
+      const result =
+        courseId === "new"
+          ? await postNewCourse(body)
+          : await putCourseDetail(courseId, body);
+
+      navigation(
+        `/my/driver/course/${courseId === "new" ? result.payload.courseId : courseId}`,
+        {
+          replace: true,
+        }
+      );
+      setErrorMessage(
+        courseId === "new"
+          ? "파티 코스가 등록되었습니다."
+          : "파티 코스가 수정되었습니다."
+      );
       setShowErrorModal(true);
     } catch (e) {
       console.log(e);
@@ -101,15 +117,40 @@ function DriverCoursePage() {
     }
   };
 
-  const getMyDriverInfo = async () => {
+  const getDriverCourseInfo = async () => {
     try {
-      const result = await getDriverMyInfo();
-      setCapacity(result.payload.vehicleCapacity);
-      setPrices(result.payload.prices);
-      setLoading(false);
+      const driverResult = await getDriverMyInfo();
+      setCapacity(driverResult.payload.vehicleCapacity);
+      setPrices(driverResult.payload.prices);
+
+      if (courseId !== "new") {
+        const courseResult = await getCourseDetail(courseId);
+        setName(courseResult.payload.name);
+        setImages(courseResult.payload.images);
+        setCapacity(courseResult.payload.capacity);
+        setPriceIndex(
+          driverResult.payload.prices.findIndex(
+            (item) =>
+              item.hours === courseResult.payload.days[0].hours &&
+              item.price === courseResult.payload.days[0].price
+          )
+        );
+        setDestinations(courseResult.payload.days[0].destinations);
+        setStartTime(courseResult.payload.days[0].startTime);
+        setEndTime(courseResult.payload.days[0].endTime);
+      } else {
+        setName("");
+        setImages([]);
+        setPriceIndex(0);
+        setDestinations([]);
+        setStartTime("10:00");
+        setEndTime("");
+      }
     } catch (e) {
       console.log(e);
       navigation("/", { replace: true });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -125,13 +166,13 @@ function DriverCoursePage() {
   }, [startTime, prices[priceIndex]?.hours]);
 
   useEffect(() => {
-    getMyDriverInfo();
+    getDriverCourseInfo();
   }, []);
 
   if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
-      <Title />
+      <Title courseId={courseId} />
       <CourseImage images={images} setImages={setImages} />
       <CourseInfo title={"여행 기간"} content={"1일"} />
       <CourseInfo title={"최대 정원"} content={`${capacity}명`} />
@@ -164,7 +205,10 @@ function DriverCoursePage() {
         setStartTime={setStartTime}
       />
       <EditMap courseData={destinations} setCourseData={setDestinations} />
-      <SaveButton saveHandler={() => setShowCheckModal(true)} />
+      <SaveButton
+        courseId={courseId}
+        saveHandler={() => setShowCheckModal(true)}
+      />
 
       <ConfirmModal
         showModal={showErrorModal}
@@ -174,12 +218,16 @@ function DriverCoursePage() {
       <CheckModal
         showModal={showCheckModal}
         setShowModal={setShowCheckModal}
-        message={"파티 코스를 등록하시겠습니까?"}
+        message={
+          courseId === "new"
+            ? "파티 코스를 등록하시겠습니까?"
+            : "파티 코스를 수정하시겠습니까?"
+        }
         noText="취소"
         yesText="확인"
         yesHandler={() => {
           setShowCheckModal(false);
-          saveNewCourse();
+          saveCourse();
         }}
       />
     </PageContainer>

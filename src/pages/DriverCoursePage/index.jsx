@@ -15,6 +15,7 @@ import Loading from "../../components/Loading";
 import EditMap from "../PartyPage/EditMap";
 import CourseDnD from "./CourseDnD";
 import SaveButton from "./SaveButton";
+import DeleteButton from "./DeleteButton";
 import Title from "./Title";
 import CourseImage from "./CourseImage";
 import CourseInfo from "./CourseInfo";
@@ -209,6 +210,7 @@ function DriverCoursePage() {
         courseId={courseId}
         saveHandler={() => setShowCheckModal(true)}
       />
+      <DeleteButton courseId={courseId} />
 
       <ConfirmModal
         showModal={showErrorModal}

@@ -19,7 +19,7 @@ function SaveButton({ courseId, saveHandler }) {
     <>
       <div className="hidden md:flex justify-center mt-20">
         <button
-          className="h-14 text-white rounded-full text-lg font-bold w-64 md:w-80 bg-primary"
+          className="h-14 text-white rounded-full text-lg font-bold w-80 bg-primary border border-primary"
           onClick={saveHandler}
         >
           {courseId === "new" ? "등록하기" : "수정하기"}

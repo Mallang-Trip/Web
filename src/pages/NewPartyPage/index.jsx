@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
 import PageContainer from "../../components/PageContainer";
+import ConfirmModal from "../../components/ConfirmModal";
 import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
@@ -12,6 +18,7 @@ import Reservation from "./Reservation";
 import PageButton from "./PageButton";
 
 function NewPartyPage() {
+  const navigation = useNavigate();
   const { step } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -25,13 +32,22 @@ function NewPartyPage() {
   const [selectedCourseId, setSelectedCourseId] = useState(
     location.state ? location.state.selectedCourseId : -1
   );
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const settingDriverInfo = async () => {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
-      if (selectedCourseId <= 0 || !selectedCourseId)
+
+      if (result.payload.courses.length === 0) {
+        setShowErrorModal(true);
+        setDriverId(0);
+      } else {
         setSelectedCourseId(result.payload.courses[0].courseId);
+        navigation(
+          `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
+        );
+      }
     } catch (e) {
       console.log(e);
     }
@@ -105,9 +121,7 @@ function NewPartyPage() {
           date={date}
           member={member}
           region={region}
-          driverId={driverId}
           setDriverId={setDriverId}
-          setNextOK={setNextOK}
         />
       )}
       {step === "4" && (
@@ -148,6 +162,13 @@ function NewPartyPage() {
         date={date}
         driverId={driverId}
         nextOK={nextOK}
+      />
+      <ConfirmModal
+        showModal={showErrorModal}
+        setShowModal={setShowErrorModal}
+        message={
+          "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
+        }
       />
     </PageContainer>
   );

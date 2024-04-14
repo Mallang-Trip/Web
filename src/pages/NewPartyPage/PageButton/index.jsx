@@ -4,7 +4,7 @@ function PageButton({ region, member, date, driverId, nextOK }) {
   const { step } = useParams();
   const navigation = useNavigate();
 
-  if (step !== "2" && step !== "3") return null;
+  if (step !== "2") return null;
   return (
     <div className="w-full flex justify-center gap-7 my-24 mx-auto px-4">
       <button

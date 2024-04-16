@@ -15,7 +15,6 @@ import Driver from "./Driver";
 import Course from "./Course";
 import Edit from "./Edit";
 import Reservation from "./Reservation";
-import PageButton from "./PageButton";
 
 function NewPartyPage() {
   const navigation = useNavigate();
@@ -28,7 +27,6 @@ function NewPartyPage() {
   const [driverId, setDriverId] = useState(0);
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
-  const [nextOK, setNextOK] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(
     location.state ? location.state.selectedCourseId : -1
   );
@@ -113,7 +111,8 @@ function NewPartyPage() {
           setMember={setMember}
           date={date}
           setDate={setDate}
-          setNextOK={setNextOK}
+          region={region}
+          driverId={driverId}
         />
       )}
       {step === "3" && (
@@ -156,13 +155,6 @@ function NewPartyPage() {
           member={member}
         />
       )}
-      <PageButton
-        region={region}
-        member={member}
-        date={date}
-        driverId={driverId}
-        nextOK={nextOK}
-      />
       <ConfirmModal
         showModal={showErrorModal}
         setShowModal={setShowErrorModal}

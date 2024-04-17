@@ -116,49 +116,6 @@ function Reservation({
     setShowJoinModal(true);
   };
 
-  const backupInputData = () => {
-    const data = {
-      selectedCourseId: selectedCourseId,
-      memberCount: memberCount,
-      companions: companions,
-      content: content,
-      agreeChecked: agreeChecked,
-      redirect: window.location.href.replace(window.location.origin, ""),
-    };
-
-    localStorage.setItem("backup", JSON.stringify(data));
-  };
-
-  useEffect(() => {
-    if (!localStorage.getItem("payment")) {
-      localStorage.removeItem("backup");
-      return;
-    }
-
-    const backupData = JSON.parse(localStorage.getItem("backup"));
-    localStorage.removeItem("payment");
-    localStorage.removeItem("backup");
-
-    setSelectedCourseId(backupData.selectedCourseId);
-    setMemberCount(backupData.memberCount);
-    setCompanions(backupData.companions);
-    setContent(backupData.content);
-    setAgreeChecked(backupData.agreeChecked);
-
-    setTimeout(() => {
-      if (creditRef.current) {
-        const containerRect = creditRef.current.getBoundingClientRect();
-        const scrollY =
-          containerRect.top +
-          window.scrollY -
-          window.innerHeight / 2 +
-          containerRect.height / 2;
-
-        window.scrollTo({ top: scrollY, behavior: "smooth" });
-      }
-    }, 500);
-  }, [creditRef]);
-
   if (!driverInfo.driverId || !planData.courseId) return null;
   return (
     <div>
@@ -211,7 +168,6 @@ function Reservation({
         register={registerCredit}
         setRegister={setRegisterCredit}
         creditRef={creditRef}
-        backupInputData={backupInputData}
       />
       <JoinAgreement
         checked={agreeChecked}

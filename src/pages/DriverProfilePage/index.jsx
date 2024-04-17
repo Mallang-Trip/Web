@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import PageContainer from "../../components/PageContainer";
 import ImageBox from "../../components/ImageBox";
@@ -13,6 +13,7 @@ import IconBox from "./IconBox";
 
 function DriverProfilePage() {
   const navigation = useNavigate();
+  const [searchParams] = useSearchParams();
   const { driverId } = useParams();
   const [driverInfo, setDriverInfo] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(0);
@@ -33,8 +34,12 @@ function DriverProfilePage() {
 
   useEffect(() => {
     if (selectedCourseId === 0) return;
+
+    const memberParam = searchParams.get("member");
+    const dateParam = searchParams.get("date");
+
     navigation(
-      `/party/new/2?region=${driverInfo.region}&member=1&date=null&driverId=${driverId}`,
+      `/party/new/2?region=${driverInfo.region}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}`,
       {
         state: { selectedCourseId: selectedCourseId },
       }

@@ -3,10 +3,12 @@ import Policy from "./Policy";
 
 function Footer() {
   return (
-    <div className="cursor-default max-w-screen-xl mx-auto">
-      <hr className="bg-darkgray/20 mt-14 mb-7 h-px border-0 mx-5" />
-      <Company />
-      <Policy />
+    <div className="cursor-default bg-[#fafafa]">
+      <hr className="bg-[#eaeaea] mt-14 mb-7 h-px border-0" />
+      <div className="max-w-screen-xl mx-auto">
+        <Company />
+        <Policy />
+      </div>
     </div>
   );
 }

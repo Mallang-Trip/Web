@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserService from "./UserService";
 import UserPrivacy from "./UserPrivacy";
 import UserLocation from "./UserLocation";
+import UserRefund from "./UserRefund";
 import DriverService from "./DriverService";
 import DriverPrivacy from "./DriverPrivacy";
 import DriverLocation from "./DriverLocation";
@@ -19,6 +20,7 @@ function PolicyPage() {
     if (type === "service") return <UserService />;
     if (type === "privacy") return <UserPrivacy />;
     if (type === "location") return <UserLocation />;
+    if (type === "refund") return <UserRefund />;
   }
   if (category === "driver") {
     if (type === "service") return <DriverService />;

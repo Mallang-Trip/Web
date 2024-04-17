@@ -36,7 +36,7 @@ function Policy() {
         <span>|</span>
         <button
           className="hover:underline underline-offset-2 focus:outline-none"
-          // onClick={() => navigation("/policy/user/location")}
+          onClick={() => navigation("/policy/user/refund")}
         >
           환불 및 위약금 정책
         </button>

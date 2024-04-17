@@ -39,7 +39,7 @@ function CommunityPage() {
 
   useEffect(() => {
     if (!isIntersecting) return;
-    setTimeout(() => setPage(page + 1), 1000);
+    setTimeout(() => setPage(page + 1), 10);
   }, [isIntersecting]);
 
   useEffect(() => {

@@ -2,13 +2,13 @@ import PageContainer from "../../../components/PageContainer";
 import HeadTitle from "../Component/HeadTitle";
 import PolicyContainer from "../Component/PolicyContainer";
 import BodyContent from "../Component/BodyContent";
-import FeeTable from "../../../components/BottomRefundUser/FeeTable";
+import FeeTable from "../../../components/BottomRefundDriver/FeeTable";
 import refundDiagram from "../../../assets/svg/refund-diagram.svg";
 
-function UserRefund() {
+function DriverRefund() {
   return (
     <PageContainer>
-      <HeadTitle title={"환불 및 위약금 정책(일반회원용)"} />
+      <HeadTitle title={"환불 및 위약금 정책(드라이버회원용)"} />
       <div className="flex flex-col gap-7 text-sm text-darkgray font-medium">
         <img src={refundDiagram} alt="환불 정책" className="w-full" />
         <PolicyContainer>
@@ -29,8 +29,9 @@ function UserRefund() {
           </BodyContent>
           <FeeTable />
           <BodyContent title={"다른 여행자가 예약 취소했을 경우"}>
-            위약금 없이 자동으로 환불되며, 다시 파티 모집 상태가 됩니다. 이 때
-            파티의 총 금액은 예약 취소자가 지불한 위약금 만큼 저렴해집니다.
+            다른 여행자들은 위약금 없이 자동으로 환불되며, 다시 파티 모집 상태가
+            됩니다. 이 때 예약 취소자가 지불한 위약금의 90%는 드라이버에게
+            지급하고, 10%는 말랑트립의 수수료로 합니다.
           </BodyContent>
         </PolicyContainer>
       </div>
@@ -38,4 +39,4 @@ function UserRefund() {
   );
 }
 
-export default UserRefund;
+export default DriverRefund;

@@ -7,6 +7,7 @@ import UserRefund from "./UserRefund";
 import DriverService from "./DriverService";
 import DriverPrivacy from "./DriverPrivacy";
 import DriverLocation from "./DriverLocation";
+import DriverRefund from "./DriverRefund";
 
 function PolicyPage() {
   const { category, type } = useParams();
@@ -26,6 +27,7 @@ function PolicyPage() {
     if (type === "service") return <DriverService />;
     if (type === "privacy") return <DriverPrivacy />;
     if (type === "location") return <DriverLocation />;
+    if (type === "refund") return <DriverRefund />;
   }
   return navigation("/", { replace: true });
 }

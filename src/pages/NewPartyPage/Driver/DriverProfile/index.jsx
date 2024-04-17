@@ -1,13 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
-function DriverProfile({ profileImg, name, driverId, setDriverId }) {
+function DriverProfile({
+  profileImg,
+  name,
+  driverId,
+  setDriverId,
+  member,
+  date,
+}) {
   const navigation = useNavigate();
 
   return (
     <div
       className="relative h-64 border rounded-lg cursor-pointer"
-      onClick={() => navigation(`/driver/profile/${driverId}`)}
+      onClick={() =>
+        navigation(`/driver/profile/${driverId}?member=${member}&date=${date}`)
+      }
     >
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"

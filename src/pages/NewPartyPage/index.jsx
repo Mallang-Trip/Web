@@ -28,7 +28,7 @@ function NewPartyPage() {
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(
-    location.state ? location.state.selectedCourseId : -1
+    location.state ? location.state.selectedCourseId : 0
   );
   const [showErrorModal, setShowErrorModal] = useState(false);
 
@@ -41,10 +41,14 @@ function NewPartyPage() {
         setShowErrorModal(true);
         setDriverId(0);
       } else {
-        setSelectedCourseId(result.payload.courses[0].courseId);
-        navigation(
-          `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
+        setSelectedCourseId(
+          selectedCourseId || result.payload.courses[0].courseId
         );
+        if (searchParams.get("date") !== "null") {
+          navigation(
+            `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
+          );
+        }
       }
     } catch (e) {
       console.log(e);

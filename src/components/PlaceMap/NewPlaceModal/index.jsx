@@ -220,7 +220,23 @@ function NewPlaceModal({
     }
     document.body.classList.add("overflow-hidden");
 
-    initTmap();
+    if (markerData.length === 0) {
+      if (mapRef.current.firstChild)
+        mapRef.current.removeChild(mapRef.current.firstChild);
+
+      const mapWidth = mapRef.current.offsetWidth;
+      const mapHeight = 400;
+
+      new Tmapv2.Map("NewPlaceTMapApp", {
+        center: new Tmapv2.LatLng(37.398195688134, 126.96313827598239),
+        width: mapWidth + "px",
+        height: mapHeight + "px",
+        zoom: 14,
+        zoomControl: true,
+        scrollwheel: /Mobi/.test(navigator.userAgent),
+      });
+    } else initTmap();
+
     setKeyword(searchKeyword);
   }, [showModal]);
 

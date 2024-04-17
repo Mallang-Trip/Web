@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getRegionDriver } from "../../../api/driver";
 import DriverProfile from "./DriverProfile";
 
-function Driver({ region, driverId, setDriverId, date, member, setNextOK }) {
+function Driver({ region, setDriverId, date, member }) {
   const [driverData, setDriverData] = useState([]);
 
   const getDriverData = async () => {
@@ -15,13 +15,10 @@ function Driver({ region, driverId, setDriverId, date, member, setNextOK }) {
   };
 
   useEffect(() => {
-    if (driverData.length === 0 || driverId === 0) setNextOK(false);
-    else setNextOK(true);
-  }, [driverData, driverId]);
-
-  useEffect(() => {
     getDriverData();
   }, [region]);
+
+  useEffect(() => setDriverId(0), []);
 
   return (
     <>
@@ -33,11 +30,9 @@ function Driver({ region, driverId, setDriverId, date, member, setNextOK }) {
           <DriverProfile
             {...item}
             key={item.driverId}
-            selectedDriverId={driverId}
             setDriverId={setDriverId}
-            date={date}
             member={member}
-            region={region}
+            date={date}
           />
         ))}
       </div>

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Policy() {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
 
   return (
     <div className="mt-5 mb-24 lg:mb-5 px-3 font-medium text-xs text-darkgray">
@@ -15,28 +17,44 @@ function Policy() {
         <span>|</span>
         <button
           className="hover:underline underline-offset-2 focus:outline-none"
-          onClick={() => navigation("/policy/user/service")}
+          onClick={() =>
+            navigation(
+              `/policy/${user.role === "ROLE_DRIVER" ? "driver" : "user"}/service`
+            )
+          }
         >
           이용약관
         </button>
         <span>|</span>
         <button
           className="hover:underline underline-offset-2 font-bold focus:outline-none"
-          onClick={() => navigation("/policy/user/privacy")}
+          onClick={() =>
+            navigation(
+              `/policy/${user.role === "ROLE_DRIVER" ? "driver" : "user"}/privacy`
+            )
+          }
         >
           개인정보처리방침
         </button>
         <span>|</span>
         <button
           className="hover:underline underline-offset-2 focus:outline-none"
-          onClick={() => navigation("/policy/user/location")}
+          onClick={() =>
+            navigation(
+              `/policy/${user.role === "ROLE_DRIVER" ? "driver" : "user"}/location`
+            )
+          }
         >
           위치기반 서비스 이용약관
         </button>
         <span>|</span>
         <button
           className="hover:underline underline-offset-2 focus:outline-none"
-          onClick={() => navigation("/policy/user/refund")}
+          onClick={() =>
+            navigation(
+              `/policy/${user.role === "ROLE_DRIVER" ? "driver" : "user"}/refund`
+            )
+          }
         >
           환불 및 위약금 정책
         </button>

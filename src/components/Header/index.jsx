@@ -300,7 +300,7 @@ function Header() {
                   />
                   <button type="submit" className="hidden" />
                 </form>
-              ) : (
+              ) : ( 
                 <form onSubmit={searchHandler}>
                   <input
                     type="text"

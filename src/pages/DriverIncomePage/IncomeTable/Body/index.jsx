@@ -11,6 +11,7 @@ function Body({
   commission,
   type,
   partyId,
+  remitted,
 }) {
   const navigation = useNavigate();
   const [showToolTip, setShowToolTip] = useState(false);
@@ -48,6 +49,12 @@ function Body({
       </div>
       <p className="px-1 text-gray500">
         {type === "PARTY_INCOME" ? "파티 수익" : "위약금 수익"}
+        <br />
+        {remitted ? (
+          <span className="text-primary">(송금 완료)</span>
+        ) : (
+          <span className="text-[#ff0000]">(송금 대기)</span>
+        )}
       </p>
     </div>
   );

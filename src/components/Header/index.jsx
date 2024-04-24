@@ -70,7 +70,8 @@ function Header() {
     return (
       location.pathname.slice(0, 13) !== "/search/place" &&
       location.pathname.slice(0, 6) !== "/intro" &&
-      location.pathname.slice(0, 5) !== "/talk"
+      location.pathname.slice(0, 5) !== "/talk" &&
+      location.pathname.slice(0, 6) !== "/admin"
     );
   };
 
@@ -300,7 +301,7 @@ function Header() {
                   />
                   <button type="submit" className="hidden" />
                 </form>
-              ) : ( 
+              ) : (
                 <form onSubmit={searchHandler}>
                   <input
                     type="text"

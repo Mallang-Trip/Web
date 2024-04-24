@@ -3,6 +3,7 @@ import PageContainer from "../../components/PageContainer";
 import PartyFilter from "./PartyFilter";
 import PartyList from "./PartyList";
 import NewPartyButton from "./NewPartyButton";
+import KakaoButton from "./KakaoButton";
 
 function LandingPage() {
   const user = useSelector((state) => state.user);
@@ -18,6 +19,7 @@ function LandingPage() {
       </div>
       <PartyList />
       <NewPartyButton />
+      <KakaoButton />
     </PageContainer>
   );
 }

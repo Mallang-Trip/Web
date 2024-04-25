@@ -63,17 +63,13 @@ function PartyDetail({ partyId }) {
         partyStatus={partyData.partyStatus}
         proposal={partyData.proposal}
       />
-      {(partyData.partyStatus === "RECRUITING" ||
-        partyData.partyStatus === "SEALED" ||
-        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
-        <MallangReady
-          partyId={partyId}
-          driverReady={partyData.driverReady}
-          partyStatus={partyData.partyStatus}
-          startDate={partyData.startDate}
-          getPartyDetailFunc={getPartyDetailFunc}
-        />
-      )}
+      <MallangReady
+        partyId={partyId}
+        driverReady={partyData.driverReady}
+        partyStatus={partyData.partyStatus}
+        startDate={partyData.startDate}
+        getPartyDetailFunc={getPartyDetailFunc}
+      />
       <ToTalPrice
         totalPrice={partyData.course?.totalPrice}
         isDriver={true}

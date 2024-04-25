@@ -26,12 +26,11 @@ function MallangReady({
     setReady(
       driverReady ||
         partyStatus === "SEALED" ||
-        partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
+        partyStatus === "WAITING_COURSE_CHANGE_APPROVAL" ||
+        partyStatus === "FINISHED"
     );
   }, []);
 
-  if (computeGapDay(startDate) <= 0 && partyStatus !== "RECRUITING")
-    return null;
   return (
     <div className="my-7">
       <p className="text-lg text-black font-bold">말랑레디</p>

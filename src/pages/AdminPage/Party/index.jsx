@@ -6,6 +6,7 @@ import PartyDetail from "./PartyDetail";
 import BeforeReservation from "./BeforeReservation";
 import AfterReservation from "./AfterReservation";
 import FinishedParty from "./FinishedParty";
+import CanceledParty from "./CanceledParty";
 
 function Party() {
   const [searchParams] = useSearchParams();
@@ -20,6 +21,7 @@ function Party() {
       {partyType === "before_reservation" && <BeforeReservation />}
       {partyType === "after_reservation" && <AfterReservation />}
       {partyType === "finished" && <FinishedParty />}
+      {partyType === "canceled" && <CanceledParty />}
     </div>
   );
 }

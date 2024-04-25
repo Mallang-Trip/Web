@@ -12,6 +12,7 @@ import CourseMap from "../../../../components/CourseMap";
 import BottomRefundUser from "../../../../components/BottomRefundUser";
 import BottomRefundDriver from "../../../../components/BottomRefundDriver";
 import MallangReady from "./MallangReady";
+import CancelPrice from "./CancelPrice";
 
 function PartyDetail({ partyId }) {
   const [loading, setLoading] = useState(true);
@@ -21,7 +22,6 @@ function PartyDetail({ partyId }) {
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     } finally {
@@ -63,18 +63,28 @@ function PartyDetail({ partyId }) {
         partyStatus={partyData.partyStatus}
         proposal={partyData.proposal}
       />
-      <MallangReady
-        partyId={partyId}
-        driverReady={partyData.driverReady}
-        partyStatus={partyData.partyStatus}
-        startDate={partyData.startDate}
-        getPartyDetailFunc={getPartyDetailFunc}
-      />
-      <ToTalPrice
-        totalPrice={partyData.course?.totalPrice}
-        isDriver={true}
-        partyStatus={partyData.partyStatus}
-      />
+      {partyData.partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
+      partyData.partyStatus === "CANCELED_BY_PROPOSER" ||
+      partyData.partyStatus === "CANCELED_BY_EXPIRATION" ||
+      partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
+      partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT" ? (
+        <CancelPrice discountPrice={partyData.course?.discountPrice} />
+      ) : (
+        <>
+          <MallangReady
+            partyId={partyId}
+            driverReady={partyData.driverReady}
+            partyStatus={partyData.partyStatus}
+            startDate={partyData.startDate}
+            getPartyDetailFunc={getPartyDetailFunc}
+          />
+          <ToTalPrice
+            totalPrice={partyData.course?.totalPrice}
+            isDriver={true}
+            partyStatus={partyData.partyStatus}
+          />
+        </>
+      )}
       <PartyPlan
         edit={false}
         course={partyData.course}

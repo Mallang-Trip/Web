@@ -1,6 +1,6 @@
 function PartyTab({ partyType, setPartyType }) {
   return (
-    <div className="w-full grid grid-cols-2 mt-10 rounded-lg">
+    <div className="w-full grid grid-cols-2 my-10 rounded-lg">
       <button
         className={`h-12 rounded-tl-lg border border-primary text-sm font-semibold ${partyType === "before_reservation" ? "text-white bg-primary" : "text-primary bg-white"}`}
         onClick={() => setPartyType("before_reservation")}

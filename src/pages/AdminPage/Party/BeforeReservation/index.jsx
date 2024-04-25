@@ -24,7 +24,7 @@ function BeforeReservation() {
 
   if (loading) return <Loading />;
   return (
-    <div className="w-full flex flex-col gap-5 mt-10 mx-auto">
+    <div className="w-full flex flex-col gap-5 mx-auto">
       {partyData.map((party) => (
         <PartyItem key={party.partyId} {...party} />
       ))}

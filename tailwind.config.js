@@ -15,6 +15,7 @@ module.exports = {
         skyblue: "#EAF4FF",
         gray300: "#EFEFEF",
         gray400: "#C8C8C8",
+        gray500: "#939094",
         gray700: "#484649",
         gray800: "#313033",
       },
@@ -29,5 +30,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animated"), require("tailwind-scrollbar-hide")],
+  plugins: [
+    require("tailwindcss-animated"),
+    require("tailwind-scrollbar-hide"),
+  ],
 };

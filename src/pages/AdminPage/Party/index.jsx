@@ -4,6 +4,7 @@ import Title from "../../../components/Title";
 import PartyTab from "./PartyTab";
 import PartyDetail from "./PartyDetail";
 import BeforeReservation from "./BeforeReservation";
+import AfterReservation from "./AfterReservation";
 
 function Party() {
   const [searchParams] = useSearchParams();
@@ -12,10 +13,11 @@ function Party() {
 
   if (partyId) return <PartyDetail partyId={partyId} />;
   return (
-    <div>
+    <div className="text-base font-medium">
       <Title title="파티 관리" />
       <PartyTab partyType={partyType} setPartyType={setPartyType} />
       {partyType === "before_reservation" && <BeforeReservation />}
+      {partyType === "after_reservation" && <AfterReservation />}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import PageContainer from "../../components/PageContainer";
+import { useParams } from "react-router-dom";
 import AdminSideBar from "./AdminSidebar";
 import AdminHome from "./AdminHome";
 import KPI from "./KPI";
@@ -7,11 +7,10 @@ import Payment from "./Payment";
 import Service from "./CustomerService/Service";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
-
-import { useLocation } from "react-router-dom";
+import Party from "./Party";
 
 function AdminPage() {
-  const location = useLocation().pathname.substring(7);
+  const { type } = useParams();
   const list = [
     { name: "관리자 홈", id: "home" },
     { name: "KPI", id: "kpi" },
@@ -55,15 +54,16 @@ function AdminPage() {
 
   return (
     <div className="w-full">
-      <AdminSideBar buttonList={list} current={location} />
+      <AdminSideBar buttonList={list} current={type} />
       <div className="max-w-screen-xl min-h-[800px] ml-60 mx-auto mb-24 px-14 text-2xl text-black font-bold">
-        {location === "home" && <AdminHome list={list} />}
-        {location === "kpi" && <KPI />}
-        {location === "profit" && <Profit />}
-        {location === "payment" && <Payment />}
-        {location === "service" && <Service />}
-        {location === "report" && <Report />}
-        {location === "noti" && <Noti />}
+        {type === "home" && <AdminHome list={list} />}
+        {type === "kpi" && <KPI />}
+        {type === "profit" && <Profit />}
+        {type === "payment" && <Payment />}
+        {type === "service" && <Service />}
+        {type === "report" && <Report />}
+        {type === "noti" && <Noti />}
+        {type === "party" && <Party />}
       </div>
     </div>
   );

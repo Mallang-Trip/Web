@@ -95,7 +95,7 @@ function Router() {
         <Route path="/talk" element={<AuthTalkPage />} />
         <Route path="/notify" element={<AuthNotifyPage />} />
         <Route path="/help/:id" element={<AuthHelpPage />} />
-        <Route path="/admin/:id" element={<AuthAdminPage />} />
+        <Route path="/admin/:type" element={<AuthAdminPage />} />
       </Route>
 
       <Route element={<LoginLayout />}>

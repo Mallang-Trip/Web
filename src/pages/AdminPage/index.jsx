@@ -8,6 +8,7 @@ import Service from "./CustomerService/Service";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
 import Party from "./Party";
+import Place from "./Place";
 
 function AdminPage() {
   const { type } = useParams();
@@ -64,6 +65,7 @@ function AdminPage() {
         {type === "report" && <Report />}
         {type === "noti" && <Noti />}
         {type === "party" && <Party />}
+        {type === "place" && <Place />}
       </div>
     </div>
   );

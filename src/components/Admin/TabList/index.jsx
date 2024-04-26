@@ -2,7 +2,6 @@ import { useState } from "react";
 
 function TabList({ tabList }) {
   const [current, setCurrent] = useState(0);
-  console.log(tabList.length);
 
   const rounded = (index, maxIndex) => {
     if (index === 0) return "rounded-l-xl";

@@ -4,7 +4,6 @@ function HomeButton({ name }) {
       <div className="flex justify-between w-full h-12 py-4 px-8 items-center gap-2.5 cursor-pointer">
         <div className="text-sm font-semibold">{name}</div>
         {child && (
-          // <img src={setShowChild ? {image} : {image2}} onClick={()=>{setShowChild(!showChild)}}/>
           <img
             className="select-none"
             src={img_more_info}

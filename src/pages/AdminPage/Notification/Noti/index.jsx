@@ -13,7 +13,6 @@ function Noti() {
     if (searchKeyword === "") return;
 
     setSearchKeyword("");
-    // navigation(`/search/place/${searchKeyword}`);
   };
 
   return (

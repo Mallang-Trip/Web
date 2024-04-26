@@ -21,10 +21,7 @@ function ButtonItem({ name, child, id, current }) {
         ) : (
           <div className="text-sm font-semibold">{name}</div>
         )}
-        {child && (
-          // <img src={setShowChild ? {image} : {image2}} onClick={()=>{setShowChild(!showChild)}}/>
-          <img className="select-none" src={img_more_info} />
-        )}
+        {child && <img className="select-none" src={img_more_info} />}
       </div>
       {child && showChild && (
         <div>

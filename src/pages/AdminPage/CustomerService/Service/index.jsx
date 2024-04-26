@@ -13,7 +13,6 @@ function Service() {
     if (searchKeyword === "") return;
 
     setSearchKeyword("");
-    // navigation(`/search/place/${searchKeyword}`);
   };
 
   return (

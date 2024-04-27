@@ -34,3 +34,6 @@ export const postNewDestinationAdmin = async (body) =>
 
 export const putDestinationAdmin = async (data, destinationId) =>
   await PUT(`/destination/${destinationId}`, data, true);
+
+export const deleteDestinationAdmin = async (destinationId) =>
+  await DELETE(`/destination/${destinationId}`, true);

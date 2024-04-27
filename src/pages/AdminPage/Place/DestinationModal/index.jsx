@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 import {
+  deleteDestinationAdmin,
   deleteUnLikeDestination,
   getDestinationDetail,
   postLikeDestination,
@@ -18,7 +19,13 @@ import CommentList from "../../../../components/Comment/CommentList";
 import AddComment from "../../../../components/Comment/AddComment";
 import ImageBox from "../../../../components/ImageBox";
 
-function DestinationModal({ showModal, setShowModal, destinationId }) {
+function DestinationModal({
+  showModal,
+  setShowModal,
+  destinationId,
+  placeData,
+  setPlaceData,
+}) {
   const modalRef = useRef();
   const user = useSelector((state) => state.user);
   const [heart, setHeart] = useState(false);
@@ -27,6 +34,25 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
   const [loading, setLoading] = useState(true);
   const [destinationInfo, setDestinationInfo] = useState({});
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const deleteHandler = async () => {
+    try {
+      const result = await deleteDestinationAdmin(destinationId);
+      setShowDeleteModal(false);
+      setShowModal(false);
+      setPlaceData(
+        placeData.filter(
+          (destination) => destination.destinationId !== destinationId
+        )
+      );
+      alert("여행지 삭제가 완료되었습니다.");
+      console.log(result);
+    } catch (e) {
+      alert("여행지 삭제에 실패했습니다.");
+      console.log(e);
+    }
+  };
 
   const heartClickHandler = async () => {
     if (!user.auth) return setShowLoginModal(true);
@@ -178,7 +204,7 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
               </button>
               <button
                 className="w-full h-12 text-sm text-center text-white rounded-lg bg-red-500"
-                // onClick={yesHandler}
+                onClick={() => setShowDeleteModal(true)}
               >
                 여행지 삭제
               </button>
@@ -193,7 +219,7 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
             </button>
             <button
               className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-red-500"
-              // onClick={yesHandler}
+              onClick={() => setShowDeleteModal(true)}
             >
               여행지 삭제
             </button>
@@ -207,6 +233,14 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
         placeData={destinationInfo}
         getDestinationInfo={getDestinationInfo}
         destinationId={destinationId}
+      />
+      <CheckModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        message={"여행지를 삭제하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => deleteHandler()}
       />
       <CheckModal
         showModal={showLoginModal}

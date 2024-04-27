@@ -63,6 +63,8 @@ function Place() {
         showModal={showDestinationModal}
         setShowModal={setShowDestinationModal}
         destinationId={destinationId}
+        placeData={placeData}
+        setPlaceData={setPlaceData}
       />
       <NewPlaceModal
         showModal={showNewPlaceModal}

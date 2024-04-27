@@ -3,6 +3,7 @@ import { getAllMarkers, getSearchInfo } from "../../../api/destination";
 import ConfirmModal from "../../../components/ConfirmModal";
 import PlaceTab from "./PlaceTab";
 import PlaceMap from "./PlaceMap";
+import PlaceList from "./PlaceList";
 import SearchBar from "./SearchBar";
 import NewPlaceModal from "./NewPlaceModal";
 import DestinationModal from "./DestinationModal";
@@ -54,11 +55,19 @@ function Place() {
         setKeyword={setKeyword}
         setShowNewPlaceModal={setShowNewPlaceModal}
       />
-      <PlaceMap
-        placeData={placeData}
-        setDestinationId={setDestinationId}
-        setShowDestinationModal={setShowDestinationModal}
-      />
+      {placeType === 0 ? (
+        <PlaceMap
+          placeData={placeData}
+          setDestinationId={setDestinationId}
+          setShowDestinationModal={setShowDestinationModal}
+        />
+      ) : (
+        <PlaceList
+          placeData={placeData}
+          setDestinationId={setDestinationId}
+          setShowDestinationModal={setShowDestinationModal}
+        />
+      )}
       <DestinationModal
         showModal={showDestinationModal}
         setShowModal={setShowDestinationModal}

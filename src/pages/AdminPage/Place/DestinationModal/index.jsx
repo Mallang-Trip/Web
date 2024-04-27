@@ -11,6 +11,7 @@ import FillHeart from "../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import ShareModal from "./ShareModal";
+import EditPlaceModal from "./EditPlaceModal";
 import CheckModal from "../../../../components/CheckModal";
 import Loading from "../../../../components/Loading";
 import CommentList from "../../../../components/Comment/CommentList";
@@ -25,6 +26,7 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [destinationInfo, setDestinationInfo] = useState({});
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const heartClickHandler = async () => {
     if (!user.auth) return setShowLoginModal(true);
@@ -170,7 +172,7 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
             <div className="flex md:hidden w-full p-5 gap-3">
               <button
                 className="w-full h-12 text-sm text-center text-white rounded-lg bg-primary"
-                // onClick={closeModal}
+                onClick={() => setShowEditModal(true)}
               >
                 여행지 수정
               </button>
@@ -185,7 +187,7 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
           <div className="flex">
             <button
               className="w-full h-16 text-lg text-center text-white rounded-bl-xl bg-primary"
-              // onClick={closeModal}
+              onClick={() => setShowEditModal(true)}
             >
               여행지 수정
             </button>
@@ -199,6 +201,13 @@ function DestinationModal({ showModal, setShowModal, destinationId }) {
         </div>
       </div>
 
+      <EditPlaceModal
+        showModal={showEditModal}
+        setShowModal={setShowEditModal}
+        placeData={destinationInfo}
+        getDestinationInfo={getDestinationInfo}
+        destinationId={destinationId}
+      />
       <CheckModal
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}

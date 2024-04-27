@@ -31,3 +31,6 @@ export const postNewDestinationUser = async (body) =>
 
 export const postNewDestinationAdmin = async (body) =>
   await POST("/destination", body, true);
+
+export const putDestinationAdmin = async (data, destinationId) =>
+  await PUT(`/destination/${destinationId}`, data, true);

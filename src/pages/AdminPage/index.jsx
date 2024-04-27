@@ -9,6 +9,7 @@ import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
 import Party from "./Party";
 import Place from "./Place";
+import Region from "./Region";
 
 function AdminPage() {
   const { type } = useParams();
@@ -32,7 +33,7 @@ function AdminPage() {
         { name: "파티관리", id: "party" },
         { name: "커뮤니티", id: "community" },
         { name: "여행지 관리", id: "place" },
-        { name: "가고 싶은 지역 편집", id: "city-list" },
+        { name: "가고 싶은 지역 편집", id: "region" },
       ],
     },
     {
@@ -66,6 +67,7 @@ function AdminPage() {
         {type === "noti" && <Noti />}
         {type === "party" && <Party />}
         {type === "place" && <Place />}
+        {type === "region" && <Region />}
       </div>
     </div>
   );

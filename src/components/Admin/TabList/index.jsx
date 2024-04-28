@@ -12,6 +12,7 @@ function TabList({ tabList, changeTab }) {
     <div className="flex justify-between w-full min-w-[32rem] my-12">
       {tabList.map((item, index) => (
         <button
+          key={index}
           className={`flex justify-center whitespace-nowrap border border-primary w-full p-3 font-semibold text-lg ${rounded(index, tabList.length - 1)} ${index === current ? "bg-primary text-white" : "text-primary"}`}
           onClick={() => {
             setCurrent(index);

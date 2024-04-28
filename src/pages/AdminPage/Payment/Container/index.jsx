@@ -29,7 +29,7 @@ function Container({
           </button>
         </div>
       </div>
-      <line className="w-full h-[0.03125rem] my-5 bg-mediumgray" />
+      <hr className="w-full h-[0.03125rem] my-5 bg-mediumgray" />
       <div className="flex justify-between w-full">
         <div className="flex flex-col text-sm text-[#939094] w-24">
           드라이버
@@ -45,7 +45,9 @@ function Container({
           여행자 정보
           <div className="flex mt-1.5 text-gray700">
             {memberInfo.map((item, index) => (
-              <div className="mr-5">{item}</div>
+              <div key={index} className="mr-5">
+                {item}
+              </div>
             ))}
           </div>
         </div>

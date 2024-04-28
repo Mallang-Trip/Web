@@ -102,7 +102,10 @@ function Service() {
         )}
       </div>
       {currentData.map((item, index) => (
-        <div className="flex w-full h-14 items-center text-sm bg-white border-t-2 border-mediumgray font-medium">
+        <div
+          key={index}
+          className="flex w-full h-14 items-center text-sm bg-white border-t-2 border-mediumgray font-medium"
+        >
           <div className="flex justify-center mx-6">
             <input type="checkbox" />
           </div>

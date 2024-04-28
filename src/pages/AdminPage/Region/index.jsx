@@ -29,12 +29,12 @@ function Region() {
 
   return (
     <div className="text-base font-medium">
-      <div className="flex justify-between items-center">
+      <div className="h-11 flex justify-between items-center">
         <Title title="가고 싶은 지역 편집" />
         <SearchBar
           keyword={searchKeyword}
           setKeyword={setSearchKeyword}
-          submitHandler={() => console.log("first")}
+          regionId={regionId}
         />
       </div>
       {regionId ? (
@@ -44,6 +44,7 @@ function Region() {
           regionData={regionData}
           getPartyRegionListFunc={getPartyRegionListFunc}
           setShowDeleteErrorModal={setShowDeleteErrorModal}
+          searchKeyword={searchKeyword}
         />
       )}
       <ConfirmModal

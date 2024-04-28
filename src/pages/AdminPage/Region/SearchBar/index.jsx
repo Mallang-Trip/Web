@@ -1,6 +1,7 @@
 import cross from "../../../../assets/svg/cross.svg";
 
-function SearchBar({ submitHandler, keyword, setKeyword }) {
+function SearchBar({ keyword, setKeyword, regionId }) {
+  if (regionId) return null;
   return (
     <div className="relative flex w-1/2">
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -18,7 +19,7 @@ function SearchBar({ submitHandler, keyword, setKeyword }) {
           ></path>
         </svg>
       </div>
-      <form onSubmit={submitHandler} className="w-full">
+      <div className="w-full">
         <input
           type="text"
           className="block w-full h-11 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
@@ -27,7 +28,7 @@ function SearchBar({ submitHandler, keyword, setKeyword }) {
           onChange={({ target }) => setKeyword(target.value)}
         ></input>
         <button type="submit" className="hidden" />
-      </form>
+      </div>
       {keyword && (
         <button
           className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"

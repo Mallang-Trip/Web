@@ -7,6 +7,7 @@ function RegionList({
   regionData,
   getPartyRegionListFunc,
   setShowDeleteErrorModal,
+  searchKeyword,
 }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editTarget, setEditTarget] = useState({});
@@ -14,16 +15,18 @@ function RegionList({
   return (
     <>
       <div className="grid grid-cols-1 gap-10 px-6 mx-auto py-8 lg:grid-cols-3 xl:grid-cols-4 overflow-auto">
-        {regionData.map((item) => (
-          <RegionItem
-            key={item.partyRegionId}
-            setShowEditModal={setShowEditModal}
-            setEditTarget={setEditTarget}
-            getPartyRegionListFunc={getPartyRegionListFunc}
-            setShowDeleteErrorModal={setShowDeleteErrorModal}
-            {...item}
-          />
-        ))}
+        {regionData
+          .filter((region) => region.region.includes(searchKeyword))
+          .map((item) => (
+            <RegionItem
+              key={item.partyRegionId}
+              setShowEditModal={setShowEditModal}
+              setEditTarget={setEditTarget}
+              getPartyRegionListFunc={getPartyRegionListFunc}
+              setShowDeleteErrorModal={setShowDeleteErrorModal}
+              {...item}
+            />
+          ))}
         <NewRegion getPartyRegionListFunc={getPartyRegionListFunc} />
       </div>
 

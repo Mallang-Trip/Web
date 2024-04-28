@@ -6,6 +6,7 @@ import KPI from "./KPI";
 import Profit from "./Profit";
 import Payment from "./Payment";
 import Service from "./CustomerService/Service";
+import Inquiry from "./CustomerService/Inquiry";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
 
@@ -18,6 +19,7 @@ function AdminPage() {
     { name: "결제 내역 확인", id: "payment" },
     {
       name: "고객센터 및 신고",
+      id: "customerService",
       child: [
         { name: "고객센터 글 작성/수정/삭제", id: "service" },
         { name: "고객문의", id: "inquiry" },
@@ -26,6 +28,7 @@ function AdminPage() {
     },
     {
       name: "관리",
+      id: "management",
       child: [
         { name: "피드백", id: "feedback" },
         { name: "파티관리", id: "party" },
@@ -36,6 +39,7 @@ function AdminPage() {
     },
     {
       name: "회원관리",
+      id: "userManagement",
       child: [
         { name: "드라이버 등록 심사", id: "driver-registration" },
         { name: "드라이버 회원 정보", id: "driver-info" },
@@ -45,6 +49,7 @@ function AdminPage() {
     },
     {
       name: "알림 및 약관",
+      id: "notification",
       child: [
         { name: "알림 내역 관리", id: "noti" },
         { name: "약관 수정 및 전체 메일 알림", id: "noti-mail" },
@@ -54,13 +59,14 @@ function AdminPage() {
 
   return (
     <PageContainer>
-      <div className="ml-60 w-[calc(100%-30rem)] min-w-min px-24 text-2xl text-black font-bold">
-        <AdminSideBar buttonList={list} current={location} />
+      <div className="absolute left-60 w-[calc(100%-30rem)] min-w-min px-24 text-2xl text-black font-bold">
+        <AdminSideBar buttonList={list} location={location} />
         {location === "home" && <AdminHome list={list} />}
         {location === "kpi" && <KPI />}
         {location === "profit" && <Profit />}
         {location === "payment" && <Payment />}
         {location === "service" && <Service />}
+        {location === "inquiry" && <Inquiry />}
         {location === "report" && <Report />}
         {location === "noti" && <Noti />}
       </div>

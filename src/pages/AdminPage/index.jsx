@@ -10,6 +10,7 @@ import Noti from "./Notification/Noti";
 import Party from "./Party";
 import Place from "./Place";
 import Region from "./Region";
+import DriverRegistration from "./DriverRegistration";
 
 function AdminPage() {
   const { type } = useParams();
@@ -68,6 +69,7 @@ function AdminPage() {
         {type === "party" && <Party />}
         {type === "place" && <Place />}
         {type === "region" && <Region />}
+        {type === "driver-registration" && <DriverRegistration />}
       </div>
     </div>
   );

@@ -15,7 +15,6 @@ function RegionDriver() {
     try {
       const result = await getPartyRegionDriverList(regionId);
       setRegionDriverData(result.payload);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     } finally {

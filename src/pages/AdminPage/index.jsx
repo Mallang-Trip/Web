@@ -7,12 +7,12 @@ import Payment from "./Payment";
 import Service from "./CustomerService/Service";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
-import Party from "./Party";
-import Place from "./Place";
-import Region from "./Region";
-import DriverRegistration from "./DriverRegistration";
-import DriverInfo from "./DriverInfo";
-import UserInfo from "./UserInfo";
+import Party from "./Management/Party";
+import Place from "./Management/Place";
+import Region from "./Management/Region";
+import DriverRegistration from "./User/DriverRegistration";
+import DriverInfo from "./User/DriverInfo";
+import UserInfo from "./User/UserInfo";
 
 function AdminPage() {
   const { type } = useParams();

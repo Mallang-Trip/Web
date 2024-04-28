@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AdminSideBar from "./AdminSidebar";
 import AdminHome from "./AdminHome";
@@ -60,6 +61,8 @@ function AdminPage() {
       ],
     },
   ];
+
+  useEffect(() => window.scrollTo({ top: 0 }), [type]);
 
   return (
     <div className="w-full">

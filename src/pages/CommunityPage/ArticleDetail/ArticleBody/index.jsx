@@ -134,7 +134,7 @@ function ArticleBody({
               src={shareIcon}
               onClick={() => setShowShareModal(true)}
             />
-            {user.userId === userId && (
+            {(user.userId === userId || user.isAdmin) && (
               <img
                 className="cursor-pointer"
                 src={MoreDot}

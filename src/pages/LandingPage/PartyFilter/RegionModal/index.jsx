@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setRegion } from "../../../../redux/modules/partyFilterSlice";
-import { regionData } from "../../../../utils/data";
+import { getPartyRegionList } from "../../../../api/region";
 import RegionButton from "./RegionButton";
 
 function RegionModal({ showModal, setShowModal }) {
@@ -10,6 +10,7 @@ function RegionModal({ showModal, setShowModal }) {
   const modalRef = useRef();
   const region = useSelector((state) => state.partyFilter.region);
   const [selectedRegion, setSelectedRegion] = useState("");
+  const [regionData, setRegionData] = useState([]);
 
   const regionClickHandler = (target) => {
     dispatch(setRegion(target));
@@ -26,6 +27,15 @@ function RegionModal({ showModal, setShowModal }) {
     if (event.key === "Escape") closeModal();
   };
 
+  const getPartyRegionListFunc = async () => {
+    try {
+      const result = await getPartyRegionList();
+      setRegionData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
@@ -37,6 +47,10 @@ function RegionModal({ showModal, setShowModal }) {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [showModal]);
+
+  useEffect(() => {
+    getPartyRegionListFunc();
+  }, []);
 
   return createPortal(
     <div
@@ -80,7 +94,7 @@ function RegionModal({ showModal, setShowModal }) {
           <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 sm:grid-cols-3 h-full bg-white rounded-t-xl max-h-[400px] md:max-h-[500px] overflow-auto noScrollBar">
             {regionData.map((item) => (
               <RegionButton
-                key={item.name}
+                key={item.partyRegionId}
                 selectedRegion={selectedRegion}
                 setSelectedRegion={setSelectedRegion}
                 {...item}

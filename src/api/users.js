@@ -1,4 +1,4 @@
-import { GET, POST, PUT } from "../utils/axios";
+import { GET, POST, PUT, DELETE } from "../utils/axios";
 
 export const signup = async (data) => await POST("/signup", data);
 
@@ -33,3 +33,5 @@ export const postIdentification = async (data) =>
 
 export const postIdentificationConfirm = async (impUid, otp) =>
   await POST(`/identification/confirm?impUid=${impUid}&otp=${otp}`, {});
+
+export const deleteUser = async () => await DELETE("/user/withdrawal", true);

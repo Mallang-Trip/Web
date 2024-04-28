@@ -37,8 +37,8 @@ function PartyIconBox({ id, type, images, name, dibs }) {
           ? await deleteUnLikeParty(id)
           : await deleteUnLikeDestination(id)
         : isParty
-        ? await postLikeParty(id)
-        : await postLikeDestination(id);
+          ? await postLikeParty(id)
+          : await postLikeDestination(id);
       setHeart(!heart);
     } catch (e) {
       console.log(e);
@@ -46,6 +46,8 @@ function PartyIconBox({ id, type, images, name, dibs }) {
   };
 
   const goPartyChat = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+
     try {
       const result = await getPartyChatId(id);
 

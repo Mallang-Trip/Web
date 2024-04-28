@@ -21,7 +21,7 @@ function Menu() {
         {user.isAdmin && (
           <button
             className="w-full flex justify-between p-4 my-0.5"
-            onClick={() => navigation("/admin")}
+            onClick={() => navigation("/admin/home")}
           >
             <span className="text-base">관리자</span>
             <img src={headerBack} alt="더보기" className="rotate-180" />
@@ -50,6 +50,15 @@ function Menu() {
           <span className="text-base">예약 내역</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
+        {user.role === "ROLE_DRIVER" && (
+          <button
+            className="w-full flex justify-between p-4 my-0.5"
+            onClick={() => navigation("/my/driver/income")}
+          >
+            <span className="text-base">수익 내역</span>
+            <img src={headerBack} alt="더보기" className="rotate-180" />
+          </button>
+        )}
         <button
           className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/article")}

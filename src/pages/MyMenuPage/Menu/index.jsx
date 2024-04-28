@@ -21,7 +21,7 @@ function Menu() {
         {user.isAdmin && (
           <button
             className="w-full flex justify-between p-4 my-0.5"
-            onClick={() => navigation("/admin")}
+            onClick={() => navigation("/admin/home")}
           >
             <span className="text-base">관리자</span>
             <img src={headerBack} alt="더보기" className="rotate-180" />

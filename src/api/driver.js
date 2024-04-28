@@ -33,3 +33,9 @@ export const putDriverApply = async (data) =>
 
 export const deleteDriverApply = async () =>
   await DELETE("/driver/apply", true);
+
+export const getDriverApplyAdmin = async () =>
+  await GET("/driver/accept", true);
+
+export const putDriverApplyAcceptAdmin = async (driverId, accept) =>
+  await PUT(`/driver/accept/${driverId}?accept=${accept}`, {}, true);

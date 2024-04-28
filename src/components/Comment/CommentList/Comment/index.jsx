@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { deleteComment, putComment } from "../../../../api/driver";
 import {
   deleteDestinationComment,
@@ -18,6 +19,7 @@ function Comment({
   isDriver,
   reloadData,
 }) {
+  const user = useSelector((state) => state.user);
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
   const [newContent, setNewContent] = useState(content);
@@ -105,6 +107,16 @@ function Comment({
             <span>|</span>
             <button
               className="hover:border-b hover:border-primary"
+              onClick={rightButtonHandler}
+            >
+              {modifyMode ? "확인" : "삭제하기"}
+            </button>
+          </div>
+        )}
+        {!isMyComment && user.role === "ROLE_ADMIN" && (
+          <div className="flex gap-1 text-xs text-[#ff0000] font-bold">
+            <button
+              className="hover:border-b hover:border-[#ff0000]"
               onClick={rightButtonHandler}
             >
               {modifyMode ? "확인" : "삭제하기"}

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import EditButton from "../../../../components/EditButton";
 import Information from "../Information";
 import NewPasswordModal from "./NewPasswordModal";
+import ExitButton from "./ExitButton";
 
 function LoginInfo({ modifyMode, email, emailHandler }) {
   const user = useSelector((state) => state.user);
@@ -20,11 +21,14 @@ function LoginInfo({ modifyMode, email, emailHandler }) {
         />
         <Information title={"아이디"} content={user.loginId} />
         <Information title={"비밀번호"} content={"*********"} />
-        <EditButton
-          className="w-36 mx-auto md:m-0"
-          onClick={() => setShowPasswordModal(true)}
-          title="비밀번호 변경"
-        />
+        <div className="flex justify-center md:justify-start gap-4">
+          <EditButton
+            className="w-36"
+            onClick={() => setShowPasswordModal(true)}
+            title="비밀번호 변경"
+          />
+          <ExitButton />
+        </div>
       </div>
       <NewPasswordModal
         showModal={showPasswordModal}

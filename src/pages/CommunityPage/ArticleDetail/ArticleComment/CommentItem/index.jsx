@@ -58,9 +58,9 @@ function CommentItem({
           >{`답글 ${replies.length}개`}</button>
           <button className="text-darkgray">톡 보내기</button>
           <button className="text-darkgray">신고</button>
-          {user.userId === userId && !deleted && (
+          {(user.userId === userId || user.isAdmin) && !deleted && (
             <button
-              className="text-darkgray"
+              className="text-[#ff0000]"
               onClick={() => setShowDeleteModal(true)}
             >
               삭제

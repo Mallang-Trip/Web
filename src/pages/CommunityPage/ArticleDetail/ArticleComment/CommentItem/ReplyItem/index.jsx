@@ -51,8 +51,13 @@ function ReplyItem({
           <div className="flex gap-8 text-xs text-darkgray">
             <button>톡 보내기</button>
             <button>신고</button>
-            {user.userId === userId && !deleted && (
-              <button onClick={() => setShowDeleteModal(true)}>삭제</button>
+            {(user.userId === userId || user.isAdmin) && !deleted && (
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="text-[#ff0000]"
+              >
+                삭제
+              </button>
             )}
           </div>
         </div>

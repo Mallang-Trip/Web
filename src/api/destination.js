@@ -28,3 +28,12 @@ export const getLikeDestination = async () =>
 
 export const postNewDestinationUser = async (body) =>
   await POST("/destination/by-user", body, true);
+
+export const postNewDestinationAdmin = async (body) =>
+  await POST("/destination", body, true);
+
+export const putDestinationAdmin = async (data, destinationId) =>
+  await PUT(`/destination/${destinationId}`, data, true);
+
+export const deleteDestinationAdmin = async (destinationId) =>
+  await DELETE(`/destination/${destinationId}`, true);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function TabList({ tabList }) {
+function TabList({ tabList, changeTab }) {
   const [current, setCurrent] = useState(0);
 
   const rounded = (index, maxIndex) => {
@@ -15,6 +15,7 @@ function TabList({ tabList }) {
           className={`flex justify-center whitespace-nowrap border border-primary w-full p-3 font-semibold text-lg ${rounded(index, tabList.length - 1)} ${index === current ? "bg-primary text-white" : "text-primary"}`}
           onClick={() => {
             setCurrent(index);
+            changeTab(index);
           }}
         >
           {item.name}

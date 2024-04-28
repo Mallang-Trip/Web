@@ -41,7 +41,8 @@ function HomeBodyForm({ name, id, child }) {
                 key={index}
                 className="flex w-28 min-w-fit px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold"
                 onClick={() => {
-                  navigate(`/admin/${item.id}`);
+                  if (item.id === "community") navigate("/community/main");
+                  else navigate(`/admin/${item.id}`);
                 }}
               >
                 <div className="text-sm font-semibold">{item.name}</div>

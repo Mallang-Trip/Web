@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import img_more_info from "../../../../assets/svg/more-info-gray500.svg";
-import img_more_info_close from "../../../../assets/svg/more-info-gray500-close.svg";
 
 function ButtonItem({ name, child, id }) {
   const navigation = useNavigate();
   const { type } = useParams();
   const [showChild, setShowChild] = useState(false);
+
+  useEffect(() => {
+    if (!child) return;
+    if (child.some((item) => item.id === type)) setShowChild(true);
+    else setShowChild(false);
+  }, [type]);
 
   return (
     <div>
@@ -22,17 +27,16 @@ function ButtonItem({ name, child, id }) {
           <div className="text-sm font-semibold text-[#1C1B1F]">{name}</div>
         )}
         {child && (
-          <div>
-            {showChild ? (
-              <img className="select-none" src={img_more_info_close} />
-            ) : (
-              <img className="select-none" src={img_more_info} />
-            )}
-          </div>
+          <img
+            className={`select-none transition-all duration-300 ${showChild ? "rotate-180" : "rotate-0"}`}
+            src={img_more_info}
+          />
         )}
       </div>
-      {child && showChild && (
-        <div>
+      {child && (
+        <div
+          className={`overflow-hidden transition-all duration-300 ${showChild ? "max-h-96" : "max-h-0"}`}
+        >
           {child.map((item, index) => (
             <div
               key={index}

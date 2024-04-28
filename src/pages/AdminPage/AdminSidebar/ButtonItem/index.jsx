@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import img_more_info from "../../../../assets/svg/more-info-darkgray.svg";
+import img_more_info from "../../../../assets/svg/more-info-gray500.svg";
+import img_more_info_close from "../../../../assets/svg/more-info-gray500-close.svg";
 
-function ButtonItem({ name, child, id, current }) {
+function ButtonItem({ name, child, id, current, changeCurrent }) {
   const navigation = useNavigate();
   const [showChild, setShowChild] = useState(false);
 
@@ -10,8 +11,9 @@ function ButtonItem({ name, child, id, current }) {
     <div>
       <div
         onClick={() => {
+          changeCurrent(id);
           {
-            id ? navigation(`/admin/${id}`) : setShowChild(!showChild);
+            !child ? navigation(`/admin/${id}`) : setShowChild(!showChild);
           }
         }}
         className="flex justify-between w-full h-12 py-4 px-8 items-center gap-2.5 cursor-pointer"
@@ -19,9 +21,17 @@ function ButtonItem({ name, child, id, current }) {
         {current === id ? (
           <div className="text-sm font-bold text-primary">{name}</div>
         ) : (
-          <div className="text-sm font-semibold">{name}</div>
+          <div className="text-sm font-semibold text-[#1C1B1F]">{name}</div>
         )}
-        {child && <img className="select-none" src={img_more_info} />}
+        {child && (
+          <div>
+            {showChild ? (
+              <img className="select-none" src={img_more_info_close} />
+            ) : (
+              <img className="select-none" src={img_more_info} />
+            )}
+          </div>
+        )}
       </div>
       {child && showChild && (
         <div>
@@ -30,7 +40,10 @@ function ButtonItem({ name, child, id, current }) {
               key={index}
               onClick={() => {
                 if (item.id === "community") navigation("/community/main");
-                else navigation(`/admin/${item.id}`);
+                else {
+                  changeCurrent(item.id);
+                  navigation(`/admin/${item.id}`);
+                }
               }}
               className="flex justify-between w-full h-12 py-4 pl-10 items-center gap-2.5 cursor-pointer bg-[#EAF4FF]"
             >

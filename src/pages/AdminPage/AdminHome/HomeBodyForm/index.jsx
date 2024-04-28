@@ -11,28 +11,41 @@ function HomeBodyForm({ name, id, child }) {
             <div className="flex">
               <button
                 onClick={() => {
-                  navigate(`/admin:${id}`);
+                  navigate(`/admin/kpi`);
                 }}
                 className="flex min-w-fit w-28 px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold"
               >
                 KPI
               </button>
-              <button className="flex min-w-fit w-28 px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold">
+              <button
+                className="flex min-w-fit w-28 px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold"
+                onClick={() => {
+                  navigate(`/admin/profit`);
+                }}
+              >
                 총수익
               </button>
-              <button className="flex min-w-fit w-28 px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold">
+              <button
+                className="flex min-w-fit w-28 px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold"
+                onClick={() => {
+                  navigate(`/admin/payment`);
+                }}
+              >
                 결제 내역 관리
               </button>
             </div>
           )}
           {child &&
             child.map((item, index) => (
-              <div
+              <button
                 key={index}
                 className="flex w-28 min-w-fit px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold"
+                onClick={() => {
+                  navigate(`/admin/${item.id}`);
+                }}
               >
                 <div className="text-sm font-semibold">{item.name}</div>
-              </div>
+              </button>
             ))}
         </div>
       </div>

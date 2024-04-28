@@ -40,6 +40,7 @@ function ButtonItem({ name, child, id, current, changeCurrent }) {
               key={index}
               onClick={() => {
                 if (item.id === "community") navigation("/community/main");
+                else if (item.id === "inquiry") navigation("/talk");
                 else {
                   changeCurrent(item.id);
                   navigation(`/admin/${item.id}`);

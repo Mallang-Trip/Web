@@ -42,6 +42,7 @@ function HomeBodyForm({ name, id, child }) {
                 className="flex w-28 min-w-fit px-5 py-3 mr-4 justify-center items-center gap-2 rounded-lg border-solid border border-[#D9D9D9] text-[#3E3E3E] text-sm font-semibold"
                 onClick={() => {
                   if (item.id === "community") navigate("/community/main");
+                  else if (item.id === "inquiry") navigate("/talk");
                   else navigate(`/admin/${item.id}`);
                 }}
               >

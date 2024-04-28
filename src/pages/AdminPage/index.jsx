@@ -5,7 +5,6 @@ import KPI from "./KPI";
 import Profit from "./Profit";
 import Payment from "./Payment";
 import Service from "./CustomerService/Service";
-import Inquiry from "./CustomerService/Inquiry";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
 import Party from "./Party";
@@ -71,7 +70,6 @@ function AdminPage() {
         {type === "profit" && <Profit />}
         {type === "payment" && <Payment />}
         {type === "service" && <Service />}
-        {type === "inquiry" && <Inquiry />}
         {type === "report" && <Report />}
         {type === "noti" && <Noti />}
         {type === "party" && <Party />}

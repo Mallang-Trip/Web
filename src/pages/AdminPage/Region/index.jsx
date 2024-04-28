@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { getPartyRegionList } from "../../../api/region";
 import Title from "../../../components/Title";
 import ConfirmModal from "../../../components/ConfirmModal";
 import SearchBar from "./SearchBar";
 import RegionList from "./RegionList";
+import RegionDriver from "./RegionDriver";
 
 function Region() {
+  const [searchParams] = useSearchParams();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [regionData, setRegionData] = useState([]);
   const [showDeleteErrorModal, setShowDeleteErrorModal] = useState(false);
+  const regionId = searchParams.get("region_id");
 
   const getPartyRegionListFunc = async () => {
     try {
       const result = await getPartyRegionList();
       setRegionData(result.payload);
-      console.log(result);
     } catch (e) {
       console.log(e);
     }
@@ -34,11 +37,15 @@ function Region() {
           submitHandler={() => console.log("first")}
         />
       </div>
-      <RegionList
-        regionData={regionData}
-        getPartyRegionListFunc={getPartyRegionListFunc}
-        setShowDeleteErrorModal={setShowDeleteErrorModal}
-      />
+      {regionId ? (
+        <RegionDriver />
+      ) : (
+        <RegionList
+          regionData={regionData}
+          getPartyRegionListFunc={getPartyRegionListFunc}
+          setShowDeleteErrorModal={setShowDeleteErrorModal}
+        />
+      )}
       <ConfirmModal
         showModal={showDeleteErrorModal}
         setShowModal={setShowDeleteErrorModal}

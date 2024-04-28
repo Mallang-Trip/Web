@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { deletePartyRegion } from "../../../../../api/region";
 
 function RegionItem({
@@ -10,6 +11,7 @@ function RegionItem({
   getPartyRegionListFunc,
   setShowDeleteErrorModal,
 }) {
+  const navigation = useNavigate();
   const [isHover, setIsHover] = useState(false);
 
   const deleteHandler = async () => {
@@ -41,7 +43,14 @@ function RegionItem({
       ) : (
         <div className="absolute top-0 left-0 flex flex-col items-center justify-around w-full h-full rounded-lg bg-black/30">
           <p className="text-xl text-white font-bold">{region}</p>
-          <button className="px-4 py-1 text-sm text-white bg-primary rounded-full">
+          <button
+            className="px-4 py-1 text-sm text-white bg-primary rounded-full"
+            onClick={() =>
+              navigation(
+                `/admin/region?region_id=${partyRegionId}&region_name=${region}`
+              )
+            }
+          >
             드라이버 목록
           </button>
           <div className="flex justify-center gap-5 items-center">

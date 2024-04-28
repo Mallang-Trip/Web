@@ -10,3 +10,6 @@ export const putPartyRegion = async (partyRegionId, body) =>
 
 export const deletePartyRegion = async (partyRegionId) =>
   await DELETE(`/party/region/${partyRegionId}`, true);
+
+export const getPartyRegionDriverList = async (partyRegionId) =>
+  await GET(`/party/region/${partyRegionId}`, true);

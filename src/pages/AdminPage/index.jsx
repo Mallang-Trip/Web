@@ -59,7 +59,7 @@ function AdminPage() {
 
   return (
     <PageContainer>
-      <div className="absolute left-60 w-[calc(100%-30rem)] min-w-min px-24 text-2xl text-black font-bold">
+      <div className="ml-60 w-[calc(100%-30rem)] min-w-min px-24 text-2xl text-black font-bold">
         <AdminSideBar buttonList={list} location={location} />
         {location === "home" && <AdminHome list={list} />}
         {location === "kpi" && <KPI />}

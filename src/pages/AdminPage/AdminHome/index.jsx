@@ -1,10 +1,10 @@
 import HomeBodyForm from "./HomeBodyForm";
 
-function AdminHome({ list }) {
+function AdminHome({ menuList }) {
   return (
     <div>
-      {list.map((item, index) => (
-        <HomeBodyForm key={index} {...item} />
+      {menuList.map((item) => (
+        <HomeBodyForm key={item.id} {...item} />
       ))}
     </div>
   );

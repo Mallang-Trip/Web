@@ -1,24 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import img_more_info from "../../../../assets/svg/more-info-gray500.svg";
 import img_more_info_close from "../../../../assets/svg/more-info-gray500-close.svg";
 
-function ButtonItem({ name, child, id, current, changeCurrent }) {
+function ButtonItem({ name, child, id }) {
   const navigation = useNavigate();
+  const { type } = useParams();
   const [showChild, setShowChild] = useState(false);
 
   return (
     <div>
       <div
-        onClick={() => {
-          changeCurrent(id);
-          {
-            !child ? navigation(`/admin/${id}`) : setShowChild(!showChild);
-          }
-        }}
+        onClick={() =>
+          !child ? navigation(`/admin/${id}`) : setShowChild(!showChild)
+        }
         className="flex justify-between w-full h-12 py-4 px-8 items-center gap-2.5 cursor-pointer"
       >
-        {current === id ? (
+        {type === id ? (
           <div className="text-sm font-bold text-primary">{name}</div>
         ) : (
           <div className="text-sm font-semibold text-[#1C1B1F]">{name}</div>
@@ -41,14 +39,11 @@ function ButtonItem({ name, child, id, current, changeCurrent }) {
               onClick={() => {
                 if (item.id === "community") navigation("/community/main");
                 else if (item.id === "inquiry") navigation("/talk");
-                else {
-                  changeCurrent(item.id);
-                  navigation(`/admin/${item.id}`);
-                }
+                else navigation(`/admin/${item.id}`);
               }}
               className="flex justify-between w-full h-12 py-4 pl-10 items-center gap-2.5 cursor-pointer bg-[#EAF4FF]"
             >
-              {current === item.id ? (
+              {type === item.id ? (
                 <div className="text-sm font-bold text-primary">
                   {item.name}
                 </div>

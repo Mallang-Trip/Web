@@ -16,7 +16,7 @@ import UserInfo from "./UserInfo";
 
 function AdminPage() {
   const { type } = useParams();
-  const list = [
+  const menuList = [
     { name: "관리자 홈", id: "home" },
     { name: "KPI", id: "kpi" },
     { name: "총 수익", id: "profit" },
@@ -63,9 +63,9 @@ function AdminPage() {
 
   return (
     <div className="w-full">
-      <AdminSideBar buttonList={list} current={type} />
+      <AdminSideBar menuList={menuList} />
       <div className="max-w-screen-xl min-h-[800px] ml-60 mx-auto mb-24 px-14 text-2xl text-black font-bold">
-        {type === "home" && <AdminHome list={list} />}
+        {type === "home" && <AdminHome menuList={menuList} />}
         {type === "kpi" && <KPI />}
         {type === "profit" && <Profit />}
         {type === "payment" && <Payment />}

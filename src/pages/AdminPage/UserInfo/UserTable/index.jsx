@@ -3,14 +3,14 @@ import ProfileModal from "../../../../components/ProfileModal";
 import Body from "./Body";
 import Head from "./Head";
 
-function DriverTable({ userList }) {
+function UserTable({ userList }) {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileId, setProfileId] = useState(-1);
 
-  if (userList.filter((user) => user.role === "ROLE_DRIVER").length === 0)
+  if (userList.filter((user) => user.role === "ROLE_USER").length === 0)
     return (
       <div className="mt-20 text-base text-black font-medium text-center">
-        드라이버 회원 정보가 없습니다.
+        여행자 회원 정보가 없습니다.
       </div>
     );
   return (
@@ -18,7 +18,7 @@ function DriverTable({ userList }) {
       <div className="w-full mt-10 flex flex-col gap-2 text-sm font-semibold">
         <Head />
         {userList
-          .filter((user) => user.role === "ROLE_DRIVER")
+          .filter((user) => user.role === "ROLE_USER")
           .map((driver) => (
             <Body
               key={driver.userId}
@@ -38,4 +38,4 @@ function DriverTable({ userList }) {
   );
 }
 
-export default DriverTable;
+export default UserTable;

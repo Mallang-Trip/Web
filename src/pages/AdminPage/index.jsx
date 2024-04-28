@@ -12,6 +12,7 @@ import Place from "./Place";
 import Region from "./Region";
 import DriverRegistration from "./DriverRegistration";
 import DriverInfo from "./DriverInfo";
+import UserInfo from "./UserInfo";
 
 function AdminPage() {
   const { type } = useParams();
@@ -72,6 +73,7 @@ function AdminPage() {
         {type === "region" && <Region />}
         {type === "driver-registration" && <DriverRegistration />}
         {type === "driver-info" && <DriverInfo />}
+        {type === "user-info" && <UserInfo />}
       </div>
     </div>
   );

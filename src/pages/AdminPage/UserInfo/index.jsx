@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { getUserListAdmin } from "../../../api/admin";
 import Title from "../../../components/Title";
 import Loading from "../../../components/Loading";
-import DriverTable from "./DriverTable";
+import UserTable from "./UserTable";
 
-function DriverInfo() {
+function UserInfo() {
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,10 +26,10 @@ function DriverInfo() {
   if (loading) return <Loading full={true} />;
   return (
     <div>
-      <Title title="드라이버 회원 정보" />
-      <DriverTable userList={userList} />
+      <Title title="여행자 회원 정보" />
+      <UserTable userList={userList} />
     </div>
   );
 }
 
-export default DriverInfo;
+export default UserInfo;

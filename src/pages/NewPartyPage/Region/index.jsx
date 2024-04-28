@@ -1,7 +1,23 @@
+import { useEffect, useState } from "react";
+import { getPartyRegionList } from "../../../api/region";
 import RegionButton from "./RegionButton";
-import { regionData } from "../../../utils/data";
 
 function Region({ setRegion, member, driverId, date }) {
+  const [regionData, setRegionData] = useState([]);
+
+  const getPartyRegionListFunc = async () => {
+    try {
+      const result = await getPartyRegionList();
+      setRegionData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getPartyRegionListFunc();
+  }, []);
+
   return (
     <>
       <div className="pl-6 mx-auto text-2xl text-black font-bold">
@@ -11,7 +27,7 @@ function Region({ setRegion, member, driverId, date }) {
         {regionData.map((item) => (
           <RegionButton
             {...item}
-            key={item.name}
+            key={item.partyRegionId}
             setRegion={setRegion}
             member={member}
             driverId={driverId}

@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { regionData } from "../../../../../utils/data";
+import { getPartyRegionList } from "../../../../../api/region";
 import Region from "./Region";
 
 function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   const modalRef = useRef();
   const confirmButtonRef = useRef();
   const [region, setRegion] = useState(driverInfo.region);
+  const [regionData, setRegionData] = useState([]);
+
+  const getPartyRegionListFunc = async () => {
+    try {
+      const result = await getPartyRegionList();
+      setRegionData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const cancelHandler = () => setShowModal(false);
 
@@ -34,6 +44,10 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [showModal]);
+
+  useEffect(() => {
+    getPartyRegionListFunc();
+  }, []);
 
   return (
     <div
@@ -71,10 +85,10 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             <div className="grid grid-cols-2 gap-5 py-4 px-2 md:grid-cols-3 h-full bg-white rounded-xl overflow-auto">
               {regionData.map((item) => (
                 <Region
-                  key={item.name}
+                  key={item.partyRegionId}
                   region={region}
-                  image={item.image}
-                  name={item.name}
+                  image={item.regionImg}
+                  name={item.region}
                   setRegion={setRegion}
                 />
               ))}

@@ -11,6 +11,7 @@ import Party from "./Party";
 import Place from "./Place";
 import Region from "./Region";
 import DriverRegistration from "./DriverRegistration";
+import DriverInfo from "./DriverInfo";
 
 function AdminPage() {
   const { type } = useParams();
@@ -70,6 +71,7 @@ function AdminPage() {
         {type === "place" && <Place />}
         {type === "region" && <Region />}
         {type === "driver-registration" && <DriverRegistration />}
+        {type === "driver-info" && <DriverInfo />}
       </div>
     </div>
   );

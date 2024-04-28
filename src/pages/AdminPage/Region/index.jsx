@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getPartyRegionList } from "../../../api/region";
 import Title from "../../../components/Title";
+import ConfirmModal from "../../../components/ConfirmModal";
 import SearchBar from "./SearchBar";
 import RegionList from "./RegionList";
 
 function Region() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [regionData, setRegionData] = useState([]);
+  const [showDeleteErrorModal, setShowDeleteErrorModal] = useState(false);
 
   const getPartyRegionListFunc = async () => {
     try {
@@ -35,6 +37,14 @@ function Region() {
       <RegionList
         regionData={regionData}
         getPartyRegionListFunc={getPartyRegionListFunc}
+        setShowDeleteErrorModal={setShowDeleteErrorModal}
+      />
+      <ConfirmModal
+        showModal={showDeleteErrorModal}
+        setShowModal={setShowDeleteErrorModal}
+        message={
+          "해당 지역에 드라이버가 존재합니다.\n지역을 삭제할 수 없습니다."
+        }
       />
     </div>
   );

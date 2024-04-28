@@ -8,12 +8,14 @@ function RegionItem({
   setEditTarget,
   setShowEditModal,
   getPartyRegionListFunc,
+  setShowDeleteErrorModal,
 }) {
   const [isHover, setIsHover] = useState(false);
 
   const deleteHandler = async () => {
     try {
-      await deletePartyRegion(partyRegionId);
+      const result = await deletePartyRegion(partyRegionId);
+      if (result.statusCode === 409) return setShowDeleteErrorModal(true);
       alert("성공적으로 지역을 삭제했습니다.");
       getPartyRegionListFunc();
     } catch (e) {

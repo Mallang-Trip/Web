@@ -3,7 +3,11 @@ import NewRegion from "./NewRegion";
 import RegionItem from "./RegionItem";
 import EditFormModal from "./EditFormModal";
 
-function RegionList({ regionData, getPartyRegionListFunc }) {
+function RegionList({
+  regionData,
+  getPartyRegionListFunc,
+  setShowDeleteErrorModal,
+}) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editTarget, setEditTarget] = useState({});
 
@@ -16,6 +20,7 @@ function RegionList({ regionData, getPartyRegionListFunc }) {
             setShowEditModal={setShowEditModal}
             setEditTarget={setEditTarget}
             getPartyRegionListFunc={getPartyRegionListFunc}
+            setShowDeleteErrorModal={setShowDeleteErrorModal}
             {...item}
           />
         ))}

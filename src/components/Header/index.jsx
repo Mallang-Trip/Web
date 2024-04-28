@@ -383,6 +383,19 @@ function Header() {
                 예약 내역
               </button>
             </li>
+            {user.role === "ROLE_DRIVER" && (
+              <li>
+                <button
+                  onClick={() => {
+                    navigation("/my/driver/income");
+                    setShowUserMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  수익 내역
+                </button>
+              </li>
+            )}
             <li>
               <button
                 onClick={() => {

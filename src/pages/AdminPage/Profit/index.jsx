@@ -1,27 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getIncomeList } from "../../../api/admin";
+import Loading from "../../../components/Loading";
 import ConfirmModal from "../../../components/ConfirmModal";
 import InputModal from "../../../components/InputModal";
 import CheckModal from "../../../components/CheckModal";
 import img_more_info from "../../../assets/svg/more-info-gray500.svg";
 
 function Profit() {
+  const [loading, setLoading] = useState(true);
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [showChangeModal, setShowChangeModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [fee, setFee] = useState(null);
-  const columns = ["날짜", "파티명", "수입 금액(원)", ""];
-  const data = [
-    ["2024-04-10", "짱 좋은 파티", 100000],
-    ["2024-04-10", "제주의 가을 파티", 8000],
-    ["2024-04-10", "기분 좋은 바베큐 파티", 10000],
-    ["2024-04-10", "우정의 파티", 5000],
-    ["2024-04-10", "같이가요 파티파티", 7000],
-    ["2024-04-10", "맛집 투어 제천 파티", 7000],
-    ["2024-04-10", "포켓몬 파티", 7000],
-  ];
 
-  const totalProfit = 800000;
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const columns = ["날짜", "파티명", "수입 금액(원)", ""];
+  const [dataList, setDataList] = useState();
+  const [fee, setFee] = useState(null);
+  const [month, setMonth] = useState("ALL");
+  const [sum, setSum] = useState(0);
+
+  const getIncomeListFunc = async () => {
+    try {
+      const result = await getIncomeList(month);
+      setDataList(result.payload);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getIncomeListFunc();
+  }, [month]);
+
+  useEffect(() => {
+    if (dataList)
+      setSum(
+        dataList.reduce((accumulator, data) => {
+          return accumulator + data.commission;
+        }, 0)
+      );
+  }, [dataList]);
+
   const searchHandler = (e) => {
     e.preventDefault();
     if (searchKeyword === "") return;
@@ -33,6 +53,7 @@ function Profit() {
     else if (index === columns.length - 1) return "w-48";
     else return "w-[20%]";
   };
+
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return new Date(dateString)
@@ -41,9 +62,12 @@ function Profit() {
       .split(" ")
       .join(".");
   };
-  function formatPrice(value) {
+
+  const formatPrice = (value) => {
     return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  };
+
+  if (loading) return <Loading full={true} />;
   return (
     <div className=" cursor-default">
       <div className="text-2xl font-bold mb-12">총 수익</div>
@@ -78,7 +102,7 @@ function Profit() {
         <div className="flex px-4 py-3 text-sm text-gray700 font-semibold">
           합계금:
           <div className="ml-1 text-primary font-bold">
-            {formatPrice(totalProfit)}원
+            {formatPrice(sum)}원
           </div>
         </div>
         <div className="flex">
@@ -102,35 +126,35 @@ function Profit() {
             </div>
           ))}
         </div>
-        {data.map((item, index) => (
-          <div
-            key={index}
-            className="flex items-center w-full px-5 py-3 h-10 border border-solid border-[#EFEFEF] rounded-xl mb-2 text-sm"
-          >
-            {item.map((it, id) => (
-              <div
-                key={id}
-                className={`${id === 2 ? "text-primary" : "text-[#939094]"} ${id === 1 ? "flex-1 text-[#313033]" : "w-[20%]"} min-w-fit`}
-              >
-                {id === 0 && formatDate(it)}
-                {id === 2 && formatPrice(it)}
-                {id !== 0 && id !== 2 && it}
+        {dataList &&
+          dataList.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center w-full px-5 py-3 h-10 border border-solid border-[#EFEFEF] rounded-xl mb-2 text-sm"
+            >
+              <div className="text-gray500 w-1/5 min-w-fit font-medium">
+                {formatDate(item.date)}
               </div>
-            ))}
-            <div className="flex items-center justify-end w-48 font-semibold text-gray500 text-sm whitespace-nowrap">
-              <button>금액 수정</button>
-              <hr className="w-[0.0625rem] h-4 mx-3 bg-mediumgray" />
-              <button>결제내역</button>
-              <hr className="w-[0.0625rem] h-4 mx-3 bg-mediumgray" />
-              <button
-                className="text-[#F00]"
-                onClick={() => setShowDeleteModal(true)}
-              >
-                삭제
-              </button>
+              <div className="text-gray700 flex-1 font-semibold">
+                {item.partyName}
+              </div>
+              <div className="text-primary w-1/5 min-w-fit font-semibold">
+                {formatPrice(item.commission)}
+              </div>
+              <div className="flex items-center justify-end w-48 font-semibold text-gray500 text-sm whitespace-nowrap">
+                <button>금액 수정</button>
+                <hr className="w-[0.0625rem] h-4 mx-3 bg-mediumgray" />
+                <button>결제내역</button>
+                <hr className="w-[0.0625rem] h-4 mx-3 bg-mediumgray" />
+                <button
+                  className="text-[#F00]"
+                  onClick={() => setShowDeleteModal(true)}
+                >
+                  삭제
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <InputModal
         showModal={showChangeModal}

@@ -27,3 +27,6 @@ export const getReportCompleteDetail = async (reportId) =>
 
 export const getPaymentList = async (status) =>
   await GET(`/admin/payment?status=${status}`, true);
+
+export const getIncomeList = async (month) =>
+  await GET(`/income/admin/monthly?month=${month}`, true);

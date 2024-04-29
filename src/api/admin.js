@@ -10,3 +10,17 @@ export const getPartyDriverReady = async (partyId, ready) =>
   await GET(`/admin/party/driver-ready/${partyId}?ready=${ready}`, true);
 
 export const getUserListAdmin = async () => await GET("/admin/user/list", true);
+
+export const getMonthlyIncome = async () =>
+  await GET(`/income/admin/monthly`, true);
+
+export const getReportList = async () => await GET("/report", true);
+
+export const getReportDetail = async (reportId) =>
+  await GET(`/report/${reportId}`, true);
+
+export const getReportCompleteList = async () =>
+  await GET("/report/complete", true);
+
+export const getReportCompleteDetail = async (reportId) =>
+  await GET(`/report/complete/${reportId}`, true);

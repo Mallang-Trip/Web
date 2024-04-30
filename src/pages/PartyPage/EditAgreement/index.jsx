@@ -37,7 +37,7 @@ function EditAgreement({
       <div className="my-7">
         <div
           className={`flex gap-5 ml-0 ${
-            myParty ? `sm:ml-10 ${showButton}` : "sm:ml-44"
+            myParty ? `sm:ml-10 ${showButton}` : "sm:ml-24"
           }`}
         >
           {myParty && (

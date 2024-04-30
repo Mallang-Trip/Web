@@ -13,6 +13,7 @@ function Company() {
 
   const goMallangTalk = async () => {
     if (!user.auth) return setShowLoginModal(true);
+    if (user.userId === 0) return navigation("/talk");
 
     try {
       const result = await makeNewCoupleChat(0);

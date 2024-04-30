@@ -12,7 +12,7 @@ function PartyFilter() {
   const [showPriceModal, setShowPriceModal] = useState(false);
 
   return (
-    <>
+    <div className="mt-3 mb-10">
       <Filter
         setShowRegionModal={setShowRegionModal}
         setShowDateModal={setShowDateModal}
@@ -30,7 +30,7 @@ function PartyFilter() {
         setShowModal={setShowPeopleModal}
       />
       <PriceModal showModal={showPriceModal} setShowModal={setShowPriceModal} />
-    </>
+    </div>
   );
 }
 

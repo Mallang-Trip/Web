@@ -43,7 +43,7 @@ function PartyList() {
   if (loading) return null;
   if (partyData.length === 0) return <NoParty />;
   return (
-    <div className="grid grid-cols-1 gap-10 px-6 mx-auto sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-10 mt-6 mx-auto sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {partyData.map((item) => (
         <PartyBox key={item.partyId} {...item} />
       ))}

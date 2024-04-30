@@ -40,8 +40,8 @@ function NoDataModal({
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
           {searchPage
-            ? "검색 결과가 없습니다."
-            : "검색 결과가 없습니다.\n새로운 여행지로 추가하시겠습니까?"}
+            ? "말랑트립 여행지로 아직 등록이 되어 있지 않습니다.\n파티에 가입할 때 직접 만들어주세요!"
+            : "말랑트립 여행지로 아직 등록이 되어 있지 않습니다.\n새로운 여행지로 추가하시겠습니까?"}
         </div>
         {!searchPage ? (
           <div className="flex">

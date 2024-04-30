@@ -1,4 +1,4 @@
-import { GET } from "../utils/axios";
+import { GET, PUT, POST, DELETE } from "../utils/axios";
 
 export const getPartyList = async (status) =>
   await GET(`/admin/party?status=${status}`, true);
@@ -30,3 +30,18 @@ export const getPaymentList = async (status) =>
 
 export const getIncomeList = async (month) =>
   await GET(`/income/admin/monthly?month=${month}`, true);
+
+export const postIncomeRemittance = async (income_id) =>
+  await POST(`/income/admin/remittance/${income_id}`, true);
+
+export const updateIncomeAmount = async (amount, income_id) =>
+  await PUT(`/income/admin/${income_id}?amount=${amount}`, true);
+
+export const updateIncomeCommission = async (partyCommissionRate) =>
+  await PUT(
+    `/income/admin/commission-rate?partyCommissionRate=${partyCommissionRate}?penaltyCommissionRate=10`,
+    true
+  );
+
+export const deleteIncome = async (income_id) =>
+  await DELETE(`/income/admin/${income_id}`, true);

@@ -6,6 +6,7 @@ function InputModal({
   setShowModal,
   titleMessage,
   subMessage,
+  placeholder,
   noText,
   yesText,
   yesHandler,
@@ -60,7 +61,7 @@ function InputModal({
         <div className="flex items-center justify-center bg-white">
           <input
             className="w-[25rem] h-14 rounded-xl outline-0 text-textgray bg-lightgray font-semibold text-base text-center mb-14"
-            placeholder="10%"
+            placeholder={placeholder}
             onChange={handleInput}
           />
         </div>

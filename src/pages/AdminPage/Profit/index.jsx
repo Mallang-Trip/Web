@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { getIncomeList } from "../../../api/admin";
+import React, { useEffect, useRef, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {
+  getIncomeList,
+  updateIncomeAmount,
+  updateIncomeCommission,
+  deleteIncome,
+} from "../../../api/admin";
 import Loading from "../../../components/Loading";
 import ConfirmModal from "../../../components/ConfirmModal";
 import InputModal from "../../../components/InputModal";
@@ -7,15 +14,19 @@ import CheckModal from "../../../components/CheckModal";
 import img_more_info from "../../../assets/svg/more-info-gray500.svg";
 
 function Profit() {
+  const ref = useRef(null);
   const [loading, setLoading] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [showChangeModal, setShowChangeModal] = useState(false);
+  const [showCommissionModal, setShowCommissionModal] = useState(false);
+  const [showCalender, setShowCalender] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const [showAmountModal, setShowAmountModal] = useState(false);
+
   const columns = ["날짜", "파티명", "수입 금액(원)", ""];
   const [dataList, setDataList] = useState();
-  const [fee, setFee] = useState(null);
+  const [commissionRate, setCommissionRate] = useState(1.7);
   const [month, setMonth] = useState("ALL");
   const [sum, setSum] = useState(0);
 
@@ -29,6 +40,31 @@ function Profit() {
       setLoading(false);
     }
   };
+  const updateIncomeAmountFunc = async (amount, id) => {
+    try {
+      await updateIncomeAmount(amount, id);
+      await getIncomeListFunc();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const updateIncomeCommissionFunc = async (partyCommissionRate) => {
+    try {
+      await updateIncomeCommission(partyCommissionRate);
+      await getIncomeListFunc();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const deleteIncomeFunc = async (id) => {
+    try {
+      await deleteIncome(id);
+      await getIncomeListFunc();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getIncomeListFunc();
   }, [month]);
@@ -45,8 +81,7 @@ function Profit() {
   const searchHandler = (e) => {
     e.preventDefault();
     if (searchKeyword === "") return;
-
-    setSearchKeyword("");
+    setSearchKeyword(e.target.value);
   };
   const setWidth = (index) => {
     if (index === 1) return "flex-1";
@@ -65,6 +100,17 @@ function Profit() {
 
   const formatPrice = (value) => {
     return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const extractYearAndMonth = (dateStr) => {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    return `${year}-${month}`;
+  };
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const onChange = (date) => {
+    setSelectedDate(date);
   };
 
   if (loading) return <Loading full={true} />;
@@ -108,14 +154,49 @@ function Profit() {
         <div className="flex">
           <button
             className="flex items-center justify-center bg-white text-darkgray border border-mediumgray text-xs rounded-lg px-4 py-3 mr-2 mb-3"
-            onClick={() => setShowChangeModal(true)}
+            onClick={() => setShowCommissionModal(true)}
           >
-            수수료 {fee ? fee : "10"}%
+            수수료 {commissionRate}%
           </button>
-          <button className="relative flex items-center justify-center bg-white text-darkgray border border-mediumgray text-xs rounded-lg px-4 py-3 mb-3">
-            기간 설정
+          <button
+            className="flex items-center justify-center bg-white text-darkgray border border-mediumgray text-xs rounded-lg px-4 py-3 mb-3"
+            onClick={() => {
+              setShowCalender(true);
+            }}
+          >
+            {month === "ALL" ? "기간 설정" : formatDate(month).slice(0, 7)}
             <img className="ml-2" alt="" src={img_more_info} />
           </button>
+          {showCalender && (
+            <div className="absolute w-fit h-fit p-8 top-64 left-1/2 bg-white border border-primary rounded-xl">
+              <DatePicker
+                selected={selectedDate}
+                onChange={onChange}
+                inline
+                showMonthYearPicker
+              />
+              <div className="flex justify-center items-center w-full text-sm text-white font-boldmt-2 mt-5">
+                <button
+                  className="bg-primary rounded-full w-20 h-10 mr-4"
+                  onClick={() => {
+                    setMonth("ALL");
+                    setShowCalender(false);
+                  }}
+                >
+                  전체
+                </button>
+                <button
+                  className="bg-primary rounded-full w-20 h-10"
+                  onClick={() => {
+                    setMonth(extractYearAndMonth(selectedDate));
+                    setShowCalender(false);
+                  }}
+                >
+                  확인
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col w-full min-w-[32rem]">
@@ -142,13 +223,23 @@ function Profit() {
                 {formatPrice(item.commission)}
               </div>
               <div className="flex items-center justify-end w-48 font-semibold text-gray500 text-sm whitespace-nowrap">
-                <button>금액 수정</button>
+                <button
+                  onClick={() => {
+                    setShowAmountModal(true);
+                    ref.current = item;
+                  }}
+                >
+                  금액 수정
+                </button>
                 <hr className="w-[0.0625rem] h-4 mx-3 bg-mediumgray" />
                 <button>결제내역</button>
                 <hr className="w-[0.0625rem] h-4 mx-3 bg-mediumgray" />
                 <button
                   className="text-[#F00]"
-                  onClick={() => setShowDeleteModal(true)}
+                  onClick={() => {
+                    setShowDeleteModal(true);
+                    ref.current = item;
+                  }}
                 >
                   삭제
                 </button>
@@ -157,16 +248,18 @@ function Profit() {
           ))}
       </div>
       <InputModal
-        showModal={showChangeModal}
-        setShowModal={setShowChangeModal}
+        showModal={showCommissionModal}
+        setShowModal={setShowCommissionModal}
         titleMessage={"수수료 비율 변경"}
         subMessage={"수정할 말랑트립의 수수료 비율을 숫자로 입력해주세요."}
+        placeholder={`${commissionRate}%`}
         noText={"이전"}
         yesText={"저장"}
         yesHandler={(data) => {
-          setShowChangeModal(false);
+          setShowCommissionModal(false);
           setShowConfirmModal(true);
-          setFee(data);
+          setCommissionRate(data);
+          updateIncomeCommissionFunc(commissionRate);
         }}
       />
       <ConfirmModal
@@ -182,6 +275,21 @@ function Profit() {
         yesText={"삭제"}
         yesHandler={() => {
           setShowDeleteModal(false);
+          deleteIncomeFunc(ref.current.incomeId);
+        }}
+      />
+      <InputModal
+        showModal={showAmountModal}
+        setShowModal={setShowAmountModal}
+        titleMessage={"금액 수정"}
+        subMessage={"수정할 금액을 숫자로 입력해주세요."}
+        placeholder={ref.current ? formatPrice(ref.current.commission) : ""}
+        noText={"이전"}
+        yesText={"수정"}
+        yesHandler={(amount) => {
+          setShowAmountModal(false);
+          setShowConfirmModal(true);
+          updateIncomeAmountFunc(amount, ref.current.incomeId);
         }}
       />
     </div>

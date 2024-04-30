@@ -8,7 +8,7 @@ import HelpTab from "./HelpTab";
 import Head from "./Head";
 import Notice from "./Notice";
 
-function NoticeList({ helpType, setHelpType }) {
+function NoticeList({ mode, helpType, setHelpType }) {
   const navigation = useNavigate();
   const [page, setPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -33,6 +33,7 @@ function NoticeList({ helpType, setHelpType }) {
     getAnnouncementListFunc();
   }, [helpType]);
 
+  if (mode === "edit" || mode === "detail") return null;
   return (
     <div>
       <Title title="고객센터 글 작성/수정/삭제" />
@@ -40,7 +41,7 @@ function NoticeList({ helpType, setHelpType }) {
       <EditButton
         className="ml-auto mb-4"
         title="글 작성"
-        onClick={() => navigation("/admin/help?mode=edit&article_id=new")}
+        onClick={() => navigation("/admin/help?mode=edit&announcement_id=new")}
       />
       <div className="w-full whitespace-nowrap">
         <Head />

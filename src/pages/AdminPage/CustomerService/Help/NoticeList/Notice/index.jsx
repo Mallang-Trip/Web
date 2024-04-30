@@ -10,7 +10,9 @@ function Notice({ index, announcementId, title, createdAt }) {
         <button
           className="text-left whitespace-normal hover:underline focus:outline-none"
           onClick={() =>
-            navigation(`/admin/help?mode=detail&article_id=${announcementId}`)
+            navigation(
+              `/admin/help?mode=detail&announcement_id=${announcementId}`
+            )
           }
         >
           {title}

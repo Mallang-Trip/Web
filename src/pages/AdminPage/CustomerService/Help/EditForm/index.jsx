@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../../../../../api/image";
 import { postAnnouncement } from "../../../../../api/announcement";
 import Title from "../../../../../components/Title";
 import ImageInputBox from "../../../../CommunityPostPage/ArticleInfoForm/ImageInputBox";
 
-function EditForm({ helpType, setMessage, setShowMessageModal }) {
+function EditForm({ mode, helpType, setMessage, setShowMessageModal }) {
+  const navigation = useNavigate();
   const textareaRef = useRef();
   const [images, setImages] = useState([undefined, undefined, undefined]);
   const [title, setTitle] = useState("");
@@ -31,8 +33,11 @@ function EditForm({ helpType, setMessage, setShowMessageModal }) {
         type: helpType,
       };
       const result = await postAnnouncement(body);
-      console.log(result.payload.announcementId);
       setMessage("공지사항이 등록되었습니다.");
+      navigation(
+        `/admin/help?mode=detail&announcement_id=${result.payload.announcementId}`,
+        { replace: true }
+      );
     } catch (e) {
       console.log(e);
       setMessage("공지사항 등록에 실패했습니다.");
@@ -49,6 +54,7 @@ function EditForm({ helpType, setMessage, setShowMessageModal }) {
     setContent(e.target.value);
   };
 
+  if (mode !== "edit") return null;
   return (
     <div>
       <Title title="공지사항 글 작성" />

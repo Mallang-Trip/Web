@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import NoticeList from "./NoticeList";
 import EditForm from "./EditForm";
+import NoticeDetail from "./NoticeDetail";
 
 function Help() {
   const [searchParams] = useSearchParams();
@@ -10,19 +11,18 @@ function Help() {
   const [message, setMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
   const mode = searchParams.get("mode");
-  const articleId = searchParams.get("article_id");
+  const announcementId = searchParams.get("announcement_id");
 
   return (
     <div className="text-base font-medium">
-      {mode === "edit" ? (
-        <EditForm
-          helpType={helpType}
-          setMessage={setMessage}
-          setShowMessageModal={setShowMessageModal}
-        />
-      ) : (
-        <NoticeList helpType={helpType} setHelpType={setHelpType} />
-      )}
+      <EditForm
+        mode={mode}
+        helpType={helpType}
+        setMessage={setMessage}
+        setShowMessageModal={setShowMessageModal}
+      />
+      <NoticeList mode={mode} helpType={helpType} setHelpType={setHelpType} />
+      <NoticeDetail mode={mode} announcementId={announcementId} />
       <ConfirmModal
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}

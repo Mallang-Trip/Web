@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function Notice({ index, noticeId, title, date }) {
+function Notice({ index, announcementId, title, createdAt }) {
   const navigation = useNavigate();
 
   return (
@@ -9,12 +9,14 @@ function Notice({ index, noticeId, title, date }) {
       <div className="w-full flex">
         <button
           className="text-left whitespace-normal hover:underline focus:outline-none"
-          onClick={() => navigation(`/help/${noticeId}`)}
+          onClick={() => navigation(`/help/${announcementId}`)}
         >
           {title}
         </button>
       </div>
-      <div className="w-20 flex-shrink-0">{date}</div>
+      <div className="w-20 flex-shrink-0">
+        {createdAt.slice(0, 10).replaceAll("-", ".")}
+      </div>
     </div>
   );
 }

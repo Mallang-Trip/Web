@@ -121,7 +121,7 @@ function EditForm({
             type="submit"
             className="h-14 text-lg text-white font-bold rounded-full text-md w-64 md:w-80 bg-primary"
           >
-            게시하기
+            {announcementId === "new" ? "게시하기" : "수정하기"}
           </button>
         </div>
       </form>

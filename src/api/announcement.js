@@ -11,3 +11,6 @@ export const postAnnouncement = async (body) =>
 
 export const updateAnnouncement = async (announcementId, body) =>
   await PUT(`/announcement/${announcementId}`, body, true);
+
+export const deleteAnnouncement = async (announcementId) =>
+  await DELETE(`/announcement/${announcementId}`, true);

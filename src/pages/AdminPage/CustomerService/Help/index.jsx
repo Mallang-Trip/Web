@@ -28,6 +28,8 @@ function Help() {
         mode={mode}
         announcementId={announcementId}
         setHelpType={setHelpType}
+        setMessage={setMessage}
+        setShowMessageModal={setShowMessageModal}
       />
       <ConfirmModal
         showModal={showMessageModal}

@@ -26,7 +26,7 @@ function NoticeList({ mode, helpType, setHelpType }) {
 
   useEffect(() => {
     getAnnouncementListFunc();
-  }, [page]);
+  }, [page, mode]);
 
   useEffect(() => {
     setPage(0);

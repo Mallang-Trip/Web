@@ -1,11 +1,22 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../../../../../api/image";
-import { postAnnouncement } from "../../../../../api/announcement";
+import {
+  getAnnouncementDetail,
+  postAnnouncement,
+  updateAnnouncement,
+} from "../../../../../api/announcement";
 import Title from "../../../../../components/Title";
 import ImageInputBox from "../../../../CommunityPostPage/ArticleInfoForm/ImageInputBox";
 
-function EditForm({ mode, helpType, setMessage, setShowMessageModal }) {
+function EditForm({
+  mode,
+  helpType,
+  announcementId,
+  setMessage,
+  setShowMessageModal,
+  setHelpType,
+}) {
   const navigation = useNavigate();
   const textareaRef = useRef();
   const [images, setImages] = useState([undefined, undefined, undefined]);
@@ -32,10 +43,17 @@ function EditForm({ mode, helpType, setMessage, setShowMessageModal }) {
         images: imagesURL,
         type: helpType,
       };
-      const result = await postAnnouncement(body);
-      setMessage("공지사항이 등록되었습니다.");
+      const result =
+        announcementId === "new"
+          ? await postAnnouncement(body)
+          : await updateAnnouncement(announcementId, body);
+      setMessage(
+        announcementId === "new"
+          ? "공지사항이 등록되었습니다."
+          : "공지사항이 수정되었습니다."
+      );
       navigation(
-        `/admin/help?mode=detail&announcement_id=${result.payload.announcementId}`,
+        `/admin/help?mode=detail&announcement_id=${result.payload?.announcementId || announcementId}`,
         { replace: true }
       );
     } catch (e) {
@@ -53,6 +71,23 @@ function EditForm({ mode, helpType, setMessage, setShowMessageModal }) {
     textarea.style.height = `${textarea.scrollHeight}px`;
     setContent(e.target.value);
   };
+
+  const getAnnouncementDetailFunc = async () => {
+    try {
+      const { payload } = await getAnnouncementDetail(announcementId);
+      setImages(payload.images);
+      setTitle(payload.title);
+      setContent(payload.content);
+      setHelpType(payload.type);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!announcementId || mode !== "edit" || announcementId === "new") return;
+    getAnnouncementDetailFunc();
+  }, [announcementId, mode]);
 
   if (mode !== "edit") return null;
   return (

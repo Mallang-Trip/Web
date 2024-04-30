@@ -4,7 +4,7 @@ import Title from "../../../../../components/Title";
 import NoticeButton from "./NoticeButton";
 import Notice from "./Notice";
 
-function NoticeDetail({ mode, announcementId }) {
+function NoticeDetail({ mode, announcementId, setHelpType }) {
   const [notice, setNotice] = useState({});
 
   const getAnnouncementDetailFunc = async () => {
@@ -28,6 +28,7 @@ function NoticeDetail({ mode, announcementId }) {
       <NoticeButton
         announcementId={notice?.announcementId}
         type={notice?.type}
+        setHelpType={setHelpType}
       />
       <Notice {...notice} />
     </div>

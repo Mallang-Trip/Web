@@ -8,3 +8,6 @@ export const getAnnouncementDetail = async (announcementId) =>
 
 export const postAnnouncement = async (body) =>
   await POST("/announcement", body, true);
+
+export const updateAnnouncement = async (announcementId, body) =>
+  await PUT(`/announcement/${announcementId}`, body, true);

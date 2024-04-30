@@ -18,11 +18,17 @@ function Help() {
       <EditForm
         mode={mode}
         helpType={helpType}
+        announcementId={announcementId}
         setMessage={setMessage}
         setShowMessageModal={setShowMessageModal}
+        setHelpType={setHelpType}
       />
       <NoticeList mode={mode} helpType={helpType} setHelpType={setHelpType} />
-      <NoticeDetail mode={mode} announcementId={announcementId} />
+      <NoticeDetail
+        mode={mode}
+        announcementId={announcementId}
+        setHelpType={setHelpType}
+      />
       <ConfirmModal
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}

@@ -126,7 +126,7 @@ function CourseMap({ markerData, reload, mapName }) {
 
     axios
       .post(
-        "https://apis.openapi.sk.com/tmap/routes/routeSequential100?version=1&format=json",
+        "https://apis.openapi.sk.com/tmap/routes/routeSequential30?version=1&format=json",
         {
           startName: markerData[0].name,
           startX: markerData[0].lon.toString(),

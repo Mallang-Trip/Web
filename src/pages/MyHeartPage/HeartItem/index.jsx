@@ -29,8 +29,8 @@ function HeartItem({
           ? await deleteUnLikeParty(partyId)
           : await deleteUnLikeDestination(destinationId)
         : partyId
-        ? await postLikeParty(partyId)
-        : await postLikeDestination(destinationId);
+          ? await postLikeParty(partyId)
+          : await postLikeDestination(destinationId);
 
       setHeart(!heart);
     } catch (e) {
@@ -68,7 +68,7 @@ function HeartItem({
       </div>
       {views && (
         <div className="w-full absolute bottom-0 left-0 flex justify-center text-white text-xs py-1 rounded-b-lg">
-          {`${views}회 방문`}
+          {`${views}회 조회`}
         </div>
       )}
     </div>

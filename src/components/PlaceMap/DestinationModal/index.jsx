@@ -117,7 +117,7 @@ function DestinationModal({
                       {destinationInfo.name}
                     </p>
                     <div className="flex gap-1 items-center m-2 mt-3 text-xs">
-                      <span>{`방문 ${destinationInfo.views}회`}</span>
+                      <span>{`조회수 ${destinationInfo.views}회`}</span>
                       <span>|</span>
                       <img src={star} />
                       <span>

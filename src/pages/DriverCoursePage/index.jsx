@@ -129,16 +129,16 @@ function DriverCoursePage() {
         setName(courseResult.payload.name);
         setImages(courseResult.payload.images);
         setCapacity(courseResult.payload.capacity);
-        setPriceIndex(
-          driverResult.payload.prices.findIndex(
-            (item) =>
-              item.hours === courseResult.payload.days[0].hours &&
-              item.price === courseResult.payload.days[0].price
-          )
-        );
         setDestinations(courseResult.payload.days[0].destinations);
         setStartTime(courseResult.payload.days[0].startTime);
         setEndTime(courseResult.payload.days[0].endTime);
+
+        const beforePriceIndex = driverResult.payload.prices.findIndex(
+          (item) =>
+            item.hours === courseResult.payload.days[0].hours &&
+            item.price === courseResult.payload.days[0].price
+        );
+        setPriceIndex(beforePriceIndex === -1 ? 0 : beforePriceIndex);
       } else {
         setName("");
         setImages([]);

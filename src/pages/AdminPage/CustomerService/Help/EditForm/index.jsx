@@ -97,7 +97,13 @@ function EditForm({
   if (mode !== "edit") return null;
   return (
     <div>
-      <Title title="공지사항 글 작성" />
+      <Title
+        title={
+          helpType === "ANNOUNCEMENT"
+            ? "공지사항 글 작성"
+            : "자주찾는질문 글 작성"
+        }
+      />
       <div className="mt-10">
         <ImageInputBox
           showImageInput={true}

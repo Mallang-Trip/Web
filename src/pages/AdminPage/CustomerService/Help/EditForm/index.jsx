@@ -85,7 +85,12 @@ function EditForm({
   };
 
   useEffect(() => {
-    if (!announcementId || mode !== "edit" || announcementId === "new") return;
+    if (!announcementId || mode !== "edit" || announcementId === "new") {
+      setImages([undefined, undefined, undefined]);
+      setTitle("");
+      setContent("");
+      return;
+    }
     getAnnouncementDetailFunc();
   }, [announcementId, mode]);
 

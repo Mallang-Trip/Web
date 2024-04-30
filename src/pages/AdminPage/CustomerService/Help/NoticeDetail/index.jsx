@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAnnouncementDetail } from "../../../../../api/announcement";
 import Title from "../../../../../components/Title";
 import NoticeButton from "./NoticeButton";
@@ -11,12 +12,17 @@ function NoticeDetail({
   setMessage,
   setShowMessageModal,
 }) {
+  const navigation = useNavigate();
   const [notice, setNotice] = useState({});
 
   const getAnnouncementDetailFunc = async () => {
     try {
       const result = await getAnnouncementDetail(announcementId);
       setNotice(result.payload);
+      if (result.statusCode === 404) {
+        alert("이미 삭제된 공지사항 입니다.");
+        navigation(-1);
+      }
     } catch (e) {
       console.log(e);
     }

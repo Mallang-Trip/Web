@@ -52,6 +52,9 @@ function NoticeList({ mode, helpType, setHelpType }) {
             {...item}
           />
         ))}
+        {content.length === 0 && (
+          <div className="text-center mt-10">목록이 비어있습니다.</div>
+        )}
       </div>
       <Pagination page={page} setPage={setPage} length={totalElements} />
     </div>

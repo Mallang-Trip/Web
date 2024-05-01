@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartyRoomId } from "../../../../../redux/modules/talkRoomSlice";
 import { dateToGapKorean } from "../../../../../utils";
 import { deleteMyComment } from "../../../../../api/article";
+import { makeNewCoupleChat } from "../../../../../api/chat";
 import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
 import CheckModal from "../../../../../components/CheckModal";
 import basicProfileImage from "../../../../../assets/images/profileImage.png";
+import ReportModal from "../../../../../components/ReportModal";
 
 function CommentItem({
   getArticleDetailFunc,
@@ -18,15 +22,32 @@ function CommentItem({
   userId,
   deleted,
 }) {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const { articleId } = useParams();
   const user = useSelector((state) => state.user);
   const [showReply, setShowReply] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const deleteHandler = async () => {
     try {
       await deleteMyComment(commentId);
       setShowDeleteModal(false);
       getArticleDetailFunc();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const goCoupleChat = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+
+    try {
+      const result = await makeNewCoupleChat(userId);
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
     } catch (e) {
       console.log(e);
     }
@@ -56,8 +77,19 @@ function CommentItem({
             className="text-primary"
             onClick={() => setShowReply(!showReply)}
           >{`답글 ${replies.length}개`}</button>
-          <button className="text-darkgray">톡 보내기</button>
-          <button className="text-darkgray">신고</button>
+          {user.userId !== userId && (
+            <>
+              <button className="text-darkgray" onClick={goCoupleChat}>
+                톡 보내기
+              </button>
+              <button
+                className="text-darkgray"
+                onClick={() => setShowReportModal(true)}
+              >
+                신고
+              </button>
+            </>
+          )}
           {(user.userId === userId || user.isAdmin) && !deleted && (
             <button
               className="text-[#ff0000]"
@@ -77,6 +109,7 @@ function CommentItem({
               <ReplyItem
                 key={reply.replyId}
                 getArticleDetailFunc={getArticleDetailFunc}
+                setShowLoginModal={setShowLoginModal}
                 {...reply}
               />
             ))}
@@ -94,6 +127,21 @@ function CommentItem({
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => deleteHandler()}
+      />
+      <ReportModal
+        showModal={showReportModal}
+        setShowModal={setShowReportModal}
+        reporteeId={userId}
+        targetId={articleId}
+        type="ARTICLE"
+      />
+      <CheckModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+        message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => navigation("/login")}
       />
     </div>
   );

@@ -5,7 +5,7 @@ import AdminHome from "./AdminHome";
 import KPI from "./KPI";
 import Profit from "./Profit";
 import Payment from "./Payment";
-import Service from "./CustomerService/Service";
+import Help from "./CustomerService/Help";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
 import Party from "./Management/Party";
@@ -26,7 +26,7 @@ function AdminPage() {
       name: "고객센터 및 신고",
       id: "customerService",
       child: [
-        { name: "고객센터 글 작성/수정/삭제", id: "service" },
+        { name: "고객센터 글 작성/수정/삭제", id: "help" },
         { name: "고객문의", id: "inquiry" },
         { name: "신고내역", id: "report" },
       ],
@@ -72,7 +72,7 @@ function AdminPage() {
         {type === "kpi" && <KPI />}
         {type === "profit" && <Profit />}
         {type === "payment" && <Payment />}
-        {type === "service" && <Service />}
+        {type === "help" && <Help />}
         {type === "report" && <Report />}
         {type === "noti" && <Noti />}
         {type === "party" && <Party />}

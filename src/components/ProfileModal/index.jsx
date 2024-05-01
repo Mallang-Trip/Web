@@ -6,7 +6,7 @@ import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
 import Loading from "../Loading";
 
-function ProfileModal({ showModal, setShowModal, userId = 0 }) {
+function ProfileModal({ showModal, setShowModal, userId = 0, chatRoomId }) {
   const modalRef = useRef();
   const $body = document.body;
   const [userInfo, setUserInfo] = useState({});
@@ -70,6 +70,7 @@ function ProfileModal({ showModal, setShowModal, userId = 0 }) {
               userId={userInfo.userId}
               nickname={userInfo.nickname}
               setShowModal={setShowModal}
+              chatRoomId={chatRoomId}
             />
           </>
         )}

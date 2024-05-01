@@ -1,47 +1,48 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getAnnouncementList } from "../../../api/announcement";
-import Loading from "../../../components/Loading";
-import Pagination from "../Pagination";
+import { useNavigate } from "react-router-dom";
+import { getAnnouncementList } from "../../../../../api/announcement";
+import EditButton from "../../../../../components/EditButton";
+import Title from "../../../../../components/Title";
+import Pagination from "../../../../HelpPage/Pagination";
+import HelpTab from "./HelpTab";
 import Head from "./Head";
 import Notice from "./Notice";
 
-function NoticeList({ type }) {
-  const { id } = useParams();
-  const [content, setContent] = useState([]);
+function NoticeList({ mode, helpType, setHelpType }) {
+  const navigation = useNavigate();
   const [page, setPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [content, setContent] = useState([]);
 
   const getAnnouncementListFunc = async () => {
     try {
-      setLoading(true);
-      const result = await getAnnouncementList(type, page);
+      const result = await getAnnouncementList(helpType, page);
       setContent(result.payload.content);
       setTotalElements(result.payload.totalElements);
     } catch (e) {
       console.log(e);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     getAnnouncementListFunc();
-  }, [type, page]);
+  }, [page, mode]);
 
   useEffect(() => {
     setPage(0);
-  }, [type]);
+    getAnnouncementListFunc();
+  }, [helpType]);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, [id, page]);
-
-  if (id !== "list") return null;
-  if (loading) return <Loading full={true} />;
+  if (mode === "edit" || mode === "detail") return null;
   return (
-    <>
+    <div>
+      <Title title="고객센터 글 작성/수정/삭제" />
+      <HelpTab helpType={helpType} setHelpType={setHelpType} />
+      <EditButton
+        className="ml-auto mb-4"
+        title="글 작성"
+        onClick={() => navigation("/admin/help?mode=edit&announcement_id=new")}
+      />
       <div className="w-full whitespace-nowrap">
         <Head />
         {content.map((item, index) => (
@@ -56,7 +57,7 @@ function NoticeList({ type }) {
         )}
       </div>
       <Pagination page={page} setPage={setPage} length={totalElements} />
-    </>
+    </div>
   );
 }
 

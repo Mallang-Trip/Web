@@ -6,7 +6,6 @@ import { postSuspension } from "../../../api/admin";
 function SuspensionModal({
   showModal,
   setShowModal,
-  duration,
   userId,
   reportId,
   handleClose,
@@ -20,12 +19,16 @@ function SuspensionModal({
     handleClose();
   };
 
-  const [durationInput, setDurationInput] = useState(duration);
-  const [content, setContent] = useState(null);
+  const [durationInput, setDurationInput] = useState();
+  const [content, setContent] = useState("");
 
   const postSuspensionFunc = async () => {
     try {
-      await postSuspension({ userId, content, durationInput, reportId });
+      await postSuspension(userId, {
+        content: content,
+        duration: Number(durationInput),
+        reportId: reportId,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -70,8 +73,9 @@ function SuspensionModal({
         <div className="flex w-full flex-col text-lg text-gray700 whitespace-pre px-12 mb-10">
           <div className="mb-2">제재 일 수를 입력해주세요.</div>
           <input
-            className="h-14 rounded-xl outline-0 text-textgray bg-lightgray font-semibold text-base text-center mb-2"
-            placeholder={duration ? duration : "10"}
+            className="h-14 rounded-xl outline-0 text-textgray::placeholder text-gray700 bg-lightgray font-semibold text-base text-center mb-2"
+            placeholder="10일"
+            value={durationInput}
             onChange={(e) => handleInput("duration", e)}
           />
           <button
@@ -85,9 +89,9 @@ function SuspensionModal({
           <div className="mb-2">제재 사유를 입력해주세요.</div>
           <div className="">
             <textarea
-              className="w-full h-40 rounded-xl outline-0 text-textgray bg-lightgray font-semibold text-base text-start mb-2 px-4 py-6 resize-none"
+              className="w-full h-40 rounded-xl outline-0 text-textgray::placeholder text-gray700 bg-lightgray font-semibold text-base text-start mb-2 px-4 py-6 resize-none"
               placeholder="내용을 입력해주세요."
-              onChange={(e) => handleInput("duration", e)}
+              onChange={(e) => handleInput("content", e)}
             />
           </div>
         </div>

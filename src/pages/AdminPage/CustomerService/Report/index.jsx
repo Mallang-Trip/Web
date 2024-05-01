@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   getReportList,
   getReportDetail,
@@ -8,10 +8,13 @@ import {
 } from "../../../../api/admin";
 import Loading from "../../../../components/Loading";
 import TabList from "../../../../components/Admin/TabList";
+import AdminProfileModal from "../../../../components/Admin/ProfileModal";
 import ReportContent from "./ReportContent";
 
 function Report() {
-  const [loading, setLoading] = useState(true);
+  const ref = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const [showReportContent, setShowReportContent] = useState(false);
   const cols = [
     ["피신고자 닉네임", "아이디", "신고날짜", "프로필"],
@@ -23,8 +26,11 @@ function Report() {
   const [dataDone, setDataDone] = useState();
   const [dataList, setDataList] = useState();
   const [dataDetail, setDataDetail] = useState();
+  const [userId, setUserId] = useState(0);
+  const [reportId, setReportId] = useState(0);
 
-  const getReportListFunc = async (c) => {
+  const getReportListFunc = async () => {
+    setLoading(true);
     try {
       const result1 = await getReportList();
       const result2 = await getReportCompleteList();
@@ -36,7 +42,9 @@ function Report() {
       setLoading(false);
     }
   };
+
   const getReportDetailFunc = async (detailId) => {
+    setLoading(true);
     try {
       const result =
         current === 0
@@ -45,8 +53,11 @@ function Report() {
       setDataDetail(result.payload);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
+
   const updateReportCompleteFunc = async (reportId) => {
     try {
       await updateReportComplete(reportId);
@@ -63,7 +74,14 @@ function Report() {
     setColumn(cols[current]);
     if (current === 0) setDataList(dataWaiting);
     else setDataList(dataDone);
-  }, [current]);
+  }, [current, dataWaiting, dataDone]);
+
+  useEffect(() => {
+    if (dataDetail) {
+      setUserId(dataDetail.reporteeId);
+      setReportId(dataDetail.reportId);
+    }
+  }, [dataDetail]);
 
   const tabList = [
     { name: "신고처리 대기", id: "waiting" },
@@ -127,15 +145,15 @@ function Report() {
           dataList.map((item, index) => (
             <div
               key={index}
-              className="flex items-center w-full px-5 py-3 h-10 border border-solid border-[#EFEFEF] rounded-xl mb-2 text-sm font-medium text-gray700 cursor-pointer"
+              className="flex items-center w-full px-5 py-3 h-10 border border-solid border-[#EFEFEF] rounded-xl mb-2 text-sm font-medium text-gray700"
               onClick={() => {
-                setShowReportContent(true);
                 getReportDetailFunc(item.reportId);
               }}
             >
               <div className="w-1/5">{item.reporteeNickname}</div>
               <div
-                className={`flex items-center relative left-[-.75rem] pr-3 ${current === 0 ? "flex-1" : "w-1/5"}`}
+                className={`flex items-center relative left-[-.75rem] pr-3 cursor-pointer ${current === 0 ? "flex-1" : "w-1/5"}`}
+                onClick={() => setShowReportContent(true)}
               >
                 <hr className="w-[0.0625rem] h-4 mr-3 bg-gray400" />
                 {item.reportId}
@@ -151,13 +169,28 @@ function Report() {
               <div
                 className={`flex w-16 ${current === 0 ? "justify-end text-gray500 cursor-pointer" : ""}`}
               >
-                {current === 0
-                  ? "프로필"
-                  : suspensionExistFunc(item.suspensionExist)}
+                {current === 0 ? (
+                  <button
+                    onClick={() => {
+                      getReportDetailFunc(item.reportId);
+                      setShowProfileModal(true);
+                    }}
+                  >
+                    프로필
+                  </button>
+                ) : (
+                  suspensionExistFunc(item.suspensionExist)
+                )}
               </div>
             </div>
           ))}
       </div>
+      <AdminProfileModal
+        showModal={showProfileModal}
+        setShowModal={setShowProfileModal}
+        userId={userId}
+        reportId={reportId}
+      />
     </div>
   );
 }

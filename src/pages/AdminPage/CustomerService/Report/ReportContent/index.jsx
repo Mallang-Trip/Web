@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 function ReportContent({ current, dataDetail, handleClose }) {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -7,6 +9,7 @@ function ReportContent({ current, dataDetail, handleClose }) {
       .split(" ")
       .join(".");
   };
+  if (!dataDetail) return;
   return (
     <div className="cursor-default">
       <div className="flex flex-col">

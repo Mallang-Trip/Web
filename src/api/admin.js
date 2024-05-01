@@ -28,14 +28,14 @@ export const getReportCompleteDetail = async (reportId) =>
 export const updateReportComplete = async (reportId) =>
   await PUT(`/report/${reportId}`, true);
 
+export const postSuspension = async (userId, body) =>
+  await POST(`/suspension/${userId}`, body, true);
+
 export const getPaymentList = async (status) =>
   await GET(`/admin/payment?status=${status}`, true);
 
 export const getIncomeList = async (month) =>
   await GET(`/income/admin/monthly?month=${month}`, true);
-
-export const postIncomeRemittance = async (income_id) =>
-  await POST(`/income/admin/remittance/${income_id}`, true);
 
 export const updateIncomeAmount = async (amount, income_id) =>
   await PUT(`/income/admin/${income_id}?amount=${amount}`, true);

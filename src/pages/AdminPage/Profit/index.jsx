@@ -259,7 +259,7 @@ function Profit() {
           setShowCommissionModal(false);
           setShowConfirmModal(true);
           setCommissionRate(data);
-          updateIncomeCommissionFunc(commissionRate);
+          updateIncomeCommissionFunc(data);
         }}
       />
       <ConfirmModal

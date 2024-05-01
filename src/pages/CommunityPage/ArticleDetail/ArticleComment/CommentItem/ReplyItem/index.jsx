@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartyRoomId } from "../../../../../../redux/modules/talkRoomSlice";
 import { dateToGapKorean } from "../../../../../../utils";
 import { deleteMyReply } from "../../../../../../api/article";
+import { makeNewCoupleChat } from "../../../../../../api/chat";
 import CheckModal from "../../../../../../components/CheckModal";
 import ReportModal from "../../../../../../components/ReportModal";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
 function ReplyItem({
   getArticleDetailFunc,
+  setShowLoginModal,
   replyId,
   profileImg,
   nickname,
@@ -17,10 +20,24 @@ function ReplyItem({
   userId,
   deleted,
 }) {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
   const { articleId } = useParams();
   const user = useSelector((state) => state.user);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
+
+  const goCoupleChat = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+
+    try {
+      const result = await makeNewCoupleChat(userId);
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const deleteHandler = async () => {
     try {
@@ -53,8 +70,12 @@ function ReplyItem({
             {content}
           </div>
           <div className="flex gap-8 text-xs text-darkgray">
-            <button>톡 보내기</button>
-            <button onClick={() => setShowReportModal(true)}>신고</button>
+            {user.userId !== userId && (
+              <>
+                <button onClick={goCoupleChat}>톡 보내기</button>
+                <button onClick={() => setShowReportModal(true)}>신고</button>
+              </>
+            )}
             {(user.userId === userId || user.isAdmin) && !deleted && (
               <button
                 onClick={() => setShowDeleteModal(true)}

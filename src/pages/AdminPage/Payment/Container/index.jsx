@@ -1,10 +1,36 @@
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
+import { partyStatusObj } from "../../../../utils/data";
+import { getPartyChatId } from "../../../../api/chat";
+
 function Container({
   partyName,
   startDate,
   partyId,
   driverName,
   partyMembers,
+  status,
 }) {
+  const navigation = useNavigate();
+  const dispatch = useDispatch();
+
+  const goPartyChat = async () => {
+    try {
+      const result = await getPartyChatId(partyId);
+
+      if (result.statusCode !== 200) {
+        alert(result.message);
+        return;
+      }
+
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return new Date(dateString)
@@ -13,23 +39,32 @@ function Container({
       .split(" ")
       .join(".");
   };
+
   return (
-    <div className="flex flex-col px-5 py-6 border border-gray-300 rounded-3xl mb-4">
+    <div className="flex flex-col px-5 py-6 font-medium border border-gray-300 rounded-3xl mb-4">
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
-          <div className="flex items-center text-lg">
+          <div className="flex items-center text-lg text-black font-bold">
             {partyName}
-            <div className="text-sm text-[#939094] ml-2">
+            <div className="text-sm text-gray500 font-medium ml-2">
               {formatDate(startDate)}
             </div>
           </div>
-          <div className="text-sm text-gray700 mt-1">{partyId}</div>
+          <div className="text-sm text-gray700 mt-1">
+            {partyStatusObj[status]}
+          </div>
         </div>
-        <div>
-          <button className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5">
+        <div className="font-bold">
+          <button
+            className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5"
+            onClick={() => navigation(`/admin/party?party_id=${partyId}`)}
+          >
             파티로 이동
           </button>
-          <button className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5">
+          <button
+            className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5"
+            onClick={goPartyChat}
+          >
             말랑톡
           </button>
           <button className="bg-skyblue h-10 px-4 py-1.5 text-primary text-sm rounded-xl">

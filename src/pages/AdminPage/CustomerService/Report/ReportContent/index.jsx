@@ -88,7 +88,7 @@ function ReportContent({ current, dataDetail, handleClose }) {
           <div className="flex justify-center">
             <button
               className="w-80 h-12 bg-primary text-white text-xl font-bold rounded-full px-5 py-1"
-              onClick={handleClose}
+              onClick={() => handleClose(dataDetail.reportId)}
             >
               처리 완료
             </button>

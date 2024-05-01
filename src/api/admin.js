@@ -25,6 +25,9 @@ export const getReportCompleteList = async () =>
 export const getReportCompleteDetail = async (reportId) =>
   await GET(`/report/complete/${reportId}`, true);
 
+export const updateReportComplete = async (reportId) =>
+  await PUT(`/report/${reportId}`, true);
+
 export const getPaymentList = async (status) =>
   await GET(`/admin/payment?status=${status}`, true);
 

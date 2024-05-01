@@ -4,6 +4,7 @@ import {
   getReportDetail,
   getReportCompleteList,
   getReportCompleteDetail,
+  updateReportComplete,
 } from "../../../../api/admin";
 import Loading from "../../../../components/Loading";
 import TabList from "../../../../components/Admin/TabList";
@@ -42,6 +43,13 @@ function Report() {
           ? await getReportDetail(detailId)
           : await getReportCompleteDetail(detailId);
       setDataDetail(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const updateReportCompleteFunc = async (reportId) => {
+    try {
+      await updateReportComplete(reportId);
     } catch (e) {
       console.log(e);
     }
@@ -97,7 +105,10 @@ function Report() {
       <ReportContent
         current={current}
         dataDetail={dataDetail}
-        handleClose={() => setShowReportContent(false)}
+        handleClose={(reportId) => {
+          setShowReportContent(false);
+          updateReportCompleteFunc(reportId);
+        }}
       />
     );
   return (

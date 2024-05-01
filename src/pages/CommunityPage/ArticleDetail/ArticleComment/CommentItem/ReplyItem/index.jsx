@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
-import { dateToGapKorean } from "../../../../../../utils";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { dateToGapKorean } from "../../../../../../utils";
 import { deleteMyReply } from "../../../../../../api/article";
 import CheckModal from "../../../../../../components/CheckModal";
+import ReportModal from "../../../../../../components/ReportModal";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
 function ReplyItem({
@@ -15,8 +17,10 @@ function ReplyItem({
   userId,
   deleted,
 }) {
+  const { articleId } = useParams();
   const user = useSelector((state) => state.user);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const deleteHandler = async () => {
     try {
@@ -50,7 +54,7 @@ function ReplyItem({
           </div>
           <div className="flex gap-8 text-xs text-darkgray">
             <button>톡 보내기</button>
-            <button>신고</button>
+            <button onClick={() => setShowReportModal(true)}>신고</button>
             {(user.userId === userId || user.isAdmin) && !deleted && (
               <button
                 onClick={() => setShowDeleteModal(true)}
@@ -70,6 +74,13 @@ function ReplyItem({
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => deleteHandler()}
+      />
+      <ReportModal
+        showModal={showReportModal}
+        setShowModal={setShowReportModal}
+        reporteeId={userId}
+        targetId={articleId}
+        type="ARTICLE"
       />
     </>
   );

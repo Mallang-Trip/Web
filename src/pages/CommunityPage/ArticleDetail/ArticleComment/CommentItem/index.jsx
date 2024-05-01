@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { dateToGapKorean } from "../../../../../utils";
 import { deleteMyComment } from "../../../../../api/article";
@@ -6,6 +7,7 @@ import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
 import CheckModal from "../../../../../components/CheckModal";
 import basicProfileImage from "../../../../../assets/images/profileImage.png";
+import ReportModal from "../../../../../components/ReportModal";
 
 function CommentItem({
   getArticleDetailFunc,
@@ -18,9 +20,11 @@ function CommentItem({
   userId,
   deleted,
 }) {
+  const { articleId } = useParams();
   const user = useSelector((state) => state.user);
   const [showReply, setShowReply] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const deleteHandler = async () => {
     try {
@@ -57,7 +61,12 @@ function CommentItem({
             onClick={() => setShowReply(!showReply)}
           >{`답글 ${replies.length}개`}</button>
           <button className="text-darkgray">톡 보내기</button>
-          <button className="text-darkgray">신고</button>
+          <button
+            className="text-darkgray"
+            onClick={() => setShowReportModal(true)}
+          >
+            신고
+          </button>
           {(user.userId === userId || user.isAdmin) && !deleted && (
             <button
               className="text-[#ff0000]"
@@ -94,6 +103,13 @@ function CommentItem({
         noText={"취소"}
         yesText={"확인"}
         yesHandler={() => deleteHandler()}
+      />
+      <ReportModal
+        showModal={showReportModal}
+        setShowModal={setShowReportModal}
+        reporteeId={userId}
+        targetId={articleId}
+        type="ARTICLE"
       />
     </div>
   );

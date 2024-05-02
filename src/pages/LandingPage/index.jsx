@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PageContainer from "../../components/PageContainer";
 import PartyFilter from "./PartyFilter";
@@ -8,10 +8,18 @@ import KakaoButton from "./KakaoButton";
 import DriverMenu from "./DriverMenu";
 import Title from "../../components/Title";
 import DriverHome from "./DriverHome";
+import UserMenu from "./UserMenu";
+import MyPartyList from "./MyPartyList";
 
 function LandingPage() {
   const user = useSelector((state) => state.user);
   const [driverMenu, setDriverMenu] = useState("driver");
+  const [userMenu, setUserMenu] = useState("recommend");
+
+  useEffect(() => {
+    setDriverMenu("driver");
+    setUserMenu("recommend");
+  }, [user]);
 
   return (
     <PageContainer>
@@ -22,14 +30,8 @@ function LandingPage() {
         <>
           <Title title="어디로 떠나고 싶으신가요?" />
           <PartyFilter />
-          <Title
-            title={
-              user.nickname
-                ? `${user.nickname} 님께 추천하는 파티`
-                : "추천 파티"
-            }
-          />
-          <PartyList />
+          <UserMenu userMenu={userMenu} setUserMenu={setUserMenu} />
+          {userMenu === "recommend" ? <PartyList /> : <MyPartyList />}
         </>
       )}
       <NewPartyButton />

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { uploadImage } from "../../../api/image";
 import ImageInput from "./ImageInput";
 
 function DriverDocument({
@@ -10,12 +11,21 @@ function DriverDocument({
   insurance,
   setInsurance,
 }) {
-  const imageHandler = (inputId) => {
+  const imageHandler = async (inputId) => {
     const imageFile = document.getElementById(inputId).files[0];
 
-    if (inputId === "driverLicense") setDriverLicense(imageFile || undefined);
-    if (inputId === "taxiLicense") setTaxiLicense(imageFile || undefined);
-    if (inputId === "insurance") setInsurance(imageFile || undefined);
+    if (inputId === "driverLicense") {
+      if (!imageFile) setDriverLicense(null);
+      else setDriverLicense(await uploadImage(imageFile));
+    }
+    if (inputId === "taxiLicense") {
+      if (!imageFile) setTaxiLicense(null);
+      else setTaxiLicense(await uploadImage(imageFile));
+    }
+    if (inputId === "insurance") {
+      if (!imageFile) setInsurance(null);
+      else setInsurance(await uploadImage(imageFile));
+    }
   };
 
   useEffect(() => {

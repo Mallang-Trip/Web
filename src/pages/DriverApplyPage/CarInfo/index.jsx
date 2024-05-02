@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { onlyNumber } from "../../../utils";
+import { uploadImage } from "../../../api/image";
 
 function CarInfo({
   setActiveNext,
@@ -12,9 +13,10 @@ function CarInfo({
 }) {
   const imageRef = useRef();
 
-  const imageHandler = () => {
+  const imageHandler = async () => {
     const imageFile = imageRef.current.files[0];
-    setCarImage(imageFile || undefined);
+    if (!imageFile) setCarImage(null);
+    else setCarImage(await uploadImage(imageFile));
   };
 
   useEffect(() => {

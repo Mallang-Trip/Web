@@ -26,6 +26,7 @@ function DriverApplyPage() {
   const user = useSelector((state) => state.user);
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
   const [driverId, setDriverId] = useState(0);
   const [allChecked, setAllChecked] = useState(false);
   const [checked, setChecked] = useState([false, false, false]);
@@ -101,6 +102,7 @@ function DriverApplyPage() {
       driverId ? await putDriverApply(body) : await postDriverApply(body);
       setStep(step + 1);
       setShowModal(false);
+      localStorage.removeItem("driverApplyBackup");
     } catch (e) {
       alert("오류가 발생했습니다.");
       setShowModal(false);
@@ -142,6 +144,27 @@ function DriverApplyPage() {
           setStep(8);
           dispatch(__asyncRefreshAuth());
         }
+      } else {
+        const backupData = JSON.parse(
+          localStorage.getItem("driverApplyBackup")
+        );
+        if (!backupData) return;
+
+        setStep(backupData.step);
+        setChecked(backupData.checked);
+        setCarImage(backupData.carImage);
+        setModelName(backupData.modelName);
+        setMaxNum(backupData.maxNum);
+        setRegion(backupData.region);
+        setBank(backupData.bank);
+        setName(backupData.name);
+        setAccoutNumber(backupData.accoutNumber);
+        setHour(backupData.hour);
+        setMoney(backupData.money);
+        setDriverLicense(backupData.driverLicense);
+        setTaxiLicense(backupData.taxiLicense);
+        setInsurance(backupData.insurance);
+        setIntroduction(backupData.introduction);
       }
     } catch (e) {
       console.log(e);
@@ -149,6 +172,47 @@ function DriverApplyPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (loading) return;
+
+    const data = {
+      step: step,
+      checked: checked,
+      carImage: carImage,
+      modelName: modelName,
+      maxNum: maxNum,
+      region: region,
+      bank: bank,
+      name: name,
+      accoutNumber: accoutNumber,
+      hour: hour,
+      money: money,
+      driverLicense: driverLicense,
+      taxiLicense: taxiLicense,
+      insurance: insurance,
+      introduction: introduction,
+    };
+    localStorage.setItem("driverApplyBackup", JSON.stringify(data));
+
+    if (autoSave) setAutoSave(false);
+  }, [
+    step,
+    checked,
+    carImage,
+    modelName,
+    maxNum,
+    region,
+    bank,
+    name,
+    accoutNumber,
+    hour,
+    money,
+    driverLicense,
+    taxiLicense,
+    insurance,
+    introduction,
+  ]);
 
   useEffect(() => {
     if (user.role === "ROLE_DRIVER") {
@@ -237,6 +301,8 @@ function DriverApplyPage() {
         setShowModal={setShowModal}
         submitHandler={submitHandler}
         submitLoading={submitLoading}
+        autoSave={autoSave}
+        setAutoSave={setAutoSave}
       />
     </PageContainer>
   );

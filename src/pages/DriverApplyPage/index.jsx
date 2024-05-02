@@ -19,13 +19,16 @@ import DriverDocument from "./DriverDocument";
 import Introduction from "./Introduction";
 import Complete from "./Complete";
 import DriverAccept from "./DriverAccept";
+import Agreement from "./Agreement";
 
 function DriverApplyPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
   const [driverId, setDriverId] = useState(0);
+  const [allChecked, setAllChecked] = useState(false);
+  const [checked, setChecked] = useState([false, false, false]);
   const [carImage, setCarImage] = useState(undefined);
   const [modelName, setModelName] = useState("");
   const [maxNum, setMaxNum] = useState("");
@@ -51,23 +54,23 @@ function DriverApplyPage() {
     const carImageURL = !carImage
       ? null
       : typeof carImage === "string"
-      ? carImage
-      : await uploadImage(carImage);
+        ? carImage
+        : await uploadImage(carImage);
     const driverLicenseURL = !driverLicense
       ? null
       : typeof driverLicense === "string"
-      ? driverLicense
-      : await uploadImage(driverLicense);
+        ? driverLicense
+        : await uploadImage(driverLicense);
     const taxiLicenseURL = !taxiLicense
       ? null
       : typeof taxiLicense === "string"
-      ? taxiLicense
-      : await uploadImage(taxiLicense);
+        ? taxiLicense
+        : await uploadImage(taxiLicense);
     const insuranceURL = !insurance
       ? null
       : typeof insurance === "string"
-      ? insurance
-      : await uploadImage(insurance);
+        ? insurance
+        : await uploadImage(insurance);
 
     const prices = [];
     for (let i = 0; i < 5; i++) {
@@ -162,6 +165,15 @@ function DriverApplyPage() {
       <Title step={step} />
       <Stepper step={step} />
 
+      {step === 0 && (
+        <Agreement
+          setActiveNext={setActiveNext}
+          allChecked={allChecked}
+          setAllChecked={setAllChecked}
+          checked={checked}
+          setChecked={setChecked}
+        />
+      )}
       {step === 1 && (
         <CarInfo
           setActiveNext={setActiveNext}

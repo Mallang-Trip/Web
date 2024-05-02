@@ -1,6 +1,7 @@
 import CheckIcon from "./CheckIcon";
 
 function Stepper({ step }) {
+  if (step === 0) return <div className="w-full h-32" />;
   return (
     <ol className="flex items-center w-full mb-20 text-sm text-mediumgray">
       <li

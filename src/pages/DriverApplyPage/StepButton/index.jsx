@@ -26,11 +26,11 @@ function StepButton({
         <button
           type="button"
           className={`${
-            step !== 1
+            step !== 0
               ? "h-12 bg-white border rounded-full text-darkgray text-sm w-64 border-darkgray"
               : "h-12 bg-lightgray border rounded-full text-darkgray text-sm w-64 border-lightgray"
           }`}
-          disabled={step === 1}
+          disabled={step === 0}
           onClick={prevHandler}
         >
           이전

@@ -19,13 +19,17 @@ import DriverDocument from "./DriverDocument";
 import Introduction from "./Introduction";
 import Complete from "./Complete";
 import DriverAccept from "./DriverAccept";
+import Agreement from "./Agreement";
 
 function DriverApplyPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
   const [driverId, setDriverId] = useState(0);
+  const [allChecked, setAllChecked] = useState(false);
+  const [checked, setChecked] = useState([false, false, false]);
   const [carImage, setCarImage] = useState(undefined);
   const [modelName, setModelName] = useState("");
   const [maxNum, setMaxNum] = useState("");
@@ -51,23 +55,23 @@ function DriverApplyPage() {
     const carImageURL = !carImage
       ? null
       : typeof carImage === "string"
-      ? carImage
-      : await uploadImage(carImage);
+        ? carImage
+        : await uploadImage(carImage);
     const driverLicenseURL = !driverLicense
       ? null
       : typeof driverLicense === "string"
-      ? driverLicense
-      : await uploadImage(driverLicense);
+        ? driverLicense
+        : await uploadImage(driverLicense);
     const taxiLicenseURL = !taxiLicense
       ? null
       : typeof taxiLicense === "string"
-      ? taxiLicense
-      : await uploadImage(taxiLicense);
+        ? taxiLicense
+        : await uploadImage(taxiLicense);
     const insuranceURL = !insurance
       ? null
       : typeof insurance === "string"
-      ? insurance
-      : await uploadImage(insurance);
+        ? insurance
+        : await uploadImage(insurance);
 
     const prices = [];
     for (let i = 0; i < 5; i++) {
@@ -98,6 +102,7 @@ function DriverApplyPage() {
       driverId ? await putDriverApply(body) : await postDriverApply(body);
       setStep(step + 1);
       setShowModal(false);
+      localStorage.removeItem("driverApplyBackup");
     } catch (e) {
       alert("오류가 발생했습니다.");
       setShowModal(false);
@@ -111,18 +116,36 @@ function DriverApplyPage() {
       const result = await getDriverApply();
 
       if (result.statusCode === 200) {
-        setName(result.payload.accountHolder);
-        setAccoutNumber(result.payload.accountNumber);
-        setBank(result.payload.bank);
-        setDriverId(result.payload.driverId);
-        setDriverLicense(result.payload.driverLicenceImg);
-        setInsurance(result.payload.insuranceLicenceImg);
-        setIntroduction(result.payload.introduction);
-        setRegion(result.payload.region);
-        setTaxiLicense(result.payload.taxiLicenceImg);
-        setMaxNum(result.payload.vehicleCapacity.toString());
-        setCarImage(result.payload.vehicleImg);
-        setModelName(result.payload.vehicleModel);
+        const backupData = JSON.parse(
+          localStorage.getItem("driverApplyBackup")
+        );
+
+        setStep(backupData?.step || 0);
+        setChecked(backupData?.checked || [false, false, false]);
+        setCarImage(backupData?.carImage || result.payload.vehicleImg);
+        setModelName(backupData?.modelName || result.payload.vehicleModel);
+        setMaxNum(
+          backupData?.maxNum || result.payload.vehicleCapacity.toString()
+        );
+        setRegion(backupData?.region || result.payload.region);
+        setBank(backupData?.bank || result.payload.bank);
+        setName(backupData?.name || result.payload.accountHolder);
+        setAccoutNumber(
+          backupData?.accoutNumber || result.payload.accountNumber
+        );
+        setDriverLicense(
+          backupData?.driverLicense || result.payload.driverLicenceImg
+        );
+        setTaxiLicense(
+          backupData?.taxiLicense || result.payload.taxiLicenceImg
+        );
+        setInsurance(
+          backupData?.insurance || result.payload.insuranceLicenceImg
+        );
+        setIntroduction(
+          backupData?.introduction || result.payload.introduction
+        );
+        setDriverId(result.payload.driverId || 0);
 
         const hours = ["", "", "", "", ""];
         const moneys = ["", "", "", "", ""];
@@ -130,8 +153,8 @@ function DriverApplyPage() {
           hours[index] = item.hours.toString();
           moneys[index] = item.price.toString();
         });
-        setHour(hours);
-        setMoney(moneys);
+        setHour(backupData?.hour || hours);
+        setMoney(backupData?.money || moneys);
 
         if (result.payload.status === "WAITING") setStep(6);
         else if (result.payload.status === "REFUSED") setStep(7);
@@ -139,6 +162,27 @@ function DriverApplyPage() {
           setStep(8);
           dispatch(__asyncRefreshAuth());
         }
+      } else {
+        const backupData = JSON.parse(
+          localStorage.getItem("driverApplyBackup")
+        );
+        if (!backupData) return;
+
+        setStep(backupData.step);
+        setChecked(backupData.checked);
+        setCarImage(backupData.carImage);
+        setModelName(backupData.modelName);
+        setMaxNum(backupData.maxNum);
+        setRegion(backupData.region);
+        setBank(backupData.bank);
+        setName(backupData.name);
+        setAccoutNumber(backupData.accoutNumber);
+        setHour(backupData.hour);
+        setMoney(backupData.money);
+        setDriverLicense(backupData.driverLicense);
+        setTaxiLicense(backupData.taxiLicense);
+        setInsurance(backupData.insurance);
+        setIntroduction(backupData.introduction);
       }
     } catch (e) {
       console.log(e);
@@ -146,6 +190,47 @@ function DriverApplyPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (loading || step > 5) return;
+
+    const data = {
+      step: step,
+      checked: checked,
+      carImage: carImage,
+      modelName: modelName,
+      maxNum: maxNum,
+      region: region,
+      bank: bank,
+      name: name,
+      accoutNumber: accoutNumber,
+      hour: hour,
+      money: money,
+      driverLicense: driverLicense,
+      taxiLicense: taxiLicense,
+      insurance: insurance,
+      introduction: introduction,
+    };
+    localStorage.setItem("driverApplyBackup", JSON.stringify(data));
+
+    if (autoSave) setAutoSave(false);
+  }, [
+    step,
+    checked,
+    carImage,
+    modelName,
+    maxNum,
+    region,
+    bank,
+    name,
+    accoutNumber,
+    hour,
+    money,
+    driverLicense,
+    taxiLicense,
+    insurance,
+    introduction,
+  ]);
 
   useEffect(() => {
     if (user.role === "ROLE_DRIVER") {
@@ -162,6 +247,15 @@ function DriverApplyPage() {
       <Title step={step} />
       <Stepper step={step} />
 
+      {step === 0 && (
+        <Agreement
+          setActiveNext={setActiveNext}
+          allChecked={allChecked}
+          setAllChecked={setAllChecked}
+          checked={checked}
+          setChecked={setChecked}
+        />
+      )}
       {step === 1 && (
         <CarInfo
           setActiveNext={setActiveNext}
@@ -225,6 +319,8 @@ function DriverApplyPage() {
         setShowModal={setShowModal}
         submitHandler={submitHandler}
         submitLoading={submitLoading}
+        autoSave={autoSave}
+        setAutoSave={setAutoSave}
       />
     </PageContainer>
   );

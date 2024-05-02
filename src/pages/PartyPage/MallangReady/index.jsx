@@ -46,9 +46,9 @@ function MallangReady({
   return (
     <div className="my-7">
       <p className="text-lg text-black font-bold">말랑레디</p>
-      <div className="my-2.5 flex justify-center sm:justify-start sm:ml-48 items-center">
+      <div className="my-2.5 flex justify-center sm:justify-start sm:ml-40 items-center">
         <button
-          className={`w-44 py-3 text-lg font-bold border rounded-full ${
+          className={`w-40 py-3 ml-2.5 text-base font-bold border rounded-full ${
             ready
               ? "bg-primary text-white border-primary"
               : "bg-white text-darkgray border-darkgray"
@@ -59,8 +59,8 @@ function MallangReady({
           {partyStatus === "RECRUITING"
             ? `말랑레디 ${ready ? "ON" : "OFF"}`
             : computeGapDay(startDate) > 2
-            ? "말랑트립 확정"
-            : "말랑트립 최종 확정"}
+              ? "말랑트립 확정"
+              : "말랑트립 최종 확정"}
         </button>
       </div>
       <WhatReady />

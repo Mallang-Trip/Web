@@ -116,18 +116,36 @@ function DriverApplyPage() {
       const result = await getDriverApply();
 
       if (result.statusCode === 200) {
-        setName(result.payload.accountHolder);
-        setAccoutNumber(result.payload.accountNumber);
-        setBank(result.payload.bank);
-        setDriverId(result.payload.driverId);
-        setDriverLicense(result.payload.driverLicenceImg);
-        setInsurance(result.payload.insuranceLicenceImg);
-        setIntroduction(result.payload.introduction);
-        setRegion(result.payload.region);
-        setTaxiLicense(result.payload.taxiLicenceImg);
-        setMaxNum(result.payload.vehicleCapacity.toString());
-        setCarImage(result.payload.vehicleImg);
-        setModelName(result.payload.vehicleModel);
+        const backupData = JSON.parse(
+          localStorage.getItem("driverApplyBackup")
+        );
+
+        setStep(backupData?.step || 0);
+        setChecked(backupData?.checked || [false, false, false]);
+        setCarImage(backupData?.carImage || result.payload.vehicleImg);
+        setModelName(backupData?.modelName || result.payload.vehicleModel);
+        setMaxNum(
+          backupData?.maxNum || result.payload.vehicleCapacity.toString()
+        );
+        setRegion(backupData?.region || result.payload.region);
+        setBank(backupData?.bank || result.payload.bank);
+        setName(backupData?.name || result.payload.accountHolder);
+        setAccoutNumber(
+          backupData?.accoutNumber || result.payload.accountNumber
+        );
+        setDriverLicense(
+          backupData?.driverLicense || result.payload.driverLicenceImg
+        );
+        setTaxiLicense(
+          backupData?.taxiLicense || result.payload.taxiLicenceImg
+        );
+        setInsurance(
+          backupData?.insurance || result.payload.insuranceLicenceImg
+        );
+        setIntroduction(
+          backupData?.introduction || result.payload.introduction
+        );
+        setDriverId(result.payload.driverId || 0);
 
         const hours = ["", "", "", "", ""];
         const moneys = ["", "", "", "", ""];
@@ -135,8 +153,8 @@ function DriverApplyPage() {
           hours[index] = item.hours.toString();
           moneys[index] = item.price.toString();
         });
-        setHour(hours);
-        setMoney(moneys);
+        setHour(backupData?.hour || hours);
+        setMoney(backupData?.money || moneys);
 
         if (result.payload.status === "WAITING") setStep(6);
         else if (result.payload.status === "REFUSED") setStep(7);
@@ -174,7 +192,7 @@ function DriverApplyPage() {
   };
 
   useEffect(() => {
-    if (loading) return;
+    if (loading || step > 5) return;
 
     const data = {
       step: step,

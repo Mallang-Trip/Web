@@ -21,6 +21,7 @@ function CancelModal({ showModal, setShowModal }) {
         "드라이버 지원서 제출을 취소하였습니다.\n\n언제든지, 드라이버 등록을 위한 지원서를\n다시 제출하실 수 있습니다."
       );
       setComplete(true);
+      localStorage.removeItem("driverApplyBackup");
     } catch (e) {
       console.log(e);
     } finally {

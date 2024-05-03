@@ -6,6 +6,7 @@ import ModalCloser from "./ModalCloser";
 import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
 import SuspensionModal from "../SuspensionModal";
+import ConfirmModal from "../../ConfirmModal";
 import Loading from "../../Loading";
 
 function AdminProfileModal({ showModal, setShowModal, userId, reportId }) {
@@ -14,6 +15,7 @@ function AdminProfileModal({ showModal, setShowModal, userId, reportId }) {
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSuspensionModal, setShowSuspensionModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const closeModal = () => setShowModal(false);
 
@@ -87,9 +89,14 @@ function AdminProfileModal({ showModal, setShowModal, userId, reportId }) {
       <SuspensionModal
         showModal={showSuspensionModal}
         setShowModal={setShowSuspensionModal}
-        handleClose={() => setShowModal(true)}
+        handleClose={() => setShowConfirmModal(true)}
         userId={userId}
         reportId={reportId}
+      />
+      <ConfirmModal
+        showModal={showConfirmModal}
+        setShowModal={setShowConfirmModal}
+        message={"제재되었습니다."}
       />
     </div>,
     $body

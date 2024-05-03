@@ -40,9 +40,9 @@ export const getIncomeList = async (month) =>
 export const updateIncomeAmount = async (amount, income_id) =>
   await PUT(`/income/admin/${income_id}?amount=${amount}`, {}, true);
 
-export const updateIncomeCommission = async (partyCommissionRate) =>
+export const updateIncomeCommission = async (partyCommissionPercent) =>
   await PUT(
-    `/income/admin/commission-rate?partyCommissionRate=${partyCommissionRate}&penaltyCommissionRate=10`,
+    `/income/admin/commission-rate?partyCommissionPercent=${partyCommissionPercent}&penaltyCommissionPercent=10`,
     {},
     true
   );

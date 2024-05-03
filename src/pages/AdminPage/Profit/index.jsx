@@ -48,9 +48,9 @@ function Profit() {
       console.log(e);
     }
   };
-  const updateIncomeCommissionFunc = async (partyCommissionRate) => {
+  const updateIncomeCommissionFunc = async (penaltyCommissionPercent) => {
     try {
-      await updateIncomeCommission(partyCommissionRate);
+      await updateIncomeCommission(penaltyCommissionPercent);
       await getIncomeListFunc();
     } catch (e) {
       console.log(e);
@@ -73,7 +73,7 @@ function Profit() {
     if (dataList)
       setSum(
         dataList.reduce((accumulator, data) => {
-          return accumulator + data.commission;
+          return accumulator + data.beforeCommission;
         }, 0)
       );
   }, [dataList]);
@@ -220,7 +220,7 @@ function Profit() {
                 {item.partyName}
               </div>
               <div className="text-primary w-1/5 min-w-fit font-semibold">
-                {formatPrice(item.commission)}
+                {formatPrice(item.beforeCommission)}
               </div>
               <div className="flex items-center justify-end w-48 font-semibold text-gray500 text-sm whitespace-nowrap">
                 <button
@@ -260,7 +260,6 @@ function Profit() {
           setShowConfirmModal(true);
           setCommissionRate(data);
           updateIncomeCommissionFunc(data);
-          console.log(data);
         }}
       />
       <ConfirmModal

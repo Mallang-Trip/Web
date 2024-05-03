@@ -1,10 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
 import { partyStatusObj } from "../../../../utils/data";
-import { getPartyChatId } from "../../../../api/chat";
 
-function Container({
+function Party({
   partyName,
   startDate,
   partyId,
@@ -15,32 +12,6 @@ function Container({
   status,
 }) {
   const navigation = useNavigate();
-  const dispatch = useDispatch();
-
-  const goPartyChat = async () => {
-    try {
-      const result = await getPartyChatId(partyId);
-
-      if (result.statusCode !== 200) {
-        alert(result.message);
-        return;
-      }
-
-      dispatch(setPartyRoomId(result.payload.chatRoomId));
-      navigation("/talk");
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    return new Date(dateString)
-      .toLocaleDateString("ko-KR", options)
-      .replace(/\./g, "")
-      .split(" ")
-      .join(".");
-  };
 
   return (
     <div className="flex flex-col px-5 py-6 font-medium border border-gray-300 rounded-3xl mb-4">
@@ -49,7 +20,7 @@ function Container({
           <div className="flex items-center text-lg text-black font-bold">
             {partyName}
             <div className="text-sm text-gray500 font-medium ml-2">
-              {formatDate(startDate)}
+              {startDate.replaceAll("-", ".")}
             </div>
           </div>
           <div className="text-sm text-gray700 mt-1">
@@ -65,7 +36,7 @@ function Container({
           </button>
           <button
             className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5"
-            onClick={goPartyChat}
+            // onClick={goPartyChat}
           >
             말랑톡
           </button>
@@ -78,20 +49,20 @@ function Container({
       <div className="flex justify-between w-full">
         <div className="flex flex-col text-sm text-[#939094] w-24">
           드라이버
-          <div className="mt-1.5 text-gray700">{driverName} 드라이버</div>
+          <div className="mt-1.5 text-gray700">{`${driverName} 드라이버`}</div>
         </div>
         <div className="flex flex-col text-sm text-[#939094] w-24">
           파티원 수
           <div className="mt-1.5 text-gray700">
-            {headcount}/{capacity} 명
+            {`${headcount}/${capacity} 명`}
           </div>
         </div>
         <div className="flex flex-col text-sm text-[#939094] w-72">
           여행자 정보
           <div className="flex mt-1.5 text-gray700">
-            {partyMembers.map((it, id) => (
-              <div key={id} className="mr-5">
-                {it.nickname}
+            {partyMembers.map((member) => (
+              <div key={member.userId} className="mr-5">
+                {member.nickname}
               </div>
             ))}
           </div>
@@ -101,4 +72,4 @@ function Container({
   );
 }
 
-export default Container;
+export default Party;

@@ -60,7 +60,7 @@ function InputModal({
         </div>
         <div className="flex items-center justify-center bg-white">
           <input
-            className="w-[25rem] h-14 rounded-xl outline-0 text-textgray bg-lightgray font-semibold text-base text-center mb-14"
+            className="w-[25rem] h-14 rounded-xl outline-0 text-textgray::placeholder text-gray700 bg-lightgray font-semibold text-base text-center mb-14"
             placeholder={placeholder}
             onChange={handleInput}
           />

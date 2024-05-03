@@ -67,7 +67,7 @@ function Profit() {
 
   useEffect(() => {
     getIncomeListFunc();
-  }, [month]);
+  }, [month, commissionRate]);
 
   useEffect(() => {
     if (dataList)
@@ -260,6 +260,7 @@ function Profit() {
           setShowConfirmModal(true);
           setCommissionRate(data);
           updateIncomeCommissionFunc(data);
+          console.log(data);
         }}
       />
       <ConfirmModal

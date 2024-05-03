@@ -26,7 +26,7 @@ export const getReportCompleteDetail = async (reportId) =>
   await GET(`/report/complete/${reportId}`, true);
 
 export const updateReportComplete = async (reportId) =>
-  await PUT(`/report/${reportId}`, true);
+  await PUT(`/report/${reportId}`, {}, true);
 
 export const postSuspension = async (userId, body) =>
   await POST(`/suspension/${userId}`, body, true);
@@ -38,11 +38,12 @@ export const getIncomeList = async (month) =>
   await GET(`/income/admin/monthly?month=${month}`, true);
 
 export const updateIncomeAmount = async (amount, income_id) =>
-  await PUT(`/income/admin/${income_id}?amount=${amount}`, true);
+  await PUT(`/income/admin/${income_id}?amount=${amount}`, {}, true);
 
 export const updateIncomeCommission = async (partyCommissionRate) =>
   await PUT(
-    `/income/admin/commission-rate?partyCommissionRate=${partyCommissionRate}?penaltyCommissionRate=10`,
+    `/income/admin/commission-rate?partyCommissionRate=${partyCommissionRate}&penaltyCommissionRate=10`,
+    {},
     true
   );
 

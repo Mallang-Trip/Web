@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
+  getCommisionRate,
   getIncomeList,
   updateIncomeAmount,
   updateIncomeCommission,
@@ -26,10 +27,18 @@ function Profit() {
 
   const columns = ["날짜", "파티명", "수입 금액(원)", ""];
   const [dataList, setDataList] = useState();
-  const [commissionRate, setCommissionRate] = useState(1.7);
+  const [commissionRate, setCommissionRate] = useState();
   const [month, setMonth] = useState("ALL");
   const [sum, setSum] = useState(0);
 
+  const getCommisionRateFunc = async () => {
+    try {
+      const result = await getCommisionRate();
+      setCommissionRate(formatNumber(result.payload.partyCommissionPercent));
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const getIncomeListFunc = async () => {
     try {
       const result = await getIncomeList(month);
@@ -66,6 +75,7 @@ function Profit() {
   };
 
   useEffect(() => {
+    getCommisionRateFunc();
     getIncomeListFunc();
   }, [month, commissionRate]);
 
@@ -87,6 +97,13 @@ function Profit() {
     if (index === 1) return "flex-1";
     else if (index === columns.length - 1) return "w-48";
     else return "w-[20%]";
+  };
+
+  const formatNumber = (num) => {
+    let formatted = num;
+    formatted = formatted.replace(/\.?0+$/, "");
+
+    return formatted;
   };
 
   const formatDate = (dateString) => {

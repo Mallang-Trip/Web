@@ -34,6 +34,9 @@ export const postSuspension = async (userId, body) =>
 export const getPaymentList = async (status) =>
   await GET(`/admin/payment?status=${status}`, true);
 
+export const getCommisionRate = async (status) =>
+  await GET(`income/admin/commission-rate`, true);
+
 export const getIncomeList = async (month) =>
   await GET(`/income/admin/monthly?month=${month}`, true);
 

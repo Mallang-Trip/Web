@@ -9,6 +9,8 @@ function Container({
   startDate,
   partyId,
   driverName,
+  capacity,
+  headcount,
   partyMembers,
   status,
 }) {
@@ -80,7 +82,9 @@ function Container({
         </div>
         <div className="flex flex-col text-sm text-[#939094] w-24">
           파티원 수
-          <div className="mt-1.5 text-gray700">{partyMembers.length}/4 명</div>
+          <div className="mt-1.5 text-gray700">
+            {headcount}/{capacity} 명
+          </div>
         </div>
         <div className="flex flex-col text-sm text-[#939094] w-72">
           여행자 정보

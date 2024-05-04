@@ -19,6 +19,7 @@ function Party({
   setShowMallangTalkModal,
   setReceiptInfo,
   setShowReceiptModal,
+  current,
 }) {
   const navigation = useNavigate();
 
@@ -39,7 +40,10 @@ function Party({
         <div className="font-bold">
           <button
             className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5"
-            onClick={() => navigation(`/admin/party?party_id=${partyId}`)}
+            onClick={() => {
+              localStorage.setItem("payment_current", current);
+              navigation(`/admin/party?party_id=${partyId}`);
+            }}
           >
             파티로 이동
           </button>

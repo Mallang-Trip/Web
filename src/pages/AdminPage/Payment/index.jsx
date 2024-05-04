@@ -10,6 +10,7 @@ import ReceiptModal from "./ReceiptModal";
 function Payment() {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState("reserved");
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [dataList, setDataList] = useState([]);
   const [mallangTalkInfo, setMallangTalkInfo] = useState({});
   const [showMallangTalkModal, setShowMallangTalkModal] = useState(false);
@@ -47,11 +48,19 @@ function Payment() {
     getPaymentListFunc();
   }, [current]);
 
+  useEffect(() => {
+    const currentItem = localStorage.getItem("payment_current");
+    if (!currentItem) return;
+    setCurrent(currentItem);
+    setCurrentIdx(tabList.findIndex((item) => item.id === currentItem));
+    localStorage.removeItem("payment_current");
+  }, []);
+
   if (loading) return <Loading full={true} />;
   return (
     <div>
       <Title title="결제 내역 확인" />
-      <TabList tabList={tabList} changeTab={changeTab} />
+      <TabList tabList={tabList} changeTab={changeTab} index={currentIdx} />
       {dataList.map((party) => (
         <Party
           key={party.partyId}
@@ -59,6 +68,7 @@ function Payment() {
           setShowMallangTalkModal={setShowMallangTalkModal}
           setReceiptInfo={setReceiptInfo}
           setShowReceiptModal={setShowReceiptModal}
+          current={current}
           {...party}
         />
       ))}

@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function TabList({ tabList, changeTab }) {
+function TabList({ tabList, changeTab, index }) {
   const [current, setCurrent] = useState(0);
 
   const rounded = (index, maxIndex) => {
     if (index === 0) return "rounded-l-xl";
     if (index === maxIndex) return "rounded-r-xl";
   };
+
+  useEffect(() => {
+    if (!index) return;
+    setCurrent(index);
+  }, [index]);
 
   return (
     <div className="flex justify-between w-full min-w-[32rem] my-12">

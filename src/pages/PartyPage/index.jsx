@@ -351,6 +351,8 @@ function PartyPage() {
             partyStatus={partyData.partyStatus}
             paymentAmount={partyData.reservation?.paymentAmount}
             createdAt={partyData.reservation?.createdAt}
+            receiptUrl={partyData.reservation?.receiptUrl}
+            status={partyData.reservation?.status}
           />
         )}
       {!partyData.myParty && (type === "join" || type === "edit") && (

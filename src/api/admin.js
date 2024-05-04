@@ -55,3 +55,13 @@ export const deleteIncome = async (income_id) =>
 
 export const getChatDetail = async (chatRoomId) =>
   await GET(`/chat/messages/${chatRoomId}`, true);
+
+export const driverPenaltyComplete = async (partyId) =>
+  await PUT(`/admin/payment/driver-penalty/complete/${partyId}`, {}, true);
+
+export const driverPenaltyBefore = async (partyId) =>
+  await PUT(
+    `/admin/payment/driver-penalty/before-payment/${partyId}`,
+    {},
+    true
+  );

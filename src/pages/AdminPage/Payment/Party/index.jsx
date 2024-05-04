@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { partyStatusObj } from "../../../../utils/data";
+import { priceToString } from "../../../../utils";
 
 function Party({
   partyName,
@@ -68,6 +69,8 @@ function Party({
                 driverPenaltyAmount: driverPenaltyAmount,
                 driverPenaltyStatus: driverPenaltyStatus,
                 partyMembers: partyMembers,
+                status: status,
+                partyId: partyId,
               });
               setShowReceiptModal(true);
             }}
@@ -80,7 +83,17 @@ function Party({
       <div className="flex justify-between w-full">
         <div className="flex flex-col text-sm text-[#939094] w-24">
           드라이버
-          <div className="mt-1.5 text-gray700">{`${driverName} 드라이버`}</div>
+          <div
+            className={`mt-1.5 ${driverPenaltyAmount ? (driverPenaltyStatus === "PENALTY_PAYMENT_COMPLETE" ? "text-primary" : "text-[#FF0000]") : "text-gray700"}`}
+          >
+            {`${driverName} 드라이버`}
+            {driverPenaltyAmount && (
+              <>
+                <br />
+                <span>({priceToString(driverPenaltyAmount)}원 위약금)</span>
+              </>
+            )}
+          </div>
         </div>
         <div className="flex flex-col text-sm text-[#939094] w-24">
           파티원 수

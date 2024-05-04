@@ -30,7 +30,6 @@ function Payment() {
     try {
       const result = await getPaymentList(current);
       setDataList(result.payload);
-      console.log(result.payload);
     } catch (e) {
       console.log(e);
     } finally {
@@ -77,6 +76,8 @@ function Payment() {
         showModal={showReceiptModal}
         setShowModal={setShowReceiptModal}
         receiptInfo={receiptInfo}
+        setReceiptInfo={setReceiptInfo}
+        getPaymentListFunc={getPaymentListFunc}
       />
     </div>
   );

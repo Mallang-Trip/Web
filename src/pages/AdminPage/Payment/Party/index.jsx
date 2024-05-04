@@ -10,10 +10,14 @@ function Party({
   headcount,
   partyMembers,
   status,
+  driverPenaltyAmount,
+  driverPenaltyStatus,
   partyPrivateChatRoomId,
   partyPublicChatRoomId,
   setMallangTalkInfo,
   setShowMallangTalkModal,
+  setReceiptInfo,
+  setShowReceiptModal,
 }) {
   const navigation = useNavigate();
 
@@ -56,7 +60,18 @@ function Party({
           >
             말랑톡
           </button>
-          <button className="bg-skyblue h-10 px-4 py-1.5 text-primary text-sm rounded-xl">
+          <button
+            className="bg-skyblue h-10 px-4 py-1.5 text-primary text-sm rounded-xl"
+            onClick={() => {
+              setReceiptInfo({
+                driverName: driverName,
+                driverPenaltyAmount: driverPenaltyAmount,
+                driverPenaltyStatus: driverPenaltyStatus,
+                partyMembers: partyMembers,
+              });
+              setShowReceiptModal(true);
+            }}
+          >
             영수증 보기
           </button>
         </div>

@@ -18,6 +18,7 @@ module.exports = {
         gray500: "#939094",
         gray700: "#484649",
         gray800: "#313033",
+        gray900: "#1C1B1F",
       },
       screens: {
         sm: "640px",

@@ -5,6 +5,7 @@ import TabList from "../../../components/Admin/TabList";
 import Title from "../../../components/Title";
 import Party from "./Party";
 import MallangTalkModal from "./MallangTalkModal";
+import ReceiptModal from "./ReceiptModal";
 
 function Payment() {
   const [loading, setLoading] = useState(true);
@@ -12,6 +13,13 @@ function Payment() {
   const [dataList, setDataList] = useState([]);
   const [mallangTalkInfo, setMallangTalkInfo] = useState({});
   const [showMallangTalkModal, setShowMallangTalkModal] = useState(false);
+  const [receiptInfo, setReceiptInfo] = useState({
+    driverName: "",
+    driverPenaltyAmount: null,
+    driverPenaltyStatus: "",
+    partyMembers: [],
+  });
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
   const tabList = [
     { name: "예약된 파티", id: "reserved" },
     { name: "취소된 파티", id: "canceled" },
@@ -50,6 +58,8 @@ function Payment() {
           key={party.partyId}
           setMallangTalkInfo={setMallangTalkInfo}
           setShowMallangTalkModal={setShowMallangTalkModal}
+          setReceiptInfo={setReceiptInfo}
+          setShowReceiptModal={setShowReceiptModal}
           {...party}
         />
       ))}
@@ -62,6 +72,11 @@ function Payment() {
         showModal={showMallangTalkModal}
         setShowModal={setShowMallangTalkModal}
         mallangTalkInfo={mallangTalkInfo}
+      />
+      <ReceiptModal
+        showModal={showReceiptModal}
+        setShowModal={setShowReceiptModal}
+        receiptInfo={receiptInfo}
       />
     </div>
   );

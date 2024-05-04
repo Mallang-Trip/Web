@@ -10,6 +10,10 @@ function Party({
   headcount,
   partyMembers,
   status,
+  partyPrivateChatRoomId,
+  partyPublicChatRoomId,
+  setMallangTalkInfo,
+  setShowMallangTalkModal,
 }) {
   const navigation = useNavigate();
 
@@ -36,7 +40,19 @@ function Party({
           </button>
           <button
             className="bg-lightgray h-10 px-4 py-1.5 text-darkgray text-sm rounded-xl mr-2.5"
-            // onClick={goPartyChat}
+            onClick={() => {
+              if (
+                partyPrivateChatRoomId === null ||
+                partyPublicChatRoomId === null
+              )
+                return alert("말랑톡 정보가 없습니다.");
+              setMallangTalkInfo({
+                partyName: partyName,
+                partyPrivateChatRoomId: partyPrivateChatRoomId,
+                partyPublicChatRoomId: partyPublicChatRoomId,
+              });
+              setShowMallangTalkModal(true);
+            }}
           >
             말랑톡
           </button>

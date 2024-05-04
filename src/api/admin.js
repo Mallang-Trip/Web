@@ -52,3 +52,6 @@ export const updateIncomeCommission = async (partyCommissionPercent) =>
 
 export const deleteIncome = async (income_id) =>
   await DELETE(`/income/admin/${income_id}`, true);
+
+export const getChatDetail = async (chatRoomId) =>
+  await GET(`/chat/messages/${chatRoomId}`, true);

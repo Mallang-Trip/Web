@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 function InputModal({
   showModal,
@@ -12,11 +11,9 @@ function InputModal({
   yesHandler,
 }) {
   const modalRef = useRef();
-  const location = useLocation();
+  const [data, setData] = useState("");
 
   const closeModal = () => setShowModal(false);
-
-  const [data, setData] = useState(null);
 
   const handleInput = (e) => {
     setData(e.target.value);
@@ -32,12 +29,10 @@ function InputModal({
   };
 
   useEffect(() => {
-    if (!showModal) {
-      if (location.pathname !== "/talk")
-        document.body.classList.remove("overflow-hidden");
-      return;
-    }
+    if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
+
+    setData(placeholder);
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {
@@ -53,15 +48,18 @@ function InputModal({
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
-      <div className="m-auto shadow w-[32.25rem] rounded-xl">
-        <div className="flex flex-col justify-center text-center text-[#1C1B1F] whitespace-pre bg-white rounded-t-xl text-xl font-semibold pt-16 pb-8">
+      <div className="m-auto shadow w-96 rounded-xl">
+        <div className="flex flex-col justify-center text-center text-[#1C1B1F] whitespace-pre bg-white rounded-t-xl text-xl font-bold pt-16 pb-8">
           {titleMessage}
-          <div className="text-gray500 text-lg font-medium">{subMessage}</div>
+          <div className="mt-2 text-gray500 text-sm font-medium">
+            {subMessage}
+          </div>
         </div>
         <div className="flex items-center justify-center bg-white">
           <input
-            className="w-[25rem] h-14 rounded-xl outline-0 text-textgray::placeholder text-gray700 bg-lightgray font-semibold text-base text-center mb-14"
+            className="w-4/5 h-12 rounded-xl outline-0 text-gray700 bg-lightgray font-semibold text-sm text-center mb-12"
             placeholder={placeholder}
+            value={data}
             onChange={handleInput}
           />
         </div>

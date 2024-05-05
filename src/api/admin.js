@@ -34,24 +34,24 @@ export const postSuspension = async (userId, body) =>
 export const getPaymentList = async (status) =>
   await GET(`/admin/payment?status=${status}`, true);
 
-export const getCommisionRate = async (status) =>
-  await GET(`income/admin/commission-rate`, true);
+export const getCommisionRate = async () =>
+  await GET("income/admin/commission-rate", true);
 
 export const getIncomeList = async (month) =>
   await GET(`/income/admin/monthly?month=${month}`, true);
 
-export const updateIncomeAmount = async (amount, income_id) =>
-  await PUT(`/income/admin/${income_id}?amount=${amount}`, {}, true);
+export const updateIncomeAmount = async (amount, incomeId) =>
+  await PUT(`/income/admin/${incomeId}?amount=${amount}`, {}, true);
 
-export const updateIncomeCommission = async (partyCommissionPercent) =>
+export const updateCommissionPercent = async (partyCommissionPercent) =>
   await PUT(
     `/income/admin/commission-rate?partyCommissionPercent=${partyCommissionPercent}&penaltyCommissionPercent=10`,
     {},
     true
   );
 
-export const deleteIncome = async (income_id) =>
-  await DELETE(`/income/admin/${income_id}`, true);
+export const deleteIncome = async (incomeId) =>
+  await DELETE(`/income/admin/${incomeId}`, true);
 
 export const getChatDetail = async (chatRoomId) =>
   await GET(`/chat/messages/${chatRoomId}`, true);

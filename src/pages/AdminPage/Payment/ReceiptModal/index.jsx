@@ -81,7 +81,7 @@ function ReceiptModal({
               <div className="flex justify-between items-center gap-2">
                 <div className="w-60 h-14 px-3 flex items-center gap-3 border border-mediumgray rounded-lg">
                   <img
-                    src={basicProfileImage}
+                    src={receiptInfo.driverProfileImg || basicProfileImage}
                     alt="profile"
                     className="w-9 h-9 rounded-full"
                   />
@@ -135,7 +135,7 @@ function ReceiptModal({
                   >
                     <div className="w-60 h-14 px-3 flex items-center gap-3 border border-mediumgray rounded-lg">
                       <img
-                        src={basicProfileImage}
+                        src={member.profileImg || basicProfileImage}
                         alt="profile"
                         className="w-9 h-9 rounded-full"
                       />

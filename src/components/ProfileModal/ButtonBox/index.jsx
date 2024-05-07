@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import MyProfileButton from "./MyProfileButton";
 import ButtonList from "./ButtonList";
 
-function ButtonBox({ userId, setShowModal, nickname }) {
+function ButtonBox({ userId, setShowModal, nickname, chatRoomId }) {
   const user = useSelector((state) => state.user);
 
   if (user.userId === userId)
@@ -13,6 +13,7 @@ function ButtonBox({ userId, setShowModal, nickname }) {
         userId={userId}
         setShowModal={setShowModal}
         nickname={nickname}
+        chatRoomId={chatRoomId}
       />
     );
 }

@@ -1,86 +1,94 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPaymentList } from "../../../api/admin";
+import Loading from "../../../components/Loading";
 import TabList from "../../../components/Admin/TabList";
-import Container from "./Container";
+import Title from "../../../components/Title";
+import Party from "./Party";
+import MallangTalkModal from "./MallangTalkModal";
+import ReceiptModal from "./ReceiptModal";
 
 function Payment() {
+  const [loading, setLoading] = useState(true);
+  const [current, setCurrent] = useState("reserved");
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [dataList, setDataList] = useState([]);
+  const [mallangTalkInfo, setMallangTalkInfo] = useState({});
+  const [showMallangTalkModal, setShowMallangTalkModal] = useState(false);
+  const [receiptInfo, setReceiptInfo] = useState({
+    driverName: "",
+    driverPenaltyAmount: null,
+    driverPenaltyStatus: "",
+    partyMembers: [],
+  });
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
   const tabList = [
-    { name: "예약된 파티", id: "booked" },
+    { name: "예약된 파티", id: "reserved" },
     { name: "취소된 파티", id: "canceled" },
-    { name: "완료된 파티", id: "done" },
+    { name: "완료된 파티", id: "finished" },
   ];
 
-  const mockData = [
-    {
-      name: "순천 식도락 파티",
-      date: "2024-04-04",
-      id: "123456789110000",
-      driver: "김현식",
-      member: 4,
-      totalMember: 4,
-      memberInfo: ["여행자1", "여행자2", "여행자3", "여행자4"],
-    },
-    {
-      name: "왁자지껄 파티",
-      date: "2024-04-04",
-      id: "123456789110001",
-      driver: "나현웅",
-      member: 3,
-      totalMember: 4,
-      memberInfo: ["여행자1", "여행자2", "여행자3"],
-    },
-    {
-      name: "새해 다음날 파티",
-      date: "2024-04-04",
-      id: "123456789110002",
-      driver: "나현웅",
-      member: 3,
-      totalMember: 4,
-      memberInfo: ["여행자1", "여행자2", "여행자3"],
-    },
-  ];
-
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const searchHandler = (e) => {
-    e.preventDefault();
-    if (searchKeyword === "") return;
-
-    setSearchKeyword("");
+  const getPaymentListFunc = async () => {
+    try {
+      const result = await getPaymentList(current);
+      setDataList(result.payload);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const changeTab = (index) => {
+    if (index === 0) setCurrent("reserved");
+    else if (index === 1) setCurrent("canceled");
+    else setCurrent("finished");
+  };
+
+  useEffect(() => {
+    getPaymentListFunc();
+  }, [current]);
+
+  useEffect(() => {
+    const currentItem = localStorage.getItem("payment_current");
+    if (!currentItem) return;
+    setCurrent(currentItem);
+    setCurrentIdx(tabList.findIndex((item) => item.id === currentItem));
+    localStorage.removeItem("payment_current");
+  }, []);
+
+  if (loading) return <Loading full={true} />;
   return (
     <div>
-      <div className="text-2xl font-bold">결제 내역 확인</div>
-      <TabList tabList={tabList} />
-      <div className="relative max-w-md mx-auto mb-12">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg
-            className="w-5 h-5 text-primary"
-            aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </div>
-        <form onSubmit={searchHandler}>
-          <input
-            type="text"
-            className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
-            placeholder="파티명 또는 닉네임 검색"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-          />
-          <button type="submit" className="hidden" />
-        </form>
-      </div>
-      {mockData.map((item, index) => (
-        <Container key={index} {...item} />
+      <Title title="결제 내역 확인" />
+      <TabList tabList={tabList} changeTab={changeTab} index={currentIdx} />
+      {dataList.map((party) => (
+        <Party
+          key={party.partyId}
+          setMallangTalkInfo={setMallangTalkInfo}
+          setShowMallangTalkModal={setShowMallangTalkModal}
+          setReceiptInfo={setReceiptInfo}
+          setShowReceiptModal={setShowReceiptModal}
+          current={current}
+          {...party}
+        />
       ))}
+      {dataList.length === 0 && (
+        <div className="text-base text-black font-medium text-center mt-20">
+          결제 내역이 없습니다.
+        </div>
+      )}
+      <MallangTalkModal
+        showModal={showMallangTalkModal}
+        setShowModal={setShowMallangTalkModal}
+        mallangTalkInfo={mallangTalkInfo}
+      />
+      <ReceiptModal
+        showModal={showReceiptModal}
+        setShowModal={setShowReceiptModal}
+        receiptInfo={receiptInfo}
+        setReceiptInfo={setReceiptInfo}
+        getPaymentListFunc={getPaymentListFunc}
+      />
     </div>
   );
 }

@@ -212,6 +212,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
         showModal={showProfileModal}
         setShowModal={setShowProfileModal}
         userId={profileUserId}
+        chatRoomId={roomId}
       />
     </div>
   );

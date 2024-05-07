@@ -7,6 +7,8 @@ function CreditInfo({
   partyStatus,
   paymentAmount,
   createdAt,
+  receiptUrl,
+  status,
 }) {
   const [middleCount, setMiddleCount] = useState([]);
 
@@ -24,22 +26,36 @@ function CreditInfo({
         <p className="text-lg text-black font-bold">
           예약금 결제
           {(partyStatus === "SEALED" ||
-            partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
-            <span className="text-sm text-darkgray font-medium">
-              {` (${dateToKoreanDataTime(createdAt)} 결제 완료)`}
-            </span>
-          )}
+            partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
+            (status === "PAYMENT_COMPLETE" ? (
+              <span className="text-sm text-darkgray font-medium">
+                {` (${dateToKoreanDataTime(createdAt)} 결제 완료)`}
+              </span>
+            ) : (
+              <span className="text-sm text-[#ff0000] font-medium">
+                결제 실패
+              </span>
+            ))}
         </p>
         {partyStatus === "SEALED" ||
         partyStatus === "WAITING_COURSE_CHANGE_APPROVAL" ? (
           <p className="text-sm text-darkgray font-medium flex gap-8 items-center">
             <span>{`${priceToString(paymentAmount)}원`}</span>
-            <button
-              className="underline underline-offset-2"
-              onClick={() => alert("현재는 지원하지 않습니다.")}
-            >
-              카드 영수증
-            </button>
+            {status === "PAYMENT_COMPLETE" && (
+              <button
+                className="underline underline-offset-2"
+                onClick={() => {
+                  const newWindow = window.open(
+                    receiptUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                  if (newWindow) newWindow.opener = null;
+                }}
+              >
+                카드 영수증
+              </button>
+            )}
           </p>
         ) : (
           <p className="text-sm text-darkgray font-medium">{`여행자 ${capacity}명 가입 즉시 또는 파티원 전원 말랑레디 완료 즉시 자동결제`}</p>

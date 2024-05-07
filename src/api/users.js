@@ -35,3 +35,5 @@ export const postIdentificationConfirm = async (impUid, otp) =>
   await POST(`/identification/confirm?impUid=${impUid}&otp=${otp}`, {});
 
 export const deleteUser = async () => await DELETE("/user/withdrawal", true);
+
+export const postNewReport = async (body) => await POST("/report", body, true);

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function FAQ({ index, faqId, title }) {
+function Notice({ index, announcementId, title, createdAt }) {
   const navigation = useNavigate();
 
   return (
@@ -9,13 +9,20 @@ function FAQ({ index, faqId, title }) {
       <div className="w-full flex">
         <button
           className="text-left whitespace-normal hover:underline focus:outline-none"
-          onClick={() => navigation(`/help/${faqId}`)}
+          onClick={() =>
+            navigation(
+              `/admin/help?mode=detail&announcement_id=${announcementId}`
+            )
+          }
         >
           {title}
         </button>
+      </div>
+      <div className="w-20 flex-shrink-0">
+        {createdAt.slice(0, 10).replaceAll("-", ".")}
       </div>
     </div>
   );
 }
 
-export default FAQ;
+export default Notice;

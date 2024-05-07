@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TabList from "../../../../components/Admin/TabList";
+import TabList from "../../../../components/TabList";
 
 function Noti() {
   const tabList = [

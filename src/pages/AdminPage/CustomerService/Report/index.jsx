@@ -32,7 +32,7 @@ function Report() {
 
   useEffect(() => {
     getReportListFunc();
-  }, [current]);
+  }, [current, status]);
 
   if (loading) return <Loading full={true} />;
   if (status) return <ReportContent setCurrent={setCurrent} />;

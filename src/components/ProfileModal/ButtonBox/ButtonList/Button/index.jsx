@@ -1,7 +1,7 @@
-function Button({ name, onClick }) {
+function Button({ name, onClick, type }) {
   return (
     <button
-      className="rounded-full py-2 px-5 border border-primary text-base text-primary bg-skyblue"
+      className={`w-24 h-10 rounded-full border text-base ${type === "red" ? "text-[#FF0000] border-[#FF0000] bg-[#FFEAEA]" : "text-primary border-primary bg-skyblue"}`}
       onClick={() => onClick()}
     >
       {name}

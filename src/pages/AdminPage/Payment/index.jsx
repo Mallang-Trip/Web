@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPaymentList } from "../../../api/admin";
 import Loading from "../../../components/Loading";
-import TabList from "../../../components/Admin/TabList";
+import TabList from "../../../components/TabList";
 import Title from "../../../components/Title";
 import Party from "./Party";
 import MallangTalkModal from "./MallangTalkModal";

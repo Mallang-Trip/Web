@@ -31,6 +31,9 @@ export const updateReportComplete = async (reportId) =>
 export const postSuspension = async (userId, body) =>
   await POST(`/suspension/${userId}`, body, true);
 
+export const deleteSuspension = async (userId) =>
+  await DELETE(`/suspension/${userId}`, true);
+
 export const getPaymentList = async (status) =>
   await GET(`/admin/payment?status=${status}`, true);
 

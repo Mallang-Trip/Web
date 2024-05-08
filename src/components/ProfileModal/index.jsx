@@ -6,7 +6,13 @@ import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
 import Loading from "../Loading";
 
-function ProfileModal({ showModal, setShowModal, userId = 0, chatRoomId }) {
+function ProfileModal({
+  showModal,
+  setShowModal,
+  userId = 0,
+  chatRoomId,
+  reportId,
+}) {
   const modalRef = useRef();
   const $body = document.body;
   const [userInfo, setUserInfo] = useState({});
@@ -46,7 +52,7 @@ function ProfileModal({ showModal, setShowModal, userId = 0, chatRoomId }) {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [showModal]);
+  }, [showModal, userId]);
 
   return createPortal(
     <div
@@ -71,6 +77,9 @@ function ProfileModal({ showModal, setShowModal, userId = 0, chatRoomId }) {
               nickname={userInfo.nickname}
               setShowModal={setShowModal}
               chatRoomId={chatRoomId}
+              reportId={reportId}
+              suspensionDuration={userInfo.suspensionDuration}
+              getUserInfoFunc={getUserInfoFunc}
             />
           </>
         )}

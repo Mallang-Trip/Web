@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { makeNewCoupleChat } from "../../../../api/chat";
-import { deleteSuspension } from "../../../../api/admin";
+import { deleteSuspensionReport } from "../../../../api/admin";
 import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
 import CheckModal from "../../../CheckModal";
 import ConfirmModal from "./ConfirmModal";
@@ -36,7 +36,7 @@ function AdminButtonList({
 
   const deleteSuspensionFunc = async () => {
     try {
-      await deleteSuspension(userId);
+      await deleteSuspensionReport(reportId);
       setShowDeleteSuspensionModal(false);
       setShowConfirmModal(true);
     } catch (e) {

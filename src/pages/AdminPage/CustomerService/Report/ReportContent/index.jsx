@@ -70,7 +70,7 @@ function ReportContent({ setCurrent }) {
 
   useEffect(() => {
     getReportDetailFunc();
-  }, []);
+  }, [showProfileModal]);
 
   if (loading) return <Loading full={true} />;
   return (

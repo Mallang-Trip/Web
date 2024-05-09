@@ -17,7 +17,7 @@ function DriverTab({ tab, setTab }) {
         className={`h-12 rounded-r-lg border border-primary text-sm font-semibold transition-all duration-300 ${tab === 2 ? "text-white bg-primary" : "text-primary bg-white"}`}
         onClick={() => setTab(2)}
       >
-        새로운 파티 신청
+        새로운 파티 승인 대기
       </button>
     </div>
   );

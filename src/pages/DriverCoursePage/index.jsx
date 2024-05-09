@@ -188,12 +188,16 @@ function DriverCoursePage() {
         }
       />
       <CourseInfo
+        title={"파티 가격"}
+        content={`${priceToString(prices[priceIndex].price)}원`}
+      />
+      <CourseInfo
         title={"나의 수익"}
         content={`${priceToString(prices[priceIndex].price * 0.983)}원`}
       />
       <CourseInfo
         title={"플랫폼 수수료"}
-        content={`${priceToString(prices[priceIndex].price * 0.017)}원`}
+        content={`${priceToString(prices[priceIndex].price * 0.017)}원 (1.7%)`}
       />
       <CourseDnD
         name={name}

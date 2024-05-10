@@ -12,7 +12,7 @@ function PlaceInfoTitle({ name, views, avgRate, address }) {
           <span>{avgRate ? avgRate.toFixed(1) : "0.0"}</span>
         </div>
       </div>
-      <div className="text-sm">{address}</div>
+      <div className="text-sm">{address.replace("()", "")}</div>
     </div>
   );
 }

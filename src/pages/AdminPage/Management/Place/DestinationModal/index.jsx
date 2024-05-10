@@ -129,7 +129,7 @@ function DestinationModal({
                     </div>
                   </div>
                   <p className="text-sm font-medium text-boldgray">
-                    {destinationInfo.address}
+                    {destinationInfo.address.replace("()", "")}
                   </p>
                 </>
               )}

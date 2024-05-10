@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { customRoundOne } from "../../../../utils";
+import basicPartyImage from "../../../../assets/images/커뮤니티 사용 이미지.jpg";
 
 function PartyBox({
   partyId,
@@ -20,7 +21,7 @@ function PartyBox({
     <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={image}
+        src={image || basicPartyImage}
         alt={name}
       />
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white z-10">

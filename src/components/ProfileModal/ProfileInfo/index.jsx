@@ -1,7 +1,13 @@
 import { useSelector } from "react-redux";
 import basicProfileImage from "../../../assets/images/profileImage.png";
 
-function ProfileInfo({ profileImg, nickname, introduction, createdAt = "" }) {
+function ProfileInfo({
+  profileImg,
+  nickname,
+  introduction,
+  createdAt = "",
+  driverName,
+}) {
   const user = useSelector((state) => state.user);
 
   return (
@@ -11,8 +17,10 @@ function ProfileInfo({ profileImg, nickname, introduction, createdAt = "" }) {
         alt={nickname}
         className="w-36 h-36 rounded-full object-cover"
       />
-      <div className="w-36 flex flex-col justify-center items-center text-center gap-3">
-        <p className="text-2xl text-black font-bold">{nickname}</p>
+      <div className="w-40 flex flex-col justify-center items-center text-center gap-3">
+        <p className="text-2xl text-black font-bold whitespace-nowrap">
+          {driverName || nickname}
+        </p>
         <p className="text-sm text-primary font-medium">
           {introduction || "자기소개 없음"}
         </p>

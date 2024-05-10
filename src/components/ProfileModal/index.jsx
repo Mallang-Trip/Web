@@ -12,6 +12,7 @@ function ProfileModal({
   userId = 0,
   chatRoomId,
   reportId,
+  driverName,
 }) {
   const modalRef = useRef();
   const $body = document.body;
@@ -71,7 +72,7 @@ function ProfileModal({
           </div>
         ) : (
           <>
-            <ProfileInfo {...userInfo} />
+            <ProfileInfo {...userInfo} driverName={driverName} />
             <ButtonBox
               userId={userInfo.userId}
               nickname={userInfo.nickname}

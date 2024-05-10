@@ -6,6 +6,7 @@ import {
   postNewCourse,
   putCourseDetail,
 } from "../../api/course";
+import { getCommisionRate } from "../../api/income";
 import { uploadImage } from "../../api/image";
 import { priceToString } from "../../utils";
 import PageContainer from "../../components/PageContainer";
@@ -36,6 +37,7 @@ function DriverCoursePage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
+  const [commissionRate, setCommissionRate] = useState(0);
 
   const saveCourse = async () => {
     const destinationImages = destinations.reduce((acc, cur) => {
@@ -155,6 +157,15 @@ function DriverCoursePage() {
     }
   };
 
+  const getCommisionRateFunc = async () => {
+    try {
+      const result = await getCommisionRate();
+      setCommissionRate(parseFloat(result.payload.partyCommissionPercent));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (!prices[priceIndex]?.hours) return;
 
@@ -168,6 +179,7 @@ function DriverCoursePage() {
 
   useEffect(() => {
     getDriverCourseInfo();
+    getCommisionRateFunc();
   }, []);
 
   if (loading) return <Loading full={true} />;
@@ -193,11 +205,11 @@ function DriverCoursePage() {
       />
       <CourseInfo
         title={"나의 수익"}
-        content={`${priceToString(prices[priceIndex].price * 0.983)}원`}
+        content={`${priceToString(prices[priceIndex].price * ((100 - commissionRate) / 100))}원`}
       />
       <CourseInfo
         title={"플랫폼 수수료"}
-        content={`${priceToString(prices[priceIndex].price * 0.017)}원 (1.7%)`}
+        content={`${priceToString(prices[priceIndex].price * (commissionRate / 100))}원 (${commissionRate}%)`}
       />
       <CourseDnD
         name={name}

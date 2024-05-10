@@ -13,30 +13,30 @@ function DriverProfile({
 
   return (
     <div
-      className="relative h-64 border rounded-lg cursor-pointer"
+      className="cursor-pointer"
       onClick={() =>
         navigation(`/driver/profile/${driverId}?member=${member}&date=${date}`)
       }
     >
-      <img
-        className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={profileImg || basicProfileImage}
-        alt={name}
-      />
-      <div className="absolute top-0 left-0 flex flex-col items-center justify-between w-full h-full text-base text-darkgray pb-3">
-        <div className="py-2 w-full text-center text-white bg-black bg-opacity-50 rounded-t-lg">
-          {name}
+      <div className="relative h-64 border rounded-lg">
+        <img
+          className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
+          src={profileImg || basicProfileImage}
+          alt={name}
+        />
+        <div className="absolute top-0 left-0 flex flex-col items-center justify-end w-full h-full text-base text-darkgray pb-3">
+          <button
+            className="h-9 text-white rounded-full text-xs w-32 bg-primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              setDriverId(driverId);
+            }}
+          >
+            선택하기
+          </button>
         </div>
-        <button
-          className="h-9 text-white rounded-full text-xs w-32 bg-primary"
-          onClick={(e) => {
-            e.stopPropagation();
-            setDriverId(driverId);
-          }}
-        >
-          선택하기
-        </button>
       </div>
+      <div className="mt-1 text-center text-base">{`${name} 드라이버`}</div>
     </div>
   );
 }

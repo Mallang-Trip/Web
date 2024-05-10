@@ -8,6 +8,7 @@ function PartyMember({
   capacity,
   members,
   driverId,
+  driverName,
   myParty,
   driverReady,
   partyStatus,
@@ -52,15 +53,16 @@ function PartyMember({
               partyStatus === "CANCELED_BY_PROPOSER"
                 ? "WAITING"
                 : partyStatus === "CANCELED_BY_DRIVER_REFUSED"
-                ? "REFUSE"
-                : partyStatus === "CANCELED_BY_DRIVER_QUIT"
-                ? "EXIT"
-                : partyStatus === "WAITING_COURSE_CHANGE_APPROVAL" &&
-                  proposal?.proposerId === driverId
-                ? "PROPOSER"
-                : proposal?.driverAgreement
+                  ? "REFUSE"
+                  : partyStatus === "CANCELED_BY_DRIVER_QUIT"
+                    ? "EXIT"
+                    : partyStatus === "WAITING_COURSE_CHANGE_APPROVAL" &&
+                        proposal?.proposerId === driverId
+                      ? "PROPOSER"
+                      : proposal?.driverAgreement
             }
             {...driverInfo}
+            nickname={`${driverName} 드라이버`}
           />
           {partyStatus === "WAITING_JOIN_APPROVAL" && (
             <MemberProfile
@@ -90,12 +92,12 @@ function PartyMember({
                 proposal?.proposerId === item.userId
                   ? "PROPOSER"
                   : partyStatus === "CANCELED_BY_PROPOSER"
-                  ? "CANCELED"
-                  : partyStatus === "CANCELED_BY_ALL_QUIT"
-                  ? "EXIT"
-                  : proposal?.memberAgreement?.filter(
-                      (member) => member.userId === item.userId
-                    )[0].status
+                    ? "CANCELED"
+                    : partyStatus === "CANCELED_BY_ALL_QUIT"
+                      ? "EXIT"
+                      : proposal?.memberAgreement?.filter(
+                          (member) => member.userId === item.userId
+                        )[0].status
               }
               {...item}
               ready={

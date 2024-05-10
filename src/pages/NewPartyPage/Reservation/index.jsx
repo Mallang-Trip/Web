@@ -35,20 +35,12 @@ function Reservation({
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const [companions, setCompanions] = useState([
-    {
+  const [companions, setCompanions] = useState(
+    Array.from({ length: 10 }, () => ({
       name: "",
       phoneNumber: "",
-    },
-    {
-      name: "",
-      phoneNumber: "",
-    },
-    {
-      name: "",
-      phoneNumber: "",
-    },
-  ]);
+    }))
+  );
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크

@@ -16,8 +16,8 @@ function PlaceMap({ placeData, setDestinationId, setShowDestinationModal }) {
       width: mapWidth + "px",
       height: mapHeight + "px",
       zoom: 12,
-      zoomControl: true,
-      scrollwheel: /Mobi/.test(navigator.userAgent),
+      zoomControl: false,
+      scrollwheel: true,
     });
 
     const PTbounds = new Tmapv2.LatLngBounds();

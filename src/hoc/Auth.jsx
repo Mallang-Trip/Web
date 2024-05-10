@@ -20,7 +20,7 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
     const checkRender = (isAuth, isAdmin) => {
       if (!isAuth) {
         // 로그인 X
-        if (option === true) return navigation("/login", { replace: true });
+        if (option === true) return navigation("/login");
         else {
           const delay = location.pathname === "/" ? 1000 : 0;
           setTimeout(() => setLoading(false), delay);

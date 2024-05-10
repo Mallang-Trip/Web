@@ -25,6 +25,7 @@ function EditMap({ courseData, setCourseData }) {
           searchPage={false}
           courseData={courseData}
           setCourseData={setCourseData}
+          onlyAllPlace={true}
         />
       ) : (
         <CourseMap

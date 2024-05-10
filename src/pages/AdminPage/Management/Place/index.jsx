@@ -60,6 +60,7 @@ function Place() {
           placeData={placeData}
           setDestinationId={setDestinationId}
           setShowDestinationModal={setShowDestinationModal}
+          onlyAllPlace={false}
         />
       ) : (
         <PlaceList

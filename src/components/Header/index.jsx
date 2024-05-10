@@ -190,7 +190,7 @@ function Header() {
               <li className="my-auto">
                 <button
                   onClick={() => navigation("/talk")}
-                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
+                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0 ${
                     location.pathname.substring(0, 5) === "/talk"
                       ? "text-primary"
                       : "text-gray-900"
@@ -210,7 +210,7 @@ function Header() {
               <li className="my-auto">
                 <button
                   onClick={() => navigation("/community/main")}
-                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
+                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0 ${
                     location.pathname.substring(0, 10) === "/community"
                       ? "text-primary"
                       : "text-gray-900"
@@ -230,7 +230,7 @@ function Header() {
               <li className="my-auto">
                 <button
                   onClick={() => navigation("/my/heart")}
-                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent border-b-2 border-transparent md:hover:border-primary md:p-0 ${
+                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0 ${
                     location.pathname === "/my/heart"
                       ? "text-primary"
                       : "text-gray-900"
@@ -371,6 +371,17 @@ function Header() {
               >
                 알림
                 {uncheckedCount > 0 && <Ping top="1.5" left="1/2" />}
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  navigation("/my/payment");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                결제 수단 관리
               </button>
             </li>
             <li>

@@ -85,9 +85,8 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
           </button>
           <div className="px-6 py-6 lg:px-8">
             <h3 className="mb-4 text-xl font-bold text-gray-900">
-              입금 계좌 수정하기
+              가격 설정하기
             </h3>
-
             <div className="my-9 mx-auto px-2 lg:px-24">
               {hour.map((item, index) => (
                 <HourPrice

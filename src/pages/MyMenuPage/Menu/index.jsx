@@ -45,6 +45,13 @@ function Menu() {
         </button>
         <button
           className="w-full flex justify-between p-4 my-0.5"
+          onClick={() => navigation("/my/payment")}
+        >
+          <span className="text-base">결제 수단 관리</span>
+          <img src={headerBack} alt="더보기" className="rotate-180" />
+        </button>
+        <button
+          className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/reservation")}
         >
           <span className="text-base">예약 내역</span>

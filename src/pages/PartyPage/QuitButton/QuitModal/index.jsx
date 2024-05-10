@@ -93,7 +93,8 @@ function QuitModal({
                     Math.floor(((100 - chargeMoney()) / 100) * paymentAmount)
                   )}
                 </span>
-                원은 약 4~5 영업일 내에 지급될 예정입니다.
+                원은
+                <br />약 4~5 영업일 내에 지급될 예정입니다.
               </div>
             );
         } else setMessage("파티를 탈퇴하였습니다.");

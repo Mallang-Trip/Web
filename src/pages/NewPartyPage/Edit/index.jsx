@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
 import ImageBox from "../../../components/ImageBox";
 import DriverInfo from "../../../components/DriverInfo";
@@ -37,20 +37,12 @@ function Edit({
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [companions, setCompanions] = useState([
-    {
+  const [companions, setCompanions] = useState(
+    Array.from({ length: 10 }, () => ({
       name: "",
       phoneNumber: "",
-    },
-    {
-      name: "",
-      phoneNumber: "",
-    },
-    {
-      name: "",
-      phoneNumber: "",
-    },
-  ]);
+    }))
+  );
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크

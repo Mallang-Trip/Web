@@ -95,8 +95,8 @@ function CourseMap({ markerData, reload, mapName }) {
       width: mapWidth + "px",
       height: mapHeight + "px",
       zoom: 12,
-      zoomControl: true,
-      scrollwheel: /Mobi/.test(navigator.userAgent),
+      zoomControl: false,
+      scrollwheel: true,
     });
 
     // 마커

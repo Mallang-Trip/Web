@@ -113,6 +113,7 @@ function PartyMember({
         showModal={showProfileModal}
         setShowModal={setShowProfileModal}
         userId={userId}
+        driverName={userId === driverId && driverName}
       />
     </>
   );

@@ -11,7 +11,7 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
 
   const confirmHandler = () => {
     const prices = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       if (hour[i] && money[i])
         prices.push({
           hours: Number(hour[i]),
@@ -39,8 +39,8 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
 
-    const basicHour = ["", "", "", "", ""];
-    const basicMoney = ["", "", "", "", ""];
+    const basicHour = ["", "", "", "", "", "", "", "", "", ""];
+    const basicMoney = ["", "", "", "", "", "", "", "", "", ""];
     driverInfo.prices.forEach((item, index) => {
       basicHour[index] = item.hours.toString();
       basicMoney[index] = item.price.toString();
@@ -87,7 +87,7 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             <h3 className="mb-4 text-xl font-bold text-gray-900">
               가격 설정하기
             </h3>
-            <div className="my-9 mx-auto px-2 lg:px-24">
+            <div className="h-96 my-9 mx-auto px-2 lg:px-24 overflow-auto noScrollBar">
               {hour.map((item, index) => (
                 <HourPrice
                   key={index}

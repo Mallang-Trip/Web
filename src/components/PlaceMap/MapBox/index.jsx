@@ -21,8 +21,8 @@ function MapBox({
       width: mapWidth + "px",
       height: mapHeight + "px",
       zoom: 12,
-      zoomControl: true,
-      scrollwheel: /Mobi/.test(navigator.userAgent),
+      zoomControl: false,
+      scrollwheel: true,
     });
 
     const PTbounds = new Tmapv2.LatLngBounds();
@@ -73,8 +73,8 @@ function MapBox({
         width: mapWidth + "px",
         height: mapHeight + "px",
         zoom: 15,
-        zoomControl: true,
-        scrollwheel: /Mobi/.test(navigator.userAgent),
+        zoomControl: false,
+        scrollwheel: true,
       });
 
       new Tmapv2.Marker({

@@ -56,20 +56,12 @@ function PartyPage() {
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const [courseData, setCourseData] = useState([]);
-  const [companions, setCompanions] = useState([
-    {
+  const [companions, setCompanions] = useState(
+    Array.from({ length: 10 }, () => ({
       name: "",
       phoneNumber: "",
-    },
-    {
-      name: "",
-      phoneNumber: "",
-    },
-    {
-      name: "",
-      phoneNumber: "",
-    },
-  ]);
+    }))
+  );
 
   const checkJoinEdit = () => {
     if (

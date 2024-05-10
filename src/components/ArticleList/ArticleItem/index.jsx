@@ -25,7 +25,7 @@ function ArticleItem({
         <img
           src={profileImg || basicProfileImage}
           alt="profile_image"
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full object-cover"
         />
         <div className="h-10 flex flex-col justify-center">
           <p className="text-sm text-black font-bold">{nickname}</p>

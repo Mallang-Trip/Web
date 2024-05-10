@@ -34,7 +34,7 @@ function TalkItem({
       >
         <div className="flex flex-row">
           <img
-            className="mr-3 w-16 h-16 rounded-full"
+            className="mr-3 w-16 h-16 rounded-full object-cover"
             src={
               type !== "COUPLE"
                 ? groupTalkImage

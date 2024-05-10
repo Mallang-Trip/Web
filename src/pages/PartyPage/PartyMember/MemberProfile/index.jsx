@@ -28,7 +28,7 @@ function MemberProfile({
       <img
         src={profileImg || basicProfileImage}
         alt={nickname}
-        className="w-20 h-20 rounded-full"
+        className="w-20 h-20 object-cover rounded-full"
       />
       {companionsCount > 0 && (
         <div className="w-9 h-9 flex justify-center items-center bg-[#DBF4FF] text-xs text-boldblue font-bold rounded-full absolute top-[70px] left-[92px]">

@@ -25,7 +25,7 @@ function ProfileImage({
               : user.profileImg || basicProfileImage
           }
           alt="profileImage"
-          className="w-full h-full rounded-full"
+          className="w-full h-full rounded-full object-cover"
         />
         {modifyImage && (
           <>

@@ -258,7 +258,7 @@ function Header() {
                   className="flex mr-3 text-sm rounded-full md:mr-0 relative"
                 >
                   <img
-                    className="rounded-full w-9 h-9"
+                    className="rounded-full w-9 h-9 object-cover"
                     src={user.profileImg || basicProfileImage}
                     alt="User_Profile_Image"
                   />

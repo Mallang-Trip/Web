@@ -9,7 +9,7 @@ function ProfileInfo({ profileImg, nickname, introduction, createdAt = "" }) {
       <img
         src={profileImg || basicProfileImage}
         alt={nickname}
-        className="w-36 h-36 rounded-full"
+        className="w-36 h-36 rounded-full object-cover"
       />
       <div className="w-36 flex flex-col justify-center items-center text-center gap-3">
         <p className="text-2xl text-black font-bold">{nickname}</p>

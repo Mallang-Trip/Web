@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSearchInfo } from "../../api/destination";
+import { getAllMarkers, getSearchInfo } from "../../api/destination";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
 import NoDataModal from "./NoDataModal";
 import DestinationModal from "./DestinationModal";
 import NewPlaceModal from "./NewPlaceModal";
 
-function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
+function PlaceMap({
+  search,
+  keyword,
+  searchPage,
+  courseData,
+  setCourseData,
+  onlyAllPlace,
+}) {
   const navigation = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [markerData, setMarkerData] = useState([]);
@@ -35,6 +42,15 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
     }
   };
 
+  const getAllMarkersFunc = async () => {
+    try {
+      const result = await getAllMarkers();
+      setMarkerData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (!keyword || keyword === "null") return;
 
@@ -43,8 +59,9 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
   }, [keyword]);
 
   useEffect(() => {
-    if (!courseData || markerData.length) return;
-    setMarkerData(courseData);
+    if (courseData?.length && !onlyAllPlace) setMarkerData(courseData);
+    else if (searchKeyword) return;
+    else getAllMarkersFunc();
   }, [courseData]);
 
   return (
@@ -60,6 +77,8 @@ function PlaceMap({ search, keyword, searchPage, courseData, setCourseData }) {
             searchKeyword={searchKeyword}
             setSearchKeyword={setSearchKeyword}
             submitHandler={submitHandler}
+            onlyAllPlace={onlyAllPlace}
+            getAllMarkersFunc={getAllMarkersFunc}
           />
         )}
       </div>

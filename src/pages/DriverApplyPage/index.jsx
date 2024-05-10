@@ -37,8 +37,8 @@ function DriverApplyPage() {
   const [bank, setBank] = useState("");
   const [name, setName] = useState("");
   const [accoutNumber, setAccoutNumber] = useState("");
-  const [hour, setHour] = useState(["", "", "", "", ""]);
-  const [money, setMoney] = useState(["", "", "", "", ""]);
+  const [hour, setHour] = useState(["", "", "", "", "", "", "", "", "", ""]);
+  const [money, setMoney] = useState(["", "", "", "", "", "", "", "", "", ""]);
   const [driverLicense, setDriverLicense] = useState(undefined);
   const [taxiLicense, setTaxiLicense] = useState(undefined);
   const [insurance, setInsurance] = useState(undefined);
@@ -74,7 +74,7 @@ function DriverApplyPage() {
         : await uploadImage(insurance);
 
     const prices = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       if (hour[i] && money[i])
         prices.push({
           hours: Number(hour[i]),
@@ -147,8 +147,8 @@ function DriverApplyPage() {
         );
         setDriverId(result.payload.driverId || 0);
 
-        const hours = ["", "", "", "", ""];
-        const moneys = ["", "", "", "", ""];
+        const hours = ["", "", "", "", "", "", "", "", "", ""];
+        const moneys = ["", "", "", "", "", "", "", "", "", ""];
         result.payload.prices.forEach((item, index) => {
           hours[index] = item.hours.toString();
           moneys[index] = item.price.toString();

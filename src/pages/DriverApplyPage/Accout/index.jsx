@@ -92,12 +92,12 @@ function Accout({
       <div>
         <p className="mt-16 text-xl text-black font-bold">운행 가격 설정</p>
         <div className="block mt-8 text-base font-medium text-black">
-          시간당 운행 가격을 설정해주세요. (최대 5개){" "}
+          시간당 운행 가격을 설정해주세요. (최대 10개){" "}
           <span className="text-red-600 font-bold">*</span>
         </div>
       </div>
       <div>
-        {Array.from({ length: 5 }, (_, index) => index).map((i) => (
+        {Array.from({ length: 10 }, (_, index) => index).map((i) => (
           <HourPrice
             key={i}
             hour={hour}

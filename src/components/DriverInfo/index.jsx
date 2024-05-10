@@ -14,7 +14,7 @@ function DriverInfo({
         <img
           src={profileImg || basicProfileImage}
           alt={name}
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full object-cover"
         />
         <p className="text-2xl text-black font-bold">{`${name} 드라이버`}</p>
         <div className="flex gap-1 items-center text-xs">

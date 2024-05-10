@@ -56,10 +56,7 @@ function DriverProfilePage() {
         introduction={driverInfo.introduction}
         profileImg={driverInfo.profileImg}
       />
-      <ImageBox
-        images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}
-        name={driverInfo.name}
-      />
+      <ImageBox images={courseImgs} name={driverInfo.name} />
       <IconBox
         images={[driverInfo.profileImg, ...courseImgs, ...courseImgs]}
         name={driverInfo.name}

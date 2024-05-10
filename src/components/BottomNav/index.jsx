@@ -121,7 +121,7 @@ function BottomNav() {
           onClick={() => navigation("/my/menu")}
         >
           <img
-            className={`w-9 h-9 rounded-full ${
+            className={`w-9 h-9 rounded-full object-cover ${
               checkLocation() === "my" && "ring-2 ring-primary ring-offset-1"
             }`}
             src={user.profileImg || basicProfileImage}

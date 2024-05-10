@@ -35,7 +35,7 @@ function TalkBubble({
         >
           {!isMyMessage && (!isPrevSameDate || !isPrevSameUser) && (
             <img
-              className="mr-2 w-10 h-10 rounded-full hover:cursor-pointer"
+              className="mr-2 w-10 h-10 rounded-full object-cover hover:cursor-pointer"
               src={profileImg || basicProfileImage}
               alt="Profile_Image"
               onClick={() => {

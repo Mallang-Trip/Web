@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { priceToString } from "../../../utils";
+import { getCommisionRate } from "../../../api/income";
 import {
-  getCommisionRate,
   getIncomeList,
   updateIncomeAmount,
   updateCommissionPercent,

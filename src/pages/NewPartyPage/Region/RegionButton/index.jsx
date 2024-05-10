@@ -25,9 +25,10 @@ function RegionButton({
         src={regionImg}
         alt={region}
       />
-      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white z-10">
         {region}
       </div>
+      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 rounded-lg" />
     </div>
   );
 }

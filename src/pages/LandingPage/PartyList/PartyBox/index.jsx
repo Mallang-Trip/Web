@@ -23,16 +23,17 @@ function PartyBox({
         src={image}
         alt={name}
       />
-      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white">
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white z-10">
         {name}
       </div>
-      <div className="w-full absolute bottom-0 left-0 flex justify-center text-white bg-black bg-opacity-50 py-1 rounded-b-lg">
+      <div className="w-full absolute bottom-0 left-0 flex justify-center text-white py-1 rounded-b-lg z-10">
         {`${startDate
           .slice(5)
           .replace("-", "/")} | ${headcount}/${capacity}명 | ${customRoundOne(
           price / 10000
         )}만원`}
       </div>
+      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 rounded-lg" />
     </div>
   );
 }

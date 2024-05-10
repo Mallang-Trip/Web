@@ -14,8 +14,10 @@ function Region({ region, image, name, setRegion }) {
       <div className="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full text-xl text-white z-10">
         <div>{name}</div>
       </div>
-      {region === name && (
+      {region === name ? (
         <div className="absolute top-0 left-0 w-full h-full bg-primary rounded-lg opacity-50"></div>
+      ) : (
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 rounded-lg" />
       )}
     </div>
   );

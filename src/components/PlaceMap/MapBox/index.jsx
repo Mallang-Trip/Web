@@ -1,7 +1,12 @@
 import { useEffect, useRef } from "react";
 import pointMarker from "../../../assets/svg/point_marker.svg";
 
-function MapBox({ markerData, setShowDestinationModal, setClickedData }) {
+function MapBox({
+  markerData,
+  setShowDestinationModal,
+  setClickedData,
+  isAllMarker,
+}) {
   const mapRef = useRef();
 
   const initTmap = () => {
@@ -29,7 +34,7 @@ function MapBox({ markerData, setShowDestinationModal, setClickedData }) {
         animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
         animationLength: 500,
         title: marker.name,
-        label: marker.name,
+        label: !isAllMarker && marker.name,
         icon: pointMarker,
       });
 

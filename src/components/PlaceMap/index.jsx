@@ -22,6 +22,7 @@ function PlaceMap({
   const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [clickedData, setClickedData] = useState({});
+  const [isAllMarker, setIsAllMarker] = useState(false);
 
   const submitHandler = async (e, keyword) => {
     if (e) e.preventDefault();
@@ -35,8 +36,9 @@ function PlaceMap({
     try {
       const result = await getSearchInfo(keyword || searchKeyword);
 
-      if (result.payload.length === 0) setShowNoDataModal(true);
-      else setMarkerData(result.payload);
+      if (result.payload.length === 0) return setShowNoDataModal(true);
+      setMarkerData(result.payload);
+      setIsAllMarker(false);
     } catch (e) {
       console.log(e);
     }
@@ -46,6 +48,7 @@ function PlaceMap({
     try {
       const result = await getAllMarkers();
       setMarkerData(result.payload);
+      setIsAllMarker(true);
     } catch (e) {
       console.log(e);
     }
@@ -71,6 +74,7 @@ function PlaceMap({
           markerData={markerData}
           setShowDestinationModal={setShowDestinationModal}
           setClickedData={setClickedData}
+          isAllMarker={isAllMarker}
         />
         {search && (
           <SearchBox

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 function Body({
   userId,
   userNickname,
+  driverRegion,
   loginId,
   suspensionDuration,
   createdAt,
@@ -12,7 +13,7 @@ function Body({
   const navigation = useNavigate();
 
   return (
-    <div className="w-full py-3 grid grid-cols-5 items-center text-center bg-white border border-gray300 rounded-xl">
+    <div className="w-full py-3 grid grid-cols-6 items-center text-center bg-white border border-gray300 rounded-xl">
       <p className="px-1 text-gray700 font-medium">{userNickname}</p>
       <p className="px-1 text-gray700 font-medium">
         <span>{loginId}</span>
@@ -22,6 +23,7 @@ function Body({
           </span>
         )}
       </p>
+      <p className="px-1 text-gray700 font-medium">{driverRegion}</p>
       <p className="px-1 text-gray500 font-medium">
         {createdAt.slice(0, 10).replaceAll("-", ".")}
       </p>

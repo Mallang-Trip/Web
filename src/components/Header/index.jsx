@@ -387,6 +387,17 @@ function Header() {
             <li>
               <button
                 onClick={() => {
+                  navigation("/my/payment/list");
+                  setShowUserMenu(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                결제 내역
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
                   navigation("/my/reservation");
                   setShowUserMenu(false);
                 }}

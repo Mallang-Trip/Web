@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import BottomButton from "../../../components/BottomButton";
 
 function JoinButton({ joinHandler }) {
+  const user = useSelector((state) => state.user);
   const { type } = useParams();
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -23,6 +25,7 @@ function JoinButton({ joinHandler }) {
     };
   }, []);
 
+  if (user.role === "ROLE_DRIVER") return null;
   return (
     <>
       <div className="hidden md:flex justify-center mt-20">

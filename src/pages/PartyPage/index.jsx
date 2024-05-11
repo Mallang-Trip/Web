@@ -358,6 +358,7 @@ function PartyPage() {
           <PartyPlan
             edit={
               type === "detail" &&
+              user.role !== "ROLE_DRIVER" &&
               ((partyData.partyStatus === "RECRUITING" && !partyData.myParty) ||
                 (partyData.partyStatus === "SEALED" && partyData.myParty))
             }

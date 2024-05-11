@@ -5,6 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
 import PageContainer from "../../components/PageContainer";
@@ -20,6 +21,7 @@ function NewPartyPage() {
   const navigation = useNavigate();
   const { step } = useParams();
   const location = useLocation();
+  const user = useSelector((state) => state.user);
   const [searchParams] = useSearchParams();
   const [region, setRegion] = useState("");
   const [member, setMember] = useState(1);
@@ -31,6 +33,7 @@ function NewPartyPage() {
     location.state ? location.state.selectedCourseId : 0
   );
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const settingDriverInfo = async () => {
     try {
@@ -39,6 +42,9 @@ function NewPartyPage() {
 
       if (result.payload.courses.length === 0) {
         setShowErrorModal(true);
+        setErrorMessage(
+          "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
+        );
         setDriverId(0);
       } else {
         setSelectedCourseId(
@@ -65,6 +71,18 @@ function NewPartyPage() {
   };
 
   useEffect(() => {
+    if (showErrorModal) return;
+    if (errorMessage !== "여행자만 파티를 만들 수 있습니다.") return;
+    navigation(-1);
+  }, [showErrorModal]);
+
+  useEffect(() => {
+    if (user.role !== "ROLE_USER") {
+      setErrorMessage("여행자만 파티를 만들 수 있습니다.");
+      setShowErrorModal(true);
+      return;
+    }
+
     const regionParam = searchParams.get("region");
     const memberParam = searchParams.get("member");
     const dateParam = searchParams.get("date");
@@ -162,9 +180,7 @@ function NewPartyPage() {
       <ConfirmModal
         showModal={showErrorModal}
         setShowModal={setShowErrorModal}
-        message={
-          "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
-        }
+        message={errorMessage}
       />
     </PageContainer>
   );

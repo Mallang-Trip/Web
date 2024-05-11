@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Head from "./Head";
 import Body from "./Body";
 
@@ -11,16 +12,12 @@ function PaymentTable({ paymentList }) {
   return (
     <div className="w-full mt-10 flex flex-col gap-2 text-xs sm:text-sm font-semibold">
       <Head />
-      {/* {paymentList.map((payment) => (
-        <Body
-          // key={driver.userId}
-          {...payment}
-        />
-      ))} */}
-      <Body />
-      <Body />
-      <Body />
-      <Body />
+      {paymentList.map((payment) => (
+        <Fragment key={payment.partyId}>
+          {payment.cancelReceiptUrl && <Body type="refund" {...payment} />}
+          {payment.receiptUrl && <Body type="payment" {...payment} />}
+        </Fragment>
+      ))}
     </div>
   );
 }

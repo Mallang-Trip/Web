@@ -40,6 +40,7 @@ export const partyStatusObj = {
   CANCELED_BY_EXPIRATION: "모집 기간 만료",
   CANCELED_BY_ALL_QUIT: "파티 취소",
   CANCELED_BY_DRIVER_QUIT: "파티 취소",
+  CANCELED_BY_USER_QUIT: "탈퇴한 파티",
   DAY_OF_TRAVEL: "여행 당일",
   FINISHED: "여행 완료",
 };

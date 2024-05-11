@@ -28,7 +28,7 @@ function ReservationYear({ reservationYearData }) {
         }`}
       >
         {reservationYearData.map((item) => (
-          <ReservationItem key={item.partyId} {...item} />
+          <ReservationItem key={item.partyId + item.status} {...item} />
         ))}
       </div>
     </div>

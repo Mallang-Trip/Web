@@ -15,6 +15,7 @@ import MyHeartPage from "../pages/MyHeartPage";
 import MyArticlePage from "../pages/MyArticlePage";
 import MyReservationPage from "../pages/MyReservationPage";
 import MyPaymentPage from "../pages/MyPaymentPage";
+import MyPaymentListPage from "../pages/MyPaymentListPage";
 import NewPartyPage from "../pages/NewPartyPage";
 import PartyHistoryPage from "../pages/PartyHistoryPage";
 import DriverProfilePage from "../pages/DriverProfilePage";
@@ -46,6 +47,7 @@ function Router() {
   const AuthMyArticlePage = Auth(MyArticlePage, true);
   const AuthMyReservationPage = Auth(MyReservationPage, true);
   const AuthMyPaymentPage = Auth(MyPaymentPage, true);
+  const AuthMyPaymentListPage = Auth(MyPaymentListPage, true);
   const AuthDriverApplyPage = Auth(DriverApplyPage, true);
   const AuthDriverCoursePage = Auth(DriverCoursePage, true);
   const AuthDriverIncomePage = Auth(DriverIncomePage, true);
@@ -80,6 +82,7 @@ function Router() {
         <Route path="/my/article" element={<AuthMyArticlePage />} />
         <Route path="/my/reservation" element={<AuthMyReservationPage />} />
         <Route path="/my/payment" element={<AuthMyPaymentPage />} />
+        <Route path="/my/payment/list" element={<AuthMyPaymentListPage />} />
         <Route path="/my/party/history" element={<AuthPartyHistoryPage />} />
         <Route path="/my/driver/apply" element={<AuthDriverApplyPage />} />
         <Route

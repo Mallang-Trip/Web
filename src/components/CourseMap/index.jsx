@@ -126,7 +126,9 @@ function CourseMap({ markerData, reload, mapName }) {
 
     axios
       .post(
-        "https://apis.openapi.sk.com/tmap/routes/routeSequential100?version=1&format=json",
+        markerData.length > 7
+          ? "https://apis.openapi.sk.com/tmap/routes/routeSequential30?version=1&format=json"
+          : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json",
         {
           startName: markerData[0].name,
           startX: markerData[0].lon.toString(),
@@ -145,6 +147,10 @@ function CourseMap({ markerData, reload, mapName }) {
                 viaY: marker.lat.toString(),
               };
             }),
+          passList: markerData
+            .slice(1, markerData.length - 1)
+            .map((marker) => marker.lon + "," + marker.lat)
+            .join("_"),
           reqCoordType: "WGS84GEO",
           resCoordType: "WGS84GEO",
           searchOption: "0",

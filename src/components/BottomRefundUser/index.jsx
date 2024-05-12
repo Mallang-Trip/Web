@@ -37,7 +37,7 @@ function BottomRefundUser() {
         </div>
         <div>
           <div className="text-primary font-bold mb-1">
-            예약 취소 가능할 경우:
+            무료로 파티 탈퇴 가능할 경우:
           </div>
           <div>
             파티원 모두가 말랑레디 버튼을 ON으로 설정하기 전까지

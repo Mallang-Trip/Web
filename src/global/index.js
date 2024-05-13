@@ -4,6 +4,8 @@ export const basicProfileImage =
 export const thumbnailImage =
   "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/9a360955-8f22-4911-9708-53b1065f9b5amallangtrip.png";
 
+export const MAX_SIZE_IMAGE = 15 * 1024 * 1024;
+
 export const notice = [
   {
     noticeId: 1,

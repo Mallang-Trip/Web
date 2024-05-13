@@ -10,6 +10,7 @@ import DriverInfo from "../../components/DriverInfo";
 import CourseList from "../../components/CourseList";
 import ServiceRegion from "./ServiceRegion";
 import IconBox from "./IconBox";
+import CarInfo from "./CarInfo";
 
 function DriverProfilePage() {
   const navigation = useNavigate();
@@ -63,6 +64,11 @@ function DriverProfilePage() {
         introduction={driverInfo.introduction}
       />
       <ServiceRegion region={driverInfo.region} />
+      <CarInfo
+        vehicleImg={driverInfo.vehicleImg}
+        vehicleModel={driverInfo.vehicleModel}
+        vehicleCapacity={driverInfo.vehicleCapacity}
+      />
       <CourseList
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}

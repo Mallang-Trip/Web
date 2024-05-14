@@ -2,9 +2,11 @@ import { useState } from "react";
 import ProfileModal from "../../../../../components/ProfileModal";
 import Body from "./Body";
 import Head from "./Head";
+import RegionModal from "./RegionModal";
 
 function UserTable({ userList }) {
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showRegionModal, setShowRegionModal] = useState(false);
   const [profileId, setProfileId] = useState(-1);
 
   if (userList.filter((user) => user.role === "ROLE_USER").length === 0)
@@ -24,6 +26,7 @@ function UserTable({ userList }) {
               key={driver.userId}
               setProfileId={setProfileId}
               setShowProfileModal={setShowProfileModal}
+              setShowRegionModal={setShowRegionModal}
               {...driver}
             />
           ))}
@@ -32,6 +35,11 @@ function UserTable({ userList }) {
       <ProfileModal
         showModal={showProfileModal}
         setShowModal={setShowProfileModal}
+        userId={profileId}
+      />
+      <RegionModal
+        showModal={showRegionModal}
+        setShowModal={setShowRegionModal}
         userId={profileId}
       />
     </>

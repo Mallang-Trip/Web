@@ -90,3 +90,6 @@ export const putDriverCourseDetail = async (driverId, courseId, body) =>
 
 export const deleteDriverCourse = async (driverId, courseId) =>
   await DELETE(`/admin/driver/course/${driverId}?courseId=${courseId}`, true);
+
+export const postApplyDriver = async (userId, body) =>
+  await POST(`/admin/driver/apply/${userId}`, body, true);

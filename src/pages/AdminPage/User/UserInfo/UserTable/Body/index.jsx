@@ -6,9 +6,10 @@ function Body({
   createdAt,
   setProfileId,
   setShowProfileModal,
+  setShowRegionModal,
 }) {
   return (
-    <div className="w-full py-3 grid grid-cols-4 items-center text-center bg-white border border-gray300 rounded-xl">
+    <div className="w-full py-3 grid grid-cols-5 items-center text-center bg-white border border-gray300 rounded-xl">
       <p className="px-1 text-gray700 font-medium">{userNickname}</p>
       <p className="px-1 text-gray700 font-medium">
         <span>{loginId}</span>
@@ -29,6 +30,15 @@ function Body({
         }}
       >
         프로필
+      </button>
+      <button
+        className="px-1 text-primary font-medium hover:font-semibold"
+        onClick={() => {
+          setProfileId(userId);
+          setShowRegionModal(true);
+        }}
+      >
+        승격
       </button>
     </div>
   );

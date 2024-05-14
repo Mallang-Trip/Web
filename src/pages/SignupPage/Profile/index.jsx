@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { MAX_SIZE_IMAGE } from "../../../global";
 
 function Profile({
   setActiveNext,
@@ -21,6 +22,8 @@ function Profile({
   };
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
+    if (imageFile.size > MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setProfileImage(imageFile || undefined);
   };
 

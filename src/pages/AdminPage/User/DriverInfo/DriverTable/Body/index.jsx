@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { makePhoneNumber } from "../../../../../../utils";
 
 function Body({
   userId,
-  userNickname,
+  name,
   driverRegion,
+  phoneNumber,
   loginId,
   suspensionDuration,
   createdAt,
-  setProfileId,
-  setShowProfileModal,
 }) {
   const navigation = useNavigate();
 
   return (
-    <div className="w-full py-3 grid grid-cols-6 items-center text-center bg-white border border-gray300 rounded-xl">
-      <p className="px-1 text-gray700 font-medium">{userNickname}</p>
+    <div className="w-full py-3 grid grid-cols-7 items-center text-center bg-white border border-gray300 rounded-xl">
+      <p className="px-1 text-gray700 font-medium">{name}</p>
       <p className="px-1 text-gray700 font-medium">
         <span>{loginId}</span>
         {suspensionDuration !== 0 && (
@@ -24,6 +24,9 @@ function Body({
         )}
       </p>
       <p className="px-1 text-gray700 font-medium">{driverRegion}</p>
+      <p className="px-1 text-gray700 font-medium">
+        {makePhoneNumber(phoneNumber)}
+      </p>
       <p className="px-1 text-gray500 font-medium">
         {createdAt.slice(0, 10).replaceAll("-", ".")}
       </p>
@@ -35,12 +38,9 @@ function Body({
       </button>
       <button
         className="px-1 text-gray500 font-medium hover:font-semibold"
-        onClick={() => {
-          setProfileId(userId);
-          setShowProfileModal(true);
-        }}
+        onClick={() => navigation(`/admin/driver-info?driverId=${userId}`)}
       >
-        일반 프로필
+        드라이버 정보
       </button>
     </div>
   );

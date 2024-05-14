@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { MAX_SIZE_IMAGE } from "../../../../global";
 import Loading from "../../../../components/Loading";
 
 function ImageModal({
@@ -25,6 +26,8 @@ function ImageModal({
 
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
+    if (imageFile.size > MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setImage(imageFile || undefined);
   };
 

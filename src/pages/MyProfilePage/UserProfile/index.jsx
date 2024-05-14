@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { __asyncAuth } from "../../../redux/modules/userSlice";
 import { uploadProfileImage } from "../../../api/image";
 import { putProfile } from "../../../api/profile";
+import { MAX_SIZE_IMAGE } from "../../../global";
 import ConfirmModal from "../../../components/ConfirmModal";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
@@ -23,6 +24,8 @@ function UserProfile() {
 
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
+    if (imageFile.size > MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setModifyProfileImage(imageFile || undefined);
   };
   const introductionHandler = (e) => {

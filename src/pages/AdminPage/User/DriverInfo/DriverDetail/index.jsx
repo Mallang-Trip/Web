@@ -1,26 +1,34 @@
 import { useEffect, useRef, useState } from "react";
-import { putDriverMyInfo } from "../../../api/driver";
-import { uploadImage } from "../../../api/image";
-import { MAX_SIZE_IMAGE } from "../../../global";
-import ProfileImage from "./ProfileImage";
-import ProfileHeader from "./ProfileHeader";
-import BasicInfo from "./BasicInfo";
-import Introduction from "./Introduction";
-import Vehicle from "./Vehicle";
-import Price from "./Price";
+import { useSearchParams } from "react-router-dom";
+import {
+  getDriverInfoDetail,
+  putDriverInfoDetail,
+} from "../../../../../api/admin";
+import { uploadImage } from "../../../../../api/image";
+import { MAX_SIZE_IMAGE } from "../../../../../global";
+import Loading from "../../../../../components/Loading";
+import ConfirmModal from "../../../../../components/ConfirmModal";
+import ProfileImage from "../../../../../pages/MyProfilePage/DriverProfile/ProfileImage";
+import ProfileHeader from "../../../../../pages/MyProfilePage/DriverProfile/ProfileHeader";
+import BasicInfo from "../../../../../pages/MyProfilePage/DriverProfile/BasicInfo";
+import Introduction from "../../../../../pages/MyProfilePage/DriverProfile/Introduction";
+import Vehicle from "../../../../../pages/MyProfilePage/DriverProfile/Vehicle";
+import Price from "../../../../../pages/MyProfilePage/DriverProfile/Price";
 import PartyCourse from "./PartyCourse";
-import Loading from "../../../components/Loading";
-import ConfirmModal from "../../../components/ConfirmModal";
 
-function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
+function DriverDetail() {
   const profileImageRef = useRef();
   const vehicleImageRef = useRef();
+  const [searchParams] = useSearchParams();
+  const [driverInfo, setDriverInfo] = useState({});
   const [modifyMode, setModifyMode] = useState(false);
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
   const [newVehicleImage, setNewVehicleImage] = useState(undefined);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const driverId = searchParams.get("driverId");
 
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
@@ -64,25 +72,34 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
     };
 
     try {
-      await putDriverMyInfo(body);
-
+      await putDriverInfoDetail(driverId, body);
       setShowCompleteModal(true);
       setModifyMode(false);
-      getMyDriverInfo();
+      getDriverInfoDetailFunc();
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
-  }, []);
+  const getDriverInfoDetailFunc = async () => {
+    try {
+      const result = await getDriverInfoDetail(driverId);
+      setDriverInfo(result.payload);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  if (!driverInfo.userId) return <Loading full={true} />;
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    getDriverInfoDetailFunc();
+  }, [driverId]);
+
+  if (loading) return <Loading full={true} />;
   return (
-    <>
+    <div className="text-base text-black font-medium">
       <ProfileImage
         modifyMode={modifyMode}
         setModifyProfileImage={setModifyProfileImage}
@@ -129,8 +146,8 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
         setShowModal={setShowCompleteModal}
         message="프로필 정보 수정이 완료되었습니다."
       />
-    </>
+    </div>
   );
 }
 
-export default DriverProfile;
+export default DriverDetail;

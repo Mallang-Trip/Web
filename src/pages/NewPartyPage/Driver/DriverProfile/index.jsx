@@ -13,10 +13,11 @@ function DriverProfile({
 
   return (
     <div
-      className="cursor-pointer"
-      onClick={() =>
-        navigation(`/driver/profile/${driverId}?member=${member}&date=${date}`)
-      }
+      className="cursor-pointer bg-skyblue rounded-lg hover:ring ring-primary/50"
+      onClick={(e) => {
+        e.stopPropagation();
+        setDriverId(driverId);
+      }}
     >
       <div className="relative h-64 border rounded-lg">
         <img
@@ -26,17 +27,18 @@ function DriverProfile({
         />
         <div className="absolute top-0 left-0 flex flex-col items-center justify-end w-full h-full text-base text-darkgray pb-3">
           <button
-            className="h-9 text-white rounded-full text-xs w-32 bg-primary"
-            onClick={(e) => {
-              e.stopPropagation();
-              setDriverId(driverId);
-            }}
+            className="h-9 text-white rounded-full text-xs font-bold w-32 bg-primary"
+            onClick={() =>
+              navigation(
+                `/driver/profile/${driverId}?member=${member}&date=${date}`
+              )
+            }
           >
-            선택하기
+            프로필
           </button>
         </div>
       </div>
-      <div className="mt-1 text-center text-base">{`${name} 드라이버`}</div>
+      <div className="py-1 text-center text-lg text-primary font-semibold">{`${name} 드라이버`}</div>
     </div>
   );
 }

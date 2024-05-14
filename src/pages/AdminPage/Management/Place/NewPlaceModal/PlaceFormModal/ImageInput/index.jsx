@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { MAX_SIZE_IMAGE } from "../../../../../../../global";
 import primaryPlus from "../../../../../../../assets/svg/primary_plus.svg";
 
 function ImageInput({ newPlaceInfo, setNewPlaceInfo }) {
@@ -6,6 +7,8 @@ function ImageInput({ newPlaceInfo, setNewPlaceInfo }) {
 
   const imageUploadHandler = () => {
     const imageFile = imageRef.current.files[0];
+    if (imageFile.size > MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
 
     if (imageFile) {
       const newImage = [...newPlaceInfo.images];

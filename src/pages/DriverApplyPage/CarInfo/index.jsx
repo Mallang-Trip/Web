@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { onlyNumber } from "../../../utils";
 import { uploadImage } from "../../../api/image";
+import { MAX_SIZE_IMAGE } from "../../../global";
 
 function CarInfo({
   setActiveNext,
@@ -16,6 +17,8 @@ function CarInfo({
   const imageHandler = async () => {
     const imageFile = imageRef.current.files[0];
     if (!imageFile) setCarImage(null);
+    else if (imageFile.size > MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     else setCarImage(await uploadImage(imageFile));
   };
 

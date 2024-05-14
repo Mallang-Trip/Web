@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { getUserListAdmin } from "../../../../api/admin";
 import Title from "../../../../components/Title";
 import Loading from "../../../../components/Loading";
 import DriverTable from "./DriverTable";
+import DriverDetail from "./DriverDetail";
 
 function DriverInfo() {
+  const [searchParams] = useSearchParams();
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const driverId = searchParams.get("driverId");
 
   const getUserListAdminFunc = async () => {
     try {
@@ -24,6 +28,7 @@ function DriverInfo() {
   }, []);
 
   if (loading) return <Loading full={true} />;
+  if (driverId) return <DriverDetail />;
   return (
     <div>
       <Title title="드라이버 회원 정보" />

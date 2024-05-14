@@ -9,8 +9,6 @@ function Body({
   loginId,
   suspensionDuration,
   createdAt,
-  setProfileId,
-  setShowProfileModal,
 }) {
   const navigation = useNavigate();
 
@@ -40,12 +38,9 @@ function Body({
       </button>
       <button
         className="px-1 text-gray500 font-medium hover:font-semibold"
-        onClick={() => {
-          setProfileId(userId);
-          setShowProfileModal(true);
-        }}
+        onClick={() => navigation(`/admin/driver-info?driverId=${userId}`)}
       >
-        일반 프로필
+        드라이버 정보
       </button>
     </div>
   );

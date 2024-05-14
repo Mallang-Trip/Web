@@ -68,3 +68,9 @@ export const driverPenaltyBefore = async (partyId) =>
     {},
     true
   );
+
+export const getDriverInfoDetail = async (driverId) =>
+  await GET(`/admin/driver/my/${driverId}`, true);
+
+export const putDriverInfoDetail = async (driverId, body) =>
+  await PUT(`/admin/driver/my/${driverId}`, body, true);

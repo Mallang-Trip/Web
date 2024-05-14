@@ -74,3 +74,19 @@ export const getDriverInfoDetail = async (driverId) =>
 
 export const putDriverInfoDetail = async (driverId, body) =>
   await PUT(`/admin/driver/my/${driverId}`, body, true);
+
+export const getDriverCourseDetail = async (driverId, courseId) =>
+  await GET(`/admin/driver/course/${driverId}?courseId=${courseId}`, true);
+
+export const postDriverNewCourse = async (driverId, body) =>
+  await POST(`/admin/driver/course/${driverId}`, body, true);
+
+export const putDriverCourseDetail = async (driverId, courseId, body) =>
+  await PUT(
+    `/admin/driver/course/${driverId}?courseId=${courseId}`,
+    body,
+    true
+  );
+
+export const deleteDriverCourse = async (driverId, courseId) =>
+  await DELETE(`/admin/driver/course/${driverId}?courseId=${courseId}`, true);

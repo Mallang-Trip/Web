@@ -13,9 +13,9 @@ function RegionModal({ showModal, setShowModal, userId }) {
 
   const regionClickHandler = async () => {
     try {
-      await postApplyDriver(userId, { region: selectedRegion });
-      alert("드라이버 승격 신청 완료");
-      navigation("/admin/driver-registration");
+      await postApplyDriver(userId, selectedRegion);
+      alert("드라이버 승격 완료");
+      navigation(`/admin/driver-info?driverId=${userId}`);
       setShowModal(false);
     } catch (e) {
       console.log(e);

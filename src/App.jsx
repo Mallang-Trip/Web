@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { setColorTheme, setScreenHeight } from "./utils";
 import store from "./redux/store";
 import Router from "./router";
+import PushNotification from "./components/PushNotification";
 
 function App() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
       <BrowserRouter>
         <Router />
       </BrowserRouter>
+      <PushNotification />
     </Provider>
   );
 }

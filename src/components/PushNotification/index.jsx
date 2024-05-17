@@ -1,14 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getToken, onMessage, isSupported } from "firebase/messaging";
+import { getToken, isSupported } from "firebase/messaging";
 import { messaging } from "../../utils/firebase";
+import ConfirmModal from "./ConfirmModal";
 
 function PushNotification() {
   const user = useSelector((state) => state.user);
+  const [showModal, setShowModal] = useState(false);
 
   const handleAllowNotification = async () => {
     if (!(await isSupported())) return;
+
+    setShowModal(true);
     const permission = await Notification.requestPermission();
+    setShowModal(false);
+    if (permission !== "granted") return;
 
     const token = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_APP_FCM_VAPID_KEY,
@@ -17,10 +23,6 @@ function PushNotification() {
     // 서버로 permission, token 전송 (알림 허용 여부, 토큰)
     // console.log(permission);
     console.log(token);
-
-    onMessage(messaging, (payload) => {
-      console.log("메시지가 도착했습니다.", payload);
-    });
   };
 
   useEffect(() => {
@@ -28,7 +30,13 @@ function PushNotification() {
     handleAllowNotification();
   }, [user]);
 
-  return null;
+  return (
+    <ConfirmModal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      message="알림 권한을 허용해주세요."
+    />
+  );
 }
 
 export default PushNotification;

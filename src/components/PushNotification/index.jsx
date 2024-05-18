@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getToken, isSupported } from "firebase/messaging";
 import { messaging } from "../../utils/firebase";
+import { postFirebaseToken } from "../../api/notification";
 import ConfirmModal from "./ConfirmModal";
 
 function PushNotification() {
@@ -20,9 +21,13 @@ function PushNotification() {
       vapidKey: import.meta.env.VITE_APP_FCM_VAPID_KEY,
     });
 
-    // 서버로 permission, token 전송 (알림 허용 여부, 토큰)
-    // console.log(permission);
-    console.log(token);
+    try {
+      await postFirebaseToken({
+        firebaseToken: token,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {

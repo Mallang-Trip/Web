@@ -40,7 +40,7 @@ function SearchBox({
             className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
             onClick={() => {
               setSearchKeyword("");
-              if (onlyAllPlace) getAllMarkersFunc();
+              // if (onlyAllPlace) getAllMarkersFunc();
             }}
           >
             <img src={cross} />

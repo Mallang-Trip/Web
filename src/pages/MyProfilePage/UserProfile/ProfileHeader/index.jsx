@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import EditButton from "../../../../components/EditButton";
 
-function ProfileHeader({ modifyMode, modifyProfileHandler }) {
+function ProfileHeader({ modifyProfileHandler }) {
   const user = useSelector((state) => state.user);
 
   return (
@@ -12,7 +12,7 @@ function ProfileHeader({ modifyMode, modifyProfileHandler }) {
       <EditButton
         className="absolute top-12 md:top-0 right-0"
         onClick={modifyProfileHandler}
-        title={modifyMode ? "저장" : "프로필 수정"}
+        title="저장"
       />
     </div>
   );

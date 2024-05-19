@@ -5,7 +5,7 @@ import Information from "../Information";
 import NewPasswordModal from "./NewPasswordModal";
 import ExitButton from "./ExitButton";
 
-function LoginInfo({ modifyMode, email, emailHandler }) {
+function LoginInfo({ email, emailHandler }) {
   const user = useSelector((state) => state.user);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
@@ -16,7 +16,7 @@ function LoginInfo({ modifyMode, email, emailHandler }) {
         <Information
           title={"이메일 주소"}
           content={email}
-          modifyMode={modifyMode}
+          modifyMode={true}
           onChangeHandler={emailHandler}
         />
         <Information title={"아이디"} content={user.loginId} />

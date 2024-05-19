@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ProfileImage({
-  modifyMode,
   modifyImage,
   setModifyImage,
   modifyProfileImage,
@@ -15,8 +14,8 @@ function ProfileImage({
     <div className="flex justify-center mt-5">
       <div
         className="w-[170px] h-[170px] rounded-full relative"
-        onMouseEnter={() => modifyMode && setModifyImage(true)}
-        onMouseLeave={() => modifyMode && setModifyImage(false)}
+        onMouseEnter={() => setModifyImage(true)}
+        onMouseLeave={() => setModifyImage(false)}
       >
         <img
           src={

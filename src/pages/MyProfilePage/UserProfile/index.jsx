@@ -14,7 +14,6 @@ function UserProfile() {
   const dispatch = useDispatch();
   const imageRef = useRef();
   const user = useSelector((state) => state.user);
-  const [modifyMode, setModifyMode] = useState(false);
   const [modifyImage, setModifyImage] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [introduction, setIntroduction] = useState(user.introduction);
@@ -35,8 +34,6 @@ function UserProfile() {
   const emailHandler = (e) => setEmail(e.target.value);
 
   const modifyProfileHandler = async () => {
-    if (!modifyMode) return setModifyMode(true);
-
     const profileImageURL = modifyProfileImage
       ? await uploadProfileImage(modifyProfileImage)
       : user.profileImg;
@@ -50,7 +47,6 @@ function UserProfile() {
       });
 
       setShowCompleteModal(true);
-      setModifyMode(false);
       dispatch(__asyncAuth());
     } catch (e) {
       console.log(e);
@@ -60,29 +56,20 @@ function UserProfile() {
   return (
     <>
       <ProfileImage
-        modifyMode={modifyMode}
         modifyImage={modifyImage}
         setModifyImage={setModifyImage}
         modifyProfileImage={modifyProfileImage}
         imageHandler={imageHandler}
         imageRef={imageRef}
       />
-      <ProfileHeader
-        modifyMode={modifyMode}
-        modifyProfileHandler={modifyProfileHandler}
-      />
+      <ProfileHeader modifyProfileHandler={modifyProfileHandler} />
       <BasicInfo
-        modifyMode={modifyMode}
         phoneNumber={phoneNumber}
         phoneNumberHandler={phoneNumberHandler}
         introduction={introduction}
         introductionHandler={introductionHandler}
       />
-      <LoginInfo
-        modifyMode={modifyMode}
-        email={email}
-        emailHandler={emailHandler}
-      />
+      <LoginInfo email={email} emailHandler={emailHandler} />
 
       <ConfirmModal
         showModal={showCompleteModal}

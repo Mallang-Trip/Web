@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { makePhoneNumber } from "../../../../utils";
 import Information from "../Information";
+import { roundToNearestHours } from "date-fns";
 
 function BasicInfo({
-  modifyMode,
   phoneNumber,
   phoneNumberHandler,
   introduction,
@@ -27,14 +27,13 @@ function BasicInfo({
         <Information
           title={"전화번호"}
           content={makePhoneNumber(phoneNumber)}
-          // modifyMode={modifyMode}
           // onChangeHandler={phoneNumberHandler}
           // 본인 인증 구현되기 전까지 수정 불가 상태로 전환
         />
         <Information
           title={"한줄 소개"}
           content={introduction}
-          modifyMode={modifyMode}
+          modifyMode={true}
           onChangeHandler={introductionHandler}
         />
       </div>

@@ -15,7 +15,6 @@ import ConfirmModal from "../../../components/ConfirmModal";
 function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   const profileImageRef = useRef();
   const vehicleImageRef = useRef();
-  const [modifyMode, setModifyMode] = useState(false);
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
@@ -36,8 +35,6 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   };
 
   const modifyProfileHandler = async () => {
-    if (!modifyMode) return setModifyMode(true);
-
     const profileImageURL = newProfileImage
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
@@ -67,7 +64,6 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       await putDriverMyInfo(body);
 
       setShowCompleteModal(true);
-      setModifyMode(false);
       getMyDriverInfo();
     } catch (e) {
       console.log(e);
@@ -84,7 +80,6 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   return (
     <>
       <ProfileImage
-        modifyMode={modifyMode}
         setModifyProfileImage={setModifyProfileImage}
         newProfileImage={newProfileImage}
         driverInfo={driverInfo}
@@ -95,20 +90,10 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       <ProfileHeader
         driverInfo={driverInfo}
         modifyProfileHandler={modifyProfileHandler}
-        modifyMode={modifyMode}
       />
-      <BasicInfo
-        modifyMode={modifyMode}
-        driverInfo={driverInfo}
-        setDriverInfo={setDriverInfo}
-      />
-      <Introduction
-        modifyMode={modifyMode}
-        driverInfo={driverInfo}
-        setDriverInfo={setDriverInfo}
-      />
+      <BasicInfo driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
+      <Introduction driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
       <Vehicle
-        modifyMode={modifyMode}
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
         vehicleImageRef={vehicleImageRef}
@@ -117,11 +102,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
         newVehicleImage={newVehicleImage}
         vehicleImageHandler={vehicleImageHandler}
       />
-      <Price
-        modifyMode={modifyMode}
-        driverInfo={driverInfo}
-        setDriverInfo={setDriverInfo}
-      />
+      <Price driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
       <PartyCourse driverInfo={driverInfo} />
 
       <ConfirmModal

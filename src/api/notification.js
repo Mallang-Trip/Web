@@ -10,3 +10,5 @@ export const deleteNotification = async (notificationId) =>
 
 export const postFirebaseToken = async (body) =>
   await POST("/firebase", body, true);
+
+export const deleteFirebaseToken = async () => await DELETE("/firebase", true);

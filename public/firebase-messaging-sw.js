@@ -14,7 +14,7 @@ self.addEventListener("push", (e) => {
 });
 
 self.addEventListener("notificationclick", (e) => {
-  const url = "/";
+  const url = "/notify";
   e.notification.close();
   e.waitUntil(clients.openWindow(url));
 });

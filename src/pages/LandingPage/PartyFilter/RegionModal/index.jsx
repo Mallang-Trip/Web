@@ -5,7 +5,7 @@ import { setRegion } from "../../../../redux/modules/partyFilterSlice";
 import { getPartyRegionList } from "../../../../api/region";
 import RegionButton from "./RegionButton";
 
-function RegionModal({ showModal, setShowModal }) {
+function RegionModal({ showModal, setShowModal, setShowKakaoChatModal }) {
   const dispatch = useDispatch();
   const modalRef = useRef();
   const region = useSelector((state) => state.partyFilter.region);
@@ -13,8 +13,12 @@ function RegionModal({ showModal, setShowModal }) {
   const [regionData, setRegionData] = useState([]);
 
   const regionClickHandler = (target) => {
-    dispatch(setRegion(target));
     setShowModal(false);
+    if (target.includes("그 외")) {
+      setShowKakaoChatModal(true);
+      return;
+    }
+    dispatch(setRegion(target));
   };
 
   const closeModal = () => setShowModal(false);

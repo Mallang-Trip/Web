@@ -9,6 +9,7 @@ import {
   deleteNotification,
   getNotification,
   putNotification,
+  putAllNotification,
 } from "../../../api/notification";
 import NotifyItem from "./NotifyItem";
 import EmptyNotify from "./EmptyNotify";
@@ -21,6 +22,10 @@ function NotifyList() {
     PARTY: "/party/detail/",
     ARTICLE: "/community/",
     DRIVER: "/driver/profile/",
+  };
+
+  const clickAllNotifyHandler = () => {
+    putAllNotification();
   };
 
   const clickNotifyHandler = (alarmId, type, targetId) => {
@@ -49,6 +54,14 @@ function NotifyList() {
 
   return (
     <div className="w-full">
+      {notification.length !== 0 && (
+        <button
+          className="flex justify-end items-center bg-white text-darkgray border border-mediumgray text-xs rounded-lg px-4 py-3 mb-3 ml-auto"
+          onClick={() => clickAllNotifyHandler()}
+        >
+          전체 알림 확인
+        </button>
+      )}
       {notification.length === 0 ? (
         <EmptyNotify />
       ) : (

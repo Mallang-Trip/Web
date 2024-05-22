@@ -22,6 +22,7 @@ function SearchAcount({
   const [limit, setLimit] = useState(-1);
   const [timer, setTimer] = useState(undefined);
   const [showNoInputModal, setShowNoInputModal] = useState(false);
+  const [showCodeSendedModal, setShowCodeSendedModal] = useState(false);
   const [showNoUserModal, setShowNoUserModal] = useState(false);
   const [showCodeInvalidModal, setShowCodeInvalidModal] = useState(false);
   const [showCodeErrorModal, setShowCodeErrorModal] = useState(false);
@@ -44,7 +45,7 @@ function SearchAcount({
     try {
       const result = await getCertificationCode(phoneNumber);
       if (result.statusCode !== 200) return setShowNoUserModal(true);
-
+      setShowCodeSendedModal(true);
       setCodeTransmission(true);
       setLimit(300);
       codeInput.current.focus();
@@ -201,6 +202,11 @@ function SearchAcount({
         showModal={showNoInputModal}
         setShowModal={setShowNoInputModal}
         message={"휴대전화 번호를 정확하게 입력해 주세요."}
+      />
+      <ConfirmModal
+        showModal={showCodeSendedModal}
+        setShowModal={setShowCodeSendedModal}
+        message={"인증번호가 전송되었습니다."}
       />
       <ConfirmModal
         showModal={showNoUserModal}

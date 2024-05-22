@@ -65,7 +65,7 @@ function PlaceMap({
     if (courseData?.length && !onlyAllPlace) setMarkerData(courseData);
     else if (searchKeyword) return;
     else getAllMarkersFunc();
-  }, [courseData]);
+  }, []);
 
   return (
     <div className="relative">
@@ -81,8 +81,6 @@ function PlaceMap({
             searchKeyword={searchKeyword}
             setSearchKeyword={setSearchKeyword}
             submitHandler={submitHandler}
-            onlyAllPlace={onlyAllPlace}
-            getAllMarkersFunc={getAllMarkersFunc}
           />
         )}
       </div>

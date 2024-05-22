@@ -1,6 +1,7 @@
 import Information from "../../UserProfile/Information";
 
 function Vehicle({
+  modifyMode,
   driverInfo,
   setDriverInfo,
   vehicleImageRef,
@@ -16,7 +17,7 @@ function Vehicle({
         <Information
           title={"모델 명"}
           content={driverInfo.vehicleModel}
-          modifyMode={true}
+          modifyMode={modifyMode}
           onChangeHandler={(e) =>
             setDriverInfo({ ...driverInfo, vehicleModel: e.target.value })
           }
@@ -25,7 +26,7 @@ function Vehicle({
           title={"승객 탑승 정원"}
           content={driverInfo.vehicleCapacity}
           subString={"명"}
-          modifyMode={true}
+          modifyMode={modifyMode}
           onChangeHandler={(e) =>
             setDriverInfo({
               ...driverInfo,
@@ -37,8 +38,8 @@ function Vehicle({
 
       <div
         className="w-80 mt-5 rounded-2xl mx-auto relative"
-        onMouseEnter={() => setModifyVehicleImage(true)}
-        onMouseLeave={() => setModifyVehicleImage(false)}
+        onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
+        onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
       >
         <img
           src={

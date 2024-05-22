@@ -1,6 +1,6 @@
 import DriverIntroduction from "./DriverIntroduction";
 
-function Introduction({ driverInfo, setDriverInfo }) {
+function Introduction({ modifyMode, driverInfo, setDriverInfo }) {
   return (
     <>
       <p className="text-lg font-bold text-black mt-12 mb-5">
@@ -8,6 +8,7 @@ function Introduction({ driverInfo, setDriverInfo }) {
       </p>
       <div>
         <DriverIntroduction
+          modifyMode={modifyMode}
           content={driverInfo.introduction}
           onChangeHandler={(e) =>
             setDriverInfo({

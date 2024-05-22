@@ -3,7 +3,7 @@ import { priceToString } from "../../../../utils";
 import PriceInfo from "./PriceInfo";
 import PriceModal from "./PriceModal";
 
-function Price({ driverInfo, setDriverInfo }) {
+function Price({ modifyMode, driverInfo, setDriverInfo }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ function Price({ driverInfo, setDriverInfo }) {
           <PriceInfo
             key={price.hours + price.price}
             content={`${price.hours}시간당 ${priceToString(price.price)}원`}
-            modifyMode={true}
+            modifyMode={modifyMode}
             setShowModal={setShowModal}
           />
         ))}

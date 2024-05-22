@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { __asyncAuth } from "../../../redux/modules/userSlice";
 import { uploadProfileImage } from "../../../api/image";
@@ -14,12 +14,14 @@ function UserProfile() {
   const dispatch = useDispatch();
   const imageRef = useRef();
   const user = useSelector((state) => state.user);
+  const [modifyMode, setModifyMode] = useState(false);
   const [modifyImage, setModifyImage] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [introduction, setIntroduction] = useState(user.introduction);
   const [email, setEmail] = useState(user.email);
   const [modifyProfileImage, setModifyProfileImage] = useState(undefined);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
 
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
@@ -34,6 +36,8 @@ function UserProfile() {
   const emailHandler = (e) => setEmail(e.target.value);
 
   const modifyProfileHandler = async () => {
+    if (!modifyMode) return setModifyMode(true);
+
     const profileImageURL = modifyProfileImage
       ? await uploadProfileImage(modifyProfileImage)
       : user.profileImg;
@@ -47,29 +51,69 @@ function UserProfile() {
       });
 
       setShowCompleteModal(true);
+      setModifyMode(false);
       dispatch(__asyncAuth());
     } catch (e) {
       console.log(e);
     }
   };
 
+  const autoSaveHandler = async () => {
+    const profileImageURL = modifyProfileImage
+      ? await uploadProfileImage(modifyProfileImage)
+      : user.profileImg;
+
+    try {
+      await putProfile({
+        email: email,
+        introduction: introduction,
+        nickname: user.nickname,
+        profileImg: profileImageURL,
+      });
+      dispatch(__asyncAuth());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    setAutoSave(false);
+    setTimeout(() => setAutoSave(true), 2000);
+  }, [email, introduction, modifyProfileImage]);
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    autoSaveHandler();
+  }, [autoSave]);
+
   return (
     <>
       <ProfileImage
+        modifyMode={modifyMode}
         modifyImage={modifyImage}
         setModifyImage={setModifyImage}
         modifyProfileImage={modifyProfileImage}
         imageHandler={imageHandler}
         imageRef={imageRef}
       />
-      <ProfileHeader modifyProfileHandler={modifyProfileHandler} />
+      <ProfileHeader
+        autoSave={autoSave}
+        modifyMode={modifyMode}
+        modifyProfileHandler={modifyProfileHandler}
+      />
       <BasicInfo
+        modifyMode={modifyMode}
         phoneNumber={phoneNumber}
         phoneNumberHandler={phoneNumberHandler}
         introduction={introduction}
         introductionHandler={introductionHandler}
       />
-      <LoginInfo email={email} emailHandler={emailHandler} />
+      <LoginInfo
+        modifyMode={modifyMode}
+        email={email}
+        emailHandler={emailHandler}
+      />
 
       <ConfirmModal
         showModal={showCompleteModal}

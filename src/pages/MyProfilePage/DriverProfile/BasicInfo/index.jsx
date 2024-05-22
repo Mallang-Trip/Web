@@ -6,7 +6,7 @@ import RegionModal from "./RegionModal";
 import HolidayModal from "./HolidayModal";
 import AccountModal from "./AccountModal";
 
-function BasicInfo({ driverInfo, setDriverInfo }) {
+function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showHolidayModal, setShowHolidayModal] = useState(false);
   const [showAccountModal, setShowAccountModal] = useState(false);
@@ -18,7 +18,7 @@ function BasicInfo({ driverInfo, setDriverInfo }) {
         <Information
           title={"활동 가능 지역"}
           content={driverInfo.region}
-          modifyMode={true}
+          modifyMode={modifyMode}
           onClick={() => setShowRegionModal(true)}
         />
         <Information
@@ -31,13 +31,13 @@ function BasicInfo({ driverInfo, setDriverInfo }) {
               })
               .join(", ") || "없음"
           }
-          modifyMode={true}
+          modifyMode={modifyMode}
           onClick={() => setShowHolidayModal(true)}
         />
         <Information
           title={"입금 계좌"}
           content={`${driverInfo.bank} ${driverInfo.accountNumber}`}
-          modifyMode={true}
+          modifyMode={modifyMode}
           onClick={() => setShowAccountModal(true)}
         />
         <Information

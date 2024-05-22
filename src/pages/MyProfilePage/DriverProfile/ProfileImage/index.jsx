@@ -1,6 +1,7 @@
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ProfileImage({
+  modifyMode,
   setModifyProfileImage,
   newProfileImage,
   driverInfo,
@@ -12,8 +13,8 @@ function ProfileImage({
     <div className="flex justify-center mt-5">
       <div
         className="w-[170px] h-[170px] rounded-full relative"
-        onMouseEnter={() => setModifyProfileImage(true)}
-        onMouseLeave={() => setModifyProfileImage(false)}
+        onMouseEnter={() => modifyMode && setModifyProfileImage(true)}
+        onMouseLeave={() => modifyMode && setModifyProfileImage(false)}
       >
         <img
           src={

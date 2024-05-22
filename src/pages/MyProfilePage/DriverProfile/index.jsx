@@ -15,11 +15,13 @@ import ConfirmModal from "../../../components/ConfirmModal";
 function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   const profileImageRef = useRef();
   const vehicleImageRef = useRef();
+  const [modifyMode, setModifyMode] = useState(false);
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
   const [newVehicleImage, setNewVehicleImage] = useState(undefined);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
 
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
@@ -35,6 +37,8 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   };
 
   const modifyProfileHandler = async () => {
+    if (!modifyMode) return setModifyMode(true);
+
     const profileImageURL = newProfileImage
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
@@ -64,11 +68,56 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       await putDriverMyInfo(body);
 
       setShowCompleteModal(true);
+      setModifyMode(false);
       getMyDriverInfo();
     } catch (e) {
       console.log(e);
     }
   };
+
+  const autoSaveHandler = async () => {
+    const profileImageURL = newProfileImage
+      ? await uploadImage(newProfileImage)
+      : driverInfo.profileImg;
+
+    const vehicleImageURL = newVehicleImage
+      ? await uploadImage(newVehicleImage)
+      : driverInfo.vehicleImg;
+
+    const body = {
+      accountHolder: driverInfo.accountHolder,
+      accountNumber: driverInfo.accountNumber,
+      bank: driverInfo.bank,
+      holidays: driverInfo.holidays,
+      introduction: driverInfo.introduction,
+      phoneNumber: driverInfo.phoneNumber,
+      prices: driverInfo.prices,
+      profileImg: profileImageURL,
+      region: driverInfo.region,
+      vehicleCapacity: driverInfo.vehicleCapacity,
+      vehicleImg: vehicleImageURL,
+      vehicleModel: driverInfo.vehicleModel,
+      vehicleNumber: driverInfo.vehicleNumber,
+      weeklyHolidays: driverInfo.weeklyHoliday,
+    };
+
+    try {
+      await putDriverMyInfo(body);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    setAutoSave(false);
+    setTimeout(() => setAutoSave(true), 2000);
+  }, [newProfileImage, newVehicleImage, driverInfo]);
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    autoSaveHandler();
+  }, [autoSave]);
 
   useEffect(() => {
     window.scrollTo({
@@ -80,6 +129,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   return (
     <>
       <ProfileImage
+        modifyMode={modifyMode}
         setModifyProfileImage={setModifyProfileImage}
         newProfileImage={newProfileImage}
         driverInfo={driverInfo}
@@ -88,12 +138,23 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
         profileImageHandler={profileImageHandler}
       />
       <ProfileHeader
+        autoSave={autoSave}
         driverInfo={driverInfo}
         modifyProfileHandler={modifyProfileHandler}
+        modifyMode={modifyMode}
       />
-      <BasicInfo driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
-      <Introduction driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
+      <BasicInfo
+        modifyMode={modifyMode}
+        driverInfo={driverInfo}
+        setDriverInfo={setDriverInfo}
+      />
+      <Introduction
+        modifyMode={modifyMode}
+        driverInfo={driverInfo}
+        setDriverInfo={setDriverInfo}
+      />
       <Vehicle
+        modifyMode={modifyMode}
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
         vehicleImageRef={vehicleImageRef}
@@ -102,7 +163,11 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
         newVehicleImage={newVehicleImage}
         vehicleImageHandler={vehicleImageHandler}
       />
-      <Price driverInfo={driverInfo} setDriverInfo={setDriverInfo} />
+      <Price
+        modifyMode={modifyMode}
+        driverInfo={driverInfo}
+        setDriverInfo={setDriverInfo}
+      />
       <PartyCourse driverInfo={driverInfo} />
 
       <ConfirmModal

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth, login, refresh } from "../../api/users";
+import { deleteFirebaseToken } from "../../api/notification";
 
 const initialState = {
   auth: false,
@@ -72,11 +73,20 @@ const __asyncRefreshAuth = createAsyncThunk("userSlice/asyncAuth", async () => {
   }
 });
 
+const __deleteFirebaseToken = async () => {
+  try {
+    await deleteFirebaseToken();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     logout: (state) => {
+      __deleteFirebaseToken();
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       state.auth = false;

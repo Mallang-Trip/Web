@@ -8,12 +8,15 @@ import Payment from "./Payment";
 import Help from "./CustomerService/Help";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
+import NotiMail from "./Notification/Noti-mail";
+import Feedback from "./Management/Feedback";
 import Party from "./Management/Party";
 import Place from "./Management/Place";
 import Region from "./Management/Region";
 import DriverRegistration from "./User/DriverRegistration";
 import DriverInfo from "./User/DriverInfo";
 import UserInfo from "./User/UserInfo";
+import AdminAuth from "./User/AdminAuth";
 
 function AdminPage() {
   const { type } = useParams();
@@ -75,12 +78,15 @@ function AdminPage() {
         {type === "help" && <Help />}
         {type === "report" && <Report />}
         {type === "noti" && <Noti />}
+        {type === "noti-mail" && <NotiMail />}
+        {type === "feedback" && <Feedback />}
         {type === "party" && <Party />}
         {type === "place" && <Place />}
         {type === "region" && <Region />}
         {type === "driver-registration" && <DriverRegistration />}
         {type === "driver-info" && <DriverInfo />}
         {type === "user-info" && <UserInfo />}
+        {type === "admin-auth" && <AdminAuth />}
       </div>
     </div>
   );

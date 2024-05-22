@@ -8,6 +8,9 @@ export const putNotification = async (notificationId) =>
 export const deleteNotification = async (notificationId) =>
   await DELETE(`/notification/${notificationId}`, true);
 
+export const putAllNotification = async () =>
+  await PUT("/notification/all", {}, true);
+
 export const postFirebaseToken = async (body) =>
   await POST("/firebase", body, true);
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { __asyncAuth } from "../../../redux/modules/userSlice";
 import { uploadProfileImage } from "../../../api/image";
@@ -21,6 +21,7 @@ function UserProfile() {
   const [email, setEmail] = useState(user.email);
   const [modifyProfileImage, setModifyProfileImage] = useState(undefined);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
 
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
@@ -57,6 +58,35 @@ function UserProfile() {
     }
   };
 
+  const autoSaveHandler = async () => {
+    const profileImageURL = modifyProfileImage
+      ? await uploadProfileImage(modifyProfileImage)
+      : user.profileImg;
+
+    try {
+      await putProfile({
+        email: email,
+        introduction: introduction,
+        nickname: user.nickname,
+        profileImg: profileImageURL,
+      });
+      dispatch(__asyncAuth());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    setAutoSave(false);
+    setTimeout(() => setAutoSave(true), 2000);
+  }, [email, introduction, modifyProfileImage]);
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    autoSaveHandler();
+  }, [autoSave]);
+
   return (
     <>
       <ProfileImage
@@ -68,6 +98,7 @@ function UserProfile() {
         imageRef={imageRef}
       />
       <ProfileHeader
+        autoSave={autoSave}
         modifyMode={modifyMode}
         modifyProfileHandler={modifyProfileHandler}
       />

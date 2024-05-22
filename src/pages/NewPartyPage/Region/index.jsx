@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import { getPartyRegionList } from "../../../api/region";
+import CheckModal from "../../../components/CheckModal";
 import RegionButton from "./RegionButton";
 
 function Region({ setRegion, member, driverId, date }) {
   const [regionData, setRegionData] = useState([]);
+  const [showKakaoChatModal, setShowKakaoChatModal] = useState(false);
+
+  const kakaoChatHandler = () => {
+    const newWindow = window.open(
+      "http://pf.kakao.com/_tfMxaG/chat",
+      "_blank",
+      "noopener,noreferrer"
+    );
+    if (newWindow) newWindow.opener = null;
+    setShowKakaoChatModal(false);
+  };
 
   const getPartyRegionListFunc = async () => {
     try {
@@ -32,9 +44,18 @@ function Region({ setRegion, member, driverId, date }) {
             member={member}
             driverId={driverId}
             date={date}
+            setShowKakaoChatModal={setShowKakaoChatModal}
           />
         ))}
       </div>
+      <CheckModal
+        showModal={showKakaoChatModal}
+        setShowModal={setShowKakaoChatModal}
+        message={`여행을 희망하시는 지역을\n말랑트립 카카오톡으로 알려주세요.\n\n카카오톡 1:1 상담으로 이동하시겠습니까?`}
+        noText="아니오"
+        yesText="예"
+        yesHandler={kakaoChatHandler}
+      />
     </>
   );
 }

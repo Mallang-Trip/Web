@@ -22,12 +22,12 @@ function SaveButton({ courseId, saveHandler }) {
           className="h-14 text-white rounded-full text-lg font-bold w-80 bg-primary border border-primary"
           onClick={saveHandler}
         >
-          {courseId === "new" ? "등록하기" : "수정하기"}
+          {courseId === "new" ? "등록하기" : "저장하기"}
         </button>
       </div>
       {scrollPosition > 300 && (
         <BottomButton
-          text={courseId === "new" ? "등록하기" : "수정하기"}
+          text={courseId === "new" ? "등록하기" : "저장하기"}
           onClick={saveHandler}
         />
       )}

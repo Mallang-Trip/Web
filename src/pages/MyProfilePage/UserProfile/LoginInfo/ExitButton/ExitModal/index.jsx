@@ -25,16 +25,18 @@ function ExitModal({ showModal, setShowModal }) {
 
       if (statusCode !== 200)
         setMessage(
-          "예약된 파티 내역이 남아 있어 탈퇴 실패했습니다.\n해당 파티를 예약 취소한 뒤 처리해주세요."
+          "예약된 파티 내역이 남아 있어 탈퇴 실패했습니다.\n해당 파티를 예약 취소한 뒤 처리해주세요.\n\n문제 발생 시 고객센터로 문의해주세요."
         );
       else {
-        alert("말랑트립 회원 탈퇴 완료하였습니다.");
+        alert("말랑트립 회원 탈퇴 완료하였습니다.\n\n이용해주셔서 감사합니다.");
         dispatch(logout());
         navigation("/", { replace: true });
       }
     } catch (e) {
       console.log(e);
-      setMessage("회원 탈퇴에 실패했습니다.");
+      setMessage(
+        "회원 탈퇴에 실패했습니다.\n문제 발생 시 고객센터로 문의해주세요."
+      );
     } finally {
       setShowMessageModal(true);
     }

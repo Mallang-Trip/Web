@@ -1,3 +1,9 @@
+self.addEventListener("install", (e) => {
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", (e) => {});
+
 self.addEventListener("push", (e) => {
   if (!e.data.json()) return;
 

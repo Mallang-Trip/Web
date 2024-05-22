@@ -31,8 +31,9 @@ function CourseImage({ images, setImages }) {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          className={`bg-primary ${
-                            snapshot.isDragging && "border-2 border-primary"
+                          className={`ml-4 ${
+                            snapshot.isDragging &&
+                            "ring ring-primary rounded-lg"
                           }`}
                         >
                           <ImageItem

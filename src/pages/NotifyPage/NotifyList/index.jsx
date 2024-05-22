@@ -18,14 +18,18 @@ function NotifyList() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const notification = useSelector((state) => state.notification.notification);
+  const uncheckedCount = useSelector(
+    (state) => state.notification.uncheckedCount
+  );
   const url = {
     PARTY: "/party/detail/",
     ARTICLE: "/community/",
     DRIVER: "/driver/profile/",
   };
 
-  const clickAllNotifyHandler = () => {
-    putAllNotification();
+  const clickAllNotifyHandler = async () => {
+    await putAllNotification();
+    await getNotificationFunc();
   };
 
   const clickNotifyHandler = (alarmId, type, targetId) => {
@@ -54,10 +58,10 @@ function NotifyList() {
 
   return (
     <div className="w-full">
-      {notification.length !== 0 && (
+      {uncheckedCount > 0 && (
         <button
           className="flex justify-end items-center bg-white text-darkgray border border-mediumgray text-xs rounded-lg px-4 py-3 mb-3 ml-auto"
-          onClick={() => clickAllNotifyHandler()}
+          onClick={clickAllNotifyHandler}
         >
           전체 알림 확인
         </button>

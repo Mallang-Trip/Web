@@ -8,6 +8,7 @@ import Payment from "./Payment";
 import Help from "./CustomerService/Help";
 import Report from "./CustomerService/Report";
 import Noti from "./Notification/Noti";
+import NotiMail from "./Notification/Noti-mail";
 import Feedback from "./Management/Feedback";
 import Party from "./Management/Party";
 import Place from "./Management/Place";
@@ -77,6 +78,7 @@ function AdminPage() {
         {type === "help" && <Help />}
         {type === "report" && <Report />}
         {type === "noti" && <Noti />}
+        {type === "noti-mail" && <NotiMail />}
         {type === "feedback" && <Feedback />}
         {type === "party" && <Party />}
         {type === "place" && <Place />}

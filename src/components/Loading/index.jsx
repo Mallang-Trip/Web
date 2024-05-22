@@ -4,7 +4,7 @@ function Loading({ full }) {
   return (
     <>
       <div
-        className={`w-full flex justify-center items-center ${
+        className={`w-full flex justify-center items-center bg-white ${
           full ? "fixed top-0 left-0 h-real-screen" : "my-10"
         }`}
       >

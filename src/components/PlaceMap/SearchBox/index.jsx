@@ -1,12 +1,6 @@
 import cross from "../../../assets/svg/cross.svg";
 
-function SearchBox({
-  searchKeyword,
-  setSearchKeyword,
-  submitHandler,
-  onlyAllPlace,
-  getAllMarkersFunc,
-}) {
+function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }) {
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center">
       <div className="relative flex w-64 mt-4">
@@ -38,10 +32,7 @@ function SearchBox({
         {searchKeyword && (
           <button
             className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
-            onClick={() => {
-              setSearchKeyword("");
-              // if (onlyAllPlace) getAllMarkersFunc();
-            }}
+            onClick={() => setSearchKeyword("")}
           >
             <img src={cross} />
           </button>

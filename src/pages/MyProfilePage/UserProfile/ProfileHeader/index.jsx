@@ -13,7 +13,7 @@ function ProfileHeader({ modifyMode, modifyProfileHandler, autoSave }) {
         {modifyMode && (
           <p className="flex justify-center items-center mb-2 text-sm text-primary font-medium">
             {autoSave ? (
-              "임시 저장 완료"
+              "자동 저장 완료"
             ) : (
               <>
                 <svg
@@ -32,14 +32,14 @@ function ProfileHeader({ modifyMode, modifyProfileHandler, autoSave }) {
                     fill="currentFill"
                   />
                 </svg>
-                임시 저장 중...
+                자동 저장 중...
               </>
             )}
           </p>
         )}
         <EditButton
           onClick={modifyProfileHandler}
-          title={modifyMode ? "저장" : "프로필 수정"}
+          title={modifyMode ? "완료" : "프로필 수정"}
         />
       </div>
     </div>

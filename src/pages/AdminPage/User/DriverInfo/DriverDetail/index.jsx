@@ -27,6 +27,7 @@ function DriverDetail() {
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
   const [newVehicleImage, setNewVehicleImage] = useState(undefined);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
   const driverId = searchParams.get("driverId");
 
@@ -92,6 +93,50 @@ function DriverDetail() {
     }
   };
 
+  const autoSaveHandler = async () => {
+    const profileImageURL = newProfileImage
+      ? await uploadImage(newProfileImage)
+      : driverInfo.profileImg;
+
+    const vehicleImageURL = newVehicleImage
+      ? await uploadImage(newVehicleImage)
+      : driverInfo.vehicleImg;
+
+    const body = {
+      accountHolder: driverInfo.accountHolder,
+      accountNumber: driverInfo.accountNumber,
+      bank: driverInfo.bank,
+      holidays: driverInfo.holidays,
+      introduction: driverInfo.introduction,
+      phoneNumber: driverInfo.phoneNumber,
+      prices: driverInfo.prices,
+      profileImg: profileImageURL,
+      region: driverInfo.region,
+      vehicleCapacity: driverInfo.vehicleCapacity,
+      vehicleImg: vehicleImageURL,
+      vehicleModel: driverInfo.vehicleModel,
+      vehicleNumber: driverInfo.vehicleNumber,
+      weeklyHolidays: driverInfo.weeklyHoliday,
+    };
+
+    try {
+      await putDriverInfoDetail(driverId, body);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    setAutoSave(false);
+    setTimeout(() => setAutoSave(true), 2000);
+  }, [newProfileImage, newVehicleImage, driverInfo]);
+
+  useEffect(() => {
+    if (!modifyMode || !autoSave) return;
+    autoSaveHandler();
+  }, [autoSave]);
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
     getDriverInfoDetailFunc();
@@ -110,6 +155,7 @@ function DriverDetail() {
         profileImageHandler={profileImageHandler}
       />
       <ProfileHeader
+        autoSave={autoSave}
         driverInfo={driverInfo}
         modifyProfileHandler={modifyProfileHandler}
         modifyMode={modifyMode}

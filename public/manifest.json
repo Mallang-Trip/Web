@@ -66,6 +66,12 @@
       "purpose": "maskable"
     },
     {
+      "src": "./icons/apple-touch-icon-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
       "src": "./icons/windows11/SmallTile.scale-100.png",
       "sizes": "71x71",
       "type": "image/png",
@@ -542,6 +548,12 @@
     {
       "src": "./icons/windows11/Square44x44Logo.altform-lightunplated_targetsize-256.png",
       "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/android/android-launchericon-1024-1024.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
     },

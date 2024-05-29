@@ -186,7 +186,8 @@ function PartyPage() {
   const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
-      if (result.statusCode === 200) setPartyData(result.payload);
+      if (result.statusCode === 403 && !user.auth) navigation("/login");
+      else if (result.statusCode === 200) setPartyData(result.payload);
       else setPartyData({ partyId: -1 });
 
       if (toScrollTop) window.scrollTo({ top: 0 });

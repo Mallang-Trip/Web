@@ -28,7 +28,9 @@ function LandingPage() {
         <DriverHome />
       ) : (
         <>
-          <Title title="어디로 떠나고 싶으신가요?" />
+          <div className="mx-5 md:mx-0">
+            <Title title="어디로 떠나고 싶으신가요?" />
+          </div>
           <PartyFilter />
           <UserMenu userMenu={userMenu} setUserMenu={setUserMenu} />
           {userMenu === "recommend" ? <PartyList /> : <MyPartyList />}

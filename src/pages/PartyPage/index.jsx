@@ -190,6 +190,13 @@ function PartyPage() {
       else if (result.statusCode === 200) setPartyData(result.payload);
       else setPartyData({ partyId: -1 });
 
+      if (
+        result?.payload?.myParty === true &&
+        (type === "join" || type === "edit")
+      ) {
+        navigation(`/party/detail/${partyId}`, { replace: true });
+      }
+
       if (toScrollTop) window.scrollTo({ top: 0 });
     } catch (e) {
       console.log(e);

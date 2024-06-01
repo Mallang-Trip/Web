@@ -3,6 +3,13 @@ export function setScreenHeight() {
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 
+export function setAutoLogin() {
+  if (localStorage.getItem("autoLogin") !== "false") return;
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("autoLogin");
+}
+
 export function setColorTheme() {
   // if (
   //   localStorage.getItem("color-theme") === "dark" ||

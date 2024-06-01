@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "../../../redux/modules/userSlice";
 import ConfirmModal from "../../../components/ConfirmModal";
+import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
 
 function LoginForm() {
   const navigation = useNavigate();
@@ -12,6 +13,7 @@ function LoginForm() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [autoLogin, setAutoLogin] = useState(true);
 
   const idHandler = (e) => setId(e.target.value);
   const passwordHandler = (e) => setPassword(e.target.value);
@@ -20,6 +22,8 @@ function LoginForm() {
 
     idRef.current.blur();
     passwordRef.current.blur();
+
+    localStorage.setItem("autoLogin", autoLogin);
 
     const body = {
       id: id,
@@ -52,12 +56,32 @@ function LoginForm() {
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
-          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 mt-6 mb-12 ${
+          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 my-6 ${
             password && "font-mono"
           }`}
           value={password}
           onChange={passwordHandler}
         />
+        <div className="mb-10">
+          <input
+            id="auto_login"
+            type="checkbox"
+            className="hidden"
+            checked={autoLogin}
+            onChange={() => setAutoLogin(!autoLogin)}
+          />
+          <div className="flex items-center h-full">
+            <label
+              htmlFor="auto_login"
+              className="flex items-center cursor-pointer"
+            >
+              <div className="relative w-3 h-3 mx-3 border border-darkgray">
+                {autoLogin && <Check className="absolute -top-0.5 -left-0.5" />}
+              </div>
+              <span className="text-darkgray text-sm">로그인 유지</span>
+            </label>
+          </div>
+        </div>
         <div className="flex flex-col items-center gap-3">
           <button
             type="submit"

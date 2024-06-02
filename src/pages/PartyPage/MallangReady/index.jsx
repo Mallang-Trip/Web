@@ -16,27 +16,28 @@ function MallangReady({
 }) {
   const user = useSelector((state) => state.user);
   const { partyId } = useParams();
-  const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
-  const [isLast, setIsLast] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const readyClickHandler = async () => {
     try {
-      if (isLast && !ready) {
-        setShowCheckModal(true);
-      } else {
-        if (isLast) setLoading(true);
-        await putMallangReady(partyId, !ready);
-        setReady(!ready);
-        getPartyData();
-      }
+      await putMallangReady(partyId, !ready);
+      setReady(!ready);
+      getPartyData();
+      setShowCheckModal(false);
     } catch (e) {
       console.log(e);
+      alert("말랑레디 오류가 발생했습니다.");
     } finally {
-      if (partyStatus !== "RECRUITING") setLoading(false);
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!loading) return;
+    readyClickHandler();
+  }, [loading]);
 
   useEffect(() => {
     if (user.role === "ROLE_DRIVER")
@@ -51,13 +52,8 @@ function MallangReady({
           partyStatus === "SEALED" ||
           partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
       );
-    const readyMembers = members.filter((member) => member.ready);
-    if (readyMembers.length === members.length - 1 && !ready) {
-      setIsLast(true);
-    }
   }, []);
 
-  if (loading) return <Loading full={true} />;
   if (computeGapDay(startDate) <= 0 && partyStatus !== "RECRUITING")
     return null;
   return (
@@ -70,7 +66,7 @@ function MallangReady({
               ? "bg-primary text-white border-primary"
               : "bg-white text-darkgray border-darkgray"
           }`}
-          onClick={readyClickHandler}
+          onClick={() => setShowCheckModal(true)}
           disabled={partyStatus !== "RECRUITING"}
         >
           {partyStatus === "RECRUITING"
@@ -84,13 +80,18 @@ function MallangReady({
       <CheckModal
         showModal={showCheckModal}
         setShowModal={setShowCheckModal}
-        message={`말랑레디를 누르시겠습니까?\n\n누르는 순간 예약이 확정되며\n결제가 즉시 진행됩니다`}
+        message={
+          !showCheckModal || loading ? (
+            <Loading />
+          ) : ready ? (
+            "말랑레디를 취소하시겠습니까?"
+          ) : (
+            "말랑레디를 누르시겠습니까?\n\n모든 인원이 레디를 누르면\n예약이 확정되며 즉시 결제됩니다."
+          )
+        }
         noText="아니오"
         yesText="예"
-        yesHandler={() => {
-          setReady(!ready);
-          readyClickHandler();
-        }}
+        yesHandler={() => setLoading(true)}
       />
     </div>
   );

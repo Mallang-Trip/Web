@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import newPartyIcon from "../../../assets/svg/new-party-icon.svg";
 
 function NewPartyButton() {
+  const user = useSelector((state) => state.user);
   const navigation = useNavigate();
 
+  if (user.role === "ROLE_DRIVER") return null;
   return (
     <button
       type="button"

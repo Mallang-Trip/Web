@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { putMallangReady } from "../../../api/party";
 import { computeGapDay } from "../../../utils";
+import Loading from "../../../components/Loading";
+import CheckModal from "../../../components/CheckModal";
 import WhatReady from "./WhatReady";
 
 function MallangReady({
@@ -15,16 +17,27 @@ function MallangReady({
   const user = useSelector((state) => state.user);
   const { partyId } = useParams();
   const [ready, setReady] = useState(false);
+  const [showCheckModal, setShowCheckModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const readyClickHandler = async () => {
     try {
       await putMallangReady(partyId, !ready);
       setReady(!ready);
       getPartyData();
+      setShowCheckModal(false);
     } catch (e) {
       console.log(e);
+      alert("말랑레디 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!loading) return;
+    readyClickHandler();
+  }, [loading]);
 
   useEffect(() => {
     if (user.role === "ROLE_DRIVER")
@@ -53,7 +66,7 @@ function MallangReady({
               ? "bg-primary text-white border-primary"
               : "bg-white text-darkgray border-darkgray"
           }`}
-          onClick={readyClickHandler}
+          onClick={() => setShowCheckModal(true)}
           disabled={partyStatus !== "RECRUITING"}
         >
           {partyStatus === "RECRUITING"
@@ -64,6 +77,22 @@ function MallangReady({
         </button>
       </div>
       <WhatReady />
+      <CheckModal
+        showModal={showCheckModal}
+        setShowModal={setShowCheckModal}
+        message={
+          !showCheckModal || loading ? (
+            <Loading />
+          ) : ready ? (
+            "말랑레디를 취소하시겠습니까?"
+          ) : (
+            "말랑레디를 누르시겠습니까?\n\n모든 인원이 레디를 누르면\n예약이 확정되며 즉시 결제됩니다."
+          )
+        }
+        noText="아니오"
+        yesText="예"
+        yesHandler={() => setLoading(true)}
+      />
     </div>
   );
 }

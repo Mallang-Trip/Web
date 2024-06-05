@@ -15,9 +15,9 @@ function NotFoundParty() {
         <div className="flex justify-center mt-16">
           <button
             className="h-12 text-white rounded-full text-md w-64 md:w-80 bg-primary"
-            onClick={() => navigation(-1, { replace: true })}
+            onClick={() => navigation("/", { replace: true })}
           >
-            이전 페이지로
+            다른 파티 찾아보기
           </button>
         </div>
       </div>

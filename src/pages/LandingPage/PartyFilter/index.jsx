@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CheckModal from "../../../components/CheckModal";
+import Loading from "../../../components/Loading";
 import Filter from "./Filter";
 import RegionModal from "./RegionModal";
 import DateModal from "./DateModal";
@@ -40,7 +41,13 @@ function PartyFilter() {
       <CheckModal
         showModal={showKakaoChatModal}
         setShowModal={setShowKakaoChatModal}
-        message={`여행을 희망하시는 지역을\n말랑트립 카카오톡으로 알려주세요.\n\n카카오톡 1:1 상담으로 이동하시겠습니까?`}
+        message={
+          showKakaoChatModal ? (
+            "여행을 희망하시는 지역을\n말랑트립 카카오톡으로 알려주세요.\n\n카카오톡 1:1 상담으로 이동하시겠습니까?"
+          ) : (
+            <Loading />
+          )
+        }
         noText="아니오"
         yesText="예"
         yesHandler={kakaoChatHandler}

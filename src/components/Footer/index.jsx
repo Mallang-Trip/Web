@@ -13,6 +13,11 @@ function Footer() {
         <Company />
         <Policy />
       </div>
+      <img
+        src="/icons/apple-touch-icon-1024x1024.png"
+        alt="말랑트립"
+        className="hidden"
+      />
     </div>
   );
 }

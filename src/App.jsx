@@ -1,23 +1,12 @@
-import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { setAutoLogin, setColorTheme, setScreenHeight } from "./utils";
 import store from "./redux/store";
 import Router from "./router";
 import PushNotification from "./components/PushNotification";
+import useInitialSetting from "./hooks/useInitialSetting";
 
 function App() {
-  useEffect(() => {
-    setColorTheme();
-    setScreenHeight();
-
-    window.addEventListener("unload", setAutoLogin);
-    window.addEventListener("resize", setScreenHeight);
-    return () => {
-      window.removeEventListener("unload", setAutoLogin);
-      window.removeEventListener("resize", setScreenHeight);
-    };
-  }, []);
+  useInitialSetting();
 
   return (
     <Provider store={store}>

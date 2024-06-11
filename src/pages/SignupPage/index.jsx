@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
 import { signup, checkDuplication } from "../../api/users";
-import { basicProfileImage } from "../../global";
+import { CONSTANT } from "../../utils/data";
 import PageContainer from "../../components/PageContainer";
 import Logo from "../../assets/images/logo.png";
 import Agreement from "./Agreement";
@@ -66,7 +66,7 @@ function SignupPage() {
     try {
       const profileImageURL = profileImage
         ? await uploadProfileImage(profileImage)
-        : basicProfileImage;
+        : CONSTANT.BASE_PROFILE_IMAGE;
 
       const body = {
         country: true ? "local" : "foreginer",

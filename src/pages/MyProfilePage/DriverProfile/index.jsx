@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { putDriverMyInfo } from "../../../api/driver";
 import { uploadImage } from "../../../api/image";
-import { MAX_SIZE_IMAGE } from "../../../global";
+import { CONSTANT } from "../../../utils/data";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import BasicInfo from "./BasicInfo";
@@ -25,13 +25,13 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
 
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
-    if (imageFile.size > MAX_SIZE_IMAGE)
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setNewProfileImage(imageFile || undefined);
   };
   const vehicleImageHandler = () => {
     const imageFile = vehicleImageRef.current.files[0];
-    if (imageFile.size > MAX_SIZE_IMAGE)
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setNewVehicleImage(imageFile || undefined);
   };

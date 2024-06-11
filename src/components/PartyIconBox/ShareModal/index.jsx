@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { basicProfileImage, thumbnailImage } from "../../../global";
+import { CONSTANT } from "../../../utils/data";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../assets/images/kakaoIcon.png";
@@ -27,10 +27,10 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName, type }) {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
-        IMAGE1: partyImages[0] || thumbnailImage,
+        IMAGE1: partyImages[0] || CONSTANT.THUMBNAIL_IMAGE,
         IMAGE2: partyImages[1] || null,
         IMAGE3: partyImages[2] || null,
-        PROFILE_IMAGE: user.profileImg || basicProfileImage,
+        PROFILE_IMAGE: user.profileImg || CONSTANT.BASE_PROFILE_IMAGE,
         PROFILE_NAME: user.nickname || "말랑트립",
         TITLE: partyName,
         DESCRIPTION:

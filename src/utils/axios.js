@@ -1,10 +1,9 @@
 import axios from "axios";
-import properties from "../config/properties";
 
 const fetchWrap = async ({ method, url, body, auth }) => {
   try {
     const config = {
-      baseURL: properties.baseURL,
+      baseURL: import.meta.env.VITE_BASE_SERVER_URL,
       withCredentials: true,
     };
 

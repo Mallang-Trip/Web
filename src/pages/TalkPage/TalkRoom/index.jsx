@@ -8,7 +8,6 @@ import { getChatRoomData } from "../../../api/chat";
 import { uploadImage } from "../../../api/image";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
-import properties from "../../../config/properties";
 import TalkRoomHead from "./TalkRoomHead";
 import TalkRoomBody from "./TalkRoomBody";
 import TalkRoomForm from "./TalkRoomForm";
@@ -117,7 +116,9 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
     if (client.current) client.current.deactivate();
 
     client.current = Stomp.over(() => {
-      const sock = new SockJS(properties.baseURL + "/ws/chat");
+      const sock = new SockJS(
+        import.meta.env.VITE_BASE_SERVER_URL + "/ws/chat"
+      );
       return sock;
     });
 

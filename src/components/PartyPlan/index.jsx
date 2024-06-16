@@ -11,7 +11,7 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }) {
 
   return (
     <div className="w-full md:w-3/4 px-5 mx-auto my-20">
-      <div className="flex justify-between items-center text-lg sm:text-2xl text-black font-bold">
+      <div className="flex justify-between items-center gap-2 text-lg sm:text-2xl text-black font-bold">
         <p>
           [{course.name}] 일정{" "}
           {comment && (

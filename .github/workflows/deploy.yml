@@ -12,6 +12,7 @@ jobs:
 
       - name: .env setting
         run: |
+          echo "VITE_BASE_SERVER_URL=${{ secrets.VITE_BASE_SERVER_URL }}" >> .env
           echo "VITE_APP_FCM_API_KEY=${{ secrets.VITE_APP_FCM_API_KEY }}" >> .env
           echo "VITE_APP_FCM_AUTH_DOMAIN=${{ secrets.VITE_APP_FCM_AUTH_DOMAIN }}" >> .env
           echo "VITE_APP_FCM_PROJECT_ID=${{ secrets.VITE_APP_FCM_PROJECT_ID }}" >> .env

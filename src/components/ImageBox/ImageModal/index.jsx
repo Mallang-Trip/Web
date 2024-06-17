@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Zoom, Navigation, Pagination } from "swiper/modules";
+import headerBack from "../../../assets/svg/header-back.svg";
 
 function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
   const modalRef = useRef();
@@ -34,6 +35,12 @@ function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
       ref={modalRef}
       onClick={(e) => modalOutSideClick(e)}
     >
+      <button
+        className="fixed top-3 left-3 z-50 rounded-xl hover:bg-black/10 w-8 h-8 flex items-center justify-center"
+        onClick={closeModal}
+      >
+        <img src={headerBack} alt="닫기" />
+      </button>
       <Swiper
         onSwiper={setSwiperRef}
         style={{

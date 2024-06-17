@@ -28,6 +28,10 @@ function PushNotification() {
     } catch (e) {
       console.log(e);
     }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/firebase-messaging-sw.js");
+    }
   };
 
   useEffect(() => {

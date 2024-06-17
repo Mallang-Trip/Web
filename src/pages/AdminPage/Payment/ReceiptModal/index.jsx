@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { basicProfileImage } from "../../../../global";
+import { CONSTANT } from "../../../../utils/data";
 import { priceToString } from "../../../../utils";
 import {
   driverPenaltyBefore,
@@ -81,7 +81,10 @@ function ReceiptModal({
               <div className="flex justify-between items-center gap-2">
                 <div className="w-60 h-14 px-3 flex items-center gap-3 border border-mediumgray rounded-lg">
                   <img
-                    src={receiptInfo.driverProfileImg || basicProfileImage}
+                    src={
+                      receiptInfo.driverProfileImg ||
+                      CONSTANT.BASE_PROFILE_IMAGE
+                    }
                     alt="profile"
                     className="w-9 h-9 rounded-full"
                   />
@@ -135,7 +138,7 @@ function ReceiptModal({
                   >
                     <div className="w-60 h-14 px-3 flex items-center gap-3 border border-mediumgray rounded-lg">
                       <img
-                        src={member.profileImg || basicProfileImage}
+                        src={member.profileImg || CONSTANT.BASE_PROFILE_IMAGE}
                         alt="profile"
                         className="w-9 h-9 rounded-full"
                       />

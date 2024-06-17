@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { uploadImage } from "../../../api/image";
-import { MAX_SIZE_IMAGE } from "../../../global";
+import { CONSTANT } from "../../../utils/data";
 import ImageInput from "./ImageInput";
 
 function DriverDocument({
@@ -15,7 +15,7 @@ function DriverDocument({
   const imageHandler = async (inputId) => {
     const imageFile = document.getElementById(inputId).files[0];
 
-    if (imageFile.size > MAX_SIZE_IMAGE)
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
 
     if (inputId === "driverLicense") {

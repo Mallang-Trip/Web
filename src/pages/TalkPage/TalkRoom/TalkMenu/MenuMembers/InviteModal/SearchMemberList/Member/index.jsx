@@ -27,7 +27,7 @@ function Member({
       onClick={clickHandler}
     >
       <img
-        className="mr-3 w-10 h-10 rounded-full"
+        className="mr-3 w-10 h-10 rounded-full object-cover shrink-0"
         src={profileImg || basicProfileImage}
         alt="Profile_Image"
       />

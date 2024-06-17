@@ -4,7 +4,6 @@ import { setPartyRoomId } from "../../redux/modules/talkRoomSlice";
 import { Stomp } from "@stomp/stompjs";
 import { getChatList } from "../../api/chat";
 import SockJS from "sockjs-client/dist/sockjs";
-import properties from "../../config/properties";
 import PageContainer from "../../components/PageContainer";
 import TalkList from "./TalkList";
 import TalkRoom from "./TalkRoom";
@@ -35,7 +34,9 @@ function TalkPage() {
     if (client.current) return;
 
     client.current = Stomp.over(() => {
-      const sock = new SockJS(properties.baseURL + "/ws/chat");
+      const sock = new SockJS(
+        import.meta.env.VITE_BASE_SERVER_URL + "/ws/chat"
+      );
       return sock;
     });
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../../../api/image";
 import { postComment } from "../../../api/driver";
 import { postDestinationComment } from "../../../api/destination";
-import { MAX_SIZE_IMAGE } from "../../../global";
+import { CONSTANT } from "../../../utils/data";
 import cameraIcon from "../../../assets/svg/camera.svg";
 import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
@@ -31,7 +31,7 @@ function AddComment({ id, isDriver, reloadData }) {
 
   const imageHandler = () => {
     const imageFile = imageRef.current.files[0];
-    if (imageFile.size > MAX_SIZE_IMAGE)
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setCommentImage(imageFile || undefined);
   };

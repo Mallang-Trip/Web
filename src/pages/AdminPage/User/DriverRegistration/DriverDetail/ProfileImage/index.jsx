@@ -1,10 +1,10 @@
-import { basicProfileImage } from "../../../../../../global";
+import { CONSTANT } from "../../../../../../utils/data";
 
 function ProfileImage({ name, profileImg }) {
   return (
     <div className="flex flex-col justify-center items-center mt-5">
       <img
-        src={profileImg || basicProfileImage}
+        src={profileImg || CONSTANT.BASE_PROFILE_IMAGE}
         alt={name}
         className="w-[170px] h-[170px] rounded-full"
       />

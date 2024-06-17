@@ -1,5 +1,4 @@
 import axios from "axios";
-import properties from "../config/properties";
 
 export const uploadProfileImage = async (image) => {
   try {
@@ -7,7 +6,7 @@ export const uploadProfileImage = async (image) => {
     formData.append("file", image);
 
     const config = {
-      baseURL: properties.baseURL,
+      baseURL: import.meta.env.VITE_BASE_SERVER_URL,
       withCredentials: true,
       headers: {
         "Contest-Type": "multipart/form-data",
@@ -27,7 +26,7 @@ export const uploadImage = async (image) => {
     formData.append("file", image);
 
     const config = {
-      baseURL: properties.baseURL,
+      baseURL: import.meta.env.VITE_BASE_SERVER_URL,
       withCredentials: true,
       headers: {
         "Contest-Type": "multipart/form-data",

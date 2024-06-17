@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { putPartyRegion } from "../../../../../../api/region";
 import { uploadImage } from "../../../../../../api/image";
-import { MAX_SIZE_IMAGE } from "../../../../../../global";
+import { CONSTANT } from "../../../../../../utils/data";
 
 function EditFormModal({
   showModal,
@@ -40,7 +40,7 @@ function EditFormModal({
 
   const imageUploadHandler = () => {
     const imageFile = imageRef.current.files[0];
-    if (imageFile.size > MAX_SIZE_IMAGE)
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     setRegionImg(imageFile);
   };

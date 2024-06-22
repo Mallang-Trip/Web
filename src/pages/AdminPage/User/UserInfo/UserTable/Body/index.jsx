@@ -1,15 +1,18 @@
+import { makePhoneNumber } from "../../../../../../utils";
+
 function Body({
   userId,
   userNickname,
   loginId,
   suspensionDuration,
+  phoneNumber,
   createdAt,
   setProfileId,
   setShowProfileModal,
   setShowRegionModal,
 }) {
   return (
-    <div className="w-full py-3 grid grid-cols-5 items-center text-center bg-white border border-gray300 rounded-xl">
+    <div className="w-full py-3 grid grid-cols-6 items-center text-center bg-white border border-gray300 rounded-xl">
       <p className="px-1 text-gray700 font-medium">{userNickname}</p>
       <p className="px-1 text-gray700 font-medium">
         <span>{loginId}</span>
@@ -18,6 +21,9 @@ function Body({
             {suspensionDuration === -1 ? "영구" : suspensionDuration + "일"}
           </span>
         )}
+      </p>
+      <p className="px-1 text-gray700 font-medium">
+        {makePhoneNumber(phoneNumber)}
       </p>
       <p className="px-1 text-gray500 font-medium">
         {createdAt.slice(0, 10).replaceAll("-", ".")}

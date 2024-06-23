@@ -6,12 +6,14 @@ import RegionMobileFilter from "./RegionMobileFilter";
 import DateMobileFilter from "./DateMobileFilter";
 import PeopleMobileFilter from "./PeopleMobileFilter";
 import PriceMobileFilter from "./PriceMobileFilter";
+import NewPartyMobile from "./NewPartyMobile";
 
 function Filter({
   setShowRegionModal,
   setShowDateModal,
   setShowPeopleModal,
   setShowPriceModal,
+  setShowLoginModal,
 }) {
   return (
     <>
@@ -26,6 +28,7 @@ function Filter({
         <DateMobileFilter setShowDateModal={setShowDateModal} />
         <PeopleMobileFilter setShowPeopleModal={setShowPeopleModal} />
         <PriceMobileFilter setShowPriceModal={setShowPriceModal} />
+        <NewPartyMobile setShowLoginModal={setShowLoginModal} />
       </div>
     </>
   );

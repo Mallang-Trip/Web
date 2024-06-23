@@ -7,7 +7,7 @@ import DateModal from "./DateModal";
 import PeopleModal from "./PeopleModal";
 import PriceModal from "./PriceModal";
 
-function PartyFilter() {
+function PartyFilter({ setShowLoginModal }) {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showKakaoChatModal, setShowKakaoChatModal] = useState(false);
   const [showDateModal, setShowDateModal] = useState(false);
@@ -31,6 +31,7 @@ function PartyFilter() {
         setShowDateModal={setShowDateModal}
         setShowPeopleModal={setShowPeopleModal}
         setShowPriceModal={setShowPriceModal}
+        setShowLoginModal={setShowLoginModal}
       />
 
       <RegionModal

@@ -5,7 +5,7 @@ function DriverMenu({ driverMenu, setDriverMenu }) {
 
   if (user.role !== "ROLE_DRIVER") return null;
   return (
-    <div className="flex justify-start gap-6 mb-6">
+    <div className="flex justify-start gap-6 mb-6 max-w-screen-xl mx-auto px-2 md:px-5">
       <button
         className={`text-2xl font-bold transition-all duration-500 ${driverMenu === "driver" ? "text-gray800" : "text-gray400"}`}
         onClick={() => setDriverMenu("driver")}

@@ -4,7 +4,7 @@ const initialState = {
   region: "모든 지역",
   nowDate: [],
   num: 1,
-  price: 1010000,
+  price: 310000,
 };
 
 const partyFilterSlice = createSlice({

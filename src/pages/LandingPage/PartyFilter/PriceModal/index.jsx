@@ -8,7 +8,7 @@ function PriceModal({ showModal, setShowModal }) {
   const modalRef = useRef();
   const buttonRef = useRef();
   const price = useSelector((state) => state.partyFilter.price);
-  const [modalPrice, setModalPrice] = useState(1010000);
+  const [modalPrice, setModalPrice] = useState(310000);
 
   const closeModal = () => {
     dispatch(setPrice(modalPrice));
@@ -83,14 +83,14 @@ function PriceModal({ showModal, setShowModal }) {
                 <div className="w-full h-2 rounded-full bg-mediumgray relative">
                   <div
                     className="h-2 rounded-full bg-primary absolute top-0 left-0"
-                    style={{ width: `${modalPrice / 10100}%` }}
+                    style={{ width: `${modalPrice / 3100}%` }}
                   />
                 </div>
                 <input
                   className="absolute w-full h-6 bg-transparent slider z-20 top-0 left-0 focus:outline-none"
                   type="range"
                   min={0}
-                  max={1010000}
+                  max={310000}
                   step={10000}
                   name="modalPrice"
                   value={modalPrice}
@@ -99,7 +99,7 @@ function PriceModal({ showModal, setShowModal }) {
               </div>
             </div>
             <div className="text-xl text-primary">
-              {modalPrice > 1000000
+              {modalPrice > 300000
                 ? "모든 가격"
                 : `최대 ${modalPrice / 10000}만원`}
             </div>

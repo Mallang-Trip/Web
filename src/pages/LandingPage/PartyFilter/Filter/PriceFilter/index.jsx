@@ -13,10 +13,10 @@ function PriceFilter({ setShowPriceModal }) {
       </p>
       <p
         className={`text-2xl leading-7 font-bold ${
-          price > 1000000 ? "text-gray400" : "text-gray800"
+          price > 300000 ? "text-gray400" : "text-gray800"
         }`}
       >
-        {price > 1000000 ? "모든 가격" : `~${price / 10000}만원`}
+        {price > 300000 ? "모든 가격" : `~${price / 10000}만원`}
       </p>
     </button>
   );

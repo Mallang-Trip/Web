@@ -9,7 +9,7 @@ import Loading from "../Loading";
 function ProfileModal({
   showModal,
   setShowModal,
-  userId = 0,
+  userId = -1,
   chatRoomId,
   reportId,
   driverName,
@@ -30,7 +30,7 @@ function ProfileModal({
   };
 
   const getUserInfoFunc = async () => {
-    if (userId === 0) return;
+    if (userId === -1) return;
 
     setLoading(true);
 

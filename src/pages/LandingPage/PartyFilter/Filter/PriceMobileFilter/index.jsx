@@ -10,8 +10,8 @@ function PriceMobileFilter({ setShowPriceModal }) {
       onClick={() => setShowPriceModal(true)}
     >
       <img src={partyFilterPrice} alt="가격" />
-      <span className={price > 1000000 ? "text-textgray" : "text-boldgray"}>
-        {price > 1000000 ? "가격 범위" : `~${price / 10000}만원`}
+      <span className={price > 300000 ? "text-textgray" : "text-boldgray"}>
+        {price > 300000 ? "가격 범위" : `~${price / 10000}만원`}
       </span>
     </button>
   );

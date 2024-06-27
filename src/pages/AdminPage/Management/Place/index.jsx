@@ -17,6 +17,7 @@ function Place() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
+  const [blockSearch, setBlockSearch] = useState(false);
 
   const submitHandler = async (e) => {
     if (e) e.preventDefault();
@@ -27,6 +28,7 @@ function Place() {
       if (result.payload.length === 0) {
         setErrorMessage("검색 결과가 없습니다.");
         setShowErrorModal(true);
+        setBlockSearch(true);
       } else setPlaceData(result.payload);
     } catch (e) {
       console.log(e);
@@ -43,8 +45,14 @@ function Place() {
   };
 
   useEffect(() => {
-    getAllMarkersFunc();
-  }, []);
+    setBlockSearch(false);
+  }, [keyword]);
+
+  useEffect(() => {
+    if (blockSearch) return;
+    if (keyword) submitHandler();
+    else getAllMarkersFunc();
+  }, [placeType]);
 
   return (
     <div className="text-base font-medium">
@@ -81,8 +89,6 @@ function Place() {
         setShowModal={setShowNewPlaceModal}
         placeData={placeData}
         searchKeyword={keyword}
-        setDestinationId={setDestinationId}
-        setShowDestinationModal={setShowDestinationModal}
       />
       <ConfirmModal
         showModal={showErrorModal}

@@ -7,14 +7,7 @@ import pointMarker from "../../../../../assets/svg/point_marker.svg";
 import ConfirmModal from "../../../../../components/ConfirmModal";
 import PlaceFormModal from "./PlaceFormModal";
 
-function NewPlaceModal({
-  showModal,
-  setShowModal,
-  placeData,
-  searchKeyword,
-  setDestinationId,
-  setShowDestinationModal,
-}) {
+function NewPlaceModal({ showModal, setShowModal, placeData, searchKeyword }) {
   const modalRef = useRef();
   const mapRef = useRef();
   const [keyword, setKeyword] = useState("");
@@ -47,12 +40,9 @@ function NewPlaceModal({
         images: imagesURL,
       };
 
-      const result = await postNewDestinationAdmin(body);
-      setDestinationId(result.payload.destinationId);
-      setShowDestinationModal(true);
+      await postNewDestinationAdmin(body);
       setShowFormModal(false);
       setMessage("여행지가 등록되었습니다.");
-      setShowModal(false);
     } catch (e) {
       console.log(e);
       setMessage("여행지 등록에 실패했습니다.");

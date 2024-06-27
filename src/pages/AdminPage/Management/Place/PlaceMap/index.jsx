@@ -29,7 +29,6 @@ function PlaceMap({ placeData, setDestinationId, setShowDestinationModal }) {
         animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
         animationLength: 500,
         title: marker.name,
-        label: marker.name,
         icon: pointMarker,
       });
 

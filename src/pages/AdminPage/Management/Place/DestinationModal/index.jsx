@@ -38,7 +38,7 @@ function DestinationModal({
 
   const deleteHandler = async () => {
     try {
-      const result = await deleteDestinationAdmin(destinationId);
+      await deleteDestinationAdmin(destinationId);
       setShowDeleteModal(false);
       setShowModal(false);
       setPlaceData(
@@ -47,7 +47,6 @@ function DestinationModal({
         )
       );
       alert("여행지 삭제가 완료되었습니다.");
-      console.log(result);
     } catch (e) {
       alert("여행지 삭제에 실패했습니다.");
       console.log(e);

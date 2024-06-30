@@ -40,15 +40,8 @@ function DestinationModal({
   const addCourseHandler = () => {
     setShowAddModal(false);
 
-    const exist = courseData.some(
-      (item) => item.destinationId === clickedData.destinationId
-    );
-
-    if (exist) setMessage("이미 여행 일정에 있습니다.");
-    else {
-      setCourseData([...courseData, clickedData]);
-      setMessage("여행 일정에 추가되었습니다.");
-    }
+    setCourseData([...courseData, clickedData]);
+    setMessage("여행 일정에 추가되었습니다.");
 
     setShowMessageModal(true);
   };

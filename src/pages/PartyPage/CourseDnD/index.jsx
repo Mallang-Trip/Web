@@ -26,12 +26,10 @@ function CourseDnD({
     setCourseData(items);
   };
 
-  const deleteHandler = (destinationId) => {
+  const deleteHandler = (targetIndex) => {
     if (courseData.length === 2) return setShowModal(true);
 
-    setCourseData(
-      courseData.filter((item) => item.destinationId !== destinationId)
-    );
+    setCourseData(courseData.filter((_, index) => index !== targetIndex));
   };
 
   useEffect(() => {
@@ -70,7 +68,7 @@ function CourseDnD({
                 <Draggable
                   draggableId={item.destinationId.toString()}
                   index={index}
-                  key={item.destinationId.toString()}
+                  key={(item.destinationId + index).toString()}
                 >
                   {(provided, snapshot) => {
                     return (
@@ -96,7 +94,7 @@ function CourseDnD({
                         </div>
                         <button
                           className="mx-3 rounded hover:bg-gray-200"
-                          onClick={() => deleteHandler(item.destinationId)}
+                          onClick={() => deleteHandler(index)}
                         >
                           <img src={deleteIcon} alt="delete" />
                         </button>

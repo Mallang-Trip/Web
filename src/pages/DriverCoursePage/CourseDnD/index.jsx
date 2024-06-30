@@ -24,10 +24,8 @@ function CourseDnD({
     setDestinations(items);
   };
 
-  const deleteHandler = (destinationId) => {
-    setDestinations(
-      destinations.filter((item) => item.destinationId !== destinationId)
-    );
+  const deleteHandler = (targetIndex) => {
+    setDestinations(destinations.filter((_, index) => index !== targetIndex));
   };
 
   return (
@@ -54,7 +52,7 @@ function CourseDnD({
                 <Draggable
                   draggableId={item.destinationId.toString()}
                   index={index}
-                  key={item.destinationId.toString()}
+                  key={(item.destinationId + index).toString()}
                 >
                   {(provided, snapshot) => {
                     return (
@@ -82,7 +80,7 @@ function CourseDnD({
                         </div>
                         <button
                           className="mx-3 rounded hover:bg-gray-200"
-                          onClick={() => deleteHandler(item.destinationId)}
+                          onClick={() => deleteHandler(index)}
                         >
                           <img src={deleteIcon} alt="delete" />
                         </button>

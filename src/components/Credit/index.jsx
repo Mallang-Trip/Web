@@ -129,6 +129,9 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
             </div>
           )}
         </button>
+        <p className="text-slate-600 font-medium text-sm text-center mt-7">
+          계좌 내에 잔액이 없을 시 카드 등록이 안 될 수 있습니다.
+        </p>
         <p
           className={`${
             showText ? "text-red-600" : "text-white"

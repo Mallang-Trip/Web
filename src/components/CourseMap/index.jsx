@@ -17,13 +17,18 @@ function CourseMap({ markerData, reload, mapName }) {
     else if (tag === markerData.length - 1) imgURL = endMarker;
     else imgURL = pointMarker;
 
+    let label =
+      "<span style='background-color: white;color: #469EFF; font-weight: bold;padding: 0.2rem 0.5rem;border-radius: 10rem; border: 3px solid #469EFF'>" +
+      `${tag + 1}` +
+      "</span>";
+
     const tmapMarker = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lon),
       map: map,
       animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
       animationLength: 500,
       title: name,
-      label: name,
+      label: label,
       icon: imgURL,
     });
 

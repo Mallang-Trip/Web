@@ -132,10 +132,13 @@ function Header() {
           className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto"
         >
           <button
-            className="flex items-center md:hidden"
+            className="flex items-center md:hidden w-6 h-6"
             onClick={() => navigation(-1)}
+            disabled={location.pathname === "/"}
           >
-            <img src={headerBack} alt="back" className="w-6 h-6" />
+            {location.pathname !== "/" && (
+              <img src={headerBack} alt="back" className="w-6 h-6" />
+            )}
           </button>
           <div className="flex flex-row">
             <button

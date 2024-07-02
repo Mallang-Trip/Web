@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import store from "./redux/store";
 import Router from "./router";
 import PushNotification from "./components/PushNotification";
+import PWAInstall from "./components/PWAInstall";
 import useInitialSetting from "./hooks/useInitialSetting";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Router />
       </BrowserRouter>
       <PushNotification />
+      <PWAInstall />
     </Provider>
   );
 }

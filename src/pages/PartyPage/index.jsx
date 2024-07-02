@@ -213,122 +213,132 @@ function PartyPage() {
   if (partyData.partyId === -1) return <NotFoundParty />;
   return (
     <PageContainer>
-      <HeadTitle
-        name={partyData.course.name}
-        driverName={partyData.driverName}
-        driverId={partyData.driverId}
-        isDriver={true}
-        partyStatus={partyData.partyStatus}
-        myParty={
-          partyData.myParty && partyData.proposal?.proposerId !== user.userId
-        }
-      />
-      <ImageBox images={partyData.course.images} name={partyData.course.name} />
-      <PartyIconBox
-        images={partyData.course.images}
-        name={partyData.course.name}
-        dibs={partyData.dibs}
-        type={"party"}
-        id={partyData.partyId}
-      />
-      <PartyDate startDate={partyData.startDate} />
-      <PartyMember
-        headcount={partyData.headcount}
-        capacity={partyData.capacity}
-        members={partyData.members}
-        driverId={partyData.driverId}
-        driverName={partyData.driverName}
-        myParty={partyData.myParty}
-        driverReady={partyData.driverReady}
-        partyStatus={partyData.partyStatus}
-        proposal={partyData.proposal}
-      />
-      {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
-        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
-        <EditAgreement
-          myParty={
-            partyData.myParty && partyData.proposal?.proposerId !== user.userId
-          }
-          partyStatus={partyData.partyStatus}
-          createdAt={partyData.proposal?.createdAt}
-          getPartyData={getPartyData}
-          proposalId={partyData.proposal?.proposalId}
-          agreement={[
-            {
-              userId: partyData.driverId,
-              status: partyData.proposal.driverAgreement,
-            },
-            ...partyData.proposal.memberAgreement,
-          ]}
-        />
-      )}
-      {partyData.myParty &&
-        (partyData.partyStatus === "RECRUITING" ||
-          partyData.partyStatus === "SEALED" ||
-          partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
-          <MallangReady
-            members={partyData.members}
-            driverReady={partyData.driverReady}
-            getPartyData={getPartyData}
-            partyStatus={partyData.partyStatus}
-            startDate={partyData.startDate}
-          />
-        )}
-      {partyData.myParty &&
-        (partyData.partyStatus === "SEALED" ||
-          partyData.partyStatus === "DAY_OF_TRAVEL" ||
-          partyData.partyStatus === "FINISHED") && (
-          <DriverReview
-            driverId={partyData.driverId}
-            startDate={partyData.startDate}
-          />
-        )}
-      <ToTalPrice
-        totalPrice={
-          user.userId === partyData.driverId
-            ? partyData.course?.totalPrice
-            : partyData.course?.totalPrice - partyData.course?.discountPrice
-        }
-        isDriver={user.userId === partyData.driverId}
-        partyStatus={partyData.partyStatus}
-      />
-      {partyData.partyStatus === "WAITING_DRIVER_APPROVAL" &&
-        user.userId === partyData.driverId && (
-          <NewPartyAgreement getPartyData={getPartyData} />
-        )}
-      {user.userId !== partyData.driverId &&
-        partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
-        partyData.partyStatus !== "CANCELED_BY_PROPOSER" &&
-        partyData.partyStatus !== "CANCELED_BY_ALL_QUIT" &&
-        partyData.partyStatus !== "CANCELED_BY_DRIVER_QUIT" && (
-          <CreditInfo
-            totalPrice={
-              partyData.course?.totalPrice - partyData.course?.discountPrice
-            }
-            capacity={partyData.capacity}
-            partyStatus={partyData.partyStatus}
-            paymentAmount={partyData.reservation?.paymentAmount}
-            createdAt={partyData.reservation?.createdAt}
-            receiptUrl={partyData.reservation?.receiptUrl}
-            status={partyData.reservation?.status}
-          />
-        )}
-      {!partyData.myParty && (type === "join" || type === "edit") && (
+      {type !== "edit" && (
         <>
-          <JoinMember
-            memberCount={memberCount}
-            setMemberCount={setMemberCount}
-            capacity={partyData.capacity}
+          <HeadTitle
+            name={partyData.course.name}
+            driverName={partyData.driverName}
+            driverId={partyData.driverId}
+            isDriver={true}
+            partyStatus={partyData.partyStatus}
+            myParty={
+              partyData.myParty &&
+              partyData.proposal?.proposerId !== user.userId
+            }
+          />
+          <ImageBox
+            images={partyData.course.images}
+            name={partyData.course.name}
+          />
+          <PartyIconBox
+            images={partyData.course.images}
+            name={partyData.course.name}
+            dibs={partyData.dibs}
+            type={"party"}
+            id={partyData.partyId}
+          />
+          <PartyDate startDate={partyData.startDate} />
+          <PartyMember
             headcount={partyData.headcount}
+            capacity={partyData.capacity}
+            members={partyData.members}
+            driverId={partyData.driverId}
+            driverName={partyData.driverName}
+            myParty={partyData.myParty}
+            driverReady={partyData.driverReady}
+            partyStatus={partyData.partyStatus}
+            proposal={partyData.proposal}
           />
-          <JoinMemberInfo
-            companionsRef={companionsRef}
-            memberCount={memberCount}
-            companions={companions}
-            setCompanions={setCompanions}
-            shakeCompanions={shakeCompanions}
+
+          {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
+            partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
+            <EditAgreement
+              myParty={
+                partyData.myParty &&
+                partyData.proposal?.proposerId !== user.userId
+              }
+              partyStatus={partyData.partyStatus}
+              createdAt={partyData.proposal?.createdAt}
+              getPartyData={getPartyData}
+              proposalId={partyData.proposal?.proposalId}
+              agreement={[
+                {
+                  userId: partyData.driverId,
+                  status: partyData.proposal.driverAgreement,
+                },
+                ...partyData.proposal.memberAgreement,
+              ]}
+            />
+          )}
+          {partyData.myParty &&
+            (partyData.partyStatus === "RECRUITING" ||
+              partyData.partyStatus === "SEALED" ||
+              partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
+              <MallangReady
+                members={partyData.members}
+                driverReady={partyData.driverReady}
+                getPartyData={getPartyData}
+                partyStatus={partyData.partyStatus}
+                startDate={partyData.startDate}
+              />
+            )}
+          {partyData.myParty &&
+            (partyData.partyStatus === "SEALED" ||
+              partyData.partyStatus === "DAY_OF_TRAVEL" ||
+              partyData.partyStatus === "FINISHED") && (
+              <DriverReview
+                driverId={partyData.driverId}
+                startDate={partyData.startDate}
+              />
+            )}
+          <ToTalPrice
+            totalPrice={
+              user.userId === partyData.driverId
+                ? partyData.course?.totalPrice
+                : partyData.course?.totalPrice - partyData.course?.discountPrice
+            }
+            isDriver={user.userId === partyData.driverId}
+            partyStatus={partyData.partyStatus}
           />
-          <JoinGreeting content={content} setContent={setContent} />
+          {partyData.partyStatus === "WAITING_DRIVER_APPROVAL" &&
+            user.userId === partyData.driverId && (
+              <NewPartyAgreement getPartyData={getPartyData} />
+            )}
+          {user.userId !== partyData.driverId &&
+            partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
+            partyData.partyStatus !== "CANCELED_BY_PROPOSER" &&
+            partyData.partyStatus !== "CANCELED_BY_ALL_QUIT" &&
+            partyData.partyStatus !== "CANCELED_BY_DRIVER_QUIT" && (
+              <CreditInfo
+                totalPrice={
+                  partyData.course?.totalPrice - partyData.course?.discountPrice
+                }
+                capacity={partyData.capacity}
+                partyStatus={partyData.partyStatus}
+                paymentAmount={partyData.reservation?.paymentAmount}
+                createdAt={partyData.reservation?.createdAt}
+                receiptUrl={partyData.reservation?.receiptUrl}
+                status={partyData.reservation?.status}
+              />
+            )}
+          {!partyData.myParty && (type === "join" || type === "edit") && (
+            <>
+              <JoinMember
+                memberCount={memberCount}
+                setMemberCount={setMemberCount}
+                capacity={partyData.capacity}
+                headcount={partyData.headcount}
+              />
+              <JoinMemberInfo
+                companionsRef={companionsRef}
+                memberCount={memberCount}
+                companions={companions}
+                setCompanions={setCompanions}
+                shakeCompanions={shakeCompanions}
+              />
+              <JoinGreeting content={content} setContent={setContent} />
+            </>
+          )}
         </>
       )}
       {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||

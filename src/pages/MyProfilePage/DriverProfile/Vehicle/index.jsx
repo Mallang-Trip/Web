@@ -1,4 +1,5 @@
 import Information from "../../UserProfile/Information";
+import ImageInput from "./ImageInput";
 
 function Vehicle({
   modifyMode,
@@ -36,40 +37,56 @@ function Vehicle({
         />
       </div>
       <p className="text-lg font-bold text-black mt-12 mb-5">차량 사진</p>
-      <div
-        className="w-80 mt-5 rounded-2xl relative"
-        onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
-        onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
-      >
-        <img
-          src={
-            newVehicleImage
-              ? URL.createObjectURL(newVehicleImage)
-              : driverInfo.vehicleImg
-          }
-          alt="vehicleImage"
-          className="w-full h-full rounded-2xl"
-        />
-        <div></div>
-        {modifyVehicleImage && (
-          <>
-            <div
-              className="absolute top-0 left-0 w-full h-full rounded-2xl flex justify-center items-center bg-black bg-opacity-50 cursor-pointer"
-              onClick={() => vehicleImageRef.current.click()}
-            >
-              <div className="whitespace-pre-line text-center text-base text-white">
-                {"차량 사진\n변경하기"}
+      <div className="h-48 bg-cover mt-5 relative gap-[10px] flex">
+        {modifyMode && <ImageInput />}
+        <div
+          className="w-48 h-48 rounded-xl relative"
+          onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
+          onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
+        >
+          {modifyVehicleImage && (
+            <>
+              <div
+                className="absolute top-0 left-0 w-48 h-48 rounded-xl flex justify-center items-center bg-black bg-opacity-50 cursor-pointer"
+                onClick={() => vehicleImageRef.current.click()}
+              >
+                <div className="whitespace-pre-line text-center text-base text-white">
+                  {"차량 사진\n변경하기"}
+                </div>
               </div>
-            </div>
-            <input
-              ref={vehicleImageRef}
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={vehicleImageHandler}
+              <input
+                ref={vehicleImageRef}
+                className="hidden"
+                type="file"
+                accept="image/*"
+                onChange={vehicleImageHandler}
+              />
+            </>
+          )}
+          {typeof driverInfo.vehicleImg === "string" ? (
+            <img
+              src={
+                newVehicleImage
+                  ? URL.createObjectURL(newVehicleImage)
+                  : driverInfo.vehicleImg
+              }
+              alt="vehicleImage"
+              className="w-48 h-48 rounded-xl hover:"
             />
-          </>
-        )}
+          ) : (
+            Array.isArray(newVehicleImage) &&
+            newVehicleImage.map((image, index) => (
+              <img
+                key={index}
+                src={
+                  image
+                    ? URL.createObjectURL(image)
+                    : driverInfo.vehicleImgs[index]
+                }
+              />
+            ))
+          )}
+        </div>
       </div>
     </>
   );

@@ -35,9 +35,9 @@ function Vehicle({
           }
         />
       </div>
-
+      <p className="text-lg font-bold text-black mt-12 mb-5">차량 사진</p>
       <div
-        className="w-80 mt-5 rounded-2xl mx-auto relative"
+        className="w-80 mt-5 rounded-2xl relative"
         onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
         onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
       >
@@ -50,6 +50,7 @@ function Vehicle({
           alt="vehicleImage"
           className="w-full h-full rounded-2xl"
         />
+        <div></div>
         {modifyVehicleImage && (
           <>
             <div

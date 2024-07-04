@@ -35,11 +35,11 @@ function BottomNav() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-x border-mediumgray rounded-t-2xl md:hidden">
-      <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
+    <div className="fixed bottom-0 left-0 z-40 w-full h-20 bg-white md:hidden">
+      <div className="grid h-full pb-4-safe  max-w-lg grid-cols-5 mx-auto font-medium">
         <button
           type="button"
-          className="inline-flex flex-col items-center justify-center px-0"
+          className="h-16 inline-flex flex-col items-center justify-center px-0"
           onClick={() => navigation("/talk")}
         >
           {checkLocation() === "talk" ? (

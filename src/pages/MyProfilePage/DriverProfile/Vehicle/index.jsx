@@ -1,6 +1,6 @@
 import Information from "../../UserProfile/Information";
 import ImageInput from "./ImageInput";
-
+import { useState } from "react";
 function Vehicle({
   modifyMode,
   driverInfo,
@@ -11,6 +11,7 @@ function Vehicle({
   newVehicleImage,
   vehicleImageHandler,
 }) {
+  const [image, setImage] = useState();
   return (
     <>
       <p className="text-lg font-bold text-black mt-12 mb-5">차종</p>
@@ -38,7 +39,7 @@ function Vehicle({
       </div>
       <p className="text-lg font-bold text-black mt-12 mb-5">차량 사진</p>
       <div className="h-48 bg-cover mt-5 relative gap-[10px] flex">
-        {modifyMode && <ImageInput />}
+        {modifyMode && <ImageInput images={image} setImage={setImage} />}
         <div
           className="w-48 h-48 rounded-xl relative"
           onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
@@ -71,7 +72,7 @@ function Vehicle({
                   : driverInfo.vehicleImg
               }
               alt="vehicleImage"
-              className="w-48 h-48 rounded-xl hover:"
+              className="w-48 h-48 rounded-xl"
             />
           ) : (
             Array.isArray(newVehicleImage) &&

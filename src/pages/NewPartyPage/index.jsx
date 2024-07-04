@@ -30,7 +30,7 @@ function NewPartyPage() {
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(
-    location.state ? location.state.selectedCourseId : 0
+    searchParams.get("selectedCourseId") || 0
   );
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");

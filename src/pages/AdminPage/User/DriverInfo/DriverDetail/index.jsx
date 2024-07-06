@@ -25,7 +25,7 @@ function DriverDetail() {
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
-  const [newVehicleImage, setNewVehicleImage] = useState([]);
+  const [newVehicleImages, setNewVehicleImages] = useState([]);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,7 @@ function DriverDetail() {
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
 
-    setNewVehicleImage([...driverInfo.vehicleImgs, imageFile]);
+    setNewVehicleImages([...driverInfo.vehicleImgs, imageFile]);
   };
 
   const modifyProfileHandler = async () => {
@@ -53,8 +53,8 @@ function DriverDetail() {
       : driverInfo.profileImg;
 
     const vehicleImageURL =
-      newVehicleImage.length > 0
-        ? await Promise.all(newVehicleImage.map((image) => uploadImage(image)))
+      newVehicleImages.length > 0
+        ? await Promise.all(newVehicleImages.map((image) => uploadImage(image)))
         : driverInfo.vehicleImgs;
 
     const body = {
@@ -100,9 +100,14 @@ function DriverDetail() {
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
 
-    const vehicleImageURLs = newVehicleImage
-      ? await Promise.all(newVehicleImage.map((image) => uploadImage(image)))
-      : driverInfo.vehicleImgs;
+    const vehicleImageURLs =
+      newVehicleImages.length > 0
+        ? await Promise.all(
+            newVehicleImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : driverInfo.vehicleImgs;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -132,7 +137,7 @@ function DriverDetail() {
     if (!modifyMode || !autoSave) return;
     setAutoSave(false);
     setTimeout(() => setAutoSave(true), 2000);
-  }, [newProfileImage, newVehicleImage, driverInfo]);
+  }, [newProfileImage, newVehicleImages, driverInfo]);
 
   useEffect(() => {
     if (!modifyMode || !autoSave) return;
@@ -179,7 +184,7 @@ function DriverDetail() {
         vehicleImageRef={vehicleImageRef}
         modifyVehicleImage={modifyVehicleImage}
         setModifyVehicleImage={setModifyVehicleImage}
-        newVehicleImage={newVehicleImage}
+        newVehicleImages={newVehicleImages}
         vehicleImageHandler={vehicleImageHandler}
       />
       <Price

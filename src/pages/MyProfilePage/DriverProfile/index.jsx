@@ -19,7 +19,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
   const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
-  const [newVehicleImage, setNewVehicleImage] = useState(undefined);
+  const [newVehicleImages, setNewVehicleImages] = useState([]);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
 
@@ -33,7 +33,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
     const imageFile = vehicleImageRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewVehicleImage(imageFile || undefined);
+    setNewVehicleImages([...driverInfo.vehicleImgs, imageFile]);
   };
 
   const modifyProfileHandler = async () => {
@@ -43,9 +43,14 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
 
-    const vehicleImageURL = newVehicleImage
-      ? await uploadImage(newVehicleImage)
-      : driverInfo.vehicleImg;
+    const vehicleImageURL =
+      newVehicleImages.length > 0
+        ? await Promise.all(
+            newVehicleImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : driverInfo.vehicleImgs;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -58,7 +63,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       profileImg: profileImageURL,
       region: driverInfo.region,
       vehicleCapacity: driverInfo.vehicleCapacity,
-      vehicleImg: vehicleImageURL,
+      vehicleImgs: vehicleImageURL,
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
@@ -80,9 +85,10 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
 
-    const vehicleImageURL = newVehicleImage
-      ? await uploadImage(newVehicleImage)
-      : driverInfo.vehicleImg;
+    const vehicleImageURL =
+      newVehicleImages.length > 0
+        ? await Promise.all(newVehicleImages.map((image) => uploadImage(image)))
+        : driverInfo.vehicleImg;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -95,7 +101,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
       profileImg: profileImageURL,
       region: driverInfo.region,
       vehicleCapacity: driverInfo.vehicleCapacity,
-      vehicleImg: vehicleImageURL,
+      vehicleImgs: vehicleImageURL,
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
@@ -112,7 +118,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
     if (!modifyMode || !autoSave) return;
     setAutoSave(false);
     setTimeout(() => setAutoSave(true), 2000);
-  }, [newProfileImage, newVehicleImage, driverInfo]);
+  }, [newProfileImage, newVehicleImages, driverInfo]);
 
   useEffect(() => {
     if (!modifyMode || !autoSave) return;
@@ -160,7 +166,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
         vehicleImageRef={vehicleImageRef}
         modifyVehicleImage={modifyVehicleImage}
         setModifyVehicleImage={setModifyVehicleImage}
-        newVehicleImage={newVehicleImage}
+        newVehicleImages={newVehicleImages}
         vehicleImageHandler={vehicleImageHandler}
       />
       <Price

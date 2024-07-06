@@ -8,7 +8,7 @@ function Vehicle({
   vehicleImageRef,
   modifyVehicleImage,
   setModifyVehicleImage,
-  newVehicleImage,
+  newVehicleImages,
   vehicleImageHandler,
 }) {
   const [image, setImage] = useState();
@@ -64,29 +64,16 @@ function Vehicle({
               />
             </>
           )}
-          {typeof driverInfo.vehicleImg === "string" ? (
-            <img
-              src={
-                newVehicleImage
-                  ? URL.createObjectURL(newVehicleImage)
-                  : driverInfo.vehicleImg
-              }
-              alt="vehicleImage"
-              className="w-48 h-48 rounded-xl"
-            />
-          ) : (
-            Array.isArray(newVehicleImage) &&
-            newVehicleImage.map((image, index) => (
+          {Array.isArray(newVehicleImages) &&
+            newVehicleImages.map((image, index) => (
               <img
                 key={index}
                 src={
-                  image
-                    ? URL.createObjectURL(image)
-                    : driverInfo.vehicleImgs[index]
+                  typeof image === "string" ? image : URL.createObjectURL(image)
                 }
+                alt={`vehicle_${index}`}
               />
-            ))
-          )}
+            ))}
         </div>
       </div>
     </>

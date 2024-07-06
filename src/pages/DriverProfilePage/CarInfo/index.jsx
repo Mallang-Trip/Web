@@ -1,4 +1,4 @@
-function CarInfo({ vehicleImg, vehicleModel, vehicleCapacity }) {
+function CarInfo({ vehicleImgs, vehicleModel, vehicleCapacity }) {
   return (
     <div className="flex flex-col gap-3 my-7">
       <p className="flex gap-4 items-center">
@@ -7,7 +7,14 @@ function CarInfo({ vehicleImg, vehicleModel, vehicleCapacity }) {
           {vehicleModel} (승객 탑승 정원 {vehicleCapacity}명)
         </span>
       </p>
-      <img src={vehicleImg} alt="dkdldhslr" className="w-80 rounded-xl" />
+      {vehicleImgs.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt="dkdldhslr"
+          className="w-80 rounded-xl"
+        />
+      ))}
     </div>
   );
 }

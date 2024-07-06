@@ -1,6 +1,6 @@
 import Information from "../../../../../MyProfilePage/UserProfile/Information";
 
-function Vehicle({ vehicleModel, vehicleCapacity, vehicleImg }) {
+function Vehicle({ vehicleModel, vehicleCapacity, vehicleImgs }) {
   return (
     <>
       <p className="text-lg font-bold text-black mt-12 mb-5">차종</p>
@@ -18,11 +18,14 @@ function Vehicle({ vehicleModel, vehicleCapacity, vehicleImg }) {
         />
       </div>
       <div className="w-80 h-52 mt-5 rounded-2xl mx-auto relative">
-        <img
-          src={vehicleImg}
-          alt={vehicleModel}
-          className="w-full h-full rounded-2xl object-cover"
-        />
+        {vehicleImgs.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={vehicleModel}
+            className="w-full h-full rounded-2xl object-cover"
+          />
+        ))}
       </div>
     </>
   );

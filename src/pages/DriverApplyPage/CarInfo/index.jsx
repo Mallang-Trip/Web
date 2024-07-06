@@ -5,8 +5,8 @@ import { CONSTANT } from "../../../utils/data";
 
 function CarInfo({
   setActiveNext,
-  carImage,
-  setCarImage,
+  carImages,
+  setCarImages,
   modelName,
   setModelName,
   maxNum,
@@ -16,16 +16,20 @@ function CarInfo({
 
   const imageHandler = async () => {
     const imageFile = imageRef.current.files[0];
-    if (!imageFile) setCarImage(null);
+    if (!imageFile) setCarImages(null);
     else if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    else setCarImage(await uploadImage(imageFile));
+    else
+      setCarImages(
+        await Promise.all(carImages.map((image) => uploadImage(image)))
+      );
   };
 
   useEffect(() => {
-    if (carImage && modelName && onlyNumber(maxNum)) setActiveNext(true);
+    if (carImages.length > 0 && modelName && onlyNumber(maxNum))
+      setActiveNext(true);
     else setActiveNext(false);
-  }, [carImage, modelName, maxNum]);
+  }, [carImages, modelName, maxNum]);
 
   return (
     <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8">
@@ -39,17 +43,18 @@ function CarInfo({
             className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
             onClick={() => imageRef.current.click()}
           >
-            {carImage && (
-              <img
-                className="object-cover w-full h-full rounded-2xl"
-                src={
-                  typeof carImage === "string"
-                    ? carImage
-                    : URL.createObjectURL(carImage)
-                }
-                alt="car_Image"
-              />
-            )}
+            {carImages && carImages.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {carImages.map((image, index) => (
+                  <img
+                    key={index}
+                    className="object-cover w-full h-full rounded-2xl"
+                    src={URL.createObjectURL(image)}
+                    alt={`car_Image_${index}`}
+                  />
+                ))}
+              </div>
+            ) : null}
           </div>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 md:translate-x-[200px] md:translate-y-0">
             <label htmlFor="carImage_input">

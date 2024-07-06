@@ -34,6 +34,6 @@ module.exports = {
   plugins: [
     require("tailwindcss-animated"),
     require("tailwind-scrollbar-hide"),
-    require("tailwindcss-padding-safe"),
+    require("tailwindcss-safe-area"),
   ],
 };

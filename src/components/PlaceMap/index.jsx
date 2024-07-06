@@ -23,6 +23,7 @@ function PlaceMap({
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [clickedData, setClickedData] = useState({});
   const [isAllMarker, setIsAllMarker] = useState(false);
+  const [recentSearched, setRecentSearched] = useState([]);
 
   const submitHandler = async (e, keyword) => {
     if (e) e.preventDefault();
@@ -38,6 +39,7 @@ function PlaceMap({
 
       if (result.payload.length === 0) return setShowNoDataModal(true);
       setMarkerData(result.payload);
+      setRecentSearched(result.payload);
       setIsAllMarker(false);
     } catch (e) {
       console.log(e);
@@ -75,12 +77,15 @@ function PlaceMap({
           setShowDestinationModal={setShowDestinationModal}
           setClickedData={setClickedData}
           isAllMarker={isAllMarker}
+          recentSearched={recentSearched}
         />
         {search && (
           <SearchBox
             searchKeyword={searchKeyword}
             setSearchKeyword={setSearchKeyword}
             submitHandler={submitHandler}
+            getAllMarkersFunc={getAllMarkersFunc}
+            onlyAllPlace={onlyAllPlace}
           />
         )}
       </div>

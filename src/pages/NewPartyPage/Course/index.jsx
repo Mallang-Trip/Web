@@ -41,7 +41,7 @@ function Course({
         setSelectedCourseId={setSelectedCourseId}
         availableNewCourse={false}
       />
-      <TextArea title="날짜" content={dateToStringHan(date)} />
+      {member > 0 && <TextArea title="날짜" content={dateToStringHan(date)} />}
       <TextArea
         title="전체 파티 여행비"
         content={`${priceToString(planData.totalPrice)}원`}
@@ -68,9 +68,10 @@ function Course({
       <ReservationButton
         joinHandler={() =>
           navigation(
-            `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
+            `/party/new/${member > 0 ? 6 : 2}?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
           )
         }
+        member={member}
       />
       <CommentList
         reviews={driverInfo.reviews}

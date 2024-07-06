@@ -40,7 +40,7 @@ function DriverProfilePage() {
     const dateParam = searchParams.get("date");
 
     navigation(
-      `/party/new/2?region=${driverInfo.region}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}`,
+      `/party/new/4?region=${driverInfo.region}&member=${memberParam || 0}&date=${dateParam || null}&driverId=${driverId}`,
       {
         state: { selectedCourseId: selectedCourseId },
       }

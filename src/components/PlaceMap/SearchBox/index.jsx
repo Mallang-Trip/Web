@@ -5,7 +5,7 @@ function SearchBox({
   setSearchKeyword,
   submitHandler,
   getAllMarkersFunc,
-  onlyAllPlace,
+  isAllMarker,
 }) {
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center">
@@ -40,7 +40,7 @@ function SearchBox({
             className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
             onClick={() => {
               setSearchKeyword("");
-              if (onlyAllPlace) getAllMarkersFunc();
+              if (!isAllMarker) getAllMarkersFunc();
             }}
           >
             <img src={cross} />

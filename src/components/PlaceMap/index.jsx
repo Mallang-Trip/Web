@@ -85,7 +85,7 @@ function PlaceMap({
             setSearchKeyword={setSearchKeyword}
             submitHandler={submitHandler}
             getAllMarkersFunc={getAllMarkersFunc}
-            onlyAllPlace={onlyAllPlace}
+            isAllMarker={isAllMarker}
           />
         )}
       </div>

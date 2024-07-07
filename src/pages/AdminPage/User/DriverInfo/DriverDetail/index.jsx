@@ -24,8 +24,7 @@ function DriverDetail() {
   const [modifyMode, setModifyMode] = useState(false);
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
-  const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
-  const [newVehicleImage, setNewVehicleImage] = useState(undefined);
+  const [newVehicleImages, setNewVehicleImages] = useState([]);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -41,7 +40,7 @@ function DriverDetail() {
     const imageFile = vehicleImageRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewVehicleImage(imageFile || undefined);
+    setNewVehicleImages([...newVehicleImages, imageFile]);
   };
 
   const modifyProfileHandler = async () => {
@@ -51,9 +50,14 @@ function DriverDetail() {
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
 
-    const vehicleImageURL = newVehicleImage
-      ? await uploadImage(newVehicleImage)
-      : driverInfo.vehicleImg;
+    const vehicleImageURL =
+      newVehicleImages.length > 0
+        ? await Promise.all(
+            newVehicleImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : newVehicleImages;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -66,7 +70,7 @@ function DriverDetail() {
       profileImg: profileImageURL,
       region: driverInfo.region,
       vehicleCapacity: driverInfo.vehicleCapacity,
-      vehicleImg: vehicleImageURL,
+      vehicleImgs: vehicleImageURL,
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
@@ -86,6 +90,11 @@ function DriverDetail() {
     try {
       const result = await getDriverInfoDetail(driverId);
       setDriverInfo(result.payload);
+      setNewVehicleImages(
+        result.payload.vehicleImg
+          ? [result.payload.vehicleImg]
+          : result.payload.vehicleImgs
+      );
     } catch (e) {
       console.log(e);
     } finally {
@@ -98,9 +107,14 @@ function DriverDetail() {
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;
 
-    const vehicleImageURL = newVehicleImage
-      ? await uploadImage(newVehicleImage)
-      : driverInfo.vehicleImg;
+    const vehicleImageURLs =
+      newVehicleImages.length > 0
+        ? await Promise.all(
+            newVehicleImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : driverInfo.vehicleImgs;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -113,7 +127,7 @@ function DriverDetail() {
       profileImg: profileImageURL,
       region: driverInfo.region,
       vehicleCapacity: driverInfo.vehicleCapacity,
-      vehicleImg: vehicleImageURL,
+      vehicleImgs: vehicleImageURLs,
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
@@ -130,7 +144,7 @@ function DriverDetail() {
     if (!modifyMode || !autoSave) return;
     setAutoSave(false);
     setTimeout(() => setAutoSave(true), 2000);
-  }, [newProfileImage, newVehicleImage, driverInfo]);
+  }, [newProfileImage, newVehicleImages, driverInfo]);
 
   useEffect(() => {
     if (!modifyMode || !autoSave) return;
@@ -175,10 +189,9 @@ function DriverDetail() {
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
         vehicleImageRef={vehicleImageRef}
-        modifyVehicleImage={modifyVehicleImage}
-        setModifyVehicleImage={setModifyVehicleImage}
-        newVehicleImage={newVehicleImage}
+        newVehicleImages={newVehicleImages}
         vehicleImageHandler={vehicleImageHandler}
+        setNewVehicleImages={setNewVehicleImages}
       />
       <Price
         modifyMode={modifyMode}

@@ -65,7 +65,7 @@ function DriverProfilePage() {
       />
       <ServiceRegion region={driverInfo.region} />
       <CarInfo
-        vehicleImg={driverInfo.vehicleImg}
+        vehicleImgs={driverInfo.vehicleImgs}
         vehicleModel={driverInfo.vehicleModel}
         vehicleCapacity={driverInfo.vehicleCapacity}
       />

@@ -23,7 +23,7 @@ function MyProfilePage() {
     profileImg: "",
     region: "",
     vehicleCapacity: 0,
-    vehicleImg: "",
+    vehicleImgs: "",
     vehicleModel: "",
     vehicleNumber: "",
     weeklyHoliday: [],

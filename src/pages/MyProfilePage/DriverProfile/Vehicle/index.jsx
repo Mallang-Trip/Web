@@ -1,17 +1,16 @@
 import Information from "../../UserProfile/Information";
 import ImageInput from "./ImageInput";
-import { useState } from "react";
+import VehicleImage from "./VehicleImage";
+
 function Vehicle({
   modifyMode,
   driverInfo,
   setDriverInfo,
   vehicleImageRef,
-  modifyVehicleImage,
-  setModifyVehicleImage,
   newVehicleImages,
   vehicleImageHandler,
+  setNewVehicleImages,
 }) {
-  const [image, setImage] = useState();
   return (
     <>
       <p className="text-lg font-bold text-black mt-12 mb-5">차종</p>
@@ -38,43 +37,23 @@ function Vehicle({
         />
       </div>
       <p className="text-lg font-bold text-black mt-12 mb-5">차량 사진</p>
-      <div className="h-48 bg-cover mt-5 relative gap-[10px] flex">
-        {modifyMode && <ImageInput images={image} setImage={setImage} />}
-        <div
-          className="w-48 h-48 rounded-xl relative"
-          onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
-          onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
-        >
-          {modifyVehicleImage && (
-            <>
-              <div
-                className="absolute top-0 left-0 w-48 h-48 rounded-xl flex justify-center items-center bg-black bg-opacity-50 cursor-pointer"
-                onClick={() => vehicleImageRef.current.click()}
-              >
-                <div className="whitespace-pre-line text-center text-base text-white">
-                  {"차량 사진\n변경하기"}
-                </div>
-              </div>
-              <input
-                ref={vehicleImageRef}
-                className="hidden"
-                type="file"
-                accept="image/*"
-                onChange={vehicleImageHandler}
-              />
-            </>
-          )}
-          {Array.isArray(newVehicleImages) &&
-            newVehicleImages.map((image, index) => (
-              <img
-                key={index}
-                src={
-                  typeof image === "string" ? image : URL.createObjectURL(image)
-                }
-                alt={`vehicle_${index}`}
-              />
-            ))}
-        </div>
+      <div className="h-48 bg-cover mt-5 relative gap-[10px] flex overflow-x-scroll noScrollBar">
+        {modifyMode && (
+          <ImageInput
+            vehicleImageRef={vehicleImageRef}
+            vehicleImageHandler={vehicleImageHandler}
+          />
+        )}
+        {newVehicleImages.map((image, index) => (
+          <VehicleImage
+            key={`vehicleImage_${index}`}
+            image={image}
+            index={index}
+            modifyMode={modifyMode}
+            newVehicleImages={newVehicleImages}
+            setNewVehicleImages={setNewVehicleImages}
+          />
+        ))}
       </div>
     </>
   );

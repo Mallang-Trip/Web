@@ -18,7 +18,6 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   const [modifyMode, setModifyMode] = useState(false);
   const [modifyProfileImage, setModifyProfileImage] = useState(false);
   const [newProfileImage, setNewProfileImage] = useState(undefined);
-  const [modifyVehicleImage, setModifyVehicleImage] = useState(false);
   const [newVehicleImages, setNewVehicleImages] = useState([]);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
@@ -33,7 +32,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
     const imageFile = vehicleImageRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewVehicleImages([...driverInfo.vehicleImgs, imageFile]);
+    setNewVehicleImages([...newVehicleImages, imageFile]);
   };
 
   const modifyProfileHandler = async () => {
@@ -87,8 +86,12 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
 
     const vehicleImageURL =
       newVehicleImages.length > 0
-        ? await Promise.all(newVehicleImages.map((image) => uploadImage(image)))
-        : driverInfo.vehicleImg;
+        ? await Promise.all(
+            newVehicleImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : newVehicleImages;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -124,6 +127,14 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
     if (!modifyMode || !autoSave) return;
     autoSaveHandler();
   }, [autoSave]);
+
+  useEffect(() => {
+    if (!driverInfo.region) return;
+    if (driverInfo.vehicleImg)
+      return setNewVehicleImages([driverInfo.vehicleImg]);
+    if (driverInfo.vehicleImgs)
+      return setNewVehicleImages(driverInfo.vehicleImgs);
+  }, [driverInfo]);
 
   useEffect(() => {
     window.scrollTo({
@@ -164,10 +175,9 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
         driverInfo={driverInfo}
         setDriverInfo={setDriverInfo}
         vehicleImageRef={vehicleImageRef}
-        modifyVehicleImage={modifyVehicleImage}
-        setModifyVehicleImage={setModifyVehicleImage}
         newVehicleImages={newVehicleImages}
         vehicleImageHandler={vehicleImageHandler}
+        setNewVehicleImages={setNewVehicleImages}
       />
       <Price
         modifyMode={modifyMode}

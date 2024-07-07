@@ -62,6 +62,7 @@ function Place() {
         keyword={keyword}
         setKeyword={setKeyword}
         setShowNewPlaceModal={setShowNewPlaceModal}
+        getAllMarkersFunc={getAllMarkersFunc}
       />
       {placeType === 0 ? (
         <PlaceMap
@@ -69,6 +70,7 @@ function Place() {
           setDestinationId={setDestinationId}
           setShowDestinationModal={setShowDestinationModal}
           onlyAllPlace={false}
+          keyword={keyword}
         />
       ) : (
         <PlaceList

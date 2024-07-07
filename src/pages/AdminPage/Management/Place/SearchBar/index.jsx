@@ -5,6 +5,7 @@ function SearchBar({
   keyword,
   setKeyword,
   setShowNewPlaceModal,
+  getAllMarkersFunc,
 }) {
   return (
     <div className="flex justify-between items-center">
@@ -37,7 +38,10 @@ function SearchBar({
         {keyword && (
           <button
             className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
-            onClick={() => setKeyword("")}
+            onClick={() => {
+              setKeyword("");
+              getAllMarkersFunc();
+            }}
           >
             <img src={cross} />
           </button>

@@ -15,12 +15,17 @@ function RegionList({ setActiveNext, region, setRegion }) {
   };
 
   const regionHandler = (name) => {
-    setRegion(name);
-    setActiveNext(true);
+    if (!region.includes(name)) {
+      setRegion([...region, name]);
+      setActiveNext(true);
+    } else {
+      setRegion(region.filter((item) => item !== name));
+    }
   };
 
   useEffect(() => {
-    if (region) setActiveNext(true);
+    if (region.length !== 0) setActiveNext(true);
+    else setActiveNext(false);
   }, [region]);
 
   useEffect(() => {

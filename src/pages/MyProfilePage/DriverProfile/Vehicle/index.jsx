@@ -1,14 +1,15 @@
 import Information from "../../UserProfile/Information";
+import ImageInput from "./ImageInput";
+import VehicleImage from "./VehicleImage";
 
 function Vehicle({
   modifyMode,
   driverInfo,
   setDriverInfo,
   vehicleImageRef,
-  modifyVehicleImage,
-  setModifyVehicleImage,
-  newVehicleImage,
+  newVehicleImages,
   vehicleImageHandler,
+  setNewVehicleImages,
 }) {
   return (
     <>
@@ -35,40 +36,24 @@ function Vehicle({
           }
         />
       </div>
-
-      <div
-        className="w-80 mt-5 rounded-2xl mx-auto relative"
-        onMouseEnter={() => modifyMode && setModifyVehicleImage(true)}
-        onMouseLeave={() => modifyMode && setModifyVehicleImage(false)}
-      >
-        <img
-          src={
-            newVehicleImage
-              ? URL.createObjectURL(newVehicleImage)
-              : driverInfo.vehicleImg
-          }
-          alt="vehicleImage"
-          className="w-full h-full rounded-2xl"
-        />
-        {modifyVehicleImage && (
-          <>
-            <div
-              className="absolute top-0 left-0 w-full h-full rounded-2xl flex justify-center items-center bg-black bg-opacity-50 cursor-pointer"
-              onClick={() => vehicleImageRef.current.click()}
-            >
-              <div className="whitespace-pre-line text-center text-base text-white">
-                {"차량 사진\n변경하기"}
-              </div>
-            </div>
-            <input
-              ref={vehicleImageRef}
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={vehicleImageHandler}
-            />
-          </>
+      <p className="text-lg font-bold text-black mt-12 mb-5">차량 사진</p>
+      <div className="h-48 bg-cover mt-5 relative gap-[10px] flex overflow-x-scroll noScrollBar">
+        {modifyMode && (
+          <ImageInput
+            vehicleImageRef={vehicleImageRef}
+            vehicleImageHandler={vehicleImageHandler}
+          />
         )}
+        {newVehicleImages.map((image, index) => (
+          <VehicleImage
+            key={`vehicleImage_${index}`}
+            image={image}
+            index={index}
+            modifyMode={modifyMode}
+            newVehicleImages={newVehicleImages}
+            setNewVehicleImages={setNewVehicleImages}
+          />
+        ))}
       </div>
     </>
   );

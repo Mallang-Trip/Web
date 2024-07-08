@@ -1,9 +1,13 @@
+import { useEffect } from "react";
 import minusGray from "../../../../assets/svg/people_minus_gray.svg";
 import minusPrimary from "../../../../assets/svg/people_minus_primary.svg";
 import plusgray from "../../../../assets/svg/people_plus_gray.svg";
 import plusPrimary from "../../../../assets/svg/people_plus_primary.svg";
 
 function Member({ member, setMember }) {
+  useEffect(() => {
+    !member > 0 && setMember(1);
+  }, []);
   const setIncrease = () => setMember(member + 1);
   const setDecrease = () => setMember(member - 1);
 

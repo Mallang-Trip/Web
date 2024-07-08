@@ -30,7 +30,7 @@ function DriverApplyPage() {
   const [driverId, setDriverId] = useState(0);
   const [allChecked, setAllChecked] = useState(false);
   const [checked, setChecked] = useState([false, false, false]);
-  const [carImage, setCarImage] = useState(undefined);
+  const [carImages, setCarImages] = useState([]);
   const [modelName, setModelName] = useState("");
   const [maxNum, setMaxNum] = useState("");
   const [region, setRegion] = useState("");
@@ -52,11 +52,15 @@ function DriverApplyPage() {
 
     setSubmitLoading(true);
 
-    const carImageURL = !carImage
-      ? null
-      : typeof carImage === "string"
-        ? carImage
-        : await uploadImage(carImage);
+    const carImageURLs =
+      carImages && carImages.length > 0
+        ? await Promise.all(
+            carImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : null;
+
     const driverLicenseURL = !driverLicense
       ? null
       : typeof driverLicense === "string"
@@ -94,7 +98,7 @@ function DriverApplyPage() {
         region: region,
         taxiLicenceImg: taxiLicenseURL,
         vehicleCapacity: Number(maxNum),
-        vehicleImg: carImageURL,
+        vehicleImgs: carImageURLs,
         vehicleModel: modelName,
         vehicleNumber: "00가0000",
       };
@@ -122,7 +126,7 @@ function DriverApplyPage() {
 
         setStep(backupData?.step || 0);
         setChecked(backupData?.checked || [false, false, false]);
-        setCarImage(backupData?.carImage || result.payload.vehicleImg);
+        setCarImages(backupData?.carImages || result.payload.vehicleImgs);
         setModelName(backupData?.modelName || result.payload.vehicleModel);
         setMaxNum(
           backupData?.maxNum || result.payload.vehicleCapacity.toString()
@@ -170,7 +174,7 @@ function DriverApplyPage() {
 
         setStep(backupData.step);
         setChecked(backupData.checked);
-        setCarImage(backupData.carImage);
+        setCarImages(backupData.carImages);
         setModelName(backupData.modelName);
         setMaxNum(backupData.maxNum);
         setRegion(backupData.region);
@@ -197,7 +201,7 @@ function DriverApplyPage() {
     const data = {
       step: step,
       checked: checked,
-      carImage: carImage,
+      carImages: carImages,
       modelName: modelName,
       maxNum: maxNum,
       region: region,
@@ -217,7 +221,7 @@ function DriverApplyPage() {
   }, [
     step,
     checked,
-    carImage,
+    carImages,
     modelName,
     maxNum,
     region,
@@ -259,8 +263,8 @@ function DriverApplyPage() {
       {step === 1 && (
         <CarInfo
           setActiveNext={setActiveNext}
-          carImage={carImage}
-          setCarImage={setCarImage}
+          carImages={carImages}
+          setCarImages={setCarImages}
           modelName={modelName}
           setModelName={setModelName}
           maxNum={maxNum}

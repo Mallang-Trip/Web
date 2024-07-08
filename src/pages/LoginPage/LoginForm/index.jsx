@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "../../../redux/modules/userSlice";
@@ -31,10 +31,16 @@ function LoginForm() {
     };
 
     dispatch(__asyncLogin(body)).then((response) => {
-      if (response.payload) navigation(-1, { replace: true });
+      const redirect = localStorage.getItem("redirect");
+
+      if (response.payload) navigation(redirect || -1, { replace: true });
       else setShowErrorModal(true);
     });
   };
+
+  useEffect(() => {
+    return () => localStorage.removeItem("redirect");
+  }, []);
 
   return (
     <>

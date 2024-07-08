@@ -40,10 +40,7 @@ function DriverProfilePage() {
     const dateParam = searchParams.get("date");
 
     navigation(
-      `/party/new/2?region=${driverInfo.region}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}`,
-      {
-        state: { selectedCourseId: selectedCourseId },
-      }
+      `/party/new/4?region=${driverInfo.region}&member=${memberParam || 0}&date=${dateParam || null}&driverId=${driverId}&selectedCourseId=${selectedCourseId}`
     );
   }, [selectedCourseId]);
 
@@ -65,7 +62,7 @@ function DriverProfilePage() {
       />
       <ServiceRegion region={driverInfo.region} />
       <CarInfo
-        vehicleImg={driverInfo.vehicleImg}
+        vehicleImgs={driverInfo.vehicleImgs || [driverInfo.vehicleImg]}
         vehicleModel={driverInfo.vehicleModel}
         vehicleCapacity={driverInfo.vehicleCapacity}
       />

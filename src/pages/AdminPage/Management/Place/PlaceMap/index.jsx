@@ -1,10 +1,28 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import pointMarker from "../../../../../assets/svg/point_marker.svg";
 
-function PlaceMap({ placeData, setDestinationId, setShowDestinationModal }) {
+function PlaceMap({
+  placeData,
+  setDestinationId,
+  setShowDestinationModal,
+  keyword,
+}) {
   const mapRef = useRef();
+  const [recentMap, setRecentMap] = useState();
+  const [marker, setMarker] = useState([]);
+  const [isInitialMap, setIsInitialMap] = useState(true);
 
-  const initTmap = () => {
+  const margin = useMemo(
+    () => ({
+      left: 50,
+      top: 100,
+      right: 50,
+      bottom: 100,
+    }),
+    []
+  );
+
+  const makeNewMap = () => {
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 
@@ -19,44 +37,51 @@ function PlaceMap({ placeData, setDestinationId, setShowDestinationModal }) {
       zoomControl: false,
       scrollwheel: true,
     });
+    setRecentMap(map);
 
+    return map;
+  };
+
+  const drawMarker = () => {
+    marker.forEach((item) => item.setMap(null));
+
+    const map = recentMap || makeNewMap();
     const PTbounds = new Tmapv2.LatLngBounds();
 
-    placeData.forEach((marker) => {
-      const tmapMarker = new Tmapv2.Marker({
-        position: new Tmapv2.LatLng(marker.lat, marker.lon),
-        map: map,
-        animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
-        animationLength: 500,
-        title: marker.name,
-        icon: pointMarker,
-      });
+    setMarker(
+      placeData.map((marker) => {
+        const tmapMarker = new Tmapv2.Marker({
+          position: new Tmapv2.LatLng(marker.lat, marker.lon),
+          map: map,
+          animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
+          animationLength: 500,
+          title: marker.name,
+          icon: pointMarker,
+        });
 
-      PTbounds.extend(new Tmapv2.LatLng(marker.lat, marker.lon));
+        PTbounds.extend(new Tmapv2.LatLng(marker.lat, marker.lon));
 
-      tmapMarker._htmlElement.className = "cursor-pointer";
-      tmapMarker.addListener("click", () => {
-        setDestinationId(marker.destinationId);
-        setShowDestinationModal(true);
-      });
-      tmapMarker.addListener("touchend", () => {
-        setDestinationId(marker.destinationId);
-        setShowDestinationModal(true);
-      });
-    });
+        tmapMarker._htmlElement.className = "cursor-pointer";
+        tmapMarker.addListener("click", () => {
+          setDestinationId(marker.destinationId);
+          setShowDestinationModal(true);
+        });
+        tmapMarker.addListener("touchend", () => {
+          setDestinationId(marker.destinationId);
+          setShowDestinationModal(true);
+        });
 
-    const margin = {
-      left: 50,
-      top: 100,
-      right: 50,
-      bottom: 100,
-    };
-    map.fitBounds(PTbounds, margin);
+        return tmapMarker;
+      })
+    );
+
+    if (keyword || isInitialMap) map.fitBounds(PTbounds, margin);
+    setIsInitialMap(false);
   };
 
   useEffect(() => {
     if (placeData.length === 0) return;
-    initTmap();
+    drawMarker();
   }, [placeData]);
 
   return <div id="TMapAdmin" className="w-full mx-auto" ref={mapRef} />;

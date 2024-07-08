@@ -20,8 +20,13 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
     const checkRender = (isAuth, isAdmin) => {
       if (!isAuth) {
         // 로그인 X
-        if (option === true) return navigation("/login");
-        else {
+        if (option === true) {
+          localStorage.setItem(
+            "redirect",
+            `${location.pathname}${location.search}`
+          );
+          return navigation("/login", { replace: true });
+        } else {
           const delay = location.pathname === "/" ? 1000 : 0;
           setTimeout(() => setLoading(false), delay);
         }

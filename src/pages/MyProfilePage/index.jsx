@@ -21,7 +21,7 @@ function MyProfilePage() {
     phoneNumber: "",
     prices: [],
     profileImg: "",
-    region: "",
+    region: [],
     vehicleCapacity: 0,
     vehicleImg: "",
     vehicleModel: "",

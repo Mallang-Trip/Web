@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
+import { getCourseDetail } from "../../api/course";
 import PageContainer from "../../components/PageContainer";
 import ImageBox from "../../components/ImageBox";
 import CommentList from "../../components/Comment/CommentList";
@@ -17,6 +18,7 @@ function DriverProfilePage() {
   const [searchParams] = useSearchParams();
   const { driverId } = useParams();
   const [driverInfo, setDriverInfo] = useState({});
+  const [courseRegion, setCourseRegion] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState(0);
   const courseImgs = driverInfo?.courses?.map((item) => item.courseImg);
 
@@ -24,6 +26,15 @@ function DriverProfilePage() {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getCourseDetailFunc = async () => {
+    try {
+      const result = await getCourseDetail(selectedCourseId);
+      setCourseRegion(result.payload.region);
     } catch (e) {
       console.log(e);
     }
@@ -39,8 +50,10 @@ function DriverProfilePage() {
     const memberParam = searchParams.get("member");
     const dateParam = searchParams.get("date");
 
+    getCourseDetail();
+
     navigation(
-      `/party/new/2?region=${driverInfo.region}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}`,
+      `/party/new/2?region=${courseRegion}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}`,
       {
         state: { selectedCourseId: selectedCourseId },
       }

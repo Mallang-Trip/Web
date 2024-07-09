@@ -23,6 +23,7 @@ function Edit({
   selectedCourseId,
   setSelectedCourseId,
   member,
+  region,
 }) {
   const companionsRef = useRef();
   const creditRef = useRef();
@@ -190,6 +191,7 @@ function Edit({
         course={planData}
         courseData={courseData}
         driverId={driverInfo.driverId}
+        region={region}
       />
     </div>
   );

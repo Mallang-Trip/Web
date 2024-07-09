@@ -165,6 +165,7 @@ function NewPartyPage() {
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}
           member={member}
+          region={region}
         />
       )}
       {step === "6" && (
@@ -175,6 +176,7 @@ function NewPartyPage() {
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}
           member={member}
+          region={region}
         />
       )}
       <ConfirmModal

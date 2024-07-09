@@ -23,6 +23,7 @@ function Reservation({
   selectedCourseId,
   setSelectedCourseId,
   member,
+  region,
 }) {
   const companionsRef = useRef();
   const creditRef = useRef();
@@ -181,6 +182,7 @@ function Reservation({
         course={planData}
         courseData={planData.days[0].destinations}
         driverId={driverInfo.driverId}
+        region={region}
       />
     </div>
   );

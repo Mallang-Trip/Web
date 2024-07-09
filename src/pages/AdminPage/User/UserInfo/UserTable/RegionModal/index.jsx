@@ -8,7 +8,7 @@ import RegionButton from "./RegionButton";
 function RegionModal({ showModal, setShowModal, userId }) {
   const navigation = useNavigate();
   const modalRef = useRef();
-  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState([]);
   const [regionData, setRegionData] = useState([]);
 
   const regionClickHandler = async () => {
@@ -45,7 +45,7 @@ function RegionModal({ showModal, setShowModal, userId }) {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
 
-    setSelectedRegion("");
+    setSelectedRegion([]);
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

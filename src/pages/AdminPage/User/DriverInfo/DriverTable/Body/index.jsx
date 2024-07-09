@@ -11,7 +11,6 @@ function Body({
   createdAt,
 }) {
   const navigation = useNavigate();
-
   return (
     <div className="w-full py-3 grid grid-cols-7 items-center text-center bg-white border border-gray300 rounded-xl">
       <p className="px-1 text-gray700 font-medium">{name}</p>
@@ -23,7 +22,11 @@ function Body({
           </span>
         )}
       </p>
-      <p className="px-1 text-gray700 font-medium">{driverRegion}</p>
+      <p className="px-1 text-gray700 font-medium">
+        {Array.isArray(driverRegion) && driverRegion.length > 1
+          ? "다수"
+          : driverRegion}
+      </p>
       <p className="px-1 text-gray700 font-medium">
         {makePhoneNumber(phoneNumber)}
       </p>

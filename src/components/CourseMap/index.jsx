@@ -27,31 +27,28 @@ function CourseMap({ markerData, reload, mapName, setRegion, courseData }) {
   }, []);
 
   useEffect(() => {
-    if (regionData.length > 0) console.log(markerData);
-    for (let item of regionData) {
-      if (item.region !== "그 외(서비스 준비 중)") {
-        for (let word of item.region.split(" ")) {
-          if (word !== "전남") {
-            if (markerData[0].address.includes(word)) {
-              setRegion(word);
-              console.log(word);
-              return;
-            } else if (markerData[1].address.includes(word)) {
-              setRegion(word);
-              console.log(word);
-              return;
-            } else if (
-              markerData.length > 2 &&
-              markerData[2].address.includes(word)
-            ) {
-              setRegion(word);
-              console.log(word);
-              return;
+    if (regionData.length > 0)
+      for (let item of regionData) {
+        if (item.region !== "그 외(서비스 준비 중)") {
+          for (let word of item.region.split(" ")) {
+            if (word !== "전남") {
+              if (markerData[0].address.includes(word)) {
+                setRegion(word);
+                return;
+              } else if (markerData[1].address.includes(word)) {
+                setRegion(word);
+                return;
+              } else if (
+                markerData.length > 2 &&
+                markerData[2].address.includes(word)
+              ) {
+                setRegion(word);
+                return;
+              }
             }
           }
         }
       }
-    }
   }, [regionData, courseData]);
 
   const addMarker = (destinationId, name, lat, lon, tag, map) => {

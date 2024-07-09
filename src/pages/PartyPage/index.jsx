@@ -56,6 +56,7 @@ function PartyPage() {
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const [courseData, setCourseData] = useState([]);
+  const [region, setRegion] = useState("");
   const [companions, setCompanions] = useState(
     Array.from({ length: 10 }, () => ({
       name: "",
@@ -345,6 +346,8 @@ function PartyPage() {
             markerData={partyData.proposal.course.days[0].destinations}
             reload={false}
             mapName="TMAP_COURSE_NEW"
+            setRegion={setRegion}
+            courseData={courseData}
           />
           <hr className="w-full max-w-[900px] bg-darkgray/30 my-20 mx-auto h-px border-0" />
         </>
@@ -383,6 +386,8 @@ function PartyPage() {
             markerData={partyData.course.days[0].destinations}
             reload={false}
             mapName="TMAP_COURSE_BEFORE"
+            setRegion={setRegion}
+            courseData={courseData}
           />
         </>
       )}
@@ -464,6 +469,7 @@ function PartyPage() {
         course={partyData.course}
         myParty={partyData.myParty}
         courseData={courseData}
+        region={region}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

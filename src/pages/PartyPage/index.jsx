@@ -63,7 +63,7 @@ function PartyPage() {
       phoneNumber: "",
     }))
   );
-
+  console.log(region);
   const checkJoinEdit = () => {
     if (
       partyData.partyStatus === "RECRUITING" &&
@@ -190,6 +190,7 @@ function PartyPage() {
       if (result.statusCode === 403 && !user.auth) navigation("/login");
       else if (result.statusCode === 200) setPartyData(result.payload);
       else setPartyData({ partyId: -1 });
+      setRegion(result.payload.region);
 
       if (
         result?.payload?.myParty === true &&
@@ -346,8 +347,6 @@ function PartyPage() {
             markerData={partyData.proposal.course.days[0].destinations}
             reload={false}
             mapName="TMAP_COURSE_NEW"
-            setRegion={setRegion}
-            courseData={courseData}
           />
           <hr className="w-full max-w-[900px] bg-darkgray/30 my-20 mx-auto h-px border-0" />
         </>
@@ -390,8 +389,6 @@ function PartyPage() {
             markerData={partyData.course.days[0].destinations}
             reload={false}
             mapName="TMAP_COURSE_BEFORE"
-            setRegion={setRegion}
-            courseData={courseData}
           />
         </>
       )}
@@ -473,7 +470,7 @@ function PartyPage() {
         course={partyData.course}
         myParty={partyData.myParty}
         courseData={courseData}
-        region={region}
+        region={region || partyData.region}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

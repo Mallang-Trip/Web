@@ -65,6 +65,7 @@ function EditModal({
                   destinations: courseData.map((item) => item.destinationId),
                 },
               ],
+              region: region,
             },
           };
 

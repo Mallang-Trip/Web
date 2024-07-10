@@ -50,7 +50,7 @@ function DriverProfilePage() {
     const memberParam = searchParams.get("member");
     const dateParam = searchParams.get("date");
 
-    getCourseDetail();
+    getCourseDetailFunc();
 
     navigation(
       `/party/new/2?region=${courseRegion}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}`,

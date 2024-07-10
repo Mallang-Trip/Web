@@ -1,6 +1,6 @@
 import { GET, POST, PUT, DELETE } from "../utils/axios";
 
-export const getPartyRegionList = async () => await GET("/party/region");
+export const getPartyRegionList = async () => await GET("/region");
 
 export const postNewPartyRegion = async (body) =>
   await POST("/region", body, true);

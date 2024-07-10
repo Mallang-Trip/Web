@@ -20,7 +20,7 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   const cancelHandler = () => setShowModal(false);
 
   const confirmHandler = () => {
-    setDriverInfo({ ...driverInfo, region: region });
+    setDriverInfo({ ...driverInfo, region });
     setShowModal(false);
   };
 
@@ -44,6 +44,10 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [showModal]);
+
+  useEffect(() => {
+    setDriverInfo({ ...driverInfo, region });
+  }, [region]);
 
   useEffect(() => {
     getPartyRegionListFunc();

@@ -4,8 +4,8 @@ import { deletePartyRegion } from "../../../../../../api/region";
 
 function RegionItem({
   partyRegionId,
-  regionImg,
-  region,
+  image,
+  name,
   setEditTarget,
   setShowEditModal,
   getPartyRegionListFunc,
@@ -33,21 +33,21 @@ function RegionItem({
     >
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={regionImg}
-        alt={region}
+        src={image}
+        alt={name}
       />
       {!isHover ? (
         <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white font-bold">
-          {region}
+          {name}
         </div>
       ) : (
         <div className="absolute top-0 left-0 flex flex-col items-center justify-around w-full h-full rounded-lg bg-black/30">
-          <p className="text-xl text-white font-bold">{region}</p>
+          <p className="text-xl text-white font-bold">{name}</p>
           <button
             className="px-4 py-1 text-sm text-white bg-primary rounded-full"
             onClick={() =>
               navigation(
-                `/admin/region?region_id=${partyRegionId}&region_name=${region}`
+                `/admin/region?region_id=${partyRegionId}&region_name=${name}`
               )
             }
           >
@@ -59,8 +59,8 @@ function RegionItem({
               onClick={() => {
                 setEditTarget({
                   partyRegionId: partyRegionId,
-                  region: region,
-                  regionImg: regionImg,
+                  region: name,
+                  regionImg: image,
                 });
                 setShowEditModal(true);
               }}

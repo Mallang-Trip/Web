@@ -29,8 +29,8 @@ function CourseMap({ markerData, reload, mapName, setRegion, courseData }) {
   useEffect(() => {
     if (regionData.length > 0)
       for (let item of regionData) {
-        if (item.region !== "그 외(서비스 준비 중)") {
-          for (let word of item.region.split(" ")) {
+        if (item.name !== "그 외(서비스 준비 중)") {
+          for (let word of item.name.split(" ")) {
             if (word !== "전남") {
               if (markerData[0].address.includes(word)) {
                 setRegion(word);

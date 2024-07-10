@@ -1,32 +1,27 @@
 import regionCheck from "../../../../../../../assets/svg/region-check.svg";
 
-function RegionButton({
-  regionImg,
-  region,
-  selectedRegion,
-  setSelectedRegion,
-}) {
+function RegionButton({ image, name, selectedRegion, setSelectedRegion }) {
   return (
     <div
       className="relative cursor-pointer"
       onClick={() => {
-        if (selectedRegion.includes(region)) {
-          const newRegions = selectedRegion.filter((item) => item !== region);
+        if (selectedRegion.includes(name)) {
+          const newRegions = selectedRegion.filter((item) => item !== name);
           setSelectedRegion(newRegions);
         } else {
-          setSelectedRegion({ ...selectedRegion, region });
+          setSelectedRegion({ ...selectedRegion, region: name });
         }
       }}
     >
       <img
         className="w-full h-48 object-cover object-center overflow-hidden rounded-xl"
-        src={regionImg}
-        alt={region}
+        src={image}
+        alt={name}
       />
       <div className="w-full mt-2.5 text-base text-boldgray font-medium text-center">
-        {region}
+        {name}
       </div>
-      {selectedRegion.includes(region) && (
+      {selectedRegion.includes(name) && (
         <div className="w-full h-48 absolute top-0 left-0 flex justify-center items-center rounded-xl bg-black bg-opacity-70">
           <img src={regionCheck} />
         </div>

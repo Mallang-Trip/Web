@@ -154,6 +154,7 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
+          setRegion={setRegion}
           settingDriverInfo={settingDriverInfo}
         />
       )}
@@ -161,10 +162,12 @@ function NewPartyPage() {
         <Edit
           date={date}
           driverInfo={driverInfo}
+          setDriverInfo={setDriverInfo}
           planData={planData}
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}
           member={member}
+          region={region}
         />
       )}
       {step === "6" && (
@@ -175,6 +178,8 @@ function NewPartyPage() {
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}
           member={member}
+          region={region}
+          setRegion={setRegion}
         />
       )}
       <ConfirmModal

@@ -26,6 +26,7 @@ function DriverCoursePage() {
   const navigation = useNavigate();
   const { courseId } = useParams();
   const [loading, setLoading] = useState(true);
+  const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [capacity, setCapacity] = useState(0);
@@ -88,6 +89,7 @@ function DriverCoursePage() {
             startTime: startTime,
           },
         ],
+        region: region,
         images: [...imagesURL, ...destinationImages],
         name: name,
         totalDays: 1,
@@ -128,6 +130,7 @@ function DriverCoursePage() {
 
       if (courseId !== "new") {
         const courseResult = await getCourseDetail(courseId);
+        setRegion(courseResult.payload.region);
         setName(courseResult.payload.name);
         setImages(courseResult.payload.images);
         setCapacity(courseResult.payload.capacity);
@@ -142,6 +145,7 @@ function DriverCoursePage() {
         );
         setPriceIndex(beforePriceIndex === -1 ? 0 : beforePriceIndex);
       } else {
+        setRegion([]);
         setName("");
         setImages([]);
         setPriceIndex(0);
@@ -221,7 +225,11 @@ function DriverCoursePage() {
         endTime={endTime}
         setStartTime={setStartTime}
       />
-      <EditMap courseData={destinations} setCourseData={setDestinations} />
+      <EditMap
+        courseData={destinations}
+        setCourseData={setDestinations}
+        setRegion={setRegion}
+      />
       <SaveButton
         courseId={courseId}
         saveHandler={() => setShowCheckModal(true)}

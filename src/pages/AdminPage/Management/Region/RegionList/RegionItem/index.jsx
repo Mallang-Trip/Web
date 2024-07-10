@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { deletePartyRegion } from "../../../../../../api/region";
 
 function RegionItem({
-  partyRegionId,
+  regionId,
   image,
   name,
   setEditTarget,
@@ -16,7 +16,7 @@ function RegionItem({
 
   const deleteHandler = async () => {
     try {
-      const result = await deletePartyRegion(partyRegionId);
+      const result = await deletePartyRegion(regionId);
       if (result.statusCode === 409) return setShowDeleteErrorModal(true);
       alert("성공적으로 지역을 삭제했습니다.");
       getPartyRegionListFunc();
@@ -47,7 +47,7 @@ function RegionItem({
             className="px-4 py-1 text-sm text-white bg-primary rounded-full"
             onClick={() =>
               navigation(
-                `/admin/region?region_id=${partyRegionId}&region_name=${name}`
+                `/admin/region?region_id=${regionId}&region_name=${name}`
               )
             }
           >
@@ -58,7 +58,7 @@ function RegionItem({
               className="px-4 py-1 text-sm text-primary font-bold border-2 border-primary rounded-full"
               onClick={() => {
                 setEditTarget({
-                  partyRegionId: partyRegionId,
+                  partyRegionId: regionId,
                   region: name,
                   regionImg: image,
                 });

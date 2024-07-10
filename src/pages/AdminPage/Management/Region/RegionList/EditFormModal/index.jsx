@@ -24,8 +24,8 @@ function EditFormModal({
           ? regionImg
           : await uploadImage(regionImg);
       const body = {
-        region: region,
-        regionImg: regionImgURL,
+        name: region,
+        image: regionImgURL,
       };
 
       await putPartyRegion(editTarget.partyRegionId, body);

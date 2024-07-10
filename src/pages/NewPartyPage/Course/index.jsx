@@ -19,6 +19,7 @@ function Course({
   setSelectedCourseId,
   member,
   region,
+  setRegion,
   settingDriverInfo,
 }) {
   const navigation = useNavigate();
@@ -64,6 +65,7 @@ function Course({
         markerData={planData.days[0].destinations}
         reload={true}
         mapName="TMAP_COURSE"
+        setRegion={setRegion}
       />
       <ReservationButton
         joinHandler={() =>

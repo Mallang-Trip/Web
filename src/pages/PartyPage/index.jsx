@@ -56,6 +56,7 @@ function PartyPage() {
   const [showJoinErrorModal, setShowJoinErrorModal] = useState(false);
   const [joinErrorMessage, setJoinErrorMessage] = useState("");
   const [courseData, setCourseData] = useState([]);
+  const [region, setRegion] = useState("");
   const [companions, setCompanions] = useState(
     Array.from({ length: 10 }, () => ({
       name: "",
@@ -189,6 +190,7 @@ function PartyPage() {
       if (result.statusCode === 403 && !user.auth) navigation("/login");
       else if (result.statusCode === 200) setPartyData(result.payload);
       else setPartyData({ partyId: -1 });
+      setRegion(result.payload.region);
 
       if (
         result?.payload?.myParty === true &&
@@ -359,7 +361,11 @@ function PartyPage() {
             courseData={courseData}
             setCourseData={setCourseData}
           />
-          <EditMap courseData={courseData} setCourseData={setCourseData} />
+          <EditMap
+            courseData={courseData}
+            setCourseData={setCourseData}
+            setRegion={setRegion}
+          />
         </>
       ) : (
         <>
@@ -464,6 +470,7 @@ function PartyPage() {
         course={partyData.course}
         myParty={partyData.myParty}
         courseData={courseData}
+        region={region || partyData.region}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

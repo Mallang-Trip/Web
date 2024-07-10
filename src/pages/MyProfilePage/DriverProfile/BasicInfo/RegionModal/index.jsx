@@ -20,7 +20,7 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   const cancelHandler = () => setShowModal(false);
 
   const confirmHandler = () => {
-    setDriverInfo({ ...driverInfo, region: region });
+    setDriverInfo({ ...driverInfo, region });
     setShowModal(false);
   };
 
@@ -44,6 +44,10 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [showModal]);
+
+  useEffect(() => {
+    setDriverInfo({ ...driverInfo, region });
+  }, [region]);
 
   useEffect(() => {
     getPartyRegionListFunc();
@@ -82,13 +86,13 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             <h3 className="mb-4 text-xl font-bold text-gray-900">
               활동 가능한 지역 수정하기
             </h3>
-            <div className="grid grid-cols-2 gap-5 py-4 px-2 md:grid-cols-3 h-full bg-white rounded-xl overflow-auto">
+            <div className="grid grid-cols-2 gap-5 py-4 px-2 md:grid-cols-3 h-full max-h-[600px] bg-white rounded-xl overflow-scroll noScrollBar">
               {regionData.map((item) => (
                 <Region
-                  key={item.partyRegionId}
+                  key={item.regionId}
                   region={region}
-                  image={item.regionImg}
-                  name={item.region}
+                  image={item.image}
+                  name={item.name}
                   setRegion={setRegion}
                 />
               ))}

@@ -66,7 +66,16 @@ function PersonalInfo({
   const sendCode = async (e) => {
     e.preventDefault();
 
-    if (!/^010\d{8}$/.test(phoneNumber) || !isValidation()) {
+    const fullBirthYear =
+      Number(birthDate.slice(0, 2)) > 20
+        ? `19${birthDate.slice(0, 2)}`
+        : `20${birthDate.slice(0, 2)}`;
+
+    if (new Date().getFullYear() - fullBirthYear + 1 < 20) {
+      setErrorMessage("회원가입은 20세 이상부터 가능합니다.");
+      setShowErrorModal(true);
+      return;
+    } else if (!/^010\d{8}$/.test(phoneNumber) || !isValidation()) {
       setErrorMessage(
         "성함, 주민등록번호, 통신사, 휴대폰 번호를\n 모두 정확하게 입력해 주세요."
       );
@@ -138,23 +147,6 @@ function PersonalInfo({
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    if (birthDate.length !== 6) return;
-
-    const Today = new Date();
-    const year = Today.getFullYear() - 14;
-    const month = String(Today.getMonth() + 1).padStart(2, "0");
-    const day = String(Today.getDate()).padStart(2, "0");
-
-    const fullBirthDate =
-      Number(birthDate.slice(0, 2)) > 20 ? `19${birthDate}` : `20${birthDate}`;
-
-    if (fullBirthDate > year + month + day) {
-      setErrorMessage("회원가입은 만 14세 이상부터\n가능합니다.");
-      setShowErrorModal(true);
-    }
-  }, [birthDate]);
 
   useEffect(() => {
     return () => {

@@ -15,6 +15,7 @@ function CourseImage({ images, setImages }) {
     <div className="flex flex-col gap-2 my-8">
       <p className="text-lg text-black font-bold">파티 코스 이미지</p>
       <div className="flex gap-4 overflow-x-auto noScrollBar">
+        <ImageInput images={images} setImages={setImages} />
         <DragDropContext onDragEnd={handleChange}>
           <Droppable droppableId="imagelist" direction="horizontal">
             {(provided) => (
@@ -24,14 +25,18 @@ function CourseImage({ images, setImages }) {
                 ref={provided.innerRef}
               >
                 {images.map((image, index) => (
-                  <Draggable draggableId={image} index={index} key={image}>
+                  <Draggable
+                    draggableId={typeof image === "string" ? image : image.name}
+                    index={index}
+                    key={typeof image === "string" ? image : image.name}
+                  >
                     {(provided, snapshot) => {
                       return (
                         <div
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          className={`ml-4 ${
+                          className={`mr-4 ${
                             snapshot.isDragging &&
                             "ring ring-primary rounded-lg"
                           }`}
@@ -53,7 +58,6 @@ function CourseImage({ images, setImages }) {
             )}
           </Droppable>
         </DragDropContext>
-        <ImageInput images={images} setImages={setImages} />
       </div>
     </div>
   );

@@ -63,7 +63,7 @@ function PartyPage() {
       phoneNumber: "",
     }))
   );
-  console.log(region);
+
   const checkJoinEdit = () => {
     if (
       partyData.partyStatus === "RECRUITING" &&

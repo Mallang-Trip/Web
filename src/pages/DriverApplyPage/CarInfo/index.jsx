@@ -21,12 +21,16 @@ function CarInfo({
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
     else
       setCarImages(
-        await Promise.all(carImages.map((image) => uploadImage(image)))
+        await Promise.all(
+          carImages.map((image) =>
+            typeof image === "string" ? image : uploadImage(image)
+          )
+        )
       );
   };
 
   useEffect(() => {
-    if (carImages.length > 0 && modelName && onlyNumber(maxNum))
+    if (carImages && carImages.length > 0 && modelName && onlyNumber(maxNum))
       setActiveNext(true);
     else setActiveNext(false);
   }, [carImages, modelName, maxNum]);

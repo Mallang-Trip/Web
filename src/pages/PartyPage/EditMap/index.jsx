@@ -3,7 +3,7 @@ import CourseMap from "../../../components/CourseMap";
 import PlaceMap from "../../../components/PlaceMap";
 import ToggleButton from "./ToggleButton";
 
-function EditMap({ courseData, setCourseData }) {
+function EditMap({ courseData, setCourseData, setRegion }) {
   const [showSearchMap, setShowSearchMap] = useState(true);
 
   useEffect(() => {
@@ -32,6 +32,7 @@ function EditMap({ courseData, setCourseData }) {
           markerData={courseData}
           reload={true}
           mapName="TMAP_COURSE"
+          setRegion={setRegion}
         />
       )}
     </div>

@@ -17,6 +17,7 @@ function EditModal({
   course,
   myParty,
   courseData,
+  region,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -43,6 +44,7 @@ function EditModal({
                   destinations: courseData.map((item) => item.destinationId),
                 },
               ],
+              region: region,
             },
           }
         : {

@@ -1,15 +1,55 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { getPartyRegionList } from "../../api/region";
 import startMarker from "../../assets/svg/start_marker.svg";
 import endMarker from "../../assets/svg/end_marker.svg";
 import pointMarker from "../../assets/svg/point_marker.svg";
 import DestinationModal from "../PlaceMap/DestinationModal";
 
-function CourseMap({ markerData, reload, mapName }) {
+function CourseMap({ markerData, reload, mapName, setRegion, courseData }) {
   const mapRef = useRef();
   const [isDrawMap, setIsDrawMap] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [clickedData, setClickedData] = useState({});
+  const [regionData, setRegionData] = useState([]);
+
+  const getPartyRegionListFunc = async () => {
+    try {
+      const result = await getPartyRegionList();
+      setRegionData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getPartyRegionListFunc();
+  }, []);
+
+  useEffect(() => {
+    if (regionData.length > 0 && setRegion)
+      for (let item of regionData) {
+        if (item.name !== "그 외(서비스 준비 중)") {
+          for (let word of item.name.split(" ")) {
+            if (word !== "전남") {
+              if (markerData[0].address.includes(word)) {
+                setRegion(word);
+                return;
+              } else if (markerData[1].address.includes(word)) {
+                setRegion(word);
+                return;
+              } else if (
+                markerData.length > 2 &&
+                markerData[2].address.includes(word)
+              ) {
+                setRegion(word);
+                return;
+              }
+            }
+          }
+        }
+      }
+  }, [regionData, courseData]);
 
   const addMarker = (destinationId, name, lat, lon, tag, map) => {
     let imgURL = null;

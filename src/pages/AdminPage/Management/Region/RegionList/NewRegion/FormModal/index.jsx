@@ -16,8 +16,8 @@ function FormModal({ showModal, setShowModal, getPartyRegionListFunc }) {
     try {
       const regionImgURL = await uploadImage(regionImg);
       const body = {
-        region: region,
-        regionImg: regionImgURL,
+        name: region,
+        image: regionImgURL,
       };
 
       await postNewPartyRegion(body);

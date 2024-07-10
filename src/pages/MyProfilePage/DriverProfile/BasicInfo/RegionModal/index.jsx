@@ -89,10 +89,10 @@ function RegionModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             <div className="grid grid-cols-2 gap-5 py-4 px-2 md:grid-cols-3 h-full bg-white rounded-xl overflow-auto">
               {regionData.map((item) => (
                 <Region
-                  key={item.partyRegionId}
+                  key={item.regionId}
                   region={region}
-                  image={item.regionImg}
-                  name={item.region}
+                  image={item.image}
+                  name={item.name}
                   setRegion={setRegion}
                 />
               ))}

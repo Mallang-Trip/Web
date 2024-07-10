@@ -39,7 +39,7 @@ function Region({ setRegion, member, driverId, date }) {
         {regionData.map((item) => (
           <RegionButton
             {...item}
-            key={item.partyRegionId}
+            key={item.regionId}
             setRegion={setRegion}
             member={member}
             driverId={driverId}

@@ -26,6 +26,7 @@ function DriverCourse() {
   const navigation = useNavigate();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
+  const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [capacity, setCapacity] = useState(0);
@@ -90,6 +91,7 @@ function DriverCourse() {
             startTime: startTime,
           },
         ],
+        region: region,
         images: [...imagesURL, ...destinationImages],
         name: name,
         totalDays: 1,
@@ -225,7 +227,11 @@ function DriverCourse() {
           endTime={endTime}
           setStartTime={setStartTime}
         />
-        <EditMap courseData={destinations} setCourseData={setDestinations} />
+        <EditMap
+          courseData={destinations}
+          setCourseData={setDestinations}
+          setRegion={setRegion}
+        />
         <SaveButton
           courseId={courseId}
           saveHandler={() => setShowCheckModal(true)}

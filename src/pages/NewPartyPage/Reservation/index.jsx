@@ -23,6 +23,8 @@ function Reservation({
   selectedCourseId,
   setSelectedCourseId,
   member,
+  region,
+  setRegion,
 }) {
   const companionsRef = useRef();
   const creditRef = useRef();
@@ -154,6 +156,7 @@ function Reservation({
         markerData={planData.days[0].destinations}
         reload={true}
         mapName="TMAP_COURSE"
+        setRegion={setRegion}
       />
       <Credit
         shakeCredit={shakeCredit}
@@ -181,6 +184,8 @@ function Reservation({
         course={planData}
         courseData={planData.days[0].destinations}
         driverId={driverInfo.driverId}
+        region={region}
+        courseRegion={planData.region}
       />
     </div>
   );

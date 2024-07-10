@@ -23,7 +23,11 @@ function Body({
           </span>
         )}
       </p>
-      <p className="px-1 text-gray700 font-medium">{driverRegion}</p>
+      <p className="px-1 text-gray700 font-medium">
+        {Array.isArray(driverRegion) && driverRegion.length > 1
+          ? "다수"
+          : driverRegion}
+      </p>
       <p className="px-1 text-gray700 font-medium">
         {makePhoneNumber(phoneNumber)}
       </p>

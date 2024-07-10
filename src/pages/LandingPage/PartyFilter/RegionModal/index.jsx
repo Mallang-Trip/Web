@@ -98,7 +98,7 @@ function RegionModal({ showModal, setShowModal, setShowKakaoChatModal }) {
           <div className="grid grid-cols-2 gap-10 px-6 mx-auto py-8 sm:grid-cols-3 h-full bg-white rounded-t-xl max-h-[400px] md:max-h-[500px] overflow-auto noScrollBar">
             {regionData.map((item) => (
               <RegionButton
-                key={item.partyRegionId}
+                key={item.regionId}
                 selectedRegion={selectedRegion}
                 setSelectedRegion={setSelectedRegion}
                 {...item}

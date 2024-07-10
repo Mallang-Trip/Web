@@ -19,10 +19,13 @@ import JoinAgreement from "../../PartyPage/JoinAgreement";
 function Edit({
   date,
   driverInfo,
+  courseRegion,
+  setCourseRegion,
   planData,
   selectedCourseId,
   setSelectedCourseId,
   member,
+  region,
 }) {
   const companionsRef = useRef();
   const creditRef = useRef();
@@ -162,7 +165,11 @@ function Edit({
         newName={newName}
         setNewName={setNewName}
       />
-      <EditMap courseData={courseData} setCourseData={setCourseData} />
+      <EditMap
+        courseData={courseData}
+        setCourseData={setCourseData}
+        setRegion={setCourseRegion}
+      />
       <Credit
         shakeCredit={shakeCredit}
         register={registerCredit}
@@ -190,6 +197,8 @@ function Edit({
         course={planData}
         courseData={courseData}
         driverId={driverInfo.driverId}
+        region={region}
+        courseRegion={courseRegion}
       />
     </div>
   );

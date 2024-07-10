@@ -15,12 +15,17 @@ function RegionList({ setActiveNext, region, setRegion }) {
   };
 
   const regionHandler = (name) => {
-    setRegion(name);
-    setActiveNext(true);
+    if (!region.includes(name)) {
+      setRegion([...region, name]);
+      setActiveNext(true);
+    } else {
+      setRegion(region.filter((item) => item !== name));
+    }
   };
 
   useEffect(() => {
-    if (region) setActiveNext(true);
+    if (region.length !== 0) setActiveNext(true);
+    else setActiveNext(false);
   }, [region]);
 
   useEffect(() => {
@@ -31,10 +36,10 @@ function RegionList({ setActiveNext, region, setRegion }) {
     <div className="grid grid-cols-2 gap-10 px-10 py-8 md:grid-cols-3 lg:grid-cols-4 h-full bg-white rounded-xl overflow-auto">
       {regionData.map((item) => (
         <Region
-          key={item.partyRegionId}
+          key={item.regionId}
           region={region}
-          image={item.regionImg}
-          name={item.region}
+          image={item.image}
+          name={item.name}
           regionHandler={regionHandler}
         />
       ))}

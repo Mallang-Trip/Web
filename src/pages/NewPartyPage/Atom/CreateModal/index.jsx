@@ -15,6 +15,7 @@ function CreateModal({
   courseData,
   driverId,
   region,
+  courseRegion,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -50,7 +51,7 @@ function CreateModal({
               destinations: courseData.map((item) => item.destinationId),
             },
           ],
-          region: region,
+          region: courseRegion || region,
         },
       };
 

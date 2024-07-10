@@ -12,4 +12,4 @@ export const deletePartyRegion = async (regionId) =>
   await DELETE(`/region/${regionId}`, true);
 
 export const getPartyRegionDriverList = async (regionId) =>
-  await GET(`/region/${regionId}`, true);
+  await GET(`/region/driver/${regionId}`, true);

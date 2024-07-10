@@ -26,7 +26,6 @@ function DriverCoursePage() {
   const navigation = useNavigate();
   const { courseId } = useParams();
   const [loading, setLoading] = useState(true);
-  const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [capacity, setCapacity] = useState(0);
@@ -39,6 +38,8 @@ function DriverCoursePage() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
   const [commissionRate, setCommissionRate] = useState(0);
+  const [driverRegion, setDriverRegion] = useState([]);
+  const [courseRegion, setCourseRegion] = useState("");
 
   const saveCourse = async () => {
     const destinationImages = destinations.reduce((acc, cur) => {
@@ -89,7 +90,7 @@ function DriverCoursePage() {
             startTime: startTime,
           },
         ],
-        region: region,
+        region: courseRegion || driverRegion[0],
         images: [...imagesURL, ...destinationImages],
         name: name,
         totalDays: 1,
@@ -127,10 +128,11 @@ function DriverCoursePage() {
       const driverResult = await getDriverMyInfo();
       setCapacity(driverResult.payload.vehicleCapacity);
       setPrices(driverResult.payload.prices);
+      setDriverRegion(driverResult.payload.region);
 
       if (courseId !== "new") {
         const courseResult = await getCourseDetail(courseId);
-        setRegion(courseResult.payload.region);
+        setCourseRegion(courseResult.payload.region);
         setName(courseResult.payload.name);
         setImages(courseResult.payload.images);
         setCapacity(courseResult.payload.capacity);
@@ -145,7 +147,7 @@ function DriverCoursePage() {
         );
         setPriceIndex(beforePriceIndex === -1 ? 0 : beforePriceIndex);
       } else {
-        setRegion([]);
+        setCourseRegion("");
         setName("");
         setImages([]);
         setPriceIndex(0);
@@ -228,7 +230,7 @@ function DriverCoursePage() {
       <EditMap
         courseData={destinations}
         setCourseData={setDestinations}
-        setRegion={setRegion}
+        setRegion={setCourseRegion}
       />
       <SaveButton
         courseId={courseId}

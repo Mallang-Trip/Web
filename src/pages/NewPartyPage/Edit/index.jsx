@@ -19,7 +19,8 @@ import JoinAgreement from "../../PartyPage/JoinAgreement";
 function Edit({
   date,
   driverInfo,
-  setDriverInfo,
+  courseRegion,
+  setCourseRegion,
   planData,
   selectedCourseId,
   setSelectedCourseId,
@@ -45,10 +46,6 @@ function Edit({
       phoneNumber: "",
     }))
   );
-
-  const setRegion = (region) => {
-    setDriverInfo([...driverInfo, region]);
-  };
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크
@@ -171,7 +168,7 @@ function Edit({
       <EditMap
         courseData={courseData}
         setCourseData={setCourseData}
-        setRegion={setRegion}
+        setRegion={setCourseRegion}
       />
       <Credit
         shakeCredit={shakeCredit}
@@ -201,6 +198,7 @@ function Edit({
         courseData={courseData}
         driverId={driverInfo.driverId}
         region={region}
+        courseRegion={courseRegion}
       />
     </div>
   );

@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
@@ -20,13 +15,13 @@ import Reservation from "./Reservation";
 function NewPartyPage() {
   const navigation = useNavigate();
   const { step } = useParams();
-  const location = useLocation();
   const user = useSelector((state) => state.user);
   const [searchParams] = useSearchParams();
   const [region, setRegion] = useState("");
+  const [courseRegion, setCourseRegion] = useState("");
   const [member, setMember] = useState(1);
   const [date, setDate] = useState();
-  const [driverId, setDriverId] = useState(0);
+  const [driverId, setDriverId] = useState(searchParams.get("driverId"));
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState({});
   const [selectedCourseId, setSelectedCourseId] = useState(
@@ -109,8 +104,7 @@ function NewPartyPage() {
   }, [selectedCourseId]);
 
   useEffect(() => {
-    if (!driverId) return;
-    settingDriverInfo();
+    if (driverId > 0) settingDriverInfo();
   }, [driverId]);
 
   useEffect(() => {
@@ -162,7 +156,8 @@ function NewPartyPage() {
         <Edit
           date={date}
           driverInfo={driverInfo}
-          setDriverInfo={setDriverInfo}
+          courseRegion={courseRegion}
+          setCourseRegion={setCourseRegion}
           planData={planData}
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}

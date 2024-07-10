@@ -28,7 +28,7 @@ function Information({
             className={`w-full focus:outline-none text-right ${
               modifyMode ? "bg-skyblue" : "bg-lightgray"
             } ${modifyMode && onClick && "cursor-pointer caret-transparent"}`}
-            value={Array.isArray(content) ? content.join(" ") : content}
+            value={Array.isArray(content) ? content.join(" / ") : content}
             onChange={onChangeHandler}
             disabled={!modifyMode}
           />

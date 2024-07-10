@@ -5,11 +5,11 @@ function RegionButton({ image, name, selectedRegion, setSelectedRegion }) {
     <div
       className="relative cursor-pointer"
       onClick={() => {
-        if (selectedRegion.includes(name)) {
+        if (selectedRegion.indexOf(name) > -1) {
           const newRegions = selectedRegion.filter((item) => item !== name);
           setSelectedRegion(newRegions);
         } else {
-          setSelectedRegion({ ...selectedRegion, region: name });
+          setSelectedRegion([...selectedRegion, name]);
         }
       }}
     >
@@ -21,7 +21,7 @@ function RegionButton({ image, name, selectedRegion, setSelectedRegion }) {
       <div className="w-full mt-2.5 text-base text-boldgray font-medium text-center">
         {name}
       </div>
-      {selectedRegion.includes(name) && (
+      {selectedRegion.indexOf(name) > -1 && (
         <div className="w-full h-48 absolute top-0 left-0 flex justify-center items-center rounded-xl bg-black bg-opacity-70">
           <img src={regionCheck} />
         </div>

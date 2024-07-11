@@ -39,6 +39,7 @@ function DriverCourse() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
   const [commissionRate, setCommissionRate] = useState(0);
+  const [driverRegion, setDriverRegion] = useState([]);
   const driverId = searchParams.get("driverId");
   const courseId = searchParams.get("courseId");
 
@@ -91,7 +92,7 @@ function DriverCourse() {
             startTime: startTime,
           },
         ],
-        region: region,
+        region: region || driverRegion[0],
         images: [...imagesURL, ...destinationImages],
         name: name,
         totalDays: 1,
@@ -129,6 +130,7 @@ function DriverCourse() {
       const driverResult = await getDriverInfoDetail(driverId);
       setCapacity(driverResult.payload.vehicleCapacity);
       setPrices(driverResult.payload.prices);
+      setDriverRegion(driverResult.payload.region);
 
       if (courseId !== "new") {
         const courseResult = await getDriverCourseDetail(driverId, courseId);

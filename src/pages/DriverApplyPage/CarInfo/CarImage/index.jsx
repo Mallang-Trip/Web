@@ -22,6 +22,7 @@ function CarImage({ image, index, carImages, setCarImages }) {
           className="absolute top-0 left-0 w-full h-full rounded-xl bg-black bg-opacity-50 cursor-pointer"
           onClick={deleteHandler}
         >
+          ={" "}
           <img
             src={deleteIcon}
             className="ml-auto mt-1 mr-1 w-5 h-5"

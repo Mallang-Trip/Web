@@ -15,6 +15,8 @@ function CarInfo({
   setMaxNum,
 }) {
   const imageRef = useRef();
+  const imageContainer = useRef();
+  const imageContainerBox = useRef();
 
   const imageHandler = async () => {
     const imageFile = imageRef.current.files[0];
@@ -37,6 +39,22 @@ function CarInfo({
     else setActiveNext(false);
   }, [carImages, modelName, maxNum]);
 
+  useEffect(() => {
+    const checkOverFlow = () => {
+      console.log(
+        "imageContainerboxref" + imageContainerBox.current.clientWidth
+      );
+      console.log("imageContainer" + imageContainer.current.clientWidth);
+      if (
+        imageContainerBox.current.clientWidth <
+        imageContainer.current?.clientWidth
+      )
+        console.log("first");
+      else console.log("2");
+    };
+    checkOverFlow();
+  }, [carImages]);
+
   return (
     <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8">
       <div>
@@ -44,35 +62,40 @@ function CarInfo({
           차량의 사진을 업로드해주세요{" "}
           <span className="text-red-600 font-bold">*</span>
         </div>
-        <div className="flex w-full h-[200px] mt-4 mb-16 relative gap-2">
-          <div
-            className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer justify-center items-center flex"
-            onClick={() => imageRef.current.click()}
-          >
-            <img src={primaryPlus} alt="plus" className="w-4 h-4 " />
+        <div
+          className="flex w-full h-[200px] mt-4 mb-16 relative gap-2 overflow-x-auto overflow-y-hidden"
+          ref={imageContainerBox}
+        >
+          <div className="flex gap-2 flex-shrink-0" ref={imageContainer}>
+            <div
+              className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer justify-center items-center flex"
+              onClick={() => imageRef.current.click()}
+            >
+              <img src={primaryPlus} alt="plus" className="w-4 h-4 " />
 
-            <input
-              ref={imageRef}
-              className="hidden"
-              id="carImage_input"
-              type="file"
-              accept="image/*"
-              onChange={imageHandler}
-            />
-          </div>
-          {carImages && carImages.length > 0 ? (
-            <div className="flex flex-col flex-wrap gap-2">
-              {carImages.map((image, index) => (
-                <CarImage
-                  key={index}
-                  image={image}
-                  index={index}
-                  carImages={carImages}
-                  setCarImages={setCarImages}
-                />
-              ))}
+              <input
+                ref={imageRef}
+                className="hidden"
+                id="carImage_input"
+                type="file"
+                accept="image/*"
+                onChange={imageHandler}
+              />
             </div>
-          ) : null}
+            {carImages && carImages.length > 0 ? (
+              <div className="flex flex-col flex-wrap gap-2">
+                {carImages.map((image, index) => (
+                  <CarImage
+                    key={index}
+                    image={image}
+                    index={index}
+                    carImages={carImages}
+                    setCarImages={setCarImages}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
       <div>

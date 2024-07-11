@@ -48,13 +48,14 @@ function MapBox({
 
     if (markerData.length === 0) {
       const map = recentMap || makeNewMap();
-      new Tmapv2.Marker({
+      const marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(37.398195688134, 126.96313827598239),
         map: map,
         title: "말랑트립",
         label: "말랑트립",
         icon: pointMarker,
       });
+      setMarker([marker]);
       return;
     }
 

@@ -33,7 +33,7 @@ function DriverApplyPage() {
   const [carImages, setCarImages] = useState([]);
   const [modelName, setModelName] = useState("");
   const [maxNum, setMaxNum] = useState("");
-  const [region, setRegion] = useState("");
+  const [region, setRegion] = useState([]);
   const [bank, setBank] = useState("");
   const [name, setName] = useState("");
   const [accoutNumber, setAccoutNumber] = useState("");

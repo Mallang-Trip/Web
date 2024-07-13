@@ -38,6 +38,8 @@ function DriverCoursePage() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
   const [commissionRate, setCommissionRate] = useState(0);
+  const [driverRegion, setDriverRegion] = useState([]);
+  const [courseRegion, setCourseRegion] = useState("");
 
   const saveCourse = async () => {
     const destinationImages = destinations.reduce((acc, cur) => {
@@ -88,6 +90,7 @@ function DriverCoursePage() {
             startTime: startTime,
           },
         ],
+        region: courseRegion || driverRegion[0],
         images: [...imagesURL, ...destinationImages],
         name: name,
         totalDays: 1,
@@ -125,9 +128,11 @@ function DriverCoursePage() {
       const driverResult = await getDriverMyInfo();
       setCapacity(driverResult.payload.vehicleCapacity);
       setPrices(driverResult.payload.prices);
+      setDriverRegion(driverResult.payload.region);
 
       if (courseId !== "new") {
         const courseResult = await getCourseDetail(courseId);
+        setCourseRegion(courseResult.payload.region);
         setName(courseResult.payload.name);
         setImages(courseResult.payload.images);
         setCapacity(courseResult.payload.capacity);
@@ -142,6 +147,7 @@ function DriverCoursePage() {
         );
         setPriceIndex(beforePriceIndex === -1 ? 0 : beforePriceIndex);
       } else {
+        setCourseRegion("");
         setName("");
         setImages([]);
         setPriceIndex(0);
@@ -221,7 +227,11 @@ function DriverCoursePage() {
         endTime={endTime}
         setStartTime={setStartTime}
       />
-      <EditMap courseData={destinations} setCourseData={setDestinations} />
+      <EditMap
+        courseData={destinations}
+        setCourseData={setDestinations}
+        setRegion={setCourseRegion}
+      />
       <SaveButton
         courseId={courseId}
         saveHandler={() => setShowCheckModal(true)}

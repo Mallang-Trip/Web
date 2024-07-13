@@ -7,14 +7,16 @@ function CarInfo({ vehicleImgs, vehicleModel, vehicleCapacity }) {
           {vehicleModel} (승객 탑승 정원 {vehicleCapacity}명)
         </span>
       </p>
-      {vehicleImgs.map((image, index) => (
-        <img
-          key={index}
-          src={image}
-          alt="dkdldhslr"
-          className="w-80 rounded-xl"
-        />
-      ))}
+      <div className="h-64 bg-cover gap-2.5 flex overflow-x-scroll noScrollBar">
+        {vehicleImgs.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={vehicleModel}
+            className="shrink-0 h-full object-cover rounded-lg"
+          />
+        ))}
+      </div>
     </div>
   );
 }

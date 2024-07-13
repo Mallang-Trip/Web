@@ -3,8 +3,15 @@ import PWAPrompt from "react-ios-pwa-prompt";
 import InstallModal from "./InstallModal";
 
 function PWAInstall() {
+  const UA = navigator.userAgent.toLowerCase();
   const [showInstallModal, setShowInstallModal] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(undefined);
+
+  const isAndroid = UA.indexOf("android") > -1;
+  const isIos =
+    UA.indexOf("iphone") > -1 ||
+    UA.indexOf("ipad") > -1 ||
+    UA.indexOf("ipod") > -1;
 
   const handleInstallClick = () => {
     if (!deferredPrompt) return;
@@ -39,13 +46,16 @@ function PWAInstall() {
     setTimeout(() => setShowInstallModal(true), 2000);
   }, [deferredPrompt]);
 
-  return (
-    <>
+  if (isAndroid)
+    return (
       <InstallModal
         showModal={showInstallModal}
         setShowModal={setShowInstallModal}
         handleInstallClick={handleInstallClick}
       />
+    );
+  if (isIos)
+    return (
       <PWAPrompt
         promptOnVisit={1}
         timesToShow={3000}
@@ -56,8 +66,7 @@ function PWAInstall() {
         copyClosePrompt="닫기"
         permanentlyHideOnDismiss={false}
       />
-    </>
-  );
+    );
 }
 
 export default PWAInstall;

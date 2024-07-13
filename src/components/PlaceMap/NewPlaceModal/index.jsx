@@ -93,15 +93,15 @@ function NewPlaceModal({
     map.fitBounds(PTbounds, margin);
   };
 
-  const searchHandler = (e) => {
-    e.preventDefault();
+  const searchHandler = (e, target) => {
+    if (e) e.preventDefault();
 
     axios
       .get(
         "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
         {
           params: {
-            searchKeyword: keyword,
+            searchKeyword: e ? keyword : searchKeyword,
             resCoordType: "EPSG3857",
             reqCoordType: "WGS84GEO",
             count: 10,
@@ -238,6 +238,7 @@ function NewPlaceModal({
     } else initTmap();
 
     setKeyword(searchKeyword);
+    searchHandler();
   }, [showModal]);
 
   return createPortal(

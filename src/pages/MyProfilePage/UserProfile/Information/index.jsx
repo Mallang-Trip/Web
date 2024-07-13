@@ -10,7 +10,7 @@ function Information({
     return (
       <div className="flex justify-between py-4 px-6 rounded-xl bg-lightgray text-sm text-darkgray">
         <span>{title}</span>
-        <span>{content}</span>
+        <span>{Array.isArray(content) ? content.join(" ") : content}</span>
       </div>
     );
   else
@@ -28,7 +28,7 @@ function Information({
             className={`w-full focus:outline-none text-right ${
               modifyMode ? "bg-skyblue" : "bg-lightgray"
             } ${modifyMode && onClick && "cursor-pointer caret-transparent"}`}
-            value={content}
+            value={Array.isArray(content) ? content.join(" / ") : content}
             onChange={onChangeHandler}
             disabled={!modifyMode}
           />

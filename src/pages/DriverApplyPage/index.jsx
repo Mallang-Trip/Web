@@ -118,7 +118,6 @@ function DriverApplyPage() {
   const getDriverApplyFunc = async () => {
     try {
       const result = await getDriverApply();
-      console.log(result);
 
       if (result.statusCode === 200) {
         const backupData = JSON.parse(
@@ -127,11 +126,7 @@ function DriverApplyPage() {
 
         setStep(backupData?.step || 0);
         setChecked(backupData?.checked || [false, false, false]);
-        setCarImages(
-          backupData?.carImages || result.payload.vehicleImg
-            ? result.payload.vehicleImg
-            : result.payload.vehicleImgs
-        );
+        setCarImages(backupData?.carImages || result.payload.vehicleImgs);
         setModelName(backupData?.modelName || result.payload.vehicleModel);
         setMaxNum(
           backupData?.maxNum || result.payload.vehicleCapacity.toString()

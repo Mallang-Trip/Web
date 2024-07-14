@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { onlyNumber } from "../../../utils";
 import { uploadImage } from "../../../api/image";
 import { CONSTANT } from "../../../utils/data";
+import CarImage from "./CarImage";
+import primaryPlus from "../../../assets/svg/primary_plus.svg";
 
 function CarInfo({
   setActiveNext,
@@ -19,14 +21,18 @@ function CarInfo({
     if (!imageFile) setCarImages(null);
     else if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    else
-      setCarImages(
-        await Promise.all(carImages.map((image) => uploadImage(image)))
+    else {
+      const uploadedImage = await uploadImage(imageFile);
+      setCarImages((carImages) =>
+        Array.isArray(carImages)
+          ? [...carImages, uploadedImage]
+          : [uploadedImage]
       );
+    }
   };
 
   useEffect(() => {
-    if (carImages.length > 0 && modelName && onlyNumber(maxNum))
+    if (carImages && carImages.length > 0 && modelName && onlyNumber(maxNum))
       setActiveNext(true);
     else setActiveNext(false);
   }, [carImages, modelName, maxNum]);
@@ -38,41 +44,35 @@ function CarInfo({
           차량의 사진을 업로드해주세요{" "}
           <span className="text-red-600 font-bold">*</span>
         </div>
-        <div className="flex justify-center w-full h-[200px] mt-4 mb-16 relative">
-          <div
-            className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
-            onClick={() => imageRef.current.click()}
-          >
+        <div className="flex w-full h-[200px] mt-4 mb-16 relative gap-2 overflow-x-auto overflow-y-hidden noScrollBar">
+          <div className="flex gap-2 flex-shrink-0">
+            <div
+              className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer justify-center items-center flex"
+              onClick={() => imageRef.current.click()}
+            >
+              <img src={primaryPlus} alt="plus" className="w-4 h-4" />
+              <input
+                ref={imageRef}
+                className="hidden"
+                id="carImage_input"
+                type="file"
+                accept="image/*"
+                onChange={imageHandler}
+              />
+            </div>
             {carImages && carImages.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col flex-wrap gap-2">
                 {carImages.map((image, index) => (
-                  <img
+                  <CarImage
                     key={index}
-                    className="object-cover w-full h-full rounded-2xl"
-                    src={URL.createObjectURL(image)}
-                    alt={`car_Image_${index}`}
+                    image={image}
+                    index={index}
+                    carImages={carImages}
+                    setCarImages={setCarImages}
                   />
                 ))}
               </div>
             ) : null}
-          </div>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-12 md:translate-x-[200px] md:translate-y-0">
-            <label htmlFor="carImage_input">
-              <button
-                className="px-5 py-1 text-sm bg-white border rounded-full border-darkgray text-darkgray"
-                onClick={() => imageRef.current.click()}
-              >
-                사진 업로드
-              </button>
-            </label>
-            <input
-              ref={imageRef}
-              className="hidden"
-              id="carImage_input"
-              type="file"
-              accept="image/*"
-              onChange={imageHandler}
-            />
           </div>
         </div>
       </div>

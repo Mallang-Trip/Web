@@ -17,13 +17,13 @@ function Vehicle({ vehicleModel, vehicleCapacity, vehicleImgs }) {
           modifyMode={false}
         />
       </div>
-      <div className="w-80 h-52 mt-5 rounded-2xl mx-auto relative">
+      <div className="h-52 mt-5 rounded-2xl relative flex gap-5 overflow-x-auto w-full noScrollBar">
         {vehicleImgs.map((image, index) => (
           <img
             key={index}
             src={image}
             alt={vehicleModel}
-            className="w-full h-full rounded-2xl object-cover"
+            className="shrink-0 h-full rounded-2xl object-cover"
           />
         ))}
       </div>

@@ -52,7 +52,7 @@ function CourseDnD({
                 <Draggable
                   draggableId={item.destinationId.toString()}
                   index={index}
-                  key={(item.destinationId + index).toString()}
+                  key={item.destinationId.toString()}
                 >
                   {(provided, snapshot) => {
                     return (

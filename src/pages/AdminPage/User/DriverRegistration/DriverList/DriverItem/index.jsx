@@ -14,7 +14,7 @@ function DriverItem({ driver, setDriverInfo }) {
       <span className="text-gray700 pr-2 mr-2 border-r border-gray500">
         {driver.accountHolder}
       </span>
-      <span className="text-gray700">{driver.region}</span>
+      <span className="text-gray700">{driver.region.join(" / ")}</span>
       <span className="text-gray700 pl-2 ml-2 border-l border-gray500">
         {driver.introduction || "자기소개 없음"}
       </span>

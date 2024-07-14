@@ -129,11 +129,8 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   }, [autoSave]);
 
   useEffect(() => {
-    if (!driverInfo.region) return;
-    if (driverInfo.vehicleImg)
-      return setNewVehicleImages([driverInfo.vehicleImg]);
-    if (driverInfo.vehicleImgs)
-      return setNewVehicleImages(driverInfo.vehicleImgs);
+    if (!driverInfo.vehicleImgs) return;
+    setNewVehicleImages(driverInfo.vehicleImgs);
   }, [driverInfo]);
 
   useEffect(() => {

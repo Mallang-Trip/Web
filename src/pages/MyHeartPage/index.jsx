@@ -11,6 +11,7 @@ function MyHeartPage() {
   const getMyHeartData = async () => {
     try {
       const party = await getLikeParty();
+      console.log(party);
       const destination = await getLikeDestination();
       setMyHeartData([...party.payload, ...destination.payload]);
     } catch (e) {

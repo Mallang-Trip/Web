@@ -47,15 +47,18 @@ function HeartItem({
           : navigate(`/destination/detail/${destinationId}`)
       }
     >
-      <img
-        className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={image}
-        alt="heart-image"
-      />
+      {image ? (
+        <img
+          className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
+          src={image}
+          alt={name}
+        />
+      ) : null}
       <img
         className="absolute top-2 right-2 cursor-pointer z-10"
         src={heart ? FillHeart : EmptyHeart}
         onClick={heartClickHandler}
+        alt="image"
       />
       <div className="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full rounded-lg text-white bg-black bg-opacity-50">
         <div className="text-xl">{name}</div>

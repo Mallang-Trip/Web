@@ -1,8 +1,8 @@
-name: React Deploy
+name: React Development Deploy
 on:
   push:
     branches:
-      - main
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,7 +12,7 @@ jobs:
 
       - name: .env setting
         run: |
-          echo "VITE_BASE_SERVER_URL=${{ secrets.VITE_BASE_SERVER_URL }}" >> .env
+          echo "VITE_BASE_SERVER_URL=${{ secrets.VITE_BASE_DEV_SERVER_URL }}" >> .env
           echo "VITE_APP_FCM_API_KEY=${{ secrets.VITE_APP_FCM_API_KEY }}" >> .env
           echo "VITE_APP_FCM_AUTH_DOMAIN=${{ secrets.VITE_APP_FCM_AUTH_DOMAIN }}" >> .env
           echo "VITE_APP_FCM_PROJECT_ID=${{ secrets.VITE_APP_FCM_PROJECT_ID }}" >> .env
@@ -22,6 +22,22 @@ jobs:
           echo "VITE_APP_FCM_MEASUREMENT_ID=${{ secrets.VITE_APP_FCM_MEASUREMENT_ID }}" >> .env
           echo "VITE_APP_FCM_VAPID_KEY=${{ secrets.VITE_APP_FCM_VAPID_KEY }}" >> .env
 
+      - name: Create appspec.yml
+        run: |
+          cat << EOF > appspec.yml
+          version: 0.0
+          os: linux
+          files:
+            - source: /
+              destination: /home/ubuntu/mallang-trip-dev
+              overwrite: yes
+          permissions:
+            - object: /home/ubuntu/mallang-trip-dev
+              owner: ubuntu
+              group: ubuntu
+              mode: 755
+          EOF
+
       - name: Check Node version
         run: node -v
 
@@ -29,9 +45,12 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: npm run build -- --outDir=dev
         env:
           CI: ""
+
+      - name: Remove Dependencies
+        run: rm -rf node_modules
 
       - name: zip create
         run: zip -qq -r ./react-build.zip .

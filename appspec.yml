@@ -3,10 +3,15 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/mallang-trip
+    destination: /home/ubuntu/mallang-trip-code
     overwrite: yes
 permissions:
-  - object: /home/ubuntu/mallang-trip
+  - object: /home/ubuntu/mallang-trip-code
     owner: ubuntu
     group: ubuntu
     mode: 755
+hooks:
+  AfterInstall:
+    - location: deploy.sh
+      timeout: 300
+      runas: ubuntu

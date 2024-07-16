@@ -1,4 +1,4 @@
-name: React Deploy
+name: React Production Deploy
 on:
   push:
     branches:
@@ -22,6 +22,12 @@ jobs:
           echo "VITE_APP_FCM_MEASUREMENT_ID=${{ secrets.VITE_APP_FCM_MEASUREMENT_ID }}" >> .env
           echo "VITE_APP_FCM_VAPID_KEY=${{ secrets.VITE_APP_FCM_VAPID_KEY }}" >> .env
 
+      - name: Create deploy.sh
+        run: |
+          echo "rm -rf /home/ubuntu/mallang-trip/dist" >> deploy.sh
+          echo "mkdir /home/ubuntu/mallang-trip/dist" >> deploy.sh
+          echo "mv /home/ubuntu/mallang-trip-code/dist/* /home/ubuntu/mallang-trip/dist/" >> deploy.sh
+
       - name: Check Node version
         run: node -v
 
@@ -32,6 +38,9 @@ jobs:
         run: npm run build
         env:
           CI: ""
+
+      - name: Remove Dependencies
+        run: rm -rf node_modules
 
       - name: zip create
         run: zip -qq -r ./react-build.zip .

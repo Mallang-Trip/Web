@@ -16,6 +16,7 @@ import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
 import PartyDate from "./PartyDate";
 import PartyMember from "./PartyMember";
+import PartyIntro from "./PartyIntro";
 import ToTalPrice from "./ToTalPrice";
 import JoinButton from "./JoinButton";
 import CreditInfo from "./CreditInfo";
@@ -285,6 +286,7 @@ function PartyPage() {
             startDate={partyData.startDate}
           />
         )}
+      <PartyIntro content={partyData.content} />
       <ToTalPrice
         totalPrice={
           user.userId === partyData.driverId

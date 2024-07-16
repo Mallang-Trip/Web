@@ -19,6 +19,7 @@ function HeartItem({
 }) {
   const navigate = useNavigate();
   const [heart, setHeart] = useState(true);
+  console.log(name);
 
   const heartClickHandler = async (e) => {
     e.stopPropagation();
@@ -47,10 +48,13 @@ function HeartItem({
           : navigate(`/destination/detail/${destinationId}`)
       }
     >
-      <img
-        className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={image}
-      />
+      {image ? (
+        <img
+          className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
+          src={image}
+          alt={name}
+        />
+      ) : null}
       <img
         className="absolute top-2 right-2 cursor-pointer z-10"
         src={heart ? FillHeart : EmptyHeart}

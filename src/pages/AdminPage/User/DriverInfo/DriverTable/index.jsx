@@ -16,7 +16,7 @@ function DriverTable({ userList }) {
         .map((driver) => {
           return (
             <div className="flex">
-              <Body key={driver.userId} {...driver} />
+              <Body key={driver.userId} driverInfo={driver} {...driver} />
             </div>
           );
         })}

@@ -28,6 +28,7 @@ function DriverDetail() {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [newPhoneNum, setNewPhoneNum] = useState("");
   const driverId = searchParams.get("driverId");
 
   const profileImageHandler = () => {
@@ -90,6 +91,7 @@ function DriverDetail() {
     try {
       const result = await getDriverInfoDetail(driverId);
       setDriverInfo(result.payload);
+      setNewPhoneNum(result.payload.phoneNumber);
       setNewVehicleImages(result.payload.vehicleImgs);
     } catch (e) {
       console.log(e);

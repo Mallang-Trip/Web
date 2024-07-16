@@ -19,7 +19,6 @@ function HeartItem({
 }) {
   const navigate = useNavigate();
   const [heart, setHeart] = useState(true);
-  console.log(name);
 
   const heartClickHandler = async (e) => {
     e.stopPropagation();

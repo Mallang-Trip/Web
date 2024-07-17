@@ -2,10 +2,9 @@ import { useState } from "react";
 
 function LicensePicture({
   modifyMode,
-  driverInfo,
-  setDriverInfo,
   licenseImgRef,
   image,
+  index,
   modifyLicenseHandler,
 }) {
   const [changeImg, setChangeImg] = useState(false);
@@ -18,7 +17,7 @@ function LicensePicture({
       <img
         className="w-full h-full rounded-2xl object-cover"
         src={image}
-        alt="a"
+        alt="LicenseImg"
       />
       {changeImg && (
         <>
@@ -33,7 +32,7 @@ function LicensePicture({
             className="hidden"
             type="file"
             accept="image/*"
-            onChange={modifyLicenseHandler}
+            onChange={() => modifyLicenseHandler(index)}
           />
         </>
       )}

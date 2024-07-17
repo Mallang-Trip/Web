@@ -31,8 +31,27 @@ function DriverDetail() {
   const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
   const [newPhoneNum, setNewPhoneNum] = useState("");
-  const driverId = searchParams.get("driverId");
+  const newLicenseImage = [
+    "driverLicenseImg",
+    "taxiLicenseImg",
+    "insuranceLicenseImg",
+  ];
+  // const [newLicenseImage, setNewLicenseImage] = useState([
+  //   {
+  //     key: "driverLicenseImg",
+  //     value: "",
+  //   },
+  //   {
+  //     key: "taxiLicenseImg",
+  //     value: "",
+  //   },
+  //   {
+  //     key: "insuranceLicenseImg",
+  //     value: "",
+  //   },
+  // ]);
 
+  const driverId = searchParams.get("driverId");
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
@@ -43,7 +62,19 @@ function DriverDetail() {
     const imageFile = vehicleImageRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewVehicleImages([...newVehicleImages, imageFile]);
+    setNewVehicleImages((prevImgs) => [...prevImgs, imageFile]);
+  };
+
+  const modifyLicenseHandler = async (index) => {
+    const imageFile = licenseImgRef.current.files[0];
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
+    const licenseImageURL = await uploadImage(imageFile);
+
+    setDriverInfo((prevDriverInfo) => ({
+      ...prevDriverInfo,
+      [newLicenseImage[index]]: licenseImageURL,
+    }));
   };
 
   const modifyProfileHandler = async () => {
@@ -60,7 +91,7 @@ function DriverDetail() {
               typeof image === "string" ? image : uploadImage(image)
             )
           )
-        : newVehicleImages;
+        : driverInfo.vehicleImgs;
 
     const body = {
       accountHolder: driverInfo.accountHolder,
@@ -77,12 +108,16 @@ function DriverDetail() {
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
+      driverLicenseImg: driverInfo.driverLicenseImg,
+      taxiLicenseImg: driverInfo.taxiLicenseImg,
+      insuranceLicenseImg: driverInfo.insuranceLicenseImg,
     };
 
     try {
       await putDriverInfoDetail(driverId, body);
       setShowCompleteModal(true);
       setModifyMode(false);
+
       getDriverInfoDetailFunc();
     } catch (e) {
       console.log(e);
@@ -94,7 +129,7 @@ function DriverDetail() {
       const result = await getDriverInfoDetail(driverId);
       setDriverInfo(result.payload);
       setNewPhoneNum(result.payload.phoneNumber);
-      setNewVehicleImages(result.payload.vehicleImgs);
+      setNewVehicleImages(result.payload.vehicleImgs || []);
     } catch (e) {
       console.log(e);
     } finally {
@@ -122,7 +157,7 @@ function DriverDetail() {
       bank: driverInfo.bank,
       holidays: driverInfo.holidays,
       introduction: driverInfo.introduction,
-      phoneNumber: driverInfo.phoneNumber,
+      phoneNumber: newPhoneNum,
       prices: driverInfo.prices,
       profileImg: profileImageURL,
       region: driverInfo.region,
@@ -138,13 +173,6 @@ function DriverDetail() {
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const modifyLicenseHandler = () => {
-    const imageFile = licenseImgRef.current.files[0];
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewVehicleImages([...newVehicleImages, imageFile]);
   };
 
   useEffect(() => {
@@ -163,14 +191,12 @@ function DriverDetail() {
     getDriverInfoDetailFunc();
   }, [driverId]);
 
-  const licenseImgs = useMemo(
-    () => [
-      driverInfo.driverLicenseImg,
-      driverInfo.taxiLicenseImg,
-      driverInfo.insuranceLicenseImg,
-    ],
-    [driverInfo]
-  );
+  const licenseImgs = useMemo(() => {
+    const driverLicenseImg = driverInfo.driverLicenseImg;
+    const taxiLicenseImg = driverInfo.taxiLicenseImg;
+    const insuranceLicenseImg = driverInfo.insuranceLicenseImg;
+    return [driverLicenseImg, taxiLicenseImg, insuranceLicenseImg];
+  }, [driverInfo]);
 
   if (loading) return <Loading full={true} />;
   return (

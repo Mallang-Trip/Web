@@ -19,9 +19,8 @@ function License({
           <LicensePicture
             key={index}
             image={image}
+            index={index}
             modifyMode={modifyMode}
-            driverInfo={driverInfo}
-            setDriverInfo={setDriverInfo}
             licenseImgRef={licenseImgRef}
             modifyLicenseHandler={modifyLicenseHandler}
           />

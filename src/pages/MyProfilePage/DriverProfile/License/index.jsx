@@ -3,8 +3,6 @@ import LicensePicture from "./LicensePicture";
 
 function License({
   modifyMode,
-  driverInfo,
-  setDriverInfo,
   licenseImgs,
   licenseImgRef,
   modifyLicenseHandler,

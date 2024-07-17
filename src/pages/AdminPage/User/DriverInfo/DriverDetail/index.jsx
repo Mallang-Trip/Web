@@ -36,21 +36,6 @@ function DriverDetail() {
     "taxiLicenseImg",
     "insuranceLicenseImg",
   ];
-  // const [newLicenseImage, setNewLicenseImage] = useState([
-  //   {
-  //     key: "driverLicenseImg",
-  //     value: "",
-  //   },
-  //   {
-  //     key: "taxiLicenseImg",
-  //     value: "",
-  //   },
-  //   {
-  //     key: "insuranceLicenseImg",
-  //     value: "",
-  //   },
-  // ]);
-
   const driverId = searchParams.get("driverId");
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   getDriverInfoDetail,
@@ -15,10 +15,12 @@ import Introduction from "../../../../../pages/MyProfilePage/DriverProfile/Intro
 import Vehicle from "../../../../../pages/MyProfilePage/DriverProfile/Vehicle";
 import Price from "../../../../../pages/MyProfilePage/DriverProfile/Price";
 import PartyCourse from "./PartyCourse";
+import License from "../../../../MyProfilePage/DriverProfile/License";
 
 function DriverDetail() {
   const profileImageRef = useRef();
   const vehicleImageRef = useRef();
+  const licenseImgRef = useRef();
   const [searchParams] = useSearchParams();
   const [driverInfo, setDriverInfo] = useState({});
   const [modifyMode, setModifyMode] = useState(false);
@@ -138,6 +140,13 @@ function DriverDetail() {
     }
   };
 
+  const modifyLicenseHandler = () => {
+    const imageFile = licenseImgRef.current.files[0];
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
+    setNewVehicleImages([...newVehicleImages, imageFile]);
+  };
+
   useEffect(() => {
     if (!modifyMode || !autoSave) return;
     setAutoSave(false);
@@ -153,6 +162,15 @@ function DriverDetail() {
     window.scrollTo({ top: 0 });
     getDriverInfoDetailFunc();
   }, [driverId]);
+
+  const licenseImgs = useMemo(
+    () => [
+      driverInfo.driverLicenseImg,
+      driverInfo.taxiLicenseImg,
+      driverInfo.insuranceLicenseImg,
+    ],
+    [driverInfo]
+  );
 
   if (loading) return <Loading full={true} />;
   return (
@@ -197,7 +215,14 @@ function DriverDetail() {
         setDriverInfo={setDriverInfo}
       />
       <PartyCourse driverInfo={driverInfo} />
-
+      <License
+        modifyMode={modifyMode}
+        driverInfo={driverInfo}
+        setDriverInfo={setDriverInfo}
+        licenseImgs={licenseImgs}
+        licenseImgRef={licenseImgRef}
+        modifyLicenseHandler={modifyLicenseHandler}
+      />
       <ConfirmModal
         showModal={showCompleteModal}
         setShowModal={setShowCompleteModal}

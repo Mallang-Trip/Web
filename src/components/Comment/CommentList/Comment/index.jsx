@@ -83,7 +83,7 @@ function Comment({
         />
         <div className="text-sm font-bold px-2.5">{nickname}</div>
         <div className="ml-2.5 flex items-center gap-1">
-          <img src={Star} />
+          <img src={Star} alt="star" />
           <input
             type="number"
             step={"0.1"}
@@ -133,6 +133,7 @@ function Comment({
         onChange={(e) => setNewContent(e.target.value)}
         disabled={!modifyMode}
       />
+      {images.length > 0 && <img src={images} />}
     </div>
   );
 }

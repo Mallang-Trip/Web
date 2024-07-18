@@ -15,11 +15,7 @@ function DriverTable({ userList }) {
       {userList
         .filter((user) => user.role === "ROLE_DRIVER")
         .map((driver) => {
-          return (
-            <div className="flex">
-              <Body key={driver.userId} driverInfo={driver} {...driver} />
-            </div>
-          );
+          return <Body key={driver.userId} driverInfo={driver} {...driver} />;
         })}
     </div>
   );

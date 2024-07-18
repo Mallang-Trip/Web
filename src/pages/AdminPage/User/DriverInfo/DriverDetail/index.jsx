@@ -30,7 +30,6 @@ function DriverDetail() {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [newPhoneNum, setNewPhoneNum] = useState("");
   const newLicenseImage = [
     "driverLicenseImg",
     "taxiLicenseImg",
@@ -84,7 +83,7 @@ function DriverDetail() {
       bank: driverInfo.bank,
       holidays: driverInfo.holidays,
       introduction: driverInfo.introduction,
-      phoneNumber: driverInfo.phoneNumber,
+      phoneNumber: driverInfo.phoneNumber.replace("-", ""),
       prices: driverInfo.prices,
       profileImg: profileImageURL,
       region: driverInfo.region,
@@ -113,7 +112,6 @@ function DriverDetail() {
     try {
       const result = await getDriverInfoDetail(driverId);
       setDriverInfo(result.payload);
-      setNewPhoneNum(result.payload.phoneNumber);
       setNewVehicleImages(result.payload.vehicleImgs || []);
     } catch (e) {
       console.log(e);
@@ -142,7 +140,7 @@ function DriverDetail() {
       bank: driverInfo.bank,
       holidays: driverInfo.holidays,
       introduction: driverInfo.introduction,
-      phoneNumber: newPhoneNum,
+      phoneNumber: driverInfo.phoneNumber.replace("-", ""),
       prices: driverInfo.prices,
       profileImg: profileImageURL,
       region: driverInfo.region,
@@ -151,6 +149,9 @@ function DriverDetail() {
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
+      driverLicenseImg: driverInfo.driverLicenseImg,
+      taxiLicenseImg: driverInfo.taxiLicenseImg,
+      insuranceLicenseImg: driverInfo.insuranceLicenseImg,
     };
 
     try {

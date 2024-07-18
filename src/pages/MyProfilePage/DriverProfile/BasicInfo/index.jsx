@@ -10,11 +10,6 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showHolidayModal, setShowHolidayModal] = useState(false);
   const [showAccountModal, setShowAccountModal] = useState(false);
-  const [newPhoneNum, setNewPhoneNum] = useState(driverInfo.phoneNumber);
-
-  const phoneNumberHandler = (e) => {
-    setNewPhoneNum(e.target.value);
-  };
 
   return (
     <>

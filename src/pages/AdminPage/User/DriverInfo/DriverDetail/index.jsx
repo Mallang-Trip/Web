@@ -113,7 +113,6 @@ function DriverDetail() {
       const result = await getDriverInfoDetail(driverId);
       setDriverInfo(result.payload);
       setNewVehicleImages(result.payload.vehicleImgs || []);
-      console.log(result);
     } catch (e) {
       console.log(e);
     } finally {

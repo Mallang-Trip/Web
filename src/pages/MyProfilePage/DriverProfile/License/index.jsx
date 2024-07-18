@@ -1,4 +1,3 @@
-import React from "react";
 import LicensePicture from "./LicensePicture";
 
 function License({
@@ -22,7 +21,7 @@ function License({
             licenseImgRef={licenseImgRef}
             modifyLicenseHandler={modifyLicenseHandler}
           />
-        ))}
+        ))}{" "}
       </div>
     </>
   );

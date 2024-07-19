@@ -15,6 +15,7 @@ import JoinGreeting from "../../PartyPage/JoinGreeting";
 import CourseDnD from "../../PartyPage/CourseDnD";
 import EditMap from "../../PartyPage/EditMap";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
+import PriceList from "./PriceList";
 
 function Edit({
   date,
@@ -22,6 +23,7 @@ function Edit({
   courseRegion,
   setCourseRegion,
   planData,
+  setPlanData,
   selectedCourseId,
   setSelectedCourseId,
   member,
@@ -154,6 +156,11 @@ function Edit({
         shakeCompanions={shakeCompanions}
       />
       <JoinGreeting content={content} setContent={setContent} />
+      <PriceList
+        prices={driverInfo.prices}
+        planData={planData}
+        setPlanData={setPlanData}
+      />
       <CourseDnD
         name={planData.name}
         course={planData}
@@ -184,7 +191,6 @@ function Edit({
       />
       <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
-
       <CreateModal
         showModal={showEditModal}
         setShowModal={setShowEditModal}
@@ -199,6 +205,7 @@ function Edit({
         driverId={driverInfo.driverId}
         region={region}
         courseRegion={courseRegion}
+        totalPrice={planData.totalPrice}
       />
     </div>
   );

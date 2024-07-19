@@ -16,6 +16,7 @@ function CreateModal({
   driverId,
   region,
   courseRegion,
+  totalPrice,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -53,6 +54,7 @@ function CreateModal({
           ],
           region: courseRegion || region,
         },
+        totalPrice: totalPrice,
       };
 
       const result = await postNewParty(body);

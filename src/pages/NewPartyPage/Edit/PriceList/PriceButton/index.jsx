@@ -1,6 +1,10 @@
 function PriceButton({ price, hours, planData, setPlanData }) {
   const clickHandler = () => {
-    setPlanData({ ...planData, totalPrice: price });
+    setPlanData({
+      ...planData,
+      totalPrice: price,
+      days: { ...planData.days, price: price, hours: hours },
+    });
   };
   return (
     <button

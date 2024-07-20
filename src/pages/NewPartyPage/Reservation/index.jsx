@@ -186,6 +186,8 @@ function Reservation({
         driverId={driverInfo.driverId}
         region={region}
         courseRegion={planData.region}
+        price={planData.price}
+        hours={planData.hours}
       />
     </div>
   );

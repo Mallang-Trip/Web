@@ -16,7 +16,8 @@ function CreateModal({
   driverId,
   region,
   courseRegion,
-  totalPrice,
+  price,
+  hours,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -50,11 +51,13 @@ function CreateModal({
             {
               ...course.days[0],
               destinations: courseData.map((item) => item.destinationId),
+              hours: hours,
+              price: price,
             },
           ],
           region: courseRegion || region,
         },
-        totalPrice: totalPrice,
+        totalPrice: price,
       };
 
       const result = await postNewParty(body);

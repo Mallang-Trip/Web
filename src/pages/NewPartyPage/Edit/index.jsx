@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
 import ImageBox from "../../../components/ImageBox";
 import DriverInfo from "../../../components/DriverInfo";
@@ -48,6 +48,8 @@ function Edit({
       phoneNumber: "",
     }))
   );
+
+  useEffect(() => console.log(planData), [planData]);
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크
@@ -205,7 +207,8 @@ function Edit({
         driverId={driverInfo.driverId}
         region={region}
         courseRegion={courseRegion}
-        totalPrice={planData.totalPrice}
+        price={planData.price}
+        hours={planData.hours}
       />
     </div>
   );

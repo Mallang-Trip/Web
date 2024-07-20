@@ -43,9 +43,10 @@ function BasicInfo({ modifyMode, driverInfo, setDriverInfo }) {
         <Information
           title={"전화번호"}
           content={makePhoneNumber(driverInfo.phoneNumber)}
-          // modifyMode={modifyMode}
-          // onChangeHandler={phoneNumberHandler}
-          // 본인 인증 구현되기 전까지 수정 불가 상태로 전환
+          modifyMode={modifyMode}
+          onChangeHandler={(e) =>
+            setDriverInfo({ ...driverInfo, phoneNumber: e.target.value })
+          }
         />
       </div>
 

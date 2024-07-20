@@ -12,7 +12,6 @@ function LicensePicture({
 
   return (
     <div className="w-full">
-      <p className="">{name}</p>
       <div
         className="shrink-0 w-full h-full rounded-xl relative"
         onMouseEnter={() => modifyMode && setChangeImg(true)}
@@ -29,7 +28,7 @@ function LicensePicture({
               className="absolute flex top-0 left-0 w-full h-full rounded-xl bg-black bg-opacity-50 cursor-pointer justify-center items-center"
               onClick={() => licenseImgRef.current.click()}
             >
-              <div className="tetext-sm text-white">면허증 사진 변경하기</div>
+              <div className="tetext-sm text-white">{name} 변경하기</div>
             </div>
             <input
               ref={licenseImgRef}
@@ -41,6 +40,9 @@ function LicensePicture({
           </>
         )}
       </div>
+      <p className="text-center text-darkgray text-sm mt-1 font-medium">
+        {name}
+      </p>
     </div>
   );
 }

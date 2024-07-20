@@ -180,11 +180,15 @@ function DriverDetail() {
 
     return [
       { key: "driverLicenseImg", value: driverLicenseImg, name: "운전 면허증" },
-      { key: "taxiLicenseImg", value: taxiLicenseImg, name: "택시 면허증" },
+      {
+        key: "taxiLicenseImg",
+        value: taxiLicenseImg,
+        name: "택시 운전 면허증",
+      },
       {
         key: "insuranceLicenseImg",
         value: insuranceLicenseImg,
-        name: "보험 자격증",
+        name: "보험증서",
       },
     ];
   }, [driverInfo]);

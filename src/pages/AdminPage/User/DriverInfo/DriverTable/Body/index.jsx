@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { makePhoneNumber } from "../../../../../../utils";
-import { useEffect } from "react";
 
 function Body({
   userId,

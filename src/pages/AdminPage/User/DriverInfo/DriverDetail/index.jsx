@@ -30,11 +30,7 @@ function DriverDetail() {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [loading, setLoading] = useState(true);
-  const newLicenseImage = [
-    "driverLicenseImg",
-    "taxiLicenseImg",
-    "insuranceLicenseImg",
-  ];
+
   const driverId = searchParams.get("driverId");
   const profileImageHandler = () => {
     const imageFile = profileImageRef.current.files[0];
@@ -49,7 +45,7 @@ function DriverDetail() {
     setNewVehicleImages((prevImgs) => [...prevImgs, imageFile]);
   };
 
-  const modifyLicenseHandler = async (index) => {
+  const modifyLicenseHandler = async (key) => {
     const imageFile = licenseImgRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
@@ -57,7 +53,7 @@ function DriverDetail() {
 
     setDriverInfo((prevDriverInfo) => ({
       ...prevDriverInfo,
-      [newLicenseImage[index]]: licenseImageURL,
+      [key]: licenseImageURL,
     }));
   };
 
@@ -181,7 +177,16 @@ function DriverDetail() {
     const driverLicenseImg = driverInfo.driverLicenseImg;
     const taxiLicenseImg = driverInfo.taxiLicenseImg;
     const insuranceLicenseImg = driverInfo.insuranceLicenseImg;
-    return [driverLicenseImg, taxiLicenseImg, insuranceLicenseImg];
+
+    return [
+      { key: "driverLicenseImg", value: driverLicenseImg, name: "운전 면허증" },
+      { key: "taxiLicenseImg", value: taxiLicenseImg, name: "택시 면허증" },
+      {
+        key: "insuranceLicenseImg",
+        value: insuranceLicenseImg,
+        name: "보험 자격증",
+      },
+    ];
   }, [driverInfo]);
 
   if (loading) return <Loading full={true} />;

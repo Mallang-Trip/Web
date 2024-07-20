@@ -4,15 +4,15 @@ function LicensePicture({
   modifyMode,
   licenseImgRef,
   image,
-  index,
+  name,
+  keyValue,
   modifyLicenseHandler,
 }) {
   const [changeImg, setChangeImg] = useState(false);
-  const licenseNames = ["운전 면허증", "택시 면허증", "보험 면허증"];
 
   return (
     <div className="w-full">
-      <p className="">{licenseNames[index]}</p>
+      <p className="">{name}</p>
       <div
         className="shrink-0 w-full h-full rounded-xl relative"
         onMouseEnter={() => modifyMode && setChangeImg(true)}
@@ -21,7 +21,7 @@ function LicensePicture({
         <img
           className="w-full h-full rounded-2xl object-cover"
           src={image}
-          alt={licenseNames[index]}
+          alt={name}
         />
         {changeImg && (
           <>
@@ -36,7 +36,7 @@ function LicensePicture({
               className="hidden"
               type="file"
               accept="image/*"
-              onChange={() => modifyLicenseHandler(index)}
+              onChange={() => modifyLicenseHandler(keyValue)}
             />
           </>
         )}

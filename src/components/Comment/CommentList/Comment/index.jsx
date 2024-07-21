@@ -70,7 +70,7 @@ function Comment({
               typeof image === "string" ? image : uploadImage(image)
             )
           )
-        : images;
+        : [];
 
     // 댓글 수정
     const body = {

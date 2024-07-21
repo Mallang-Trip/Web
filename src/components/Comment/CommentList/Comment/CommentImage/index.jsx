@@ -14,12 +14,12 @@ function CommentImage({
     >
       <img
         src={typeof image === "string" ? image : URL.createObjectURL(image)}
-        className="w-28 h-32"
+        className="w-52 rounded-xl"
       />
       {imageChange && (
         <>
           <div
-            className="absolute flex justify-center place-items-center top-0 left-0 w-28 h-full rounded-xl bg-black bg-opacity-50 cursor-pointer"
+            className="absolute flex justify-center place-items-center top-0 left-0 w-52 h-full rounded-xl bg-black bg-opacity-50 cursor-pointer"
             onClick={() => commentImageRef.current.click()}
           >
             <div className="whitespace-pre-line text-sm text-white">

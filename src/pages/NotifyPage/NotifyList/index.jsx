@@ -35,7 +35,11 @@ function NotifyList() {
   const clickNotifyHandler = (alarmId, type, targetId) => {
     putNotification(alarmId);
     if (type === "NONE") getNotificationFunc();
-    else navigation(url[type] + targetId);
+    else {
+      const targetUrl = url[type] + targetId;
+      if (targetUrl) navigation(url[type] + targetId);
+      else getNotificationFunc();
+    }
   };
 
   const deleteNotifyHandler = (alarmId) => {

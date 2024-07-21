@@ -78,29 +78,34 @@ function EditModal({
             },
           };
 
-      myParty
+      const result = myParty
         ? await putPartyCourse(partyId, body)
         : await postPartyJoin(partyId, body);
 
-      setMessage(
-        <div>
-          파티원들에게 제안을 보냈습니다.
-          <br />
-          <br />
-          다음 페이지에서
-          <br />
-          파티원들의 제안 승낙 여부를 확인할 수 있습니다.
-          {!myParty && (
-            <>
-              <br />
-              <br />
-              24시간 내 전원 동의할 경우
-              <br />
-              즉시 파티에 가입하게 됩니다.
-            </>
-          )}
-        </div>
-      );
+      if (result.statusCode === 403)
+        setMessage(
+          "제재 상태에서는 파티 가입이 불가능합니다.\n자세한 내용은 고객센터에 문의해주세요."
+        );
+      else
+        setMessage(
+          <div>
+            파티원들에게 제안을 보냈습니다.
+            <br />
+            <br />
+            다음 페이지에서
+            <br />
+            파티원들의 제안 승낙 여부를 확인할 수 있습니다.
+            {!myParty && (
+              <>
+                <br />
+                <br />
+                24시간 내 전원 동의할 경우
+                <br />
+                즉시 파티에 가입하게 됩니다.
+              </>
+            )}
+          </div>
+        );
       setComplete(true);
     } catch (e) {
       console.log(e);

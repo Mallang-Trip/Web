@@ -37,6 +37,7 @@ function Comment({
     if (regex.test(value)) {
       setNewStar(value);
     }
+    if (value > 5) alert("평점은 최대 5점까지 입력 가능합니다.");
   };
 
   const leftButtonHandler = () => {
@@ -62,6 +63,9 @@ function Comment({
 
       return;
     }
+
+
+    if (!newStar || newStar < 0 || newStar > 5 || newContent === "") return;
 
     const commentImageURL =
       newImages.length > 0
@@ -109,7 +113,7 @@ function Comment({
           <img src={Star} alt="star" />
           <input
             type="number"
-            step={"0.1"}
+            max={5}
             placeholder="0"
             className={`text-sm bg-white focus:outline-none w-10 ${
               modifyMode && "text-primary"
@@ -155,6 +159,7 @@ function Comment({
         value={newContent}
         onChange={(e) => setNewContent(e.target.value)}
         disabled={!modifyMode}
+        placeholder="댓글을 입력해주세요."
       />
       <div className="relative w-fit ml-12 mt-2">
         {newImages.length > 0 &&

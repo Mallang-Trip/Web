@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../../../api/image";
@@ -19,6 +19,7 @@ function AddComment({ id, isDriver, reloadData }) {
   const [star, setStar] = useState("");
   const [comment, setComment] = useState("");
   const [commentImage, setCommentImage] = useState(undefined);
+  const [isAbleSubmit, setIsAbleSubmit] = useState(false);
 
   const starHandler = ({ target }) => {
     const value = target.value;
@@ -26,6 +27,11 @@ function AddComment({ id, isDriver, reloadData }) {
 
     if (regex.test(value)) {
       setStar(value);
+    }
+    if (value > 5) {
+      setConfirmMessage("평점은 최대 5점까지 입력 가능합니다.");
+      setShowConfirmModal(true);
+      return;
     }
   };
 
@@ -77,6 +83,14 @@ function AddComment({ id, isDriver, reloadData }) {
     }
   };
 
+  useEffect(() => {
+    if (star > 0 && star <= 5 && comment !== "") {
+      setIsAbleSubmit(true);
+    } else {
+      setIsAbleSubmit(false);
+    }
+  }, [star, comment]);
+
   return (
     <>
       <div className="w-full min-h-48 border-2 border-primary rounded-[20px] p-3 relative">
@@ -86,7 +100,7 @@ function AddComment({ id, isDriver, reloadData }) {
             <div>평점: </div>
             <input
               type="number"
-              step={"0.1"}
+              max={5}
               placeholder="0"
               className="text-primary placeholder:text-primary w-6 focus:outline-none"
               value={star}
@@ -129,8 +143,11 @@ function AddComment({ id, isDriver, reloadData }) {
 
         <div className="flex justify-end mt-1">
           <button
-            className="w-[86px] h-[30px] text-white bg-primary rounded-full text-sm"
+            className={`w-[86px] h-[30px] text-white  rounded-full text-sm ${
+              isAbleSubmit ? "bg-primary " : "bg-gray-400"
+            }`}
             onClick={sumbitHandler}
+            disabled={!isAbleSubmit}
           >
             등록
           </button>

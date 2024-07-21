@@ -15,13 +15,21 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
   const confirmHandler = (e) => {
     e.preventDefault();
 
-    setDriverInfo({
-      ...driverInfo,
-      bank: bank,
-      accountHolder: name,
-      accountNumber: accoutNumber,
-    });
-    setShowModal(false);
+    if (
+      bank &&
+      name &&
+      onlyNumber(accoutNumber) &&
+      onlyNumber(accoutNumber).length >= 10 &&
+      onlyNumber(accoutNumber).length <= 14
+    ) {
+      setDriverInfo({
+        ...driverInfo,
+        bank: bank,
+        accountHolder: name,
+        accountNumber: accoutNumber,
+      });
+      setShowModal(false);
+    } else alert("정보를 정확히 입력해주세요.");
   };
 
   useEffect(() => {
@@ -115,8 +123,17 @@ function AccountModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
                   onChange={(e) => setAccoutNumber(e.target.value)}
                   autoComplete="off"
                 />
-                <p className="mt-2 text-xs text-red-600 font-medium">
-                  숫자만 입력 가능합니다.
+                <p
+                  className={`mt-2 text-xs font-medium ${
+                    onlyNumber(accoutNumber).length >= 10 &&
+                    onlyNumber(accoutNumber).length <= 14
+                      ? "text-white"
+                      : "text-red-600"
+                  }`}
+                >
+                  {onlyNumber(accoutNumber).length === 0
+                    ? "숫자만 입력 가능합니다."
+                    : "계좌번호를 정확하게 입력해주세요."}
                 </p>
               </div>
             </div>

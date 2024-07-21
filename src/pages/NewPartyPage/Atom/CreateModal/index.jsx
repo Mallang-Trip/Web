@@ -14,6 +14,8 @@ function CreateModal({
   destinations,
   driverId,
   region,
+  startTime,
+  endTime,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -47,6 +49,8 @@ function CreateModal({
             {
               ...planData.days[0],
               destinations: destinations.map((item) => item.destinationId),
+              startTime: startTime || planData.days[0].startTime,
+              endTime: endTime || planData.days[0].endTime,
             },
           ],
           region: planData.region || region,

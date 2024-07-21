@@ -50,9 +50,9 @@ function CourseDnD({
             >
               {destinations.map((item, index) => (
                 <Draggable
-                  draggableId={item.destinationId.toString()}
+                  draggableId={(item.destinationId * index).toString()}
                   index={index}
-                  key={item.destinationId.toString()}
+                  key={(item.destinationId * index).toString()}
                 >
                   {(provided, snapshot) => {
                     return (
@@ -71,7 +71,7 @@ function CourseDnD({
                         />
                         <div>{item.name}</div>
                         <div
-                          className={`ml-auto ${index === 0 && "cursor-pointer"}`}
+                          className={`ml-auto ${index === 0 && "cursor-pointer hover:font-bold"}`}
                           onClick={() => index === 0 && setShowTimeModal(true)}
                         >
                           {index === 0

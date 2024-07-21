@@ -46,6 +46,9 @@ function PartyPage() {
   const [partyData, setPartyData] = useState({});
   const [memberCount, setMemberCount] = useState(1);
   const [content, setContent] = useState("");
+  const [name, setName] = useState("");
+  const [startTime, setStartTime] = useState("10:00");
+  const [endTime, setEndTime] = useState("");
   const [registerCredit, setRegisterCredit] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
   const [shakeCompanions, setShakeCompanions] = useState(false);
@@ -185,6 +188,17 @@ function PartyPage() {
     if (type === "edit") return setShowEditModal(true);
   };
 
+  useEffect(() => {
+    if (!partyData.partyId) return;
+
+    const newEndTime =
+      String(
+        (Number(startTime.slice(0, 2)) + partyData.course.days[0].hours) % 24
+      ).padStart(2, "0") + startTime.slice(2);
+
+    setEndTime(newEndTime);
+  }, [startTime, partyData]);
+
   const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
@@ -192,6 +206,9 @@ function PartyPage() {
       else if (result.statusCode === 200) setPartyData(result.payload);
       else setPartyData({ partyId: -1 });
       setRegion(result.payload.region);
+      setName(result.payload.course.name);
+      setStartTime(result.payload.course.days[0].startTime);
+      setEndTime(result.payload.course.days[0].endTime);
 
       if (
         result?.payload?.myParty === true &&
@@ -356,12 +373,16 @@ function PartyPage() {
       {type === "edit" ? (
         <>
           <CourseDnD
-            name={partyData.course.name}
+            name={name}
+            setName={setName}
             course={partyData.course}
             startDate={partyData.startDate}
             hours={partyData.course.days[0].hours}
             courseData={courseData}
             setCourseData={setCourseData}
+            startTime={startTime}
+            endTime={endTime}
+            setStartTime={setStartTime}
           />
           <EditMap
             courseData={courseData}
@@ -473,6 +494,9 @@ function PartyPage() {
         myParty={partyData.myParty}
         courseData={courseData}
         region={region || partyData.region}
+        name={name}
+        startTime={startTime}
+        endTime={endTime}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

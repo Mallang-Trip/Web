@@ -24,6 +24,14 @@ function Vehicle({
           }
         />
         <Information
+          title={"차량 번호"}
+          content={driverInfo.vehicleNumber}
+          modifyMode={modifyMode}
+          onChangeHandler={(e) =>
+            setDriverInfo({ ...driverInfo, vehicleNumber: e.target.value })
+          }
+        />
+        <Information
           title={"승객 탑승 정원"}
           content={driverInfo.vehicleCapacity}
           subString={"명"}

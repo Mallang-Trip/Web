@@ -32,6 +32,7 @@ function DriverApplyPage() {
   const [checked, setChecked] = useState([false, false, false]);
   const [carImages, setCarImages] = useState([]);
   const [modelName, setModelName] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
   const [maxNum, setMaxNum] = useState("");
   const [region, setRegion] = useState([]);
   const [bank, setBank] = useState("");
@@ -100,7 +101,7 @@ function DriverApplyPage() {
         vehicleCapacity: Number(maxNum),
         vehicleImgs: carImageURLs,
         vehicleModel: modelName,
-        vehicleNumber: "00가0000",
+        vehicleNumber: vehicleNumber,
       };
 
       driverId ? await putDriverApply(body) : await postDriverApply(body);
@@ -128,6 +129,9 @@ function DriverApplyPage() {
         setChecked(backupData?.checked || [false, false, false]);
         setCarImages(backupData?.carImages || result.payload.vehicleImgs);
         setModelName(backupData?.modelName || result.payload.vehicleModel);
+        setVehicleNumber(
+          backupData?.vehicleNumber || result.payload.vehicleNumber
+        );
         setMaxNum(
           backupData?.maxNum || result.payload.vehicleCapacity.toString()
         );
@@ -176,6 +180,7 @@ function DriverApplyPage() {
         setChecked(backupData.checked);
         setCarImages(backupData.carImages);
         setModelName(backupData.modelName);
+        setVehicleNumber(backupData.vehicleNumber);
         setMaxNum(backupData.maxNum);
         setRegion(backupData.region);
         setBank(backupData.bank);
@@ -203,6 +208,7 @@ function DriverApplyPage() {
       checked: checked,
       carImages: carImages,
       modelName: modelName,
+      vehicleNumber: vehicleNumber,
       maxNum: maxNum,
       region: region,
       bank: bank,
@@ -223,6 +229,7 @@ function DriverApplyPage() {
     checked,
     carImages,
     modelName,
+    vehicleNumber,
     maxNum,
     region,
     bank,
@@ -267,6 +274,8 @@ function DriverApplyPage() {
           setCarImages={setCarImages}
           modelName={modelName}
           setModelName={setModelName}
+          vehicleNumber={vehicleNumber}
+          setVehicleNumber={setVehicleNumber}
           maxNum={maxNum}
           setMaxNum={setMaxNum}
         />

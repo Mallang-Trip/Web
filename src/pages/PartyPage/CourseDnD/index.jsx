@@ -4,19 +4,22 @@ import { dateToStringHan } from "../../../utils";
 import dragIcon from "../../../assets/svg/dragIcon.svg";
 import deleteIcon from "../../../assets/svg/x-modal-icon.svg";
 import ConfirmModal from "../../../components/ConfirmModal";
+import TimeModal from "../../DriverCoursePage/CourseDnD/TimeModal";
 
 function CourseDnD({
   name,
+  setName,
   course,
   startDate,
   hours,
   courseData,
   setCourseData,
-  nameChange = false,
-  newName,
-  setNewName,
+  startTime,
+  endTime,
+  setStartTime,
 }) {
   const [showModal, setShowModal] = useState(false);
+  const [showTimeModal, setShowTimeModal] = useState(false);
 
   const handleChange = (result) => {
     if (!result.destination) return;
@@ -41,17 +44,13 @@ function CourseDnD({
   return (
     <>
       <div className="mt-20 font-bold flex flex-col items-center gap-6">
-        {nameChange ? (
-          <input
-            type="text"
-            className="w-full text-boldblue text-2xl text-center focus:outline-none placeholder:text-darkgray"
-            placeholder="파티명을 입력해주세요"
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-          />
-        ) : (
-          <div className="text-boldblue text-2xl">{name}</div>
-        )}
+        <input
+          type="text"
+          className="w-full text-boldblue text-2xl text-center focus:outline-none placeholder:text-darkgray"
+          placeholder="파티명을 입력해주세요"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <div className="text-primary text-lg">
           {`${dateToStringHan(startDate)} (${hours}시간)`}
         </div>
@@ -66,9 +65,9 @@ function CourseDnD({
             >
               {courseData.map((item, index) => (
                 <Draggable
-                  draggableId={item.destinationId.toString()}
+                  draggableId={(item.destinationId * index).toString()}
                   index={index}
-                  key={item.destinationId.toString()}
+                  key={(item.destinationId * index).toString()}
                 >
                   {(provided, snapshot) => {
                     return (
@@ -86,11 +85,13 @@ function CourseDnD({
                           className="ml-2.5 mr-5"
                         />
                         <div>{item.name}</div>
-                        <div className="ml-auto">
+                        <div
+                          className={`ml-auto ${index === 0 && "cursor-pointer hover:font-bold"}`}
+                          onClick={() => index === 0 && setShowTimeModal(true)}
+                        >
                           {index === 0
-                            ? course.days[0].startTime
-                            : index === courseData.length - 1 &&
-                              course.days[0].endTime}
+                            ? startTime
+                            : index === courseData.length - 1 && endTime}
                         </div>
                         <button
                           className="mx-3 rounded hover:bg-gray-200"
@@ -115,6 +116,12 @@ function CourseDnD({
         message={
           "여행지를 더 이상 삭제할 수 없습니다.\n\n(여행지는 최소 2개 이상)"
         }
+      />
+      <TimeModal
+        showModal={showTimeModal}
+        setShowModal={setShowTimeModal}
+        startTime={startTime}
+        setStartTime={setStartTime}
       />
     </>
   );

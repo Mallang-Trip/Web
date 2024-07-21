@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
 import ImageBox from "../../../components/ImageBox";
 import DriverInfo from "../../../components/DriverInfo";
@@ -15,6 +15,7 @@ import JoinGreeting from "../../PartyPage/JoinGreeting";
 import CourseDnD from "../../PartyPage/CourseDnD";
 import EditMap from "../../PartyPage/EditMap";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
+import PriceList from "./PriceList";
 
 function Edit({
   date,
@@ -22,6 +23,7 @@ function Edit({
   courseRegion,
   setCourseRegion,
   planData,
+  setPlanData,
   selectedCourseId,
   setSelectedCourseId,
   member,
@@ -32,7 +34,9 @@ function Edit({
   const agreementRef = useRef();
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
-  const [newName, setNewName] = useState("");
+  const [name, setName] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
   const [courseData, setCourseData] = useState([]);
   const [registerCredit, setRegisterCredit] = useState(false);
@@ -113,6 +117,23 @@ function Edit({
     setShowEditModal(true);
   };
 
+  useEffect(() => {
+    if (!planData.courseId) return;
+
+    const newEndTime =
+      String(
+        (Number(startTime.slice(0, 2)) + planData.days[0].hours) % 24
+      ).padStart(2, "0") + startTime.slice(2);
+
+    setEndTime(newEndTime);
+  }, [startTime, planData.days[0].hours]);
+
+  useEffect(() => {
+    if (!planData.courseId) return;
+    if (startTime) return;
+    setStartTime(planData.days[0].startTime);
+  }, [planData]);
+
   if (!driverInfo.driverId || !planData.courseId) return null;
   return (
     <div>
@@ -154,16 +175,22 @@ function Edit({
         shakeCompanions={shakeCompanions}
       />
       <JoinGreeting content={content} setContent={setContent} />
+      <PriceList
+        prices={driverInfo.prices}
+        planData={planData}
+        setPlanData={setPlanData}
+      />
       <CourseDnD
-        name={planData.name}
+        name={name}
+        setName={setName}
         course={planData}
         startDate={date}
         hours={planData.days[0].hours}
         courseData={courseData}
         setCourseData={setCourseData}
-        nameChange={true}
-        newName={newName}
-        setNewName={setNewName}
+        startTime={startTime}
+        endTime={endTime}
+        setStartTime={setStartTime}
       />
       <EditMap
         courseData={courseData}
@@ -184,7 +211,6 @@ function Edit({
       />
       <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
-
       <CreateModal
         showModal={showEditModal}
         setShowModal={setShowEditModal}
@@ -192,13 +218,13 @@ function Edit({
         memberCount={memberCount}
         companions={companions}
         date={date}
-        name={planData.name}
-        newName={newName}
-        course={planData}
-        courseData={courseData}
+        newName={name}
+        planData={planData}
+        destinations={courseData}
         driverId={driverInfo.driverId}
         region={region}
-        courseRegion={courseRegion}
+        startTime={startTime}
+        endTime={endTime}
       />
     </div>
   );

@@ -18,6 +18,9 @@ function EditModal({
   myParty,
   courseData,
   region,
+  name,
+  startTime,
+  endTime,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -42,9 +45,12 @@ function EditModal({
                 {
                   ...course.days[0],
                   destinations: courseData.map((item) => item.destinationId),
+                  startTime: startTime,
+                  endTime: endTime,
                 },
               ],
               region: region,
+              name: name || partyName,
             },
           }
         : {
@@ -63,9 +69,12 @@ function EditModal({
                 {
                   ...course.days[0],
                   destinations: courseData.map((item) => item.destinationId),
+                  startTime: startTime,
+                  endTime: endTime,
                 },
               ],
               region: region,
+              name: name || partyName,
             },
           };
 
@@ -126,7 +135,7 @@ function EditModal({
     if (!myParty && isMemberFull)
       setMessage(
         <div>
-          <span className="text-primary">[{partyName}]</span>
+          <span className="text-primary">[{name || partyName}]</span>
           <br />
           <br />
           파티원들이 24시간 이내에 변경 제안을
@@ -152,7 +161,7 @@ function EditModal({
     else
       setMessage(
         <div>
-          <span className="text-primary">[{partyName}]</span>
+          <span className="text-primary">[{name || partyName}]</span>
           <br />
           <br />
           제안을 확정하기 위해 24시간 내로

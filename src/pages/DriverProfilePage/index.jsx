@@ -53,7 +53,7 @@ function DriverProfilePage() {
     getCourseDetailFunc();
 
     navigation(
-      `/party/new/4?region=${courseRegion}&member=${memberParam || 0}&date=${dateParam || null}&driverId=${driverId}&selectedCourseId=${selectedCourseId}`
+      `/party/new/4?region=${courseRegion}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}&selectedCourseId=${selectedCourseId}`
     );
   }, [selectedCourseId]);
 

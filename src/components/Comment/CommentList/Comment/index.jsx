@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { deleteComment, putComment } from "../../../../api/driver";
 import {
@@ -7,6 +7,9 @@ import {
 } from "../../../../api/destination";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
+import { CONSTANT } from "../../../../utils/data";
+import { uploadImage } from "../../../../api/image";
+import CommentImage from "./CommentImage";
 
 function Comment({
   profileImg,
@@ -23,6 +26,9 @@ function Comment({
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
   const [newContent, setNewContent] = useState(content);
+  const [newImages, setNewImages] = useState(images || []);
+
+  const commentImageRef = useRef();
 
   const starHandler = ({ target }) => {
     const value = target.value;
@@ -39,6 +45,7 @@ function Comment({
 
     setNewContent(content);
     setNewStar(rate.toFixed(1));
+    setNewImages(images || []);
     setModifyMode(false);
   };
 
@@ -57,12 +64,22 @@ function Comment({
       return;
     }
 
+
     if (!newStar || newStar < 0 || newStar > 5 || newContent === "") return;
+
+    const commentImageURL =
+      newImages.length > 0
+        ? await Promise.all(
+            newImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : [];
 
     // 댓글 수정
     const body = {
       content: newContent,
-      images: images,
+      images: commentImageURL,
       rate: newStar,
     };
 
@@ -77,6 +94,13 @@ function Comment({
     }
   };
 
+  const modifyImageHandler = async () => {
+    const imageFile = commentImageRef.current.files[0];
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
+    setNewImages([imageFile]);
+  };
+
   return (
     <div className="mt-3">
       <div className="flex items-center">
@@ -86,7 +110,7 @@ function Comment({
         />
         <div className="text-sm font-bold px-2.5">{nickname}</div>
         <div className="ml-2.5 flex items-center gap-1">
-          <img src={Star} />
+          <img src={Star} alt="star" />
           <input
             type="number"
             max={5}
@@ -137,6 +161,18 @@ function Comment({
         disabled={!modifyMode}
         placeholder="댓글을 입력해주세요."
       />
+      <div className="relative w-fit ml-12 mt-2">
+        {newImages.length > 0 &&
+          newImages.map((image, index) => (
+            <CommentImage
+              key={index}
+              modifyMode={modifyMode}
+              image={image}
+              commentImageRef={commentImageRef}
+              modifyImageHandler={modifyImageHandler}
+            />
+          ))}
+      </div>
     </div>
   );
 }

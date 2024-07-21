@@ -33,7 +33,11 @@ function BlockModal({
         setMessage(
           <div>
             <span className="text-primary">{nickname}</span>
-            님을 차단하였습니다.
+            님 차단이 완료되었습니다.
+            <br />
+            <br />
+            이후 대화 노출 방지를 위해서 <br />
+            차단한 사용자와의 대화방을 전부 삭제해주세요.
           </div>
         );
 

@@ -57,14 +57,9 @@ function ButtonList({ userId, setShowModal, nickname, chatRoomId }) {
     <>
       <div className="flex justify-center flex-wrap gap-3 mb-12">
         <Button name="채팅하기" onClick={goCoupleChat} />
-        <Button
-          name="신고하기"
-          onClick={() =>
-            chatRoomId
-              ? setShowReportModal(true)
-              : alert("현재 신고가 불가능합니다.")
-          }
-        />
+        {chatRoomId && (
+          <Button name="신고하기" onClick={() => setShowReportModal(true)} />
+        )}
         <Button
           name={isChatBlock ? "차단해제" : "차단하기"}
           onClick={blockClickHandler}

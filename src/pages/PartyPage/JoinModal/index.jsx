@@ -41,9 +41,13 @@ function JoinModal({
         }),
       };
 
-      await postPartyJoin(partyId, body);
+      const result = await postPartyJoin(partyId, body);
 
-      if (isMemberFull)
+      if (result.statusCode === 403)
+        setMessage(
+          "제재 상태에서는 파티 가입이 불가능합니다.\n자세한 내용은 고객센터에 문의해주세요."
+        );
+      else if (isMemberFull)
         setMessage(
           <div>
             <span className="text-primary">파티 가입 및 예약금 결제</span>가

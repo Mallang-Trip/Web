@@ -24,7 +24,6 @@ function Comment({
 }) {
   const user = useSelector((state) => state.user);
   const [modifyMode, setModifyMode] = useState(false);
-  const [changeImg, setChangeImg] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
   const [newContent, setNewContent] = useState(content);
   const [newImages, setNewImages] = useState(images || []);
@@ -95,7 +94,7 @@ function Comment({
     const imageFile = commentImageRef.current.files[0];
     if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
       return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewImages([...newImages, imageFile]);
+    setNewImages([imageFile]);
   };
 
   return (
@@ -157,7 +156,7 @@ function Comment({
         onChange={(e) => setNewContent(e.target.value)}
         disabled={!modifyMode}
       />
-      <div className="relative w-full ml-12 mt-2">
+      <div className="relative w-fit ml-12 mt-2">
         {newImages.length > 0 &&
           newImages.map((image, index) => (
             <CommentImage

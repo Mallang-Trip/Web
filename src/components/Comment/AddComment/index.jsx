@@ -33,7 +33,6 @@ function AddComment({ id, isDriver, reloadData }) {
       setShowConfirmModal(true);
       return;
     }
-    setIsAbleSubmit(true);
   };
 
   const imageHandler = () => {

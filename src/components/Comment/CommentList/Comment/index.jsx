@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { deleteComment, putComment } from "../../../../api/driver";
 import {
@@ -7,6 +7,9 @@ import {
 } from "../../../../api/destination";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
+import { CONSTANT } from "../../../../utils/data";
+import { uploadImage } from "../../../../api/image";
+import CommentImage from "./CommentImage";
 
 function Comment({
   profileImg,
@@ -21,8 +24,12 @@ function Comment({
 }) {
   const user = useSelector((state) => state.user);
   const [modifyMode, setModifyMode] = useState(false);
+  const [changeImg, setChangeImg] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
   const [newContent, setNewContent] = useState(content);
+  const [newImages, setNewImages] = useState(images || []);
+
+  const commentImageRef = useRef();
 
   const starHandler = ({ target }) => {
     const value = target.value;
@@ -38,6 +45,7 @@ function Comment({
 
     setNewContent(content);
     setNewStar(rate.toFixed(1));
+    setNewImages(images || []);
     setModifyMode(false);
   };
 
@@ -56,10 +64,19 @@ function Comment({
       return;
     }
 
+    const commentImageURL =
+      newImages.length > 0
+        ? await Promise.all(
+            newImages.map((image) =>
+              typeof image === "string" ? image : uploadImage(image)
+            )
+          )
+        : images;
+
     // 댓글 수정
     const body = {
       content: newContent,
-      images: images,
+      images: commentImageURL,
       rate: newStar,
     };
 
@@ -72,6 +89,13 @@ function Comment({
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const modifyImageHandler = async () => {
+    const imageFile = commentImageRef.current.files[0];
+    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
+      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
+    setNewImages([...newImages, imageFile]);
   };
 
   return (
@@ -133,7 +157,18 @@ function Comment({
         onChange={(e) => setNewContent(e.target.value)}
         disabled={!modifyMode}
       />
-      {images.length > 0 && <img src={images} />}
+      <div className="relative w-full ml-12 mt-2">
+        {newImages.length > 0 &&
+          newImages.map((image, index) => (
+            <CommentImage
+              key={index}
+              modifyMode={modifyMode}
+              image={image}
+              commentImageRef={commentImageRef}
+              modifyImageHandler={modifyImageHandler}
+            />
+          ))}
+      </div>
     </div>
   );
 }

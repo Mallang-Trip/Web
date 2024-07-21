@@ -11,6 +11,8 @@ function CarInfo({
   setCarImages,
   modelName,
   setModelName,
+  vehicleNumber,
+  setVehicleNumber,
   maxNum,
   setMaxNum,
 }) {
@@ -32,10 +34,16 @@ function CarInfo({
   };
 
   useEffect(() => {
-    if (carImages && carImages.length > 0 && modelName && onlyNumber(maxNum))
+    if (
+      carImages &&
+      carImages.length > 0 &&
+      modelName &&
+      vehicleNumber &&
+      onlyNumber(maxNum)
+    )
       setActiveNext(true);
     else setActiveNext(false);
-  }, [carImages, modelName, maxNum]);
+  }, [carImages, modelName, vehicleNumber, maxNum]);
 
   return (
     <div className="w-full md:w-3/4 mx-auto flex flex-col gap-8">
@@ -88,6 +96,21 @@ function CarInfo({
           placeholder="차량의 모델 이름"
           value={modelName}
           onChange={(e) => setModelName(e.target.value)}
+          autoComplete="off"
+        />
+      </div>
+      <div>
+        <div className="block mb-2 text-base font-medium text-black">
+          차량 번호를 입력해주세요{" "}
+          <span className="text-red-600 font-bold">*</span>
+        </div>
+        <input
+          type="text"
+          id="vehicle_number"
+          className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
+          placeholder="차량 번호"
+          value={vehicleNumber}
+          onChange={(e) => setVehicleNumber(e.target.value)}
           autoComplete="off"
         />
       </div>

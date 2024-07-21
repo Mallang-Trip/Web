@@ -16,7 +16,7 @@ function PriceList({ prices, planData, setPlanData }) {
           />
         ))}
       </div>
-      <p className="text-sm text-gray400">
+      <p className="text-sm text-gray400 font-normal">
         코스 비용은 드라이버가 운영하는 지역에 따라 책정되었으며 운행 기준
         지역이 다를 경우 파티 생성 제안이 반려될 수 있습니다.
       </p>

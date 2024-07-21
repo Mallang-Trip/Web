@@ -9,15 +9,11 @@ function CreateModal({
   memberCount,
   date,
   companions,
-  name,
   newName,
-  course,
-  courseData,
+  planData,
+  destinations,
   driverId,
   region,
-  courseRegion,
-  price,
-  hours,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -45,19 +41,17 @@ function CreateModal({
           };
         }),
         course: {
-          ...course,
-          name: newName || name,
+          ...planData,
+          name: newName || planData.name,
           days: [
             {
-              ...course.days[0],
-              destinations: courseData.map((item) => item.destinationId),
-              hours: hours,
-              price: price,
+              ...planData.days[0],
+              destinations: destinations.map((item) => item.destinationId),
             },
           ],
-          region: courseRegion || region,
+          region: planData.region || region,
+          totalPrice: planData.days[0].price,
         },
-        totalPrice: price,
       };
 
       const result = await postNewParty(body);

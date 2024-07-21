@@ -69,6 +69,7 @@ function AddComment({ id, isDriver, reloadData }) {
         reloadData();
         setStar("");
         setComment("");
+        setCommentImage();
       }
     } catch (e) {
       setConfirmMessage("댓글 전송에 실패했습니다.");

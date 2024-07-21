@@ -159,6 +159,7 @@ function NewPartyPage() {
           courseRegion={courseRegion}
           setCourseRegion={setCourseRegion}
           planData={planData}
+          setPlanData={setPlanData}
           selectedCourseId={selectedCourseId}
           setSelectedCourseId={setSelectedCourseId}
           member={member}

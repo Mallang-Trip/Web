@@ -9,13 +9,11 @@ function CreateModal({
   memberCount,
   date,
   companions,
-  name,
   newName,
-  course,
-  courseData,
+  planData,
+  destinations,
   driverId,
   region,
-  courseRegion,
   startTime,
   endTime,
 }) {
@@ -45,17 +43,18 @@ function CreateModal({
           };
         }),
         course: {
-          ...course,
-          name: newName || name,
+          ...planData,
+          name: newName || planData.name,
           days: [
             {
-              ...course.days[0],
-              destinations: courseData.map((item) => item.destinationId),
-              startTime: startTime,
-              endTime: endTime,
+              ...planData.days[0],
+              destinations: destinations.map((item) => item.destinationId),
+              startTime: startTime || planData.days[0].startTime,
+              endTime: endTime || planData.days[0].endTime,
             },
           ],
-          region: courseRegion || region,
+          region: planData.region || region,
+          totalPrice: planData.days[0].price,
         },
       };
 

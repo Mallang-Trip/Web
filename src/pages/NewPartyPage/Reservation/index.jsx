@@ -180,12 +180,10 @@ function Reservation({
         memberCount={memberCount}
         companions={companions}
         date={date}
-        name={planData.name}
-        course={planData}
-        courseData={planData.days[0].destinations}
+        planData={planData}
+        destinations={planData.days[0].destinations}
         driverId={driverInfo.driverId}
         region={region}
-        courseRegion={planData.region}
       />
     </div>
   );

@@ -15,6 +15,7 @@ import JoinGreeting from "../../PartyPage/JoinGreeting";
 import CourseDnD from "../../PartyPage/CourseDnD";
 import EditMap from "../../PartyPage/EditMap";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
+import PriceList from "./PriceList";
 
 function Edit({
   date,
@@ -22,6 +23,7 @@ function Edit({
   courseRegion,
   setCourseRegion,
   planData,
+  setPlanData,
   selectedCourseId,
   setSelectedCourseId,
   member,
@@ -33,7 +35,7 @@ function Edit({
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
   const [name, setName] = useState("");
-  const [startTime, setStartTime] = useState("10:00");
+  const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
   const [courseData, setCourseData] = useState([]);
@@ -124,10 +126,11 @@ function Edit({
       ).padStart(2, "0") + startTime.slice(2);
 
     setEndTime(newEndTime);
-  }, [startTime]);
+  }, [startTime, planData.days[0].hours]);
 
   useEffect(() => {
     if (!planData.courseId) return;
+    if (startTime) return;
     setStartTime(planData.days[0].startTime);
   }, [planData]);
 
@@ -172,6 +175,11 @@ function Edit({
         shakeCompanions={shakeCompanions}
       />
       <JoinGreeting content={content} setContent={setContent} />
+      <PriceList
+        prices={driverInfo.prices}
+        planData={planData}
+        setPlanData={setPlanData}
+      />
       <CourseDnD
         name={name}
         setName={setName}
@@ -203,7 +211,6 @@ function Edit({
       />
       <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
-
       <CreateModal
         showModal={showEditModal}
         setShowModal={setShowEditModal}
@@ -211,13 +218,11 @@ function Edit({
         memberCount={memberCount}
         companions={companions}
         date={date}
-        name={planData.name}
         newName={name}
-        course={planData}
-        courseData={courseData}
+        planData={planData}
+        destinations={courseData}
         driverId={driverInfo.driverId}
         region={region}
-        courseRegion={courseRegion}
         startTime={startTime}
         endTime={endTime}
       />

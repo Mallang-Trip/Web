@@ -3,20 +3,13 @@ import { useSelector } from "react-redux";
 import { getToken, isSupported } from "firebase/messaging";
 import { messaging } from "../../utils/firebase";
 import { postFirebaseToken } from "../../api/notification";
-import ConfirmModal from "./ConfirmModal";
+import CheckModal from "./CheckModal";
 
 function PushNotification() {
   const user = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
 
-  const handleAllowNotification = async () => {
-    if (!(await isSupported())) return;
-
-    setShowModal(true);
-    const permission = await Notification.requestPermission();
-    setShowModal(false);
-    if (permission !== "granted") return;
-
+  const sendFirebaseToken = async () => {
     const token = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_APP_FCM_VAPID_KEY,
     });
@@ -34,16 +27,33 @@ function PushNotification() {
     }
   };
 
+  const handleAllowNotification = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") sendFirebaseToken();
+    setShowModal(false);
+  };
+
+  const setNotification = async () => {
+    if (!(await isSupported())) return;
+    if (Notification.permission === "granted") sendFirebaseToken();
+    if (Notification.permission === "default") setShowModal(true);
+  };
+
   useEffect(() => {
     if (!user.auth) return;
-    handleAllowNotification();
+    setNotification();
   }, [user]);
 
   return (
-    <ConfirmModal
+    <CheckModal
       showModal={showModal}
       setShowModal={setShowModal}
-      message="알림 권한을 허용해주세요."
+      message={
+        "말랑트립 예약 및 결제 등\n중요한 업데이트 정보 전달을 위해\n알림 권한을 허용해주세요."
+      }
+      noText="취소"
+      yesText="확인"
+      yesHandler={() => handleAllowNotification()}
     />
   );
 }

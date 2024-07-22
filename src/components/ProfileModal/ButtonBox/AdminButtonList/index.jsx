@@ -67,7 +67,7 @@ function AdminButtonList({
           />
         )}
         <Button name="작성 글" onClick={() => alert("개발 X")} />
-        <Button name="톡 내역" onClick={() => alert("개발 X")} />
+        <Button name="채팅 내역" onClick={() => alert("개발 X")} />
         <Button name="작성 리뷰" onClick={() => alert("개발 X")} />
       </div>
 

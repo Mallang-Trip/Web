@@ -56,7 +56,7 @@ function MallangTalkModal({ showModal, setShowModal, roomId, reportId }) {
         <div className="mx-auto w-96 h-full rounded-xl flex flex-col justify-center items-center">
           <div className="w-full flex flex-col h-3/5 px-2 bg-white rounded-t-xl">
             <div className="my-4 text-xl text-black font-bold text-center">
-              말랑톡 신고
+              말랑챗 신고
             </div>
             <div
               className="flex flex-col h-full overflow-y-auto px-2 noScrollBar"

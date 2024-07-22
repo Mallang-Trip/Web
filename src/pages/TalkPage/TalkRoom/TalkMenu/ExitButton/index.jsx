@@ -30,7 +30,7 @@ function ExitButton({
         className="absolute bottom-0 left-0 w-full bg-skyblue rounded-bl-2xl text-primary py-4 focus:outline-none"
         onClick={() => setShowModal(true)}
       >
-        말랑톡 나가기
+        말랑챗 나가기
       </button>
 
       <ExitCheckModal

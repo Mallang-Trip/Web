@@ -41,7 +41,7 @@ function Company() {
               className="underline underline-offset-2 cursor-pointer"
               onClick={goMallangTalk}
             >
-              말랑톡
+              말랑챗
             </span>
             ,{" "}
             <Link

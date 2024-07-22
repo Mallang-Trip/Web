@@ -63,10 +63,10 @@ function ServiceList() {
           }`}
         >
           <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
-            {"말랑톡을 통한\n채팅 기능"}
+            {"말랑챗을 통한\n채팅 기능"}
           </p>
           <p className="text-sm text-darkgray">
-            말랑톡을 통해 여행 전 동행자들과 자유롭게 더욱 편리한 여행을 준비할
+            말랑챗을 통해 여행 전 동행자들과 자유롭게 더욱 편리한 여행을 준비할
             수 있어요.
           </p>
         </div>

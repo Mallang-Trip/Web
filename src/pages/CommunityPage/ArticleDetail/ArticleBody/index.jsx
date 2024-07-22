@@ -208,7 +208,7 @@ function ArticleBody({
       <ConfirmModal
         showModal={showBlockModal}
         setShowModal={setShowBlockModal}
-        message={"차단한 유저에게\n말랑톡을 보낼 수 없습니다."}
+        message={"차단한 유저에게\n말랑챗을 보낼 수 없습니다."}
       />
     </>
   );

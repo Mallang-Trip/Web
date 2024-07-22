@@ -55,7 +55,7 @@ function Party({
                 partyPrivateChatRoomId === null ||
                 partyPublicChatRoomId === null
               )
-                return alert("말랑톡 정보가 없습니다.");
+                return alert("말랑챗 정보가 없습니다.");
               setMallangTalkInfo({
                 partyName: partyName,
                 partyPrivateChatRoomId: partyPrivateChatRoomId,
@@ -64,7 +64,7 @@ function Party({
               setShowMallangTalkModal(true);
             }}
           >
-            말랑톡
+            말랑챗
           </button>
           <button
             className="bg-skyblue h-10 px-4 py-1.5 text-primary text-sm rounded-xl"

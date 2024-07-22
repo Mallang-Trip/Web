@@ -80,7 +80,7 @@ function CommentItem({
           {user.userId !== userId && (
             <>
               <button className="text-darkgray" onClick={goCoupleChat}>
-                톡 보내기
+                채팅 보내기
               </button>
               <button
                 className="text-darkgray"

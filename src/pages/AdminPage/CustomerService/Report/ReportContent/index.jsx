@@ -123,7 +123,7 @@ function ReportContent({ setCurrent }) {
                 goCoupleChat(reportDetail.reporteeId);
               }}
             >
-              말랑톡
+              말랑챗
             </button>
           </div>
           <div
@@ -149,7 +149,7 @@ function ReportContent({ setCurrent }) {
                 goCoupleChat(reportDetail.reporterId);
               }}
             >
-              말랑톡
+              말랑챗
             </button>
           </div>
         </div>

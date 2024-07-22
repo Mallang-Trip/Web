@@ -205,9 +205,9 @@ function Header() {
                         ? HeaderChatPrimary
                         : HeaderChat
                     }
-                    alt="말랑톡"
+                    alt="말랑챗"
                   />
-                  <span className="mx-1">말랑톡</span>
+                  <span className="mx-1">말랑챗</span>
                 </button>
               </li>
               <li className="my-auto">

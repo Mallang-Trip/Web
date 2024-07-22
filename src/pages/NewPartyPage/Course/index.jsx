@@ -40,7 +40,6 @@ function Course({
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
-        availableNewCourse={false}
       />
       {member > 0 && <TextArea title="날짜" content={dateToStringHan(date)} />}
       <TextArea

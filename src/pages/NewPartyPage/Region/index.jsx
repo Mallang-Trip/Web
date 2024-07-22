@@ -3,7 +3,7 @@ import { getPartyRegionList } from "../../../api/region";
 import CheckModal from "../../../components/CheckModal";
 import RegionButton from "./RegionButton";
 
-function Region({ setRegion, member, driverId, date }) {
+function Region({ setRegion, member, driverId, date, driverInfo }) {
   const [regionData, setRegionData] = useState([]);
   const [showKakaoChatModal, setShowKakaoChatModal] = useState(false);
 
@@ -20,7 +20,12 @@ function Region({ setRegion, member, driverId, date }) {
   const getPartyRegionListFunc = async () => {
     try {
       const result = await getPartyRegionList();
-      setRegionData(result.payload);
+      if (driverId === "null") setRegionData(result.payload);
+      else if (JSON.stringify(driverInfo) !== "{}") {
+        setRegionData(
+          result.payload.filter((item) => driverInfo.region.includes(item.name))
+        );
+      }
     } catch (e) {
       console.log(e);
     }
@@ -28,7 +33,7 @@ function Region({ setRegion, member, driverId, date }) {
 
   useEffect(() => {
     getPartyRegionListFunc();
-  }, []);
+  }, [driverInfo]);
 
   return (
     <>

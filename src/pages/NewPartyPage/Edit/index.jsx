@@ -150,7 +150,6 @@ function Edit({
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
-        availableNewCourse={false}
       />
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <TextArea

@@ -36,11 +36,15 @@ function NewPartyPage() {
       setDriverInfo(result.payload);
 
       if (result.payload.courses.length === 0) {
-        setShowErrorModal(true);
-        setErrorMessage(
-          "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
+        //   setShowErrorModal(true);
+        //   setErrorMessage(
+        //     "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
+        //   );
+        //   setDriverId(0);
+
+        navigation(
+          `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`
         );
-        setDriverId(0);
       } else {
         setSelectedCourseId(
           selectedCourseId || result.payload.courses[0].courseId
@@ -119,6 +123,7 @@ function NewPartyPage() {
           member={member}
           driverId={driverId}
           date={date}
+          driverInfo={driverInfo}
         />
       )}
       {step === "2" && (

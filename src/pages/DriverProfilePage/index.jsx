@@ -32,6 +32,7 @@ function DriverProfilePage() {
   };
 
   const getCourseDetailFunc = async () => {
+    if (selectedCourseId === -1) return;
     try {
       const result = await getCourseDetail(selectedCourseId);
       setCourseRegion(result.payload.region);
@@ -83,7 +84,6 @@ function DriverProfilePage() {
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}
         setSelectedCourseId={setSelectedCourseId}
-        availableNewCourse={false}
       />
       <CommentList
         reviews={driverInfo.reviews}

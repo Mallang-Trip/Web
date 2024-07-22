@@ -3,10 +3,10 @@ import groupTalkImage from "../../../../../assets/images/groupTalkImage.png";
 import PartyToggle from "./PartyToggle";
 
 const roomType = {
-  COUPLE: "개인 말랑톡",
-  GROUP: "그룹 말랑톡",
-  PARTY_PUBLIC: "파티 공개 말랑톡",
-  PARTY_PRIVATE: "파티원 전용 말랑톡",
+  COUPLE: "개인 말랑챗",
+  GROUP: "그룹 말랑챗",
+  PARTY_PUBLIC: "파티 공개 말랑챗",
+  PARTY_PRIVATE: "파티원 전용 말랑챗",
 };
 
 function MenuHead({

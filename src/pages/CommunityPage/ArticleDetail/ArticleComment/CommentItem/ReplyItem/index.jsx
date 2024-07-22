@@ -72,7 +72,7 @@ function ReplyItem({
           <div className="flex gap-8 text-xs text-darkgray">
             {user.userId !== userId && (
               <>
-                <button onClick={goCoupleChat}>톡 보내기</button>
+                <button onClick={goCoupleChat}>채팅 보내기</button>
                 <button onClick={() => setShowReportModal(true)}>신고</button>
               </>
             )}

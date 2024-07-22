@@ -43,16 +43,16 @@ function BottomNav() {
           onClick={() => navigation("/talk")}
         >
           {checkLocation() === "talk" ? (
-            <img src={TalkPrimary} alt="말랑톡" className="w-6 h-4 mb-1" />
+            <img src={TalkPrimary} alt="말랑챗" className="w-6 h-4 mb-1" />
           ) : (
-            <img src={Talk} alt="말랑톡" className="w-6 h-4 mb-1" />
+            <img src={Talk} alt="말랑챗" className="w-6 h-4 mb-1" />
           )}
           <span
             className={`text-xs ${
               checkLocation() === "talk" ? "text-primary" : "text-[#B7BFC2]"
             }`}
           >
-            말랑톡
+            말랑챗
           </span>
         </button>
         <button

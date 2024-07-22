@@ -54,7 +54,7 @@ function AcceptButton({ getDriverApplyAdminFunc }) {
         className="w-72 h-12 text-base text-gray500 font-bold bg-white border border-gray400 rounded-full"
         onClick={goDriverChat}
       >
-        드라이버에게 1:1 톡하기
+        드라이버에게 1:1 채팅하기
       </button>
     </div>
   );

@@ -18,7 +18,7 @@ function PageButton({ region, member, date, driverId }) {
         onClick={() =>
           driverId > 0
             ? navigation(
-                `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
+                `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
               )
             : navigation(
                 `/party/new/3?region=${region}&member=${member}&date=${date}&driverId=${driverId}`

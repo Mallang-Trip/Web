@@ -42,19 +42,19 @@ function NewTalkModal({
 
   const makeNewChatHandler = async () => {
     if (inviteMember.length === 0)
-      return alert("새로운 말랑톡 상대를 선택해주세요.");
+      return alert("새로운 말랑챗 상대를 선택해주세요.");
 
     if (step === 0) return setStep(1);
 
-    // 그룹 말랑톡
+    // 그룹 말랑챗
     if (inviteMember.length > 1) {
       try {
-        if (roomName === "") return alert("말랑톡방 이름을 입력해주세요.");
+        if (roomName === "") return alert("말랑챗방 이름을 입력해주세요.");
 
         const userIds = inviteMember.map((member) => member.userId).join(",");
         const result = await makeNewGroupChat(userIds, roomName);
 
-        alert("새로운 말랑톡이 생성되었습니다.");
+        alert("새로운 말랑챗이 생성되었습니다.");
         getChatListFunc();
         setOpenTalkId(result.payload.chatRoomId);
         closeModal();
@@ -62,12 +62,12 @@ function NewTalkModal({
         console.log(e);
       }
     }
-    // 1:1 말랑톡
+    // 1:1 말랑챗
     else {
       try {
         const result = await makeNewCoupleChat(inviteMember[0].userId);
 
-        alert("새로운 말랑톡이 생성되었습니다.");
+        alert("새로운 말랑챗이 생성되었습니다.");
         getChatListFunc();
         setOpenTalkId(result.payload.chatRoomId);
         closeModal();
@@ -98,7 +98,7 @@ function NewTalkModal({
       <div className="mx-auto w-96 h-full rounded-xl flex flex-col justify-center items-center">
         <div className="w-full flex flex-col h-3/5 px-9 bg-white rounded-t-xl">
           <p className="text-xl text-black font-bold mt-9 mb-5">
-            새로운 말랑톡
+            새로운 말랑챗
           </p>
           {step === 0 ? (
             <>

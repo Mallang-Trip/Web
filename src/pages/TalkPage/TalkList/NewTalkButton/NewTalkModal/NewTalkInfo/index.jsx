@@ -12,7 +12,7 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
         />
         <p className="text-base text-black text-center">
           <span className="text-primary">{inviteMember[0].nickName}</span>{" "}
-          님과의 1:1 말랑톡을 만들까요?
+          님과의 1:1 말랑챗을 만들까요?
         </p>
       </div>
     );
@@ -27,7 +27,7 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
         <div className="w-full relative">
           <input
             type="text"
-            placeholder="말랑톡방 이름을 정해주세요."
+            placeholder="말랑챗방 이름을 정해주세요."
             className="border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5"
             value={roomName}
             onChange={(e) => setRoomName(e.target.value.slice(0, 20))}
@@ -41,7 +41,7 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
           </span>
         </div>
         <div className="text-xs text-darkgray">
-          말랑톡 시작 전, 내가 설정한 그룹 채팅방의 이름은 다른 모든 대화
+          말랑챗 시작 전, 내가 설정한 그룹 채팅방의 이름은 다른 모든 대화
           상대에게도 동일하게 보입니다.
         </div>
       </div>

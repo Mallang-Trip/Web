@@ -22,7 +22,7 @@ function ExitCheckModal({ showModal, setShowModal, leaveChatHandler }) {
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
-          말랑톡을 나가시겠습니까?
+          말랑챗을 나가시겠습니까?
         </div>
         <div className="flex">
           <button

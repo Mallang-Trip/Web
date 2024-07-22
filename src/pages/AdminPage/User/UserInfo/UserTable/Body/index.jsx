@@ -5,6 +5,7 @@ function Body({
   userNickname,
   loginId,
   suspensionDuration,
+  name,
   phoneNumber,
   createdAt,
   setProfileId,
@@ -12,7 +13,7 @@ function Body({
   setShowRegionModal,
 }) {
   return (
-    <div className="w-full py-3 grid grid-cols-6 items-center text-center bg-white border border-gray300 rounded-xl">
+    <div className="w-full py-3 grid grid-cols-7 items-center text-center bg-white border border-gray300 rounded-xl">
       <p className="px-1 text-gray700 font-medium">{userNickname}</p>
       <p className="px-1 text-gray700 font-medium">
         <span>{loginId}</span>
@@ -22,6 +23,7 @@ function Body({
           </span>
         )}
       </p>
+      <p className="px-1 text-gray700 font-medium">{name}</p>
       <p className="px-1 text-gray700 font-medium">
         {makePhoneNumber(phoneNumber)}
       </p>

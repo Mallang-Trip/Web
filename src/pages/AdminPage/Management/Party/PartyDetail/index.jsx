@@ -62,6 +62,7 @@ function PartyDetail({ partyId }) {
         driverReady={partyData.driverReady}
         partyStatus={partyData.partyStatus}
         proposal={partyData.proposal}
+        driverName={partyData.driverName}
       />
       {partyData.partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
       partyData.partyStatus === "CANCELED_BY_PROPOSER" ||

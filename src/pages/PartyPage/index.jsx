@@ -189,7 +189,7 @@ function PartyPage() {
   };
 
   useEffect(() => {
-    if (!partyData.partyId) return;
+    if (!partyData.course) return;
 
     const newEndTime =
       String(
@@ -202,9 +202,9 @@ function PartyPage() {
   const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
-      if (result.statusCode === 403 && !user.auth) navigation("/login");
-      else if (result.statusCode === 200) setPartyData(result.payload);
-      else setPartyData({ partyId: -1 });
+      if (result.statusCode === 403 && !user.auth) return navigation("/login");
+      if (result.statusCode !== 200) return setPartyData({ partyId: -1 });
+      setPartyData(result.payload);
       setRegion(result.payload.region);
       setName(result.payload.course.name);
       setStartTime(result.payload.course.days[0].startTime);

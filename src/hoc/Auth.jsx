@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __asyncAuth } from "../redux/modules/userSlice";
 import Loading from "../components/Loading";
@@ -16,11 +16,12 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
     const location = useLocation();
     const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const checkRender = (isAuth, isAdmin) => {
       if (!isAuth) {
         // 로그인 X
-        if (option === true) {
+        if (option === true || searchParams.get("login_required")) {
           localStorage.setItem(
             "redirect",
             `${location.pathname}${location.search}`
@@ -39,6 +40,11 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
           const delay = location.pathname === "/" ? 1000 : 0;
           setTimeout(() => setLoading(false), delay);
         }
+      }
+
+      if (searchParams.get("login_required")) {
+        searchParams.delete("login_required");
+        setSearchParams(searchParams);
       }
     };
 

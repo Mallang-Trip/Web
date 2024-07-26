@@ -10,6 +10,7 @@ function MemberAndDate({
   date,
   setDate,
   driverInfo,
+  selectedCourseId,
 }) {
   return (
     <>
@@ -21,6 +22,7 @@ function MemberAndDate({
         date={date}
         driverId={driverId}
         driverInfo={driverInfo}
+        selectedCourseId={selectedCourseId}
       />
     </>
   );

@@ -166,10 +166,13 @@ function Edit({
   }, [startTime, planData]);
 
   useEffect(() => {
-    if (!planData.courseId) return;
-    if (startTime) return;
-    setStartTime(planData.days[0].startTime);
-  }, [planData]);
+    if (!startTime) setStartTime(planData.days[0].startTime);
+    if (selectedCourseId > 0) setCourseData(planData.days[0].destinations);
+  }, [planData, selectedCourseId]);
+
+  useEffect(() => {
+    if (selectedCourseId <= 0) setCourseData([]);
+  }, [selectedCourseId]);
 
   if (!driverInfo.driverId) return null;
   return (
@@ -192,7 +195,6 @@ function Edit({
       )}
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <>
-        {" "}
         <TextArea
           title="전체 파티 여행비"
           content={`${priceToString(planData.totalPrice)}원`}

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { dateToStringHan, priceToString } from "../../../utils";
 import ImageBox from "../../../components/ImageBox";
 import PartyPlan from "../../../components/PartyPlan";
@@ -23,8 +24,10 @@ function Course({
   settingDriverInfo,
 }) {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
 
-  if (!driverInfo.driverId || !planData) return null;
+  if (!driverInfo.driverId || !planData.courseId || user.role !== "ROLE_USER")
+    return null;
   return (
     <div>
       <DriverInfo

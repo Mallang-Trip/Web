@@ -34,10 +34,15 @@ function NewPartyPage() {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
+      setPlanData((planData) => ({
+        ...planData,
+        capacity: result.payload.vehicleCapacity,
+      }));
 
-      if (result.payload.courses.length === 0) {
+      if (selectedCourseId < 0) {
         navigation(
-          `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`
+          `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`,
+          { replace: true }
         );
       } else {
         setSelectedCourseId(
@@ -56,9 +61,9 @@ function NewPartyPage() {
 
   const getCourseDetailFunc = async () => {
     if (selectedCourseId < 0)
-      setPlanData({
-        capacity: 4,
-        courseId: parseInt(selectedCourseId),
+      setPlanData((planData) => ({
+        capacity: planData?.capacity || 4,
+        courseId: -1,
         days: [
           {
             destinations: [],
@@ -69,11 +74,11 @@ function NewPartyPage() {
           },
         ],
         discountPrice: 0,
-        images: [""],
+        images: [],
         region: "",
         totalDays: 1,
         totalPrice: 0,
-      });
+      }));
     else
       try {
         const result = await getCourseDetail(selectedCourseId);
@@ -149,6 +154,7 @@ function NewPartyPage() {
           region={region}
           driverId={driverId}
           driverInfo={driverInfo}
+          selectedCourseId={selectedCourseId}
         />
       )}
       {step === "3" && (

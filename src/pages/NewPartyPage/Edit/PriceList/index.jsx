@@ -25,7 +25,7 @@ function PriceList({
           <div
             className={`${showText ? "text-red-600" : "text-white"} text-sm`}
           >
-            코스를 선택해주세요!
+            코스 시간과 비용을 선택해주세요!
           </div>
         </div>
         <div className="flex gap-2 my-2">

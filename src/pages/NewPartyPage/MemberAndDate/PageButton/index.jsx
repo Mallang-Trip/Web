@@ -1,6 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-function PageButton({ region, member, date, driverId, driverInfo }) {
+function PageButton({
+  region,
+  member,
+  date,
+  driverId,
+  driverInfo,
+  selectedCourseId,
+}) {
   const navigation = useNavigate();
 
   return (
@@ -20,7 +27,7 @@ function PageButton({ region, member, date, driverId, driverInfo }) {
             navigation(
               `/party/new/3?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
             );
-          else if (driverInfo.courses.length > 0)
+          else if (selectedCourseId >= 0)
             navigation(
               `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
             );

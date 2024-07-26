@@ -20,7 +20,6 @@ import PriceList from "./PriceList";
 function Edit({
   date,
   driverInfo,
-  courseRegion,
   setCourseRegion,
   planData,
   setPlanData,
@@ -29,7 +28,9 @@ function Edit({
   member,
   region,
 }) {
+  const coursePriceRef = useRef();
   const companionsRef = useRef();
+  const courseRef = useRef();
   const creditRef = useRef();
   const agreementRef = useRef();
   const [memberCount, setMemberCount] = useState(member);
@@ -40,7 +41,9 @@ function Edit({
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
   const [courseData, setCourseData] = useState([]);
   const [registerCredit, setRegisterCredit] = useState(false);
+  const [shakeCoursePrice, setShakeCoursePrice] = useState(false);
   const [shakeCompanions, setShakeCompanions] = useState(false);
+  const [shakeCourse, setShakeCourse] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -52,6 +55,40 @@ function Edit({
   );
 
   const joinHandler = () => {
+    // 시간 및 비용 체크
+    if (planData.totalPrice === 0) {
+      if (coursePriceRef.current) {
+        const containerRect = coursePriceRef.current.getBoundingClientRect();
+        const scrollY =
+          containerRect.top +
+          window.scrollY -
+          window.innerHeight / 2 +
+          containerRect.height / 2;
+
+        window.scrollTo({ top: scrollY });
+      }
+
+      setShakeCoursePrice(true);
+      setTimeout(() => setShakeCoursePrice(false), 1000);
+      return;
+    }
+    // 파티명 및 여행지 체크
+    if (courseData.length === 0 || !name) {
+      if (courseRef.current) {
+        const containerRect = courseRef.current.getBoundingClientRect();
+        const scrollY =
+          containerRect.top +
+          window.scrollY -
+          window.innerHeight / 2 +
+          containerRect.height / 2;
+
+        window.scrollTo({ top: scrollY });
+      }
+
+      setShakeCourse(true);
+      setTimeout(() => setShakeCourse(false), 1000);
+      return;
+    }
     // 동행자 정보 입력 체크
     if (memberCount > 1) {
       let checkValid = true;
@@ -126,7 +163,7 @@ function Edit({
       ).padStart(2, "0") + startTime.slice(2);
 
     setEndTime(newEndTime);
-  }, [startTime, planData.days[0].hours]);
+  }, [startTime, planData]);
 
   useEffect(() => {
     if (!planData.courseId) return;
@@ -134,7 +171,7 @@ function Edit({
     setStartTime(planData.days[0].startTime);
   }, [planData]);
 
-  if (!driverInfo.driverId || !planData.courseId) return null;
+  if (!driverInfo.driverId) return null;
   return (
     <div>
       <DriverInfo
@@ -146,26 +183,31 @@ function Edit({
       />
       <ImageBox images={planData.images} name={driverInfo.name} />
       <TextArea title="서비스 지역" content={driverInfo.region} />
-      <CourseList
-        courses={driverInfo.courses}
-        selectedCourseId={selectedCourseId}
-        setSelectedCourseId={setSelectedCourseId}
-      />
+      {driverInfo.courses.length > 0 && (
+        <CourseList
+          courses={driverInfo.courses}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+        />
+      )}
       <TextArea title="날짜" content={dateToStringHan(date)} />
-      <TextArea
-        title="전체 파티 여행비"
-        content={`${priceToString(planData.totalPrice)}원`}
-      />
-      <CreditInfo
-        totalPrice={planData.totalPrice}
-        capacity={planData.capacity}
-      />
-      <JoinMember
-        memberCount={memberCount}
-        setMemberCount={setMemberCount}
-        capacity={planData.capacity}
-        headcount={0}
-      />
+      <>
+        {" "}
+        <TextArea
+          title="전체 파티 여행비"
+          content={`${priceToString(planData.totalPrice)}원`}
+        />
+        <CreditInfo
+          totalPrice={planData.totalPrice}
+          capacity={planData.capacity}
+        />
+        <JoinMember
+          memberCount={memberCount}
+          setMemberCount={setMemberCount}
+          capacity={planData.capacity}
+          headcount={0}
+        />
+      </>
       <JoinMemberInfo
         companionsRef={companionsRef}
         memberCount={memberCount}
@@ -178,6 +220,8 @@ function Edit({
         prices={driverInfo.prices}
         planData={planData}
         setPlanData={setPlanData}
+        shakeCoursePrice={shakeCoursePrice}
+        coursePriceRef={coursePriceRef}
       />
       <CourseDnD
         name={name}
@@ -190,6 +234,8 @@ function Edit({
         startTime={startTime}
         endTime={endTime}
         setStartTime={setStartTime}
+        shakeCourse={shakeCourse}
+        courseRef={courseRef}
       />
       <EditMap
         courseData={courseData}

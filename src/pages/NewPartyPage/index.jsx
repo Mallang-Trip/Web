@@ -23,7 +23,7 @@ function NewPartyPage() {
   const [date, setDate] = useState();
   const [driverId, setDriverId] = useState(searchParams.get("driverId"));
   const [driverInfo, setDriverInfo] = useState({});
-  const [planData, setPlanData] = useState({});
+  const [planData, setPlanData] = useState();
   const [selectedCourseId, setSelectedCourseId] = useState(
     searchParams.get("selectedCourseId") || 0
   );
@@ -36,12 +36,6 @@ function NewPartyPage() {
       setDriverInfo(result.payload);
 
       if (result.payload.courses.length === 0) {
-        //   setShowErrorModal(true);
-        //   setErrorMessage(
-        //     "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
-        //   );
-        //   setDriverId(0);
-
         navigation(
           `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`
         );
@@ -61,12 +55,32 @@ function NewPartyPage() {
   };
 
   const getCourseDetailFunc = async () => {
-    try {
-      const result = await getCourseDetail(selectedCourseId);
-      setPlanData(result.payload);
-    } catch (e) {
-      console.log(e);
-    }
+    if (selectedCourseId < 0)
+      setPlanData({
+        capacity: 4,
+        courseId: parseInt(selectedCourseId),
+        days: [
+          {
+            destinations: [],
+            endTime: "",
+            hours: 0,
+            price: 0,
+            startTime: "10:00",
+          },
+        ],
+        discountPrice: 0,
+        images: [""],
+        region: "",
+        totalDays: 1,
+        totalPrice: 0,
+      });
+    else
+      try {
+        const result = await getCourseDetail(selectedCourseId);
+        setPlanData(result.payload);
+      } catch (e) {
+        console.log(e);
+      }
   };
 
   useEffect(() => {
@@ -103,7 +117,7 @@ function NewPartyPage() {
   }, []);
 
   useEffect(() => {
-    if (selectedCourseId <= 0 || !selectedCourseId) return;
+    if (!selectedCourseId) return;
     getCourseDetailFunc();
   }, [selectedCourseId]);
 
@@ -134,6 +148,7 @@ function NewPartyPage() {
           setDate={setDate}
           region={region}
           driverId={driverId}
+          driverInfo={driverInfo}
         />
       )}
       {step === "3" && (

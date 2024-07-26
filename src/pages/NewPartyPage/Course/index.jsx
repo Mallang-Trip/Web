@@ -24,7 +24,7 @@ function Course({
 }) {
   const navigation = useNavigate();
 
-  if (!driverInfo.driverId || !planData.courseId) return null;
+  if (!driverInfo.driverId || !planData) return null;
   return (
     <div>
       <DriverInfo

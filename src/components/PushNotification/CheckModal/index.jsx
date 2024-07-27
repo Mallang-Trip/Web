@@ -1,7 +1,13 @@
 import { useEffect } from "react";
-import { createPortal } from "react-dom";
 
-function ConfirmModal({ showModal, setShowModal, message }) {
+function CheckModal({
+  showModal,
+  setShowModal,
+  message,
+  noText,
+  yesText,
+  yesHandler,
+}) {
   const closeModal = () => setShowModal(false);
 
   useEffect(() => {
@@ -9,7 +15,7 @@ function ConfirmModal({ showModal, setShowModal, message }) {
     document.body.classList.add("overflow-hidden");
   }, [showModal]);
 
-  return createPortal(
+  return (
     <div
       className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
         showModal ? "active" : ""
@@ -19,16 +25,23 @@ function ConfirmModal({ showModal, setShowModal, message }) {
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
           {message}
         </div>
-        <button
-          className="w-full h-16 text-lg text-center text-white rounded-b-xl bg-primary"
-          onClick={closeModal}
-        >
-          확인
-        </button>
+        <div className="flex">
+          <button
+            className="w-full h-16 text-lg text-center text-darkgray rounded-bl-xl bg-lightgray"
+            onClick={closeModal}
+          >
+            {noText}
+          </button>
+          <button
+            className="w-full h-16 text-lg text-center text-white rounded-br-xl bg-primary"
+            onClick={yesHandler}
+          >
+            {yesText}
+          </button>
+        </div>
       </div>
-    </div>,
-    document.body
+    </div>
   );
 }
 
-export default ConfirmModal;
+export default CheckModal;

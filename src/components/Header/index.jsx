@@ -68,6 +68,7 @@ function Header() {
 
   const showSearchBox = () => {
     return (
+      location.pathname !== "/" &&
       location.pathname.slice(0, 13) !== "/search/place" &&
       location.pathname.slice(0, 6) !== "/intro" &&
       location.pathname.slice(0, 5) !== "/talk" &&

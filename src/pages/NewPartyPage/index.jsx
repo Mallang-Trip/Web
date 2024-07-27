@@ -120,10 +120,14 @@ function NewPartyPage() {
       );
     }
   }, []);
-
   useEffect(() => {
     if (!selectedCourseId) return;
-    getCourseDetailFunc();
+    if (selectedCourseId < 0)
+      navigation(
+        `/party/new/5?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
+        { replace: true }
+      );
+    else getCourseDetailFunc();
   }, [selectedCourseId]);
 
   useEffect(() => {

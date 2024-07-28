@@ -26,54 +26,15 @@ function Header() {
   );
   const [notificationTimer, setNotificationTimer] = useState(undefined);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
-  const [showSearch, setShowSearch] = useState(true);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const mallang_header = useRef();
   const header_profile = useRef();
   const user_menu = useRef();
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchArticleKeyword, setSearchArticleKeyword] = useState("");
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const getMenuPosition = () => {
     const x = header_profile.current?.getBoundingClientRect()?.x;
     if (x === undefined) return 0;
     else return x - 140;
-  };
-
-  const handleScroll = () => {
-    const currentScrollPos = window.scrollY;
-    setShowSearch(prevScrollPos > currentScrollPos);
-    setPrevScrollPos(currentScrollPos);
-  };
-
-  const searchHandler = (e) => {
-    e.preventDefault();
-    if (searchKeyword === "") return;
-
-    setSearchKeyword("");
-    navigation(`/search/place/${searchKeyword}`);
-  };
-
-  const searchArticleHandler = (e) => {
-    e.preventDefault();
-    if (searchArticleKeyword === "") return;
-
-    const replacePage = location.pathname.slice(0, 17) === "/community/search";
-    setSearchArticleKeyword("");
-    navigation(`/community/search/${searchArticleKeyword}`, {
-      replace: replacePage,
-    });
-  };
-
-  const showSearchBox = () => {
-    return (
-      location.pathname !== "/" &&
-      location.pathname.slice(0, 13) !== "/search/place" &&
-      location.pathname.slice(0, 6) !== "/intro" &&
-      location.pathname.slice(0, 5) !== "/talk" &&
-      location.pathname.slice(0, 6) !== "/admin"
-    );
   };
 
   const getNotificationFunc = async () => {
@@ -101,13 +62,6 @@ function Header() {
       );
     }
   }, [user.auth]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [prevScrollPos]);
 
   useEffect(() => {
     const userMenuHandler = (event) => {
@@ -276,54 +230,6 @@ function Header() {
             </ul>
           </div>
         </div>
-        {showSearchBox() && (
-          <div
-            className={`relative hidden md:block max-w-screen-xl mx-auto transition-all duration-500 overflow-hidden ${
-              showSearch ? "max-h-14" : "max-h-0"
-            }`}
-          >
-            <div className="relative w-64 ml-auto my-2 mr-9 xl:w-96">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-primary"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              {location.pathname.substring(0, 10) === "/community" ? (
-                <form onSubmit={searchArticleHandler}>
-                  <input
-                    type="text"
-                    className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
-                    placeholder="게시글을 검색해보세요"
-                    value={searchArticleKeyword}
-                    onChange={(e) => setSearchArticleKeyword(e.target.value)}
-                  />
-                  <button type="submit" className="hidden" />
-                </form>
-              ) : (
-                <form onSubmit={searchHandler}>
-                  <input
-                    type="text"
-                    className="block w-full p-2 pl-10 text-sm text-gray-900 border-2 rounded-full border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-30"
-                    placeholder="여행지를 검색해보세요"
-                    value={searchKeyword}
-                    onChange={(e) => setSearchKeyword(e.target.value)}
-                  />
-                  <button type="submit" className="hidden" />
-                </form>
-              )}
-            </div>
-          </div>
-        )}
         {/* Dropdown menu */}
         <div
           ref={user_menu}
@@ -481,13 +387,7 @@ function Header() {
           </ul>
         </div>
       </nav>
-      <div
-        className={`${
-          location.pathname.slice(0, 13) !== "/search/place"
-            ? "h-20 md:h-32"
-            : "h-16"
-        }`}
-      ></div>
+      <div className="h-20 md:h-24"></div>
 
       <CheckModal
         showModal={showLogoutModal}

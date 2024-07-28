@@ -7,6 +7,7 @@ import Title from "../CommunityPage/Title";
 import SearchKeyword from "./SearchKeyword";
 import ArticleList from "../../components/ArticleList";
 import Loading from "../../components/Loading";
+import SearchBar from "../CommunityPage/SearchBar";
 
 function CommunitySearchPage() {
   const { keyword } = useParams();
@@ -47,6 +48,7 @@ function CommunitySearchPage() {
   return (
     <PageContainer>
       <Title />
+      <SearchBar />
       <SearchKeyword />
       <ArticleList articleData={articleData} />
       <div

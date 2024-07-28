@@ -23,7 +23,7 @@ function NewPartyPage() {
   const [date, setDate] = useState();
   const [driverId, setDriverId] = useState(searchParams.get("driverId"));
   const [driverInfo, setDriverInfo] = useState({});
-  const [planData, setPlanData] = useState({});
+  const [planData, setPlanData] = useState();
   const [selectedCourseId, setSelectedCourseId] = useState(
     searchParams.get("selectedCourseId") || 0
   );
@@ -34,16 +34,15 @@ function NewPartyPage() {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
+      setPlanData((planData) => ({
+        ...planData,
+        capacity: result.payload.vehicleCapacity,
+      }));
 
-      if (result.payload.courses.length === 0) {
-        //   setShowErrorModal(true);
-        //   setErrorMessage(
-        //     "해당 드라이버는 제안 코스를\n등록하지 않아 선택할 수 없습니다."
-        //   );
-        //   setDriverId(0);
-
+      if (selectedCourseId < 0) {
         navigation(
-          `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`
+          `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`,
+          { replace: true }
         );
       } else {
         setSelectedCourseId(
@@ -61,12 +60,32 @@ function NewPartyPage() {
   };
 
   const getCourseDetailFunc = async () => {
-    try {
-      const result = await getCourseDetail(selectedCourseId);
-      setPlanData(result.payload);
-    } catch (e) {
-      console.log(e);
-    }
+    if (selectedCourseId < 0)
+      setPlanData((planData) => ({
+        capacity: planData?.capacity || 4,
+        courseId: -1,
+        days: [
+          {
+            destinations: [],
+            endTime: "",
+            hours: 0,
+            price: 0,
+            startTime: "10:00",
+          },
+        ],
+        discountPrice: 0,
+        images: [],
+        region: "",
+        totalDays: 1,
+        totalPrice: 0,
+      }));
+    else
+      try {
+        const result = await getCourseDetail(selectedCourseId);
+        setPlanData(result.payload);
+      } catch (e) {
+        console.log(e);
+      }
   };
 
   useEffect(() => {
@@ -101,10 +120,14 @@ function NewPartyPage() {
       );
     }
   }, []);
-
   useEffect(() => {
-    if (selectedCourseId <= 0 || !selectedCourseId) return;
-    getCourseDetailFunc();
+    if (!selectedCourseId) return;
+    if (selectedCourseId < 0)
+      navigation(
+        `/party/new/5?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
+        { replace: true }
+      );
+    else getCourseDetailFunc();
   }, [selectedCourseId]);
 
   useEffect(() => {
@@ -134,6 +157,8 @@ function NewPartyPage() {
           setDate={setDate}
           region={region}
           driverId={driverId}
+          driverInfo={driverInfo}
+          selectedCourseId={selectedCourseId}
         />
       )}
       {step === "3" && (

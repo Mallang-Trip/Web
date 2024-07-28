@@ -136,7 +136,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   };
 
   useEffect(() => {
-    if (!roomData.myParty) {
+    if (!roomData?.myParty) {
       dispatch(setPrivateRoomId(null));
       dispatch(setPublicRoomId(null));
       return;
@@ -166,6 +166,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   }, [openTalkId]);
 
   if (!openRoom) return null;
+  if (!roomData) return null;
   return (
     <div
       className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full pl-0 md:pl-[450px] h-real-screen transition-transform duration-500 bg-white ${

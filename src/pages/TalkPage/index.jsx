@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setPartyRoomId } from "../../redux/modules/talkRoomSlice";
 import { Stomp } from "@stomp/stompjs";
@@ -19,6 +20,8 @@ function TalkPage() {
   const user = useSelector((state) => state.user);
   const [openTalkId, setOpenTalkId] = useState(0);
   const [chatList, setChatList] = useState([]);
+  const [searchParams] = useSearchParams();
+  const chatRoomId = searchParams.get("chatRoomId");
 
   const subscribeChatListWS = () => {
     client.current.subscribe(
@@ -59,6 +62,12 @@ function TalkPage() {
       dispatch(setPartyRoomId(0));
     }
   }, [partyRoomId]);
+
+  useEffect(() => {
+    if (chatRoomId) {
+      setOpenTalkId(parseInt(chatRoomId));
+    }
+  }, [chatRoomId]);
 
   useEffect(() => {
     getChatListFunc();

@@ -28,7 +28,7 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }) {
       </p>
       {planData.map((item, index) => (
         <PlanBox
-          key={item.destinationId}
+          key={`${item.destinationId}-${index}`}
           name={item.name}
           index={index + 1}
           time={

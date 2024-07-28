@@ -2,7 +2,16 @@ import Member from "./Member";
 import PartyDate from "./PartyDate";
 import PageButton from "./PageButton";
 
-function MemberAndDate({ region, driverId, member, setMember, date, setDate }) {
+function MemberAndDate({
+  region,
+  driverId,
+  member,
+  setMember,
+  date,
+  setDate,
+  driverInfo,
+  selectedCourseId,
+}) {
   return (
     <>
       <Member member={member} setMember={setMember} />
@@ -12,6 +21,8 @@ function MemberAndDate({ region, driverId, member, setMember, date, setDate }) {
         member={member}
         date={date}
         driverId={driverId}
+        driverInfo={driverInfo}
+        selectedCourseId={selectedCourseId}
       />
     </>
   );

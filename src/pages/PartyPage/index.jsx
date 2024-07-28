@@ -253,6 +253,7 @@ function PartyPage() {
       />
       <PartyDate startDate={partyData.startDate} />
       <PartyMember
+        partyId={partyData.partyId}
         headcount={partyData.headcount}
         capacity={partyData.capacity}
         members={partyData.members}

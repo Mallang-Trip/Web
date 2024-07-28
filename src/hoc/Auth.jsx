@@ -44,7 +44,7 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
 
       if (searchParams.get("login_required")) {
         searchParams.delete("login_required");
-        setSearchParams(searchParams);
+        setSearchParams(searchParams, { replace: true });
       }
     };
 

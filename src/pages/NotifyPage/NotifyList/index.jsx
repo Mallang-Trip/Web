@@ -32,8 +32,8 @@ function NotifyList() {
     await getNotificationFunc();
   };
 
-  const clickNotifyHandler = (alarmId, type, targetId) => {
-    putNotification(alarmId);
+  const clickNotifyHandler = async (alarmId, type, targetId) => {
+    await putNotification(alarmId);
     if (type === "NONE") getNotificationFunc();
     else {
       const targetUrl = url[type] + targetId;

@@ -17,7 +17,10 @@ function CourseDnD({
   startTime,
   endTime,
   setStartTime,
+  shakeCourse,
+  courseRef,
 }) {
+  const [showText, setShowText] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTimeModal, setShowTimeModal] = useState(false);
 
@@ -41,8 +44,12 @@ function CourseDnD({
     }
   }, []);
 
+  useEffect(() => {
+    if (shakeCourse) setShowText(true);
+  }, [shakeCourse]);
+
   return (
-    <>
+    <div ref={courseRef} className={`${shakeCourse && "animate-shake"}`}>
       <div className="mt-20 font-bold flex flex-col items-center gap-6">
         <input
           type="text"
@@ -51,6 +58,9 @@ function CourseDnD({
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        <div className={`${showText ? "text-red-600" : "text-white"} text-sm`}>
+          {courseData.length === 0 && "여행지를 추가해주세요!"}
+        </div>
         <div className="text-primary text-lg">
           {`${dateToStringHan(startDate)} (${hours}시간)`}
         </div>
@@ -123,7 +133,7 @@ function CourseDnD({
         startTime={startTime}
         setStartTime={setStartTime}
       />
-    </>
+    </div>
   );
 }
 

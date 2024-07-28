@@ -8,6 +8,7 @@ import Tab from "./Tab";
 import ArticleList from "../../components/ArticleList";
 import ArticleDetail from "./ArticleDetail";
 import Loading from "../../components/Loading";
+import SearchBar from "./SearchBar";
 
 const articleType = {
   전체: "all",
@@ -58,6 +59,7 @@ function CommunityPage() {
   return (
     <PageContainer>
       <Title />
+      <SearchBar />
       <Tab category={category} setCategory={setCategory} />
       {articleId === "main" ? (
         <ArticleList articleData={articleData} />

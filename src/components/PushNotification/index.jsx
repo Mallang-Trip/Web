@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getToken, isSupported } from "firebase/messaging";
 import { messaging } from "../../utils/firebase";
-import { postFirebaseToken } from "../../api/notification";
+import { putFirebaseToken } from "../../api/notification";
 import CheckModal from "./CheckModal";
 
 function PushNotification() {
@@ -10,12 +10,16 @@ function PushNotification() {
   const [showModal, setShowModal] = useState(false);
 
   const sendFirebaseToken = async () => {
-    const token = await getToken(messaging, {
-      vapidKey: import.meta.env.VITE_APP_FCM_VAPID_KEY,
-    });
+    const token =
+      localStorage.getItem("fcmToken") ||
+      (await getToken(messaging, {
+        vapidKey: import.meta.env.VITE_APP_FCM_VAPID_KEY,
+      }));
+
+    localStorage.setItem("fcmToken", token);
 
     try {
-      await postFirebaseToken({
+      await putFirebaseToken({
         firebaseToken: token,
       });
     } catch (e) {

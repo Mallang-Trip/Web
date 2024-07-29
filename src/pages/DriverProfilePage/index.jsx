@@ -31,11 +31,20 @@ function DriverProfilePage() {
     }
   };
 
-  const getCourseDetailFunc = async () => {
-    if (selectedCourseId === -1) return;
+  const makeParty = async () => {
     try {
-      const result = await getCourseDetail(selectedCourseId);
-      setCourseRegion(result.payload.region);
+      const result =
+        selectedCourseId === -1
+          ? null
+          : await getCourseDetail(selectedCourseId);
+
+      const regionParam = result?.payload?.region || searchParams.get("region");
+      const memberParam = searchParams.get("member");
+      const dateParam = searchParams.get("date");
+
+      navigation(
+        `/party/new/4?region=${regionParam}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}&selectedCourseId=${selectedCourseId}`
+      );
     } catch (e) {
       console.log(e);
     }
@@ -47,15 +56,7 @@ function DriverProfilePage() {
 
   useEffect(() => {
     if (selectedCourseId === 0) return;
-
-    const memberParam = searchParams.get("member");
-    const dateParam = searchParams.get("date");
-
-    getCourseDetailFunc();
-
-    navigation(
-      `/party/new/4?region=${courseRegion}&member=${memberParam || 1}&date=${dateParam || null}&driverId=${driverId}&selectedCourseId=${selectedCourseId}`
-    );
+    makeParty();
   }, [selectedCourseId]);
 
   if (!driverInfo.driverId) return <Loading full={true} />;

@@ -8,6 +8,7 @@ function DriverProfile({
   setDriverId,
   member,
   date,
+  region,
 }) {
   const navigation = useNavigate();
 
@@ -28,11 +29,12 @@ function DriverProfile({
         <div className="absolute top-0 left-0 flex flex-col items-center justify-end w-full h-full text-base text-darkgray pb-3">
           <button
             className="h-9 text-white rounded-full text-xs font-bold w-32 bg-primary"
-            onClick={() =>
+            onClick={(e) => {
+              e.stopPropagation();
               navigation(
-                `/driver/profile/${driverId}?member=${member}&date=${date}`
-              )
-            }
+                `/driver/profile/${driverId}?region=${region}&member=${member}&date=${date}`
+              );
+            }}
           >
             프로필
           </button>

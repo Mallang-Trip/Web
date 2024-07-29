@@ -33,6 +33,7 @@ function Driver({ region, setDriverId, date, member }) {
             setDriverId={setDriverId}
             member={member}
             date={date}
+            region={region}
           />
         ))}
       </div>

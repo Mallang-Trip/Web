@@ -127,7 +127,7 @@ function NewPartyPage() {
         `/party/new/5?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
         { replace: true }
       );
-    else getCourseDetailFunc();
+    getCourseDetailFunc();
   }, [selectedCourseId]);
 
   useEffect(() => {

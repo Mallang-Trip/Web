@@ -41,18 +41,23 @@ function NewPartyPage() {
 
       if (selectedCourseId < 0) {
         navigation(
-          `/party/new/1?region=${region}&member=${member}&date=${null}&driverId=${driverId}`,
+          `/party/new/${searchParams.get("date") !== "null" ? 5 : 1}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
           { replace: true }
         );
       } else {
         setSelectedCourseId(
           selectedCourseId || result.payload.courses[0].courseId
         );
-        if (searchParams.get("date") !== "null") {
-          navigation(
-            `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
-          );
-        }
+        const step =
+          searchParams.get("date") !== "null"
+            ? 4
+            : searchParams.get("region")
+              ? 2
+              : 1;
+        navigation(
+          `/party/new/${step}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
+          { replace: true }
+        );
       }
     } catch (e) {
       console.log(e);
@@ -120,14 +125,11 @@ function NewPartyPage() {
       );
     }
   }, []);
+
   useEffect(() => {
-    if (!selectedCourseId) return;
-    if (selectedCourseId < 0)
-      navigation(
-        `/party/new/5?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
-        { replace: true }
-      );
-    getCourseDetailFunc();
+    if (selectedCourseId !== 0) {
+      getCourseDetailFunc();
+    }
   }, [selectedCourseId]);
 
   useEffect(() => {

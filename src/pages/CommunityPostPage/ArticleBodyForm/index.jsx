@@ -38,7 +38,7 @@ function ArticleBodyForm({
         value={content}
         onChange={contentHandler}
         placeholder="내용을 작성해주세요."
-        className="w-full min-h-[320px] text-sm text-boldgray placeholder:text-darkgray focus:outline-none resize-none noScrollBar"
+        className="w-full min-h-[320px] max-h-[320px] text-sm text-boldgray placeholder:text-darkgray focus:outline-none resize-none custom-scrollbar"
       />
       <div className="flex justify-center items-center mt-[70px]">
         <button

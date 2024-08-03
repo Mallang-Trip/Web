@@ -45,7 +45,7 @@ function Vehicle({
         />
       </div>
       <p className="text-lg font-bold text-black mt-12 mb-5">차량 사진</p>
-      <div className="h-48 bg-cover mt-5 relative gap-[10px] flex overflow-x-scroll noScrollBar">
+      <div className="h-48 bg-cover mt-5 relative gap-[10px] flex custom-scrollbar">
         {modifyMode && (
           <ImageInput
             vehicleImageRef={vehicleImageRef}

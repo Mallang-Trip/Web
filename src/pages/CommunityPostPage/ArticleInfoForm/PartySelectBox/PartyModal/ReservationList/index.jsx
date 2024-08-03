@@ -10,7 +10,7 @@ function ReservationList({ myReservationData, selectPartyHandler }) {
       </div>
     );
   return (
-    <div className="w-full mt-9 h-[430px] overflow-y-auto noScrollBar">
+    <div className="w-full mt-9 h-[430px] custom-scrollbar">
       {myReservationData.map((item) => (
         <ReservationItem
           key={item.partyId}

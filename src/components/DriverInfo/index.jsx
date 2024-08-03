@@ -26,7 +26,7 @@ function DriverInfo({
       </div>
 
       <div className="rounded-2xl border-2 border-primary w-full h-32 mt-2.5 mb-3 py-2 px-3">
-        <p className="w-full h-full text-darkgray text-sm font-medium whitespace-pre overflow-y-auto noScrollBar">
+        <p className="w-full h-full text-darkgray text-sm font-medium whitespace-pre custom-scrollbar">
           {introduction}
         </p>
       </div>

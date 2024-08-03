@@ -87,7 +87,7 @@ function PriceModal({ showModal, setShowModal, driverInfo, setDriverInfo }) {
             <h3 className="mb-4 text-xl font-bold text-gray-900">
               가격 설정하기
             </h3>
-            <div className="h-96 my-9 mx-auto px-2 lg:px-24 overflow-auto noScrollBar">
+            <div className="h-96 my-9 mx-auto px-2 lg:px-24 custom-scrollbar">
               {hour.map((item, index) => (
                 <HourPrice
                   key={index}

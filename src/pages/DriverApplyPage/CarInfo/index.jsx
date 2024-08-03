@@ -52,10 +52,10 @@ function CarInfo({
           차량의 사진을 업로드해주세요{" "}
           <span className="text-red-600 font-bold">*</span>
         </div>
-        <div className="flex w-full h-[200px] mt-4 mb-16 relative gap-2 overflow-x-auto overflow-y-hidden noScrollBar">
+        <div className="flex w-full h-[200px] mt-4 mb-16 relative gap-2 custom-scrollbar">
           <div className="flex gap-2 flex-shrink-0">
             <div
-              className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer justify-center items-center flex"
+              className="w-[300px] h-full bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer justify-center items-center flex"
               onClick={() => imageRef.current.click()}
             >
               <img src={primaryPlus} alt="plus" className="w-4 h-4" />

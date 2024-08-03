@@ -24,8 +24,6 @@ function SignupPage() {
   const [passwordAgain, setPasswordAgain] = useState("");
   const [nickName, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [profileImage, setProfileImage] = useState(undefined);
   const [emailDuplication, setEmailDuplication] = useState(false);
   const [idDuplication, setIdDuplication] = useState(false);
@@ -69,15 +67,12 @@ function SignupPage() {
         : CONSTANT.BASE_PROFILE_IMAGE;
 
       const body = {
-        country: true ? "local" : "foreginer",
         email: email,
         id: id,
         impUid: impUid,
         introduction: introduction,
-        name: name,
         nickname: nickName,
         password: password,
-        phone: phoneNumber,
         profileImg: profileImageURL,
       };
 
@@ -104,19 +99,10 @@ function SignupPage() {
             onClick={logoClickHandler}
           />
         </div>
-
         {step === 0 ? (
           <Agreement setActiveNext={setActiveNext} />
         ) : step === 1 ? (
-          <PersonalInfo
-            setStep={setStep}
-            impUid={impUid}
-            setImpUid={setImpUid}
-            name={name}
-            setName={setName}
-            phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
-          />
+          <PersonalInfo setStep={setStep} setImpUid={setImpUid} />
         ) : step === 2 ? (
           <Account
             setActiveNext={setActiveNext}

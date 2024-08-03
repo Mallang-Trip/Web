@@ -12,6 +12,10 @@ import Course from "./Course";
 import Edit from "./Edit";
 import Reservation from "./Reservation";
 
+const today = new Date();
+const after_2_day = new Date(today);
+after_2_day.setDate(after_2_day.getDate() + 2);
+
 function NewPartyPage() {
   const navigation = useNavigate();
   const { step } = useParams();
@@ -20,7 +24,7 @@ function NewPartyPage() {
   const [region, setRegion] = useState("");
   const [courseRegion, setCourseRegion] = useState("");
   const [member, setMember] = useState(1);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(after_2_day);
   const [driverId, setDriverId] = useState(searchParams.get("driverId"));
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState();
@@ -111,20 +115,22 @@ function NewPartyPage() {
     const dateParam = searchParams.get("date");
     const driverIdParam = searchParams.get("driverId");
 
-    if (regionParam !== "null") setRegion(regionParam);
-    if (memberParam !== "null") setMember(Number(memberParam));
-    if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
+    if (step >= 3) {
+      if (regionParam !== "null") setRegion(regionParam);
+      if (memberParam !== "null") setMember(Number(memberParam));
+      if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
 
-    if (dateParam !== "null") setDate(dateParam);
-    else {
-      const today = new Date();
-      setDate(
-        `${today.getFullYear()}-${("0" + (1 + today.getMonth())).slice(-2)}-${(
-          "0" + today.getDate()
-        ).slice(-2)}`
-      );
+      if (dateParam !== "null") setDate(dateParam);
+      else {
+        const today = new Date();
+        setDate(
+          `${today.getFullYear()}-${("0" + (1 + today.getMonth())).slice(-2)}-${(
+            "0" + today.getDate()
+          ).slice(-2)}`
+        );
+      }
     }
-  }, []);
+  }, [step, user.role, searchParams]);
 
   useEffect(() => {
     if (selectedCourseId !== 0) {

@@ -4,10 +4,9 @@ import "./index.css";
 
 function PartyDate({ date, setDate }) {
   const today = new Date();
+  const after_2_day = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
   const after_4_month = new Date(today);
-  const after_2_day = new Date(today);
-  after_4_month.setMonth(after_4_month.getMonth() + 4);
-  after_2_day.setDate(after_2_day.getDate() + 2);
+  after_4_month.setMonth(today.getMonth() + 4);
 
   return (
     <>

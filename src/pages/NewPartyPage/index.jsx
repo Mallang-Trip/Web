@@ -99,12 +99,6 @@ function NewPartyPage() {
   };
 
   useEffect(() => {
-    if (showErrorModal) return;
-    if (errorMessage !== "여행자만 파티를 만들 수 있습니다.") return;
-    navigation(-1);
-  }, [showErrorModal]);
-
-  useEffect(() => {
     if (user.role !== "ROLE_USER") {
       setErrorMessage("여행자만 파티를 만들 수 있습니다.");
       setShowErrorModal(true);
@@ -220,6 +214,7 @@ function NewPartyPage() {
       <ConfirmModal
         showModal={showErrorModal}
         setShowModal={setShowErrorModal}
+        isNavigate={true}
         message={errorMessage}
       />
     </PageContainer>

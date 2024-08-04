@@ -1,12 +1,16 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function ConfirmModal({ showModal, setShowModal, message }) {
+function ConfirmModal({ showModal, setShowModal, isNavigate = null, message }) {
   const modalRef = useRef();
   const location = useLocation();
+  const navigation = useNavigate();
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+    isNavigate ? navigation(-1) : null;
+  };
 
   const modalOutSideClick = (e) => {
     if (modalRef.current === e.target) closeModal();

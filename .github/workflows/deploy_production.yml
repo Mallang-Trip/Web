@@ -22,6 +22,7 @@ jobs:
           echo "VITE_APP_FCM_APP_ID=${{ secrets.VITE_APP_FCM_APP_ID }}" >> .env
           echo "VITE_APP_FCM_MEASUREMENT_ID=${{ secrets.VITE_APP_FCM_MEASUREMENT_ID }}" >> .env
           echo "VITE_APP_FCM_VAPID_KEY=${{ secrets.VITE_APP_FCM_VAPID_KEY }}" >> .env
+          echo "VITE_GTM_ID=${{ secrets.VITE_GTM_ID }}" >> .env
 
       - name: Create deploy.sh
         run: |

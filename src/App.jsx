@@ -5,9 +5,11 @@ import Router from "./router";
 import PushNotification from "./components/PushNotification";
 import PWAInstall from "./components/PWAInstall";
 import useInitialSetting from "./hooks/useInitialSetting";
+import useGoogleTagManager from "./hooks/useGoogleTagManager";
 
 function App() {
   useInitialSetting();
+  useGoogleTagManager();
 
   return (
     <Provider store={store}>

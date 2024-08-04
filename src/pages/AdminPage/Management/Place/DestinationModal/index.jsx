@@ -152,7 +152,7 @@ function DestinationModal({
                 ></path>
               </svg>
             </button>
-            <div className="px-6 pb-6 mx-auto h-full bg-white max-h-[400px] md:max-h-[500px] overflow-auto noScrollBar">
+            <div className="px-6 pb-6 mx-auto h-full bg-white max-h-[400px] md:max-h-[500px] custom-scrollbar">
               {loading ? (
                 <div className="h-[400px] flex items-center">
                   <Loading full={false} />

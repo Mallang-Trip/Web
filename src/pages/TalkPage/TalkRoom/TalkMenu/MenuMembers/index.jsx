@@ -23,7 +23,7 @@ function MenuMembers({
 
   return (
     <>
-      <div className="h-full px-4 pb-16 overflow-y-auto noScrollBar">
+      <div className="h-full px-4 mb-16 custom-scrollbar">
         <div className="h-[30px] mb-3 flex justify-between items-center">
           <p className="text-lg text-black font-bold">대화 상대</p>
           {(type === "GROUP" || type === "PARTY_PUBLIC") && (

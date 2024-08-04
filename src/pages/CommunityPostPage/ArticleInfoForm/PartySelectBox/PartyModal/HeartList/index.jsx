@@ -10,7 +10,7 @@ function HeartList({ myHeartData, selectPartyHandler }) {
       </div>
     );
   return (
-    <div className="grid gap-10 mt-9 mx-auto grid-cols-2 md:grid-cols-3 h-[430px] overflow-y-auto noScrollBar">
+    <div className="grid gap-10 mt-9 mx-auto grid-cols-2 md:grid-cols-3 h-[430px] custom-scrollbar">
       {myHeartData.map((item, index) => (
         <HeartItem
           key={index}

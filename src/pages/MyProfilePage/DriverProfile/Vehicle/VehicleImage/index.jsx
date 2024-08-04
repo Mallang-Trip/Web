@@ -16,7 +16,7 @@ function VehicleImage({
 
   return (
     <div
-      className="shrink-0 h-48 rounded-xl relative"
+      className="shrink-0 h-full rounded-xl relative"
       onMouseEnter={() => modifyMode && setShowDelete(true)}
       onMouseLeave={() => modifyMode && setShowDelete(false)}
     >

@@ -80,7 +80,7 @@ function PartyMember({
           </p>
           <p className="text-sm text-darkgray font-medium">{`${headcount}/${capacity}명`}</p>
         </div>
-        <div className="w-full flex gap-2.5 flex-nowrap overflow-x-auto noScrollBar">
+        <div className="w-full flex gap-2.5 flex-nowrap custom-scrollbar">
           <MemberProfile
             myParty={
               myParty || (proposal && partyStatus === "WAITING_JOIN_APPROVAL")

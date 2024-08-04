@@ -19,6 +19,7 @@ import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
+import ProfileModal from "../../../../components/ProfileModal";
 
 function ArticleBody({
   articleId,
@@ -38,6 +39,7 @@ function ArticleBody({
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -54,6 +56,10 @@ function ArticleBody({
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const profileClickHandler = () => {
+    setShowProfileModal(true);
   };
 
   const deleteArticleHandler = async () => {
@@ -107,7 +113,8 @@ function ArticleBody({
             <img
               src={profileImg || basicProfileImage}
               alt="profile_image"
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-10 h-10 rounded-full object-cover cursor-pointer"
+              onClick={profileClickHandler}
             />
             <div className="h-10 flex flex-col justify-center">
               <p className="text-sm text-black font-bold">{nickname}</p>
@@ -209,6 +216,11 @@ function ArticleBody({
         showModal={showBlockModal}
         setShowModal={setShowBlockModal}
         message={"차단한 유저에게\n말랑챗을 보낼 수 없습니다."}
+      />
+      <ProfileModal
+        showModal={showProfileModal}
+        setShowModal={setShowProfileModal}
+        userId={userId}
       />
     </>
   );

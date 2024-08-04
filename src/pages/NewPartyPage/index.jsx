@@ -13,8 +13,7 @@ import Edit from "./Edit";
 import Reservation from "./Reservation";
 
 const today = new Date();
-const after_2_day = new Date(today);
-after_2_day.setDate(after_2_day.getDate() + 2);
+const after_2_day = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
 
 function NewPartyPage() {
   const navigation = useNavigate();
@@ -24,13 +23,15 @@ function NewPartyPage() {
   const [region, setRegion] = useState("");
   const [courseRegion, setCourseRegion] = useState("");
   const [member, setMember] = useState(1);
-  const [date, setDate] = useState(after_2_day);
+  const [date, setDate] = useState(
+    `${after_2_day.getFullYear()}-${("0" + (1 + after_2_day.getMonth())).slice(
+      -2
+    )}-${("0" + after_2_day.getDate()).slice(-2)}`
+  );
   const [driverId, setDriverId] = useState(searchParams.get("driverId"));
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState();
-  const [selectedCourseId, setSelectedCourseId] = useState(
-    searchParams.get("selectedCourseId") || 0
-  );
+  const [selectedCourseId, setSelectedCourseId] = useState(0);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 

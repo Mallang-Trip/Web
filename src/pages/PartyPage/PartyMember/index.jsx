@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
 import { getUserInfo } from "../../../api/users";
-import ProfileModal from "../../../components/ProfileModal";
+import { getPartyChatId } from "../../../api/chat";
 import MemberProfile from "./MemberProfile";
+import ProfileModal from "../../../components/ProfileModal";
+import partyChatIcon from "../../../assets/svg/go-party-chat.svg";
+import CheckModal from "../../../components/CheckModal";
+import ConfirmModal from "../../../components/ConfirmModal";
 
 function PartyMember({
+  partyId,
   headcount,
   capacity,
   members,
@@ -14,9 +22,34 @@ function PartyMember({
   partyStatus,
   proposal,
 }) {
+  const navigation = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [driverInfo, setDriverInfo] = useState({});
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [userId, setUserId] = useState(0);
+
+  const goPartyChat = async () => {
+    if (!user.auth) return setShowLoginModal(true);
+
+    try {
+      const result = await getPartyChatId(partyId);
+
+      if (result.statusCode !== 200) {
+        setErrorMessage(result.message);
+        setShowErrorModal(true);
+        return;
+      }
+
+      dispatch(setPartyRoomId(result.payload.chatRoomId));
+      navigation("/talk");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const getDriverInfo = async () => {
     try {
@@ -35,12 +68,23 @@ function PartyMember({
     <>
       <div className="my-7">
         <div className="flex flex-col gap-1 mb-7">
-          <p className="text-lg text-black font-bold">참여 여행자</p>
+          <p className="flex gap-1.5 items-center">
+            <span className="text-lg font-bold text-black">참여 여행자</span>
+            <span className="text-base font-thin text-darkgray">|</span>
+            <button
+              className="text-lg font-bold text-primary flex gap-1.5 items-center"
+              onClick={goPartyChat}
+            >
+              말랑챗 참여하기 <img src={partyChatIcon} alt="말랑챗" />
+            </button>
+          </p>
           <p className="text-sm text-darkgray font-medium">{`${headcount}/${capacity}명`}</p>
         </div>
-        <div className="w-full flex gap-2.5 flex-nowrap overflow-x-auto noScrollBar">
+        <div className="w-full flex gap-2.5 flex-nowrap custom-scrollbar">
           <MemberProfile
-            myParty={myParty || partyStatus === "WAITING_JOIN_APPROVAL"}
+            myParty={
+              myParty || (proposal && partyStatus === "WAITING_JOIN_APPROVAL")
+            }
             setShowProfileModal={setShowProfileModal}
             setUserId={setUserId}
             ready={
@@ -64,7 +108,7 @@ function PartyMember({
             {...driverInfo}
             nickname={`${driverName} 드라이버`}
           />
-          {partyStatus === "WAITING_JOIN_APPROVAL" && (
+          {partyStatus === "WAITING_JOIN_APPROVAL" && proposal && (
             <MemberProfile
               myParty={true}
               setShowProfileModal={setShowProfileModal}
@@ -74,7 +118,7 @@ function PartyMember({
               userId={proposal?.proposerId}
               profileImg={proposal?.proposerProfileImg}
               nickname={proposal?.proposerNickname}
-              introduction={proposal.content || "제안자 입니다."}
+              introduction={proposal?.content || "제안자 입니다."}
               ageRange={proposal?.proposerAgeRange}
               gender={proposal?.proposerGender}
               companions={proposal?.proposerCompanions}
@@ -83,7 +127,9 @@ function PartyMember({
           {members.map((item) => (
             <MemberProfile
               key={item.userId}
-              myParty={myParty || partyStatus === "WAITING_JOIN_APPROVAL"}
+              myParty={
+                myParty || (proposal && partyStatus === "WAITING_JOIN_APPROVAL")
+              }
               setShowProfileModal={setShowProfileModal}
               setUserId={setUserId}
               agreement={
@@ -114,6 +160,19 @@ function PartyMember({
         setShowModal={setShowProfileModal}
         userId={userId}
         driverName={userId === driverId && `${driverName} 드라이버`}
+      />
+      <CheckModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+        message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
+        noText={"취소"}
+        yesText={"확인"}
+        yesHandler={() => navigation("/login")}
+      />
+      <ConfirmModal
+        showModal={showErrorModal}
+        setShowModal={setShowErrorModal}
+        message={errorMessage}
       />
     </>
   );

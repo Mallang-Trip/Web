@@ -7,7 +7,7 @@ function CarInfo({ vehicleImgs, vehicleModel, vehicleCapacity }) {
           {vehicleModel} (승객 탑승 정원 {vehicleCapacity}명)
         </span>
       </p>
-      <div className="h-64 bg-cover gap-2.5 flex overflow-x-scroll noScrollBar">
+      <div className="h-64 bg-cover gap-2.5 flex custom-scrollbar">
         {vehicleImgs.map((image, index) => (
           <img
             key={index}

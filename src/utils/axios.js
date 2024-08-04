@@ -22,7 +22,8 @@ const fetchWrap = async ({ method, url, body, auth }) => {
       (method === "get" && (await axios.get(url, config))) ||
       (method === "post" && (await axios.post(url, body, config))) ||
       (method === "put" && (await axios.put(url, body, config))) ||
-      (method === "delete" && (await axios.delete(url, config))) ||
+      (method === "delete" &&
+        (await axios.delete(url, body ? { ...config, data: body } : config))) ||
       {};
 
     return data;
@@ -40,5 +41,5 @@ export const POST = (url, body, auth = false) =>
 export const PUT = (url, body, auth = false) =>
   fetchWrap({ method: "put", url, body, auth });
 
-export const DELETE = (url, auth = false) =>
-  fetchWrap({ method: "delete", url, auth });
+export const DELETE = (url, auth = false, body) =>
+  fetchWrap({ method: "delete", url, body, auth });

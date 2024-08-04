@@ -78,7 +78,7 @@ function ReceiptModal({
               <p className="mb-3 text-lg text-gray500 font-semibold">
                 드라이버 정보
               </p>
-              <div className="flex justify-between items-center gap-2">
+              <div className="flex justify-between items-center gap-2 pr-2">
                 <div className="w-60 h-14 px-3 flex items-center gap-3 border border-mediumgray rounded-lg">
                   <img
                     src={
@@ -130,7 +130,7 @@ function ReceiptModal({
               <p className="mb-3 text-lg text-gray500 font-semibold">
                 여행자 정보
               </p>
-              <div className="h-64 flex flex-col gap-2 overflow-auto noScrollBar">
+              <div className="h-64 flex flex-col gap-2 custom-scrollbar">
                 {receiptInfo.partyMembers.map((member) => (
                   <div
                     key={member.userId}

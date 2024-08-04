@@ -93,7 +93,7 @@ function MallangTalkModal({ showModal, setShowModal, mallangTalkInfo }) {
               </div>
             </div>
             <div
-              className="flex flex-col h-full overflow-y-auto px-2 noScrollBar"
+              className="flex flex-col h-full px-2 custom-scrollbar"
               ref={talkRoomRef}
             >
               {messages.map((message, index) => (

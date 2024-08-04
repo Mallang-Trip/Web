@@ -31,7 +31,6 @@ function PWAInstall() {
   };
 
   useEffect(() => {
-    localStorage.removeItem("iosPwaPrompt");
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     return () => {
       window.removeEventListener(
@@ -58,7 +57,7 @@ function PWAInstall() {
     return (
       <PWAPrompt
         promptOnVisit={1}
-        timesToShow={3000}
+        timesToShow={20}
         copyTitle="말랑트립 앱 설치"
         copyBody="편리한 말랑트립 사용을 위해 아래 절차에 따라 앱을 설치하는 것을 권장합니다."
         copyShareButtonLabel="1. 브라우저 메뉴에서 공유 버튼을 누릅니다."

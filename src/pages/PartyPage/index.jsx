@@ -202,7 +202,6 @@ function PartyPage() {
   const getPartyData = async (toScrollTop = false) => {
     try {
       const result = await getPartyDetail(partyId);
-      if (result.statusCode === 403 && !user.auth) return navigation("/login");
       if (result.statusCode !== 200) return setPartyData({ partyId: -1 });
       setPartyData(result.payload);
       setRegion(result.payload.region);
@@ -253,6 +252,7 @@ function PartyPage() {
       />
       <PartyDate startDate={partyData.startDate} />
       <PartyMember
+        partyId={partyData.partyId}
         headcount={partyData.headcount}
         capacity={partyData.capacity}
         members={partyData.members}
@@ -264,24 +264,26 @@ function PartyPage() {
         proposal={partyData.proposal}
       />
       {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
-        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
-        <EditAgreement
-          myParty={
-            partyData.myParty && partyData.proposal?.proposerId !== user.userId
-          }
-          partyStatus={partyData.partyStatus}
-          createdAt={partyData.proposal?.createdAt}
-          getPartyData={getPartyData}
-          proposalId={partyData.proposal?.proposalId}
-          agreement={[
-            {
-              userId: partyData.driverId,
-              status: partyData.proposal.driverAgreement,
-            },
-            ...partyData.proposal.memberAgreement,
-          ]}
-        />
-      )}
+        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
+        partyData?.proposal && (
+          <EditAgreement
+            myParty={
+              partyData.myParty &&
+              partyData?.proposal?.proposerId !== user.userId
+            }
+            partyStatus={partyData.partyStatus}
+            createdAt={partyData?.proposal?.createdAt}
+            getPartyData={getPartyData}
+            proposalId={partyData?.proposal?.proposalId}
+            agreement={[
+              {
+                userId: partyData.driverId,
+                status: partyData?.proposal?.driverAgreement,
+              },
+              ...partyData?.proposal?.memberAgreement,
+            ]}
+          />
+        )}
       {partyData.myParty &&
         (partyData.partyStatus === "RECRUITING" ||
           partyData.partyStatus === "SEALED" ||
@@ -318,6 +320,7 @@ function PartyPage() {
           <NewPartyAgreement getPartyData={getPartyData} />
         )}
       {user.userId !== partyData.driverId &&
+        partyData.myParty &&
         partyData.partyStatus !== "CANCELED_BY_DRIVER_REFUSED" &&
         partyData.partyStatus !== "CANCELED_BY_PROPOSER" &&
         partyData.partyStatus !== "CANCELED_BY_ALL_QUIT" &&
@@ -328,10 +331,10 @@ function PartyPage() {
             }
             capacity={partyData.capacity}
             partyStatus={partyData.partyStatus}
-            paymentAmount={partyData.reservation?.paymentAmount}
-            createdAt={partyData.reservation?.createdAt}
-            receiptUrl={partyData.reservation?.receiptUrl}
-            status={partyData.reservation?.status}
+            paymentAmount={partyData?.reservation?.paymentAmount}
+            createdAt={partyData?.reservation?.createdAt}
+            receiptUrl={partyData?.reservation?.receiptUrl}
+            status={partyData?.reservation?.status}
           />
         )}
       {!partyData.myParty && (type === "join" || type === "edit") && (
@@ -353,23 +356,24 @@ function PartyPage() {
         </>
       )}
       {(partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
-        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") && (
-        <>
-          <PartyPlan
-            edit={false}
-            course={partyData.proposal.course}
-            startDate={partyData.startDate}
-            editHandler={editHandler}
-            comment="새로 제안된 파티 코스"
-          />
-          <CourseMap
-            markerData={partyData.proposal.course.days[0].destinations}
-            reload={false}
-            mapName="TMAP_COURSE_NEW"
-          />
-          <hr className="w-full max-w-[900px] bg-darkgray/30 my-20 mx-auto h-px border-0" />
-        </>
-      )}
+        partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
+        partyData.myParty && (
+          <>
+            <PartyPlan
+              edit={false}
+              course={partyData.proposal.course}
+              startDate={partyData.startDate}
+              editHandler={editHandler}
+              comment="새로 제안된 파티 코스"
+            />
+            <CourseMap
+              markerData={partyData.proposal.course.days[0].destinations}
+              reload={false}
+              mapName="TMAP_COURSE_NEW"
+            />
+            <hr className="w-full max-w-[900px] bg-darkgray/30 my-20 mx-auto h-px border-0" />
+          </>
+        )}
       {type === "edit" ? (
         <>
           <CourseDnD
@@ -405,6 +409,7 @@ function PartyPage() {
             comment={
               (partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
                 partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
+              partyData.myParty &&
               "기존 파티 코스"
             }
           />
@@ -439,7 +444,7 @@ function PartyPage() {
             getPartyData={getPartyData}
             partyStatus={partyData.partyStatus}
             startDate={partyData.startDate}
-            paymentAmount={partyData.reservation?.paymentAmount}
+            paymentAmount={partyData?.reservation?.paymentAmount}
             isDriver={user.userId === partyData.driverId}
             totalPrice={
               partyData.course?.totalPrice - partyData.course?.discountPrice
@@ -447,7 +452,10 @@ function PartyPage() {
           />
         )
       ) : (
-        <JoinButton joinHandler={joinHandler} />
+        <JoinButton
+          joinHandler={joinHandler}
+          partyStatus={partyData.partyStatus}
+        />
       )}
       {user.userId === partyData.driverId ? (
         <BottomRefundDriver />

@@ -75,7 +75,10 @@ const __asyncRefreshAuth = createAsyncThunk("userSlice/asyncAuth", async () => {
 
 const __deleteFirebaseToken = async () => {
   try {
-    await deleteFirebaseToken();
+    await deleteFirebaseToken({
+      firebaseToken: localStorage.getItem("fcmToken"),
+    });
+    localStorage.removeItem("fcmToken");
   } catch (e) {
     console.log(e);
   }

@@ -46,10 +46,6 @@ function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
 
   const handleKeyPress = (event) => {
     if (event.key === "Escape") closeModal();
-    else if (event.key === "Enter") {
-      if (!complete) submitReport();
-      else closeModal();
-    }
   };
 
   useEffect(() => {
@@ -89,7 +85,7 @@ function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
                 </p>
                 <textarea
                   placeholder="신고 사유를 입력해주세요."
-                  className="w-full h-44 mt-5 rounded-xl border border-black text-black font-medium p-3 text-sm placeholder:text-[#6F6F6F] focus:border-primary focus:outline-none resize-none noScrollBar"
+                  className="w-full h-44 mt-5 rounded-xl border border-black text-black font-medium p-3 text-sm placeholder:text-[#6F6F6F] focus:border-primary focus:outline-none resize-none custom-scrollbar"
                   onChange={(e) => setContent(e.target.value)}
                   value={content}
                 />

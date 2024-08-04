@@ -111,7 +111,7 @@ function EditPlaceModal({
                 ></path>
               </svg>
             </button>
-            <div className="flex flex-col gap-3 px-6 pb-6 mx-auto h-full bg-white rounded-t-xl max-h-[500px] overflow-auto noScrollBar">
+            <div className="flex flex-col gap-3 px-6 pb-6 mx-auto h-full bg-white rounded-t-xl max-h-[500px] custom-scrollbar">
               <div>
                 <div className="block mb-1 text-sm font-medium text-black">
                   여행지 이름 <span className="text-red-600 font-bold">*</span>
@@ -168,7 +168,7 @@ function EditPlaceModal({
                 <div className="block mb-1 text-sm font-medium text-black">
                   여행지 이미지
                 </div>
-                <div className="flex gap-4 overflow-x-auto noScrollBar">
+                <div className="flex gap-4 custom-scrollbar">
                   {newPlaceInfo.images.map((image, index) => (
                     <ImageItem
                       image={image}

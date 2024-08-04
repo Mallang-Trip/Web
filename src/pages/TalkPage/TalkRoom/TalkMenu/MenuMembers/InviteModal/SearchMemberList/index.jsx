@@ -2,7 +2,7 @@ import Member from "./Member";
 
 function SearchMemberList({ searchList, inviteMember, setInviteMember }) {
   return (
-    <div className="h-full pb-4 overflow-y-auto noScrollBar">
+    <div className="h-full flex flex-col gap-2 custom-scrollbar">
       {searchList.map((member) => (
         <Member
           key={member.userId}

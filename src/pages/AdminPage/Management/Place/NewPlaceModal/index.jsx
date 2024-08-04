@@ -256,8 +256,8 @@ function NewPlaceModal({ showModal, setShowModal, placeData, searchKeyword }) {
                 ></path>
               </svg>
             </button>
-            <div className="p-6 mx-auto h-[520px] bg-white overflow-auto noScrollBar">
-              <form className="mb-6 flex gap-2" onSubmit={searchHandler}>
+            <div className="py-6 pl-6 pr-4 mx-auto h-[530px] bg-white custom-scrollbar">
+              <form className="w-full mb-6 flex gap-2" onSubmit={searchHandler}>
                 <input
                   type="text"
                   keyword="new_place"

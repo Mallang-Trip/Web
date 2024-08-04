@@ -27,7 +27,7 @@ function Vehicle({
           modifyMode={false}
         />
       </div>
-      <div className="h-52 mt-5 rounded-2xl relative flex gap-5 overflow-x-auto w-full noScrollBar">
+      <div className="h-52 mt-5 rounded-2xl relative flex gap-5 w-full custom-scrollbar">
         {vehicleImgs.map((image, index) => (
           <img
             key={index}

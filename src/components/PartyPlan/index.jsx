@@ -11,15 +11,12 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }) {
 
   return (
     <div className="w-full md:w-3/4 px-5 mx-auto my-20">
-      <div className="flex justify-between items-center gap-2 text-lg sm:text-2xl text-black font-bold">
-        <p>
-          [{course.name}] 일정{" "}
-          {comment && (
-            <span className="text-sm sm:text-lg text-primary">({comment})</span>
-          )}
-        </p>
-        {edit && <EditButton onClick={editHandler} title={"코스 바꾸기"} />}
-      </div>
+      <p className="text-lg sm:text-2xl text-black font-bold">
+        [{course.name}] 일정{" "}
+        {comment && (
+          <span className="text-sm sm:text-lg text-primary">({comment})</span>
+        )}
+      </p>
       <p className="text-md md:text-xl font-bold text-darkgray mt-8 mb-6">
         {`${startDate.slice(0, 4)}.${startDate.slice(5, 7)}.${startDate.slice(
           8,
@@ -38,6 +35,16 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }) {
           }
         />
       ))}
+      {edit && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={editHandler}
+            className="w-44 h-14 rounded-2xl bg-primary text-white text-lg font-bold"
+          >
+            코스 변경
+          </button>
+        </div>
+      )}
     </div>
   );
 }

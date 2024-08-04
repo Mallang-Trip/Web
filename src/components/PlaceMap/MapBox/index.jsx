@@ -27,7 +27,7 @@ function MapBox({
       mapRef.current.removeChild(mapRef.current.firstChild);
 
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
-    const mapHeight = 600;
+    const mapHeight = window.innerWidth > 768 ? 600 : 400;
 
     const map = new Tmapv2.Map("TMapApp", {
       center: new Tmapv2.LatLng(37.398195688134, 126.96313827598239),

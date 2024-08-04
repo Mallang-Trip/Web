@@ -93,7 +93,7 @@ function CourseMap({ markerData, reload, mapName }) {
 
     // 지도
     const mapWidth = Math.min(mapRef.current.offsetWidth, 900);
-    const mapHeight = 600;
+    const mapHeight = window.innerWidth > 768 ? 600 : 400;
 
     const map = new Tmapv2.Map(mapName, {
       center: new Tmapv2.LatLng(markerData[0].lat, markerData[0].lon),

@@ -27,7 +27,7 @@ function TalkItem({
   return (
     <li>
       <button
-        className={`w-full flex justify-between py-3 px-3 rounded-lg hover:bg-lightgray group focus:outline-none ${
+        className={`w-full flex justify-between gap-1 py-3 px-3 rounded-lg hover:bg-lightgray group focus:outline-none ${
           openTalkId === chatRoomId ? "bg-lightgray" : "bg-white"
         }`}
         onClick={() => setOpenTalkId(chatRoomId)}
@@ -43,10 +43,10 @@ function TalkItem({
             alt="Profile_Image"
           />
           <div className="flex flex-col gap-2 text-left">
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-start">
               <span className="text-lg text-black font-bold">{roomName}</span>
               {type !== "COUPLE" && (
-                <span className="text-sm text-darkgray/80 font-bold">
+                <span className="text-sm text-darkgray/80 font-bold shrink-0">
                   {headCount + "명"}
                 </span>
               )}
@@ -56,7 +56,7 @@ function TalkItem({
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 items-end text-left w-24">
+        <div className="flex flex-col gap-4 items-end text-left w-24 shrink-0">
           <span className="text-xs ml-auto text-darkgray font-medium">
             {chatListDateToGapKorean(updatedAt)}
           </span>

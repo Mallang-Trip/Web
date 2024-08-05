@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 import { postNewReport } from "../../api/users";
 import Loading from "../../components/Loading";
 
 function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
   const modalRef = useRef();
+  const location = useLocation();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -49,7 +51,11 @@ function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
   };
 
   useEffect(() => {
-    if (!showModal) return document.body.classList.remove("overflow-hidden");
+    if (!showModal) {
+      if (location.pathname !== "/talk")
+        document.body.classList.remove("overflow-hidden");
+      return;
+    }
     document.body.classList.add("overflow-hidden");
 
     setComplete(false);

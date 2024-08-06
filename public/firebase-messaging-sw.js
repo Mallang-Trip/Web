@@ -14,9 +14,7 @@ self.addEventListener("push", (e) => {
     ...resultData,
     body: isImageChat ? "사진을 전송하였습니다." : resultData.body,
     icon: "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/ae54463f-1299-4caa-b763-a94f5b300e27mallangtrip.png",
-    image: isImageChat
-      ? resultData.body
-      : "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/9a360955-8f22-4911-9708-53b1065f9b5amallangtrip.png",
+    image: isImageChat && resultData.body,
     tag: tag,
   };
 
@@ -42,7 +40,31 @@ self.addEventListener("push", (e) => {
 });
 
 self.addEventListener("notificationclick", (e) => {
+  const domain = e.currentTarget.serviceWorker.scriptURL.replace(
+    "/firebase-messaging-sw.js",
+    ""
+  );
   const url = e.notification.tag || "/notify";
   e.notification.close();
-  e.waitUntil(clients.openWindow(url));
+
+  e.waitUntil(
+    clients
+      .matchAll({
+        type: "window",
+        includeUncontrolled: true,
+      })
+      .then((clientList) => {
+        const matchingClient = clientList.find((client) => {
+          return client.url.startsWith(domain);
+        });
+
+        if (matchingClient) {
+          matchingClient.focus();
+          matchingClient.postMessage({
+            action: "navigate",
+            url: domain + url,
+          });
+        } else clients.openWindow(url);
+      })
+  );
 });

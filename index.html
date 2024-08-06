@@ -148,6 +148,12 @@
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/sw.js");
+
+        navigator.serviceWorker.addEventListener("message", (event) => {
+          if (event.data && event.data.action === "navigate") {
+            window.location.href = event.data.url;
+          }
+        });
       }
     </script>
   </body>

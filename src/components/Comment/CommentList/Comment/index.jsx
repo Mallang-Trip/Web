@@ -1,10 +1,7 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { deleteComment, putComment } from "../../../../api/driver";
-import {
-  deleteDestinationComment,
-  putDestinationComment,
-} from "../../../../api/destination";
+import { putComment } from "../../../../api/driver";
+import { putDestinationComment } from "../../../../api/destination";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
 import { CONSTANT } from "../../../../utils/data";
@@ -21,6 +18,8 @@ function Comment({
   images,
   isDriver,
   reloadData,
+  setShowDeleteModal,
+  setDeleteTargetId,
 }) {
   const user = useSelector((state) => state.user);
   const [modifyMode, setModifyMode] = useState(false);
@@ -52,19 +51,12 @@ function Comment({
   const rightButtonHandler = async () => {
     // 댓글 삭제
     if (!modifyMode) {
-      try {
-        if (isDriver) await deleteComment(reviewId);
-        else await deleteDestinationComment(reviewId);
-
-        reloadData();
-      } catch (e) {
-        console.log(e);
-      }
-
+      setDeleteTargetId(reviewId);
+      setShowDeleteModal(true);
       return;
     }
 
-
+    // 댓글 수정
     if (!newStar || newStar < 0 || newStar > 5 || newContent === "") return;
 
     const commentImageURL =
@@ -76,7 +68,6 @@ function Comment({
           )
         : [];
 
-    // 댓글 수정
     const body = {
       content: newContent,
       images: commentImageURL,

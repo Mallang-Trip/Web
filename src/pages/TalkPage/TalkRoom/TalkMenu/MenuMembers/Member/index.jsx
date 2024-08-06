@@ -36,7 +36,7 @@ function Member({
       onClick={showProfileHandler}
     >
       <img
-        className="mr-3 w-10 h-10 rounded-full"
+        className="mr-3 w-10 h-10 rounded-full shrink-0"
         src={profileImg || basicProfileImage}
         alt="Profile_Image"
       />

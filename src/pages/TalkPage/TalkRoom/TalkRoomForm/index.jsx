@@ -1,7 +1,18 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-function TalkRoomForm({ sendMessageHandler, setShowImageModal }) {
+function TalkRoomForm({
+  sendMessageHandler,
+  setShowImageModal,
+  isBlock,
+  isBlocked,
+}) {
   const [message, setMessage] = useState("");
+
+  const chatPlaceholder = useMemo(() => {
+    if (isBlock) return "차단한 상대와 대화가 불가능합니다.";
+    if (isBlocked) return "상대에게 차단되어 대화가 불가능합니다.";
+    return "메시지를 입력해주세요.";
+  }, [isBlock, isBlocked]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -36,9 +47,10 @@ function TalkRoomForm({ sendMessageHandler, setShowImageModal }) {
         <input
           type="text"
           className="block mx-2 p-2.5 w-full text-sm text-black bg-white rounded-lg border border-mediumgray focus:outline-none focus:border-primary"
-          placeholder="메시지를 입력해주세요."
+          placeholder={chatPlaceholder}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={isBlock || isBlocked}
         />
         <button
           type="submit"

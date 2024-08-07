@@ -154,6 +154,10 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   }, [roomId]);
 
   useEffect(() => {
+    getChatRoomDataFunc();
+  }, [showProfileModal]);
+
+  useEffect(() => {
     if (openTalkId === 0) return setRoomId(0);
 
     setRoomId(openTalkId);
@@ -187,6 +191,8 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
         <TalkRoomForm
           sendMessageHandler={sendMessageHandler}
           setShowImageModal={setShowImageModal}
+          isBlock={roomData.isBlock}
+          isBlocked={roomData.isBlocked}
         />
 
         <TalkMenu

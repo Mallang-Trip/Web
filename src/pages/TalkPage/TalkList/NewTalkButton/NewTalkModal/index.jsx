@@ -54,9 +54,15 @@ function NewTalkModal({
         const userIds = inviteMember.map((member) => member.userId).join(",");
         const result = await makeNewGroupChat(userIds, roomName);
 
-        alert("새로운 말랑챗이 생성되었습니다.");
+        if (result.statusCode === 403) {
+          alert("정지 기간동안 새로운 말랑챗 생성이 불가능합니다.");
+        } else if (result.statusCode === 200) {
+          alert("새로운 말랑챗이 생성되었습니다.");
+          setOpenTalkId(result.payload.chatRoomId);
+        } else {
+          setOpenTalkId(result.payload.chatRoomId);
+        }
         getChatListFunc();
-        setOpenTalkId(result.payload.chatRoomId);
         closeModal();
       } catch (e) {
         console.log(e);
@@ -67,9 +73,15 @@ function NewTalkModal({
       try {
         const result = await makeNewCoupleChat(inviteMember[0].userId);
 
-        alert("새로운 말랑챗이 생성되었습니다.");
+        if (result.statusCode === 403) {
+          alert("정지 기간동안 새로운 말랑챗 생성이 불가능합니다.");
+        } else if (result.statusCode === 200) {
+          alert("새로운 말랑챗이 생성되었습니다.");
+          setOpenTalkId(result.payload.chatRoomId);
+        } else {
+          setOpenTalkId(result.payload.chatRoomId);
+        }
         getChatListFunc();
-        setOpenTalkId(result.payload.chatRoomId);
         closeModal();
       } catch (e) {
         console.log(e);

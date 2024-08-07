@@ -5,6 +5,7 @@ function Member({
   userId,
   profileImg,
   nickname,
+  isMyParty,
   introduction,
   setShowProfileModal,
   setProfileUserId,
@@ -12,7 +13,6 @@ function Member({
   setKickUser,
   setShowKickModal,
 }) {
-  const user = useSelector((state) => state.user);
   const publicRoomId = useSelector((state) => state.talkRoom.publicRoomId);
 
   const showProfileHandler = () => {
@@ -46,7 +46,7 @@ function Member({
           {introduction}
         </p>
       </div>
-      {type === "PARTY_PUBLIC" && publicRoomId && userId !== user.userId && (
+      {type === "PARTY_PUBLIC" && publicRoomId && !isMyParty && (
         <div
           className="w-16 bg-[#FFEAEA] text-[#E30000] py-1.5 px-2 text-xs rounded-lg border border-[#E30000] focus:outline-none"
           onClick={kickHandler}

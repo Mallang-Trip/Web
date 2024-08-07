@@ -29,6 +29,7 @@ function TalkRoomForm({
           type="button"
           className="p-1 text-primary focus:outline-none"
           onClick={() => setShowImageModal(true)}
+          disabled={isBlock || isBlocked}
         >
           <svg
             aria-hidden="true"

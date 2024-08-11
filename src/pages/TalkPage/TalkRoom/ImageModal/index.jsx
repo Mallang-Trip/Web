@@ -68,14 +68,16 @@ function ImageModal({
                 )}
               </div>
             )}
-            <input
-              ref={imageRef}
-              className="hidden"
-              id="chatImage_input"
-              type="file"
-              accept="image/*"
-              onChange={imageHandler}
-            />
+            {showModal && (
+              <input
+                ref={imageRef}
+                className="hidden"
+                id="chatImage_input"
+                type="file"
+                accept="image/*"
+                onChange={imageHandler}
+              />
+            )}
           </div>
         </div>
         <div className="flex">

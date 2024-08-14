@@ -11,6 +11,7 @@ import Driver from "./Driver";
 import Course from "./Course";
 import Edit from "./Edit";
 import Reservation from "./Reservation";
+import Loading from "../../components/Loading";
 
 function NewPartyPage() {
   const navigation = useNavigate();
@@ -29,10 +30,26 @@ function NewPartyPage() {
   );
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const settingDriverInfo = async () => {
     try {
       const result = await getDriverInfo(driverId);
+
+      if (result.statusCode === 404) {
+        const newStep =
+          searchParams.get("date") !== "null"
+            ? 3
+            : searchParams.get("region")
+              ? 2
+              : 1;
+        navigation(
+          `/party/new/${newStep}?region=${region}&member=${member}&date=${date}&driverId=${null}`,
+          { replace: true }
+        );
+        return;
+      }
+
       setDriverInfo(result.payload);
       setPlanData((planData) => ({
         ...planData,
@@ -48,15 +65,15 @@ function NewPartyPage() {
         setSelectedCourseId(
           selectedCourseId || result.payload.courses[0].courseId
         );
-        const step =
+        const newStep =
           searchParams.get("date") !== "null"
             ? 4
             : searchParams.get("region")
               ? 2
               : 1;
         navigation(
-          `/party/new/${step}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
-          { replace: true }
+          `/party/new/${newStep}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
+          { replace: step !== "3" }
         );
       }
     } catch (e) {
@@ -112,11 +129,29 @@ function NewPartyPage() {
     const driverIdParam = searchParams.get("driverId");
 
     if (regionParam !== "null") setRegion(regionParam);
-    if (memberParam !== "null") setMember(Number(memberParam));
+    if (memberParam !== "null")
+      setMember(
+        Number(memberParam) >= 1 && Number(memberParam) <= 10
+          ? Number(memberParam)
+          : 1
+      );
     if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
+    if (dateParam !== "null") {
+      const tomorrow = new Date();
+      const after_4_month = new Date(tomorrow);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      after_4_month.setMonth(after_4_month.getMonth() + 4);
 
-    if (dateParam !== "null") setDate(dateParam);
-    else {
+      if (
+        new Date(dateParam) < tomorrow ||
+        new Date(dateParam) > after_4_month
+      ) {
+        navigation(
+          `/party/new/1?region=null&member=null&date=null&driverId=null`,
+          { replace: true }
+        );
+      } else setDate(dateParam);
+    } else {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       setDate(
@@ -125,6 +160,8 @@ function NewPartyPage() {
         ).slice(-2)}`
       );
     }
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -141,6 +178,7 @@ function NewPartyPage() {
     window.scrollTo({ top: 0 });
   }, [step]);
 
+  if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
       {step === "1" && (

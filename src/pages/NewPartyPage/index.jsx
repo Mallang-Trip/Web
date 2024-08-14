@@ -117,10 +117,11 @@ function NewPartyPage() {
 
     if (dateParam !== "null") setDate(dateParam);
     else {
-      const today = new Date();
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
       setDate(
-        `${today.getFullYear()}-${("0" + (1 + today.getMonth())).slice(-2)}-${(
-          "0" + today.getDate()
+        `${tomorrow.getFullYear()}-${("0" + (1 + tomorrow.getMonth())).slice(-2)}-${(
+          "0" + tomorrow.getDate()
         ).slice(-2)}`
       );
     }

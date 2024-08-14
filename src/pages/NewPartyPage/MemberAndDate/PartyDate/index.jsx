@@ -3,8 +3,10 @@ import "./index.css";
 
 function PartyDate({ date, setDate }) {
   const today = new Date();
+  const tomorrow = new Date(today);
   const after_4_month = new Date(today);
   after_4_month.setMonth(after_4_month.getMonth() + 4);
+  tomorrow.setDate(today.getDate() + 1);
 
   return (
     <>
@@ -24,7 +26,7 @@ function PartyDate({ date, setDate }) {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
-          minDate={today}
+          minDate={tomorrow}
           maxDate={after_4_month}
           selectRange={false}
           calendarType="gregory"

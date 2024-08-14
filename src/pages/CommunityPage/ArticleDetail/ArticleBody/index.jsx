@@ -20,6 +20,7 @@ import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import ProfileModal from "../../../../components/ProfileModal";
+import ReportModal from "../../../../components/ReportModal";
 
 function ArticleBody({
   articleId,
@@ -46,6 +47,7 @@ function ArticleBody({
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isChatBlock, setIsChatBlock] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const heartClickHandler = async () => {
     if (!user.auth) return setShowLoginModal(true);
@@ -117,7 +119,15 @@ function ArticleBody({
               onClick={profileClickHandler}
             />
             <div className="h-10 flex flex-col justify-center">
-              <p className="text-sm text-black font-bold">{nickname}</p>
+              <p className="flex items-center gap-5">
+                <span className="text-sm text-black font-bold">{nickname}</span>
+                <button
+                  className="text-xs text-red-600 font-bold"
+                  onClick={() => setShowReportModal(true)}
+                >
+                  신고
+                </button>
+              </p>
               <p className="text-sm text-boldgray font-medium">
                 {dateToGapKorean(updatedAt, true)}
               </p>
@@ -221,6 +231,13 @@ function ArticleBody({
         showModal={showProfileModal}
         setShowModal={setShowProfileModal}
         userId={userId}
+      />
+      <ReportModal
+        showModal={showReportModal}
+        setShowModal={setShowReportModal}
+        reporteeId={userId}
+        targetId={articleId}
+        type="ARTICLE"
       />
     </>
   );

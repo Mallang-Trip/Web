@@ -23,11 +23,11 @@ function PageButton({
           "h-12 rounded-full text-sm w-64 border text-white bg-primary border-primary"
         }
         onClick={() => {
-          if (driverId < 0 || driverId === "null")
+          if (driverId <= 0 || driverId === "null")
             navigation(
               `/party/new/3?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
             );
-          else if (selectedCourseId >= 0)
+          else if (selectedCourseId > 0)
             navigation(
               `/party/new/4?region=${region}&member=${member}&date=${date}&driverId=${driverId}`
             );

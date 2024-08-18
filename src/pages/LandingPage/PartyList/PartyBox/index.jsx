@@ -24,7 +24,7 @@ function PartyBox({
         src={image || basicPartyImage}
         alt={name}
       />
-      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white z-10">
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-xl text-white z-10 px-5 text-center">
         {name}
       </div>
       <div className="w-full absolute bottom-0 left-0 flex justify-center text-white py-1 rounded-b-lg z-10">

@@ -24,7 +24,7 @@ function ReservationYear({ reservationYearData }) {
       </button>
       <div
         className={`flex flex-col gap-5 mx-auto overflow-hidden transition-all duration-700 ${
-          showYearData ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0"
+          showYearData ? "max-h-full opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         {reservationYearData.map((item) => (

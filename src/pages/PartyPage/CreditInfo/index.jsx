@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { priceToString, dateToKoreanDataTime } from "../../../utils";
+import { postPaymentAgain } from "../../../api/card";
+import CheckModal from "../../../components/CheckModal";
+import ConfirmModal from "../../../components/ConfirmModal";
 
 function CreditInfo({
   totalPrice,
@@ -9,8 +12,29 @@ function CreditInfo({
   createdAt,
   receiptUrl,
   status,
+  reservationId,
+  getPartyData,
 }) {
   const [middleCount, setMiddleCount] = useState([]);
+  const [showRepaymentModal, setShowRepaymentModal] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const repaymentHandler = async () => {
+    try {
+      const result = await postPaymentAgain(reservationId);
+      if (result.statusCode === 200)
+        setMessage(`${priceToString(paymentAmount)}원 결제가 완료되었습니다.`);
+      else setMessage(`${priceToString(paymentAmount)}원 결제에 실패했습니다.`);
+    } catch (e) {
+      console.log(e);
+      setMessage(`${priceToString(paymentAmount)}원 결제에 실패했습니다.`);
+    } finally {
+      setShowRepaymentModal(false);
+      setShowMessageModal(true);
+      getPartyData();
+    }
+  };
 
   useEffect(() => {
     const middle = [];
@@ -23,16 +47,16 @@ function CreditInfo({
   return (
     <>
       <div className="flex flex-col gap-1 mt-7 mb-5">
-        <p className="text-lg text-black font-bold">
+        <p className="text-lg text-black font-bold flex items-center gap-2">
           예약금 결제
           {(partyStatus === "SEALED" ||
             partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
             (status === "PAYMENT_COMPLETE" ? (
               <span className="text-sm text-darkgray font-medium">
-                {` (${dateToKoreanDataTime(createdAt)} 결제 완료)`}
+                {`(${dateToKoreanDataTime(createdAt)} 결제 완료)`}
               </span>
             ) : (
-              <span className="text-sm text-[#ff0000] font-medium">
+              <span className="text-sm text-red-500 font-medium">
                 결제 실패
               </span>
             ))}
@@ -54,6 +78,14 @@ function CreditInfo({
                 }}
               >
                 카드 영수증
+              </button>
+            )}
+            {status === "PAYMENT_FAILED" && (
+              <button
+                className="underline underline-offset-2 text-red-500"
+                onClick={() => setShowRepaymentModal(true)}
+              >
+                결제 재시도
               </button>
             )}
           </p>
@@ -99,6 +131,23 @@ function CreditInfo({
           결제금이 전액 환불되고 다시 파티원 모집 상태로 되돌아갑니다.
         </p>
       </div>
+      {status === "PAYMENT_FAILED" && (
+        <>
+          <CheckModal
+            showModal={showRepaymentModal}
+            setShowModal={setShowRepaymentModal}
+            message={`${priceToString(paymentAmount)}원을 다시 결제 하시겠습니까?`}
+            noText="취소"
+            yesText="확인"
+            yesHandler={() => repaymentHandler()}
+          />
+          <ConfirmModal
+            showModal={showMessageModal}
+            setShowModal={setShowMessageModal}
+            message={message}
+          />
+        </>
+      )}
     </>
   );
 }

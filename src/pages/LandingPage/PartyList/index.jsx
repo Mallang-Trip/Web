@@ -38,6 +38,7 @@ function PartyList() {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0 });
   }, [region, nowDate, num, price]);
 
   if (loading) return null;

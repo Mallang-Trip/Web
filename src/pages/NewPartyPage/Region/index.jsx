@@ -20,7 +20,7 @@ function Region({ setRegion, member, driverId, date, driverInfo }) {
   const getPartyRegionListFunc = async () => {
     try {
       const result = await getPartyRegionList();
-      if (driverId === "null") setRegionData(result.payload);
+      if (driverId === "null" || driverId === 0) setRegionData(result.payload);
       else if (JSON.stringify(driverInfo) !== "{}") {
         setRegionData(
           result.payload.filter((item) => driverInfo.region.includes(item.name))

@@ -335,6 +335,8 @@ function PartyPage() {
             createdAt={partyData?.reservation?.createdAt}
             receiptUrl={partyData?.reservation?.receiptUrl}
             status={partyData?.reservation?.status}
+            reservationId={partyData?.reservation?.reservationId}
+            getPartyData={getPartyData}
           />
         )}
       {!partyData.myParty && (type === "join" || type === "edit") && (

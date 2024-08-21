@@ -14,15 +14,19 @@ function PWAInstall() {
     UA.indexOf("ipod") > -1;
 
   const handleInstallClick = () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === "accepted") {
-        setShowInstallModal(false);
-      }
-    });
+    const newWindow = window.open(
+      "https://play.google.com/store/apps/details?id=com.mallangtrip.www",
+      "_blank",
+      "noopener,noreferrer"
+    );
+    if (newWindow) newWindow.opener = null;
+    // if (!deferredPrompt) return;
+    // deferredPrompt.prompt();
+    // deferredPrompt.userChoice.then((choiceResult) => {
+    //   if (choiceResult.outcome === "accepted") {
+    //     setShowInstallModal(false);
+    //   }
+    // });
   };
 
   const handleBeforeInstallPrompt = (event) => {

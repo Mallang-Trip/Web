@@ -30,10 +30,10 @@ function InstallModal({ showModal, setShowModal, handleInstallClick }) {
         <div className="w-full h-80 text-center bg-white rounded-t-xl relative">
           <div className="absolute top-0 left-0 text-left px-6 pt-5">
             <p className="text-lg font-bold text-black mb-1">
-              말랑트립 앱 설치
+              말랑트립 앱 다운로드
             </p>
             <p className="text-sm font-medium text-boldgray">
-              편리한 말랑트립 사용을 위해 앱을 설치하는 것을 권장합니다.
+              편리한 말랑트립을 위해 스토어에서 앱을 다운로드하세요.
             </p>
           </div>
           <button
@@ -69,7 +69,7 @@ function InstallModal({ showModal, setShowModal, handleInstallClick }) {
                 className="w-full h-12 bg-primary text-white text-sm text-bold rounded-lg"
                 onClick={handleInstallClick}
               >
-                말랑트립 앱 설치
+                말랑트립 앱 다운로드
               </button>
             </div>
           </div>

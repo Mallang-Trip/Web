@@ -9,7 +9,6 @@ import useGoogleTagManager from "./hooks/useGoogleTagManager";
 import RouteChangeTracker from "./components/RouteChangeTracker";
 
 function App() {
-  
   useInitialSetting();
   useGoogleTagManager();
 

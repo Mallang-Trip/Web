@@ -11,9 +11,10 @@ const RouteChangeTracker = () => {
   useEffect(() => {
     // 로컬 환경의 영향을 받지 않도록 하기 위해 조건 처리
     if (!window.location.href.includes("localhost")) {
-      ReactGA.initialize(import.meta.env.VITE_GA_TRACKING_ID);
+      ReactGA.initialize(import.meta.env.VITE_GA_TRACKING_ID); //GA 초기화
+      ReactPixel.init(import.meta.env.VITE_META_PIXEL_TRACKING_ID); //메타픽셀 초기화
+      setInitialized(true);
     }
-    setInitialized(true);
   }, []);
   useEffect(() => {
     if (initialized) {

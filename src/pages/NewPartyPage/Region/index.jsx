@@ -20,7 +20,14 @@ function Region({ setRegion, member, driverId, date, driverInfo }) {
   const getPartyRegionListFunc = async () => {
     try {
       const result = await getPartyRegionList();
-      if (driverId === "null" || driverId === 0) setRegionData(result.payload);
+      const lastItem = result.payload.filter((item) =>
+        item.name.includes("그 외")
+      );
+      const otherItems = result.payload.filter(
+        (item) => !item.name.includes("그 외")
+      );
+      if (driverId === "null" || driverId === 0)
+        setRegionData([...otherItems, ...lastItem]);
       else if (JSON.stringify(driverInfo) !== "{}") {
         setRegionData(
           result.payload.filter((item) => driverInfo.region.includes(item.name))

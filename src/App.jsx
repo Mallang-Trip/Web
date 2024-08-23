@@ -7,8 +7,9 @@ import PWAInstall from "./components/PWAInstall";
 import useInitialSetting from "./hooks/useInitialSetting";
 import useGoogleTagManager from "./hooks/useGoogleTagManager";
 import RouteChangeTracker from "./components/RouteChangeTracker";
-
+import ReactPixel from "react-facebook-pixel";
 function App() {
+  ReactPixel.init(import.meta.env.VITE_META_PIXEL_TRACKING_ID);
   useInitialSetting();
   useGoogleTagManager();
 

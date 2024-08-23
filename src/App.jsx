@@ -7,6 +7,7 @@ import PWAInstall from "./components/PWAInstall";
 import useInitialSetting from "./hooks/useInitialSetting";
 import useGoogleTagManager from "./hooks/useGoogleTagManager";
 import RouteChangeTracker from "./components/RouteChangeTracker";
+
 function App() {
   useInitialSetting();
   useGoogleTagManager();

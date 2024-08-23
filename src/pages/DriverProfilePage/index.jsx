@@ -5,7 +5,7 @@ import { getCourseDetail } from "../../api/course";
 import PageContainer from "../../components/PageContainer";
 import ImageBox from "../../components/ImageBox";
 import CommentList from "../../components/Comment/CommentList";
-import AddComment from "../../components/Comment/AddComment";
+import AddComment from "../../components/Comment/AddComment/index.tsx";
 import Loading from "../../components/Loading";
 import DriverInfo from "../../components/DriverInfo";
 import CourseList from "../../components/CourseList";

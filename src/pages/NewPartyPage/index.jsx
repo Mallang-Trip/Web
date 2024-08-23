@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDriverInfo } from "../../api/driver";
@@ -34,6 +34,12 @@ function NewPartyPage() {
   const [selectedCourseId, setSelectedCourseId] = useState(0);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [partyInfo, setPartyInfo] = useState({
+    region: region,
+    member: member,
+    date: date,
+    driverId: driverId,
+  });
 
   const settingDriverInfo = async () => {
     try {
@@ -43,7 +49,7 @@ function NewPartyPage() {
         ...planData,
         capacity: result.payload.vehicleCapacity,
       }));
-
+      setPartyInfo((partyInfo) => ({ ...partyInfo, driverId: result.payload }));
       if (selectedCourseId < 0) {
         navigation(
           `/party/new/${searchParams.get("date") !== "null" ? 5 : 1}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
@@ -57,7 +63,7 @@ function NewPartyPage() {
           searchParams.get("date") !== "null"
             ? 4
             : searchParams.get("region")
-              ? 2
+              ? console.log("region")
               : 1;
         navigation(
           `/party/new/${step}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
@@ -97,6 +103,25 @@ function NewPartyPage() {
         console.log(e);
       }
   };
+  const closeModalFunction = (message) => {
+    if (message === "여행자만 파티를 만들 수 있습니다.") {
+      navigation(-1);
+    } else if (
+      message === "당일 또는 하루 전의 파티 일정은 선택할 수 없습니다."
+    ) {
+      console.log("fhhhirst");
+      const info = {
+        region: region,
+        member: member,
+        date: date,
+        driverId: driverId,
+      };
+      navigation(
+        `/party/new/2/region=${info.region}&member=${info.member}&date=${info.date}&driverId=null`,
+        { replace: true }
+      );
+    }
+  };
 
   useEffect(() => {
     if (user.role !== "ROLE_USER") {
@@ -105,27 +130,58 @@ function NewPartyPage() {
       return;
     }
 
+    if (step > 2) {
+      if (
+        Math.abs(new Date(newPartyInfo.dateParam) - after_2_day) >
+        2 * 24 * 60 * 60 * 1000
+      ) {
+        setErrorMessage("당일 또는 하루 전의 파티 일정은 선택할 수 없습니다.");
+        closeMode(navigate);
+        setShowErrorModal(true);
+        return;
+      }
+    }
+
+    // const regionParam = searchParams.get("region");
+    // const memberParam = searchParams.get("member");
+    // const dateParam = searchParams.get("date");
+    // const driverIdParam = searchParams.get("driverId");
+    // if (step > 2) {
+    //   if (
+    //     Math.abs(new Date(dateParam) - after_2_day) >
+    //     2 * 24 * 60 * 60 * 1000
+    //   ) {
+    //     console.log("first");
+    //     setErrorMessage("당일 또는 하루 전의 파티 일정은 선택할 수 없습니다.");
+    //     setShowErrorModal(true);
+    //     return;
+    //   }
+
+    //   if (regionParam !== "null") setRegion(regionParam);
+    //   if (memberParam !== "null") setMember(Number(memberParam));
+    //   if (dateParam !== "null") setDate(dateParam);
+    //   if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
+    // }
+  }, [step, user.role, searchParams]);
+
+  const newPartyInfo = useMemo(() => {
     const regionParam = searchParams.get("region");
     const memberParam = searchParams.get("member");
     const dateParam = searchParams.get("date");
     const driverIdParam = searchParams.get("driverId");
 
-    if (step >= 3) {
-      if (regionParam !== "null") setRegion(regionParam);
-      if (memberParam !== "null") setMember(Number(memberParam));
-      if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
-
-      if (dateParam !== "null") setDate(dateParam);
-      else {
-        const today = new Date();
-        setDate(
-          `${today.getFullYear()}-${("0" + (1 + today.getMonth())).slice(-2)}-${(
-            "0" + today.getDate()
-          ).slice(-2)}`
-        );
-      }
-    }
-  }, [step, user.role, searchParams]);
+    // if (regionParam !== "null") setRegion(regionParam);
+    // if (memberParam !== "null") setMember(Number(memberParam));
+    // if (dateParam !== "null") setDate(dateParam);
+    // if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
+    console.log(regionParam, memberParam, dateParam, driverIdParam);
+    return {
+      region: regionParam !== "null" ? regionParam : null,
+      member: memberParam !== "null" ? Number(memberParam) : null,
+      dateParam: dateParam != "null" ? dateParam : null,
+      driverId: driverIdParam !== "null" ? Number(driverIdParam) : null,
+    };
+  }, [searchParams]);
 
   useEffect(() => {
     if (selectedCourseId !== 0) {
@@ -174,6 +230,7 @@ function NewPartyPage() {
       )}
       {step === "4" && (
         <Course
+          newPartyInfo={newPartyInfo}
           date={date}
           driverInfo={driverInfo}
           planData={planData}
@@ -214,7 +271,7 @@ function NewPartyPage() {
       <ConfirmModal
         showModal={showErrorModal}
         setShowModal={setShowErrorModal}
-        isNavigate={true}
+        closeFunction={closeModalFunction}
         message={errorMessage}
       />
     </PageContainer>

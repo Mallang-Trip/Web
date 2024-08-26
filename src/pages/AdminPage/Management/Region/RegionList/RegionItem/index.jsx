@@ -6,7 +6,6 @@ function RegionItem({
   regionId,
   image,
   name,
-  province,
   setEditTarget,
   setShowEditModal,
   getPartyRegionListFunc,
@@ -62,7 +61,6 @@ function RegionItem({
                   partyRegionId: regionId,
                   region: name,
                   regionImg: image,
-                  province: province,
                 });
                 setShowEditModal(true);
               }}

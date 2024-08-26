@@ -11,15 +11,12 @@ function EditFormModal({
 }) {
   const modalRef = useRef();
   const imageRef = useRef();
-  const [province, setProvince] = useState("");
   const [region, setRegion] = useState("");
   const [regionImg, setRegionImg] = useState(undefined);
 
   const submitEditRegion = async () => {
-    if (!province) return alert("도 단위를 입력해주세요.");
     if (!region) return alert("지역 이름을 입력해주세요.");
     if (!regionImg) return alert("지역 사진을 입력해주세요.");
-
     try {
       const regionImgURL =
         typeof regionImg === "string"
@@ -28,7 +25,6 @@ function EditFormModal({
       const body = {
         name: region,
         image: regionImgURL,
-        province: province,
       };
 
       await putPartyRegion(editTarget.partyRegionId, body);
@@ -58,7 +54,6 @@ function EditFormModal({
     if (!showModal) return document.body.classList.remove("overflow-hidden");
     document.body.classList.add("overflow-hidden");
 
-    setProvince(editTarget?.province);
     setRegion(editTarget?.region);
     setRegionImg(editTarget?.regionImg);
   }, [showModal, editTarget]);
@@ -102,20 +97,7 @@ function EditFormModal({
               ></path>
             </svg>
           </button>
-          <div className="flex flex-col gap-3 px-6 pb-6 mx-auto h-full bg-white rounded-t-xl max-h-[500px] custom-scrollbar">
-            <div>
-              <div className="block mb-1 text-sm font-medium text-black">
-                도 단위 <span className="text-red-600 font-bold">*</span>
-              </div>
-              <input
-                type="text"
-                name="region_province"
-                className="bg-lightgray text-black text-sm rounded-lg focus:outline-none w-full h-12 px-2.5"
-                placeholder="도 단위를 입력해 주세요 (ex.경기)"
-                value={province}
-                onChange={(e) => setProvince(e.target.value)}
-              />
-            </div>
+          <div className="flex flex-col gap-3 px-6 pb-6 mx-auto h-full bg-white rounded-t-xl max-h-[500px] custom-scrollbar">  
             <div>
               <div className="block mb-1 text-sm font-medium text-black">
                 지역 이름 <span className="text-red-600 font-bold">*</span>

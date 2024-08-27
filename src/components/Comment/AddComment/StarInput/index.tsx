@@ -10,7 +10,7 @@ interface Props {
 
 function StarInput({ star, setStar }: Props) {
   const [starArray, setStarArray] = useState([0, 0, 0, 0, 0]);
-
+  const [starHoverStar, setStarHoverStar] = useState(0);
   useEffect(() => {
     const filled = Math.floor(star);
     const newStarArray = [0, 0, 0, 0, 0];
@@ -24,7 +24,10 @@ function StarInput({ star, setStar }: Props) {
     setStarArray(newStarArray);
   }, [star, starArray.length]);
 
-  const starHandler = (index: number, isHalf: boolean) => {
+  const starHandler = (index: number, isHalf: boolean, isHover: boolean) => {
+    // if (isHover) {
+    //   return setStarHoverStar(isHalf ? index + 0.5 : index + 1);
+    // }
     setStar(isHalf ? index + 0.5 : index + 1);
   };
 
@@ -40,18 +43,21 @@ function StarInput({ star, setStar }: Props) {
   };
 
   return (
-    <fieldset className="flex h-full gap-1">
+    <fieldset className="flex h-full gap-1" onMouseLeave={() => setStar(0)}>
       {starArray.map((value, index) => (
         <div className={"relative overflow-hidden cursor-pointer"} key={index}>
           <div className={"relative w-fit h-fit z-10"}>
             <div className={"absolute flex w-full h-full"}>
               <div
                 className={"w-full"}
-                onClick={() => starHandler(index, true)}
+                onClick={() => starHandler(index, true, false)}
+                onMouseOver={() => starHandler(index, true, true)}
+                onMouseLeave={() => console.log(index + "left gone")}
               />
               <div
                 className={"w-full"}
-                onClick={() => starHandler(index, false)}
+                onClick={() => starHandler(index, false, false)}
+                onMouseOver={() => starHandler(index, false, true)}
               />
             </div>
             {getStarIcon(value)}

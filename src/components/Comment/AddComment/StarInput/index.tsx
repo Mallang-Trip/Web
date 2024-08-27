@@ -47,12 +47,10 @@ function StarInput({ star, setStar }: Props) {
               <div
                 className={"w-full"}
                 onClick={() => starHandler(index, true)}
-                onMouseOver={() => starHandler(index, true)}
               />
               <div
                 className={"w-full"}
                 onClick={() => starHandler(index, false)}
-                onMouseOver={() => starHandler(index, false)}
               />
             </div>
             {getStarIcon(value)}

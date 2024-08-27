@@ -1,7 +1,7 @@
+import { useState, useEffect } from "react";
 import fillStarIcon from "../../../../assets/svg/rateFillStar.svg";
 import emptyStarIcon from "../../../../assets/svg/emptyStar.svg";
 import halfStarIcon from "../../../../assets/svg/halfStar.svg";
-import { useState, useEffect } from "react";
 
 interface Props {
   star: number;
@@ -10,7 +10,6 @@ interface Props {
 
 function StarInput({ star, setStar }: Props) {
   const [starArray, setStarArray] = useState([0, 0, 0, 0, 0]);
-  const [starHoverStar, setStarHoverStar] = useState(0);
   useEffect(() => {
     const filled = Math.floor(star);
     const newStarArray = [0, 0, 0, 0, 0];
@@ -24,10 +23,7 @@ function StarInput({ star, setStar }: Props) {
     setStarArray(newStarArray);
   }, [star, starArray.length]);
 
-  const starHandler = (index: number, isHalf: boolean, isHover: boolean) => {
-    // if (isHover) {
-    //   return setStarHoverStar(isHalf ? index + 0.5 : index + 1);
-    // }
+  const starHandler = (index: number, isHalf: boolean) => {
     setStar(isHalf ? index + 0.5 : index + 1);
   };
 
@@ -50,14 +46,13 @@ function StarInput({ star, setStar }: Props) {
             <div className={"absolute flex w-full h-full"}>
               <div
                 className={"w-full"}
-                onClick={() => starHandler(index, true, false)}
-                onMouseOver={() => starHandler(index, true, true)}
-                onMouseLeave={() => console.log(index + "left gone")}
+                onClick={() => starHandler(index, true)}
+                onMouseOver={() => starHandler(index, true)}
               />
               <div
                 className={"w-full"}
-                onClick={() => starHandler(index, false, false)}
-                onMouseOver={() => starHandler(index, false, true)}
+                onClick={() => starHandler(index, false)}
+                onMouseOver={() => starHandler(index, false)}
               />
             </div>
             {getStarIcon(value)}

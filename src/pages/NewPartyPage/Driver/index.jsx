@@ -5,19 +5,18 @@ import DriverProfile from "./DriverProfile";
 function Driver({ region, setDriverId, date, member }) {
   const [driverData, setDriverData] = useState([]);
 
-  useEffect(() => {
-    const getDriverData = async () => {
-      try {
-        const result = await getRegionDriver(region, member, date);
-        setDriverData(result.payload);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getDriverData();
-  }, []);
+  const getDriverData = async () => {
+    try {
+      const result = await getRegionDriver(region, member, date);
+      setDriverData(result.payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  useEffect(() => console.log(driverData.length), [driverData]);
+  useEffect(() => {
+    getDriverData();
+  }, [region]);
 
   useEffect(() => setDriverId(0), []);
 

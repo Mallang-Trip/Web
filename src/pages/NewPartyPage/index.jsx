@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDriverInfo } from "../../api/driver";
@@ -11,9 +11,7 @@ import Driver from "./Driver";
 import Course from "./Course";
 import Edit from "./Edit";
 import Reservation from "./Reservation";
-
-const today = new Date();
-const after_2_day = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+import Loading from "../../components/Loading";
 
 function NewPartyPage() {
   const navigation = useNavigate();
@@ -23,33 +21,41 @@ function NewPartyPage() {
   const [region, setRegion] = useState("");
   const [courseRegion, setCourseRegion] = useState("");
   const [member, setMember] = useState(1);
-  const [date, setDate] = useState(
-    `${after_2_day.getFullYear()}-${("0" + (1 + after_2_day.getMonth())).slice(
-      -2
-    )}-${("0" + after_2_day.getDate()).slice(-2)}`
-  );
+  const [date, setDate] = useState();
   const [driverId, setDriverId] = useState(searchParams.get("driverId"));
   const [driverInfo, setDriverInfo] = useState({});
   const [planData, setPlanData] = useState();
-  const [selectedCourseId, setSelectedCourseId] = useState(0);
+  const [selectedCourseId, setSelectedCourseId] = useState(
+    searchParams.get("selectedCourseId") || 0
+  );
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [partyInfo, setPartyInfo] = useState({
-    region: region,
-    member: member,
-    date: date,
-    driverId: driverId,
-  });
+  const [loading, setLoading] = useState(true);
 
   const settingDriverInfo = async () => {
     try {
       const result = await getDriverInfo(driverId);
+
+      if (result.statusCode === 404) {
+        const newStep =
+          searchParams.get("date") !== "null"
+            ? 3
+            : searchParams.get("region")
+              ? 2
+              : 1;
+        navigation(
+          `/party/new/${newStep}?region=${region}&member=${member}&date=${date}&driverId=${null}`,
+          { replace: true }
+        );
+        return;
+      }
+
       setDriverInfo(result.payload);
       setPlanData((planData) => ({
         ...planData,
         capacity: result.payload.vehicleCapacity,
       }));
-      setPartyInfo((partyInfo) => ({ ...partyInfo, driverId: result.payload }));
+
       if (selectedCourseId < 0) {
         navigation(
           `/party/new/${searchParams.get("date") !== "null" ? 5 : 1}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
@@ -59,15 +65,15 @@ function NewPartyPage() {
         setSelectedCourseId(
           selectedCourseId || result.payload.courses[0].courseId
         );
-        const step =
+        const newStep =
           searchParams.get("date") !== "null"
             ? 4
             : searchParams.get("region")
-              ? console.log("region")
+              ? 2
               : 1;
         navigation(
-          `/party/new/${step}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
-          { replace: true }
+          `/party/new/${newStep}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
+          { replace: step !== "3" }
         );
       }
     } catch (e) {
@@ -103,25 +109,12 @@ function NewPartyPage() {
         console.log(e);
       }
   };
-  const closeModalFunction = (message) => {
-    if (message === "여행자만 파티를 만들 수 있습니다.") {
-      navigation(-1);
-    } else if (
-      message === "당일 또는 하루 전의 파티 일정은 선택할 수 없습니다."
-    ) {
-      console.log("fhhhirst");
-      const info = {
-        region: region,
-        member: member,
-        date: date,
-        driverId: driverId,
-      };
-      navigation(
-        `/party/new/2/region=${info.region}&member=${info.member}&date=${info.date}&driverId=null`,
-        { replace: true }
-      );
-    }
-  };
+
+  useEffect(() => {
+    if (showErrorModal) return;
+    if (errorMessage !== "여행자만 파티를 만들 수 있습니다.") return;
+    navigation(-1);
+  }, [showErrorModal]);
 
   useEffect(() => {
     if (user.role !== "ROLE_USER") {
@@ -130,58 +123,46 @@ function NewPartyPage() {
       return;
     }
 
-    if (step > 2) {
-      if (
-        Math.abs(new Date(newPartyInfo.dateParam) - after_2_day) >
-        2 * 24 * 60 * 60 * 1000
-      ) {
-        setErrorMessage("당일 또는 하루 전의 파티 일정은 선택할 수 없습니다.");
-        closeMode(navigate);
-        setShowErrorModal(true);
-        return;
-      }
-    }
-
-    // const regionParam = searchParams.get("region");
-    // const memberParam = searchParams.get("member");
-    // const dateParam = searchParams.get("date");
-    // const driverIdParam = searchParams.get("driverId");
-    // if (step > 2) {
-    //   if (
-    //     Math.abs(new Date(dateParam) - after_2_day) >
-    //     2 * 24 * 60 * 60 * 1000
-    //   ) {
-    //     console.log("first");
-    //     setErrorMessage("당일 또는 하루 전의 파티 일정은 선택할 수 없습니다.");
-    //     setShowErrorModal(true);
-    //     return;
-    //   }
-
-    //   if (regionParam !== "null") setRegion(regionParam);
-    //   if (memberParam !== "null") setMember(Number(memberParam));
-    //   if (dateParam !== "null") setDate(dateParam);
-    //   if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
-    // }
-  }, [step, user.role, searchParams]);
-
-  const newPartyInfo = useMemo(() => {
     const regionParam = searchParams.get("region");
     const memberParam = searchParams.get("member");
     const dateParam = searchParams.get("date");
     const driverIdParam = searchParams.get("driverId");
 
-    // if (regionParam !== "null") setRegion(regionParam);
-    // if (memberParam !== "null") setMember(Number(memberParam));
-    // if (dateParam !== "null") setDate(dateParam);
-    // if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
-    console.log(regionParam, memberParam, dateParam, driverIdParam);
-    return {
-      region: regionParam !== "null" ? regionParam : null,
-      member: memberParam !== "null" ? Number(memberParam) : null,
-      dateParam: dateParam != "null" ? dateParam : null,
-      driverId: driverIdParam !== "null" ? Number(driverIdParam) : null,
-    };
-  }, [searchParams]);
+    if (regionParam !== "null") setRegion(regionParam);
+    if (memberParam !== "null")
+      setMember(
+        Number(memberParam) >= 1 && Number(memberParam) <= 10
+          ? Number(memberParam)
+          : 1
+      );
+    if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
+    if (dateParam !== "null") {
+      const tomorrow = new Date();
+      const after_4_month = new Date(tomorrow);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      after_4_month.setMonth(after_4_month.getMonth() + 4);
+
+      if (
+        new Date(dateParam) < tomorrow ||
+        new Date(dateParam) > after_4_month
+      ) {
+        navigation(
+          `/party/new/1?region=null&member=null&date=null&driverId=null`,
+          { replace: true }
+        );
+      } else setDate(dateParam);
+    } else {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      setDate(
+        `${tomorrow.getFullYear()}-${("0" + (1 + tomorrow.getMonth())).slice(-2)}-${(
+          "0" + tomorrow.getDate()
+        ).slice(-2)}`
+      );
+    }
+
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     if (selectedCourseId !== 0) {
@@ -197,6 +178,7 @@ function NewPartyPage() {
     window.scrollTo({ top: 0 });
   }, [step]);
 
+  if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
       {step === "1" && (
@@ -230,7 +212,6 @@ function NewPartyPage() {
       )}
       {step === "4" && (
         <Course
-          newPartyInfo={newPartyInfo}
           date={date}
           driverInfo={driverInfo}
           planData={planData}
@@ -271,7 +252,6 @@ function NewPartyPage() {
       <ConfirmModal
         showModal={showErrorModal}
         setShowModal={setShowErrorModal}
-        closeFunction={closeModalFunction}
         message={errorMessage}
       />
     </PageContainer>

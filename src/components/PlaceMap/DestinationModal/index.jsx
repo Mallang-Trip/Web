@@ -14,7 +14,7 @@ import ShareModal from "./ShareModal";
 import CheckModal from "../../CheckModal";
 import Loading from "../../Loading";
 import CommentList from "../../Comment/CommentList";
-import AddComment from "../../Comment/AddComment/index.tsx";
+import AddComment from "../../Comment/AddComment";
 import ConfirmModal from "../../ConfirmModal";
 import ImageBox from "../../ImageBox";
 

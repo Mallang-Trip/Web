@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { dateToStringHan, priceToString } from "../../../utils";
@@ -9,7 +8,7 @@ import CreditInfo from "../../PartyPage/CreditInfo";
 import DriverInfo from "../../../components/DriverInfo";
 import CourseList from "../../../components/CourseList";
 import CommentList from "../../../components/Comment/CommentList";
-import AddComment from "../../../components/Comment/AddComment/index.tsx";
+import AddComment from "../../../components/Comment/AddComment";
 import TextArea from "../Atom/TextArea";
 import ReservationButton from "../Atom/ReservationButton";
 
@@ -17,7 +16,6 @@ function Course({
   date,
   driverInfo,
   planData,
-  newPartyInfo,
   selectedCourseId,
   setSelectedCourseId,
   member,
@@ -27,19 +25,6 @@ function Course({
 }) {
   const navigation = useNavigate();
   const user = useSelector((state) => state.user);
-
-  useEffect(
-    () =>
-      console.log(
-        date,
-        "driverInfo" + driverInfo,
-        "planData" + planData,
-        "member" + member,
-        "region" + region,
-        newPartyInfo
-      ),
-    []
-  );
 
   if (!driverInfo.driverId || !planData.courseId || user.role !== "ROLE_USER")
     return null;
@@ -53,10 +38,7 @@ function Course({
         profileImg={driverInfo.profileImg}
       />
       <ImageBox images={planData.images} name={driverInfo.name} />
-      <TextArea
-        title="서비스 지역"
-        content={driverInfo.region || newPartyInfo.region}
-      />
+      <TextArea title="서비스 지역" content={driverInfo.region} />
       <CourseList
         courses={driverInfo.courses}
         selectedCourseId={selectedCourseId}

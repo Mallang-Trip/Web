@@ -16,7 +16,7 @@ import EditPlaceModal from "./EditPlaceModal";
 import CheckModal from "../../../../../components/CheckModal";
 import Loading from "../../../../../components/Loading";
 import CommentList from "../../../../../components/Comment/CommentList";
-import AddComment from "../../../../../components/Comment/AddComment/index.tsx";
+import AddComment from "../../../../../components/Comment/AddComment";
 import ImageBox from "../../../../../components/ImageBox";
 
 function DestinationModal({

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getDestinationDetail } from "../../api/destination";
 import PageContainer from "../../components/PageContainer";
 import CommentList from "../../components/Comment/CommentList";
-import AddComment from "../../components/Comment/AddComment/index.tsx";
+import AddComment from "../../components/Comment/AddComment";
 import PlaceInfoBox from "./PlaceInfoBox";
 import Detailed from "./Detailed";
 import Loading from "../../components/Loading";

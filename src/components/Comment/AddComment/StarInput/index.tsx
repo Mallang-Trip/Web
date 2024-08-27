@@ -39,7 +39,7 @@ function StarInput({ star, setStar }: Props) {
   };
 
   return (
-    <fieldset className="flex h-full gap-1" onMouseLeave={() => setStar(0)}>
+    <fieldset className="flex h-full gap-1">
       {starArray.map((value, index) => (
         <div className={"relative overflow-hidden cursor-pointer"} key={index}>
           <div className={"relative w-fit h-fit z-10"}>

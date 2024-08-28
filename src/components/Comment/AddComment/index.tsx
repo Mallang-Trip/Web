@@ -14,7 +14,7 @@ import StarInput from "./StarInput";
 interface Props {
   id: number;
   isDriver: boolean;
-  reloadData: any;
+  reloadData: () => void;
 }
 
 function AddComment({ id, isDriver, reloadData }: Props) {

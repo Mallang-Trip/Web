@@ -8,38 +8,34 @@ import { CONSTANT } from "../../../utils/data";
 import cameraIcon from "../../../assets/svg/camera.svg";
 import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
+import { RootState } from "../../../redux/store";
+import StarInput from "./StarInput";
 
-function AddComment({ id, isDriver, reloadData }) {
-  const imageRef = useRef();
+interface Props {
+  id: number;
+  isDriver: boolean;
+  reloadData: () => void;
+}
+
+function AddComment({ id, isDriver, reloadData }: Props) {
+  const imageRef = useRef<HTMLInputElement | null>(null);
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState("");
-  const [star, setStar] = useState("");
+  const [star, setStar] = useState(0);
   const [comment, setComment] = useState("");
-  const [commentImage, setCommentImage] = useState(undefined);
+  const [commentImage, setCommentImage] = useState<File | null>();
   const [isAbleSubmit, setIsAbleSubmit] = useState(false);
 
-  const starHandler = ({ target }) => {
-    const value = target.value;
-    const regex = /^\d*\.?\d{0,1}$/;
-
-    if (regex.test(value)) {
-      setStar(value);
-    }
-    if (value > 5) {
-      setConfirmMessage("평점은 최대 5점까지 입력 가능합니다.");
-      setShowConfirmModal(true);
-      return;
-    }
-  };
-
   const imageHandler = () => {
-    const imageFile = imageRef.current.files[0];
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setCommentImage(imageFile || undefined);
+    if (imageRef.current && imageRef.current.files) {
+      const imageFile = imageRef.current.files[0];
+      if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
+        return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
+      setCommentImage(imageFile || null);
+    }
   };
 
   const sumbitHandler = async () => {
@@ -73,9 +69,9 @@ function AddComment({ id, isDriver, reloadData }) {
         setShowConfirmModal(true);
       } else {
         reloadData();
-        setStar("");
+        setStar(0);
         setComment("");
-        setCommentImage();
+        setCommentImage(null);
       }
     } catch (e) {
       setConfirmMessage("댓글 전송에 실패했습니다.");
@@ -96,17 +92,13 @@ function AddComment({ id, isDriver, reloadData }) {
       <div className="w-full min-h-48 border-2 border-primary rounded-[20px] p-3 relative">
         <div className="flex gap-2 mb-3">
           <div className="text-lg font-bold">{user.nickname}</div>
-          <div className="flex gap-1 text-sm items-center">
-            <div>평점: </div>
-            <input
-              type="number"
-              max={5}
-              placeholder="0"
-              className="text-primary placeholder:text-primary w-6 focus:outline-none"
-              value={star}
-              onChange={starHandler}
-            />
-            <div>/ 5.0</div>
+          <div className="flex flex-end gap-1 text-sm items-center">
+            <StarInput star={star} setStar={setStar} />
+            {star ? (
+              <p className="text-gray500 pl-2 ">{star}</p>
+            ) : (
+              <p className="text-gray500">평점은 필수입니다</p>
+            )}
           </div>
         </div>
         <div className="mb-3 border-b border-primary">
@@ -120,7 +112,7 @@ function AddComment({ id, isDriver, reloadData }) {
         <label htmlFor="commentImage_input">
           <button
             className="absolute top-2 right-2"
-            onClick={() => imageRef.current.click()}
+            onClick={() => imageRef.current?.click()}
           >
             <img src={cameraIcon} alt="image" />
           </button>

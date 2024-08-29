@@ -13,6 +13,8 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
   const [showText, setShowText] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showPaymentCompleteModal, setShowPaymentCompleteModal] =
+    useState(false);
 
   const registerCard = (type) => {
     if (type === "new" && register) return;
@@ -29,6 +31,7 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
           const result = await postCard(body);
           if (result.statusCode !== 200) return setShowErrorModal(true);
           setCardInfo(result.payload);
+          setShowPaymentCompleteModal(true);
           setRegister(true);
         } catch (e) {
           console.log(e);
@@ -153,6 +156,11 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
         showModal={showErrorModal}
         setShowModal={setShowErrorModal}
         message="결제 수단 등록에 실패했습니다."
+      />
+      <ConfirmModal
+        showModal={showPaymentCompleteModal}
+        setShowModal={setShowPaymentCompleteModal}
+        message="결제 수단 등록이 완료되었습니다."
       />
     </>
   );

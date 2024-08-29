@@ -31,8 +31,8 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
           const result = await postCard(body);
           if (result.statusCode !== 200) return setShowErrorModal(true);
           setCardInfo(result.payload);
-          setRegister(true);
           setShowPaymentCompleteModal(true);
+          setRegister(true);
         } catch (e) {
           console.log(e);
           setShowErrorModal(true);

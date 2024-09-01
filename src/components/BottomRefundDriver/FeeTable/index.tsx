@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function FeeTable() {
   return (
     <div className="border rounded-lg overflow-hidden">
@@ -73,4 +75,4 @@ function FeeTable() {
   );
 }
 
-export default FeeTable;
+export default memo(FeeTable);

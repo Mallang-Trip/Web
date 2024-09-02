@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import TagManager from "react-gtm-module";
 
-function useGoogleTagManager() {
+export const useGoogleTagManager = () => {
   const GTM_ID = import.meta.env.VITE_GTM_ID;
 
   useEffect(() => {
@@ -9,6 +9,4 @@ function useGoogleTagManager() {
     if (window.location.hostname === "localhost") return;
     TagManager.initialize({ gtmId: GTM_ID });
   }, [GTM_ID]);
-}
-
-export default useGoogleTagManager;
+};

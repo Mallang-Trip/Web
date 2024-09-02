@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { searchArticle } from "../../api/article";
-import useIntersectionObserver from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../hooks";
 import PageContainer from "../../components/PageContainer";
 import Title from "../CommunityPage/Title";
 import SearchKeyword from "./SearchKeyword";

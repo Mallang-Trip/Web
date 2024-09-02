@@ -1,4 +1,4 @@
-import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../../hooks";
 
 function Mission() {
   const [ref, isIntersecting] = useIntersectionObserver();

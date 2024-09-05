@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import fillStarIcon from "../../../../assets/svg/rateFillStar.svg";
 import emptyStarIcon from "../../../../assets/svg/emptyStar.svg";
 import halfStarIcon from "../../../../assets/svg/halfStar.svg";
 
 interface Props {
   star: number;
-  setStar: (star: number) => void;
+  setStar: Dispatch<SetStateAction<number>>;
 }
 
 function StarInput({ star, setStar }: Props) {

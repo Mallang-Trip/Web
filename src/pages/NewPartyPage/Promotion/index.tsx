@@ -1,11 +1,28 @@
 import { useState, useEffect } from "react";
 import { POST } from "../../../utils/axios";
 import clsx from "clsx";
+import ConfirmModal from "../../../components/ConfirmModal";
 
 function Promotion() {
   const [promotionCode, setPromotionCode] = useState("");
   const [isString, setIsString] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
+  const handlePromotion = async () => {
+    try {
+      const body = {
+        code: promotionCode,
+        price: 0,
+      };
+      await POST("/promotion/check", body, true).then((response) => {
+        setErrorMsg(response.payload ?? response.message);
+        setShowConfirmModal(true);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const buttonAvailable = () => {
     if (promotionCode.length > 0) setIsString(true);
     else setIsString(false);
@@ -26,7 +43,7 @@ function Promotion() {
           placeholder="무료 프로모션 코드를 입력해주세요"
           onChange={(e) => setPromotionCode(e.target.value)}
         />
-        <button>
+        <button onClick={() => handlePromotion()}>
           <span
             className={clsx(
               " text-base text-white whitespace-nowrap rounded-[15px] px-[50px] py-[15px]",
@@ -40,6 +57,11 @@ function Promotion() {
           </span>
         </button>
       </div>
+      <ConfirmModal
+        showModal={showConfirmModal}
+        setShowModal={setShowConfirmModal}
+        message={errorMsg}
+      />
     </div>
   );
 }

@@ -47,7 +47,7 @@ function VehicleImage({
           <img
             src={typeof image === "string" ? image : URL.createObjectURL(image)}
             alt={`vehicle_${index}`}
-            className="max-w-5xl rounded-xl"
+            className="max-w-[80%] rounded-xl"
           />
         </div>
       )}

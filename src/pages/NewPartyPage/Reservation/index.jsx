@@ -15,6 +15,7 @@ import JoinMember from "../../PartyPage/JoinMember";
 import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
 import JoinGreeting from "../../PartyPage/JoinGreeting";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
+import Promotion from "../Promotion";
 
 function Reservation({
   date,
@@ -163,6 +164,7 @@ function Reservation({
         setRegister={setRegisterCredit}
         creditRef={creditRef}
       />
+      <Promotion />
       <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}

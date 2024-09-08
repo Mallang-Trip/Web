@@ -43,7 +43,7 @@ function Promotion() {
           placeholder="무료 프로모션 코드를 입력해주세요"
           onChange={(e) => setPromotionCode(e.target.value)}
         />
-        <button onClick={() => handlePromotion()}>
+        <button onClick={() => handlePromotion()} disabled={!isString}>
           <span
             className={clsx(
               " text-base text-white whitespace-nowrap rounded-[15px] px-[50px] py-[15px]",

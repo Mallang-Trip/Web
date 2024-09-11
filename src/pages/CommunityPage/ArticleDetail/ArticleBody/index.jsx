@@ -14,8 +14,6 @@ import ImageBox from "../../../../components/ImageBox";
 import CheckModal from "../../../../components/CheckModal";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import ChatBox from "../../../../assets/svg/EmptyChatIcon.svg";
-import FillHeart from "../../../../assets/svg/FillHeart.svg";
-import EmptyHeart from "../../../../assets/svg/EmptyHeart.svg";
 import shareIcon from "../../../../assets/svg/share.svg";
 import MoreDot from "../../../../assets/svg/MoreDot.svg";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
@@ -48,17 +46,6 @@ function ArticleBody({
   const [isChatBlock, setIsChatBlock] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
-
-  const heartClickHandler = async () => {
-    if (!user.auth) return setShowLoginModal(true);
-
-    try {
-      heart ? await unLikeArticle(articleId) : await likeArticle(articleId);
-      setHeart(!heart);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const profileClickHandler = () => {
     setShowProfileModal(true);
@@ -141,11 +128,6 @@ function ArticleBody({
                 onClick={goCoupleChat}
               />
             )}
-            <img
-              className="cursor-pointer"
-              src={heart ? FillHeart : EmptyHeart}
-              onClick={heartClickHandler}
-            />
             <img
               className="cursor-pointer"
               src={shareIcon}

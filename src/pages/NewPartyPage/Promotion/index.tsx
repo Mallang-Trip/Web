@@ -88,7 +88,7 @@ function Promotion({ setPromotionId }: Props) {
             확인
           </span>
         </button>
-        <button onClick={() => handleApply()} disabled={!isString}>
+        <button onClick={() => handleApply()} disabled={!isApply}>
           <span
             className={clsx(
               " text-base text-white whitespace-nowrap rounded-[15px] px-5 py-[15px]",

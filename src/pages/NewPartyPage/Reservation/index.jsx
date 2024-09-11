@@ -44,6 +44,7 @@ function Reservation({
       phoneNumber: "",
     }))
   );
+  const [promotionId, setPromotionId] = useState(0);
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크
@@ -164,7 +165,7 @@ function Reservation({
         setRegister={setRegisterCredit}
         creditRef={creditRef}
       />
-      <Promotion />
+      <Promotion setPromotionId={setPromotionId} />
       <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}
@@ -185,6 +186,7 @@ function Reservation({
         destinations={planData.days[0].destinations}
         driverId={driverInfo.driverId}
         region={region}
+        promotionId={promotionId}
       />
     </div>
   );

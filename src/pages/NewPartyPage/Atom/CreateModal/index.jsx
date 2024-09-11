@@ -16,6 +16,7 @@ function CreateModal({
   region,
   startTime,
   endTime,
+  promotionId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -56,6 +57,8 @@ function CreateModal({
           region: planData.region || region,
           totalPrice: planData.days[0].price,
         },
+        monopoly: true,
+        userPromotionCodeId: promotionId,
       };
 
       const result = await postNewParty(body);

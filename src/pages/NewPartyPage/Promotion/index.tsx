@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { POST } from "../../../utils/axios";
 import clsx from "clsx";
 import ConfirmModal from "../../../components/ConfirmModal";
 
-function Promotion() {
+interface Props {
+  promotionId: number;
+  setPromotionId: Dispatch<SetStateAction<number>>;
+}
+
+function Promotion({ setPromotionId }: Props) {
   const [promotionCode, setPromotionCode] = useState("");
   const [isString, setIsString] = useState(false);
+  const [isApply, setIsApply] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,11 +24,30 @@ function Promotion() {
       await POST("/promotion/check", body, true).then((response) => {
         setErrorMsg(response.payload ?? response.message);
         setShowConfirmModal(true);
+        setIsApply(true);
       });
     } catch (e) {
       console.log(e);
     }
   };
+
+  const handleApply = async () => {
+    try {
+      const result = await POST(
+        "/promotion/use",
+        {
+          code: promotionCode,
+        },
+        true
+      ).then((response) => {
+        setPromotionId(response.payload.id);
+      });
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const buttonAvailable = () => {
     if (promotionCode.length > 0) setIsString(true);
     else setIsString(false);
@@ -46,7 +71,7 @@ function Promotion() {
         <button onClick={() => handlePromotion()} disabled={!isString}>
           <span
             className={clsx(
-              " text-base text-white whitespace-nowrap rounded-[15px] px-[50px] py-[15px]",
+              " text-base text-white whitespace-nowrap rounded-[15px] px-5 py-[15px]",
               {
                 "bg-primary": isString,
                 "bg-[#cde5ff]": !isString,
@@ -54,6 +79,19 @@ function Promotion() {
             )}
           >
             확인
+          </span>
+        </button>
+        <button onClick={() => handleApply()} disabled={!isString}>
+          <span
+            className={clsx(
+              " text-base text-white whitespace-nowrap rounded-[15px] px-5 py-[15px]",
+              {
+                "bg-[#FE472E]": isApply,
+                "bg-[#FFD3CD]": !isApply,
+              }
+            )}
+          >
+            적용
           </span>
         </button>
       </div>

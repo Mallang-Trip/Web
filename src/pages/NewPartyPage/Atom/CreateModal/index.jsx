@@ -57,7 +57,7 @@ function CreateModal({
           region: planData.region || region,
           totalPrice: planData.days[0].price,
         },
-        monopoly: true,
+        monopoly: false,
         userPromotionCodeId: promotionId,
       };
 

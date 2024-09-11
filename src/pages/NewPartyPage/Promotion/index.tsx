@@ -40,8 +40,7 @@ function Promotion({ setPromotionId }: Props) {
         },
         true
       ).then((response) => {
-        console.log(response);
-        setConfirmMsg(response.message);
+        setConfirmMsg("프로모션 코드 적용이 실패했습니다");
 
         if (response.statusCode === 200) {
           setPromotionId(response.payload.id);

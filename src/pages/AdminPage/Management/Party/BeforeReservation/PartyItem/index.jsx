@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { customRoundOne, dateToStringHan } from "../../../../../../utils";
 
@@ -10,6 +11,7 @@ function PartyItem({
   capacity,
   price,
   driverName,
+  promotion,
 }) {
   const navigation = useNavigate();
 
@@ -31,10 +33,13 @@ function PartyItem({
           )} | ${headcount}/${capacity}명 | ${customRoundOne(
             (price * capacity) / 10000
           )}만원 | ${driverName} 드라이버`}</p>
+          {promotion && (
+            <p className="text-white text-base font-bold">프로모션 코드 적용</p>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default PartyItem;
+export default memo(PartyItem);

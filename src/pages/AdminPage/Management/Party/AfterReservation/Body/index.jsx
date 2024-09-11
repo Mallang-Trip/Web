@@ -1,10 +1,20 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import clsx from "clsx";
 
-function Body({ partyId, name, startDate, headcount, capacity, driverName }) {
+function Body({
+  partyId,
+  name,
+  startDate,
+  headcount,
+  capacity,
+  promotion,
+  driverName,
+}) {
   const navigation = useNavigate();
 
   return (
-    <div className="w-full py-3 grid grid-cols-4 items-center text-center bg-white border border-gray300 rounded-xl">
+    <div className="w-full py-3 grid grid-cols-5 items-center text-center bg-white border border-gray300 rounded-xl">
       <p
         className="px-1 cursor-pointer"
         onClick={() => navigation(`/admin/party?party_id=${partyId}`)}
@@ -20,9 +30,17 @@ function Body({ partyId, name, startDate, headcount, capacity, driverName }) {
         </span>
         <span className="text-gray700">명</span>
       </div>
+      <p
+        className={clsx(
+          "px-1 font-medium",
+          promotion ? "text-primary" : "text-gray500"
+        )}
+      >
+        {promotion ? "O" : "X"}
+      </p>
       <p className="px-1 text-gray500">{driverName}</p>
     </div>
   );
 }
 
-export default Body;
+export default memo(Body);

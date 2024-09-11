@@ -13,6 +13,7 @@ import BottomRefundUser from "../../../../../components/BottomRefundUser";
 import BottomRefundDriver from "../../../../../components/BottomRefundDriver";
 import MallangReady from "./MallangReady";
 import CancelPrice from "./CancelPrice";
+import Promotion from "./Promotion";
 
 function PartyDetail({ partyId }) {
   const [loading, setLoading] = useState(true);
@@ -52,6 +53,7 @@ function PartyDetail({ partyId }) {
         type={"party"}
         id={partyData.partyId}
       />
+      <Promotion promotion={partyData?.promotion} />
       <PartyDate startDate={partyData.startDate} />
       <PartyMember
         headcount={partyData.headcount}

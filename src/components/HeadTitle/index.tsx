@@ -1,5 +1,15 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import Vector from "../../../src/assets/svg/Vector.svg";
+
+interface Props {
+  name: string;
+  driverName: string;
+  driverId: number;
+  isDriver: boolean;
+  partyStatus: string;
+  myParty: boolean;
+}
 
 function HeadTitle({
   name,
@@ -8,7 +18,7 @@ function HeadTitle({
   isDriver,
   partyStatus,
   myParty,
-}) {
+}: Props) {
   const navigation = useNavigate();
 
   return (
@@ -25,7 +35,7 @@ function HeadTitle({
           <p className="text-[#E30000] text-lg">모집 기간 만료</p>
         )}
       </div>
-      {isDriver === true && (
+      {isDriver && (
         <div
           className="mt-1 text-sm text-darkgray cursor-pointer flex gap-1 items-center"
           onClick={() => navigation(`/driver/profile/${driverId}`)}
@@ -38,4 +48,4 @@ function HeadTitle({
   );
 }
 
-export default HeadTitle;
+export default memo(HeadTitle);

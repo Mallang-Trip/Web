@@ -16,6 +16,7 @@ import CourseDnD from "../../PartyPage/CourseDnD";
 import EditMap from "../../PartyPage/EditMap";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
 import PriceList from "./PriceList";
+import Promotion from "../Promotion";
 
 function Edit({
   date,
@@ -53,6 +54,7 @@ function Edit({
       phoneNumber: "",
     }))
   );
+  const [promotionId, setPromotionId] = useState(0);
 
   const joinHandler = () => {
     // 시간 및 비용 체크
@@ -117,7 +119,7 @@ function Edit({
       }
     }
     // 결제 수단 등록 체크
-    if (!registerCredit) {
+    if (!registerCredit && promotionId === 0) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
         const scrollY =
@@ -244,12 +246,18 @@ function Edit({
         setCourseData={setCourseData}
         setRegion={setCourseRegion}
       />
-      <Credit
-        shakeCredit={shakeCredit}
-        register={registerCredit}
-        setRegister={setRegisterCredit}
-        creditRef={creditRef}
+      <Promotion
+        setPromotionId={setPromotionId}
+        price={planData?.days[0]?.price}
       />
+      {promotionId === 0 && (
+        <Credit
+          shakeCredit={shakeCredit}
+          register={registerCredit}
+          setRegister={setRegisterCredit}
+          creditRef={creditRef}
+        />
+      )}
       <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}
@@ -272,6 +280,7 @@ function Edit({
         region={region}
         startTime={startTime}
         endTime={endTime}
+        promotionId={promotionId}
       />
     </div>
   );

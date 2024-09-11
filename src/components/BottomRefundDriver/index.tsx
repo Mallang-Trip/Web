@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { memo, useState } from "react";
+import clsx from "clsx";
 import FeeTable from "./FeeTable";
 import info from "../../assets/svg/more-info-black.svg";
 import refundDiagram from "../../assets/svg/refund-diagram.svg";
@@ -17,15 +18,21 @@ function BottomRefundDriver() {
         </span>
         <img
           src={info}
-          className={`transition-transform duration-500 ${
-            showRefund ? "rotate-180" : "rotate-0"
-          }`}
+          alt="자세히 보기"
+          className={clsx("transition-transform duration-500", {
+            "rotate-180": showRefund,
+            "rotate-0": !showRefund,
+          })}
         />
       </button>
       <div
-        className={`flex flex-col gap-7 text-sm text-darkgray font-medium overflow-hidden transition-all duration-500 ${
-          showRefund ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={clsx(
+          "flex flex-col gap-7 text-sm text-darkgray font-medium overflow-hidden transition-all duration-500",
+          {
+            "max-h-[2000px] opacity-100": showRefund,
+            "max-h-0 opacity-0": !showRefund,
+          }
+        )}
       >
         <img src={refundDiagram} alt="환불 정책" className="w-full" />
         <div>
@@ -81,4 +88,4 @@ function BottomRefundDriver() {
   );
 }
 
-export default BottomRefundDriver;
+export default memo(BottomRefundDriver);

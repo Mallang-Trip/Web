@@ -15,6 +15,7 @@ import JoinMember from "../../PartyPage/JoinMember";
 import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
 import JoinGreeting from "../../PartyPage/JoinGreeting";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
+import Promotion from "../Promotion";
 
 function Reservation({
   date,
@@ -43,6 +44,7 @@ function Reservation({
       phoneNumber: "",
     }))
   );
+  const [promotionId, setPromotionId] = useState(0);
 
   const joinHandler = () => {
     // 동행자 정보 입력 체크
@@ -73,7 +75,7 @@ function Reservation({
       }
     }
     // 결제 수단 등록 체크
-    if (!registerCredit) {
+    if (!registerCredit && promotionId === 0) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
         const scrollY =
@@ -157,12 +159,18 @@ function Reservation({
         mapName="TMAP_COURSE"
         setRegion={setRegion}
       />
-      <Credit
-        shakeCredit={shakeCredit}
-        register={registerCredit}
-        setRegister={setRegisterCredit}
-        creditRef={creditRef}
+      <Promotion
+        setPromotionId={setPromotionId}
+        price={planData?.days[0]?.price}
       />
+      {promotionId === 0 && (
+        <Credit
+          shakeCredit={shakeCredit}
+          register={registerCredit}
+          setRegister={setRegisterCredit}
+          creditRef={creditRef}
+        />
+      )}
       <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}
@@ -183,6 +191,7 @@ function Reservation({
         destinations={planData.days[0].destinations}
         driverId={driverInfo.driverId}
         region={region}
+        promotionId={promotionId}
       />
     </div>
   );

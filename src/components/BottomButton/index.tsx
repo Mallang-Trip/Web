@@ -1,4 +1,11 @@
-function BottomButton({ text, onClick }) {
+import { memo } from "react";
+
+interface Props {
+  text: string;
+  onClick: () => void;
+}
+
+function BottomButton({ text, onClick }: Props) {
   return (
     <div className="w-full block md:hidden fixed left-0 bottom-0 z-50">
       <div className="w-full h-8 bg-gradient-to-t from-white to-white/0"></div>
@@ -14,4 +21,4 @@ function BottomButton({ text, onClick }) {
   );
 }
 
-export default BottomButton;
+export default memo(BottomButton);

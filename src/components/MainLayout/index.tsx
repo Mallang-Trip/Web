@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header";
 import BottomNav from "../BottomNav";
@@ -14,4 +15,4 @@ function MainLayout() {
   );
 }
 
-export default MainLayout;
+export default memo(MainLayout);

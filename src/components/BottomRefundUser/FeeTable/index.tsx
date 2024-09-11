@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function FeeTable() {
   return (
     <div>
@@ -75,4 +77,4 @@ function FeeTable() {
   );
 }
 
-export default FeeTable;
+export default memo(FeeTable);

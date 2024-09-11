@@ -13,7 +13,7 @@ function Promotion({ setPromotionId }: Props) {
   const [isString, setIsString] = useState(false);
   const [isApply, setIsApply] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [confirmMsg, setConfirmMsg] = useState("");
 
   const handlePromotion = async () => {
     try {
@@ -22,9 +22,9 @@ function Promotion({ setPromotionId }: Props) {
         price: 0,
       };
       await POST("/promotion/check", body, true).then((response) => {
-        setErrorMsg(response.payload ?? response.message);
+        setConfirmMsg(response.payload ?? response.message);
         setShowConfirmModal(true);
-        setIsApply(true);
+        if (response.payload.length > 0) setIsApply(true);
       });
     } catch (e) {
       console.log(e);
@@ -40,7 +40,14 @@ function Promotion({ setPromotionId }: Props) {
         },
         true
       ).then((response) => {
-        setPromotionId(response.payload.id);
+        console.log(response);
+        setConfirmMsg(response.message);
+
+        if (response.statusCode === 200) {
+          setPromotionId(response.payload.id);
+          setConfirmMsg("프로모션 코드가 적용됐습니다");
+        }
+        setShowConfirmModal(true);
       });
       console.log(result);
     } catch (e) {
@@ -98,7 +105,7 @@ function Promotion({ setPromotionId }: Props) {
       <ConfirmModal
         showModal={showConfirmModal}
         setShowModal={setShowConfirmModal}
-        message={errorMsg}
+        message={confirmMsg}
       />
     </div>
   );

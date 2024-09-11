@@ -75,7 +75,7 @@ function Reservation({
       }
     }
     // 결제 수단 등록 체크
-    if (!registerCredit) {
+    if (!registerCredit && promotionId === 0) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
         const scrollY =
@@ -159,16 +159,18 @@ function Reservation({
         mapName="TMAP_COURSE"
         setRegion={setRegion}
       />
-      <Credit
-        shakeCredit={shakeCredit}
-        register={registerCredit}
-        setRegister={setRegisterCredit}
-        creditRef={creditRef}
-      />
       <Promotion
         setPromotionId={setPromotionId}
         price={planData?.days[0]?.price}
       />
+      {promotionId === 0 && (
+        <Credit
+          shakeCredit={shakeCredit}
+          register={registerCredit}
+          setRegister={setRegisterCredit}
+          creditRef={creditRef}
+        />
+      )}
       <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}

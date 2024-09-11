@@ -165,7 +165,10 @@ function Reservation({
         setRegister={setRegisterCredit}
         creditRef={creditRef}
       />
-      <Promotion setPromotionId={setPromotionId} />
+      <Promotion
+        setPromotionId={setPromotionId}
+        price={planData?.days[0]?.price}
+      />
       <JoinAgreement
         checked={agreeChecked}
         setChecked={setAgreeChecked}

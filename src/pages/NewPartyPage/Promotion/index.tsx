@@ -5,10 +5,11 @@ import ConfirmModal from "../../../components/ConfirmModal";
 
 interface Props {
   promotionId: number;
+  price: number;
   setPromotionId: Dispatch<SetStateAction<number>>;
 }
 
-function Promotion({ setPromotionId }: Props) {
+function Promotion({ price, setPromotionId }: Props) {
   const [promotionCode, setPromotionCode] = useState("");
   const [isString, setIsString] = useState(false);
   const [isApply, setIsApply] = useState(false);
@@ -19,7 +20,7 @@ function Promotion({ setPromotionId }: Props) {
     try {
       const body = {
         code: promotionCode,
-        price: 0,
+        price: price,
       };
       await POST("/promotion/check", body, true).then((response) => {
         setConfirmMsg(response.payload ?? response.message);

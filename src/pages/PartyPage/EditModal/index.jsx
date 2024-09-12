@@ -21,6 +21,7 @@ function EditModal({
   name,
   startTime,
   endTime,
+  promotionId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -76,6 +77,7 @@ function EditModal({
               region: region,
               name: name || partyName,
             },
+            userPromotionCodeId: promotionId,
           };
 
       const result = myParty

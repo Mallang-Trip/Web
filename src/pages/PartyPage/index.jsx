@@ -187,11 +187,14 @@ function PartyPage() {
     }
 
     if (type === "join") {
-      setPromotionId(0);
-      return setShowJoinModal(true);
+      setShowJoinModal(true);
     }
     if (type === "edit") return setShowEditModal(true);
   };
+
+  useEffect(() => {
+    setPromotionId(0);
+  }, [type]);
 
   useEffect(() => {
     if (!partyData.course) return;
@@ -519,6 +522,7 @@ function PartyPage() {
         name={name}
         startTime={startTime}
         endTime={endTime}
+        promotionId={promotionId}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

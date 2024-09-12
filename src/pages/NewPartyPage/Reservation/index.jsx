@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
 import ImageBox from "../../../components/ImageBox";
 import DriverInfo from "../../../components/DriverInfo";
@@ -15,7 +15,7 @@ import JoinMember from "../../PartyPage/JoinMember";
 import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
 import JoinGreeting from "../../PartyPage/JoinGreeting";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
-import Promotion from "../Promotion";
+import Promotion from "../../../components/Promotion";
 
 function Reservation({
   date,

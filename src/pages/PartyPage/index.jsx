@@ -35,6 +35,7 @@ import EditAgreement from "./EditAgreement";
 import CancelNewPartyButton from "./CancelNewPartyButton";
 import NewPartyAgreement from "./NewPartyAgreement";
 import NotFoundParty from "./NotFoundParty";
+import Promotion from "../../components/Promotion";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -67,6 +68,7 @@ function PartyPage() {
       phoneNumber: "",
     }))
   );
+  const [promotionId, setPromotionId] = useState(0);
 
   const checkJoinEdit = () => {
     if (
@@ -424,11 +426,17 @@ function PartyPage() {
       )}
       {!partyData.myParty && (type === "join" || type === "edit") && (
         <>
-          <Credit
-            shakeCredit={shakeCredit}
-            register={registerCredit}
-            setRegister={setRegisterCredit}
-            creditRef={creditRef}
+          {promotionId === 0 && (
+            <Credit
+              shakeCredit={shakeCredit}
+              register={registerCredit}
+              setRegister={setRegisterCredit}
+              creditRef={creditRef}
+            />
+          )}
+          <Promotion
+            price={partyData.course?.totalPrice}
+            setPromotionId={setPromotionId}
           />
           <JoinAgreement
             checked={agreeChecked}

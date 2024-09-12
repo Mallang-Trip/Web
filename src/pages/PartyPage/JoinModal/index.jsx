@@ -14,6 +14,7 @@ function JoinModal({
   headcount,
   totalPrice,
   partyName,
+  promotionId,
 }) {
   const navigation = useNavigate();
   const modalRef = useRef();
@@ -39,6 +40,7 @@ function JoinModal({
             phoneNumber: member.phoneNumber.replace(/-/g, ""),
           };
         }),
+        usePromotionCodeId: promotionId,
       };
 
       const result = await postPartyJoin(partyId, body);

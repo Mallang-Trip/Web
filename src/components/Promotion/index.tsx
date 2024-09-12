@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { POST } from "../../../utils/axios";
+import { POST } from "../../utils/axios";
 import clsx from "clsx";
-import ConfirmModal from "../../../components/ConfirmModal";
+import ConfirmModal from "../ConfirmModal";
 
 interface Props {
   promotionId: number;

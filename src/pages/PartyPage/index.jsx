@@ -152,7 +152,7 @@ function PartyPage() {
       }
     }
     // 결제 수단 등록 체크
-    if (!registerCredit) {
+    if (!registerCredit && promotionId === 0) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
         const scrollY =
@@ -186,7 +186,10 @@ function PartyPage() {
       return;
     }
 
-    if (type === "join") return setShowJoinModal(true);
+    if (type === "join") {
+      setPromotionId(0);
+      return setShowJoinModal(true);
+    }
     if (type === "edit") return setShowEditModal(true);
   };
 
@@ -426,6 +429,10 @@ function PartyPage() {
       )}
       {!partyData.myParty && (type === "join" || type === "edit") && (
         <>
+          <Promotion
+            price={partyData.course?.totalPrice}
+            setPromotionId={setPromotionId}
+          />
           {promotionId === 0 && (
             <Credit
               shakeCredit={shakeCredit}
@@ -434,10 +441,6 @@ function PartyPage() {
               creditRef={creditRef}
             />
           )}
-          <Promotion
-            price={partyData.course?.totalPrice}
-            setPromotionId={setPromotionId}
-          />
           <JoinAgreement
             checked={agreeChecked}
             setChecked={setAgreeChecked}

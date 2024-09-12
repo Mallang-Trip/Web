@@ -16,7 +16,7 @@ import CourseDnD from "../../PartyPage/CourseDnD";
 import EditMap from "../../PartyPage/EditMap";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
 import PriceList from "./PriceList";
-import Promotion from "../Promotion";
+import Promotion from "../../../components/Promotion";
 
 function Edit({
   date,

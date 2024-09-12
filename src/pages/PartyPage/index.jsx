@@ -494,6 +494,7 @@ function PartyPage() {
           partyData.course?.totalPrice - partyData.course?.discountPrice
         }
         partyName={partyData.course.name}
+        promotionId={promotionId}
       />
       <EditModal
         showModal={showEditModal}

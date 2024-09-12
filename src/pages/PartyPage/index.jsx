@@ -35,6 +35,7 @@ import EditAgreement from "./EditAgreement";
 import CancelNewPartyButton from "./CancelNewPartyButton";
 import NewPartyAgreement from "./NewPartyAgreement";
 import NotFoundParty from "./NotFoundParty";
+import Promotion from "../../components/Promotion";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -67,6 +68,7 @@ function PartyPage() {
       phoneNumber: "",
     }))
   );
+  const [promotionId, setPromotionId] = useState(0);
 
   const checkJoinEdit = () => {
     if (
@@ -150,7 +152,7 @@ function PartyPage() {
       }
     }
     // 결제 수단 등록 체크
-    if (!registerCredit) {
+    if (!registerCredit && promotionId === 0) {
       if (creditRef.current) {
         const containerRect = creditRef.current.getBoundingClientRect();
         const scrollY =
@@ -184,9 +186,15 @@ function PartyPage() {
       return;
     }
 
-    if (type === "join") return setShowJoinModal(true);
+    if (type === "join") {
+      setShowJoinModal(true);
+    }
     if (type === "edit") return setShowEditModal(true);
   };
+
+  useEffect(() => {
+    setPromotionId(0);
+  }, [type]);
 
   useEffect(() => {
     if (!partyData.course) return;
@@ -424,12 +432,18 @@ function PartyPage() {
       )}
       {!partyData.myParty && (type === "join" || type === "edit") && (
         <>
-          <Credit
-            shakeCredit={shakeCredit}
-            register={registerCredit}
-            setRegister={setRegisterCredit}
-            creditRef={creditRef}
+          <Promotion
+            price={partyData.course?.totalPrice}
+            setPromotionId={setPromotionId}
           />
+          {promotionId === 0 && (
+            <Credit
+              shakeCredit={shakeCredit}
+              register={registerCredit}
+              setRegister={setRegisterCredit}
+              creditRef={creditRef}
+            />
+          )}
           <JoinAgreement
             checked={agreeChecked}
             setChecked={setAgreeChecked}
@@ -486,6 +500,7 @@ function PartyPage() {
           partyData.course?.totalPrice - partyData.course?.discountPrice
         }
         partyName={partyData.course.name}
+        promotionId={promotionId}
       />
       <EditModal
         showModal={showEditModal}
@@ -507,6 +522,7 @@ function PartyPage() {
         name={name}
         startTime={startTime}
         endTime={endTime}
+        promotionId={promotionId}
       />
       <ConfirmModal
         showModal={showJoinErrorModal}

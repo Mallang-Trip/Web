@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import promotionImage from "../../assets/images/프로모션코드 배너-04.png";
 import CheckModal from "../../components/CheckModal";
 import Title from "../../components/Title";
 import PartyFilter from "./PartyFilter";
@@ -38,13 +39,20 @@ function LandingPage() {
             <PartyFilter setShowLoginModal={setShowLoginModal} />
           </div>
           <NewMyParty setShowLoginModal={setShowLoginModal} />
+          <img
+            alt="말랑트립 프로모션 배너"
+            src={promotionImage}
+            className="cursor-pointer w-full mb-12 sm:mb-24"
+            onClick={() => {
+              navigation("/community/74");
+            }}
+          />
           <div className="max-w-screen-xl mx-auto px-2 md:px-5">
             <UserMenu userMenu={userMenu} setUserMenu={setUserMenu} />
             {userMenu === "recommend" ? <PartyList /> : <MyPartyList />}
           </div>
         </>
       )}
-
       <KakaoButton />
       <CheckModal
         showModal={showLoginModal}

@@ -42,7 +42,10 @@ function LandingPage() {
           <img
             alt="말랑트립 프로모션 배너"
             src={promotionImage}
-            className="w-full mb-12 sm:mb-24"
+            className="cursor-pointer w-full mb-12 sm:mb-24"
+            onClick={() => {
+              navigation("/community/74");
+            }}
           />
           <div className="max-w-screen-xl mx-auto px-2 md:px-5">
             <UserMenu userMenu={userMenu} setUserMenu={setUserMenu} />

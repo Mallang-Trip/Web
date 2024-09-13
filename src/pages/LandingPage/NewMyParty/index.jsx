@@ -15,7 +15,7 @@ function NewMyParty({ setShowLoginModal }) {
   };
 
   return (
-    <div className="hidden md:block w-full mb-14 bg-skyblue py-7">
+    <div className="hidden md:block w-full mb-8 bg-skyblue py-7">
       <div className="max-w-screen-xl mx-auto px-8 flex justify-between items-center">
         <div className="flex flex-col gap-3">
           <p className="text-lg text-black font-bold">

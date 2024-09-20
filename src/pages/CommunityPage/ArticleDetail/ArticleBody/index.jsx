@@ -39,7 +39,6 @@ function ArticleBody({
   const user = useSelector((state) => state.user);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [heart, setHeart] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -85,10 +84,6 @@ function ArticleBody({
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    setHeart(dibs);
-  }, [dibs]);
 
   useEffect(() => {
     checkChatBlock();

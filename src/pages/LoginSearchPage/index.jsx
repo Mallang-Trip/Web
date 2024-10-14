@@ -13,22 +13,24 @@ function LoginSearchPage() {
 
   return (
     <PageContainer>
-      <HeadLogo />
-      {completeSearch ? (
-        <SearchComplete
-          mode={mode}
-          setMode={setMode}
-          setCompleteSearch={setCompleteSearch}
-          loginId={loginId}
-        />
-      ) : (
-        <Search
-          mode={mode}
-          setMode={setMode}
-          setCompleteSearch={setCompleteSearch}
-          setLoginId={setLoginId}
-        />
-      )}
+      <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full">
+        <HeadLogo />
+        {completeSearch ? (
+          <SearchComplete
+            mode={mode}
+            setMode={setMode}
+            setCompleteSearch={setCompleteSearch}
+            loginId={loginId}
+          />
+        ) : (
+          <Search
+            mode={mode}
+            setMode={setMode}
+            setCompleteSearch={setCompleteSearch}
+            setLoginId={setLoginId}
+          />
+        )}
+      </div>
     </PageContainer>
   );
 }

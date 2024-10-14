@@ -90,7 +90,7 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <div className="flex flex-col justify-center h-real-screen">
+      <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full">
         <div className="flex justify-center">
           <img
             src={Logo}

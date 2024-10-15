@@ -28,6 +28,7 @@ function Comment({
   const [newImages, setNewImages] = useState(images || []);
 
   const commentImageRef = useRef();
+  const textareaRef = useRef();
 
   const starHandler = ({ target }) => {
     const value = target.value;
@@ -92,6 +93,12 @@ function Comment({
     setNewImages([imageFile]);
   };
 
+  const handleChange = (e) => {
+    setNewContent(e.target.value);
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+  };
+
   return (
     <div className="mt-3">
       <div className="flex items-center">
@@ -142,13 +149,13 @@ function Comment({
           </div>
         )}
       </div>
-      <input
-        type="text"
-        className={`w-4/5 text-sm ml-12 mt-2 bg-white focus:outline-none ${
+      <textarea
+        ref={textareaRef}
+        className={`w-4/5 text-sm ml-12 mt-2 bg-white focus:outline-none custom-scrollbar resize-none ${
           modifyMode && "text-primary"
         }`}
         value={newContent}
-        onChange={(e) => setNewContent(e.target.value)}
+        onChange={handleChange}
         disabled={!modifyMode}
         placeholder="댓글을 입력해주세요."
       />

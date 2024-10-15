@@ -111,9 +111,6 @@ function Router() {
         <Route path="/notify" element={<AuthNotifyPage />} />
         <Route path="/help/:id" element={<AuthHelpPage />} />
         <Route path="/admin/:type" element={<AuthAdminPage />} />
-      </Route>
-
-      <Route element={<LoginLayout />}>
         <Route path="/login" element={<AuthLoginPage />} />
         <Route path="/login/search/:target" element={<AuthLoginSearchPage />} />
         <Route path="/signup" element={<AuthSignupPage />} />

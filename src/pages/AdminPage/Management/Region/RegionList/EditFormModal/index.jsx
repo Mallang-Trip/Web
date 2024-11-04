@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { putPartyRegion } from "../../../../../../api/region";
 import { uploadImage } from "../../../../../../api/image";
 import { CONSTANT } from "../../../../../../utils/data";
+import InputImage from "../../../../../../components/InputImage";
 
 function EditFormModal({
   showModal,
@@ -97,7 +98,7 @@ function EditFormModal({
               ></path>
             </svg>
           </button>
-          <div className="flex flex-col gap-3 px-6 pb-6 mx-auto h-full bg-white rounded-t-xl max-h-[500px] custom-scrollbar">  
+          <div className="flex flex-col gap-3 px-6 pb-6 mx-auto h-full bg-white rounded-t-xl max-h-[500px] custom-scrollbar">
             <div>
               <div className="block mb-1 text-sm font-medium text-black">
                 지역 이름 <span className="text-red-600 font-bold">*</span>
@@ -131,12 +132,10 @@ function EditFormModal({
                   />
                 )}
               </div>
-              <input
-                ref={imageRef}
+              <InputImage
+                inputRef={imageRef}
                 className="hidden"
                 id="regionImage_input"
-                type="file"
-                accept="image/*"
                 onChange={imageUploadHandler}
               />
             </div>

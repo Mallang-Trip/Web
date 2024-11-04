@@ -10,6 +10,7 @@ import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
 import { RootState } from "../../../redux/store";
 import StarInput from "./StarInput";
+import InputImage from "../../InputImage";
 
 interface Props {
   id: number;
@@ -117,12 +118,10 @@ function AddComment({ id, isDriver, reloadData }: Props) {
             <img src={cameraIcon} alt="image" />
           </button>
         </label>
-        <input
-          ref={imageRef}
+        <InputImage
+          inputRef={imageRef}
           className="hidden"
           id="commentImage_input"
-          type="file"
-          accept="image/*"
           onChange={imageHandler}
         />
         {commentImage && (

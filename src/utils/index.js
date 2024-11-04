@@ -172,3 +172,13 @@ export const customRoundOne = (number) => {
     ? Math.floor(roundedNumber)
     : roundedNumber;
 };
+
+export const isIos = () => {
+  const UA = navigator.userAgent.toLowerCase();
+
+  return (
+    UA.indexOf("iphone") > -1 ||
+    UA.indexOf("ipad") > -1 ||
+    UA.indexOf("ipod") > -1
+  );
+};

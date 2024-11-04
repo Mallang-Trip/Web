@@ -1,4 +1,5 @@
 import primaryPlus from "../../../../../assets/svg/primary_plus.svg";
+import InputImage from "../../../../../components/InputImage";
 
 function ImageInput({ vehicleImageRef, vehicleImageHandler }) {
   return (
@@ -7,12 +8,10 @@ function ImageInput({ vehicleImageRef, vehicleImageHandler }) {
       onClick={() => vehicleImageRef.current.click()}
     >
       <img src={primaryPlus} alt="plus" className="w-4 h-4" />
-      <input
-        ref={vehicleImageRef}
-        className="hidden"
+      <InputImage
         id="carImage_upload"
-        type="file"
-        accept="image/*"
+        inputRef={vehicleImageRef}
+        className="hidden"
         onChange={vehicleImageHandler}
       />
     </div>

@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { CONSTANT } from "../../../../../../../utils/data";
 import primaryPlus from "../../../../../../../assets/svg/primary_plus.svg";
+import InputImage from "../../../../../../../components/InputImage";
 
 function ImageInput({ newPlaceInfo, setNewPlaceInfo }) {
   const imageRef = useRef();
@@ -25,12 +26,10 @@ function ImageInput({ newPlaceInfo, setNewPlaceInfo }) {
       >
         <img src={primaryPlus} alt="plus" className="w-3 h-3" />
       </div>
-      <input
-        ref={imageRef}
+      <InputImage
+        inputRef={imageRef}
         className="hidden"
         id="placeImage_input"
-        type="file"
-        accept="image/*"
         onChange={imageUploadHandler}
       />
     </>

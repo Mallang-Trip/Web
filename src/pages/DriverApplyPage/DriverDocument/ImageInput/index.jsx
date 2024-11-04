@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import InputImage from "../../../../components/InputImage";
 
 function ImageInput({ title, image, name, imageHandler }) {
   const imageRef = useRef();
@@ -33,12 +34,10 @@ function ImageInput({ title, image, name, imageHandler }) {
               사진 업로드
             </button>
           </label>
-          <input
-            ref={imageRef}
+          <InputImage
+            inputRef={imageRef}
             className="hidden"
             id={name}
-            type="file"
-            accept="image/*"
             onChange={() => imageHandler(name)}
           />
         </div>

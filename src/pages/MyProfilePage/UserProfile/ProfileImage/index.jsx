@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import InputImage from "../../../../components/InputImage";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function ProfileImage({
@@ -37,16 +38,14 @@ function ProfileImage({
                 {"프로필 사진\n변경하기"}
               </div>
             </div>
-            <input
-              ref={imageRef}
-              className="hidden"
-              id="profileImage_input"
-              type="file"
-              accept="image/*"
-              onChange={imageHandler}
-            />
           </>
         )}
+        <InputImage
+          inputRef={imageRef}
+          className="hidden"
+          id="profileImage_input"
+          onChange={imageHandler}
+        />
       </div>
     </div>
   );

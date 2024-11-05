@@ -1,4 +1,6 @@
 import { useState } from "react";
+import InputImage from "../../../../InputImage";
+
 function CommentImage({
   modifyMode,
   image,
@@ -26,15 +28,14 @@ function CommentImage({
               {"이미지 변경하기"}
             </div>
           </div>
-          <input
-            ref={commentImageRef}
-            className="hidden"
-            type="file"
-            accept="image/*"
-            onChange={modifyImageHandler}
-          />
         </>
       )}
+      <InputImage
+        inputRef={commentImageRef}
+        className="hidden"
+        id="commentImage_input"
+        onChange={modifyImageHandler}
+      />
     </div>
   );
 }

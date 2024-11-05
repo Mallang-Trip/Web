@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { CONSTANT } from "../../../utils/data";
+import InputImage from "../../../components/InputImage";
 
 function Profile({
   setActiveNext,
@@ -94,12 +95,10 @@ function Profile({
                 사진 업로드
               </button>
             </label>
-            <input
-              ref={imageRef}
-              className="hidden"
+            <InputImage
               id="profileImage_input"
-              type="file"
-              accept="image/*"
+              inputRef={imageRef}
+              className="hidden"
               onChange={imageHandler}
             />
           </div>

@@ -1,4 +1,5 @@
 import basicProfileImage from "../../../../assets/images/profileImage.png";
+import InputImage from "../../../../components/InputImage";
 
 function ProfileImage({
   modifyMode,
@@ -35,15 +36,14 @@ function ProfileImage({
                 {"프로필 사진\n변경하기"}
               </div>
             </div>
-            <input
-              ref={profileImageRef}
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={profileImageHandler}
-            />
           </>
         )}
+        <InputImage
+          inputRef={profileImageRef}
+          className="hidden"
+          id="profileImage_Input_Driver"
+          onChange={profileImageHandler}
+        />
       </div>
     </div>
   );

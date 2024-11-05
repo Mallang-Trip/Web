@@ -4,6 +4,7 @@ import { uploadImage } from "../../../api/image";
 import { CONSTANT } from "../../../utils/data";
 import CarImage from "./CarImage";
 import primaryPlus from "../../../assets/svg/primary_plus.svg";
+import InputImage from "../../../components/InputImage";
 
 function CarInfo({
   setActiveNext,
@@ -59,12 +60,10 @@ function CarInfo({
               onClick={() => imageRef.current.click()}
             >
               <img src={primaryPlus} alt="plus" className="w-4 h-4" />
-              <input
-                ref={imageRef}
+              <InputImage
+                inputRef={imageRef}
                 className="hidden"
                 id="carImage_input"
-                type="file"
-                accept="image/*"
                 onChange={imageHandler}
               />
             </div>

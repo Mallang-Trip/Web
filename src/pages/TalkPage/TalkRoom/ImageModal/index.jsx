@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CONSTANT } from "../../../../utils/data";
 import Loading from "../../../../components/Loading";
+import InputImage from "../../../../components/InputImage";
 
 function ImageModal({
   showModal,
@@ -69,12 +70,10 @@ function ImageModal({
               </div>
             )}
             {showModal && (
-              <input
-                ref={imageRef}
-                className="hidden"
+              <InputImage
                 id="chatImage_input"
-                type="file"
-                accept="image/*"
+                inputRef={imageRef}
+                className="hidden"
                 onChange={imageHandler}
               />
             )}

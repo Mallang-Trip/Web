@@ -11,10 +11,11 @@ import Account from "./Account";
 import Profile from "./Profile";
 import Complete from "./Complete";
 import ConfirmModal from "../../components/ConfirmModal";
+import Title from "../../components/Title";
 
 function SignupPage() {
   const navigation = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [activeNext, setActiveNext] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [impUid, setImpUid] = useState("");
@@ -55,11 +56,6 @@ function SignupPage() {
     }
   };
 
-  const logoClickHandler = () => {
-    if (step !== 4) return;
-    navigation("/");
-  };
-
   const goSignup = async () => {
     try {
       const profileImageURL = profileImage
@@ -90,15 +86,8 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full">
-        <div className="flex justify-center">
-          <img
-            src={Logo}
-            className={`${step === 4 ? "h-12 cursor-pointer" : "h-9"}`}
-            alt="Mallang_Trip_Logo"
-            onClick={logoClickHandler}
-          />
-        </div>
+      <Title title="말랑트립 회원가입" />
+      <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full px-2">
         {step === 0 ? (
           <Agreement setActiveNext={setActiveNext} />
         ) : step === 1 ? (

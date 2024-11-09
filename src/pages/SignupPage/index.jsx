@@ -86,8 +86,8 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <Title title="말랑트립 회원가입" />
       <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full px-2">
+        <Title title="말랑트립 회원가입" />
         {step === 0 ? (
           <Agreement setActiveNext={setActiveNext} />
         ) : step === 1 ? (

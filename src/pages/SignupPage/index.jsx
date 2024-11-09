@@ -15,7 +15,7 @@ import Title from "../../components/Title";
 
 function SignupPage() {
   const navigation = useNavigate();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [impUid, setImpUid] = useState("");

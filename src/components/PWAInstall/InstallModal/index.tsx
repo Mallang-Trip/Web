@@ -1,13 +1,28 @@
-import { useEffect, useRef } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { createPortal } from "react-dom";
 import appIcon from "../../../assets/images/app-icon.png";
+import clsx from "clsx";
 
-function InstallModal({ showModal, setShowModal, handleInstallClick }) {
-  const modalRef = useRef();
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  handleInstallClick: () => void;
+}
 
-  const modalOutSideClick = (e) => {
+function InstallModal({ showModal, setShowModal, handleInstallClick }: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  const modalOutSideClick = useCallback((e: MouseEvent) => {
     if (modalRef.current === e.target) setShowModal(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -16,16 +31,18 @@ function InstallModal({ showModal, setShowModal, handleInstallClick }) {
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div
-        className={`mx-auto mt-auto shadow w-full max-w-[500px] rounded-xl duration-700 ${
+        className={clsx(
+          "mx-auto mt-auto shadow w-full max-w-[500px] rounded-xl duration-700",
           showModal ? "translate-y-0" : "translate-y-full"
-        }`}
+        )}
       >
         <div className="w-full h-80 text-center bg-white rounded-t-xl relative">
           <div className="absolute top-0 left-0 text-left px-6 pt-5">
@@ -80,4 +97,4 @@ function InstallModal({ showModal, setShowModal, handleInstallClick }) {
   );
 }
 
-export default InstallModal;
+export default memo(InstallModal);

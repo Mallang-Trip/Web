@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPartyRegionList } from "../../../api/region";
 import CheckModal from "../../../components/CheckModal";
+import Title from "../../../components/Title";
 import RegionButton from "./RegionButton";
 
 function Region({ setRegion, member, driverId, date, driverInfo }) {
@@ -44,9 +45,7 @@ function Region({ setRegion, member, driverId, date, driverInfo }) {
 
   return (
     <>
-      <div className="pl-6 mx-auto text-2xl text-black font-bold">
-        가고 싶은 여행지를 찾아요
-      </div>
+      <Title title="출발지 선택하기" />
       <div className="grid grid-cols-1 gap-10 px-6 mx-auto py-8 lg:grid-cols-3 xl:grid-cols-4 overflow-auto">
         {regionData.map((item) => (
           <RegionButton

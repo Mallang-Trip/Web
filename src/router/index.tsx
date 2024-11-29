@@ -1,6 +1,6 @@
+import { memo } from "react";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../components/MainLayout";
-import LoginLayout from "../components/LoginLayout";
 import Auth from "../hoc/Auth";
 import LandingPage from "../pages/LandingPage";
 import IntroPage from "../pages/IntroPage";
@@ -121,4 +121,4 @@ function Router() {
   );
 }
 
-export default Router;
+export default memo(Router);

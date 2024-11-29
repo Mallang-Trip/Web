@@ -6,7 +6,7 @@ import PushNotification from "./components/PushNotification";
 import PWAInstall from "./components/PWAInstall";
 import useInitialSetting from "./hooks/useInitialSetting";
 import useGoogleTagManager from "./hooks/useGoogleTagManager";
-import RouteChangeTracker from "./components/RouteChangeTracker";
+import RouteChangeTracker from "./router/RouteChangeTracker";
 
 function App() {
   useInitialSetting();

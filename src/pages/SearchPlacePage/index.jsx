@@ -8,7 +8,7 @@ function SearchPlacePage() {
 
   return (
     <PageContainer>
-      <Title title="출발지 선택하기" />
+      <Title title="가고 싶은 여행지를 찾아요" />
       <div className="my-7" />
       <PlaceMap
         search={true}

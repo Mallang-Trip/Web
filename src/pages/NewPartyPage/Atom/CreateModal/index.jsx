@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postNewParty } from "../../../../api/party";
+import ReactGA from "react-ga4";
 
 function CreateModal({
   showModal,
@@ -64,6 +65,20 @@ function CreateModal({
       const result = await postNewParty(body);
 
       if (result.statusCode === 200) {
+        const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+        const META_PIXEL_TRACKING_ID = import.meta.env
+          .VITE_META_PIXEL_TRACKING_ID;
+        if (
+          GA_TRACKING_ID &&
+          META_PIXEL_TRACKING_ID &&
+          !window.location.href.includes("localhost")
+        ) {
+          ReactGA.event({
+            category: "새로운 파티 만들기",
+            action: "11_new_suggestionsent",
+          });
+        }
+
         setPartyId(result.payload.partyId);
         setMessage(
           "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
@@ -83,8 +98,23 @@ function CreateModal({
       complete &&
       message ===
         "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
-    )
+    ) {
+      const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+      const META_PIXEL_TRACKING_ID = import.meta.env
+        .VITE_META_PIXEL_TRACKING_ID;
+      if (
+        GA_TRACKING_ID &&
+        META_PIXEL_TRACKING_ID &&
+        !window.location.href.includes("localhost")
+      ) {
+        ReactGA.event({
+          category: "새로운 파티 만들기",
+          action: "11_new_suggestionsent",
+        });
+      }
+
       navigation(`/party/detail/${partyId}`, { replace: true });
+    }
 
     setShowModal(false);
   };
@@ -105,6 +135,19 @@ function CreateModal({
     setMessage(
       "드라이버에게 파티 가입을 제안합니다.\n\n드라이버가 승인할 경우 파티에 가입되며,\n말랑트립 확정 이전까지 예약금은 청구되지 않습니다.\n\n제안을 보내시겠습니까?"
     );
+
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+    if (
+      GA_TRACKING_ID &&
+      META_PIXEL_TRACKING_ID &&
+      !window.location.href.includes("localhost")
+    ) {
+      ReactGA.event({
+        category: "새로운 파티 만들기",
+        action: "10_new_joinsuggestion",
+      });
+    }
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { uploadProfileImage } from "../../api/image";
 import { signup, checkDuplication } from "../../api/users";
 import { CONSTANT } from "../../utils/data";
+import ReactGA from "react-ga4";
 import PageContainer from "../../components/PageContainer";
 import Logo from "../../assets/images/logo.png";
 import Agreement from "./Agreement";
@@ -82,6 +83,24 @@ function SignupPage() {
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
+
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+
+    if (!GA_TRACKING_ID || !META_PIXEL_TRACKING_ID) return;
+    if (!window.location.href.includes("localhost")) {
+      const eventName = [
+        "01_register",
+        "02_certification",
+        "03_mail_ID_password",
+        "04_nickname_intro_profile",
+        "05_registered",
+      ];
+      ReactGA.event({
+        category: "회원가입",
+        action: eventName[step],
+      });
+    }
   }, [step]);
 
   return (

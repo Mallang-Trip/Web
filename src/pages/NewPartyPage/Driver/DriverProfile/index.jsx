@@ -1,4 +1,6 @@
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactGA from "react-ga4";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 
 function DriverProfile({
@@ -11,6 +13,32 @@ function DriverProfile({
   region,
 }) {
   const navigation = useNavigate();
+
+  const showDriverProfile = useCallback(
+    (e) => {
+      e.stopPropagation();
+
+      const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+      const META_PIXEL_TRACKING_ID = import.meta.env
+        .VITE_META_PIXEL_TRACKING_ID;
+
+      if (
+        GA_TRACKING_ID &&
+        META_PIXEL_TRACKING_ID &&
+        !window.location.href.includes("localhost")
+      ) {
+        ReactGA.event({
+          category: "새로운 파티 만들기",
+          action: `07_selectdriver_${name}`,
+        });
+      }
+
+      navigation(
+        `/driver/profile/${driverId}?region=${region}&member=${member}&date=${date}`
+      );
+    },
+    [name, driverId, region, member, date]
+  );
 
   return (
     <div
@@ -29,12 +57,7 @@ function DriverProfile({
         <div className="absolute top-0 left-0 flex flex-col items-center justify-end w-full h-full text-base text-darkgray pb-3">
           <button
             className="h-9 text-white rounded-full text-xs font-bold w-32 bg-primary"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigation(
-                `/driver/profile/${driverId}?region=${region}&member=${member}&date=${date}`
-              );
-            }}
+            onClick={showDriverProfile}
           >
             프로필
           </button>

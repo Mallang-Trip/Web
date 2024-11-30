@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { postPartyJoin } from "../../../api/party";
 import { priceToString } from "../../../utils";
+import ReactGA from "react-ga4";
 
 function JoinModal({
   showModal,
@@ -73,6 +74,20 @@ function JoinModal({
           </div>
         );
       setComplete(true);
+
+      const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+      const META_PIXEL_TRACKING_ID = import.meta.env
+        .VITE_META_PIXEL_TRACKING_ID;
+      if (
+        GA_TRACKING_ID &&
+        META_PIXEL_TRACKING_ID &&
+        !window.location.href.includes("localhost")
+      ) {
+        ReactGA.event({
+          category: "기존 파티 참여",
+          action: "15_exsting_suggestionsent_participated",
+        });
+      }
     } catch (e) {
       console.log(e);
     } finally {
@@ -129,6 +144,19 @@ function JoinModal({
           <br />위 파티에 가입하시겠습니까?
         </div>
       );
+
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+    if (
+      GA_TRACKING_ID &&
+      META_PIXEL_TRACKING_ID &&
+      !window.location.href.includes("localhost")
+    ) {
+      ReactGA.event({
+        category: "기존 파티 참여",
+        action: "14_exsting_joinsuggestion_participated",
+      });
+    }
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

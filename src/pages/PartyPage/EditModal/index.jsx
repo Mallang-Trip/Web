@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { postPartyJoin, putPartyCourse } from "../../../api/party";
 import { priceToString } from "../../../utils";
+import ReactGA from "react-ga4";
 
 function EditModal({
   showModal,
@@ -109,6 +110,20 @@ function EditModal({
           </div>
         );
       setComplete(true);
+
+      const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+      const META_PIXEL_TRACKING_ID = import.meta.env
+        .VITE_META_PIXEL_TRACKING_ID;
+      if (
+        GA_TRACKING_ID &&
+        META_PIXEL_TRACKING_ID &&
+        !window.location.href.includes("localhost")
+      ) {
+        ReactGA.event({
+          category: "기존 파티 참여",
+          action: "15_exsting_suggestionsent_voting",
+        });
+      }
     } catch (e) {
       console.log(e);
     } finally {
@@ -184,6 +199,19 @@ function EditModal({
           파티원들에게 제안을 보내시겠습니까?
         </div>
       );
+
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+    if (
+      GA_TRACKING_ID &&
+      META_PIXEL_TRACKING_ID &&
+      !window.location.href.includes("localhost")
+    ) {
+      ReactGA.event({
+        category: "기존 파티 참여",
+        action: "14_exsting_joinsuggestion_voting",
+      });
+    }
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getPartyDetail } from "../../api/party";
+import ReactGA from "react-ga4";
 import PageContainer from "../../components/PageContainer";
 import HeadTitle from "../../components/HeadTitle";
 import PartyPlan from "../../components/PartyPlan";
@@ -229,6 +230,25 @@ function PartyPage() {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+
+    if (!GA_TRACKING_ID || !META_PIXEL_TRACKING_ID) return;
+    if (!window.location.href.includes("localhost")) {
+      let eventName = "";
+
+      if (type === "detail") eventName = "12_existing_party";
+      if (type === "edit") eventName = "13_existing_changecorses";
+      if (type === "join") eventName = "13_existing_joincouses";
+
+      ReactGA.event({
+        category: "기존 파티 참여",
+        action: eventName,
+      });
+    }
+  }, [type]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });

@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
+import ReactGA from "react-ga4";
 import PageContainer from "../../components/PageContainer";
 import ConfirmModal from "../../components/ConfirmModal";
 import Region from "./Region";
@@ -176,6 +177,24 @@ function NewPartyPage() {
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
+
+    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+
+    if (!GA_TRACKING_ID || !META_PIXEL_TRACKING_ID) return;
+    if (!window.location.href.includes("localhost")) {
+      let eventName = "";
+
+      if (step === "1") eventName = "06_new_party";
+      if (step === "2") eventName = `06_new_party_${region}`;
+      if (step === "3") eventName = "07_selectdriver";
+      if (step === "5") eventName = "09_new_chagecourses";
+
+      ReactGA.event({
+        category: "새로운 파티 만들기",
+        action: eventName,
+      });
+    }
   }, [step]);
 
   if (loading) return <Loading full={true} />;

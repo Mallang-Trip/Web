@@ -1,14 +1,13 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, memo, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../../../api/image";
 import { postComment } from "../../../api/driver";
 import { postDestinationComment } from "../../../api/destination";
-import { CONSTANT } from "../../../utils/data";
+import { RootState } from "../../../redux/store";
 import cameraIcon from "../../../assets/svg/camera.svg";
 import CheckModal from "../../CheckModal";
 import ConfirmModal from "../../ConfirmModal";
-import { RootState } from "../../../redux/store";
 import StarInput from "./StarInput";
 import InputImage from "../../InputImage";
 
@@ -30,16 +29,14 @@ function AddComment({ id, isDriver, reloadData }: Props) {
   const [commentImage, setCommentImage] = useState<File | null>();
   const [isAbleSubmit, setIsAbleSubmit] = useState(false);
 
-  const imageHandler = () => {
+  const imageHandler = useCallback(() => {
     if (imageRef.current && imageRef.current.files) {
       const imageFile = imageRef.current.files[0];
-      if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-        return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
       setCommentImage(imageFile || null);
     }
-  };
+  }, [imageRef.current]);
 
-  const sumbitHandler = async () => {
+  const sumbitHandler = useCallback(async () => {
     if (!user.auth) return setShowModal(true);
 
     if (star <= 0) {
@@ -78,7 +75,7 @@ function AddComment({ id, isDriver, reloadData }: Props) {
       setConfirmMessage("댓글 전송에 실패했습니다.");
       setShowConfirmModal(true);
     }
-  };
+  }, [user.auth, star, comment, commentImage, isDriver, id]);
 
   useEffect(() => {
     if (star > 0 && star <= 5 && comment !== "") {
@@ -161,4 +158,4 @@ function AddComment({ id, isDriver, reloadData }: Props) {
   );
 }
 
-export default AddComment;
+export default memo(AddComment);

@@ -1,73 +1,103 @@
-import { useEffect, useState } from "react";
+import {
+  Dispatch,
+  ForwardedRef,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { getCard, postCard, deleteCard } from "../../api/card";
 import CheckModal from "../CheckModal";
 import ConfirmModal from "../ConfirmModal";
 import PlusBtn from "../../assets/svg/PlusBtn.svg";
 import Logo from "../../assets/images/logo.png";
+import clsx from "clsx";
 
-function Credit({ shakeCredit, register, setRegister, creditRef }) {
+declare global {
+  interface Window {
+    PaypleCpayAuthCheck: any;
+  }
+}
+
+interface Props {
+  shakeCredit: boolean;
+  register: boolean;
+  setRegister: Dispatch<SetStateAction<boolean>>;
+  creditRef: ForwardedRef<HTMLDivElement>;
+}
+
+function Credit({ shakeCredit, register, setRegister, creditRef }: Props) {
   const PaypleCpayAuthCheck = window.PaypleCpayAuthCheck;
-  const user = useSelector((state) => state.user);
-  const [cardInfo, setCardInfo] = useState({});
+  const user = useSelector((state: RootState) => state.user);
+  const [cardInfo, setCardInfo] = useState({
+    cardId: 0,
+    cardName: "",
+    cardNumber: "",
+  });
   const [showText, setShowText] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showPaymentCompleteModal, setShowPaymentCompleteModal] =
     useState(false);
 
-  const registerCard = (type) => {
-    if (type === "new" && register) return;
+  const registerCard = useCallback(
+    (type: "new" | "change") => {
+      if (type === "new" && register) return;
 
-    const paypleResult = async (params) => {
-      if (params.PCD_PAY_RST === "success") {
-        try {
-          const body = {
-            billingKey: params.PCD_PAYER_ID,
-            cardName: params.PCD_PAY_CARDNAME,
-            cardNumber: params.PCD_PAY_CARDNUM,
-            userId: user.userId,
-          };
-          const result = await postCard(body);
-          if (result.statusCode !== 200) return setShowErrorModal(true);
-          setCardInfo(result.payload);
-          setShowPaymentCompleteModal(true);
-          setRegister(true);
-        } catch (e) {
-          console.log(e);
+      const paypleResult = async (params: any) => {
+        if (params.PCD_PAY_RST === "success") {
+          try {
+            const body = {
+              billingKey: params.PCD_PAYER_ID,
+              cardName: params.PCD_PAY_CARDNAME,
+              cardNumber: params.PCD_PAY_CARDNUM,
+              userId: user.userId,
+            };
+            const result = await postCard(body);
+            if (result.statusCode !== 200) return setShowErrorModal(true);
+            setCardInfo(result.payload);
+            setShowPaymentCompleteModal(true);
+            setRegister(true);
+          } catch (e) {
+            console.log(e);
+            setShowErrorModal(true);
+          }
+        } else {
           setShowErrorModal(true);
         }
-      } else {
-        setShowErrorModal(true);
-      }
-    };
+      };
 
-    const paypleObj = {
-      clientKey: "945491C72C67EE1682010C472F92F433",
-      PCD_PAY_TYPE: "card",
-      PCD_PAY_WORK: "AUTH",
-      PCD_CARD_VER: "01",
-      PCD_PAY_GOODS: "[말랑트립] 결제 수단 등록",
-      PCD_PAY_TOTAL: 0,
-      PCD_RST_URL: "/",
-      callbackFunction: paypleResult,
-    };
+      const paypleObj = {
+        clientKey: "945491C72C67EE1682010C472F92F433",
+        PCD_PAY_TYPE: "card",
+        PCD_PAY_WORK: "AUTH",
+        PCD_CARD_VER: "01",
+        PCD_PAY_GOODS: "[말랑트립] 결제 수단 등록",
+        PCD_PAY_TOTAL: 0,
+        PCD_RST_URL: "/",
+        callbackFunction: paypleResult,
+      };
 
-    PaypleCpayAuthCheck(paypleObj);
-  };
+      PaypleCpayAuthCheck(paypleObj);
+    },
+    [PaypleCpayAuthCheck, register, user.userId]
+  );
 
-  const deleteCardData = async () => {
+  const deleteCardData = useCallback(async () => {
     try {
       await deleteCard();
-      setCardInfo({});
+      setCardInfo({ cardId: 0, cardName: "", cardNumber: "" });
       setRegister(false);
       setShowDeleteModal(false);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
-  const getCardData = async () => {
+  const getCardData = useCallback(async () => {
     try {
       const result = await getCard();
       if (result.statusCode === 404) return setRegister(false);
@@ -76,7 +106,7 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getCardData();
@@ -94,9 +124,13 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
     <>
       <div className="mt-20 mb-7" ref={creditRef}>
         <button
-          className={`${shakeCredit && "animate-shake"} ${
-            register && "cursor-default"
-          } w-[304px] h-[196px] bg-skyblue text-primary rounded-2xl mx-auto block focus:outline-none`}
+          className={clsx(
+            "w-[304px] h-[196px] bg-skyblue text-primary rounded-2xl mx-auto block focus:outline-none",
+            {
+              "animate-shake": shakeCredit,
+              "cursor-default": register,
+            }
+          )}
           onClick={() => registerCard("new")}
         >
           {register && cardInfo.cardId ? (
@@ -111,7 +145,7 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
                 </div>
               </div>
               <div className="w-full flex flex-col gap-1 items-start text-lg font-bold">
-                <div className="text-lg font-bold">{`${cardInfo.cardName}카드`}</div>
+                <div className="text-lg font-bold">{cardInfo.cardName}카드</div>
                 <div className="w-full flex justify-between items-center">
                   <div className="text-base font-medium">
                     {cardInfo.cardNumber.replaceAll("-", " ")}
@@ -136,9 +170,10 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
           계좌 내에 잔액이 없을 시 카드 등록이 안 될 수 있습니다.
         </p>
         <p
-          className={`${
+          className={clsx(
+            "text-sm text-center mt-1",
             showText ? "text-red-600" : "text-white"
-          } text-sm text-center mt-1`}
+          )}
         >
           결제 수단을 등록해 주세요!
         </p>
@@ -166,4 +201,4 @@ function Credit({ shakeCredit, register, setRegister, creditRef }) {
   );
 }
 
-export default Credit;
+export default memo(Credit);

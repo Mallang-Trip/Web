@@ -8,6 +8,7 @@ function PartyList({ tab }) {
   const [loading, setLoading] = useState(true);
 
   const filterParty = () => {
+    if (!partyData) return [];
     if (tab === 0)
       return partyData.filter(
         (party) => party.status === "SEALED" || party.status === "DAY_OF_TRAVEL"

@@ -13,7 +13,7 @@ function Account() {
   const getMyDriverInfo = async () => {
     try {
       const result = await getDriverMyInfo();
-      setAccountInfo(result.payload);
+      if (result.payload) setAccountInfo(result.payload);
     } catch (e) {
       console.log(e);
       navigation("/", { replace: true });

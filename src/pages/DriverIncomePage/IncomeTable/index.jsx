@@ -11,7 +11,7 @@ function IncomeTable() {
   const getMonthlyIncome = async () => {
     try {
       const result = await getDriverMonthlyIncome("all");
-      setIncomeData(result.payload);
+      if (result.payload) setIncomeData(result.payload);
       setLoading(false);
     } catch (e) {
       console.log(e);

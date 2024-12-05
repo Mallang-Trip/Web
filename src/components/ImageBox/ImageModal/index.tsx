@@ -1,21 +1,45 @@
-import { useEffect, useRef } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Zoom, Navigation, Pagination } from "swiper/modules";
 import headerBack from "../../../assets/svg/header-back.svg";
+import clsx from "clsx";
 
-function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
-  const modalRef = useRef();
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  images: string[];
+  name: string;
+  setSwiperRef: any;
+}
 
-  const closeModal = () => setShowModal(false);
+function ImageModal({
+  showModal,
+  setShowModal,
+  images,
+  name,
+  setSwiperRef,
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const modalOutSideClick = (e) => {
-    if (e.target.classList.value === "swiper-zoom-container") closeModal();
-  };
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const handleKeyPress = (event) => {
+  const modalOutSideClick = useCallback((e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.value === "swiper-zoom-container") closeModal();
+  }, []);
+
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") closeModal();
-  };
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -29,11 +53,12 @@ function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-90 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-90 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <button
         className="fixed top-3 left-3 z-50 rounded-xl hover:bg-black/10 w-8 h-8 flex items-center justify-center"
@@ -43,10 +68,12 @@ function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
       </button>
       <Swiper
         onSwiper={setSwiperRef}
-        style={{
-          "--swiper-navigation-color": "#ffffff",
-          "--swiper-pagination-color": "#ffffff",
-        }}
+        style={
+          {
+            "--swiper-navigation-color": "#ffffff",
+            "--swiper-pagination-color": "#ffffff",
+          } as React.CSSProperties
+        }
         zoom={true}
         loop={true}
         navigation={true}
@@ -72,4 +99,4 @@ function ImageModal({ showModal, setShowModal, images, name, setSwiperRef }) {
   );
 }
 
-export default ImageModal;
+export default memo(ImageModal);

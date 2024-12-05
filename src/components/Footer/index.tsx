@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useLocation } from "react-router-dom";
 import Company from "./Company";
 import Policy from "./Policy";
@@ -22,4 +23,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default memo(Footer);

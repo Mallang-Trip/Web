@@ -15,3 +15,5 @@ const app = initializeApp(firebaseConfig);
 
 export const messaging =
   "serviceWorker" in navigator ? getMessaging(app) : undefined;
+
+export const vapidKey = import.meta.env.VITE_APP_FCM_VAPID_KEY;

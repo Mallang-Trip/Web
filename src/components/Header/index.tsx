@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
+import { RootState } from "../../redux/store";
 import { setNotification } from "../../redux/modules/notificationSlice";
 import { getNotification } from "../../api/notification";
 import Ping from "../Ping";
@@ -15,36 +16,39 @@ import HeaderCommunity from "../../assets/svg/HeaderCommunity.svg";
 import HeaderCommunityPrimary from "../../assets/svg/HeaderCommunityPrimary.svg";
 import HeaderHeart from "../../assets/svg/HeaderHeart.svg";
 import HeaderHeartPrimary from "../../assets/svg/HeaderHeartPrimary.svg";
+import clsx from "clsx";
 
 function Header() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const uncheckedCount = useSelector(
-    (state) => state.notification.uncheckedCount
+    (state: RootState) => state.notification.uncheckedCount
   );
-  const [notificationTimer, setNotificationTimer] = useState(undefined);
+  const [notificationTimer, setNotificationTimer] = useState<
+    NodeJS.Timeout | undefined
+  >(undefined);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const mallang_header = useRef();
-  const header_profile = useRef();
-  const user_menu = useRef();
+  const mallang_header = useRef<HTMLDivElement | null>(null);
+  const header_profile = useRef<HTMLLIElement | null>(null);
+  const user_menu = useRef<HTMLDivElement | null>(null);
 
-  const getMenuPosition = () => {
+  const getMenuPosition = useCallback(() => {
     const x = header_profile.current?.getBoundingClientRect()?.x;
     if (x === undefined) return 0;
     else return x - 140;
-  };
+  }, [header_profile.current]);
 
-  const getNotificationFunc = async () => {
+  const getNotificationFunc = useCallback(async () => {
     try {
       const result = await getNotification();
       dispatch(setNotification(result.payload));
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (!user.auth) {
@@ -64,10 +68,12 @@ function Header() {
   }, [user.auth]);
 
   useEffect(() => {
-    const userMenuHandler = (event) => {
+    const userMenuHandler = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+
       if (
-        header_profile.current.contains(event.target) ||
-        user_menu.current.contains(event.target)
+        header_profile.current?.contains(target) ||
+        user_menu.current?.contains(target)
       )
         return;
       setShowUserMenu(false);
@@ -105,7 +111,7 @@ function Header() {
           </div>
           <button
             className="flex items-center md:hidden"
-            onClick={() => navigation(`/search/place/null`)}
+            onClick={() => navigation("/search/place/null")}
           >
             <svg
               className="w-6 h-6 text-primary"
@@ -125,34 +131,38 @@ function Header() {
             <button
               type="button"
               onClick={() => navigation("/login")}
-              className={`${
+              className={clsx(
+                "flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center mr-3",
                 user.auth ? "hidden" : "flex"
-              } flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center mr-3`}
+              )}
             >
               로그인
             </button>
             <button
               type="button"
               onClick={() => navigation("/signup")}
-              className={`${
+              className={clsx(
+                "flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center",
                 user.auth ? "hidden" : "flex"
-              } flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center`}
+              )}
             >
               회원가입
             </button>
             <ul
-              className={`${
+              className={clsx(
+                "flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-20 lg:space-x-32 md:mt-0 md:border-0 md:bg-white",
                 user.auth ? "flex" : "hidden"
-              } flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-20 lg:space-x-32 md:mt-0 md:border-0 md:bg-white`}
+              )}
             >
               <li className="my-auto">
                 <button
                   onClick={() => navigation("/talk")}
-                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0 ${
+                  className={clsx(
+                    "flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0",
                     location.pathname.substring(0, 5) === "/talk"
                       ? "text-primary"
                       : "text-gray-900"
-                  }`}
+                  )}
                 >
                   <img
                     src={
@@ -168,11 +178,12 @@ function Header() {
               <li className="my-auto">
                 <button
                   onClick={() => navigation("/community/main")}
-                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0 ${
+                  className={clsx(
+                    "flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0",
                     location.pathname.substring(0, 10) === "/community"
                       ? "text-primary"
                       : "text-gray-900"
-                  }`}
+                  )}
                 >
                   <img
                     src={
@@ -188,11 +199,12 @@ function Header() {
               <li className="my-auto">
                 <button
                   onClick={() => navigation("/my/heart")}
-                  className={`flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0 ${
+                  className={clsx(
+                    "flex items-center py-2 pl-3 pr-4 bg-transparent md:hover:text-primary md:p-0",
                     location.pathname === "/my/heart"
                       ? "text-primary"
                       : "text-gray-900"
-                  }`}
+                  )}
                 >
                   <img
                     src={
@@ -233,9 +245,10 @@ function Header() {
         {/* Dropdown menu */}
         <div
           ref={user_menu}
-          className={`${
+          className={clsx(
+            "z-50 fixed top-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow text-center",
             showUserMenu ? "block" : "hidden"
-          } z-50 fixed top-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow text-center`}
+          )}
           style={{
             left: getMenuPosition(),
           }}
@@ -387,14 +400,14 @@ function Header() {
           </ul>
         </div>
       </nav>
-      <div className="h-20 md:h-24"></div>
+      <div className="h-20 md:h-24" />
 
       <CheckModal
         showModal={showLogoutModal}
         setShowModal={setShowLogoutModal}
-        message={"로그아웃 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        message="로그아웃 하시겠습니까?"
+        noText="취소"
+        yesText="확인"
         yesHandler={() => {
           dispatch(logout());
           setShowUserMenu(false);
@@ -406,4 +419,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

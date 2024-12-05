@@ -1,29 +1,62 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import { CONSTANT } from "../../../utils/data";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../assets/images/kakaoIcon.png";
+import clsx from "clsx";
 
-function ShareModal({ showModal, setShowModal, partyImages, partyName, type }) {
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  partyImages: string[];
+  partyName: string;
+  type: "party" | "destination";
+}
+
+function ShareModal({
+  showModal,
+  setShowModal,
+  partyImages,
+  partyName,
+  type,
+}: Props) {
   const Kakao = window.Kakao;
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const user = useSelector((state: RootState) => state.user);
   const { partyId, destinationId } = useParams();
-  const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
 
-  const copyURL = () => {
+  useEffect(() => {
+    if (!Kakao.isInitialized()) {
+      Kakao.init("19c42824783a3e9124e67b70847e0ec6");
+    }
+  }, []);
+
+  const copyURL = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopyComplete(true);
     });
-  };
+  }, []);
 
-  if (!Kakao.isInitialized()) {
-    Kakao.init("19c42824783a3e9124e67b70847e0ec6");
-  }
-
-  const kakaoShare = () => {
+  const kakaoShare = useCallback(() => {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
@@ -43,21 +76,23 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName, type }) {
             : `destination/detail/${destinationId}`,
       },
     });
-  };
+  }, [Kakao, user, partyId, destinationId, partyImages, partyName, type]);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Escape") closeModal();
-  };
+  const handleKeyPress = useCallback(({ key }: KeyboardEvent) => {
+    if (key === "Escape") closeModal();
+  }, []);
 
   useEffect(() => {
     if (!copyComplete) return;
-
     setTimeout(() => {
       setCopyComplete(false);
     }, 5000);
@@ -75,20 +110,22 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName, type }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="relative h-44 whitespace-pre bg-white rounded-xl pl-7 pr-12 py-6">
           <p className="text-xl text-black font-bold">
             공유하기
             <span
-              className={`text-sm font-normal ml-10 ${
+              className={clsx(
+                "text-sm font-normal ml-10",
                 copyComplete ? "text-red-600" : "text-white"
-              }`}
+              )}
             >
               링크가 복사되었습니다!
             </span>
@@ -118,4 +155,4 @@ function ShareModal({ showModal, setShowModal, partyImages, partyName, type }) {
   );
 }
 
-export default ShareModal;
+export default memo(ShareModal);

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { deleteUnLikeParty, postLikeParty } from "../../api/party";
 import {
   deleteUnLikeDestination,
@@ -12,14 +13,22 @@ import shareIcon from "../../assets/svg/share.svg";
 import ShareModal from "./ShareModal";
 import CheckModal from "../CheckModal";
 
-function PartyIconBox({ id, type, images, name, dibs }) {
+interface Props {
+  id: number;
+  type: "party" | "destination";
+  images: string[];
+  name: string;
+  dibs: boolean;
+}
+
+function PartyIconBox({ id, type, images, name, dibs }: Props) {
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [heart, setHeart] = useState(dibs);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const heartClickHandler = async () => {
+  const heartClickHandler = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
 
     const isParty = type === "party";
@@ -36,7 +45,7 @@ function PartyIconBox({ id, type, images, name, dibs }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, heart, type, id]);
 
   return (
     <>
@@ -63,12 +72,12 @@ function PartyIconBox({ id, type, images, name, dibs }) {
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
     </>
   );
 }
 
-export default PartyIconBox;
+export default memo(PartyIconBox);

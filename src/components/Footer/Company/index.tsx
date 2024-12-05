@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
+import { RootState } from "../../../redux/store";
 import { makeNewCoupleChat } from "../../../api/chat";
 import CheckModal from "../../CheckModal";
 
 function Company() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const goMallangTalk = async () => {
+  const loginYesHandler = useCallback(() => {
+    setShowLoginModal(false);
+    navigation("/login");
+  }, []);
+
+  const goMallangTalk = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
     if (user.userId === 0) return navigation("/talk");
 
@@ -22,7 +28,7 @@ function Company() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user]);
 
   return (
     <>
@@ -84,12 +90,12 @@ function Company() {
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
-        yesHandler={() => navigation("/login")}
+        noText="취소"
+        yesText="확인"
+        yesHandler={loginYesHandler}
       />
     </>
   );
 }
 
-export default Company;
+export default memo(Company);

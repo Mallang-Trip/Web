@@ -1,28 +1,35 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { passPopupURL } from "../../utils/pass";
 import ConfirmModal from "../ConfirmModal";
 import passLogo from "../../assets/images/PASS-Logo.png";
 import passArrow from "../../assets/svg/Pass-Mobile-Arrow.svg";
 
-function PassCheck({ completeHandler }) {
+declare global {
+  interface Window {
+    MOBILEOK: any;
+  }
+}
+
+interface Props {
+  completeHandler: (impUid: string | null) => void;
+}
+
+function PassCheck({ completeHandler }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
-  const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const clearTimer = () => {
+  const clearTimer = useCallback(() => {
     if (!timer) return;
     clearInterval(timer);
     setTimer(null);
     localStorage.removeItem("passResult");
     localStorage.removeItem("impUid");
-  };
+  }, [timer]);
 
-  const openPopup = () => {
-    window.MOBILEOK.process(
-      `${import.meta.env.VITE_BASE_SERVER_URL}/mobileOK`,
-      "WB",
-      "result"
-    );
-  };
+  const openPopup = useCallback(() => {
+    window.MOBILEOK.process(passPopupURL, "WB", "result");
+  }, []);
 
   useEffect(() => {
     const getResult = () => {
@@ -128,4 +135,4 @@ function PassCheck({ completeHandler }) {
   );
 }
 
-export default PassCheck;
+export default memo(PassCheck);

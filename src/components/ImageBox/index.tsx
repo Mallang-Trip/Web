@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import ImageModal from "./ImageModal";
@@ -8,27 +8,40 @@ import "swiper/css/zoom";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-function ImageBox({ images = [], name }) {
-  const [swiperRef, setSwiperRef] = useState();
+interface Props {
+  images: string[];
+  name: string;
+}
+
+function ImageBox({ images = [], name }: Props) {
+  const [swiperRef, setSwiperRef] = useState<any>();
   const [showImageModal, setShowImageModal] = useState(false);
 
-  const slideTo = (index) => {
-    swiperRef.slideTo(index - 1, 0);
-  };
+  const slideTo = useCallback(
+    (index: number) => {
+      swiperRef.slideTo(index - 1, 0);
+    },
+    [swiperRef]
+  );
 
-  const imageClickHandler = (idx) => {
-    slideTo(idx + 1);
-    setShowImageModal(true);
-  };
+  const imageClickHandler = useCallback(
+    (index: number) => {
+      slideTo(index + 1);
+      setShowImageModal(true);
+    },
+    [slideTo]
+  );
 
   if (!images[0]) return null;
   return (
     <>
       <Swiper
-        style={{
-          "--swiper-navigation-color": "#ffffff",
-          "--swiper-pagination-color": "#ffffff",
-        }}
+        style={
+          {
+            "--swiper-navigation-color": "#ffffff",
+            "--swiper-pagination-color": "#ffffff",
+          } as React.CSSProperties
+        }
         spaceBetween={30}
         centeredSlides={true}
         autoplay={{
@@ -65,4 +78,4 @@ function ImageBox({ images = [], name }) {
   );
 }
 
-export default ImageBox;
+export default memo(ImageBox);

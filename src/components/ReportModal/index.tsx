@@ -1,29 +1,48 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import { postNewReport } from "../../api/users";
-import Loading from "../../components/Loading";
+import Loading from "../Loading";
+import clsx from "clsx";
 
-function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
-  const modalRef = useRef();
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  reporteeId: number | undefined;
+  targetId: number | string | undefined;
+  type: "ARTICLE" | "CHAT";
+}
+
+function ReportModal({
+  showModal,
+  setShowModal,
+  reporteeId,
+  targetId,
+  type,
+}: Props) {
   const location = useLocation();
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
   const [content, setContent] = useState("");
 
-  const submitReport = async () => {
+  const submitReport = useCallback(async () => {
     if (loading) return;
     if (content === "") return alert("신고 사유를 입력해주세요.");
     setLoading(true);
 
     try {
-      const body = {
-        content: content,
-        reporteeId: reporteeId,
-        targetId: targetId,
-        type: type,
-      };
+      const body = { content, reporteeId, targetId, type };
 
       await postNewReport(body);
 
@@ -35,20 +54,23 @@ function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loading, content, reporteeId, targetId, type]);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     if (loading) return;
     setShowModal(false);
-  };
+  }, [loading]);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Escape") closeModal();
-  };
+  const handleKeyPress = useCallback(({ key }: KeyboardEvent) => {
+    if (key === "Escape") closeModal();
+  }, []);
 
   useEffect(() => {
     if (!showModal) {
@@ -71,16 +93,17 @@ function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="w-full px-5 flex flex-col justify-center h-80 text-center text-xl text-black font-bold whitespace-pre bg-white rounded-t-xl">
           {loading ? (
-            <Loading />
+            <Loading full={false} />
           ) : (
             message || (
               <div>
@@ -128,4 +151,4 @@ function ReportModal({ showModal, setShowModal, reporteeId, targetId, type }) {
   );
 }
 
-export default ReportModal;
+export default memo(ReportModal);

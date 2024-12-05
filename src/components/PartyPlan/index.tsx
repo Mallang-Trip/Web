@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { Course, Destination } from "../../types";
 import PlanBox from "./PlanBox";
-import EditButton from "../EditButton";
 
-function PartyPlan({ edit, startDate, course, editHandler, comment }) {
-  const [planData, setPlanData] = useState([]);
+interface Props {
+  edit: boolean;
+  startDate: string;
+  editHandler: () => void;
+  comment: boolean;
+  course: Course;
+}
+
+function PartyPlan({ edit, startDate, course, editHandler, comment }: Props) {
+  const [planData, setPlanData] = useState<Destination[]>([]);
 
   useEffect(() => {
     setPlanData(course.days[0].destinations);
@@ -49,4 +57,4 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }) {
   );
 }
 
-export default PartyPlan;
+export default memo(PartyPlan);

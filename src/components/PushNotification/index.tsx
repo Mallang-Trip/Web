@@ -1,27 +1,26 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { getToken, isSupported } from "firebase/messaging";
-import { messaging } from "../../utils/firebase";
+import { messaging, vapidKey } from "../../utils/firebase";
 import { putFirebaseToken } from "../../api/notification";
 import CheckModal from "./CheckModal";
 
 function PushNotification() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showModal, setShowModal] = useState(false);
 
-  const sendFirebaseToken = async () => {
-    const token =
-      localStorage.getItem("fcmToken") ||
-      (await getToken(messaging, {
-        vapidKey: import.meta.env.VITE_APP_FCM_VAPID_KEY,
-      }));
+  const sendFirebaseToken = useCallback(async () => {
+    if (!messaging) return;
 
-    localStorage.setItem("fcmToken", token);
+    const firebaseToken =
+      localStorage.getItem("fcmToken") ||
+      (await getToken(messaging, { vapidKey }));
+
+    localStorage.setItem("fcmToken", firebaseToken);
 
     try {
-      await putFirebaseToken({
-        firebaseToken: token,
-      });
+      await putFirebaseToken({ firebaseToken });
     } catch (e) {
       console.log(e);
     }
@@ -29,19 +28,19 @@ function PushNotification() {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/firebase-messaging-sw.js");
     }
-  };
+  }, [messaging, vapidKey]);
 
-  const handleAllowNotification = async () => {
+  const handleAllowNotification = useCallback(async () => {
     const permission = await Notification.requestPermission();
     if (permission === "granted") sendFirebaseToken();
     setShowModal(false);
-  };
+  }, [sendFirebaseToken]);
 
-  const setNotification = async () => {
+  const setNotification = useCallback(async () => {
     if (!(await isSupported())) return;
     if (Notification.permission === "granted") sendFirebaseToken();
     if (Notification.permission === "default") setShowModal(true);
-  };
+  }, [isSupported, sendFirebaseToken]);
 
   useEffect(() => {
     if (!user.auth) return;
@@ -62,4 +61,4 @@ function PushNotification() {
   );
 }
 
-export default PushNotification;
+export default memo(PushNotification);

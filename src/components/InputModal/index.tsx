@@ -1,4 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+import {
+  ChangeEvent,
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  titleMessage: string;
+  subMessage: string;
+  placeholder: string;
+  noText: string;
+  yesText: string;
+  yesHandler: (amount: string) => void;
+}
 
 function InputModal({
   showModal,
@@ -9,24 +31,30 @@ function InputModal({
   noText,
   yesText,
   yesHandler,
-}) {
-  const modalRef = useRef();
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [data, setData] = useState("");
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const handleInput = (e) => {
-    setData(e.target.value);
-  };
+  const handleInput = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      setData(target.value);
+    },
+    []
+  );
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Escape") closeModal();
-    else if (event.key === "Enter") yesHandler(data);
-  };
+  const handleKeyPress = useCallback(({ key }: KeyboardEvent) => {
+    if (key === "Escape") closeModal();
+    else if (key === "Enter") yesHandler(data);
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -42,11 +70,12 @@ function InputModal({
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="flex flex-col justify-center text-center text-[#1C1B1F] whitespace-pre bg-white rounded-t-xl text-xl font-bold pt-16 pb-8">
@@ -82,4 +111,4 @@ function InputModal({
   );
 }
 
-export default InputModal;
+export default memo(InputModal);

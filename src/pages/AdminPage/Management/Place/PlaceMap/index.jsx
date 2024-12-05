@@ -84,6 +84,8 @@ function PlaceMap({
     drawMarker();
   }, [placeData]);
 
+  if (placeData.length === 0)
+    return <div className="text-center mt-40">여행지 데이터가 없습니다.</div>;
   return <div id="TMapAdmin" className="w-full mx-auto" ref={mapRef} />;
 }
 

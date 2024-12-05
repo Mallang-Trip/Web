@@ -9,7 +9,10 @@ function UserTable({ userList }) {
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [profileId, setProfileId] = useState(-1);
 
-  if (userList.filter((user) => user.role === "ROLE_USER").length === 0)
+  if (
+    !userList ||
+    userList.filter((user) => user.role === "ROLE_USER").length === 0
+  )
     return (
       <div className="mt-20 text-base text-black font-medium text-center">
         여행자 회원 정보가 없습니다.

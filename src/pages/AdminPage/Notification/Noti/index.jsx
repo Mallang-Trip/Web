@@ -8,6 +8,7 @@ function Noti() {
   ];
 
   const [searchKeyword, setSearchKeyword] = useState("");
+
   const searchHandler = (e) => {
     e.preventDefault();
     if (searchKeyword === "") return;
@@ -15,10 +16,12 @@ function Noti() {
     setSearchKeyword("");
   };
 
+  const changeTab = (current) => {};
+
   return (
     <div>
       <div className="text-2xl font-bold">알림 내역 관리</div>
-      <TabList tabList={tabList} />
+      <TabList tabList={tabList} changeTab={changeTab} />
       <div className="relative max-w-md mx-auto">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg

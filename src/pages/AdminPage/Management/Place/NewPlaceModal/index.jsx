@@ -53,6 +53,7 @@ function NewPlaceModal({ showModal, setShowModal, placeData, searchKeyword }) {
   };
 
   const initTmap = () => {
+    if (placeData.length === 0) return;
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 

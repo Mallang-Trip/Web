@@ -11,6 +11,7 @@ import Price from "./Price";
 import PartyCourse from "./PartyCourse";
 import Loading from "../../../components/Loading";
 import ConfirmModal from "../../../components/ConfirmModal";
+import NoData from "./NoData";
 
 function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   const profileImageRef = useRef();
@@ -129,7 +130,7 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
   }, [autoSave]);
 
   useEffect(() => {
-    if (!driverInfo.vehicleImgs) return;
+    if (!driverInfo?.vehicleImgs) return;
     setNewVehicleImages(driverInfo.vehicleImgs);
   }, [driverInfo]);
 
@@ -139,7 +140,8 @@ function DriverProfile({ driverInfo, setDriverInfo, getMyDriverInfo }) {
     });
   }, []);
 
-  if (!driverInfo.userId) return <Loading full={true} />;
+  if (!driverInfo) return <NoData />;
+  if (!driverInfo?.userId) return <Loading full={true} />;
   return (
     <>
       <ProfileImage

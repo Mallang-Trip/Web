@@ -1,12 +1,35 @@
-import { useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { uploadImage } from "../../../../api/image";
 import { putComment } from "../../../../api/driver";
 import { putDestinationComment } from "../../../../api/destination";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import Star from "../../../../assets/svg/star.svg";
-import { CONSTANT } from "../../../../utils/data";
-import { uploadImage } from "../../../../api/image";
 import CommentImage from "./CommentImage";
+import clsx from "clsx";
+
+interface Props {
+  profileImg: string | null;
+  nickname: string;
+  rate: number;
+  content: string;
+  isMyComment: boolean;
+  reviewId: number;
+  images: string[];
+  isDriver: boolean;
+  reloadData: () => void;
+  setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
+  setDeleteTargetId: Dispatch<SetStateAction<number | null>>;
+}
 
 function Comment({
   profileImg,
@@ -20,36 +43,36 @@ function Comment({
   reloadData,
   setShowDeleteModal,
   setDeleteTargetId,
-}) {
-  const user = useSelector((state) => state.user);
+}: Props) {
+  const user = useSelector((state: RootState) => state.user);
+  const commentImageRef = useRef<HTMLInputElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [modifyMode, setModifyMode] = useState(false);
   const [newStar, setNewStar] = useState(rate.toFixed(1));
   const [newContent, setNewContent] = useState(content);
-  const [newImages, setNewImages] = useState(images || []);
+  const [newImages, setNewImages] = useState<(string | File)[]>(images || []);
 
-  const commentImageRef = useRef();
-  const textareaRef = useRef();
+  const starHandler = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      const value = target.value;
+      const regex = /^\d*\.?\d{0,1}$/;
 
-  const starHandler = ({ target }) => {
-    const value = target.value;
-    const regex = /^\d*\.?\d{0,1}$/;
+      if (regex.test(value)) setNewStar(value);
+      if (parseFloat(value) > 5) alert("평점은 최대 5점까지 입력 가능합니다.");
+    },
+    []
+  );
 
-    if (regex.test(value)) {
-      setNewStar(value);
-    }
-    if (value > 5) alert("평점은 최대 5점까지 입력 가능합니다.");
-  };
-
-  const leftButtonHandler = () => {
+  const leftButtonHandler = useCallback(() => {
     if (!modifyMode) return setModifyMode(true);
 
     setNewContent(content);
     setNewStar(rate.toFixed(1));
     setNewImages(images || []);
     setModifyMode(false);
-  };
+  }, [modifyMode, content, rate, images]);
 
-  const rightButtonHandler = async () => {
+  const rightButtonHandler = useCallback(async () => {
     // 댓글 삭제
     if (!modifyMode) {
       setDeleteTargetId(reviewId);
@@ -58,7 +81,13 @@ function Comment({
     }
 
     // 댓글 수정
-    if (!newStar || newStar < 0 || newStar > 5 || newContent === "") return;
+    if (
+      !newStar ||
+      parseFloat(newStar) < 0 ||
+      parseFloat(newStar) > 5 ||
+      newContent === ""
+    )
+      return;
 
     const commentImageURL =
       newImages.length > 0
@@ -84,20 +113,26 @@ function Comment({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [modifyMode, newStar, newContent, newImages, isDriver, reviewId]);
 
-  const modifyImageHandler = async () => {
-    const imageFile = commentImageRef.current.files[0];
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setNewImages([imageFile]);
-  };
+  const modifyImageHandler = useCallback(async () => {
+    if (commentImageRef.current && commentImageRef.current.files) {
+      const imageFile = commentImageRef.current.files[0];
+      setNewImages([imageFile]);
+    }
+  }, [commentImageRef.current]);
 
-  const handleChange = (e) => {
-    setNewContent(e.target.value);
-    textareaRef.current.style.height = "auto";
-    textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
-  };
+  const handleChange = useCallback(
+    ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+      setNewContent(target.value);
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height =
+          textareaRef.current.scrollHeight + "px";
+      }
+    },
+    [textareaRef.current]
+  );
 
   return (
     <div className="mt-3">
@@ -113,9 +148,10 @@ function Comment({
             type="number"
             max={5}
             placeholder="0"
-            className={`text-sm bg-white focus:outline-none w-10 ${
+            className={clsx(
+              "text-sm bg-white focus:outline-none w-10",
               modifyMode && "text-primary"
-            }`}
+            )}
             value={newStar}
             onChange={starHandler}
             disabled={!modifyMode}
@@ -151,9 +187,10 @@ function Comment({
       </div>
       <textarea
         ref={textareaRef}
-        className={`w-4/5 text-sm ml-12 mt-2 bg-white focus:outline-none custom-scrollbar resize-none ${
+        className={clsx(
+          "w-4/5 text-sm ml-12 mt-2 bg-white focus:outline-none custom-scrollbar resize-none",
           modifyMode && "text-primary"
-        }`}
+        )}
         value={newContent}
         onChange={handleChange}
         disabled={!modifyMode}
@@ -175,4 +212,4 @@ function Comment({
   );
 }
 
-export default Comment;
+export default memo(Comment);

@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import { deleteComment } from "../../../api/driver";
 import { deleteDestinationComment } from "../../../api/destination";
 import Comment from "./Comment";
 import CheckModal from "../../CheckModal";
 
-function CommentList({ reviews, isDriver, reloadData }) {
-  const user = useSelector((state) => state.user);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteTargetId, setDeleteTargetId] = useState(null);
+interface Props {
+  reviews: {
+    content: string;
+    createdAt: string;
+    images: string[];
+    nickname: string;
+    profileImg: string | null;
+    rate: number;
+    reviewId: number;
+    updatedAt: string;
+    userId: number;
+  }[];
+  isDriver: boolean;
+  reloadData: () => void;
+}
 
-  const deleteCommentHandler = async () => {
+function CommentList({ reviews, isDriver, reloadData }: Props) {
+  const user = useSelector((state: RootState) => state.user);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+
+  const deleteCommentHandler = useCallback(async () => {
+    if (deleteTargetId === null) return;
     try {
       if (isDriver) await deleteComment(deleteTargetId);
       else await deleteDestinationComment(deleteTargetId);
@@ -20,7 +38,7 @@ function CommentList({ reviews, isDriver, reloadData }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [isDriver, deleteTargetId]);
 
   return (
     <div className="my-7">
@@ -51,4 +69,4 @@ function CommentList({ reviews, isDriver, reloadData }) {
   );
 }
 
-export default CommentList;
+export default memo(CommentList);

@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function NoArticleData() {
   return (
     <div className="w-full my-28">
@@ -6,4 +8,4 @@ function NoArticleData() {
   );
 }
 
-export default NoArticleData;
+export default memo(NoArticleData);

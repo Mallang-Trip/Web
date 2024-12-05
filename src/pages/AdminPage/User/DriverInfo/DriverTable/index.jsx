@@ -2,7 +2,10 @@ import Body from "./Body";
 import Head from "./Head";
 
 function DriverTable({ userList }) {
-  if (userList.filter((user) => user.role === "ROLE_DRIVER").length === 0)
+  if (
+    !userList ||
+    userList.filter((user) => user.role === "ROLE_DRIVER").length === 0
+  )
     return (
       <div className="mt-20 text-base text-black font-medium text-center">
         드라이버 회원 정보가 없습니다.

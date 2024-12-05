@@ -19,7 +19,7 @@ function MyReservationPage() {
         user.role === "ROLE_DRIVER"
           ? await getMyDriverParty()
           : await getMyParty();
-      setMyReservationData(result.payload);
+      if (result.payload) setMyReservationData(result.payload);
     } catch (e) {
       console.log(e);
     } finally {

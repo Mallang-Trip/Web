@@ -9,7 +9,7 @@ function PriceButton({ price, hours, planData, setPlanData }) {
 
   return (
     <button
-      className={`w-fit h-8 px-5 text-sm border rounded-full focus:outline-none cursor-pointer ${
+      className={`whitespace-pre w-fit h-8 px-5 text-sm border rounded-full focus:outline-none cursor-pointer ${
         planData.days[0].price === price && planData.days[0].hours === hours
           ? "bg-primary text-white border-primary"
           : "bg-white text-darkgray border-darkgray"

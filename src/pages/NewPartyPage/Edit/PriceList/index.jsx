@@ -28,7 +28,7 @@ function PriceList({
             코스 시간과 비용을 선택해주세요!
           </div>
         </div>
-        <div className="flex gap-2 my-2">
+        <div className="flex gap-2 my-2 overflow-x-auto custom-scrollbar pb-1">
           {prices.map((item, index) => (
             <PriceButton
               key={index}

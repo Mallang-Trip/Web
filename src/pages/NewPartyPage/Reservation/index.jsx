@@ -124,11 +124,13 @@ function Reservation({
       />
       <ImageBox images={planData.images} name={driverInfo.name} />
       <TextArea title="서비스 지역" content={driverInfo.region} />
-      <CourseList
-        courses={driverInfo.courses}
-        selectedCourseId={selectedCourseId}
-        setSelectedCourseId={setSelectedCourseId}
-      />
+      {promotionId === 0 && (
+        <CourseList
+          courses={driverInfo.courses}
+          selectedCourseId={selectedCourseId}
+          setSelectedCourseId={setSelectedCourseId}
+        />
+      )}
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <TextArea
         title="전체 파티 여행비"

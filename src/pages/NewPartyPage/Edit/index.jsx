@@ -188,7 +188,7 @@ function Edit({
       />
       <ImageBox images={planData.images} name={driverInfo.name} />
       <TextArea title="서비스 지역" content={driverInfo.region} />
-      {driverInfo.courses.length > 0 && (
+      {driverInfo.courses.length > 0 && promotionId === 0 && (
         <CourseList
           courses={driverInfo.courses}
           selectedCourseId={selectedCourseId}
@@ -220,13 +220,15 @@ function Edit({
         shakeCompanions={shakeCompanions}
       />
       <JoinGreeting content={content} setContent={setContent} />
-      <PriceList
-        prices={driverInfo.prices}
-        planData={planData}
-        setPlanData={setPlanData}
-        shakeCoursePrice={shakeCoursePrice}
-        coursePriceRef={coursePriceRef}
-      />
+      {promotionId === 0 && (
+        <PriceList
+          prices={driverInfo.prices}
+          planData={planData}
+          setPlanData={setPlanData}
+          shakeCoursePrice={shakeCoursePrice}
+          coursePriceRef={coursePriceRef}
+        />
+      )}
       <CourseDnD
         name={name}
         setName={setName}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyArticleList, getMyCommentList } from "../../api/article";
-import useIntersectionObserver from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../hooks";
 import PageContainer from "../../components/PageContainer";
 import ArticleList from "../../components/ArticleList";
 import Tab from "./Tab";

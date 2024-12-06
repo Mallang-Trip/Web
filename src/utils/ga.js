@@ -8,3 +8,5 @@ export const isGAlive = () => {
     !window.location.href.includes("localhost")
   );
 };
+
+export const GTM_ID = import.meta.env.VITE_GTM_ID;

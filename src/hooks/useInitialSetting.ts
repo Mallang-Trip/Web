@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { setAutoLogin, setColorTheme, setScreenHeight } from "../utils";
 
-function useInitialSetting() {
+export const useInitialSetting = () => {
   useEffect(() => {
     setColorTheme();
     setScreenHeight();
@@ -13,6 +13,4 @@ function useInitialSetting() {
       window.removeEventListener("resize", setScreenHeight);
     };
   }, []);
-}
-
-export default useInitialSetting;
+};

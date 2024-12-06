@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../../hooks";
 import introIcon from "../../../assets/images/intro_icon.png";
 
 function MallangTrip() {

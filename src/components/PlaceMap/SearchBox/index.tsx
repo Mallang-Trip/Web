@@ -1,4 +1,16 @@
+import { Dispatch, FormEvent, memo, SetStateAction } from "react";
 import cross from "../../../assets/svg/cross.svg";
+
+interface Props {
+  searchKeyword: string;
+  setSearchKeyword: Dispatch<SetStateAction<string>>;
+  submitHandler: (
+    event: FormEvent<HTMLFormElement> | undefined,
+    keyword?: string
+  ) => void;
+  getAllMarkersFunc: () => void;
+  isAllMarker: boolean;
+}
 
 function SearchBox({
   searchKeyword,
@@ -6,7 +18,7 @@ function SearchBox({
   submitHandler,
   getAllMarkersFunc,
   isAllMarker,
-}) {
+}: Props) {
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center">
       <div className="relative flex w-64 mt-4">
@@ -51,4 +63,4 @@ function SearchBox({
   );
 }
 
-export default SearchBox;
+export default memo(SearchBox);

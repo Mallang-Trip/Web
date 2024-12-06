@@ -1,6 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { Destination, Review } from "../../../types";
 import {
   deleteUnLikeDestination,
   getDestinationDetail,
@@ -17,49 +29,77 @@ import CommentList from "../../Comment/CommentList";
 import AddComment from "../../Comment/AddComment";
 import ConfirmModal from "../../ConfirmModal";
 import ImageBox from "../../ImageBox";
+import clsx from "clsx";
+
+interface DestinationInfo {
+  name: string;
+  views: number;
+  avgRate: number;
+  address: string;
+  images: string[];
+  content: string;
+  reviews: Review[];
+}
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  searchPage: boolean;
+  courseData?: Destination[];
+  setCourseData?: Dispatch<SetStateAction<Destination[]>>;
+  clickedData?: Destination;
+}
 
 function DestinationModal({
   showModal,
   setShowModal,
+  searchPage,
   courseData,
   setCourseData,
   clickedData,
-  searchPage,
-}) {
-  const modalRef = useRef();
-  const user = useSelector((state) => state.user);
+}: Props) {
+  const navigation = useNavigate();
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const user = useSelector((state: RootState) => state.user);
   const [heart, setHeart] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [destinationInfo, setDestinationInfo] = useState({});
+  const [destinationInfo, setDestinationInfo] = useState<DestinationInfo>({
+    name: "",
+    views: 0,
+    avgRate: 0,
+    address: "",
+    images: [],
+    content: "",
+    reviews: [],
+  });
   const [message, setMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
 
-  const addCourseHandler = () => {
+  const addCourseHandler = useCallback(() => {
     setShowAddModal(false);
-
-    setCourseData([...courseData, clickedData]);
     setMessage("여행 일정에 추가되었습니다.");
-
     setShowMessageModal(true);
-  };
+    if (courseData && setCourseData && clickedData)
+      setCourseData([...courseData, clickedData]);
+  }, [courseData, clickedData]);
 
-  const heartClickHandler = async () => {
+  const heartClickHandler = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
 
     try {
       heart
-        ? await deleteUnLikeDestination(clickedData.destinationId)
-        : await postLikeDestination(clickedData.destinationId);
+        ? await deleteUnLikeDestination(clickedData?.destinationId)
+        : await postLikeDestination(clickedData?.destinationId);
       setHeart(!heart);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, heart, clickedData]);
 
-  const getDestinationInfo = async () => {
+  const getDestinationInfo = useCallback(async () => {
     if (!clickedData?.destinationId || clickedData.destinationId < 0) return;
 
     try {
@@ -71,13 +111,16 @@ function DestinationModal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [clickedData]);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -90,16 +133,18 @@ function DestinationModal({
   return createPortal(
     <>
       <div
-        className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-          showModal ? "active" : ""
-        }`}
+        className={clsx(
+          "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+          showModal && "active"
+        )}
         ref={modalRef}
-        onClick={(e) => modalOutSideClick(e)}
+        onClick={modalOutSideClick}
       >
         <div
-          className={`mx-auto mt-auto md:my-auto shadow w-full max-w-[700px] rounded-xl md:translate-y-0 duration-700 ${
+          className={clsx(
+            "mx-auto mt-auto md:my-auto shadow w-full max-w-[700px] rounded-xl md:translate-y-0 duration-700",
             showModal ? "translate-y-16" : "translate-y-full"
-          }`}
+          )}
         >
           <div className="h-full bg-white rounded-t-xl max-h-[600px] relative">
             <div className="px-6 py-5">
@@ -110,7 +155,7 @@ function DestinationModal({
                       {destinationInfo.name}
                     </p>
                     <div className="flex gap-1 items-center m-2 mt-3 text-xs">
-                      <span>{`조회수 ${destinationInfo.views}회`}</span>
+                      <span>조회수 {destinationInfo.views}회</span>
                       <span>|</span>
                       <img src={star} />
                       <span>
@@ -180,7 +225,7 @@ function DestinationModal({
                     reloadData={getDestinationInfo}
                   />
                   <AddComment
-                    id={clickedData.destinationId}
+                    id={clickedData?.destinationId || 0}
                     isDriver={false}
                     reloadData={getDestinationInfo}
                   />
@@ -211,8 +256,8 @@ function DestinationModal({
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
       <ShareModal
@@ -220,14 +265,14 @@ function DestinationModal({
         setShowModal={setShowShareModal}
         images={destinationInfo.images}
         name={destinationInfo.name}
-        destinationId={clickedData.destinationId}
+        destinationId={clickedData?.destinationId}
       />
       <CheckModal
         showModal={showAddModal}
         setShowModal={setShowAddModal}
         message={
           <div>
-            <span className="text-primary text-lg">{clickedData.name}</span>
+            <span className="text-primary text-lg">{clickedData?.name}</span>
             <br />
             <br />
             여행 일정에 추가하시겠습니까?
@@ -247,4 +292,4 @@ function DestinationModal({
   );
 }
 
-export default DestinationModal;
+export default memo(DestinationModal);

@@ -1,11 +1,33 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { uploadImage } from "../../../api/image";
 import { postNewDestinationUser } from "../../../api/destination";
+import { Destination, Place } from "../../../types";
 import axios from "axios";
 import pointMarker from "../../../assets/svg/point_marker.svg";
 import PlaceFormModal from "./PlaceFormModal";
 import ConfirmModal from "../../ConfirmModal";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  markerData: Destination[];
+  searchKeyword: string;
+  courseData?: Destination[];
+  setCourseData?: Dispatch<SetStateAction<Destination[]>>;
+}
 
 function NewPlaceModal({
   showModal,
@@ -14,24 +36,36 @@ function NewPlaceModal({
   searchKeyword,
   courseData,
   setCourseData,
-}) {
-  const modalRef = useRef();
-  const mapRef = useRef();
+}: Props) {
+  const Tmapv2 = window.Tmapv2;
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null);
   const [keyword, setKeyword] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [message, setMessage] = useState("");
-  const [newPlaceInfo, setNewPlaceInfo] = useState({
+  const [newPlaceInfo, setNewPlaceInfo] = useState<Place>({
     address: "",
     content: "",
     images: [],
     lat: 0,
     lon: 0,
     name: "",
+    destinationId: 0,
   });
 
-  const submitNewPlace = async () => {
+  const margin = useMemo(
+    () => ({
+      left: 50,
+      top: 100,
+      right: 50,
+      bottom: 100,
+    }),
+    []
+  );
+
+  const submitNewPlace = useCallback(async () => {
     if (loading) return;
     if (newPlaceInfo.name === "") return alert("여행지 이름을 입력해주세요.");
 
@@ -47,10 +81,11 @@ function NewPlaceModal({
         images: imagesURL,
       };
       const result = await postNewDestinationUser(body);
-      setCourseData([
-        ...courseData,
-        { ...newPlaceInfo, destinationId: result.payload.destinationId },
-      ]);
+      if (courseData && setCourseData)
+        setCourseData([
+          ...courseData,
+          { ...newPlaceInfo, destinationId: result.payload.destinationId },
+        ]);
       setShowFormModal(false);
       setMessage("여행 일정에 추가되었습니다.");
     } catch (e) {
@@ -60,9 +95,10 @@ function NewPlaceModal({
       setLoading(false);
       setShowMessageModal(true);
     }
-  };
+  }, [loading, newPlaceInfo, courseData]);
 
-  const initTmap = () => {
+  const initTmap = useCallback(() => {
+    if (!mapRef.current) return;
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 
@@ -84,136 +120,129 @@ function NewPlaceModal({
       PTbounds.extend(new Tmapv2.LatLng(marker.lat, marker.lon));
     });
 
-    const margin = {
-      left: 50,
-      top: 100,
-      right: 50,
-      bottom: 100,
-    };
     map.fitBounds(PTbounds, margin);
-  };
+  }, [mapRef, Tmapv2, margin, markerData]);
 
-  const searchHandler = (e, target) => {
-    if (e) e.preventDefault();
+  const searchHandler = useCallback(
+    (event?: FormEvent<HTMLFormElement>) => {
+      if (event) event.preventDefault();
 
-    axios
-      .get(
-        "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
-        {
-          params: {
-            searchKeyword: e ? keyword : searchKeyword,
-            resCoordType: "EPSG3857",
-            reqCoordType: "WGS84GEO",
-            count: 10,
-          },
-          headers: {
-            appKey: "LIHlK57F95ZD6UmkA64A70kzkmyX7OP6vg9ovtdg",
-          },
-        }
-      )
-      .then((response) => {
-        const resultpoisData = response.data.searchPoiInfo.pois.poi;
+      axios
+        .get(
+          "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
+          {
+            params: {
+              searchKeyword: event ? keyword : searchKeyword,
+              resCoordType: "EPSG3857",
+              reqCoordType: "WGS84GEO",
+              count: 10,
+            },
+            headers: {
+              appKey: "LIHlK57F95ZD6UmkA64A70kzkmyX7OP6vg9ovtdg",
+            },
+          }
+        )
+        .then((response) => {
+          const resultpoisData = response.data.searchPoiInfo.pois.poi;
 
-        if (mapRef.current.firstChild)
-          mapRef.current.removeChild(mapRef.current.firstChild);
+          if (!mapRef.current) return;
+          if (mapRef.current.firstChild)
+            mapRef.current.removeChild(mapRef.current.firstChild);
 
-        const mapWidth = mapRef.current.offsetWidth;
-        const mapHeight = 400;
+          const mapWidth = mapRef.current.offsetWidth;
+          const mapHeight = 400;
 
-        const noorLat = Number(resultpoisData[0].noorLat);
-        const noorLon = Number(resultpoisData[0].noorLon);
-        const pointCng = new Tmapv2.Point(noorLon, noorLat);
-        const projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-          pointCng
-        );
-        const lat = projectionCng._lat;
-        const lon = projectionCng._lng;
-
-        const map = new Tmapv2.Map("NewPlaceTMapApp", {
-          center: new Tmapv2.LatLng(lat, lon),
-          width: mapWidth + "px",
-          height: mapHeight + "px",
-          zoom: 12,
-          zoomControl: false,
-          scrollwheel: true,
-        });
-
-        const positionBounds = new Tmapv2.LatLngBounds();
-
-        for (let k in resultpoisData) {
-          const noorLat = Number(resultpoisData[k].noorLat);
-          const noorLon = Number(resultpoisData[k].noorLon);
-          const name = resultpoisData[k].name;
-          const telNo = resultpoisData[k].telNo;
-          const address =
-            resultpoisData[k].newAddressList.newAddress[0].fullAddressRoad;
-
+          const noorLat = Number(resultpoisData[0].noorLat);
+          const noorLon = Number(resultpoisData[0].noorLon);
           const pointCng = new Tmapv2.Point(noorLon, noorLat);
           const projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
             pointCng
           );
-
           const lat = projectionCng._lat;
           const lon = projectionCng._lng;
 
-          const markerPosition = new Tmapv2.LatLng(lat, lon);
-
-          const tmapMarker = new Tmapv2.Marker({
-            position: markerPosition,
-            map: map,
-            animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
-            animationLength: 500,
-            title: name,
-            label: name,
-            icon: pointMarker,
+          const map = new Tmapv2.Map("NewPlaceTMapApp", {
+            center: new Tmapv2.LatLng(lat, lon),
+            width: mapWidth + "px",
+            height: mapHeight + "px",
+            zoom: 12,
+            zoomControl: false,
+            scrollwheel: true,
           });
 
-          positionBounds.extend(markerPosition);
+          const positionBounds = new Tmapv2.LatLngBounds();
 
-          tmapMarker._htmlElement.className = "cursor-pointer";
-          tmapMarker.addListener("click", () => {
-            setNewPlaceInfo({
-              address: `${address} (${telNo})`,
-              content: "",
-              images: [],
-              lat: lat,
-              lon: lon,
-              name: name,
+          for (let k in resultpoisData) {
+            const noorLat = Number(resultpoisData[k].noorLat);
+            const noorLon = Number(resultpoisData[k].noorLon);
+            const name = resultpoisData[k].name;
+            const telNo = resultpoisData[k].telNo;
+            const address =
+              resultpoisData[k].newAddressList.newAddress[0].fullAddressRoad;
+
+            const pointCng = new Tmapv2.Point(noorLon, noorLat);
+            const projectionCng =
+              new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+
+            const lat = projectionCng._lat;
+            const lon = projectionCng._lng;
+
+            const markerPosition = new Tmapv2.LatLng(lat, lon);
+
+            const tmapMarker = new Tmapv2.Marker({
+              position: markerPosition,
+              map: map,
+              animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE_ONCE,
+              animationLength: 500,
+              title: name,
+              label: name,
+              icon: pointMarker,
             });
-            setShowFormModal(true);
-          });
-          tmapMarker.addListener("touchend", () => {
-            setNewPlaceInfo({
-              address: `${address} (${telNo})`,
-              content: "",
-              images: [],
-              lat: lat,
-              lon: lon,
-              name: name,
+
+            positionBounds.extend(markerPosition);
+
+            tmapMarker._htmlElement.className = "cursor-pointer";
+            tmapMarker.addListener("click", () => {
+              setNewPlaceInfo({
+                address: `${address} (${telNo})`,
+                content: "",
+                images: [],
+                lat: lat,
+                lon: lon,
+                name: name,
+                destinationId: 0,
+              });
+              setShowFormModal(true);
             });
-            setShowFormModal(true);
-          });
-        }
-        const margin = {
-          left: 50,
-          top: 100,
-          right: 50,
-          bottom: 100,
-        };
-        map.fitBounds(positionBounds, margin);
-      })
-      .catch((e) => console.log(e));
-  };
+            tmapMarker.addListener("touchend", () => {
+              setNewPlaceInfo({
+                address: `${address} (${telNo})`,
+                content: "",
+                images: [],
+                lat: lat,
+                lon: lon,
+                name: name,
+                destinationId: 0,
+              });
+              setShowFormModal(true);
+            });
+          }
+          map.fitBounds(positionBounds, margin);
+        })
+        .catch((e) => console.log(e));
+    },
+    [mapRef, keyword, Tmapv2, margin, searchKeyword]
+  );
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(({ target }: MouseEvent) => {
+    if (modalRef.current === target) closeModal();
+  }, []);
 
   useEffect(() => {
     if (!showModal) {
-      if (mapRef.current.firstChild)
+      if (mapRef.current && mapRef.current.firstChild)
         mapRef.current.removeChild(mapRef.current.firstChild);
       document.body.classList.remove("overflow-hidden");
       return;
@@ -221,10 +250,10 @@ function NewPlaceModal({
     document.body.classList.add("overflow-hidden");
 
     if (markerData.length === 0) {
-      if (mapRef.current.firstChild)
+      if (mapRef.current && mapRef.current.firstChild)
         mapRef.current.removeChild(mapRef.current.firstChild);
 
-      const mapWidth = mapRef.current.offsetWidth;
+      const mapWidth = mapRef.current?.offsetWidth || window.innerWidth;
       const mapHeight = 400;
 
       new Tmapv2.Map("NewPlaceTMapApp", {
@@ -244,16 +273,18 @@ function NewPlaceModal({
   return createPortal(
     <>
       <div
-        className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-          showModal ? "active" : ""
-        }`}
+        className={clsx(
+          "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+          showModal && "active"
+        )}
         ref={modalRef}
-        onClick={(e) => modalOutSideClick(e)}
+        onClick={modalOutSideClick}
       >
         <div
-          className={`mx-auto mt-auto md:my-auto shadow w-full max-w-[700px] rounded-xl md:translate-y-0 duration-700 ${
+          className={clsx(
+            "mx-auto mt-auto md:my-auto shadow w-full max-w-[700px] rounded-xl md:translate-y-0 duration-700",
             showModal ? "translate-y-0" : "translate-y-full"
-          }`}
+          )}
         >
           <div className="h-full bg-white rounded-t-xl relative">
             <div className="px-6 pt-5">
@@ -287,7 +318,7 @@ function NewPlaceModal({
               <form className="mb-6 flex gap-2" onSubmit={searchHandler}>
                 <input
                   type="text"
-                  keyword="new_place"
+                  name="new_place"
                   className="bg-lightgray text-black text-sm rounded-lg focus:outline-none w-full h-12 px-2.5"
                   placeholder="여행지의 이름을 입력해 주세요."
                   value={keyword}
@@ -340,4 +371,4 @@ function NewPlaceModal({
   );
 }
 
-export default NewPlaceModal;
+export default memo(NewPlaceModal);

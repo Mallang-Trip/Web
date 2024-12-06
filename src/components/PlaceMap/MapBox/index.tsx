@@ -1,5 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Destination } from "../../../types";
 import pointMarker from "../../../assets/svg/point_marker.svg";
+
+interface Marker extends Destination {
+  setMap: (map: any) => void;
+}
+
+interface Props {
+  markerData: Destination[];
+  setShowDestinationModal: Dispatch<SetStateAction<boolean>>;
+  setClickedData: Dispatch<SetStateAction<Destination | undefined>>;
+  isAllMarker: boolean;
+  recentSearched: Destination[];
+}
 
 function MapBox({
   markerData,
@@ -7,10 +29,11 @@ function MapBox({
   setClickedData,
   isAllMarker,
   recentSearched,
-}) {
-  const mapRef = useRef();
+}: Props) {
+  const Tmapv2 = window.Tmapv2;
+  const mapRef = useRef<HTMLDivElement | null>(null);
   const [recentMap, setRecentMap] = useState();
-  const [marker, setMarker] = useState([]);
+  const [marker, setMarker] = useState<Marker[]>([]);
 
   const margin = useMemo(
     () => ({
@@ -22,7 +45,8 @@ function MapBox({
     []
   );
 
-  const makeNewMap = () => {
+  const makeNewMap = useCallback(() => {
+    if (!mapRef.current) return;
     if (mapRef.current.firstChild)
       mapRef.current.removeChild(mapRef.current.firstChild);
 
@@ -40,7 +64,7 @@ function MapBox({
     setRecentMap(map);
 
     return map;
-  };
+  }, [mapRef, Tmapv2]);
 
   useEffect(() => {
     /** 마커 초기화 */
@@ -98,4 +122,4 @@ function MapBox({
   return <div id="TMapApp" className="w-full mx-auto" ref={mapRef} />;
 }
 
-export default MapBox;
+export default memo(MapBox);

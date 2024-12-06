@@ -38,3 +38,20 @@ export interface Course {
     destinations: Destination[];
   }[];
 }
+
+export interface Review {
+  content: string;
+  createdAt: string;
+  images: string[];
+  nickname: string;
+  profileImg: string | null;
+  rate: number;
+  reviewId: number;
+  updatedAt: string;
+  userId: number;
+}
+
+export interface Place extends Destination {
+  images: (string | File)[];
+  content: string;
+}

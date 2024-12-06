@@ -1,6 +1,24 @@
-import { useEffect, useRef } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
+import { Place } from "../../../../types";
 import ImageInput from "./ImageInput";
 import ImageItem from "./ImageItem";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  newPlaceInfo: Place;
+  setNewPlaceInfo: Dispatch<SetStateAction<Place>>;
+  submitNewPlace: () => void;
+}
 
 function PlaceFormModal({
   showModal,
@@ -8,14 +26,17 @@ function PlaceFormModal({
   newPlaceInfo,
   setNewPlaceInfo,
   submitNewPlace,
-}) {
-  const modalRef = useRef();
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -24,16 +45,18 @@ function PlaceFormModal({
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div
-        className={`mx-auto mt-auto md:my-auto shadow w-full max-w-[500px] rounded-xl md:translate-y-0 duration-700 ${
+        className={clsx(
+          "mx-auto mt-auto md:my-auto shadow w-full max-w-[500px] rounded-xl md:translate-y-0 duration-700",
           showModal ? "translate-y-16" : "translate-y-full"
-        }`}
+        )}
       >
         <div className="h-full bg-white rounded-t-xl max-h-[600px] relative">
           <div className="px-6 py-5">
@@ -100,7 +123,6 @@ function PlaceFormModal({
                 여행지 설명
               </div>
               <textarea
-                type="text"
                 name="place_content"
                 className="bg-lightgray text-black text-sm rounded-lg focus:outline-none w-full h-24 p-2.5 resize-none overflow-hidden"
                 placeholder="여행지 설명을 입력해 주세요"
@@ -161,4 +183,4 @@ function PlaceFormModal({
   );
 }
 
-export default PlaceFormModal;
+export default memo(PlaceFormModal);

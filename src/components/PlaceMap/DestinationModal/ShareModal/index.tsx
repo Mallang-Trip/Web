@@ -1,17 +1,47 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 import { CONSTANT } from "../../../../utils/data";
 import closeIcon from "../../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../../assets/images/kakaoIcon.png";
+import clsx from "clsx";
 
-function ShareModal({ showModal, setShowModal, images, name, destinationId }) {
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  images: string[] | undefined;
+  name: string | undefined;
+  destinationId: number | undefined;
+}
+
+function ShareModal({
+  showModal,
+  setShowModal,
+  images,
+  name,
+  destinationId,
+}: Props) {
   const Kakao = window.Kakao;
-  const modalRef = useRef();
-  const user = useSelector((state) => state.user);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const user = useSelector((state: RootState) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
 
-  const copyURL = () => {
+  useEffect(() => {
+    if (!Kakao.isInitialized()) {
+      Kakao.init("19c42824783a3e9124e67b70847e0ec6");
+    }
+  }, []);
+
+  const copyURL = useCallback(() => {
     navigator.clipboard
       .writeText(
         window.location.origin + `/destination/detail/${destinationId}`
@@ -19,19 +49,15 @@ function ShareModal({ showModal, setShowModal, images, name, destinationId }) {
       .then(() => {
         setCopyComplete(true);
       });
-  };
+  }, [destinationId]);
 
-  if (!Kakao.isInitialized()) {
-    Kakao.init("19c42824783a3e9124e67b70847e0ec6");
-  }
-
-  const kakaoShare = () => {
+  const kakaoShare = useCallback(() => {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
-        IMAGE1: images[0] || CONSTANT.THUMBNAIL_IMAGE,
-        IMAGE2: images[1] || null,
-        IMAGE3: images[2] || null,
+        IMAGE1: (images && images[0]) || CONSTANT.THUMBNAIL_IMAGE,
+        IMAGE2: (images && images[1]) || null,
+        IMAGE3: (images && images[2]) || null,
         PROFILE_IMAGE: user.profileImg || CONSTANT.BASE_PROFILE_IMAGE,
         PROFILE_NAME: user.nickname || "말랑트립",
         TITLE: name,
@@ -39,7 +65,7 @@ function ShareModal({ showModal, setShowModal, images, name, destinationId }) {
         URL: `destination/detail/${destinationId}`,
       },
     });
-  };
+  }, [user, images, name, destinationId]);
 
   useEffect(() => {
     if (!copyComplete) return;
@@ -51,9 +77,10 @@ function ShareModal({ showModal, setShowModal, images, name, destinationId }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
     >
       <div className="m-auto shadow w-96 rounded-xl">
@@ -61,9 +88,10 @@ function ShareModal({ showModal, setShowModal, images, name, destinationId }) {
           <p className="text-xl text-black font-bold">
             공유하기
             <span
-              className={`text-sm font-normal ml-10 ${
+              className={clsx(
+                "text-sm font-normal ml-10",
                 copyComplete ? "text-red-600" : "text-white"
-              }`}
+              )}
             >
               링크가 복사되었습니다!
             </span>
@@ -93,4 +121,4 @@ function ShareModal({ showModal, setShowModal, images, name, destinationId }) {
   );
 }
 
-export default ShareModal;
+export default memo(ShareModal);

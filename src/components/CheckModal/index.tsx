@@ -2,6 +2,7 @@ import {
   Dispatch,
   memo,
   MouseEvent,
+  ReactNode,
   SetStateAction,
   useCallback,
   useEffect,
@@ -13,7 +14,7 @@ import clsx from "clsx";
 interface Props {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  message: string;
+  message: string | ReactNode;
   noText: string;
   yesText: string;
   yesHandler: () => void;

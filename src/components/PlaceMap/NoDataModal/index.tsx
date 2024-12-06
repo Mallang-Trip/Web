@@ -1,23 +1,42 @@
-import { useEffect, useRef } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { createPortal } from "react-dom";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  searchPage: boolean;
+  setShowNewPlaceModal: Dispatch<SetStateAction<boolean>>;
+}
 
 function NoDataModal({
   showModal,
   setShowModal,
   searchPage,
   setShowNewPlaceModal,
-}) {
-  const modalRef = useRef();
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Escape") closeModal();
-  };
+  const handleKeyPress = useCallback(({ key }: KeyboardEvent) => {
+    if (key === "Escape") closeModal();
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -31,11 +50,12 @@ function NoDataModal({
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
@@ -75,4 +95,4 @@ function NoDataModal({
   );
 }
 
-export default NoDataModal;
+export default memo(NoDataModal);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { useInitialSetting, useGoogleTagManager } from "./hooks";
@@ -23,4 +24,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);

@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { GA_TRACKING_ID, isGAlive, META_PIXEL_TRACKING_ID } from "../utils/ga";
 import ReactGA from "react-ga4";
 import ReactPixel from "react-facebook-pixel";
 
@@ -8,14 +9,9 @@ const RouteChangeTracker = () => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
-    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
-
-    if (!GA_TRACKING_ID || !META_PIXEL_TRACKING_ID) return;
-    // 로컬 환경의 영향을 받지 않도록 하기 위해 조건 처리
-    if (!window.location.href.includes("localhost")) {
-      ReactGA.initialize(GA_TRACKING_ID); //GA 초기화
-      ReactPixel.init(META_PIXEL_TRACKING_ID); //메타픽셀 초기화
+    if (isGAlive()) {
+      ReactGA.initialize(GA_TRACKING_ID);
+      ReactPixel.init(META_PIXEL_TRACKING_ID);
       setInitialized(true);
     }
   }, []);
@@ -31,7 +27,7 @@ const RouteChangeTracker = () => {
     }
   }, [initialized, location]);
 
-  const getPageTitle = useCallback((url) => {
+  const getPageTitle = useCallback((url: string) => {
     if (url === "/") return "말랑트립";
     if (url === "/intro") return "회사 소개";
     if (url.startsWith("/policy")) return "약관";

@@ -1,12 +1,17 @@
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-function MyProfileButton({ setShowModal }) {
+interface Props {
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+}
+
+function MyProfileButton({ setShowModal }: Props) {
   const navigation = useNavigate();
 
-  const clickHandler = () => {
+  const clickHandler = useCallback(() => {
     setShowModal(false);
     navigation("/my/profile");
-  };
+  }, []);
 
   return (
     <div className="flex justify-center mb-12 mx-8">
@@ -20,4 +25,4 @@ function MyProfileButton({ setShowModal }) {
   );
 }
 
-export default MyProfileButton;
+export default memo(MyProfileButton);

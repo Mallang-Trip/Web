@@ -1,6 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useLocation } from "react-router-dom";
 import { postSuspension } from "../../../../../api/admin";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  userId: number | undefined;
+  reportId: number;
+  setShowConfirmModal: Dispatch<SetStateAction<boolean>>;
+}
 
 function SuspensionModal({
   showModal,
@@ -8,15 +26,15 @@ function SuspensionModal({
   userId,
   reportId,
   setShowConfirmModal,
-}) {
-  const modalRef = useRef();
+}: Props) {
   const location = useLocation();
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [durationInput, setDurationInput] = useState("");
   const [content, setContent] = useState("");
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const postSuspensionFunc = async () => {
+  const postSuspensionFunc = useCallback(async () => {
     if (!durationInput) return alert("제재 일 수를 입력해주세요.");
     if (!content) return alert("제재 사유를 입력해주세요.");
 
@@ -32,15 +50,18 @@ function SuspensionModal({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [durationInput, content, reportId, userId]);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    ({ target }: MouseEvent) => {
+      if (modalRef.current === target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Escape") closeModal();
-  };
+  const handleKeyPress = useCallback(({ key }: KeyboardEvent) => {
+    if (key === "Escape") closeModal();
+  }, []);
 
   useEffect(() => {
     if (!showModal) {
@@ -58,11 +79,12 @@ function SuspensionModal({
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="flex flex-col items-center m-auto shadow w-96 rounded-xl bg-white font-semibold">
         <p className="py-10 text-xl text-gray-900 font-bold">제재하기</p>
@@ -73,12 +95,12 @@ function SuspensionModal({
           <input
             className="h-12 rounded-lg outline-0 text-gray700 bg-lightgray font-medium text-sm text-center mb-2"
             placeholder="10일"
-            value={durationInput === -1 ? "영구" : durationInput}
+            value={durationInput === "-1" ? "영구" : durationInput}
             onChange={(e) => setDurationInput(e.target.value)}
           />
           <button
             className="text-[#FF0000] text-xs font-bold underline underline-[#FF0000] underline-offset-2"
-            onClick={() => setDurationInput(-1)}
+            onClick={() => setDurationInput("-1")}
           >
             영구 제재
           </button>
@@ -113,4 +135,4 @@ function SuspensionModal({
   );
 }
 
-export default SuspensionModal;
+export default memo(SuspensionModal);

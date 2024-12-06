@@ -1,7 +1,19 @@
+import { Dispatch, memo, SetStateAction } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import MyProfileButton from "./MyProfileButton";
 import AdminButtonList from "./AdminButtonList";
 import ButtonList from "./ButtonList";
+
+interface Props {
+  userId: number | undefined;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  nickname: string | undefined;
+  chatRoomId: number | undefined;
+  reportId: number | undefined;
+  suspensionDuration: number | undefined;
+  getUserInfoFunc: () => void;
+}
 
 function ButtonBox({
   userId,
@@ -11,8 +23,8 @@ function ButtonBox({
   reportId,
   suspensionDuration,
   getUserInfoFunc,
-}) {
-  const user = useSelector((state) => state.user);
+}: Props) {
+  const user = useSelector((state: RootState) => state.user);
 
   if (user.userId === userId)
     return <MyProfileButton setShowModal={setShowModal} />;
@@ -36,4 +48,4 @@ function ButtonBox({
   );
 }
 
-export default ButtonBox;
+export default memo(ButtonBox);

@@ -1,6 +1,14 @@
-import { useEffect, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../../redux/store";
 import { getChatBlockList, makeNewCoupleChat } from "../../../../api/chat";
 import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
 import CheckModal from "../../../CheckModal";
@@ -9,17 +17,24 @@ import ReportModal from "../../../ReportModal";
 import Button from "./Button";
 import BlockModal from "./BlockModal";
 
-function ButtonList({ userId, setShowModal, nickname, chatRoomId }) {
+interface Props {
+  userId: number | undefined;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  nickname: string | undefined;
+  chatRoomId: number | undefined;
+}
+
+function ButtonList({ userId, setShowModal, nickname, chatRoomId }: Props) {
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [isChatBlock, setIsChatBlock] = useState(false);
 
-  const goCoupleChat = async () => {
+  const goCoupleChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
     if (isChatBlock) return setShowErrorModal(true);
 
@@ -31,23 +46,27 @@ function ButtonList({ userId, setShowModal, nickname, chatRoomId }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, isChatBlock, userId]);
 
-  const blockClickHandler = () => {
+  const blockClickHandler = useCallback(() => {
     if (!user.auth) return setShowLoginModal(true);
     setShowBlockModal(true);
-  };
+  }, [user]);
 
-  const checkChatBlock = async () => {
+  const checkChatBlock = useCallback(async () => {
     if (!user.auth) return setIsChatBlock(false);
 
     try {
       const result = await getChatBlockList();
-      setIsChatBlock(result.payload.some((item) => item.userId === userId));
+      setIsChatBlock(
+        result.payload.some(
+          (item: { userId: number | undefined }) => item.userId === userId
+        )
+      );
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, userId]);
 
   useEffect(() => {
     checkChatBlock();
@@ -56,12 +75,17 @@ function ButtonList({ userId, setShowModal, nickname, chatRoomId }) {
   return (
     <>
       <div className="flex justify-center flex-wrap gap-3 mb-12">
-        <Button name="채팅하기" onClick={goCoupleChat} />
+        <Button name="채팅하기" type="primary" onClick={goCoupleChat} />
         {chatRoomId && (
-          <Button name="신고하기" onClick={() => setShowReportModal(true)} />
+          <Button
+            name="신고하기"
+            type="primary"
+            onClick={() => setShowReportModal(true)}
+          />
         )}
         <Button
           name={isChatBlock ? "차단해제" : "차단하기"}
+          type="primary"
           onClick={blockClickHandler}
         />
       </div>
@@ -85,8 +109,8 @@ function ButtonList({ userId, setShowModal, nickname, chatRoomId }) {
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
       <ReportModal
@@ -100,4 +124,4 @@ function ButtonList({ userId, setShowModal, nickname, chatRoomId }) {
   );
 }
 
-export default ButtonList;
+export default memo(ButtonList);

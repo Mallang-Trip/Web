@@ -1,10 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { getUserInfo } from "../../api/users";
 import ModalCloser from "./ModalCloser";
 import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
 import Loading from "../Loading";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  userId?: number;
+  chatRoomId: number | undefined;
+  reportId: number | undefined;
+  driverName: boolean;
+}
 
 function ProfileModal({
   showModal,
@@ -13,23 +33,30 @@ function ProfileModal({
   chatRoomId,
   reportId,
   driverName,
-}) {
-  const modalRef = useRef();
-  const $body = document.body;
-  const [userInfo, setUserInfo] = useState({});
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const $body = useMemo(() => document.body, []);
   const [loading, setLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    userId: undefined,
+    profileImg: undefined,
+    nickname: undefined,
+    introduction: undefined,
+    createdAt: undefined,
+    suspensionDuration: undefined,
+  });
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(({ target }: MouseEvent) => {
+    if (modalRef.current === target) closeModal();
+  }, []);
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Escape") closeModal();
-  };
+  const handleKeyPress = useCallback(({ key }: KeyboardEvent) => {
+    if (key === "Escape") closeModal();
+  }, []);
 
-  const getUserInfoFunc = async () => {
+  const getUserInfoFunc = useCallback(async () => {
     if (userId === -1) return;
 
     setLoading(true);
@@ -42,7 +69,7 @@ function ProfileModal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     if (!showModal) return;
@@ -57,18 +84,19 @@ function ProfileModal({
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
       id="user-profile-modal"
     >
       <div className="m-auto shadow w-96 bg-white rounded-xl">
         <ModalCloser closeModal={() => setShowModal(false)} />
         {loading ? (
           <div className="w-full h-[344px] flex justify-center items-center">
-            <Loading />
+            <Loading full={false} />
           </div>
         ) : (
           <>
@@ -90,4 +118,4 @@ function ProfileModal({
   );
 }
 
-export default ProfileModal;
+export default memo(ProfileModal);

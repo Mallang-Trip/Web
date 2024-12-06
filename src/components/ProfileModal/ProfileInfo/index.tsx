@@ -1,14 +1,24 @@
+import { memo } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import basicProfileImage from "../../../assets/images/profileImage.png";
+
+interface Props {
+  profileImg: string | undefined;
+  nickname: string | undefined;
+  introduction: string | undefined;
+  createdAt: string | undefined;
+  driverName: boolean;
+}
 
 function ProfileInfo({
   profileImg,
   nickname,
   introduction,
-  createdAt = "",
+  createdAt,
   driverName,
-}) {
-  const user = useSelector((state) => state.user);
+}: Props) {
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <div className="flex justify-center my-12 gap-6">
@@ -26,7 +36,7 @@ function ProfileInfo({
         </p>
         {user.role === "ROLE_ADMIN" && (
           <p className="text-xs text-primary font-medium">
-            가입일 {createdAt.replaceAll("-", ".")}
+            가입일 {createdAt ? createdAt.replaceAll("-", ".") : "없음"}
           </p>
         )}
       </div>
@@ -34,4 +44,4 @@ function ProfileInfo({
   );
 }
 
-export default ProfileInfo;
+export default memo(ProfileInfo);

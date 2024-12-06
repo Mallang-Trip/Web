@@ -1,6 +1,11 @@
+import { memo } from "react";
 import closeIcon from "../../../assets/svg/x-modal-icon.svg";
 
-function ModalCloser({ closeModal }) {
+interface Props {
+  closeModal: () => void;
+}
+
+function ModalCloser({ closeModal }: Props) {
   return (
     <div className="relative">
       <img
@@ -13,4 +18,4 @@ function ModalCloser({ closeModal }) {
   );
 }
 
-export default ModalCloser;
+export default memo(ModalCloser);

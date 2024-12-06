@@ -43,9 +43,9 @@ function Profit() {
     }
   };
 
-  const updateIncomeCommissionFunc = async (partyCommissionPercent) => {
+  const updateIncomeCommissionFunc = async (amount) => {
     try {
-      await updateCommissionPercent(parseFloat(partyCommissionPercent));
+      await updateCommissionPercent(parseFloat(amount));
       getCommisionRateFunc();
       setShowCommissionModal(false);
       setShowConfirmModal(true);

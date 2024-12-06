@@ -38,9 +38,9 @@ function Payment() {
     }
   };
 
-  const changeTab = (index) => {
-    if (index === 0) setCurrent("reserved");
-    else if (index === 1) setCurrent("canceled");
+  const changeTab = (current) => {
+    if (current === 0) setCurrent("reserved");
+    else if (current === 1) setCurrent("canceled");
     else setCurrent("finished");
   };
 

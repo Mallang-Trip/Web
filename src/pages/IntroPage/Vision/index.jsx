@@ -1,4 +1,4 @@
-import useIntersectionObserver from "../../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../../hooks";
 import introLogo from "../../../assets/images/intro_logo.png";
 
 function Vision() {

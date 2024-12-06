@@ -12,6 +12,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src", "src/custom.d.ts", ".eslintrc.cjs"],
+  "include": ["src", "src/types/custom.d.ts", ".eslintrc.cjs"],
   "exclude": ["node_modules"]
 }

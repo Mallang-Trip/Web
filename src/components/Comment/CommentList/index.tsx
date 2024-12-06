@@ -3,21 +3,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { deleteComment } from "../../../api/driver";
 import { deleteDestinationComment } from "../../../api/destination";
+import { Review } from "../../../types";
 import Comment from "./Comment";
 import CheckModal from "../../CheckModal";
 
 interface Props {
-  reviews: {
-    content: string;
-    createdAt: string;
-    images: string[];
-    nickname: string;
-    profileImg: string | null;
-    rate: number;
-    reviewId: number;
-    updatedAt: string;
-    userId: number;
-  }[];
+  reviews: Review[];
   isDriver: boolean;
   reloadData: () => void;
 }

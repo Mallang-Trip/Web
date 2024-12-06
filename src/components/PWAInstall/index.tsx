@@ -2,19 +2,19 @@ import { useState, useEffect, useMemo, memo, useCallback } from "react";
 import InstallModal from "./InstallModal";
 
 function PWAInstall() {
-  const UA = navigator.userAgent.toLowerCase();
+  const UA = useMemo(() => navigator.userAgent.toLowerCase(), []);
   const [showInstallModal, setShowInstallModal] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<Event | undefined>(
     undefined
   );
 
-  const isAndroid = useMemo(() => UA.indexOf("android") > -1, []);
+  const isAndroid = useMemo(() => UA.indexOf("android") > -1, [UA]);
   const isIos = useMemo(
     () =>
       UA.indexOf("iphone") > -1 ||
       UA.indexOf("ipad") > -1 ||
       UA.indexOf("ipod") > -1,
-    []
+    [UA]
   );
 
   const storeURL = useMemo(

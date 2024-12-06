@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleList } from "../../api/article";
-import useIntersectionObserver from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../hooks";
 import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
 import Tab from "./Tab";

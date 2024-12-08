@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Notification } from "../../types";
 
-const initialState = {
+interface State {
+  notification: Notification[];
+  uncheckedCount: number;
+}
+
+const initialState: State = {
   notification: [],
   uncheckedCount: 0,
 };

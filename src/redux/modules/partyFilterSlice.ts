@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface State {
+  region: string;
+  nowDate: Date[];
+  num: number;
+  price: number | string;
+}
+
+const initialState: State = {
   region: "모든 지역",
   nowDate: [],
   num: 1,

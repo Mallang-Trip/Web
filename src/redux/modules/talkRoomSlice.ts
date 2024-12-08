@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface State {
+  partyRoomId: number | null;
+  privateRoomId: number | null;
+  publicRoomId: number | null;
+}
+
+const initialState: State = {
   partyRoomId: 0,
   privateRoomId: null,
   publicRoomId: null,

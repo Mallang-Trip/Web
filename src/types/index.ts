@@ -12,6 +12,15 @@ export interface Article {
   articleDeleted?: boolean;
 }
 
+export interface Notification {
+  alarmId: number;
+  checked: boolean;
+  content: string;
+  createdAt: string;
+  targetId: number | undefined;
+  type: string;
+}
+
 export interface Destination {
   address: string;
   destinationId: number;

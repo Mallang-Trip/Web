@@ -2,7 +2,26 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth, login, refresh } from "../../api/users";
 import { deleteFirebaseToken } from "../../api/notification";
 
-const initialState = {
+interface State {
+  auth: boolean;
+  userId: number;
+  loginId: string;
+  email: string;
+  name: string;
+  birthday: string;
+  country: string;
+  gender: string;
+  nickname: string;
+  phoneNumber: string;
+  role: string;
+  introduction: string;
+  profileImg: string;
+  customerKey: string;
+  isAdmin: boolean;
+  deleted: boolean;
+}
+
+const initialState: State = {
   auth: false,
   userId: 0,
   loginId: "",

@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 interface Props {
   title: string;
-  className: string;
+  className?: string;
 }
 
 function Title({ title, className }: Props) {

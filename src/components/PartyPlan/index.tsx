@@ -5,8 +5,8 @@ import PlanBox from "./PlanBox";
 interface Props {
   edit: boolean;
   startDate: string;
-  editHandler: () => void;
-  comment: boolean;
+  editHandler?: () => void;
+  comment?: boolean;
   course: Course;
 }
 

@@ -16,7 +16,7 @@ function TabList({ tabList, changeTab, index }: Props) {
   }, [index]);
 
   return (
-    <div className="flex justify-between w-full min-w-[32rem] my-12">
+    <div className="flex justify-between w-full my-12">
       {tabList.map((item, index) => (
         <button
           key={index}

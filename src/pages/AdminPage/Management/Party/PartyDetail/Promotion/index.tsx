@@ -1,3 +1,4 @@
+import { memo } from "react";
 import clsx from "clsx";
 
 interface Props {
@@ -20,4 +21,4 @@ function Promotion({ promotion }: Props) {
   );
 }
 
-export default Promotion;
+export default memo(Promotion);

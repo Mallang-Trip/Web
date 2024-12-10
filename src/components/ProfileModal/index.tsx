@@ -21,8 +21,8 @@ interface Props {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   userId?: number;
-  chatRoomId: number | undefined;
-  reportId: number | undefined;
+  chatRoomId?: number;
+  reportId?: number;
   driverName: boolean;
 }
 

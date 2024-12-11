@@ -1,4 +1,11 @@
-function BodyContent({ title, children }) {
+import { memo, ReactNode } from "react";
+
+interface Props {
+  title: string;
+  children: ReactNode;
+}
+
+function BodyContent({ title, children }: Props) {
   return (
     <div className="my-[70px]">
       <div className="text-xl text-black font-bold">{title}</div>
@@ -9,4 +16,4 @@ function BodyContent({ title, children }) {
   );
 }
 
-export default BodyContent;
+export default memo(BodyContent);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import PageContainer from "../../../components/PageContainer";
 import PolicyContainer from "../Component/PolicyContainer";
 import HeadTitle from "../Component/HeadTitle";
@@ -874,4 +875,4 @@ function UserService() {
   );
 }
 
-export default UserService;
+export default memo(UserService);

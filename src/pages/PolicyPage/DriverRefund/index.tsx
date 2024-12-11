@@ -1,3 +1,4 @@
+import { memo } from "react";
 import PageContainer from "../../../components/PageContainer";
 import HeadTitle from "../Component/HeadTitle";
 import PolicyContainer from "../Component/PolicyContainer";
@@ -39,4 +40,4 @@ function DriverRefund() {
   );
 }
 
-export default DriverRefund;
+export default memo(DriverRefund);

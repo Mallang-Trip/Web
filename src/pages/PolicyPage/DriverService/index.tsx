@@ -1,3 +1,4 @@
+import { memo } from "react";
 import PageContainer from "../../../components/PageContainer";
 import PolicyContainer from "../Component/PolicyContainer";
 import HeadTitle from "../Component/HeadTitle";
@@ -802,4 +803,4 @@ function DriverService() {
   );
 }
 
-export default DriverService;
+export default memo(DriverService);

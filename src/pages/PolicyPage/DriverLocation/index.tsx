@@ -1,3 +1,4 @@
+import { memo } from "react";
 import PageContainer from "../../../components/PageContainer";
 import BodyContent from "../Component/BodyContent";
 import BodyTab from "../Component/BodyTab";
@@ -184,4 +185,4 @@ function DriverLocation() {
   );
 }
 
-export default DriverLocation;
+export default memo(DriverLocation);

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { memo, useEffect } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import UserService from "./UserService";
 import UserPrivacy from "./UserPrivacy";
 import UserLocation from "./UserLocation";
@@ -11,7 +11,6 @@ import DriverRefund from "./DriverRefund";
 
 function PolicyPage() {
   const { category, type } = useParams();
-  const navigation = useNavigate();
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -29,7 +28,7 @@ function PolicyPage() {
     if (type === "location") return <DriverLocation />;
     if (type === "refund") return <DriverRefund />;
   }
-  return navigation("/", { replace: true });
+  return <Navigate to="/" replace={true} />;
 }
 
-export default PolicyPage;
+export default memo(PolicyPage);

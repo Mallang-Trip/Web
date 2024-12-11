@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function PolicyDate() {
   return (
     <div className="mt-96 text-lg text-black font-bold">
@@ -6,4 +8,4 @@ function PolicyDate() {
   );
 }
 
-export default PolicyDate;
+export default memo(PolicyDate);

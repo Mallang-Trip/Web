@@ -1,4 +1,10 @@
-function Detailed({ content }) {
+import { memo } from "react";
+
+interface Props {
+  content: string;
+}
+
+function Detailed({ content }: Props) {
   return (
     <div className="flex flex-col gap-1 my-7">
       <p className="text-lg text-black font-bold">상세설명</p>
@@ -9,4 +15,4 @@ function Detailed({ content }) {
   );
 }
 
-export default Detailed;
+export default memo(Detailed);

@@ -1,6 +1,14 @@
+import { memo } from "react";
 import star from "../../../../assets/svg/star.svg";
 
-function PlaceInfoTitle({ name, views, avgRate, address }) {
+interface Props {
+  name: string;
+  views: number;
+  avgRate: number | null;
+  address: string;
+}
+
+function PlaceInfoTitle({ name, views, avgRate, address }: Props) {
   return (
     <div className="mb-4">
       <div className="mb-1 pt-6 flex">
@@ -17,4 +25,4 @@ function PlaceInfoTitle({ name, views, avgRate, address }) {
   );
 }
 
-export default PlaceInfoTitle;
+export default memo(PlaceInfoTitle);

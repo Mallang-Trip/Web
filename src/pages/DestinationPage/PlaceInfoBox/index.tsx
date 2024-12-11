@@ -1,6 +1,14 @@
+import { memo } from "react";
+import { Place } from "../../../types";
 import PlaceInfoTitle from "./PlaceInfoTitle";
 import ImageBox from "../../../components/ImageBox";
 import PartyIconBox from "../../../components/PartyIconBox";
+
+interface Props extends Place {
+  id: number;
+  type: "party" | "destination";
+  images: string[];
+}
 
 function PlaceInfoBox({
   id,
@@ -11,7 +19,7 @@ function PlaceInfoBox({
   avgRate,
   address,
   dibs,
-}) {
+}: Props) {
   return (
     <div>
       <PlaceInfoTitle
@@ -32,4 +40,4 @@ function PlaceInfoBox({
   );
 }
 
-export default PlaceInfoBox;
+export default memo(PlaceInfoBox);

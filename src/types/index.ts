@@ -66,8 +66,9 @@ export interface Place extends Destination {
   images: (string | File)[];
   content: string;
   views: number;
-  avgRate: number;
+  avgRate: number | null;
   reviews: Review[];
+  dibs: boolean;
 }
 
 export interface Report {

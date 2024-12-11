@@ -1,4 +1,10 @@
-function NoPartyButton({ selectPartyHandler }) {
+import { memo } from "react";
+
+interface Props {
+  selectPartyHandler: (party: { name: string; partyId: number }) => void;
+}
+
+function NoPartyButton({ selectPartyHandler }: Props) {
   return (
     <div className="flex justify-center mt-9">
       <button
@@ -16,4 +22,4 @@ function NoPartyButton({ selectPartyHandler }) {
   );
 }
 
-export default NoPartyButton;
+export default memo(NoPartyButton);

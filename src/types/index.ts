@@ -1,3 +1,5 @@
+import { partyStatusObj } from "../utils/data";
+
 export interface Article {
   articleId: number;
   profileImg: string | null;
@@ -119,6 +121,21 @@ export interface Party {
   proposalExists: boolean;
   region: string;
   reservation: any;
+}
+
+export interface HeartParty {
+  capacity: number;
+  createdAt: string;
+  driverName: string;
+  endDate: string;
+  headcount: number;
+  image: string;
+  name: string;
+  partyId: number;
+  price: number;
+  startDate: string;
+  status: keyof typeof partyStatusObj;
+  updatedAt: string;
 }
 
 export interface RegionDriverData {

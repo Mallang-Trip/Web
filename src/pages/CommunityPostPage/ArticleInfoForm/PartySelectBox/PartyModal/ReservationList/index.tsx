@@ -1,6 +1,13 @@
+import { memo } from "react";
+import { HeartParty } from "../../../../../../types";
 import ReservationItem from "./ReservationItem";
 
-function ReservationList({ myReservationData, selectPartyHandler }) {
+interface Props {
+  myReservationData: HeartParty[];
+  selectPartyHandler: (party: { name: string; partyId: number }) => void;
+}
+
+function ReservationList({ myReservationData, selectPartyHandler }: Props) {
   if (myReservationData.length === 0)
     return (
       <div className="h-[430px] flex justify-center items-center">
@@ -22,4 +29,4 @@ function ReservationList({ myReservationData, selectPartyHandler }) {
   );
 }
 
-export default ReservationList;
+export default memo(ReservationList);

@@ -1,5 +1,11 @@
+import { memo } from "react";
+import { HeartParty } from "../../../../../../../types";
 import { customRoundOne, dateToStringHan } from "../../../../../../../utils";
 import { partyStatusObj } from "../../../../../../../utils/data";
+
+interface Props extends HeartParty {
+  selectPartyHandler: (party: { name: string; partyId: number }) => void;
+}
 
 function ReservationItem({
   selectPartyHandler,
@@ -12,7 +18,7 @@ function ReservationItem({
   price,
   driverName,
   status,
-}) {
+}: Props) {
   return (
     <div
       className="w-full relative h-64 mb-5 cursor-pointer rounded-lg"
@@ -43,4 +49,4 @@ function ReservationItem({
   );
 }
 
-export default ReservationItem;
+export default memo(ReservationItem);

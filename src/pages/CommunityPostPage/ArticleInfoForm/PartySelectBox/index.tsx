@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import PartyModal from "./PartyModal";
 
-function PartySelectBox({ selectedParty, setSelectedParty }) {
+interface Props {
+  selectedParty: { name: string; partyId: number };
+  setSelectedParty: Dispatch<SetStateAction<{ name: string; partyId: number }>>;
+}
+
+function PartySelectBox({ selectedParty, setSelectedParty }: Props) {
   const [showPartyModal, setShowPartyModal] = useState(false);
 
   return (
@@ -21,4 +26,4 @@ function PartySelectBox({ selectedParty, setSelectedParty }) {
   );
 }
 
-export default PartySelectBox;
+export default memo(PartySelectBox);

@@ -1,11 +1,16 @@
-import { useState } from "react";
-import { customRoundOne } from "../../../../../../../utils";
+import { memo, MouseEvent, useCallback, useState } from "react";
 import {
   deleteUnLikeParty,
   postLikeParty,
 } from "../../../../../../../api/party";
+import { customRoundOne } from "../../../../../../../utils";
+import { HeartParty } from "../../../../../../../types";
 import FillHeart from "../../../../../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../../../../../assets/svg/EmptyHeart.svg";
+
+interface Props extends HeartParty {
+  selectPartyHandler: (party: { name: string; partyId: number }) => void;
+}
 
 function HeartItem({
   partyId,
@@ -16,19 +21,22 @@ function HeartItem({
   capacity,
   price,
   selectPartyHandler,
-}) {
+}: Props) {
   const [heart, setHeart] = useState(true);
 
-  const heartClickHandler = async (e) => {
-    e.stopPropagation();
+  const heartClickHandler = useCallback(
+    async (event: MouseEvent) => {
+      event.stopPropagation();
 
-    try {
-      heart ? await deleteUnLikeParty(partyId) : await postLikeParty(partyId);
-      setHeart(!heart);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+      try {
+        heart ? await deleteUnLikeParty(partyId) : await postLikeParty(partyId);
+        setHeart(!heart);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [heart, partyId]
+  );
 
   return (
     <div
@@ -64,4 +72,4 @@ function HeartItem({
   );
 }
 
-export default HeartItem;
+export default memo(HeartItem);

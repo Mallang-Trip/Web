@@ -1,5 +1,21 @@
-import { useRef } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  memo,
+  SetStateAction,
+  useCallback,
+  useRef,
+} from "react";
 import { useParams } from "react-router-dom";
+
+interface Props {
+  title: string;
+  setTitle: Dispatch<SetStateAction<string>>;
+  content: string;
+  setContent: Dispatch<SetStateAction<string>>;
+  submitHandler: (event: FormEvent<HTMLFormElement>) => void;
+}
 
 function ArticleBodyForm({
   title,
@@ -7,21 +23,26 @@ function ArticleBodyForm({
   content,
   setContent,
   submitHandler,
-}) {
+}: Props) {
   const { articleId } = useParams();
-  const textareaRef = useRef();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const titleHandler = (e) => {
-    setTitle(e.target.value);
-  };
+  const titleHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  }, []);
 
-  const contentHandler = (e) => {
-    const textarea = textareaRef.current;
-    setContent(e.target.value);
+  const contentHandler = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      const textarea = textareaRef.current;
+      setContent(event.target.value);
 
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
+      if (textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    },
+    [textareaRef]
+  );
 
   return (
     <form className="mt-10" onSubmit={submitHandler}>
@@ -52,4 +73,4 @@ function ArticleBodyForm({
   );
 }
 
-export default ArticleBodyForm;
+export default memo(ArticleBodyForm);

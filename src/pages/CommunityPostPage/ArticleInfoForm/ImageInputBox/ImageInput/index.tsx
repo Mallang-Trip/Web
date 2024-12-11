@@ -1,34 +1,50 @@
-import { useRef, useState } from "react";
-import { CONSTANT } from "../../../../../utils/data";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import primaryPlus from "../../../../../assets/svg/primary_plus.svg";
 import deleteIcon from "../../../../../assets/svg/delete_image_icon.svg";
 import InputImage from "../../../../../components/InputImage";
 
-function ImageInput({ images, setImages, index }) {
-  const imageRef = useRef();
+interface Props {
+  images: (string | File | undefined)[];
+  setImages: Dispatch<SetStateAction<(string | File | undefined)[]>>;
+  index: number;
+}
+
+function ImageInput({ images, setImages, index }: Props) {
+  const imageRef = useRef<HTMLInputElement | null>(null);
   const [deleteMode, setDeleteMode] = useState(false);
 
-  const imageUploadHandler = () => {
-    const imageFile = imageRef.current.files[0];
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    const newImages = [...images];
-    newImages[index] = imageFile || undefined;
-    setImages(newImages);
-  };
+  const imageUploadHandler = useCallback(() => {
+    if (imageRef.current && imageRef.current.files) {
+      const imageFile = imageRef.current.files[0];
+      const newImages = [...images];
+      newImages[index] = imageFile || undefined;
+      setImages(newImages);
+    }
+  }, [imageRef, images, index]);
 
-  const imageDeleteHandler = (e) => {
-    e.stopPropagation();
-    const newImages = [...images];
-    newImages[index] = undefined;
-    setImages(newImages);
-  };
+  const imageDeleteHandler = useCallback(
+    (event: MouseEvent) => {
+      event.stopPropagation();
+      const newImages = [...images];
+      newImages[index] = undefined;
+      setImages(newImages);
+    },
+    [images, index]
+  );
 
   return (
     <>
       <div
         className="w-20 h-20 bg-skyblue border border-dashed border-primary rounded-lg cursor-pointer flex justify-center items-center"
-        onClick={() => imageRef.current.click()}
+        onClick={() => imageRef.current?.click()}
       >
         {images[index] ? (
           <div
@@ -48,7 +64,7 @@ function ImageInput({ images, setImages, index }) {
             {deleteMode && (
               <div
                 className="absolute top-0 left-0 w-full h-full rounded-lg bg-black bg-opacity-50 cursor-pointer z-10"
-                onClick={(e) => imageDeleteHandler(e)}
+                onClick={imageDeleteHandler}
               >
                 <img
                   src={deleteIcon}
@@ -72,4 +88,4 @@ function ImageInput({ images, setImages, index }) {
   );
 }
 
-export default ImageInput;
+export default memo(ImageInput);

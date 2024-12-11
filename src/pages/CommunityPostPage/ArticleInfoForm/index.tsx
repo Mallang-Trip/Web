@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
+import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
 import TypeDropBox from "./TypeDropBox";
 import PartySelectBox from "./PartySelectBox";
 import ImageInputBox from "./ImageInputBox";
+
+interface Props {
+  selectedType: string;
+  setSelectedType: Dispatch<SetStateAction<string>>;
+  selectedParty: { name: string; partyId: number };
+  setSelectedParty: Dispatch<SetStateAction<{ name: string; partyId: number }>>;
+  images: (string | File | undefined)[];
+  setImages: Dispatch<SetStateAction<(string | File | undefined)[]>>;
+}
 
 function ArticleInfoForm({
   selectedType,
@@ -10,7 +19,7 @@ function ArticleInfoForm({
   setSelectedParty,
   images,
   setImages,
-}) {
+}: Props) {
   const [showDropBox, setShowDropBox] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
 
@@ -59,4 +68,4 @@ function ArticleInfoForm({
   );
 }
 
-export default ArticleInfoForm;
+export default memo(ArticleInfoForm);

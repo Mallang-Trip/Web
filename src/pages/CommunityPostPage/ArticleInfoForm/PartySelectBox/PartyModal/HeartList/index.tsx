@@ -1,6 +1,13 @@
+import { memo } from "react";
+import { HeartParty } from "../../../../../../types";
 import HeartItem from "./HeartItem";
 
-function HeartList({ myHeartData, selectPartyHandler }) {
+interface Props {
+  myHeartData: HeartParty[];
+  selectPartyHandler: (party: { name: string; partyId: number }) => void;
+}
+
+function HeartList({ myHeartData, selectPartyHandler }: Props) {
   if (myHeartData.length === 0)
     return (
       <div className="h-[430px] flex justify-center items-center">
@@ -22,4 +29,4 @@ function HeartList({ myHeartData, selectPartyHandler }) {
   );
 }
 
-export default HeartList;
+export default memo(HeartList);

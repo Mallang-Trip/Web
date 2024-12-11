@@ -1,8 +1,15 @@
+import { memo } from "react";
+import { Comment } from "../../../../types";
 import CommentInfo from "./CommentInfo";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 
-function ArticleComment({ comments, getArticleDetailFunc }) {
+interface Props {
+  comments: Comment[];
+  getArticleDetailFunc: () => void;
+}
+
+function ArticleComment({ comments, getArticleDetailFunc }: Props) {
   return (
     <div className="py-9">
       <CommentInfo commentCount={comments.length} />
@@ -18,4 +25,4 @@ function ArticleComment({ comments, getArticleDetailFunc }) {
   );
 }
 
-export default ArticleComment;
+export default memo(ArticleComment);

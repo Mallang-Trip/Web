@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, memo, useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchBar() {
@@ -6,16 +6,20 @@ function SearchBar() {
   const navigation = useNavigate();
   const [searchArticleKeyword, setSearchArticleKeyword] = useState("");
 
-  const searchArticleHandler = (e) => {
-    e.preventDefault();
-    if (searchArticleKeyword === "") return;
+  const searchArticleHandler = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (searchArticleKeyword === "") return;
 
-    const replacePage = location.pathname.slice(0, 17) === "/community/search";
-    setSearchArticleKeyword("");
-    navigation(`/community/search/${searchArticleKeyword}`, {
-      replace: replacePage,
-    });
-  };
+      const replacePage =
+        location.pathname.slice(0, 17) === "/community/search";
+      setSearchArticleKeyword("");
+      navigation(`/community/search/${searchArticleKeyword}`, {
+        replace: replacePage,
+      });
+    },
+    [searchArticleKeyword]
+  );
 
   return (
     <div className="relative w-full ml-auto xl:w-96 my-2 max-w-md">
@@ -48,4 +52,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+export default memo(SearchBar);

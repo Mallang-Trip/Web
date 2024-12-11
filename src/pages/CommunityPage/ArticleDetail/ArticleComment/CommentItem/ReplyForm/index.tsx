@@ -1,23 +1,32 @@
-import { useState } from "react";
+import { FormEvent, memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { postNewReply } from "../../../../../../api/article";
+import { RootState } from "../../../../../../redux/store";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 
-function ReplyForm({ commentId, getArticleDetailFunc }) {
-  const user = useSelector((state) => state.user);
+interface Props {
+  commentId: number;
+  getArticleDetailFunc: () => void;
+}
+
+function ReplyForm({ commentId, getArticleDetailFunc }: Props) {
+  const user = useSelector((state: RootState) => state.user);
   const [newReply, setNewReply] = useState("");
 
-  const applySubmitHandler = async (e) => {
-    e.preventDefault();
+  const applySubmitHandler = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    try {
-      await postNewReply(commentId, newReply);
-      setNewReply("");
-      getArticleDetailFunc();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+      try {
+        await postNewReply(commentId, newReply);
+        setNewReply("");
+        getArticleDetailFunc();
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [commentId, newReply]
+  );
 
   if (!user.userId) return null;
   return (
@@ -47,4 +56,4 @@ function ReplyForm({ commentId, getArticleDetailFunc }) {
   );
 }
 
-export default ReplyForm;
+export default memo(ReplyForm);

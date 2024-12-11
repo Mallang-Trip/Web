@@ -205,3 +205,56 @@ export interface NewDriverInfo {
   vehicleModel: string;
   vehicleNumber: string;
 }
+
+export interface Reply {
+  replyId: number;
+  profileImg: string | undefined;
+  nickname: string;
+  createdAt: string;
+  content: string;
+  userId: number;
+  deleted: boolean;
+}
+
+export interface Comment {
+  commentId: number;
+  profileImg: string | undefined;
+  nickname: string;
+  createdAt: string;
+  content: string;
+  userId: number;
+  deleted: boolean;
+  replies: {
+    replyId: number;
+    profileImg: string | undefined;
+    nickname: string;
+    createdAt: string;
+    content: string;
+    userId: number;
+    deleted: boolean;
+  }[];
+}
+
+export interface ArticleDetailType {
+  articleId: number;
+  comments: Comment[];
+  commentsCount: number;
+  content: string;
+  createdAt: string;
+  dibs: boolean;
+  images: string[];
+  nickname: string;
+  partyId: number | null;
+  partyName: string | null;
+  profileImg: string | undefined;
+  title: string;
+  type: string;
+  updatedAt: string;
+  userId: number;
+}
+
+export type ArticleCategoryType =
+  | "전체"
+  | "자유게시판"
+  | "동행구해요"
+  | "피드백";

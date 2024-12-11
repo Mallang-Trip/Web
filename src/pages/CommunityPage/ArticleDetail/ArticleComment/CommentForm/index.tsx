@@ -1,31 +1,37 @@
-import { useState } from "react";
+import { FormEvent, memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { postNewComment } from "../../../../../api/article";
+import { RootState } from "../../../../../redux/store";
 import basicProfileImage from "../../../../../assets/images/profileImage.png";
 
-function CommentForm({ getArticleDetailFunc }) {
-  const user = useSelector((state) => state.user);
+interface Props {
+  getArticleDetailFunc: () => void;
+}
+
+function CommentForm({ getArticleDetailFunc }: Props) {
+  const user = useSelector((state: RootState) => state.user);
   const { articleId } = useParams();
   const [newComment, setNewComment] = useState("");
 
-  const commentSubmitHandler = async (e) => {
-    e.preventDefault();
+  const commentSubmitHandler = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    try {
-      await postNewComment(articleId, newComment);
-
-      setNewComment("");
-      getArticleDetailFunc();
-
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+      try {
+        await postNewComment(articleId, newComment);
+        setNewComment("");
+        getArticleDetailFunc();
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [articleId, newComment]
+  );
 
   if (!user.userId) return null;
   return (
@@ -55,4 +61,4 @@ function CommentForm({ getArticleDetailFunc }) {
   );
 }
 
-export default CommentForm;
+export default memo(CommentForm);

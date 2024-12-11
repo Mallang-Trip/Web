@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function NoArticleData() {
@@ -20,4 +21,4 @@ function NoArticleData() {
   );
 }
 
-export default NoArticleData;
+export default memo(NoArticleData);

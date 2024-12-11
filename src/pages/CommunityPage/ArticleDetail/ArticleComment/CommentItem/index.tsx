@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartyRoomId } from "../../../../../redux/modules/talkRoomSlice";
+import { RootState } from "../../../../../redux/store";
 import { dateToGapKorean } from "../../../../../utils";
 import { deleteMyComment } from "../../../../../api/article";
 import { makeNewCoupleChat } from "../../../../../api/chat";
+import { Comment } from "../../../../../types";
 import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
 import CheckModal from "../../../../../components/CheckModal";
 import basicProfileImage from "../../../../../assets/images/profileImage.png";
 import ReportModal from "../../../../../components/ReportModal";
+import clsx from "clsx";
+
+interface Props extends Comment {
+  getArticleDetailFunc: () => void;
+}
 
 function CommentItem({
   getArticleDetailFunc,
@@ -18,20 +25,20 @@ function CommentItem({
   nickname,
   createdAt,
   content,
-  replies,
   userId,
   deleted,
-}) {
+  replies,
+}: Props) {
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const { articleId } = useParams();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showReply, setShowReply] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const deleteHandler = async () => {
+  const deleteHandler = useCallback(async () => {
     try {
       await deleteMyComment(commentId);
       setShowDeleteModal(false);
@@ -39,9 +46,9 @@ function CommentItem({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [commentId]);
 
-  const goCoupleChat = async () => {
+  const goCoupleChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
 
     try {
@@ -51,14 +58,14 @@ function CommentItem({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, userId]);
 
   return (
     <div className="py-5">
       <div className="flex gap-2.5">
         <img
           src={profileImg || basicProfileImage}
-          alt="profile_image"
+          alt={nickname}
           className="w-10 h-10 rounded-full object-cover"
         />
         <div className="h-10 flex flex-col justify-center">
@@ -100,9 +107,10 @@ function CommentItem({
           )}
         </div>
         <div
-          className={`w-full transition-all duration-500 overflow-hidden border-l-2 border-lightgray mt-5 ${
+          className={clsx(
+            "w-full transition-all duration-500 overflow-hidden border-l-2 border-lightgray mt-5",
             showReply ? "max-h-[1000px] " : "max-h-0"
-          }`}
+          )}
         >
           <div className="ml-4">
             {replies.map((reply) => (
@@ -123,9 +131,9 @@ function CommentItem({
       <CheckModal
         showModal={showDeleteModal}
         setShowModal={setShowDeleteModal}
-        message={"댓글을 삭제하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        message="댓글을 삭제하시겠습니까?"
+        noText="취소"
+        yesText="확인"
         yesHandler={() => deleteHandler()}
       />
       <ReportModal
@@ -139,12 +147,12 @@ function CommentItem({
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
     </div>
   );
 }
 
-export default CommentItem;
+export default memo(CommentItem);

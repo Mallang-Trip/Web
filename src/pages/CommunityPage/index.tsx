@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleList } from "../../api/article";
 import { useIntersectionObserver } from "../../hooks";
+import { ArticleCategoryType, Article } from "../../types";
 import PageContainer from "../../components/PageContainer";
 import Title from "./Title";
 import Tab from "./Tab";
@@ -9,23 +10,27 @@ import ArticleList from "../../components/ArticleList";
 import ArticleDetail from "./ArticleDetail";
 import Loading from "../../components/Loading";
 import SearchBar from "./SearchBar";
-
-const articleType = {
-  전체: "all",
-  자유게시판: "FREE_BOARD",
-  동행구해요: "FIND_PARTNER",
-  피드백: "FEEDBACK",
-};
+import clsx from "clsx";
 
 function CommunityPage() {
   const { articleId } = useParams();
-  const [category, setCategory] = useState("전체");
-  const [articleData, setArticleData] = useState([]);
+  const [category, setCategory] = useState<ArticleCategoryType>("전체");
+  const [articleData, setArticleData] = useState<Article[]>([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [endRef, isIntersecting] = useIntersectionObserver();
+  const [endRef, isIntersecting] = useIntersectionObserver<HTMLDivElement>();
 
-  const getArticleListFunc = async () => {
+  const articleType = useMemo(
+    () => ({
+      전체: "all",
+      자유게시판: "FREE_BOARD",
+      동행구해요: "FIND_PARTNER",
+      피드백: "FEEDBACK",
+    }),
+    []
+  );
+
+  const getArticleListFunc = useCallback(async () => {
     if (page >= totalPages) return;
 
     try {
@@ -36,7 +41,7 @@ function CommunityPage() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [page, totalPages, articleType, category, articleData]);
 
   useEffect(() => {
     if (!isIntersecting) return;
@@ -68,13 +73,13 @@ function CommunityPage() {
       )}
       <div
         ref={endRef}
-        className={`${
+        className={clsx(
           articleId !== "main" ||
-          articleData.length === 0 ||
-          page >= totalPages - 1
+            articleData.length === 0 ||
+            page >= totalPages - 1
             ? "hidden"
             : "block"
-        }`}
+        )}
       >
         <Loading full={false} />
       </div>
@@ -82,4 +87,4 @@ function CommunityPage() {
   );
 }
 
-export default CommunityPage;
+export default memo(CommunityPage);

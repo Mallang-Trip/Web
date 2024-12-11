@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
+import { RootState } from "../../../../redux/store";
 import { getChatBlockList, makeNewCoupleChat } from "../../../../api/chat";
-import {
-  deleteMyArticle,
-  likeArticle,
-  unLikeArticle,
-} from "../../../../api/article";
+import { deleteMyArticle } from "../../../../api/article";
 import { dateToGapKorean } from "../../../../utils";
+import { ArticleDetailType } from "../../../../types";
 import ShareModal from "./ShareModal";
 import ImageBox from "../../../../components/ImageBox";
 import CheckModal from "../../../../components/CheckModal";
@@ -19,6 +17,11 @@ import MoreDot from "../../../../assets/svg/MoreDot.svg";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
 import ProfileModal from "../../../../components/ProfileModal";
 import ReportModal from "../../../../components/ReportModal";
+import clsx from "clsx";
+
+interface Props extends ArticleDetailType {
+  getArticleListFunc: () => void;
+}
 
 function ArticleBody({
   articleId,
@@ -33,10 +36,10 @@ function ArticleBody({
   partyId,
   userId,
   getArticleListFunc,
-}) {
+}: Props) {
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -46,22 +49,22 @@ function ArticleBody({
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
-  const profileClickHandler = () => {
+  const profileClickHandler = useCallback(() => {
     setShowProfileModal(true);
-  };
+  }, []);
 
-  const deleteArticleHandler = async () => {
+  const deleteArticleHandler = useCallback(async () => {
     try {
       await deleteMyArticle(articleId);
-      await getArticleListFunc();
+      getArticleListFunc();
       document.body.classList.remove("overflow-hidden");
       navigation("/community/main", { replace: true });
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [articleId, getArticleListFunc]);
 
-  const goCoupleChat = async () => {
+  const goCoupleChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
     if (isChatBlock) return setShowBlockModal(true);
 
@@ -72,18 +75,22 @@ function ArticleBody({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, isChatBlock, userId]);
 
-  const checkChatBlock = async () => {
+  const checkChatBlock = useCallback(async () => {
     if (!user.auth) return setIsChatBlock(false);
 
     try {
       const result = await getChatBlockList();
-      setIsChatBlock(result.payload.some((item) => item.userId === userId));
+      setIsChatBlock(
+        result.payload.some(
+          (item: { userId: number }) => item.userId === userId
+        )
+      );
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     checkChatBlock();
@@ -136,18 +143,19 @@ function ArticleBody({
               />
             )}
             <div
-              className={`w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden ${
+              className={clsx(
+                "w-[100px] absolute top-11 right-2 z-10 rounded-lg bg-white text-sm shadow-sm transition-all duration-500 overflow-hidden",
                 showMore ? "max-h-[100px] border border-mediumgray" : "max-h-0"
-              }`}
+              )}
             >
               <button
-                className={`w-full h-[50px] rounded-t-lg text-black hover:bg-skyblue`}
+                className="w-full h-[50px] rounded-t-lg text-black hover:bg-skyblue"
                 onClick={() => navigation(`/community/post/${articleId}`)}
               >
                 <span>수정하기</span>
               </button>
               <button
-                className={`w-full h-[50px] rounded-b-lg text-[#FF0000] hover:bg-skyblue`}
+                className="w-full h-[50px] rounded-b-lg text-[#FF0000] hover:bg-skyblue"
                 onClick={() => setShowDeleteModal(true)}
               >
                 <span>삭제하기</span>
@@ -169,7 +177,7 @@ function ArticleBody({
               className="w-80 h-12 text-white rounded-full text-sm font-bold bg-primary px-10 mx-auto mt-12"
               onClick={() => navigation(`/party/detail/${partyId}`)}
             >
-              {`${partyName} 구경하기`}
+              {partyName} 구경하기
             </button>
           )}
         </div>
@@ -186,17 +194,17 @@ function ArticleBody({
       <CheckModal
         showModal={showDeleteModal}
         setShowModal={setShowDeleteModal}
-        message={"삭제하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        message="삭제하시겠습니까?"
+        noText="취소"
+        yesText="확인"
         yesHandler={() => deleteArticleHandler()}
       />
       <CheckModal
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
       <ConfirmModal
@@ -208,6 +216,7 @@ function ArticleBody({
         showModal={showProfileModal}
         setShowModal={setShowProfileModal}
         userId={userId}
+        driverName={false}
       />
       <ReportModal
         showModal={showReportModal}
@@ -220,4 +229,4 @@ function ArticleBody({
   );
 }
 
-export default ArticleBody;
+export default memo(ArticleBody);

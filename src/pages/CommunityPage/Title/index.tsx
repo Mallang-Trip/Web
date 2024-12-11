@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import EditButton from "../../../components/EditButton";
 
@@ -9,10 +10,10 @@ function Title() {
       <p className="text-2xl text-black font-bold">커뮤니티</p>
       <EditButton
         onClick={() => navigation("/community/post/new")}
-        title={"글쓰기"}
+        title="글쓰기"
       />
     </div>
   );
 }
 
-export default Title;
+export default memo(Title);

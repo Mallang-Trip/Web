@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartyRoomId } from "../../../../../../redux/modules/talkRoomSlice";
 import { dateToGapKorean } from "../../../../../../utils";
 import { deleteMyReply } from "../../../../../../api/article";
 import { makeNewCoupleChat } from "../../../../../../api/chat";
+import { RootState } from "../../../../../../redux/store";
+import { Reply } from "../../../../../../types";
 import CheckModal from "../../../../../../components/CheckModal";
 import ReportModal from "../../../../../../components/ReportModal";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
+
+interface Props extends Reply {
+  getArticleDetailFunc: () => void;
+  setShowLoginModal: Dispatch<SetStateAction<boolean>>;
+}
 
 function ReplyItem({
   getArticleDetailFunc,
@@ -19,15 +26,15 @@ function ReplyItem({
   content,
   userId,
   deleted,
-}) {
+}: Props) {
   const dispatch = useDispatch();
   const navigation = useNavigate();
+  const user = useSelector((state: RootState) => state.user);
   const { articleId } = useParams();
-  const user = useSelector((state) => state.user);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
-  const goCoupleChat = async () => {
+  const goCoupleChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
 
     try {
@@ -37,9 +44,9 @@ function ReplyItem({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, userId]);
 
-  const deleteHandler = async () => {
+  const deleteHandler = useCallback(async () => {
     try {
       await deleteMyReply(replyId);
       setShowDeleteModal(false);
@@ -47,7 +54,7 @@ function ReplyItem({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [replyId]);
 
   return (
     <>
@@ -55,7 +62,7 @@ function ReplyItem({
         <div className="flex gap-2.5">
           <img
             src={profileImg || basicProfileImage}
-            alt="profile_image"
+            alt={nickname}
             className="w-10 h-10 rounded-full"
           />
           <div className="h-10 flex flex-col justify-center">
@@ -91,9 +98,9 @@ function ReplyItem({
       <CheckModal
         showModal={showDeleteModal}
         setShowModal={setShowDeleteModal}
-        message={"답글을 삭제하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        message="답글을 삭제하시겠습니까?"
+        noText="취소"
+        yesText="확인"
         yesHandler={() => deleteHandler()}
       />
       <ReportModal
@@ -107,4 +114,4 @@ function ReplyItem({
   );
 }
 
-export default ReplyItem;
+export default memo(ReplyItem);

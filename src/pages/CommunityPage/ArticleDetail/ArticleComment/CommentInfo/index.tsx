@@ -1,4 +1,10 @@
-function CommentInfo({ commentCount }) {
+import { memo } from "react";
+
+interface Props {
+  commentCount: number;
+}
+
+function CommentInfo({ commentCount }: Props) {
   return (
     <div className="text-xl font-bold">
       <span className="text-black">댓글 </span>
@@ -7,4 +13,4 @@ function CommentInfo({ commentCount }) {
   );
 }
 
-export default CommentInfo;
+export default memo(CommentInfo);

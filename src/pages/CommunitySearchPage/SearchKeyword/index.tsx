@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useParams } from "react-router-dom";
 
 function SearchKeyword() {
@@ -12,4 +13,4 @@ function SearchKeyword() {
   );
 }
 
-export default SearchKeyword;
+export default memo(SearchKeyword);

@@ -1,15 +1,17 @@
+import { memo } from "react";
 import { useIntersectionObserver } from "../../../hooks";
+import clsx from "clsx";
 
 function Mission() {
-  const [ref, isIntersecting] = useIntersectionObserver();
+  const [ref, isIntersecting] = useIntersectionObserver<HTMLDivElement>();
 
   return (
     <div className="w-full h-[700px] bg-white flex justify-center items-center text-center px-2 lg:px-0">
       <div
         ref={ref}
-        className={`${
+        className={clsx(
           isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
-        }`}
+        )}
       >
         <p className="text-xl text-primary">OUR MISSION</p>
         <p className="text-xl lg:text-3xl text-black font-bold mt-1 mb-5">
@@ -26,4 +28,4 @@ function Mission() {
   );
 }
 
-export default Mission;
+export default memo(Mission);

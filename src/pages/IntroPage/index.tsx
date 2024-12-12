@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Title from "./Title";
 import Vision from "./Vision";
 import ServiceList from "./ServiceList";
@@ -18,4 +19,4 @@ function IntroPage() {
   );
 }
 
-export default IntroPage;
+export default memo(IntroPage);

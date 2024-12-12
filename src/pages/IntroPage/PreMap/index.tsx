@@ -1,17 +1,22 @@
+import { memo } from "react";
 import { useIntersectionObserver } from "../../../hooks";
+import clsx from "clsx";
 
 function PreMap() {
-  const [premapRef, premapIsIntersecting] = useIntersectionObserver();
-  const [acceleratorRef, acceleratorIsIntersecting] = useIntersectionObserver();
-  const [voucherRef, voucherRefIsIntersecting] = useIntersectionObserver();
+  const [premapRef, premapIsIntersecting] =
+    useIntersectionObserver<HTMLDivElement>();
+  const [acceleratorRef, acceleratorIsIntersecting] =
+    useIntersectionObserver<HTMLDivElement>();
+  const [voucherRef, voucherRefIsIntersecting] =
+    useIntersectionObserver<HTMLDivElement>();
 
   return (
     <div className="w-full min-h-[700px] py-20 bg-[#171717] flex flex-col lg:flex-row justify-center items-center text-center gap-20 px-2">
       <div
         ref={premapRef}
-        className={`${
+        className={clsx(
           premapIsIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
-        }`}
+        )}
       >
         <div className="text-2xl text-lightgray font-bold mb-8 h-24 flex justify-center items-end lg:items-center">
           말랑트립은 경기콘텐츠진흥원
@@ -29,11 +34,11 @@ function PreMap() {
       </div>
       <div
         ref={acceleratorRef}
-        className={`${
+        className={clsx(
           acceleratorIsIntersecting
             ? "animate-fade-up animate-ease-in"
             : "opacity-0"
-        }`}
+        )}
       >
         <div className="text-2xl text-lightgray font-bold mb-8 h-24 flex justify-center items-end lg:items-center">
           말랑트립은 안양산업진흥원 주관
@@ -53,11 +58,11 @@ function PreMap() {
       </div>
       <div
         ref={voucherRef}
-        className={`${
+        className={clsx(
           voucherRefIsIntersecting
             ? "animate-fade-up animate-ease-in"
             : "opacity-0"
-        }`}
+        )}
       >
         <div className="text-2xl text-lightgray font-bold mb-8 h-24 flex justify-center items-end lg:items-center">
           말랑트립은 관광기업 혁신바우처의
@@ -77,4 +82,4 @@ function PreMap() {
   );
 }
 
-export default PreMap;
+export default memo(PreMap);

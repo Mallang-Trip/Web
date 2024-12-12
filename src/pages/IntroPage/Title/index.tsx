@@ -1,14 +1,17 @@
+import { memo } from "react";
 import { useIntersectionObserver } from "../../../hooks";
+import clsx from "clsx";
 
 function Title() {
-  const [ref, isIntersecting] = useIntersectionObserver();
+  const [ref, isIntersecting] = useIntersectionObserver<HTMLDivElement>();
 
   return (
     <div
       ref={ref}
-      className={`my-40 text-2xl lg:text-4xl text-black text-center font-bold ${
+      className={clsx(
+        "my-40 text-2xl lg:text-4xl text-black text-center font-bold",
         isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
-      }`}
+      )}
     >
       버스보다 빠르고, 택시보다 저렴하게.
       <br />
@@ -17,4 +20,4 @@ function Title() {
   );
 }
 
-export default Title;
+export default memo(Title);

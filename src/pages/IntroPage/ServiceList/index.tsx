@@ -1,20 +1,23 @@
+import { memo } from "react";
 import { useIntersectionObserver } from "../../../hooks";
+import clsx from "clsx";
 
 function ServiceList() {
-  const [serviceRef, viewService] = useIntersectionObserver();
-  const [matchingRef, viewMatching] = useIntersectionObserver();
-  const [webRef, viewWeb] = useIntersectionObserver();
-  const [talkRef, viewTalk] = useIntersectionObserver();
-  const [communityRef, viewCommunity] = useIntersectionObserver();
+  const [serviceRef, viewService] = useIntersectionObserver<HTMLDivElement>();
+  const [matchingRef, viewMatching] = useIntersectionObserver<HTMLDivElement>();
+  const [webRef, viewWeb] = useIntersectionObserver<HTMLDivElement>();
+  const [talkRef, viewTalk] = useIntersectionObserver<HTMLDivElement>();
+  const [communityRef, viewCommunity] =
+    useIntersectionObserver<HTMLDivElement>();
 
   return (
     <div className="max-w-4xl my-80 mx-auto px-2">
       <div
         ref={serviceRef}
         id="service"
-        className={`${
+        className={clsx(
           viewService ? "animate-fade-up animate-ease-in" : "opacity-0"
-        }`}
+        )}
       >
         <p className="text-xl text-primary">SERVICE</p>
         <p className="text-xl lg:text-3xl text-black font-bold mt-1 mb-5">
@@ -28,9 +31,10 @@ function ServiceList() {
         <div
           ref={matchingRef}
           id="matching"
-          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={clsx(
+            "w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA]",
             viewMatching ? "animate-fade-up animate-ease-in" : "opacity-0"
-          }`}
+          )}
         >
           <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"다수의 여행자와\n드라이버 매칭 서비스"}
@@ -43,9 +47,10 @@ function ServiceList() {
         <div
           ref={webRef}
           id="web"
-          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={clsx(
+            "w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA]",
             viewWeb ? "animate-fade-up animate-ease-in" : "opacity-0"
-          }`}
+          )}
         >
           <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"웹과 모바일 동시 서비스\n "}
@@ -58,9 +63,10 @@ function ServiceList() {
         <div
           ref={talkRef}
           id="talk"
-          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={clsx(
+            "w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA]",
             viewTalk ? "animate-fade-up animate-ease-in" : "opacity-0"
-          }`}
+          )}
         >
           <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"말랑챗을 통한\n채팅 기능"}
@@ -73,9 +79,10 @@ function ServiceList() {
         <div
           ref={communityRef}
           id="community"
-          className={`w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA] ${
+          className={clsx(
+            "w-full lg:max-w-[422px] shadow-lg rounded-2xl pt-7 pb-12 px-10 bg-[#FAFAFA]",
             viewCommunity ? "animate-fade-up animate-ease-in" : "opacity-0"
-          }`}
+          )}
         >
           <p className="text-xl lg:text-2xl font-bold text-black mb-24 whitespace-pre">
             {"경험을 공유할 수 있는\n커뮤니티 서비스"}
@@ -90,4 +97,4 @@ function ServiceList() {
   );
 }
 
-export default ServiceList;
+export default memo(ServiceList);

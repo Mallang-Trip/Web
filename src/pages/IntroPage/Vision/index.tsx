@@ -1,8 +1,10 @@
+import { memo } from "react";
 import { useIntersectionObserver } from "../../../hooks";
 import introLogo from "../../../assets/images/intro_logo.png";
+import clsx from "clsx";
 
 function Vision() {
-  const [ref, isIntersecting] = useIntersectionObserver();
+  const [ref, isIntersecting] = useIntersectionObserver<HTMLDivElement>();
 
   return (
     <div className="flex justify-center items-center h-[908px] relative">
@@ -12,9 +14,10 @@ function Vision() {
 
       <div
         ref={ref}
-        className={`w-full px-5 text-center lg:px-0 ${
+        className={clsx(
+          "w-full px-5 text-center lg:px-0",
           isIntersecting ? "animate-fade-up animate-ease-in" : "opacity-0"
-        }`}
+        )}
       >
         <p className="text-xl text-primary">VISION</p>
         <p className="text-xl lg:text-3xl text-black font-bold mt-1 mb-5">
@@ -39,4 +42,4 @@ function Vision() {
   );
 }
 
-export default Vision;
+export default memo(Vision);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import PageContainer from "../../components/PageContainer";
 import Logo from "../../assets/images/logo.png";
 import LoginForm from "./LoginForm";
@@ -17,4 +18,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default memo(LoginPage);

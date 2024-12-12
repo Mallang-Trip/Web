@@ -1,42 +1,62 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "../../../redux/modules/userSlice";
+import { AppDispatch } from "../../../redux/store";
 import ConfirmModal from "../../../components/ConfirmModal";
-import { ReactComponent as Check } from "../../../assets/svg/agree-check.svg";
+import CheckIcon from "../../../assets/svg/agree-check.svg";
+import clsx from "clsx";
 
 function LoginForm() {
   const navigation = useNavigate();
-  const dispatch = useDispatch();
-  const idRef = useRef();
-  const passwordRef = useRef();
+  const dispatch = useDispatch<AppDispatch>();
+  const idRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [autoLogin, setAutoLogin] = useState(true);
 
-  const idHandler = (e) => setId(e.target.value);
-  const passwordHandler = (e) => setPassword(e.target.value);
-  const loginHandler = (e) => {
-    e.preventDefault();
+  const idHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setId(e.target.value),
+    []
+  );
 
-    idRef.current.blur();
-    passwordRef.current.blur();
+  const passwordHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    []
+  );
 
-    localStorage.setItem("autoLogin", autoLogin);
+  const loginHandler = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    const body = {
-      id: id,
-      password: password,
-    };
+      idRef.current?.blur();
+      passwordRef.current?.blur();
 
-    dispatch(__asyncLogin(body)).then((response) => {
-      const redirect = localStorage.getItem("redirect");
+      localStorage.setItem("autoLogin", autoLogin.toString());
 
-      if (response.payload) navigation(redirect || -1, { replace: true });
-      else setShowErrorModal(true);
-    });
-  };
+      const body = { id, password };
+
+      dispatch(__asyncLogin(body)).then((response) => {
+        const redirect = localStorage.getItem("redirect");
+
+        if (response.payload) {
+          if (redirect) navigation(redirect, { replace: true });
+          else navigation(-1);
+        } else setShowErrorModal(true);
+      });
+    },
+    [idRef, passwordRef, autoLogin, id, password]
+  );
 
   useEffect(() => {
     return () => localStorage.removeItem("redirect");
@@ -45,7 +65,7 @@ function LoginForm() {
   return (
     <>
       <form
-        className="w-full md:w-3/5 mx-auto mt-10 px-5"
+        className="w-full md:w-[600px] mx-auto mt-10 px-5"
         onSubmit={loginHandler}
       >
         <input
@@ -62,9 +82,10 @@ function LoginForm() {
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
-          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 my-6 ${
+          className={clsx(
+            "border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 my-6",
             password && "font-mono"
-          }`}
+          )}
           value={password}
           onChange={passwordHandler}
         />
@@ -82,7 +103,12 @@ function LoginForm() {
               className="flex items-center cursor-pointer"
             >
               <div className="relative w-3 h-3 mx-3 border border-darkgray">
-                {autoLogin && <Check className="absolute -top-0.5 -left-0.5" />}
+                {autoLogin && (
+                  <img
+                    src={CheckIcon}
+                    className="absolute top-0 left-0 w-3 h-3"
+                  />
+                )}
               </div>
               <span className="text-darkgray text-sm">로그인 유지</span>
             </label>
@@ -116,4 +142,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default memo(LoginForm);

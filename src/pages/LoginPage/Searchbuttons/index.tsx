@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Searchbuttons() {
@@ -22,4 +23,4 @@ function Searchbuttons() {
   );
 }
 
-export default Searchbuttons;
+export default memo(Searchbuttons);

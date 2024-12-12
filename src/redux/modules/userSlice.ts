@@ -42,7 +42,7 @@ const initialState: State = {
 
 const __asyncLogin = createAsyncThunk(
   "userSlice/asyncLogin",
-  async (payload) => {
+  async (payload: { id: string; password: string }) => {
     try {
       const result = await login(payload);
 

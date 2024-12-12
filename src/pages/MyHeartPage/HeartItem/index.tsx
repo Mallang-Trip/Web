@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, MouseEvent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteUnLikeParty, postLikeParty } from "../../../api/party";
 import {
@@ -9,44 +9,54 @@ import star from "../../../assets/svg/star.svg";
 import FillHeart from "../../../assets/svg/FillHeart.svg";
 import EmptyHeart from "../../../assets/svg/EmptyHeart.svg";
 
+interface Props {
+  partyId: number;
+  destinationId: number | undefined;
+  image: string | null;
+  name: string;
+  rate: number | undefined;
+  views: number | undefined;
+}
+
 function HeartItem({
   partyId,
   destinationId,
   image,
   name,
-  rate = undefined,
+  rate,
   views,
-}) {
+}: Props) {
   const navigate = useNavigate();
   const [heart, setHeart] = useState(true);
 
-  const heartClickHandler = async (e) => {
-    e.stopPropagation();
+  const heartClickHandler = useCallback(
+    async (e: MouseEvent<HTMLImageElement>) => {
+      e.stopPropagation();
 
-    try {
-      heart
-        ? partyId
-          ? await deleteUnLikeParty(partyId)
-          : await deleteUnLikeDestination(destinationId)
-        : partyId
-          ? await postLikeParty(partyId)
-          : await postLikeDestination(destinationId);
+      try {
+        heart
+          ? partyId
+            ? await deleteUnLikeParty(partyId)
+            : await deleteUnLikeDestination(destinationId)
+          : partyId
+            ? await postLikeParty(partyId)
+            : await postLikeDestination(destinationId);
 
-      setHeart(!heart);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+        setHeart(!heart);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [heart, partyId, destinationId]
+  );
+
+  const clickHandler = useCallback(() => {
+    if (partyId) navigate(`/party/detail/${partyId}`);
+    else navigate(`/destination/detail/${destinationId}`);
+  }, [partyId, destinationId]);
 
   return (
-    <div
-      className="relative h-64 cursor-pointer"
-      onClick={() =>
-        partyId
-          ? navigate(`/party/detail/${partyId}`)
-          : navigate(`/destination/detail/${destinationId}`)
-      }
-    >
+    <div className="relative h-64 cursor-pointer" onClick={clickHandler}>
       {image ? (
         <img
           className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
@@ -78,4 +88,4 @@ function HeartItem({
   );
 }
 
-export default HeartItem;
+export default memo(HeartItem);

@@ -1,14 +1,24 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { getLikeParty } from "../../api/party";
 import { getLikeDestination } from "../../api/destination";
 import PageContainer from "../../components/PageContainer";
+import Title from "../../components/Title";
 import HeartItem from "./HeartItem";
 import NoHeartData from "./NoHeartData";
 
-function MyHeartPage() {
-  const [myHeartData, setMyHeartData] = useState([]);
+interface HeartData {
+  partyId: number;
+  destinationId: number | undefined;
+  image: string | null;
+  name: string;
+  rate: number | undefined;
+  views: number | undefined;
+}
 
-  const getMyHeartData = async () => {
+function MyHeartPage() {
+  const [myHeartData, setMyHeartData] = useState<HeartData[]>([]);
+
+  const getMyHeartData = useCallback(async () => {
     try {
       const party = await getLikeParty();
       const destination = await getLikeDestination();
@@ -16,7 +26,7 @@ function MyHeartPage() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getMyHeartData();
@@ -24,7 +34,7 @@ function MyHeartPage() {
 
   return (
     <PageContainer>
-      <div className="text-2xl text-black font-bold">나의 찜</div>
+      <Title title="나의 찜" />
       {myHeartData.length === 0 ? (
         <NoHeartData />
       ) : (
@@ -38,4 +48,4 @@ function MyHeartPage() {
   );
 }
 
-export default MyHeartPage;
+export default memo(MyHeartPage);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function NoHeartData() {
@@ -22,4 +23,4 @@ function NoHeartData() {
   );
 }
 
-export default NoHeartData;
+export default memo(NoHeartData);

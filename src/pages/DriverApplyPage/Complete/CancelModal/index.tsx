@@ -1,15 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteDriverApply } from "../../../../api/driver";
+import clsx from "clsx";
 
-function CancelModal({ showModal, setShowModal }) {
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+}
+
+function CancelModal({ showModal, setShowModal }: Props) {
   const navigation = useNavigate();
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const cancelHandler = async () => {
+  const cancelHandler = useCallback(async () => {
     if (loading) return;
 
     try {
@@ -27,21 +42,23 @@ function CancelModal({ showModal, setShowModal }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loading]);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     if (complete) navigation("/", { replace: true });
-
     setShowModal(false);
-  };
+  }, [complete]);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    (event: MouseEvent) => {
+      if (modalRef.current === event.target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") closeModal();
-  };
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -61,11 +78,12 @@ function CancelModal({ showModal, setShowModal }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="flex flex-col justify-center h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
@@ -99,4 +117,4 @@ function CancelModal({ showModal, setShowModal }) {
   );
 }
 
-export default CancelModal;
+export default memo(CancelModal);

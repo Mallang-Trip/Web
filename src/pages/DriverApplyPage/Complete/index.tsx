@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import CancelModal from "./CancelModal";
 import logo from "../../../assets/images/logo.png";
 
-function Complete({ setStep }) {
+interface Props {
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+function Complete({ setStep }: Props) {
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   return (
@@ -45,4 +49,4 @@ function Complete({ setStep }) {
   );
 }
 
-export default Complete;
+export default memo(Complete);

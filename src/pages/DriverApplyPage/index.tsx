@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { __asyncRefreshAuth } from "../../redux/modules/userSlice";
+import { AppDispatch, RootState } from "../../redux/store";
 import {
   postDriverApply,
   getDriverApply,
@@ -22,33 +23,35 @@ import DriverAccept from "./DriverAccept";
 import Agreement from "./Agreement";
 
 function DriverApplyPage() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user);
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [driverId, setDriverId] = useState(0);
   const [allChecked, setAllChecked] = useState(false);
   const [checked, setChecked] = useState([false, false, false]);
-  const [carImages, setCarImages] = useState([]);
+  const [carImages, setCarImages] = useState<string[] | null>([]);
   const [modelName, setModelName] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [maxNum, setMaxNum] = useState("");
-  const [region, setRegion] = useState([]);
+  const [region, setRegion] = useState<string[]>([]);
   const [bank, setBank] = useState("");
   const [name, setName] = useState("");
   const [accoutNumber, setAccoutNumber] = useState("");
   const [hour, setHour] = useState(["", "", "", "", "", "", "", "", "", ""]);
   const [money, setMoney] = useState(["", "", "", "", "", "", "", "", "", ""]);
-  const [driverLicense, setDriverLicense] = useState(undefined);
-  const [taxiLicense, setTaxiLicense] = useState(undefined);
-  const [insurance, setInsurance] = useState(undefined);
+  const [driverLicense, setDriverLicense] = useState<string | undefined>(
+    undefined
+  );
+  const [taxiLicense, setTaxiLicense] = useState<string | undefined>(undefined);
+  const [insurance, setInsurance] = useState<string | undefined>(undefined);
   const [introduction, setIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const submitHandler = async () => {
+  const submitHandler = useCallback(async () => {
     if (submitLoading) return;
 
     setSubmitLoading(true);
@@ -114,15 +117,33 @@ function DriverApplyPage() {
     } finally {
       setSubmitLoading(false);
     }
-  };
+  }, [
+    driverId,
+    submitLoading,
+    step,
+    carImages,
+    driverLicense,
+    taxiLicense,
+    insurance,
+    hour,
+    money,
+    name,
+    accoutNumber,
+    bank,
+    introduction,
+    region,
+    maxNum,
+    modelName,
+    vehicleNumber,
+  ]);
 
-  const getDriverApplyFunc = async () => {
+  const getDriverApplyFunc = useCallback(async () => {
     try {
       const result = await getDriverApply();
 
       if (result.statusCode === 200) {
         const backupData = JSON.parse(
-          localStorage.getItem("driverApplyBackup")
+          localStorage.getItem("driverApplyBackup") || ""
         );
 
         setStep(backupData?.step || 0);
@@ -157,10 +178,12 @@ function DriverApplyPage() {
 
         const hours = ["", "", "", "", "", "", "", "", "", ""];
         const moneys = ["", "", "", "", "", "", "", "", "", ""];
-        result.payload.prices.forEach((item, index) => {
-          hours[index] = item.hours.toString();
-          moneys[index] = item.price.toString();
-        });
+        result.payload.prices.forEach(
+          (item: { hours: number; price: number }, index: number) => {
+            hours[index] = item.hours.toString();
+            moneys[index] = item.price.toString();
+          }
+        );
         setHour(backupData?.hour || hours);
         setMoney(backupData?.money || moneys);
 
@@ -172,7 +195,7 @@ function DriverApplyPage() {
         }
       } else {
         const backupData = JSON.parse(
-          localStorage.getItem("driverApplyBackup")
+          localStorage.getItem("driverApplyBackup") || ""
         );
         if (!backupData) return;
 
@@ -198,7 +221,7 @@ function DriverApplyPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (loading || step > 5) return;
@@ -339,4 +362,4 @@ function DriverApplyPage() {
   );
 }
 
-export default DriverApplyPage;
+export default memo(DriverApplyPage);

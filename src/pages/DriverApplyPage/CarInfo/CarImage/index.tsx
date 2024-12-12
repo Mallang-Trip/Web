@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import deleteIcon from "../../../../assets/svg/delete_image_icon.svg";
 
-function CarImage({ image, index, carImages, setCarImages }) {
+interface Props {
+  image: string;
+  index: number;
+  carImages: string[] | null;
+  setCarImages: Dispatch<SetStateAction<string[] | null>>;
+}
+
+function CarImage({ image, index, carImages, setCarImages }: Props) {
   const [showDelete, setShowDelete] = useState(false);
 
-  const deleteHandler = () => {
-    setCarImages(carImages.filter((_, idx) => idx !== index));
-  };
+  const deleteHandler = useCallback(() => {
+    if (carImages) {
+      setCarImages(carImages.filter((_, idx) => idx !== index));
+    }
+  }, [carImages, index]);
 
   return (
     <div
@@ -36,4 +45,4 @@ function CarImage({ image, index, carImages, setCarImages }) {
   );
 }
 
-export default CarImage;
+export default memo(CarImage);

@@ -1,6 +1,20 @@
-import { useEffect } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useEffect } from "react";
 import CheckModal from "../../../components/CheckModal";
 import Loading from "../../../components/Loading";
+import clsx from "clsx";
+
+interface Props {
+  activeNext: boolean;
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  step: number;
+  setStep: Dispatch<SetStateAction<number>>;
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  submitHandler: () => void;
+  submitLoading: boolean;
+  autoSave: boolean;
+  setAutoSave: Dispatch<SetStateAction<boolean>>;
+}
 
 function StepButton({
   activeNext,
@@ -13,14 +27,14 @@ function StepButton({
   submitLoading,
   autoSave,
   setAutoSave,
-}) {
-  const prevHandler = () => setStep(step - 1);
+}: Props) {
+  const prevHandler = useCallback(() => setStep(step - 1), [step]);
 
-  const nextHandler = () => {
+  const nextHandler = useCallback(() => {
     if (step === 5) return setShowModal(true);
     setStep(step + 1);
     setActiveNext(false);
-  };
+  }, [step]);
 
   useEffect(() => {
     if (autoSave) return;
@@ -58,11 +72,11 @@ function StepButton({
       <div className="w-full flex justify-center gap-7 mx-auto px-4">
         <button
           type="button"
-          className={`${
+          className={clsx(
             step !== 0
               ? "h-12 bg-white border rounded-full text-darkgray text-sm w-64 border-darkgray"
               : "h-12 bg-lightgray border rounded-full text-darkgray text-sm w-64 border-lightgray"
-          }`}
+          )}
           disabled={step === 0}
           onClick={prevHandler}
         >
@@ -70,11 +84,11 @@ function StepButton({
         </button>
         <button
           type="button"
-          className={`${
+          className={clsx(
             activeNext
               ? "h-12 text-white rounded-full text-sm w-64 bg-primary"
               : "h-12 bg-lightgray border rounded-full text-darkgray text-sm w-64 border-lightgray"
-          }`}
+          )}
           disabled={!activeNext}
           onClick={nextHandler}
         >
@@ -87,17 +101,17 @@ function StepButton({
         setShowModal={setShowModal}
         message={
           submitLoading ? (
-            <Loading />
+            <Loading full={false} />
           ) : (
             "드라이버 등록을 위해\n작성하신 내용을 제출하시겠습니까?"
           )
         }
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={submitHandler}
       />
     </div>
   );
 }
 
-export default StepButton;
+export default memo(StepButton);

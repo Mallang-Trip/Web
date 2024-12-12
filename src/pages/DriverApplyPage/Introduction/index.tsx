@@ -1,6 +1,12 @@
-import { useEffect } from "react";
+import { Dispatch, memo, SetStateAction, useEffect } from "react";
 
-function Introduction({ setActiveNext, introduction, setIntroduction }) {
+interface Props {
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  introduction: string;
+  setIntroduction: Dispatch<SetStateAction<string>>;
+}
+
+function Introduction({ setActiveNext, introduction, setIntroduction }: Props) {
   useEffect(() => {
     setActiveNext(true);
   }, []);
@@ -21,4 +27,4 @@ function Introduction({ setActiveNext, introduction, setIntroduction }) {
   );
 }
 
-export default Introduction;
+export default memo(Introduction);

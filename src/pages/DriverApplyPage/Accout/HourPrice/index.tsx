@@ -1,20 +1,43 @@
-import { useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 import { onlyNumber } from "../../../../utils";
 import primaryPlus from "../../../../assets/svg/primary_plus.svg";
 
-function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
+interface Props {
+  hour: string[];
+  setHour: Dispatch<SetStateAction<string[]>>;
+  money: string[];
+  setMoney: Dispatch<SetStateAction<string[]>>;
+  index: number;
+  isShow: boolean;
+}
+
+function HourPrice({ hour, setHour, money, setMoney, index, isShow }: Props) {
   const [show, setShow] = useState(isShow);
 
-  const hourHandler = ({ target }) => {
-    const hourTemp = [...hour];
-    hourTemp[index] = target.value;
-    setHour(hourTemp);
-  };
-  const moneyHandler = ({ target }) => {
-    const moneyTemp = [...money];
-    moneyTemp[index] = target.value;
-    setMoney(moneyTemp);
-  };
+  const hourHandler = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      const hourTemp = [...hour];
+      hourTemp[index] = target.value;
+      setHour(hourTemp);
+    },
+    [hour, index]
+  );
+
+  const moneyHandler = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      const moneyTemp = [...money];
+      moneyTemp[index] = target.value;
+      setMoney(moneyTemp);
+    },
+    [money, index]
+  );
 
   if (!show)
     return (
@@ -50,4 +73,4 @@ function HourPrice({ hour, setHour, money, setMoney, index, isShow }) {
     );
 }
 
-export default HourPrice;
+export default memo(HourPrice);

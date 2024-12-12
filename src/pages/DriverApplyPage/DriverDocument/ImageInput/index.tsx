@@ -1,8 +1,15 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import InputImage from "../../../../components/InputImage";
 
-function ImageInput({ title, image, name, imageHandler }) {
-  const imageRef = useRef();
+interface Props {
+  title: string;
+  image: string | undefined;
+  name: string;
+  imageHandler: (inputId: string) => void;
+}
+
+function ImageInput({ title, image, name, imageHandler }: Props) {
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div>
@@ -13,7 +20,7 @@ function ImageInput({ title, image, name, imageHandler }) {
       <div className="flex justify-center w-full h-[200px] mt-4 mb-16 relative">
         <div
           className="w-[300px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
-          onClick={() => imageRef.current.click()}
+          onClick={() => imageRef.current?.click()}
         >
           {image && (
             <img
@@ -29,7 +36,7 @@ function ImageInput({ title, image, name, imageHandler }) {
           <label htmlFor={name}>
             <button
               className="px-5 py-1 text-sm bg-white border rounded-full border-darkgray text-darkgray"
-              onClick={() => imageRef.current.click()}
+              onClick={() => imageRef.current?.click()}
             >
               사진 업로드
             </button>
@@ -46,4 +53,4 @@ function ImageInput({ title, image, name, imageHandler }) {
   );
 }
 
-export default ImageInput;
+export default memo(ImageInput);

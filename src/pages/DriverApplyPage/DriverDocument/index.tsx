@@ -1,7 +1,16 @@
-import { useEffect } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useEffect } from "react";
 import { uploadImage } from "../../../api/image";
-import { CONSTANT } from "../../../utils/data";
 import ImageInput from "./ImageInput";
+
+interface Props {
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  driverLicense: string | undefined;
+  setDriverLicense: Dispatch<SetStateAction<string | undefined>>;
+  taxiLicense: string | undefined;
+  setTaxiLicense: Dispatch<SetStateAction<string | undefined>>;
+  insurance: string | undefined;
+  setInsurance: Dispatch<SetStateAction<string | undefined>>;
+}
 
 function DriverDocument({
   setActiveNext,
@@ -11,26 +20,24 @@ function DriverDocument({
   setTaxiLicense,
   insurance,
   setInsurance,
-}) {
-  const imageHandler = async (inputId) => {
-    const imageFile = document.getElementById(inputId).files[0];
-
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
+}: Props) {
+  const imageHandler = useCallback(async (inputId: string) => {
+    const imageFile = (document.getElementById(inputId) as HTMLInputElement)
+      ?.files?.[0];
 
     if (inputId === "driverLicense") {
-      if (!imageFile) setDriverLicense(null);
+      if (!imageFile) setDriverLicense(undefined);
       else setDriverLicense(await uploadImage(imageFile));
     }
     if (inputId === "taxiLicense") {
-      if (!imageFile) setTaxiLicense(null);
+      if (!imageFile) setTaxiLicense(undefined);
       else setTaxiLicense(await uploadImage(imageFile));
     }
     if (inputId === "insurance") {
-      if (!imageFile) setInsurance(null);
+      if (!imageFile) setInsurance(undefined);
       else setInsurance(await uploadImage(imageFile));
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (driverLicense && taxiLicense && insurance) setActiveNext(true);
@@ -61,4 +68,4 @@ function DriverDocument({
   );
 }
 
-export default DriverDocument;
+export default memo(DriverDocument);

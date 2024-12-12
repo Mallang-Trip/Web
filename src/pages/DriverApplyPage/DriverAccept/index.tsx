@@ -1,13 +1,19 @@
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo.png";
 
-function DriverAccept({ step, setStep }) {
+interface Props {
+  step: number;
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+function DriverAccept({ step, setStep }: Props) {
   const navigation = useNavigate();
 
-  const clickHandler = () => {
+  const clickHandler = useCallback(() => {
     if (step === 7) setStep(1);
     else navigation("/", { replace: true });
-  };
+  }, [step]);
 
   return (
     <>
@@ -37,4 +43,4 @@ function DriverAccept({ step, setStep }) {
   );
 }
 
-export default DriverAccept;
+export default memo(DriverAccept);

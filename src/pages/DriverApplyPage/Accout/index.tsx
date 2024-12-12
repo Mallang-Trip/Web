@@ -1,7 +1,22 @@
-import { useEffect, useState } from "react";
+import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
 import { onlyNumber } from "../../../utils";
 import BankModal from "./BankModal";
 import HourPrice from "./HourPrice";
+import clsx from "clsx";
+
+interface Props {
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  bank: string;
+  setBank: Dispatch<SetStateAction<string>>;
+  name: string;
+  setName: Dispatch<SetStateAction<string>>;
+  accoutNumber: string;
+  setAccoutNumber: Dispatch<SetStateAction<string>>;
+  hour: string[];
+  setHour: Dispatch<SetStateAction<string[]>>;
+  money: string[];
+  setMoney: Dispatch<SetStateAction<string[]>>;
+}
 
 function Accout({
   setActiveNext,
@@ -15,7 +30,7 @@ function Accout({
   setHour,
   money,
   setMoney,
-}) {
+}: Props) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -77,12 +92,13 @@ function Accout({
           autoComplete="off"
         />
         <p
-          className={`mt-2 text-xs font-medium ${
+          className={clsx(
+            "mt-2 text-xs font-medium",
             onlyNumber(accoutNumber).length >= 10 &&
-            onlyNumber(accoutNumber).length <= 14
+              onlyNumber(accoutNumber).length <= 14
               ? "text-white"
               : "text-red-600"
-          }`}
+          )}
         >
           {onlyNumber(accoutNumber).length === 0
             ? "숫자만 입력 가능합니다."
@@ -105,7 +121,7 @@ function Accout({
             money={money}
             setMoney={setMoney}
             index={i}
-            isShow={i === 0 || hour[i]}
+            isShow={i === 0 || hour[i] !== ""}
           />
         ))}
       </div>
@@ -119,4 +135,4 @@ function Accout({
   );
 }
 
-export default Accout;
+export default memo(Accout);

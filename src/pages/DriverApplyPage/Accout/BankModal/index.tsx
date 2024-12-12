@@ -1,5 +1,14 @@
-import { useEffect, useRef } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import BankButton from "./BankButton";
+import clsx from "clsx";
 
 const bankList = [
   "KB국민",
@@ -28,18 +37,28 @@ const bankList = [
   "저축",
 ];
 
-function BankModal({ showModal, setShowModal, bank, setBank }) {
-  const modalRef = useRef();
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  bank: string;
+  setBank: Dispatch<SetStateAction<string>>;
+}
 
-  const closeModal = () => setShowModal(false);
+function BankModal({ showModal, setShowModal, bank, setBank }: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const handleKeyPress = (event) => {
+  const modalOutSideClick = useCallback(
+    (event: MouseEvent) => {
+      if (modalRef.current === event.target) closeModal();
+    },
+    [modalRef]
+  );
+
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" || event.key === "Enter") closeModal();
-  };
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -53,11 +72,12 @@ function BankModal({ showModal, setShowModal, bank, setBank }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="grid grid-cols-4 gap-2 h-96 bg-white rounded-t-xl p-4">
@@ -76,4 +96,4 @@ function BankModal({ showModal, setShowModal, bank, setBank }) {
   );
 }
 
-export default BankModal;
+export default memo(BankModal);

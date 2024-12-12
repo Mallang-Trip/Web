@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function CheckIcon() {
   return (
     <svg
@@ -18,4 +20,4 @@ function CheckIcon() {
   );
 }
 
-export default CheckIcon;
+export default memo(CheckIcon);

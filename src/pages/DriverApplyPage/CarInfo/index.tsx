@@ -1,10 +1,28 @@
-import { useEffect, useRef } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { onlyNumber } from "../../../utils";
 import { uploadImage } from "../../../api/image";
-import { CONSTANT } from "../../../utils/data";
 import CarImage from "./CarImage";
 import primaryPlus from "../../../assets/svg/primary_plus.svg";
 import InputImage from "../../../components/InputImage";
+
+interface Props {
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  carImages: string[] | null;
+  setCarImages: Dispatch<SetStateAction<string[] | null>>;
+  modelName: string;
+  setModelName: Dispatch<SetStateAction<string>>;
+  vehicleNumber: string;
+  setVehicleNumber: Dispatch<SetStateAction<string>>;
+  maxNum: string;
+  setMaxNum: Dispatch<SetStateAction<string>>;
+}
 
 function CarInfo({
   setActiveNext,
@@ -16,15 +34,17 @@ function CarInfo({
   setVehicleNumber,
   maxNum,
   setMaxNum,
-}) {
-  const imageRef = useRef();
+}: Props) {
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
-  const imageHandler = async () => {
-    const imageFile = imageRef.current.files[0];
-    if (!imageFile) setCarImages(null);
-    else if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    else {
+  const imageHandler = useCallback(async () => {
+    if (
+      imageRef.current &&
+      imageRef.current.files &&
+      imageRef.current.files[0]
+    ) {
+      const imageFile = imageRef.current.files[0];
+      if (!imageFile) setCarImages(null);
       const uploadedImage = await uploadImage(imageFile);
       setCarImages((carImages) =>
         Array.isArray(carImages)
@@ -32,7 +52,7 @@ function CarInfo({
           : [uploadedImage]
       );
     }
-  };
+  }, [imageRef]);
 
   useEffect(() => {
     if (
@@ -57,7 +77,7 @@ function CarInfo({
           <div className="flex gap-2 flex-shrink-0">
             <div
               className="w-[300px] h-full bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer justify-center items-center flex"
-              onClick={() => imageRef.current.click()}
+              onClick={() => imageRef.current?.click()}
             >
               <img src={primaryPlus} alt="plus" className="w-4 h-4" />
               <InputImage
@@ -135,4 +155,4 @@ function CarInfo({
   );
 }
 
-export default CarInfo;
+export default memo(CarInfo);

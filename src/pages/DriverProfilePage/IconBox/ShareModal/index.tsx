@@ -1,29 +1,56 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CONSTANT } from "../../../../utils/data";
+import { RootState } from "../../../../redux/store";
 import closeIcon from "../../../../assets/svg/x-modal-icon.svg";
 import copyIcon from "../../../../assets/svg/CopyIcon.svg";
 import kakaoIcon from "../../../../assets/images/kakaoIcon.png";
+import clsx from "clsx";
 
-function ShareModal({ showModal, setShowModal, images, name, introduction }) {
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  images: string[];
+  name: string;
+  introduction: string;
+}
+
+function ShareModal({
+  showModal,
+  setShowModal,
+  images,
+  name,
+  introduction,
+}: Props) {
   const Kakao = window.Kakao;
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const user = useSelector((state: RootState) => state.user);
   const { driverId } = useParams();
-  const user = useSelector((state) => state.user);
   const [copyComplete, setCopyComplete] = useState(false);
 
-  const copyURL = () => {
+  useEffect(() => {
+    if (!Kakao.isInitialized()) {
+      Kakao.init("19c42824783a3e9124e67b70847e0ec6");
+    }
+  }, [Kakao]);
+
+  const copyURL = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopyComplete(true);
     });
-  };
+  }, []);
 
-  if (!Kakao.isInitialized()) {
-    Kakao.init("19c42824783a3e9124e67b70847e0ec6");
-  }
-
-  const kakaoShare = () => {
+  const kakaoShare = useCallback(() => {
     Kakao.Share.sendCustom({
       templateId: 99453,
       templateArgs: {
@@ -37,17 +64,20 @@ function ShareModal({ showModal, setShowModal, images, name, introduction }) {
         URL: `driver/profile/${driverId}`,
       },
     });
-  };
+  }, [Kakao, user, driverId, images, name, introduction]);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    (event: MouseEvent) => {
+      if (modalRef.current === event.target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") closeModal();
-  };
+  }, []);
 
   useEffect(() => {
     if (!copyComplete) return;
@@ -69,20 +99,22 @@ function ShareModal({ showModal, setShowModal, images, name, introduction }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="relative h-44 whitespace-pre bg-white rounded-xl pl-7 pr-12 py-6">
           <p className="text-xl text-black font-bold">
             공유하기
             <span
-              className={`text-sm font-normal ml-10 ${
+              className={clsx(
+                "text-sm font-normal ml-10",
                 copyComplete ? "text-red-600" : "text-white"
-              }`}
+              )}
             >
               링크가 복사되었습니다!
             </span>
@@ -112,4 +144,4 @@ function ShareModal({ showModal, setShowModal, images, name, introduction }) {
   );
 }
 
-export default ShareModal;
+export default memo(ShareModal);

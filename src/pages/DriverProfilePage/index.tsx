@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
+import { Review } from "../../types";
 import PageContainer from "../../components/PageContainer";
 import ImageBox from "../../components/ImageBox";
 import CommentList from "../../components/Comment/CommentList";
@@ -13,25 +14,62 @@ import ServiceRegion from "./ServiceRegion";
 import IconBox from "./IconBox";
 import CarInfo from "./CarInfo";
 
+interface DriverInfoType {
+  avgRate: number | null;
+  courses: {
+    courseId: number;
+    courseImg: string;
+    courseName: string;
+  }[];
+  driverId: number;
+  introduction: string;
+  name: string;
+  prices: { hours: number; price: number }[];
+  profileImg: string;
+  region: string[];
+  reservationCount: number;
+  reviews: Review[];
+  vehicleCapacity: number;
+  vehicleImgs: string[];
+  vehicleModel: string;
+}
+
 function DriverProfilePage() {
   const navigation = useNavigate();
   const [searchParams] = useSearchParams();
   const { driverId } = useParams();
-  const [driverInfo, setDriverInfo] = useState({});
-  const [courseRegion, setCourseRegion] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState(0);
-  const courseImgs = driverInfo?.courses?.map((item) => item.courseImg);
+  const [driverInfo, setDriverInfo] = useState<DriverInfoType>({
+    avgRate: null,
+    courses: [],
+    driverId: 0,
+    introduction: "",
+    name: "",
+    prices: [],
+    profileImg: "",
+    region: [],
+    reservationCount: 0,
+    reviews: [],
+    vehicleCapacity: 0,
+    vehicleImgs: [],
+    vehicleModel: "",
+  });
 
-  const settingDriverInfo = async () => {
+  const courseImgs = useMemo(
+    () => driverInfo.courses?.map((item) => item.courseImg),
+    [driverInfo]
+  );
+
+  const settingDriverInfo = useCallback(async () => {
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [driverId]);
 
-  const makeParty = async () => {
+  const makeParty = useCallback(async () => {
     try {
       const result =
         selectedCourseId === -1
@@ -48,7 +86,7 @@ function DriverProfilePage() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [selectedCourseId, driverId]);
 
   useEffect(() => {
     settingDriverInfo();
@@ -92,7 +130,7 @@ function DriverProfilePage() {
         reloadData={settingDriverInfo}
       />
       <AddComment
-        id={driverId}
+        id={parseInt(driverId || "")}
         isDriver={true}
         reloadData={settingDriverInfo}
       />
@@ -100,4 +138,4 @@ function DriverProfilePage() {
   );
 }
 
-export default DriverProfilePage;
+export default memo(DriverProfilePage);

@@ -1,22 +1,29 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
+import { RootState } from "../../../redux/store";
 import { makeNewCoupleChat } from "../../../api/chat";
 import ChatBox from "../../../assets/svg/EmptyChatIcon.svg";
 import shareIcon from "../../../assets/svg/share.svg";
 import CheckModal from "../../../components/CheckModal";
 import ShareModal from "./ShareModal";
 
-function IconBox({ images, name, introduction }) {
+interface Props {
+  images: string[];
+  name: string;
+  introduction: string;
+}
+
+function IconBox({ images, name, introduction }: Props) {
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const { driverId } = useParams();
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const goDriverChat = async () => {
+  const goDriverChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
 
     try {
@@ -26,7 +33,7 @@ function IconBox({ images, name, introduction }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user, driverId]);
 
   return (
     <>
@@ -50,12 +57,12 @@ function IconBox({ images, name, introduction }) {
         showModal={showLoginModal}
         setShowModal={setShowLoginModal}
         message={"로그인이 필요합니다.\n로그인 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        noText="취소"
+        yesText="확인"
         yesHandler={() => navigation("/login")}
       />
     </>
   );
 }
 
-export default IconBox;
+export default memo(IconBox);

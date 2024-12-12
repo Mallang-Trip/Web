@@ -1,4 +1,12 @@
-function CarInfo({ vehicleImgs, vehicleModel, vehicleCapacity }) {
+import { memo } from "react";
+
+interface Props {
+  vehicleImgs: string[];
+  vehicleModel: string;
+  vehicleCapacity: number;
+}
+
+function CarInfo({ vehicleImgs, vehicleModel, vehicleCapacity }: Props) {
   return (
     <div className="flex flex-col gap-3 my-7">
       <p className="flex gap-4 items-center">
@@ -21,4 +29,4 @@ function CarInfo({ vehicleImgs, vehicleModel, vehicleCapacity }) {
   );
 }
 
-export default CarInfo;
+export default memo(CarInfo);

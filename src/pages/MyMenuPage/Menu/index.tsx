@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../redux/modules/userSlice";
+import { RootState } from "../../../redux/store";
 import Ping from "../../../components/Ping";
 import headerBack from "../../../assets/svg/header-back.svg";
 import CheckModal from "../../../components/CheckModal";
@@ -9,9 +10,9 @@ import CheckModal from "../../../components/CheckModal";
 function Menu() {
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const uncheckedCount = useSelector(
-    (state) => state.notification.uncheckedCount
+    (state: RootState) => state.notification.uncheckedCount
   );
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -113,9 +114,9 @@ function Menu() {
       <CheckModal
         showModal={showLogoutModal}
         setShowModal={setShowLogoutModal}
-        message={"로그아웃 하시겠습니까?"}
-        noText={"취소"}
-        yesText={"확인"}
+        message="로그아웃 하시겠습니까?"
+        noText="취소"
+        yesText="확인"
         yesHandler={() => {
           dispatch(logout());
           setShowLogoutModal(false);
@@ -126,4 +127,4 @@ function Menu() {
   );
 }
 
-export default Menu;
+export default memo(Menu);

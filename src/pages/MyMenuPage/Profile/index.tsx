@@ -1,9 +1,11 @@
+import { memo } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import mallangTripIcon from "../../../assets/images/intro_icon.png";
 import basicProfileImage from "../../../assets/images/profileImage.png";
 
 function Profile() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <div className="flex items-center gap-4 border border-primary p-3 rounded-lg">
@@ -25,4 +27,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default memo(Profile);

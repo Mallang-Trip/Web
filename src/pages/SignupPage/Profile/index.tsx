@@ -1,6 +1,26 @@
-import { useEffect, useRef } from "react";
-import { CONSTANT } from "../../../utils/data";
+import {
+  ChangeEvent,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import InputImage from "../../../components/InputImage";
+import clsx from "clsx";
+
+interface Props {
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  nickName: string;
+  introduction: string;
+  profileImage: File | undefined;
+  setNickName: Dispatch<SetStateAction<string>>;
+  setIntroduction: Dispatch<SetStateAction<string>>;
+  setProfileImage: Dispatch<SetStateAction<File | undefined>>;
+  nickNameDuplication: boolean;
+  setNickNameDuplication: Dispatch<SetStateAction<boolean>>;
+}
 
 function Profile({
   setActiveNext,
@@ -12,21 +32,27 @@ function Profile({
   setProfileImage,
   nickNameDuplication,
   setNickNameDuplication,
-}) {
-  const imageRef = useRef();
-  const nickNameHandler = (e) => {
+}: Props) {
+  const imageRef = useRef<HTMLInputElement | null>(null);
+
+  const nickNameHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) setNickName(e.target.value);
     setNickNameDuplication(false);
-  };
-  const introductionHandler = (e) => {
-    if (e.target.value.length <= 15) setIntroduction(e.target.value);
-  };
-  const imageHandler = () => {
-    const imageFile = imageRef.current.files[0];
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-    setProfileImage(imageFile || undefined);
-  };
+  }, []);
+
+  const introductionHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value.length <= 15) setIntroduction(e.target.value);
+    },
+    []
+  );
+
+  const imageHandler = useCallback(() => {
+    if (imageRef.current && imageRef.current.files) {
+      const imageFile = imageRef.current.files[0];
+      setProfileImage(imageFile || undefined);
+    } else setProfileImage(undefined);
+  }, [imageRef]);
 
   useEffect(() => {
     if (nickName) setActiveNext(true);
@@ -34,7 +60,7 @@ function Profile({
   }, [nickName]);
 
   return (
-    <div className="w-full sm:w-3/4 mx-auto flex flex-col gap-6 mt-12">
+    <div className="w-full max-w-[600px] mx-auto flex flex-col gap-6 mt-12">
       <div>
         <div className="block mb-2 text-base font-medium text-black">
           닉네임을 입력해 주세요. (최대 10자){" "}
@@ -49,9 +75,10 @@ function Profile({
           onChange={nickNameHandler}
         />
         <p
-          className={`mt-2 text-xs font-medium ${
+          className={clsx(
+            "mt-2 text-xs font-medium",
             nickNameDuplication ? "text-red-600" : "text-white"
-          }`}
+          )}
         >
           이미 사용중인 닉네임입니다.
         </p>
@@ -76,7 +103,7 @@ function Profile({
         <div className="flex justify-center h-[200px] mt-8 relative mb-12 lg:mb-0">
           <div
             className="w-[200px] h-[200px] bg-skyblue border border-dashed border-primary rounded-2xl cursor-pointer"
-            onClick={() => imageRef.current.click()}
+            onClick={() => imageRef.current?.click()}
           >
             {profileImage && (
               <img
@@ -90,7 +117,7 @@ function Profile({
             <label htmlFor="profileImage_input">
               <button
                 className="px-5 py-1 text-sm bg-white border rounded-full border-darkgray text-darkgray"
-                onClick={() => imageRef.current.click()}
+                onClick={() => imageRef.current?.click()}
               >
                 사진 업로드
               </button>
@@ -108,4 +135,4 @@ function Profile({
   );
 }
 
-export default Profile;
+export default memo(Profile);

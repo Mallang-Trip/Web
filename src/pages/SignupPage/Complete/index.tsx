@@ -1,10 +1,12 @@
+import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Complete() {
   const navigation = useNavigate();
 
-  const goLogin = () => navigation("/login");
-  const goHome = () => navigation("/");
+  const goLogin = useCallback(() => navigation("/login"), []);
+
+  const goHome = useCallback(() => navigation("/"), []);
 
   return (
     <div className="w-full mx-auto">
@@ -33,4 +35,4 @@ function Complete() {
   );
 }
 
-export default Complete;
+export default memo(Complete);

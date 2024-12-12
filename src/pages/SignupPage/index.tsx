@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { memo, useCallback, useEffect, useState } from "react";
 import { uploadProfileImage } from "../../api/image";
 import { signup, checkDuplication } from "../../api/users";
 import { CONSTANT } from "../../utils/data";
+import { isGAlive } from "../../utils/ga";
 import ReactGA from "react-ga4";
 import PageContainer from "../../components/PageContainer";
-import Logo from "../../assets/images/logo.png";
 import Agreement from "./Agreement";
 import PersonalInfo from "./PersonalInfo";
 import Account from "./Account";
 import Profile from "./Profile";
 import Complete from "./Complete";
 import ConfirmModal from "../../components/ConfirmModal";
-import Title from "../../components/Title";
+import clsx from "clsx";
 
 function SignupPage() {
-  const navigation = useNavigate();
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -26,12 +24,36 @@ function SignupPage() {
   const [passwordAgain, setPasswordAgain] = useState("");
   const [nickName, setNickName] = useState("");
   const [introduction, setIntroduction] = useState("");
-  const [profileImage, setProfileImage] = useState(undefined);
+  const [profileImage, setProfileImage] = useState<File | undefined>(undefined);
   const [emailDuplication, setEmailDuplication] = useState(false);
   const [idDuplication, setIdDuplication] = useState(false);
   const [nickNameDuplication, setNickNameDuplication] = useState(false);
 
-  const nextClick = async () => {
+  const goSignup = useCallback(async () => {
+    try {
+      const profileImageURL = profileImage
+        ? await uploadProfileImage(profileImage)
+        : CONSTANT.BASE_PROFILE_IMAGE;
+
+      const body = {
+        email,
+        id,
+        impUid,
+        introduction,
+        password,
+        nickname: nickName,
+        profileImg: profileImageURL,
+      };
+
+      const result = await signup(body);
+      if (result.statusCode === 200) setStep(step + 1);
+      else setShowErrorModal(true);
+    } catch {
+      setShowErrorModal(true);
+    }
+  }, [profileImage, email, id, impUid, introduction, nickName, password, step]);
+
+  const nextClick = useCallback(async () => {
     if (step === 2) {
       checkDuplication("email", email)
         .then((res) => {
@@ -55,40 +77,12 @@ function SignupPage() {
       setStep(step + 1);
       setActiveNext(false);
     }
-  };
-
-  const goSignup = async () => {
-    try {
-      const profileImageURL = profileImage
-        ? await uploadProfileImage(profileImage)
-        : CONSTANT.BASE_PROFILE_IMAGE;
-
-      const body = {
-        email: email,
-        id: id,
-        impUid: impUid,
-        introduction: introduction,
-        nickname: nickName,
-        password: password,
-        profileImg: profileImageURL,
-      };
-
-      const result = await signup(body);
-      if (result.statusCode === 200) setStep(step + 1);
-      else setShowErrorModal(true);
-    } catch {
-      setShowErrorModal(true);
-    }
-  };
+  }, [step, email, id, nickName, goSignup]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
 
-    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
-    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
-
-    if (!GA_TRACKING_ID || !META_PIXEL_TRACKING_ID) return;
-    if (!window.location.href.includes("localhost")) {
+    if (isGAlive()) {
       const eventName = [
         "01_register",
         "02_certification",
@@ -106,7 +100,6 @@ function SignupPage() {
   return (
     <PageContainer>
       <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full px-2">
-        <Title title="말랑트립 회원가입" />
         {step === 0 ? (
           <Agreement setActiveNext={setActiveNext} />
         ) : step === 1 ? (
@@ -146,11 +139,11 @@ function SignupPage() {
           <div className="flex justify-center mt-16">
             <button
               type="button"
-              className={`${
+              className={clsx(
                 activeNext
                   ? "h-12 text-white rounded-full text-md w-64 sm:w-80 bg-primary"
                   : "h-12 bg-white border rounded-full text-darkgray text-md w-64 sm:w-80 border-darkgray"
-              }`}
+              )}
               disabled={!activeNext}
               onClick={nextClick}
             >
@@ -161,11 +154,11 @@ function SignupPage() {
         <ConfirmModal
           showModal={showErrorModal}
           setShowModal={setShowErrorModal}
-          message={"회원가입에 실패했습니다."}
+          message="회원가입에 실패했습니다."
         />
       </div>
     </PageContainer>
   );
 }
 
-export default SignupPage;
+export default memo(SignupPage);

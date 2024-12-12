@@ -1,6 +1,31 @@
-import { useEffect, useState } from "react";
+import clsx from "clsx";
+import {
+  ChangeEvent,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+interface Props {
+  setActiveNext: Dispatch<SetStateAction<boolean>>;
+  email: string;
+  id: string;
+  password: string;
+  passwordAgain: string;
+  setEmail: Dispatch<SetStateAction<string>>;
+  setId: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>>;
+  setPasswordAgain: Dispatch<SetStateAction<string>>;
+  emailDuplication: boolean;
+  setEmailDuplication: Dispatch<SetStateAction<boolean>>;
+  idDuplication: boolean;
+  setIdDuplication: Dispatch<SetStateAction<boolean>>;
+}
 
 function Account({
   setActiveNext,
@@ -16,21 +41,30 @@ function Account({
   setEmailDuplication,
   idDuplication,
   setIdDuplication,
-}) {
+}: Props) {
   const [validationEmail, setValidationEmail] = useState(true);
   const [validationPassword, setValidationPassword] = useState(true);
   const [validationPasswordAgain, setValidationPasswordAgain] = useState(true);
 
-  const emailHandler = (e) => {
+  const emailHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setEmailDuplication(false);
     setEmail(e.target.value);
-  };
-  const idHandler = (e) => {
+  }, []);
+
+  const idHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setIdDuplication(false);
     setId(e.target.value);
-  };
-  const passwordHandler = (e) => setPassword(e.target.value);
-  const passwordAgainHandler = (e) => setPasswordAgain(e.target.value);
+  }, []);
+
+  const passwordHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    []
+  );
+
+  const passwordAgainHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setPasswordAgain(e.target.value),
+    []
+  );
 
   useEffect(() => {
     if (email && !emailPattern.test(email)) setValidationEmail(false);
@@ -67,7 +101,7 @@ function Account({
   ]);
 
   return (
-    <div className="w-full sm:w-3/4 mx-auto flex flex-col gap-6 mt-12">
+    <div className="w-full max-w-[600px] mx-auto flex flex-col gap-6 mt-12">
       <div>
         <div className="block mb-2 text-base font-medium text-black">
           이메일을 입력해 주세요.{" "}
@@ -82,16 +116,20 @@ function Account({
           onChange={emailHandler}
         />
         <p
-          className={`mt-2 text-xs font-medium ${
-            !validationEmail ? "text-red-600" : "text-white"
-          } ${validationEmail && email ? "hidden" : "block"}`}
+          className={clsx(
+            "mt-2 text-xs font-medium",
+            !validationEmail ? "text-red-600" : "text-white",
+            validationEmail && email ? "hidden" : "block"
+          )}
         >
           이메일 형식이 잘못되었습니다.
         </p>
         <p
-          className={`mt-2 text-xs font-medium ${
-            emailDuplication ? "text-red-600" : "text-white"
-          } ${validationEmail && email ? "block" : "hidden"}`}
+          className={clsx(
+            "mt-2 text-xs font-medium",
+            emailDuplication ? "text-red-600" : "text-white",
+            validationEmail && email ? "block" : "hidden"
+          )}
         >
           이미 사용중인 이메일입니다.
         </p>
@@ -110,9 +148,10 @@ function Account({
           onChange={idHandler}
         />
         <p
-          className={`mt-2 text-xs font-medium ${
+          className={clsx(
+            "mt-2 text-xs font-medium",
             idDuplication ? "text-red-600" : "text-white"
-          }`}
+          )}
         >
           이미 사용중인 아이디입니다.
         </p>
@@ -125,17 +164,19 @@ function Account({
         <input
           type="password"
           name="password"
-          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+          className={clsx(
+            "border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5",
             password && "font-mono"
-          }`}
+          )}
           placeholder="사용하실 비밀번호를 입력해 주세요."
           value={password}
           onChange={passwordHandler}
         />
         <p
-          className={`mt-2 text-xs font-medium ${
+          className={clsx(
+            "mt-2 text-xs font-medium",
             !validationPassword ? "text-red-600" : "text-white"
-          }`}
+          )}
         >
           영문, 특수기호를 포함해 8자리 이상 입력해 주세요.
         </p>
@@ -148,17 +189,19 @@ function Account({
         <input
           type="password"
           name="passwordAgain"
-          className={`border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5 ${
+          className={clsx(
+            "border border-mediumgray text-black text-sm rounded-lg focus:outline-primary block w-full p-2.5",
             passwordAgain && "font-mono"
-          }`}
+          )}
           placeholder="비밀번호를 다시 한번 입력해 주세요."
           value={passwordAgain}
           onChange={passwordAgainHandler}
         />
         <p
-          className={`mt-2 text-xs font-medium ${
+          className={clsx(
+            "mt-2 text-xs font-medium",
             !validationPasswordAgain ? "text-red-600" : "text-white"
-          }`}
+          )}
         >
           비밀번호가 일치하지 않습니다.
         </p>
@@ -167,4 +210,4 @@ function Account({
   );
 }
 
-export default Account;
+export default memo(Account);

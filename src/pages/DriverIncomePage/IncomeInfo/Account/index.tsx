@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDriverMyInfo } from "../../../../api/driver";
 
@@ -10,7 +10,7 @@ function Account() {
     bank: "",
   });
 
-  const getMyDriverInfo = async () => {
+  const getMyDriverInfo = useCallback(async () => {
     try {
       const result = await getDriverMyInfo();
       if (result.payload) setAccountInfo(result.payload);
@@ -18,7 +18,7 @@ function Account() {
       console.log(e);
       navigation("/", { replace: true });
     }
-  };
+  }, []);
 
   useEffect(() => {
     getMyDriverInfo();
@@ -39,4 +39,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default memo(Account);

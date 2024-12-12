@@ -1,7 +1,19 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { priceToString } from "../../../../utils";
 import incomeMoreInfo from "../../../../assets/svg/income-more-info.svg";
+import clsx from "clsx";
+
+interface Props {
+  partyName: string;
+  date: string;
+  afterCommission: number;
+  beforeCommission: number;
+  commission: number;
+  type: string;
+  partyId: number;
+  remitted: boolean;
+}
 
 function Body({
   partyName,
@@ -12,7 +24,7 @@ function Body({
   type,
   partyId,
   remitted,
-}) {
+}: Props) {
   const navigation = useNavigate();
   const [showToolTip, setShowToolTip] = useState(false);
 
@@ -37,7 +49,10 @@ function Body({
           onMouseLeave={() => setShowToolTip(false)}
         />
         <div
-          className={`${showToolTip ? "block" : "hidden"} absolute top-5 left-1/2 -translate-x-1/2 sm:translate-x-0 p-2.5 text-xs text-gray500 whitespace-pre bg-white border border-gray400 rounded-lg z-10`}
+          className={clsx(
+            "absolute top-5 left-1/2 -translate-x-1/2 sm:translate-x-0 p-2.5 text-xs text-gray500 whitespace-pre bg-white border border-gray400 rounded-lg z-10",
+            showToolTip ? "block" : "hidden"
+          )}
         >
           말랑트립 적용 수수료 :{" "}
           <span className="text-[#FF0000]">
@@ -60,4 +75,4 @@ function Body({
   );
 }
 
-export default Body;
+export default memo(Body);

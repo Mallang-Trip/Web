@@ -1,3 +1,4 @@
+import { memo } from "react";
 import MonthlyIncome from "./MonthlyIncome";
 import Account from "./Account";
 
@@ -10,4 +11,4 @@ function IncomeInfo() {
   );
 }
 
-export default IncomeInfo;
+export default memo(IncomeInfo);

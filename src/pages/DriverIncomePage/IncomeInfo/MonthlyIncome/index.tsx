@@ -1,26 +1,30 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { getDriverMonthlyIncome } from "../../../../api/income";
 import { priceToString } from "../../../../utils";
 
 function MonthlyIncome() {
-  const today = new Date();
-  const todayYear = today.getFullYear();
-  const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+  const today = useMemo(() => new Date(), []);
+  const todayYear = useMemo(() => today.getFullYear(), [today]);
+  const todayMonth = useMemo(
+    () => String(today.getMonth() + 1).padStart(2, "0"),
+    [today]
+  );
   const [totalIncome, setTotalIncome] = useState(0);
 
-  const getThisMonthlyIncome = async () => {
+  const getThisMonthlyIncome = useCallback(async () => {
     try {
       const result = await getDriverMonthlyIncome(`${todayYear}-${todayMonth}`);
       setTotalIncome(
         result.payload.reduce(
-          (acc, income) => (acc += income.afterCommission),
+          (acc: number, income: { afterCommission: number }) =>
+            (acc += income.afterCommission),
           0
         )
       );
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [todayYear, todayMonth]);
 
   useEffect(() => {
     getThisMonthlyIncome();
@@ -39,4 +43,4 @@ function MonthlyIncome() {
   );
 }
 
-export default MonthlyIncome;
+export default memo(MonthlyIncome);

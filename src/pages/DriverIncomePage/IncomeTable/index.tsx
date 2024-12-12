@@ -1,14 +1,30 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { getDriverMonthlyIncome } from "../../../api/income";
 import Loading from "../../../components/Loading";
 import Body from "./Body";
 import Head from "./Head";
 
+interface IncomeData {
+  afterCommission: number;
+  beforeCommission: number;
+  commission: number;
+  date: string;
+  incomeId: number;
+  partyId: number;
+  partyName: string;
+  receiverAccountNumber: string | null;
+  receiverBank: string | null;
+  remitted: boolean;
+  remittedAt: string | null;
+  senderBank: string | null;
+  type: string;
+}
+
 function IncomeTable() {
-  const [incomeData, setIncomeData] = useState([]);
+  const [incomeData, setIncomeData] = useState<IncomeData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const getMonthlyIncome = async () => {
+  const getMonthlyIncome = useCallback(async () => {
     try {
       const result = await getDriverMonthlyIncome("all");
       if (result.payload) setIncomeData(result.payload);
@@ -16,13 +32,13 @@ function IncomeTable() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getMonthlyIncome();
   }, []);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading full={false} />;
   return (
     <div className="w-full">
       <p className="text-xl text-black font-bold mb-4">수익금 내역</p>
@@ -40,4 +56,4 @@ function IncomeTable() {
   );
 }
 
-export default IncomeTable;
+export default memo(IncomeTable);

@@ -65,7 +65,7 @@ function LoginForm() {
   return (
     <>
       <form
-        className="w-full md:w-[600px] mx-auto mt-10 px-5"
+        className="w-full max-w-[600px] mx-auto mt-10 px-5"
         onSubmit={loginHandler}
       >
         <input

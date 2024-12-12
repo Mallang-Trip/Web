@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import HeadLogo from "./HeadLogo";
@@ -7,7 +7,7 @@ import Search from "./Search";
 
 function LoginSearchPage() {
   const { target } = useParams();
-  const [mode, setMode] = useState(target);
+  const [mode, setMode] = useState(target || "id");
   const [completeSearch, setCompleteSearch] = useState(false);
   const [loginId, setLoginId] = useState("");
 
@@ -35,4 +35,4 @@ function LoginSearchPage() {
   );
 }
 
-export default LoginSearchPage;
+export default memo(LoginSearchPage);

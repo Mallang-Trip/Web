@@ -1,10 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   getCertificationCode,
   searchId,
   searchPassword,
 } from "../../../../../api/users";
 import ConfirmModal from "../../../../../components/ConfirmModal";
+import clsx from "clsx";
+
+interface Props {
+  mode: string;
+  setMode: Dispatch<SetStateAction<string>>;
+  setCompleteSearch: Dispatch<SetStateAction<boolean>>;
+  setLoginId: Dispatch<SetStateAction<string>>;
+  phoneNumber: string;
+  setPhoneNumber: Dispatch<SetStateAction<string>>;
+  code: string;
+  setCode: Dispatch<SetStateAction<string>>;
+}
 
 function SearchAcount({
   mode,
@@ -15,108 +37,115 @@ function SearchAcount({
   setPhoneNumber,
   code,
   setCode,
-}) {
-  const phoneNumberInput = useRef();
-  const codeInput = useRef();
+}: Props) {
+  const phoneNumberInput = useRef<HTMLInputElement | null>(null);
+  const codeInput = useRef<HTMLInputElement | null>(null);
   const [codeTransmission, setCodeTransmission] = useState(false);
   const [limit, setLimit] = useState(-1);
-  const [timer, setTimer] = useState(undefined);
+  const [timer, setTimer] = useState<number | undefined>(undefined);
   const [showNoInputModal, setShowNoInputModal] = useState(false);
   const [showCodeSendedModal, setShowCodeSendedModal] = useState(false);
   const [showNoUserModal, setShowNoUserModal] = useState(false);
   const [showCodeInvalidModal, setShowCodeInvalidModal] = useState(false);
   const [showCodeErrorModal, setShowCodeErrorModal] = useState(false);
 
-  const phoneNumberHandler = (e) => {
+  const phoneNumberHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 11) return;
     setPhoneNumber(e.target.value.replace(/\D/g, ""));
-  };
-  const codeHandler = (e) => {
+  }, []);
+
+  const codeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 6) return;
     setCode(e.target.value.replace(/\D/g, ""));
-  };
+  }, []);
 
-  const sendCode = async (e) => {
-    e.preventDefault();
+  const sendCode = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    if (!phoneNumber) return setShowNoInputModal(true);
-    if (!/^010\d{8}$/.test(phoneNumber)) return setShowNoInputModal(true);
+      if (!phoneNumber) return setShowNoInputModal(true);
+      if (!/^010\d{8}$/.test(phoneNumber)) return setShowNoInputModal(true);
 
-    try {
-      const result = await getCertificationCode(phoneNumber);
-      if (result.statusCode !== 200) return setShowNoUserModal(true);
-      setShowCodeSendedModal(true);
-      setCodeTransmission(true);
-      setLimit(300);
-      codeInput.current.focus();
-
-      if (!timer) {
-        setTimer(
-          setInterval(() => {
-            setLimit((prevLimit) => prevLimit - 1);
-          }, 1000)
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const codeSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!code) return;
-    if (limit <= 0) return setShowCodeInvalidModal(true);
-
-    if (mode === "password") {
       try {
-        const result = await searchPassword(phoneNumber, code);
-        if (result.statusCode !== 200) return setShowCodeErrorModal(true);
-        setMode("NewPassword");
+        const result = await getCertificationCode(phoneNumber);
+        if (result.statusCode !== 200) return setShowNoUserModal(true);
+        setShowCodeSendedModal(true);
+        setCodeTransmission(true);
+        setLimit(300);
+        codeInput.current?.focus();
+
+        if (!timer) {
+          setTimer(
+            setInterval(() => {
+              setLimit((prevLimit) => prevLimit - 1);
+            }, 1000) as unknown as number
+          );
+        }
       } catch (e) {
         console.log(e);
       }
-    } else {
-      try {
-        const result = await searchId(phoneNumber, code);
-        if (result.statusCode !== 200) return setShowCodeErrorModal(true);
-        setLoginId(result.payload.loginId);
-        setCompleteSearch(true);
-      } catch (e) {
-        console.log(e);
+    },
+    [codeInput, timer, phoneNumber]
+  );
+
+  const codeSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (!code) return;
+      if (limit <= 0) return setShowCodeInvalidModal(true);
+
+      if (mode === "password") {
+        try {
+          const result = await searchPassword(phoneNumber, code);
+          if (result.statusCode !== 200) return setShowCodeErrorModal(true);
+          setMode("NewPassword");
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          const result = await searchId(phoneNumber, code);
+          if (result.statusCode !== 200) return setShowCodeErrorModal(true);
+          setLoginId(result.payload.loginId);
+          setCompleteSearch(true);
+        } catch (e) {
+          console.log(e);
+        }
       }
-    }
-  };
+    },
+    [code, mode, phoneNumber, limit]
+  );
 
   useEffect(() => {
-    if (!showNoInputModal) phoneNumberInput.current.focus();
+    if (!showNoInputModal) phoneNumberInput.current?.focus();
   }, [showNoInputModal]);
 
   useEffect(() => {
-    if (!showNoUserModal) phoneNumberInput.current.focus();
+    if (!showNoUserModal) phoneNumberInput.current?.focus();
   }, [showNoUserModal]);
 
   useEffect(() => {
     if (!showCodeInvalidModal) {
       setCode("");
-      phoneNumberInput.current.focus();
+      phoneNumberInput.current?.focus();
     }
   }, [showCodeInvalidModal]);
 
   useEffect(() => {
-    if (!showCodeErrorModal) codeInput.current.focus();
+    if (!showCodeErrorModal) codeInput.current?.focus();
   }, [showCodeErrorModal]);
 
   useEffect(() => {
-    phoneNumberInput.current.focus();
+    phoneNumberInput.current?.focus();
     setPhoneNumber("");
     setCode("");
     setCodeTransmission(false);
     setLimit(-1);
-    timer && clearInterval(timer);
+    if (timer) clearInterval(timer);
 
     return () => {
-      timer && clearInterval(timer);
+      if (timer) clearInterval(timer);
     };
   }, [mode]);
 
@@ -140,11 +169,12 @@ function SearchAcount({
             />
             <button
               type="submit"
-              className={`w-[125px] h-10 text-xs rounded-lg border ${
+              className={clsx(
+                "w-[125px] h-10 text-xs rounded-lg border",
                 phoneNumber
                   ? "text-white bg-primary border-primary"
                   : "text-darkgray bg-white border-darkgray"
-              }`}
+              )}
             >
               {codeTransmission ? "인증번호 재전송" : "인증번호 전송"}
             </button>
@@ -171,11 +201,12 @@ function SearchAcount({
             />
             <button
               type="submit"
-              className={`w-[125px] h-10 text-xs rounded-lg border ${
+              className={clsx(
+                "w-[125px] h-10 text-xs rounded-lg border",
                 code
                   ? "text-white bg-primary border-primary"
                   : "text-darkgray bg-white border-darkgray"
-              }`}
+              )}
             >
               확인
             </button>
@@ -201,12 +232,12 @@ function SearchAcount({
       <ConfirmModal
         showModal={showNoInputModal}
         setShowModal={setShowNoInputModal}
-        message={"휴대전화 번호를 정확하게 입력해 주세요."}
+        message="휴대전화 번호를 정확하게 입력해 주세요."
       />
       <ConfirmModal
         showModal={showCodeSendedModal}
         setShowModal={setShowCodeSendedModal}
-        message={"인증번호가 전송되었습니다."}
+        message="인증번호가 전송되었습니다."
       />
       <ConfirmModal
         showModal={showNoUserModal}
@@ -231,4 +262,4 @@ function SearchAcount({
   );
 }
 
-export default SearchAcount;
+export default memo(SearchAcount);

@@ -1,14 +1,27 @@
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SearchComplete({ mode, setMode, setCompleteSearch, loginId }) {
+interface Props {
+  mode: string;
+  setMode: Dispatch<SetStateAction<string>>;
+  setCompleteSearch: Dispatch<SetStateAction<boolean>>;
+  loginId: string;
+}
+
+function SearchComplete({ mode, setMode, setCompleteSearch, loginId }: Props) {
   const navigation = useNavigate();
 
-  const goLogin = () => navigation("/login", { replace: true });
-  const goHome = () => navigation("/", { replace: true });
-  const goSearchPassword = () => {
+  const goLogin = useCallback(
+    () => navigation("/login", { replace: true }),
+    []
+  );
+
+  const goHome = useCallback(() => navigation("/", { replace: true }), []);
+
+  const goSearchPassword = useCallback(() => {
     setMode("password");
     setCompleteSearch(false);
-  };
+  }, []);
 
   return (
     <div className="w-[656px] mx-auto mt-10">
@@ -54,4 +67,4 @@ function SearchComplete({ mode, setMode, setCompleteSearch, loginId }) {
   );
 }
 
-export default SearchComplete;
+export default memo(SearchComplete);

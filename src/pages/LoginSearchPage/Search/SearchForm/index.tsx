@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import NewPassword from "./NewPassword";
 import SearchAcount from "./SearchAcount";
 
-function SearchForm({ mode, setMode, setCompleteSearch, setLoginId }) {
+interface Props {
+  mode: string;
+  setMode: Dispatch<SetStateAction<string>>;
+  setCompleteSearch: Dispatch<SetStateAction<boolean>>;
+  setLoginId: Dispatch<SetStateAction<string>>;
+}
+
+function SearchForm({ mode, setMode, setCompleteSearch, setLoginId }: Props) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
 
   return (
-    <div className="w-full md:w-3/5 mx-auto mt-10 px-2">
+    <div className="w-full max-w-[600px] mx-auto mt-10 px-2">
       {mode === "NewPassword" ? (
         <NewPassword
           setCompleteSearch={setCompleteSearch}
@@ -30,4 +37,4 @@ function SearchForm({ mode, setMode, setCompleteSearch, setLoginId }) {
   );
 }
 
-export default SearchForm;
+export default memo(SearchForm);

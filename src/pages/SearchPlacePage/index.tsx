@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useParams } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import PlaceMap from "../../components/PlaceMap";
@@ -12,7 +13,7 @@ function SearchPlacePage() {
       <div className="my-7" />
       <PlaceMap
         search={true}
-        keyword={keyword}
+        keyword={keyword || ""}
         searchPage={true}
         onlyAllPlace={true}
       />
@@ -20,4 +21,4 @@ function SearchPlacePage() {
   );
 }
 
-export default SearchPlacePage;
+export default memo(SearchPlacePage);

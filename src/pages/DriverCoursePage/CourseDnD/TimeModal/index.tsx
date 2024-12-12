@@ -1,40 +1,66 @@
-import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+import {
+  ChangeEvent,
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-function TimeModal({ showModal, setShowModal, startTime, setStartTime }) {
-  const modalRef = useRef();
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  startTime: string;
+  setStartTime: Dispatch<SetStateAction<string>>;
+}
+
+function TimeModal({
+  showModal,
+  setShowModal,
+  startTime,
+  setStartTime,
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [hour, setHour] = useState("10");
   const [minute, setMinute] = useState("00");
 
-  const hourHander = (e) => {
+  const hourHander = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 2) return;
     const newHour = e.target.value.replace(/\D/g, "");
-    if (newHour < 0 || newHour > 24) return;
+    if (parseInt(newHour) < 0 || parseInt(newHour) > 24) return;
     setHour(newHour);
-  };
+  }, []);
 
-  const minuteHander = (e) => {
+  const minuteHander = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 2) return;
     const newMinute = e.target.value.replace(/\D/g, "");
-    if (newMinute < 0 || newMinute >= 60) return;
+    if (parseInt(newMinute) < 0 || parseInt(newMinute) >= 60) return;
     setMinute(newMinute);
-  };
+  }, []);
 
-  const changeHandler = () => {
+  const changeHandler = useCallback(() => {
     setStartTime(
       String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0")
     );
     closeModal();
-  };
+  }, [hour, minute]);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    (event: MouseEvent) => {
+      if (modalRef.current === event.target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") closeModal();
-  };
+  }, []);
 
   useEffect(() => {
     if (!showModal) return document.body.classList.remove("overflow-hidden");
@@ -51,11 +77,12 @@ function TimeModal({ showModal, setShowModal, startTime, setStartTime }) {
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-96 rounded-xl">
         <div className="flex flex-col justify-center gap-10 h-64 text-center text-black whitespace-pre bg-white rounded-t-xl">
@@ -104,4 +131,4 @@ function TimeModal({ showModal, setShowModal, startTime, setStartTime }) {
   );
 }
 
-export default TimeModal;
+export default memo(TimeModal);

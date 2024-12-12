@@ -1,8 +1,18 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import BottomButton from "../../../components/BottomButton";
 
-function SaveButton({ courseId, saveHandler }) {
+interface Props {
+  courseId: string;
+  saveHandler: () => void;
+}
+
+function SaveButton({ courseId, saveHandler }: Props) {
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const label = useMemo(
+    () => (courseId === "new" ? "등록하기" : "저장하기"),
+    [courseId]
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,17 +32,14 @@ function SaveButton({ courseId, saveHandler }) {
           className="h-14 text-white rounded-full text-lg font-bold w-80 bg-primary border border-primary"
           onClick={saveHandler}
         >
-          {courseId === "new" ? "등록하기" : "저장하기"}
+          {label}
         </button>
       </div>
       {scrollPosition > 300 && (
-        <BottomButton
-          text={courseId === "new" ? "등록하기" : "저장하기"}
-          onClick={saveHandler}
-        />
+        <BottomButton text={label} onClick={saveHandler} />
       )}
     </>
   );
 }
 
-export default SaveButton;
+export default memo(SaveButton);

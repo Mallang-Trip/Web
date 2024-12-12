@@ -1,15 +1,25 @@
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import ImageInput from "./ImageInput";
 import ImageItem from "./ImageItem";
+import clsx from "clsx";
 
-function CourseImage({ images, setImages }) {
-  const handleChange = (result) => {
-    if (!result.destination) return;
-    const items = [...images];
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setImages(items);
-  };
+interface Props {
+  images: (string | File)[];
+  setImages: Dispatch<SetStateAction<(string | File)[]>>;
+}
+
+function CourseImage({ images, setImages }: Props) {
+  const handleChange = useCallback(
+    (result: any) => {
+      if (!result.destination) return;
+      const items = [...images];
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reorderedItem);
+      setImages(items);
+    },
+    [images]
+  );
 
   return (
     <div className="flex flex-col gap-2 my-8">
@@ -36,10 +46,11 @@ function CourseImage({ images, setImages }) {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          className={`mr-4 ${
+                          className={clsx(
+                            "mr-4",
                             snapshot.isDragging &&
-                            "ring ring-primary rounded-lg"
-                          }`}
+                              "ring ring-primary rounded-lg"
+                          )}
                         >
                           <ImageItem
                             image={image}
@@ -63,4 +74,4 @@ function CourseImage({ images, setImages }) {
   );
 }
 
-export default CourseImage;
+export default memo(CourseImage);

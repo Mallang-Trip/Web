@@ -1,4 +1,11 @@
-function CourseInfo({ title, content }) {
+import { memo, ReactNode } from "react";
+
+interface Props {
+  title: string;
+  content: string | ReactNode;
+}
+
+function CourseInfo({ title, content }: Props) {
   return (
     <div className="flex flex-col gap-1 my-7">
       <div className="text-lg text-black font-bold">{title}</div>
@@ -7,4 +14,4 @@ function CourseInfo({ title, content }) {
   );
 }
 
-export default CourseInfo;
+export default memo(CourseInfo);

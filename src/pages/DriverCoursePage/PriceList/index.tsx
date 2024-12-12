@@ -1,6 +1,13 @@
+import { Dispatch, memo, SetStateAction } from "react";
 import PriceItem from "./PriceItem";
 
-function PriceList({ prices, priceIndex, setPriceIndex }) {
+interface Props {
+  prices: { hours: number; price: number }[];
+  priceIndex: number;
+  setPriceIndex: Dispatch<SetStateAction<number>>;
+}
+
+function PriceList({ prices, priceIndex, setPriceIndex }: Props) {
   return (
     <div className="flex gap-2 custom-scrollbar">
       {prices.map((item, index) => (
@@ -16,4 +23,4 @@ function PriceList({ prices, priceIndex, setPriceIndex }) {
   );
 }
 
-export default PriceList;
+export default memo(PriceList);

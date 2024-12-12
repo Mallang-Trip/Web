@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDriverMyInfo } from "../../api/driver";
 import {
@@ -9,6 +9,7 @@ import {
 import { getCommisionRate } from "../../api/income";
 import { uploadImage } from "../../api/image";
 import { priceToString } from "../../utils";
+import { Destination } from "../../types";
 import PageContainer from "../../components/PageContainer";
 import ConfirmModal from "../../components/ConfirmModal";
 import CheckModal from "../../components/CheckModal";
@@ -22,27 +23,31 @@ import CourseImage from "./CourseImage";
 import CourseInfo from "./CourseInfo";
 import PriceList from "./PriceList";
 
+interface DestinationState extends Destination {
+  image?: string | string[];
+}
+
 function DriverCoursePage() {
   const navigation = useNavigate();
   const { courseId } = useParams();
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<(string | File)[]>([]);
   const [capacity, setCapacity] = useState(0);
-  const [prices, setPrices] = useState([]);
+  const [prices, setPrices] = useState<{ hours: number; price: number }[]>([]);
   const [priceIndex, setPriceIndex] = useState(0);
-  const [destinations, setDestinations] = useState([]);
+  const [destinations, setDestinations] = useState<DestinationState[]>([]);
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showCheckModal, setShowCheckModal] = useState(false);
   const [commissionRate, setCommissionRate] = useState(0);
-  const [driverRegion, setDriverRegion] = useState([]);
+  const [driverRegion, setDriverRegion] = useState<string[]>([]);
   const [courseRegion, setCourseRegion] = useState("");
 
-  const saveCourse = async () => {
-    const destinationImages = destinations.reduce((acc, cur) => {
+  const saveCourse = useCallback(async () => {
+    const destinationImages = destinations.reduce<string[]>((acc, cur) => {
       if (typeof cur.image === "string") {
         acc.push(cur.image);
       } else if (Array.isArray(cur.image) && cur.image.length > 0) {
@@ -121,9 +126,21 @@ function DriverCoursePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    destinations,
+    name,
+    images,
+    capacity,
+    endTime,
+    prices,
+    priceIndex,
+    startTime,
+    courseRegion,
+    driverRegion,
+    courseId,
+  ]);
 
-  const getDriverCourseInfo = async () => {
+  const getDriverCourseInfo = useCallback(async () => {
     try {
       const driverResult = await getDriverMyInfo();
       setCapacity(driverResult.payload.vehicleCapacity);
@@ -141,7 +158,7 @@ function DriverCoursePage() {
         setEndTime(courseResult.payload.days[0].endTime);
 
         const beforePriceIndex = driverResult.payload.prices.findIndex(
-          (item) =>
+          (item: { hours: number; price: number }) =>
             item.hours === courseResult.payload.days[0].hours &&
             item.price === courseResult.payload.days[0].price
         );
@@ -161,16 +178,16 @@ function DriverCoursePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [courseId]);
 
-  const getCommisionRateFunc = async () => {
+  const getCommisionRateFunc = useCallback(async () => {
     try {
       const result = await getCommisionRate();
       setCommissionRate(parseFloat(result.payload.partyCommissionPercent));
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (!prices[priceIndex]?.hours) return;
@@ -191,12 +208,12 @@ function DriverCoursePage() {
   if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
-      <Title courseId={courseId} />
+      <Title courseId={courseId || "new"} />
       <CourseImage images={images} setImages={setImages} />
-      <CourseInfo title={"여행 기간"} content={"1일"} />
-      <CourseInfo title={"최대 정원"} content={`${capacity}명`} />
+      <CourseInfo title="여행 기간" content="1일" />
+      <CourseInfo title="최대 정원" content={`${capacity}명`} />
       <CourseInfo
-        title={"전체 파티 여행비"}
+        title="전체 파티 여행비"
         content={
           <PriceList
             prices={prices}
@@ -206,15 +223,15 @@ function DriverCoursePage() {
         }
       />
       <CourseInfo
-        title={"파티 가격"}
+        title="파티 가격"
         content={`${priceToString(prices[priceIndex].price)}원`}
       />
       <CourseInfo
-        title={"나의 수익"}
+        title="나의 수익"
         content={`${priceToString(prices[priceIndex].price * ((100 - commissionRate) / 100))}원`}
       />
       <CourseInfo
-        title={"플랫폼 수수료"}
+        title="플랫폼 수수료"
         content={`${priceToString(prices[priceIndex].price * (commissionRate / 100))}원 (${commissionRate}%)`}
       />
       <CourseDnD
@@ -233,10 +250,10 @@ function DriverCoursePage() {
         setRegion={setCourseRegion}
       />
       <SaveButton
-        courseId={courseId}
+        courseId={courseId || "new"}
         saveHandler={() => setShowCheckModal(true)}
       />
-      <DeleteButton courseId={courseId} />
+      <DeleteButton courseId={courseId || "new"} />
 
       <ConfirmModal
         showModal={showErrorModal}
@@ -262,4 +279,4 @@ function DriverCoursePage() {
   );
 }
 
-export default DriverCoursePage;
+export default memo(DriverCoursePage);

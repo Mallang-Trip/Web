@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCourse } from "../../../api/course";
 import CheckModal from "../../../components/CheckModal";
 
-function DeleteButton({ courseId }) {
+interface Props {
+  courseId: string;
+}
+
+function DeleteButton({ courseId }: Props) {
   const navigation = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const deleteHandler = async () => {
+  const deleteHandler = useCallback(async () => {
     try {
       await deleteCourse(courseId);
       alert("파티 코스가 삭제되었습니다.");
@@ -16,7 +20,7 @@ function DeleteButton({ courseId }) {
       console.log(e);
       alert("파티 코스 삭제에 실패했습니다.");
     }
-  };
+  }, [courseId]);
 
   if (courseId === "new") return null;
   return (
@@ -44,4 +48,4 @@ function DeleteButton({ courseId }) {
   );
 }
 
-export default DeleteButton;
+export default memo(DeleteButton);

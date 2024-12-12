@@ -1,29 +1,33 @@
-import { useRef } from "react";
-import { CONSTANT } from "../../../../utils/data";
+import { Dispatch, memo, SetStateAction, useCallback, useRef } from "react";
 import primaryPlus from "../../../../assets/svg/primary_plus.svg";
 import InputImage from "../../../../components/InputImage";
 
-function ImageInput({ images, setImages }) {
-  const imageRef = useRef();
+interface Props {
+  images: (string | File)[];
+  setImages: Dispatch<SetStateAction<(string | File)[]>>;
+}
 
-  const imageUploadHandler = () => {
-    const imageFile = imageRef.current.files[0];
+function ImageInput({ images, setImages }: Props) {
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
-    if (imageFile.size > CONSTANT.MAX_SIZE_IMAGE)
-      return alert("이미지의 용량이 너무 커서 업로드 할 수 없습니다.");
-
-    if (imageFile) {
+  const imageUploadHandler = useCallback(() => {
+    if (
+      imageRef.current &&
+      imageRef.current.files &&
+      imageRef.current.files[0]
+    ) {
+      const imageFile = imageRef.current.files[0];
       const newImages = [...images];
       newImages.push(imageFile);
       setImages(newImages);
     }
-  };
+  }, [imageRef, images]);
 
   return (
     <>
       <div
         className="shrink-0 w-32 h-32 bg-skyblue border border-dashed border-primary rounded-lg cursor-pointer flex justify-center items-center"
-        onClick={() => imageRef.current.click()}
+        onClick={() => imageRef.current?.click()}
       >
         <img src={primaryPlus} alt="plus" className="w-3 h-3" />
       </div>
@@ -37,4 +41,4 @@ function ImageInput({ images, setImages }) {
   );
 }
 
-export default ImageInput;
+export default memo(ImageInput);

@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Destination } from "../../../types";
 import dragIcon from "../../../assets/svg/dragIcon.svg";
 import deleteIcon from "../../../assets/svg/x-modal-icon.svg";
 import TimeModal from "./TimeModal";
+import clsx from "clsx";
+
+interface Props {
+  name: string;
+  setName: Dispatch<SetStateAction<string>>;
+  hours: number;
+  destinations: Destination[];
+  setDestinations: Dispatch<SetStateAction<Destination[]>>;
+  startTime: string;
+  endTime: string;
+  setStartTime: Dispatch<SetStateAction<string>>;
+}
 
 function CourseDnD({
   name,
@@ -13,20 +26,26 @@ function CourseDnD({
   startTime,
   endTime,
   setStartTime,
-}) {
+}: Props) {
   const [showTimeModal, setShowTimeModal] = useState(false);
 
-  const handleChange = (result) => {
-    if (!result.destination) return;
-    const items = [...destinations];
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setDestinations(items);
-  };
+  const handleChange = useCallback(
+    (result: any) => {
+      if (!result.destination) return;
+      const items = [...destinations];
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reorderedItem);
+      setDestinations(items);
+    },
+    [destinations]
+  );
 
-  const deleteHandler = (targetIndex) => {
-    setDestinations(destinations.filter((_, index) => index !== targetIndex));
-  };
+  const deleteHandler = useCallback(
+    (targetIndex: number) => {
+      setDestinations(destinations.filter((_, index) => index !== targetIndex));
+    },
+    [destinations]
+  );
 
   return (
     <>
@@ -60,9 +79,10 @@ function CourseDnD({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
-                        className={`bg-white w-4/5 md:w-[700px] h-[83px] mx-auto text-boldblue text-lg md:text-xl text-bold flex items-center ${
+                        className={clsx(
+                          "bg-white w-4/5 md:w-[700px] h-[83px] mx-auto text-boldblue text-lg md:text-xl text-bold flex items-center",
                           snapshot.isDragging && "border-2 border-primary"
-                        }`}
+                        )}
                       >
                         <img
                           src={dragIcon}
@@ -71,7 +91,10 @@ function CourseDnD({
                         />
                         <div>{item.name}</div>
                         <div
-                          className={`ml-auto ${index === 0 && "cursor-pointer hover:font-bold"}`}
+                          className={clsx(
+                            "ml-auto",
+                            index === 0 && "cursor-pointer hover:font-bold"
+                          )}
                           onClick={() => index === 0 && setShowTimeModal(true)}
                         >
                           {index === 0
@@ -105,4 +128,4 @@ function CourseDnD({
   );
 }
 
-export default CourseDnD;
+export default memo(CourseDnD);

@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import deleteIcon from "../../../../assets/svg/delete_image_icon.svg";
 
-function ImageItem({ image, index, images, setImages }) {
+interface Props {
+  image: string | File;
+  index: number;
+  images: (string | File)[];
+  setImages: Dispatch<SetStateAction<(string | File)[]>>;
+}
+
+function ImageItem({ image, index, images, setImages }: Props) {
   const [deleteMode, setDeleteMode] = useState(false);
 
-  const imageDeleteHandler = () => {
+  const imageDeleteHandler = useCallback(() => {
     const newImages = [...images];
     newImages.splice(index, 1);
     setImages(newImages);
-  };
+  }, [images, index]);
 
   return (
     <div className="shrink-0 w-32 h-32 bg-skyblue border border-dashed border-primary rounded-lg cursor-pointer flex justify-center items-center">
@@ -35,4 +42,4 @@ function ImageItem({ image, index, images, setImages }) {
   );
 }
 
-export default ImageItem;
+export default memo(ImageItem);

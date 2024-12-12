@@ -1,13 +1,21 @@
+import { Dispatch, memo, SetStateAction, useMemo } from "react";
 import PageButton from "./PageButton";
 import paginationNext from "../../../assets/svg/pagination.svg";
+import clsx from "clsx";
 
-function Pagination({ page, setPage, length }) {
-  const pivot = parseInt(page / 5);
+interface Props {
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  length: number;
+}
+
+function Pagination({ page, setPage, length }: Props) {
+  const pivot = useMemo(() => Math.floor(page / 5), [page]);
 
   return (
     <div className="w-full flex justify-center items-center gap-2.5 mt-12 mb-16">
       <button
-        className={`mr-2.5 ${pivot === 0 ? "hidden" : "block"}`}
+        className={clsx("mr-2.5", pivot === 0 ? "hidden" : "block")}
         onClick={() => setPage(pivot * 5 - 1)}
       >
         <img src={paginationNext} alt="다음" className="w-10 h-10 rotate-180" />
@@ -23,7 +31,10 @@ function Pagination({ page, setPage, length }) {
         />
       ))}
       <button
-        className={`ml-2.5 ${(pivot + 1) * 50 > length ? "hidden" : "block"}`}
+        className={clsx(
+          "ml-2.5",
+          (pivot + 1) * 50 > length ? "hidden" : "block"
+        )}
         onClick={() => setPage((pivot + 1) * 5)}
       >
         <img src={paginationNext} alt="다음" className="w-10 h-10" />
@@ -32,4 +43,4 @@ function Pagination({ page, setPage, length }) {
   );
 }
 
-export default Pagination;
+export default memo(Pagination);

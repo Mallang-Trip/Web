@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function Head() {
   return (
     <div className="w-full px-5 py-4 flex gap-12 justify-between items-center text-sm text-black text-center font-bold bg-skyblue border-t-2 border-b border-mediumgray">
@@ -8,4 +10,4 @@ function Head() {
   );
 }
 
-export default Head;
+export default memo(Head);

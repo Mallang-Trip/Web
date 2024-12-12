@@ -1,6 +1,14 @@
+import { memo } from "react";
 import ImageBox from "../../../../components/ImageBox";
 
-function ArticleBody({ createdAt, images, title, content }) {
+interface Props {
+  createdAt: string;
+  images: string[];
+  title: string;
+  content: string;
+}
+
+function ArticleBody({ createdAt, images, title, content }: Props) {
   return (
     <div className="w-full px-6 pb-10 border-b border-mediumgray">
       <p className="mt-4 text-xs text-darkgray font-medium">
@@ -16,4 +24,4 @@ function ArticleBody({ createdAt, images, title, content }) {
   );
 }
 
-export default ArticleBody;
+export default memo(ArticleBody);

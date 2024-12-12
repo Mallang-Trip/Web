@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
 import { makeNewCoupleChat } from "../../../api/chat";
+import { RootState } from "../../../redux/store";
 import ConfirmModal from "../../../components/ConfirmModal";
 
 function Chatting() {
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const goDriverChat = async () => {
+  const goDriverChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
     if (user.userId === 0) return navigation("/talk");
 
@@ -22,7 +23,7 @@ function Chatting() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [user]);
 
   return (
     <>
@@ -47,4 +48,4 @@ function Chatting() {
   );
 }
 
-export default Chatting;
+export default memo(Chatting);

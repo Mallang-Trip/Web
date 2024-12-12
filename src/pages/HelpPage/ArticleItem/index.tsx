@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAnnouncementDetail } from "../../../api/announcement";
 import ArticleTitle from "./ArticleTitle";
@@ -7,9 +7,16 @@ import ArticleBody from "./ArticleBody";
 function ArticleItem() {
   const navigation = useNavigate();
   const { id } = useParams();
-  const [notice, setNotice] = useState({});
+  const [notice, setNotice] = useState({
+    announcementId: 0,
+    content: "",
+    createdAt: "",
+    images: [],
+    title: "",
+    type: "",
+  });
 
-  const getAnnouncementDetailFunc = async () => {
+  const getAnnouncementDetailFunc = useCallback(async () => {
     try {
       const result = await getAnnouncementDetail(id);
       setNotice(result.payload);
@@ -20,11 +27,18 @@ function ArticleItem() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     if (id === "list") {
-      setNotice({});
+      setNotice({
+        announcementId: 0,
+        content: "",
+        createdAt: "",
+        images: [],
+        title: "",
+        type: "",
+      });
       return;
     }
     getAnnouncementDetailFunc();
@@ -40,4 +54,4 @@ function ArticleItem() {
   );
 }
 
-export default ArticleItem;
+export default memo(ArticleItem);

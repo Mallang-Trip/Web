@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAnnouncementList } from "../../../api/announcement";
 import Loading from "../../../components/Loading";
@@ -6,14 +6,25 @@ import Pagination from "../Pagination";
 import Head from "./Head";
 import Notice from "./Notice";
 
-function NoticeList({ type }) {
+interface NoticeContent {
+  announcementId: number;
+  createdAt: string;
+  title: string;
+  type: string;
+}
+
+interface Props {
+  type: string;
+}
+
+function NoticeList({ type }: Props) {
   const { id } = useParams();
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState<NoticeContent[]>([]);
   const [page, setPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const getAnnouncementListFunc = async () => {
+  const getAnnouncementListFunc = useCallback(async () => {
     try {
       setLoading(true);
       const result = await getAnnouncementList(type, page);
@@ -24,7 +35,7 @@ function NoticeList({ type }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [type, page]);
 
   useEffect(() => {
     getAnnouncementListFunc();
@@ -60,4 +71,4 @@ function NoticeList({ type }) {
   );
 }
 
-export default NoticeList;
+export default memo(NoticeList);

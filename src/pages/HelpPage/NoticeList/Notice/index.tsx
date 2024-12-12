@@ -1,6 +1,14 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Notice({ index, announcementId, title, createdAt }) {
+interface Props {
+  index: number;
+  announcementId: number;
+  title: string;
+  createdAt: string;
+}
+
+function Notice({ index, announcementId, title, createdAt }: Props) {
   const navigation = useNavigate();
 
   return (
@@ -21,4 +29,4 @@ function Notice({ index, announcementId, title, createdAt }) {
   );
 }
 
-export default Notice;
+export default memo(Notice);

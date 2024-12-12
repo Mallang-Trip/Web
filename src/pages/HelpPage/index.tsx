@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import PageContainer from "../../components/PageContainer";
-import Title from "./Title";
+import Title from "../../components/Title";
 import Tab from "./Tab";
 import ArticleItem from "./ArticleItem";
 import NoticeList from "./NoticeList";
@@ -11,7 +11,7 @@ function HelpPage() {
 
   return (
     <PageContainer>
-      <Title />
+      <Title title="말랑트립 고객센터" />
       <Tab type={type} setType={setType} />
       <NoticeList type={type} />
       <ArticleItem />
@@ -20,4 +20,4 @@ function HelpPage() {
   );
 }
 
-export default HelpPage;
+export default memo(HelpPage);

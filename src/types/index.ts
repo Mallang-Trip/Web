@@ -122,6 +122,7 @@ export interface Party {
   proposalExists: boolean;
   region: string;
   reservation: any;
+  status: keyof typeof partyStatusObj;
 }
 
 export interface HeartParty {

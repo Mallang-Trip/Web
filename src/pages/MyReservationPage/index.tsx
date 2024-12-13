@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getMyParty, getMyDriverParty } from "../../api/party";
+import { RootState } from "../../redux/store";
+import { Party } from "../../types";
 import PageContainer from "../../components/PageContainer";
 import Loading from "../../components/Loading";
 import NoReservationData from "./NoReservationData";
 import ReservationList from "./ReservationList";
+import Title from "../../components/Title";
 
 function MyReservationPage() {
-  const user = useSelector((state) => state.user);
-  const [myReservationData, setMyReservationData] = useState([]);
+  const user = useSelector((state: RootState) => state.user);
+  const [myReservationData, setMyReservationData] = useState<Party[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const getMyPartyData = async () => {
+  const getMyPartyData = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -25,7 +28,7 @@ function MyReservationPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     getMyPartyData();
@@ -33,7 +36,7 @@ function MyReservationPage() {
 
   return (
     <PageContainer>
-      <div className="text-2xl text-black font-bold">예약 내역</div>
+      <Title title="예약 내역" />
       {loading ? (
         <Loading full={true} />
       ) : myReservationData.length === 0 ? (
@@ -45,4 +48,4 @@ function MyReservationPage() {
   );
 }
 
-export default MyReservationPage;
+export default memo(MyReservationPage);

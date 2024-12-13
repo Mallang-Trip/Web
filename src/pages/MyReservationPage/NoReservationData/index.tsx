@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function NoReservationData() {
@@ -20,4 +21,4 @@ function NoReservationData() {
   );
 }
 
-export default NoReservationData;
+export default memo(NoReservationData);

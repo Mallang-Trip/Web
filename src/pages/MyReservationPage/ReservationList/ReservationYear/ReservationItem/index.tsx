@@ -1,6 +1,8 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { partyStatusObj } from "../../../../../utils/data";
 import { customRoundOne, dateToStringHan } from "../../../../../utils";
+import { Party } from "../../../../../types";
 
 function ReservationItem({
   partyId,
@@ -12,7 +14,7 @@ function ReservationItem({
   price,
   driverName,
   status,
-}) {
+}: Party) {
   const navigation = useNavigate();
 
   return (
@@ -40,4 +42,4 @@ function ReservationItem({
   );
 }
 
-export default ReservationItem;
+export default memo(ReservationItem);

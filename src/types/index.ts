@@ -276,3 +276,16 @@ export type ArticleCategoryType =
   | "자유게시판"
   | "동행구해요"
   | "피드백";
+
+export interface Payment {
+  cancelReceiptUrl: string | null;
+  partyId: number;
+  partyName: string;
+  partyStartDate: string;
+  paymentAmount: number;
+  paymentTime: string;
+  receiptUrl: string | null;
+  refundAmount: number;
+  refundTime: string;
+  status: string;
+}

@@ -1,8 +1,13 @@
-import { Fragment } from "react";
+import { Fragment, memo } from "react";
+import { Payment } from "../../../types";
 import Head from "./Head";
 import Body from "./Body";
 
-function PaymentTable({ paymentList }) {
+interface Props {
+  paymentList: Payment[];
+}
+
+function PaymentTable({ paymentList }: Props) {
   if (paymentList.length === 0)
     return (
       <div className="mt-20 text-base text-black font-medium text-center">
@@ -22,4 +27,4 @@ function PaymentTable({ paymentList }) {
   );
 }
 
-export default PaymentTable;
+export default memo(PaymentTable);

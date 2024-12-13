@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { getMyPaymentList } from "../../api/card";
+import { Payment } from "../../types";
 import PageContainer from "../../components/PageContainer";
 import Title from "../../components/Title";
 import Loading from "../../components/Loading";
 import PaymentTable from "./PaymentTable";
 
 function MyPaymentListPage() {
-  const [paymentList, setPaymentList] = useState([]);
+  const [paymentList, setPaymentList] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const getMyPaymentListFunc = async () => {
+  const getMyPaymentListFunc = useCallback(async () => {
     try {
       const result = await getMyPaymentList();
       setPaymentList(result.payload);
@@ -18,7 +19,7 @@ function MyPaymentListPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getMyPaymentListFunc();
@@ -33,4 +34,4 @@ function MyPaymentListPage() {
   );
 }
 
-export default MyPaymentListPage;
+export default memo(MyPaymentListPage);

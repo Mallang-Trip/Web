@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function Head() {
   return (
     <div className="w-full py-3 grid grid-cols-6 items-center text-center bg-skyblue rounded-xl">
@@ -11,4 +13,4 @@ function Head() {
   );
 }
 
-export default Head;
+export default memo(Head);

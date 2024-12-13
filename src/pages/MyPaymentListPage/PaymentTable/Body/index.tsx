@@ -1,5 +1,11 @@
+import { memo, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { priceToString } from "../../../../utils";
+import { Payment } from "../../../../types";
+
+interface Props extends Payment {
+  type: "payment" | "refund";
+}
 
 function Body({
   type,
@@ -13,14 +19,34 @@ function Body({
   status,
   receiptUrl,
   cancelReceiptUrl,
-}) {
+}: Props) {
   const navigation = useNavigate();
-  const paymentDate = type === "payment" ? paymentTime : refundTime;
-  const amount = type === "payment" ? paymentAmount : refundAmount;
-  const url = type === "payment" ? receiptUrl : cancelReceiptUrl;
-  const successStatus = status.includes("COMPLETE") ? "완료" : "실패";
-  const paymentStatus =
-    type === "payment" ? `결제 ${successStatus}` : `환불 ${successStatus}`;
+
+  const paymentDate = useMemo(
+    () => (type === "payment" ? paymentTime : refundTime),
+    [type, paymentTime, refundTime]
+  );
+
+  const amount = useMemo(
+    () => (type === "payment" ? paymentAmount : refundAmount),
+    [type, paymentAmount, refundAmount]
+  );
+
+  const url = useMemo(
+    () => (type === "payment" ? receiptUrl : cancelReceiptUrl),
+    [type, receiptUrl, cancelReceiptUrl]
+  );
+
+  const successStatus = useMemo(
+    () => (status.includes("COMPLETE") ? "완료" : "실패"),
+    [status]
+  );
+
+  const paymentStatus = useMemo(
+    () =>
+      type === "payment" ? `결제 ${successStatus}` : `환불 ${successStatus}`,
+    [type, successStatus]
+  );
 
   return (
     <div className="w-full py-3 grid grid-cols-6 items-center text-center bg-white border border-gray300 rounded-xl">
@@ -53,4 +79,4 @@ function Body({
   );
 }
 
-export default Body;
+export default memo(Body);

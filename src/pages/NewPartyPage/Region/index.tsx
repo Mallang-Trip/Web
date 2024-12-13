@@ -1,14 +1,44 @@
-import { useEffect, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { getPartyRegionList } from "../../../api/region";
+import { DriverInfo, Review } from "../../../types";
 import CheckModal from "../../../components/CheckModal";
 import Title from "../../../components/Title";
 import RegionButton from "./RegionButton";
 
-function Region({ setRegion, member, driverId, date, driverInfo }) {
-  const [regionData, setRegionData] = useState([]);
+interface DriverInfoType extends DriverInfo {
+  driverId: number;
+  reservationCount: number;
+  avgRate: number | null;
+  reviews: Review[];
+}
+
+interface RegionData {
+  image: string;
+  name: string;
+  province: string | null;
+  regionId: number;
+}
+
+interface Props {
+  setRegion: Dispatch<SetStateAction<string>>;
+  member: number;
+  driverId: string | number;
+  date: string;
+  driverInfo: DriverInfoType;
+}
+
+function Region({ setRegion, member, driverId, date, driverInfo }: Props) {
+  const [regionData, setRegionData] = useState<RegionData[]>([]);
   const [showKakaoChatModal, setShowKakaoChatModal] = useState(false);
 
-  const kakaoChatHandler = () => {
+  const kakaoChatHandler = useCallback(() => {
     const newWindow = window.open(
       "http://pf.kakao.com/_tfMxaG/chat",
       "_blank",
@@ -16,28 +46,33 @@ function Region({ setRegion, member, driverId, date, driverInfo }) {
     );
     if (newWindow) newWindow.opener = null;
     setShowKakaoChatModal(false);
-  };
+  }, []);
 
-  const getPartyRegionListFunc = async () => {
+  const getPartyRegionListFunc = useCallback(async () => {
     try {
       const result = await getPartyRegionList();
-      const lastItem = result.payload.filter((item) =>
+      const lastItem = result.payload.filter((item: RegionData) =>
         item.name.includes("그 외")
       );
       const otherItems = result.payload.filter(
-        (item) => !item.name.includes("그 외")
+        (item: RegionData) => !item.name.includes("그 외")
       );
-      if (driverId === "null" || driverId === 0)
+      if (
+        (typeof driverId === "number" && driverId === 0) ||
+        driverId === "null"
+      )
         setRegionData([...otherItems, ...lastItem]);
-      else if (JSON.stringify(driverInfo) !== "{}") {
+      else if (driverInfo.driverId === 0) {
         setRegionData(
-          result.payload.filter((item) => driverInfo.region.includes(item.name))
+          result.payload.filter((item: DriverInfoType) =>
+            driverInfo.region.includes(item.name)
+          )
         );
       }
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [driverId, driverInfo]);
 
   useEffect(() => {
     getPartyRegionListFunc();
@@ -71,4 +106,4 @@ function Region({ setRegion, member, driverId, date, driverInfo }) {
   );
 }
 
-export default Region;
+export default memo(Region);

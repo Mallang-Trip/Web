@@ -1,7 +1,18 @@
-import { useCallback } from "react";
+import { Dispatch, memo, MouseEvent, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { isGAlive } from "../../../../utils/ga";
 import ReactGA from "react-ga4";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
+
+interface Props {
+  profileImg: string | undefined;
+  name: string;
+  driverId: number;
+  setDriverId: Dispatch<SetStateAction<number | string>>;
+  member: number;
+  date: string;
+  region: string;
+}
 
 function DriverProfile({
   profileImg,
@@ -11,22 +22,22 @@ function DriverProfile({
   member,
   date,
   region,
-}) {
+}: Props) {
   const navigation = useNavigate();
 
+  const selectDriver = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      setDriverId(driverId);
+    },
+    [driverId]
+  );
+
   const showDriverProfile = useCallback(
-    (e) => {
+    (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
-      const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
-      const META_PIXEL_TRACKING_ID = import.meta.env
-        .VITE_META_PIXEL_TRACKING_ID;
-
-      if (
-        GA_TRACKING_ID &&
-        META_PIXEL_TRACKING_ID &&
-        !window.location.href.includes("localhost")
-      ) {
+      if (isGAlive()) {
         ReactGA.event({
           category: "새로운 파티 만들기",
           action: `07_selectdriver_${name}`,
@@ -43,10 +54,7 @@ function DriverProfile({
   return (
     <div
       className="cursor-pointer bg-skyblue rounded-lg hover:ring ring-primary/50"
-      onClick={(e) => {
-        e.stopPropagation();
-        setDriverId(driverId);
-      }}
+      onClick={selectDriver}
     >
       <div className="relative h-64 border rounded-lg">
         <img
@@ -68,4 +76,4 @@ function DriverProfile({
   );
 }
 
-export default DriverProfile;
+export default memo(DriverProfile);

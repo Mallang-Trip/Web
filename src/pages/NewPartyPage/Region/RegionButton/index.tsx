@@ -1,4 +1,15 @@
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+
+interface Props {
+  name: string;
+  image: string;
+  setRegion: Dispatch<SetStateAction<string>>;
+  member: number;
+  driverId: string | number;
+  date: string;
+  setShowKakaoChatModal: Dispatch<SetStateAction<boolean>>;
+}
 
 function RegionButton({
   name,
@@ -8,16 +19,16 @@ function RegionButton({
   driverId,
   date,
   setShowKakaoChatModal,
-}) {
+}: Props) {
   const navigation = useNavigate();
 
-  const clickHandler = () => {
+  const clickHandler = useCallback(() => {
     if (name.includes("그 외")) return setShowKakaoChatModal(true);
     setRegion(name);
     navigation(
       `/party/new/2?region=${name}&member=${member}&date=${date}&driverId=${driverId}`
     );
-  };
+  }, [name, member, date, driverId]);
 
   return (
     <div className="relative h-64 cursor-pointer" onClick={clickHandler}>
@@ -34,4 +45,4 @@ function RegionButton({
   );
 }
 
-export default RegionButton;
+export default memo(RegionButton);

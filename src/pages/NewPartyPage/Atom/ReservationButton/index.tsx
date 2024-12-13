@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import BottomButton from "../../../../components/BottomButton";
 
-function ReservationButton({ joinHandler }) {
+interface Props {
+  joinHandler: () => void;
+}
+
+function ReservationButton({ joinHandler }: Props) {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -32,4 +36,4 @@ function ReservationButton({ joinHandler }) {
   );
 }
 
-export default ReservationButton;
+export default memo(ReservationButton);

@@ -1,18 +1,38 @@
-import { useEffect, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { getRegionDriver } from "../../../api/driver";
 import DriverProfile from "./DriverProfile";
 
-function Driver({ region, setDriverId, date, member }) {
-  const [driverData, setDriverData] = useState([]);
+interface DriverData {
+  driverId: number;
+  name: string;
+  profileImg: string | undefined;
+}
 
-  const getDriverData = async () => {
+interface Props {
+  region: string;
+  setDriverId: Dispatch<SetStateAction<number | string>>;
+  date: string;
+  member: number;
+}
+
+function Driver({ region, setDriverId, date, member }: Props) {
+  const [driverData, setDriverData] = useState<DriverData[]>([]);
+
+  const getDriverData = useCallback(async () => {
     try {
       const result = await getRegionDriver(region, member, date);
       setDriverData(result.payload);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [region, member, date]);
 
   useEffect(() => {
     getDriverData();
@@ -39,11 +59,11 @@ function Driver({ region, setDriverId, date, member }) {
       </div>
       {driverData.length === 0 && (
         <div className="w-full text-center">
-          {"예약 가능한 드라이버가 없습니다."}
+          예약 가능한 드라이버가 없습니다.
         </div>
       )}
     </>
   );
 }
 
-export default Driver;
+export default memo(Driver);

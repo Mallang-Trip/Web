@@ -1,5 +1,22 @@
-import { useEffect, useState } from "react";
+import {
+  Dispatch,
+  ForwardedRef,
+  memo,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { Course } from "../../../../types";
 import PriceButton from "./PriceButton";
+import clsx from "clsx";
+
+interface Props {
+  prices: { hours: number; price: number }[];
+  planData: Course;
+  setPlanData: Dispatch<SetStateAction<Course>>;
+  shakeCoursePrice: boolean;
+  coursePriceRef: ForwardedRef<HTMLDivElement>;
+}
 
 function PriceList({
   prices,
@@ -7,7 +24,7 @@ function PriceList({
   setPlanData,
   shakeCoursePrice,
   coursePriceRef,
-}) {
+}: Props) {
   const [showText, setShowText] = useState(false);
 
   useEffect(() => {
@@ -17,13 +34,16 @@ function PriceList({
   return (
     <div
       ref={coursePriceRef}
-      className={`${shakeCoursePrice && "animate-shake"}`}
+      className={clsx(shakeCoursePrice && "animate-shake")}
     >
       <div className="flex flex-col gap-1 my-7">
         <div className="flex items-center gap-1.5">
           <div className="text-lg text-black font-bold">코스 비용</div>
           <div
-            className={`${showText ? "text-red-600" : "text-white"} text-sm`}
+            className={clsx(
+              "text-sm",
+              showText ? "text-red-600" : "text-white"
+            )}
           >
             코스 시간과 비용을 선택해주세요!
           </div>
@@ -47,4 +67,4 @@ function PriceList({
   );
 }
 
-export default PriceList;
+export default memo(PriceList);

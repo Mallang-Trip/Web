@@ -1,4 +1,11 @@
-function TextArea({ title, content }) {
+import { memo } from "react";
+
+interface Props {
+  title: string;
+  content: string | string[];
+}
+
+function TextArea({ title, content }: Props) {
   return (
     <div className="flex flex-col gap-1 my-7">
       <p className="text-lg text-black font-bold">{title}</p>
@@ -9,4 +16,4 @@ function TextArea({ title, content }) {
   );
 }
 
-export default TextArea;
+export default memo(TextArea);

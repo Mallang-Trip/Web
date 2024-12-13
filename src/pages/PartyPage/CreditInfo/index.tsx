@@ -1,8 +1,21 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { priceToString, dateToKoreanDataTime } from "../../../utils";
 import { postPaymentAgain } from "../../../api/card";
+import { partyStatusObj } from "../../../utils/data";
 import CheckModal from "../../../components/CheckModal";
 import ConfirmModal from "../../../components/ConfirmModal";
+
+interface Props {
+  totalPrice: number;
+  capacity: number;
+  partyStatus?: keyof typeof partyStatusObj;
+  paymentAmount?: number;
+  createdAt?: string;
+  receiptUrl?: string | null;
+  status?: string;
+  reservationId?: number;
+  getPartyData?: () => void;
+}
 
 function CreditInfo({
   totalPrice,
@@ -14,13 +27,13 @@ function CreditInfo({
   status,
   reservationId,
   getPartyData,
-}) {
-  const [middleCount, setMiddleCount] = useState([]);
+}: Props) {
+  const [middleCount, setMiddleCount] = useState<number[]>([]);
   const [showRepaymentModal, setShowRepaymentModal] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [message, setMessage] = useState("");
 
-  const repaymentHandler = async () => {
+  const repaymentHandler = useCallback(async () => {
     try {
       const result = await postPaymentAgain(reservationId);
       if (result.statusCode === 200)
@@ -32,9 +45,9 @@ function CreditInfo({
     } finally {
       setShowRepaymentModal(false);
       setShowMessageModal(true);
-      getPartyData();
+      if (getPartyData) getPartyData();
     }
-  };
+  }, [reservationId, paymentAmount]);
 
   useEffect(() => {
     const middle = [];
@@ -69,6 +82,7 @@ function CreditInfo({
               <button
                 className="underline underline-offset-2"
                 onClick={() => {
+                  if (!receiptUrl) return;
                   const newWindow = window.open(
                     receiptUrl,
                     "_blank",
@@ -152,4 +166,4 @@ function CreditInfo({
   );
 }
 
-export default CreditInfo;
+export default memo(CreditInfo);

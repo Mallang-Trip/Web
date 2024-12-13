@@ -1,6 +1,13 @@
+import { Dispatch, memo, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import { dateToStringHan, priceToString } from "../../../utils";
+import {
+  DriverInfo as DriverInfoRawType,
+  Course as CourseType,
+  Review,
+} from "../../../types";
 import ImageBox from "../../../components/ImageBox";
 import PartyPlan from "../../../components/PartyPlan";
 import CourseMap from "../../../components/CourseMap";
@@ -12,6 +19,24 @@ import AddComment from "../../../components/Comment/AddComment";
 import TextArea from "../Atom/TextArea";
 import ReservationButton from "../Atom/ReservationButton";
 
+interface DriverInfoType extends DriverInfoRawType {
+  driverId: number;
+  reservationCount: number;
+  avgRate: number | null;
+  reviews: Review[];
+}
+
+interface Props {
+  date: string;
+  driverInfo: DriverInfoType;
+  planData: CourseType;
+  selectedCourseId: number;
+  setSelectedCourseId: Dispatch<SetStateAction<number>>;
+  member: number;
+  region: string;
+  settingDriverInfo: () => void;
+}
+
 function Course({
   date,
   driverInfo,
@@ -20,11 +45,10 @@ function Course({
   setSelectedCourseId,
   member,
   region,
-  setRegion,
   settingDriverInfo,
-}) {
+}: Props) {
   const navigation = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   if (!driverInfo.driverId || !planData.courseId || user.role !== "ROLE_USER")
     return null;
@@ -67,7 +91,6 @@ function Course({
         markerData={planData.days[0].destinations}
         reload={true}
         mapName="TMAP_COURSE"
-        setRegion={setRegion}
       />
       <ReservationButton
         joinHandler={() =>
@@ -75,7 +98,6 @@ function Course({
             `/party/new/${member > 0 ? 6 : 2}?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
           )
         }
-        member={member}
       />
       <CommentList
         reviews={driverInfo.reviews}
@@ -91,4 +113,4 @@ function Course({
   );
 }
 
-export default Course;
+export default memo(Course);

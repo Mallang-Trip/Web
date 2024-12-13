@@ -1,5 +1,13 @@
-import { useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
+import { Course, DriverInfo as DriverInfoRaw, Review } from "../../../types";
 import ImageBox from "../../../components/ImageBox";
 import DriverInfo from "../../../components/DriverInfo";
 import CourseList from "../../../components/CourseList";
@@ -17,6 +25,23 @@ import JoinGreeting from "../../PartyPage/JoinGreeting";
 import JoinAgreement from "../../PartyPage/JoinAgreement";
 import Promotion from "../../../components/Promotion";
 
+interface DriverInfoType extends DriverInfoRaw {
+  driverId: number;
+  reservationCount: number;
+  avgRate: number | null;
+  reviews: Review[];
+}
+
+interface Props {
+  date: string;
+  driverInfo: DriverInfoType;
+  planData: Course;
+  selectedCourseId: number;
+  setSelectedCourseId: Dispatch<SetStateAction<number>>;
+  member: number;
+  region: string;
+}
+
 function Reservation({
   date,
   driverInfo,
@@ -25,11 +50,10 @@ function Reservation({
   setSelectedCourseId,
   member,
   region,
-  setRegion,
-}) {
-  const companionsRef = useRef();
-  const creditRef = useRef();
-  const agreementRef = useRef();
+}: Props) {
+  const companionsRef = useRef<HTMLDivElement | null>(null);
+  const creditRef = useRef<HTMLDivElement | null>(null);
+  const agreementRef = useRef<HTMLDivElement | null>(null);
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
@@ -46,7 +70,7 @@ function Reservation({
   );
   const [promotionId, setPromotionId] = useState(0);
 
-  const joinHandler = () => {
+  const joinHandler = useCallback(() => {
     // 동행자 정보 입력 체크
     if (memberCount > 1) {
       let checkValid = true;
@@ -110,7 +134,16 @@ function Reservation({
     }
 
     setShowJoinModal(true);
-  };
+  }, [
+    companionsRef,
+    creditRef,
+    agreementRef,
+    memberCount,
+    companions,
+    registerCredit,
+    promotionId,
+    agreeChecked,
+  ]);
 
   if (!driverInfo.driverId || !planData.courseId) return null;
   return (
@@ -159,7 +192,6 @@ function Reservation({
         markerData={planData.days[0].destinations}
         reload={true}
         mapName="TMAP_COURSE"
-        setRegion={setRegion}
       />
       <Promotion
         setPromotionId={setPromotionId}
@@ -199,4 +231,4 @@ function Reservation({
   );
 }
 
-export default Reservation;
+export default memo(Reservation);

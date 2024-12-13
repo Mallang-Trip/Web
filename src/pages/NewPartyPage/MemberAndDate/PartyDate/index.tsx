@@ -1,11 +1,18 @@
+import { Dispatch, memo, SetStateAction, useEffect, useMemo } from "react";
 import Calendar from "react-calendar";
 import "./index.css";
 
-function PartyDate({ date, setDate }) {
-  const today = new Date();
-  const tomorrow = new Date(today);
-  const after_4_month = new Date(today);
-  after_4_month.setMonth(after_4_month.getMonth() + 4);
+interface Props {
+  date: string;
+  setDate: Dispatch<SetStateAction<string>>;
+}
+
+function PartyDate({ date, setDate }: Props) {
+  const today = useMemo(() => new Date(), []);
+  const tomorrow = useMemo(() => new Date(today), [today]);
+  const after_4_month = useMemo(() => new Date(today), [today]);
+
+  after_4_month.setMonth(today.getMonth() + 4);
   tomorrow.setDate(today.getDate() + 1);
 
   return (
@@ -15,7 +22,7 @@ function PartyDate({ date, setDate }) {
       </div>
       <div className="flex justify-center">
         <Calendar
-          onChange={(value) =>
+          onChange={(value: any) =>
             setDate(
               `${value.getFullYear()}-${("0" + (1 + value.getMonth())).slice(
                 -2
@@ -23,9 +30,7 @@ function PartyDate({ date, setDate }) {
             )
           }
           value={date}
-          formatDay={(locale, date) =>
-            date.toLocaleString("en", { day: "numeric" })
-          }
+          formatDay={(_, date) => date.toLocaleString("en", { day: "numeric" })}
           minDate={tomorrow}
           maxDate={after_4_month}
           selectRange={false}
@@ -37,4 +42,4 @@ function PartyDate({ date, setDate }) {
   );
 }
 
-export default PartyDate;
+export default memo(PartyDate);

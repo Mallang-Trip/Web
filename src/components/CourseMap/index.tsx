@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { Destination } from "../../types";
 import startMarker from "../../assets/svg/start_marker.svg";
 import endMarker from "../../assets/svg/end_marker.svg";
 import pointMarker from "../../assets/svg/point_marker.svg";
@@ -37,9 +38,12 @@ function CourseMap({ mapName, reload, markerData }: Props) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [isDrawMap, setIsDrawMap] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
-  const [courseData, setCourseData] = useState([]);
-  const [clickedData, setClickedData] = useState({
+  const [courseData, setCourseData] = useState<Destination[]>([]);
+  const [clickedData, setClickedData] = useState<Destination>({
+    address: "",
     destinationId: 0,
+    lat: 0,
+    lon: 0,
     name: "",
   });
 
@@ -68,11 +72,23 @@ function CourseMap({ mapName, reload, markerData }: Props) {
       tmapMarker._htmlElement.className = "cursor-pointer";
       tmapMarker.addListener("click", () => {
         setShowDestinationModal(true);
-        setClickedData({ destinationId: destinationId, name: name });
+        setClickedData({
+          destinationId: destinationId,
+          name: name,
+          address: "",
+          lat: 0,
+          lon: 0,
+        });
       });
       tmapMarker.addListener("touchend", () => {
         setShowDestinationModal(true);
-        setClickedData({ destinationId: destinationId, name: name });
+        setClickedData({
+          destinationId: destinationId,
+          name: name,
+          address: "",
+          lat: 0,
+          lon: 0,
+        });
       });
     },
     [Tmapv2, startMarker, endMarker, pointMarker]

@@ -1,6 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { dateToStringHan, priceToString } from "../../../utils";
 import ImageBox from "../../../components/ImageBox";
+import {
+  Course,
+  Destination,
+  DriverInfo as DriverInfoRawType,
+  Review,
+} from "../../../types";
 import DriverInfo from "../../../components/DriverInfo";
 import CourseList from "../../../components/CourseList";
 import Credit from "../../../components/Credit";
@@ -18,29 +32,47 @@ import JoinAgreement from "../../PartyPage/JoinAgreement";
 import PriceList from "./PriceList";
 import Promotion from "../../../components/Promotion";
 
+interface DriverInfoType extends DriverInfoRawType {
+  driverId: number;
+  reservationCount: number;
+  avgRate: number | null;
+  reviews: Review[];
+}
+
+interface Props {
+  date: string;
+  driverInfo: DriverInfoType;
+  planData: Course;
+  setPlanData: Dispatch<SetStateAction<Course>>;
+  selectedCourseId: number;
+  setSelectedCourseId: Dispatch<SetStateAction<number>>;
+  member: number;
+  region: string;
+}
+
 function Edit({
   date,
   driverInfo,
-  setCourseRegion,
   planData,
   setPlanData,
   selectedCourseId,
   setSelectedCourseId,
   member,
   region,
-}) {
-  const coursePriceRef = useRef();
-  const companionsRef = useRef();
-  const courseRef = useRef();
-  const creditRef = useRef();
-  const agreementRef = useRef();
+}: Props) {
+  const coursePriceRef = useRef<HTMLDivElement | null>(null);
+  const companionsRef = useRef<HTMLDivElement | null>(null);
+  const courseRef = useRef<HTMLDivElement | null>(null);
+  const creditRef = useRef<HTMLDivElement | null>(null);
+  const agreementRef = useRef<HTMLDivElement | null>(null);
+  const [courseRegion, setCourseRegion] = useState("");
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
   const [name, setName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [agreeChecked, setAgreeChecked] = useState([false, false]);
-  const [courseData, setCourseData] = useState([]);
+  const [courseData, setCourseData] = useState<Destination[]>([]);
   const [registerCredit, setRegisterCredit] = useState(false);
   const [shakeCoursePrice, setShakeCoursePrice] = useState(false);
   const [shakeCompanions, setShakeCompanions] = useState(false);
@@ -56,7 +88,7 @@ function Edit({
   );
   const [promotionId, setPromotionId] = useState(0);
 
-  const joinHandler = () => {
+  const joinHandler = useCallback(() => {
     // 시간 및 비용 체크
     if (planData.totalPrice === 0) {
       if (coursePriceRef.current) {
@@ -154,7 +186,21 @@ function Edit({
     }
 
     setShowEditModal(true);
-  };
+  }, [
+    coursePriceRef,
+    courseRef,
+    companionsRef,
+    creditRef,
+    agreementRef,
+    courseData,
+    name,
+    memberCount,
+    companions,
+    registerCredit,
+    promotionId,
+    agreeChecked,
+    planData,
+  ]);
 
   useEffect(() => {
     if (!planData.courseId) return;
@@ -288,4 +334,4 @@ function Edit({
   );
 }
 
-export default Edit;
+export default memo(Edit);

@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDriverInfo } from "../../api/driver";
 import { getCourseDetail } from "../../api/course";
+import { RootState } from "../../redux/store";
+import { isGAlive } from "../../utils/ga";
+import { Course as CourseType } from "../../types";
 import ReactGA from "react-ga4";
 import PageContainer from "../../components/PageContainer";
 import ConfirmModal from "../../components/ConfirmModal";
@@ -17,23 +20,60 @@ import Loading from "../../components/Loading";
 function NewPartyPage() {
   const navigation = useNavigate();
   const { step } = useParams();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [searchParams] = useSearchParams();
   const [region, setRegion] = useState("");
-  const [courseRegion, setCourseRegion] = useState("");
   const [member, setMember] = useState(1);
-  const [date, setDate] = useState();
-  const [driverId, setDriverId] = useState(searchParams.get("driverId"));
-  const [driverInfo, setDriverInfo] = useState({});
-  const [planData, setPlanData] = useState();
+  const [date, setDate] = useState("");
+  const [driverId, setDriverId] = useState<string | number>(
+    searchParams.get("driverId") || "null"
+  );
   const [selectedCourseId, setSelectedCourseId] = useState(
-    searchParams.get("selectedCourseId") || 0
+    Number(searchParams.get("selectedCourseId")) || 0
   );
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [planData, setPlanData] = useState<CourseType>({
+    capacity: 0,
+    courseId: 0,
+    discountPrice: 0,
+    images: [],
+    name: "",
+    region: "",
+    totalDays: 0,
+    totalPrice: 0,
+    days: [],
+  });
+  const [driverInfo, setDriverInfo] = useState({
+    driverId: 0,
+    reservationCount: 0,
+    avgRate: null,
+    reviews: [],
+    accountHolder: "",
+    accountNumber: "",
+    bank: "",
+    courses: [],
+    driverLicenceImg: "",
+    holidays: [],
+    insuranceLicenceImg: "",
+    introduction: "",
+    name: "",
+    phoneNumber: "",
+    prices: [],
+    profileImg: null,
+    region: [],
+    status: "",
+    taxiLicenceImg: "",
+    userId: 0,
+    vehicleCapacity: 0,
+    vehicleImgs: [],
+    vehicleModel: "",
+    vehicleNumber: "",
+    weeklyHoliday: [],
+  });
 
-  const settingDriverInfo = async () => {
+  const settingDriverInfo = useCallback(async () => {
     try {
       const result = await getDriverInfo(driverId);
 
@@ -57,7 +97,10 @@ function NewPartyPage() {
         capacity: result.payload.vehicleCapacity,
       }));
 
-      if (selectedCourseId < 0) {
+      if (
+        (typeof selectedCourseId === "number" && selectedCourseId < 0) ||
+        (typeof selectedCourseId === "string" && parseInt(selectedCourseId) < 0)
+      ) {
         navigation(
           `/party/new/${searchParams.get("date") !== "null" ? 5 : 1}?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
           { replace: true }
@@ -80,10 +123,13 @@ function NewPartyPage() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [driverId, region, member, date, selectedCourseId]);
 
-  const getCourseDetailFunc = async () => {
-    if (selectedCourseId < 0)
+  const getCourseDetailFunc = useCallback(async () => {
+    if (
+      (typeof selectedCourseId === "number" && selectedCourseId < 0) ||
+      (typeof selectedCourseId === "string" && parseInt(selectedCourseId) < 0)
+    )
       setPlanData((planData) => ({
         capacity: planData?.capacity || 4,
         courseId: -1,
@@ -94,6 +140,7 @@ function NewPartyPage() {
             hours: 0,
             price: 0,
             startTime: "10:00",
+            day: 0,
           },
         ],
         discountPrice: 0,
@@ -101,6 +148,7 @@ function NewPartyPage() {
         region: "",
         totalDays: 1,
         totalPrice: 0,
+        name: "",
       }));
     else
       try {
@@ -109,7 +157,7 @@ function NewPartyPage() {
       } catch (e) {
         console.log(e);
       }
-  };
+  }, [selectedCourseId, planData]);
 
   useEffect(() => {
     if (showErrorModal) return;
@@ -129,15 +177,15 @@ function NewPartyPage() {
     const dateParam = searchParams.get("date");
     const driverIdParam = searchParams.get("driverId");
 
-    if (regionParam !== "null") setRegion(regionParam);
+    if (regionParam !== "null") setRegion(regionParam || "null");
     if (memberParam !== "null")
       setMember(
         Number(memberParam) >= 1 && Number(memberParam) <= 10
           ? Number(memberParam)
           : 1
       );
-    if (driverIdParam !== "null") setDriverId(Number(driverIdParam));
-    if (dateParam !== "null") {
+    if (driverIdParam !== "null") setDriverId(driverIdParam || "null");
+    if (dateParam !== "null" && dateParam !== null) {
       const tomorrow = new Date();
       const after_4_month = new Date(tomorrow);
       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -172,17 +220,18 @@ function NewPartyPage() {
   }, [selectedCourseId]);
 
   useEffect(() => {
-    if (driverId > 0) settingDriverInfo();
+    if (
+      driverId &&
+      ((typeof driverId === "string" && parseInt(driverId) > 0) ||
+        (typeof driverId === "number" && driverId > 0))
+    )
+      settingDriverInfo();
   }, [driverId]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
 
-    const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
-    const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
-
-    if (!GA_TRACKING_ID || !META_PIXEL_TRACKING_ID) return;
-    if (!window.location.href.includes("localhost")) {
+    if (isGAlive()) {
       let eventName = "";
 
       if (step === "1") eventName = "06_new_party";
@@ -204,7 +253,7 @@ function NewPartyPage() {
         <Region
           setRegion={setRegion}
           member={member}
-          driverId={driverId}
+          driverId={driverId || "null"}
           date={date}
           driverInfo={driverInfo}
         />
@@ -216,8 +265,7 @@ function NewPartyPage() {
           date={date}
           setDate={setDate}
           region={region}
-          driverId={driverId}
-          driverInfo={driverInfo}
+          driverId={driverId || "null"}
           selectedCourseId={selectedCourseId}
         />
       )}
@@ -238,7 +286,6 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
-          setRegion={setRegion}
           settingDriverInfo={settingDriverInfo}
         />
       )}
@@ -246,8 +293,6 @@ function NewPartyPage() {
         <Edit
           date={date}
           driverInfo={driverInfo}
-          courseRegion={courseRegion}
-          setCourseRegion={setCourseRegion}
           planData={planData}
           setPlanData={setPlanData}
           selectedCourseId={selectedCourseId}
@@ -265,7 +310,6 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
-          setRegion={setRegion}
         />
       )}
       <ConfirmModal
@@ -277,4 +321,4 @@ function NewPartyPage() {
   );
 }
 
-export default NewPartyPage;
+export default memo(NewPartyPage);

@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import PageContainer from "../../components/PageContainer";
 import Title from "../../components/Title";
 import Credit from "../../components/Credit";
 
 function MyPaymentPage() {
-  const creditRef = useRef();
+  const creditRef = useRef<HTMLDivElement | null>(null);
   const [registerCredit, setRegisterCredit] = useState(false);
 
   return (
@@ -20,4 +20,4 @@ function MyPaymentPage() {
   );
 }
 
-export default MyPaymentPage;
+export default memo(MyPaymentPage);

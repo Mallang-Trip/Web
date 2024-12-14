@@ -1,46 +1,49 @@
+import { Dispatch, memo, SetStateAction, useMemo } from "react";
 import { chatListDateToGapKorean } from "../../../../utils";
+import { ChatRoomList } from "../../../../types";
 import basicProfileImage from "../../../../assets/images/profileImage.png";
-import groupTalkImage from "../../../../assets/images/groupTalkImage.png";
+import clsx from "clsx";
+
+interface Props extends ChatRoomList {
+  openTalkId: number;
+  setOpenTalkId: Dispatch<SetStateAction<number>>;
+}
 
 function TalkItem({
   chatRoomId,
-  profileImages,
   roomName,
   content,
   updatedAt,
   unreadCount,
-  openTalkId,
-  setOpenTalkId,
   headCount,
   type,
-}) {
-  const lastMessage = () => {
+  image,
+  openTalkId,
+  setOpenTalkId,
+}: Props) {
+  const lastMessage = useMemo(() => {
     if (
       content.slice(0, 64) ===
       "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/"
     )
       return "사진";
-
     return content;
-  };
+  }, [content]);
 
   return (
     <li>
       <button
-        className={`w-full flex justify-between gap-1 py-3 px-3 rounded-lg hover:bg-lightgray group focus:outline-none ${
+        className={clsx(
+          "w-full flex justify-between gap-1 py-3 px-3 rounded-lg hover:bg-lightgray group focus:outline-none",
           openTalkId === chatRoomId ? "bg-lightgray" : "bg-white"
-        }`}
+        )}
         onClick={() => setOpenTalkId(chatRoomId)}
       >
         <div className="flex flex-row">
           <img
             className="mr-3 w-16 h-16 rounded-full object-cover"
-            src={
-              type !== "COUPLE"
-                ? groupTalkImage
-                : (profileImages && profileImages[0]) || basicProfileImage
-            }
-            alt="Profile_Image"
+            src={image || basicProfileImage}
+            alt={roomName}
           />
           <div className="flex flex-col gap-2 text-left">
             <div className="flex gap-4 items-start">
@@ -52,7 +55,7 @@ function TalkItem({
               )}
             </div>
             <p className="w-full text-sm text-darkgray font-medium overflow-hidden line-clamp-1">
-              {lastMessage()}
+              {lastMessage}
             </p>
           </div>
         </div>
@@ -71,4 +74,4 @@ function TalkItem({
   );
 }
 
-export default TalkItem;
+export default memo(TalkItem);

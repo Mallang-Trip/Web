@@ -1,8 +1,31 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { ChatRoomDetail } from "../../../../types";
 import MenuCloser from "./MenuCloser";
 import MenuHead from "./MenuHead";
 import MenuMembers from "./MenuMembers";
 import ExitButton from "./ExitButton";
+import clsx from "clsx";
+
+interface Props extends ChatRoomDetail {
+  showMenu: boolean;
+  setShowMenu: Dispatch<SetStateAction<boolean>>;
+  getChatRoomDataFunc: () => void;
+  getChatListFunc: () => void;
+  closeRoomHandler: () => void;
+  setShowProfileModal: Dispatch<SetStateAction<boolean>>;
+  setProfileUserId: Dispatch<SetStateAction<number>>;
+  openTalkId: number;
+  setRoomId: Dispatch<SetStateAction<number>>;
+}
 
 function TalkMenu({
   showMenu,
@@ -20,26 +43,29 @@ function TalkMenu({
   openTalkId,
   setRoomId,
   partyId,
-}) {
-  const modalRef = useRef();
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [openMenuAnimation, setOpenMenuAnimation] = useState(false);
 
-  const closeMenuHandler = () => {
+  const closeMenuHandler = useCallback(() => {
     setOpenMenuAnimation(false);
     setTimeout(() => setOpenMenu(false), 550);
-  };
+  }, []);
 
-  const openMenuHandler = () => {
+  const openMenuHandler = useCallback(() => {
     setOpenMenu(true);
     setTimeout(() => setOpenMenuAnimation(true), 50);
-  };
+  }, []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) setShowMenu(false);
-  };
+  const modalOutSideClick = useCallback(
+    (event: MouseEvent) => {
+      if (modalRef.current === event.target) setShowMenu(false);
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     const $kickModal = document.getElementById("kick-modal");
     if ($kickModal && $kickModal.classList.contains("active")) return;
 
@@ -54,7 +80,7 @@ function TalkMenu({
       return;
 
     if (event.key === "Escape") setShowMenu(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (showMenu) openMenuHandler();
@@ -69,16 +95,18 @@ function TalkMenu({
   if (!openMenu) return null;
   return (
     <div
-      className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full h-real-screen bg-darkgray transition-all duration-700 ${
+      className={clsx(
+        "fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full h-real-screen bg-darkgray transition-all duration-700",
         openMenuAnimation ? "bg-opacity-50" : "bg-opacity-0"
-      }`}
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
     >
       <div
-        className={`w-80 h-full flex flex-col ml-auto bg-white rounded-l-2xl transition-transform duration-500 relative ${
+        className={clsx(
+          "w-80 h-full flex flex-col ml-auto bg-white rounded-l-2xl transition-transform duration-500 relative",
           openMenuAnimation ? "translate-x-0" : "translate-x-full"
-        }`}
+        )}
       >
         <MenuCloser setShowMenu={setShowMenu} />
         <MenuHead
@@ -109,4 +137,4 @@ function TalkMenu({
   );
 }
 
-export default TalkMenu;
+export default memo(TalkMenu);

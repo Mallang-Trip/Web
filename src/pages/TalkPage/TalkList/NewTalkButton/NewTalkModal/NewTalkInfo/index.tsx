@@ -1,13 +1,22 @@
+import { Dispatch, memo, SetStateAction } from "react";
+import { InviteChatMember } from "../../../../../../types";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
 import groupTalkImage from "../../../../../../assets/images/groupTalkImage.png";
+import clsx from "clsx";
 
-function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
+interface Props {
+  inviteMember: InviteChatMember[];
+  roomName: string;
+  setRoomName: Dispatch<SetStateAction<string>>;
+}
+
+function NewTalkInfo({ inviteMember, roomName, setRoomName }: Props) {
   if (inviteMember.length === 1)
     return (
       <div className="h-full flex flex-col gap-16 pb-12 justify-center items-center">
         <img
           src={inviteMember[0].profileImg || basicProfileImage}
-          alt="image"
+          alt={inviteMember[0].nickName}
           className="w-36 h-36 rounded-full"
         />
         <p className="text-base text-black text-center">
@@ -21,7 +30,7 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
       <div className="h-full flex flex-col gap-16 pb-12 justify-center items-center">
         <img
           src={groupTalkImage}
-          alt="image"
+          alt="말랑챗"
           className="w-36 h-36 rounded-full"
         />
         <div className="w-full relative">
@@ -33,9 +42,10 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
             onChange={(e) => setRoomName(e.target.value.slice(0, 20))}
           />
           <span
-            className={`absolute top-1/2 right-2 trnasform -translate-y-1/2 text-sm ${
+            className={clsx(
+              "absolute top-1/2 right-2 trnasform -translate-y-1/2 text-sm",
               roomName.length === 20 ? "text-primary" : "text-darkgray"
-            }`}
+            )}
           >
             {`${roomName.length}/20`}
           </span>
@@ -48,4 +58,4 @@ function NewTalkInfo({ inviteMember, roomName, setRoomName }) {
     );
 }
 
-export default NewTalkInfo;
+export default memo(NewTalkInfo);

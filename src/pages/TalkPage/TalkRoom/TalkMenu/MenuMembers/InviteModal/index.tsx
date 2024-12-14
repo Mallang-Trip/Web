@@ -1,10 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  memo,
+  MouseEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { searchUser } from "../../../../../../api/users";
 import { inviteMemberAPI } from "../../../../../../api/chat";
+import { ChatMember, InviteChatMember } from "../../../../../../types";
 import Input from "./Input";
 import SelectMembers from "./SelectMembers";
 import SearchMemberList from "./SearchMemberList";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  chatRoomId: number;
+  getChatRoomDataFunc: () => void;
+  setShowMenu: Dispatch<SetStateAction<boolean>>;
+}
 
 function InviteModal({
   showModal,
@@ -12,33 +32,38 @@ function InviteModal({
   chatRoomId,
   getChatRoomDataFunc,
   setShowMenu,
-}) {
-  const modalRef = useRef();
-  const $body = document.body;
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const [searchName, setSearchName] = useState("");
-  const [inviteMember, setInviteMember] = useState([]);
-  const [searchList, setSearchList] = useState([]);
+  const [inviteMember, setInviteMember] = useState<InviteChatMember[]>([]);
+  const [searchList, setSearchList] = useState<ChatMember[]>([]);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    (e: MouseEvent) => {
+      if (modalRef.current === e.target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const searchHandler = async (e) => {
-    e.preventDefault();
+  const searchHandler = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    if (searchName === "") return alert("닉네임을 입력해주세요.");
+      if (searchName === "") return alert("닉네임을 입력해주세요.");
 
-    try {
-      const result = await searchUser(searchName);
-      setSearchList(result.payload);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+      try {
+        const result = await searchUser(searchName);
+        setSearchList(result.payload);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [searchName]
+  );
 
-  const inviteHandler = async () => {
+  const inviteHandler = useCallback(async () => {
     if (inviteMember.length === 0) return alert("초대할 상대를 선택해주세요.");
 
     const userIds = inviteMember.map((member) => member.userId).join(",");
@@ -52,11 +77,10 @@ function InviteModal({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [inviteMember, chatRoomId]);
 
   useEffect(() => {
     if (showModal) return;
-
     setSearchName("");
     setInviteMember([]);
     setSearchList([]);
@@ -64,12 +88,13 @@ function InviteModal({
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       style={{ zIndex: 100 }}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
       id="invite-modal"
     >
       <div className="mx-auto w-96 h-full rounded-xl flex flex-col justify-center items-center">
@@ -106,8 +131,8 @@ function InviteModal({
         </div>
       </div>
     </div>,
-    $body
+    document.body
   );
 }
 
-export default InviteModal;
+export default memo(InviteModal);

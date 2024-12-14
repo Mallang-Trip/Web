@@ -1,8 +1,28 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
+import { ChatRoomType } from "../../../../../types";
+import { RootState } from "../../../../../redux/store";
 import Member from "./Member";
 import InviteModal from "./InviteModal";
 import KickModal from "./KickModal";
+
+interface Props {
+  members: {
+    createdAt: string;
+    deleted: boolean;
+    introduction: string;
+    isMyParty: boolean;
+    nickname: string;
+    profileImg: string | null;
+    userId: number;
+  }[];
+  type: ChatRoomType;
+  chatRoomId: number;
+  getChatRoomDataFunc: () => void;
+  setShowProfileModal: Dispatch<SetStateAction<boolean>>;
+  setProfileUserId: Dispatch<SetStateAction<number>>;
+  setShowMenu: Dispatch<SetStateAction<boolean>>;
+}
 
 function MenuMembers({
   members,
@@ -12,14 +32,14 @@ function MenuMembers({
   setShowProfileModal,
   setProfileUserId,
   setShowMenu,
-}) {
-  const user = useSelector((state) => state.user);
+}: Props) {
+  const user = useSelector((state: RootState) => state.user);
+  const [showKickModal, setShowKickModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const [kickUser, setKickUser] = useState({
     userId: 0,
     nickname: "",
   });
-  const [showKickModal, setShowKickModal] = useState(false);
-  const [showInviteModal, setShowInviteModal] = useState(false);
 
   return (
     <>
@@ -72,4 +92,4 @@ function MenuMembers({
   );
 }
 
-export default MenuMembers;
+export default memo(MenuMembers);

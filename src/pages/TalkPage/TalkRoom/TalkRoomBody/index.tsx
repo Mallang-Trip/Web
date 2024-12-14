@@ -1,41 +1,63 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 import TalkBubble from "./TalkBubble";
 import chatArrowIcon from "../../../../assets/svg/right-arrow.svg";
 
+interface Props {
+  messages: {
+    content: string;
+    createdAt: string;
+    messageId: number;
+    nickname: string;
+    profileImg: string | null;
+    type: string;
+    userId: number;
+  }[];
+  setShowProfileModal: Dispatch<SetStateAction<boolean>>;
+  setProfileUserId: Dispatch<SetStateAction<number>>;
+}
+
 function TalkRoomBody({
-  messages = [],
+  messages,
   setShowProfileModal,
   setProfileUserId,
-}) {
-  const talkRoomRef = useRef();
-  const user = useSelector((state) => state.user);
+}: Props) {
+  const talkRoomRef = useRef<HTMLDivElement | null>(null);
+  const user = useSelector((state: RootState) => state.user);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  const scrollDownHandler = () => {
+  const scrollDownHandler = useCallback(() => {
     const talkRoomSpace = talkRoomRef.current;
-    const { scrollHeight, clientHeight } = talkRoomSpace;
-
-    talkRoomSpace.scrollTo({
-      top: scrollHeight - clientHeight,
-      behavior: "smooth",
-    });
-  };
+    if (talkRoomSpace) {
+      const { scrollHeight, clientHeight } = talkRoomSpace;
+      talkRoomSpace.scrollTo({
+        top: scrollHeight - clientHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [talkRoomRef]);
 
   useEffect(() => {
-    const talkRoomSpace = talkRoomRef.current;
-
     const handleScroll = () => {
-      const { scrollHeight, clientHeight, scrollTop } = talkRoomSpace;
+      if (!talkRoomRef.current) return;
+      const { scrollHeight, clientHeight, scrollTop } = talkRoomRef.current;
       const isScrolledToBottom = scrollHeight - clientHeight <= scrollTop + 200;
 
       setShowScrollButton(!isScrolledToBottom);
     };
 
-    talkRoomSpace.addEventListener("scroll", handleScroll);
-
+    talkRoomRef.current?.addEventListener("scroll", handleScroll);
     return () => {
-      talkRoomSpace.removeEventListener("scroll", handleScroll);
+      talkRoomRef.current?.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -98,4 +120,4 @@ function TalkRoomBody({
   );
 }
 
-export default TalkRoomBody;
+export default memo(TalkRoomBody);

@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import Plus from "../../../../assets/svg/plus.svg";
 import NewTalkModal from "./NewTalkModal";
 
-function NewTalkButton({ getChatListFunc, setOpenTalkId }) {
+interface Props {
+  getChatListFunc: () => void;
+  setOpenTalkId: Dispatch<SetStateAction<number>>;
+}
+
+function NewTalkButton({ getChatListFunc, setOpenTalkId }: Props) {
   const [showNewTalkModal, setShowNewTalkModal] = useState(false);
 
   return (
@@ -12,7 +17,7 @@ function NewTalkButton({ getChatListFunc, setOpenTalkId }) {
         className="animate-bounce flex items-center justify-center absolute bottom-36 md:bottom-28 right-8 bg-primary rounded-full w-14 h-14 focus:outline-none"
         onClick={() => setShowNewTalkModal(true)}
       >
-        <img src={Plus} alt="new_party" className="w-9 h-9" />
+        <img src={Plus} alt="" className="w-9 h-9" />
       </button>
 
       <NewTalkModal
@@ -25,4 +30,4 @@ function NewTalkButton({ getChatListFunc, setOpenTalkId }) {
   );
 }
 
-export default NewTalkButton;
+export default memo(NewTalkButton);

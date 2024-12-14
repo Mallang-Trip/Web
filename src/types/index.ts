@@ -292,3 +292,66 @@ export interface Notify {
   targetId: number | null;
   type: NotifyType;
 }
+
+export interface InviteChatMember {
+  nickName: string;
+  profileImg: string | null;
+  userId: number;
+}
+
+export interface ChatMember {
+  createdAt: string;
+  deleted: boolean;
+  introduction: string;
+  nickname: string;
+  profileImg: string | null;
+  suspensionDuration: number | null;
+  userId: number;
+}
+
+export type ChatRoomType =
+  | "COUPLE"
+  | "GROUP"
+  | "PARTY_PUBLIC"
+  | "PARTY_PRIVATE";
+
+export interface ChatRoomList {
+  chatRoomId: number;
+  content: string;
+  headCount: number;
+  image: string | null;
+  roomName: string;
+  type: ChatRoomType;
+  unreadCount: number;
+  updatedAt: string;
+}
+
+export interface ChatRoomDetail {
+  chatRoomId: number;
+  headCount: number;
+  isBlock: boolean;
+  isBlocked: boolean;
+  members: {
+    createdAt: string;
+    deleted: boolean;
+    introduction: string;
+    isMyParty: boolean;
+    nickname: string;
+    profileImg: string | null;
+    userId: number;
+  }[];
+  messages: {
+    content: string;
+    createdAt: string;
+    messageId: number;
+    nickname: string;
+    profileImg: string | null;
+    type: string;
+    userId: number;
+  }[];
+  myParty: boolean | null;
+  partyId: number | null;
+  publicRoomId: number | null;
+  roomName: string;
+  type: ChatRoomType;
+}

@@ -1,14 +1,31 @@
+import { Dispatch, memo, SetStateAction, useMemo } from "react";
+import { ChatRoomList } from "../../../types";
 import NewTalkButton from "./NewTalkButton";
 import NoTalkList from "./NoTalkList";
 import TalkItem from "./TalkItem";
 
-function TalkList({ chatList, openTalkId, setOpenTalkId, getChatListFunc }) {
-  const sortedChatList = chatList.sort((a, b) => {
-    const timeA = new Date(a.updatedAt);
-    const timeB = new Date(b.updatedAt);
+interface Props {
+  chatList: ChatRoomList[];
+  openTalkId: number;
+  setOpenTalkId: Dispatch<SetStateAction<number>>;
+  getChatListFunc: () => void;
+}
 
-    return timeB - timeA;
-  });
+function TalkList({
+  chatList,
+  openTalkId,
+  setOpenTalkId,
+  getChatListFunc,
+}: Props) {
+  const sortedChatList = useMemo(
+    () =>
+      chatList.sort((a, b) => {
+        const timeA = new Date(a.updatedAt).getTime();
+        const timeB = new Date(b.updatedAt).getTime();
+        return timeB - timeA;
+      }),
+    [chatList]
+  );
 
   return (
     <aside className="fixed top-14 left-0 z-30 w-full md:w-[450px] h-real-screen">
@@ -45,4 +62,4 @@ function TalkList({ chatList, openTalkId, setOpenTalkId, getChatListFunc }) {
   );
 }
 
-export default TalkList;
+export default memo(TalkList);

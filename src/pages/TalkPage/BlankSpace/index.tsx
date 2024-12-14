@@ -1,3 +1,4 @@
+import { memo } from "react";
 import mallangTripIcon from "../../../assets/images/intro_icon.png";
 
 function BlankSpace() {
@@ -13,4 +14,4 @@ function BlankSpace() {
   );
 }
 
-export default BlankSpace;
+export default memo(BlankSpace);

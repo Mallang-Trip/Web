@@ -1,4 +1,12 @@
-function Input({ searchName, setSearchName, searchHandler }) {
+import { Dispatch, FormEvent, memo, SetStateAction } from "react";
+
+interface Props {
+  searchName: string;
+  setSearchName: Dispatch<SetStateAction<string>>;
+  searchHandler: (event: FormEvent<HTMLFormElement>) => void;
+}
+
+function Input({ searchName, setSearchName, searchHandler }: Props) {
   return (
     <div className="relative w-full">
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -30,4 +38,4 @@ function Input({ searchName, setSearchName, searchHandler }) {
   );
 }
 
-export default Input;
+export default memo(Input);

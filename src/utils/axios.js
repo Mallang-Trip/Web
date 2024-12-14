@@ -43,3 +43,5 @@ export const PUT = (url, body, auth = false) =>
 
 export const DELETE = (url, auth = false, body) =>
   fetchWrap({ method: "delete", url, body, auth });
+
+export const BASE_SERVER_URL = import.meta.env.VITE_BASE_SERVER_URL;

@@ -1,13 +1,18 @@
+import { Dispatch, memo, SetStateAction, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChatRoomType } from "../../../../../types";
 import groupTalkImage from "../../../../../assets/images/groupTalkImage.png";
 import PartyToggle from "./PartyToggle";
+import clsx from "clsx";
 
-const roomType = {
-  COUPLE: "개인 말랑챗",
-  GROUP: "그룹 말랑챗",
-  PARTY_PUBLIC: "파티 공개 말랑챗",
-  PARTY_PRIVATE: "파티원 전용 말랑챗",
-};
+interface Props {
+  roomName: string;
+  headCount: number;
+  type: ChatRoomType;
+  openTalkId: number;
+  setRoomId: Dispatch<SetStateAction<number>>;
+  partyId: number | null;
+}
 
 function MenuHead({
   roomName,
@@ -16,8 +21,18 @@ function MenuHead({
   openTalkId,
   setRoomId,
   partyId,
-}) {
+}: Props) {
   const navigation = useNavigate();
+
+  const roomType = useMemo(
+    () => ({
+      COUPLE: "개인 말랑챗",
+      GROUP: "그룹 말랑챗",
+      PARTY_PUBLIC: "파티 공개 말랑챗",
+      PARTY_PRIVATE: "파티원 전용 말랑챗",
+    }),
+    []
+  );
 
   return (
     <>
@@ -32,10 +47,11 @@ function MenuHead({
         <div className="flex flex-col gap-2">
           <p>
             <span
-              className={`text-xl text-black font-bold ${
+              className={clsx(
+                "text-xl text-black font-bold",
                 partyId &&
-                "hover:underline hover:underline-offset-2 cursor-pointer text-primary"
-              }`}
+                  "hover:underline hover:underline-offset-2 cursor-pointer text-primary"
+              )}
               onClick={() => partyId && navigation(`/party/detail/${partyId}`)}
             >
               {roomName}
@@ -50,4 +66,4 @@ function MenuHead({
   );
 }
 
-export default MenuHead;
+export default memo(MenuHead);

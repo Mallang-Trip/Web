@@ -1,21 +1,31 @@
-import { useState } from "react";
+import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { leaveChat } from "../../../../../api/chat";
+import { RootState } from "../../../../../redux/store";
 import ExitCheckModal from "./ExitCheckModal";
 import ConfirmModal from "../../../../../components/ConfirmModal";
+
+interface Props {
+  chatRoomId: number;
+  getChatListFunc: () => void;
+  closeRoomHandler: () => void;
+  setShowMenu: Dispatch<SetStateAction<boolean>>;
+}
 
 function ExitButton({
   chatRoomId,
   getChatListFunc,
   closeRoomHandler,
   setShowMenu,
-}) {
-  const privateRoomId = useSelector((state) => state.talkRoom.privateRoomId);
+}: Props) {
+  const privateRoomId = useSelector(
+    (state: RootState) => state.talkRoom.privateRoomId
+  );
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const leaveChatHandler = async () => {
+  const leaveChatHandler = useCallback(async () => {
     try {
       const result = await leaveChat(privateRoomId || chatRoomId);
       if (result.statusCode === 200) {
@@ -31,7 +41,7 @@ function ExitButton({
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [privateRoomId, chatRoomId]);
 
   return (
     <>
@@ -56,4 +66,4 @@ function ExitButton({
   );
 }
 
-export default ExitButton;
+export default memo(ExitButton);

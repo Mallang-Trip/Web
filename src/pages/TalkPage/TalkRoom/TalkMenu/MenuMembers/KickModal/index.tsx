@@ -1,6 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  MouseEvent,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { kickPartyChatUser } from "../../../../../../api/chat";
+import clsx from "clsx";
+
+interface Props {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  chatRoomId: number;
+  userId: number;
+  nickname: string;
+  getChatRoomDataFunc: () => void;
+}
 
 function KickModal({
   showModal,
@@ -9,14 +29,13 @@ function KickModal({
   userId,
   nickname,
   getChatRoomDataFunc,
-}) {
-  const modalRef = useRef();
-  const $body = document.body;
-  const [message, setMessage] = useState("");
+}: Props) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const [message, setMessage] = useState<string | ReactNode>("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const kickHandler = async () => {
+  const kickHandler = useCallback(async () => {
     if (loading) return;
 
     try {
@@ -47,17 +66,20 @@ function KickModal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [loading, chatRoomId, userId, nickname]);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const modalOutSideClick = (e) => {
-    if (modalRef.current === e.target) closeModal();
-  };
+  const modalOutSideClick = useCallback(
+    (event: MouseEvent) => {
+      if (modalRef.current === event.target) closeModal();
+    },
+    [modalRef]
+  );
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") closeModal();
-  };
+  }, []);
 
   useEffect(() => {
     if (!showModal) return;
@@ -79,11 +101,12 @@ function KickModal({
 
   return createPortal(
     <div
-      className={`modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex ${
-        showModal ? "active" : ""
-      }`}
+      className={clsx(
+        "modal-container fixed top-0 left-0 z-50 w-screen h-real-screen bg-darkgray bg-opacity-50 scale-100 flex",
+        showModal && "active"
+      )}
       ref={modalRef}
-      onClick={(e) => modalOutSideClick(e)}
+      onClick={modalOutSideClick}
       id="kick-modal"
     >
       <div className="m-auto shadow w-96 rounded-xl">
@@ -115,8 +138,8 @@ function KickModal({
         )}
       </div>
     </div>,
-    $body
+    document.body
   );
 }
 
-export default KickModal;
+export default memo(KickModal);

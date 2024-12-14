@@ -1,12 +1,23 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   setPrivateRoomId,
   setPublicRoomId,
 } from "../../../redux/modules/talkRoomSlice";
+import { useDispatch } from "react-redux";
 import { getChatRoomData } from "../../../api/chat";
 import { uploadImage } from "../../../api/image";
-import { Stomp } from "@stomp/stompjs";
+import { Client, Stomp } from "@stomp/stompjs";
+import { ChatRoomDetail } from "../../../types";
+import { BASE_SERVER_URL } from "../../../utils/axios";
 import SockJS from "sockjs-client/dist/sockjs";
 import TalkRoomHead from "./TalkRoomHead";
 import TalkRoomBody from "./TalkRoomBody";
@@ -15,86 +26,118 @@ import TalkRoomWrapper from "./TalkRoomWrapper";
 import ImageModal from "./ImageModal";
 import TalkMenu from "./TalkMenu";
 import ProfileModal from "../../../components/ProfileModal";
+import clsx from "clsx";
 
-function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
+interface Props {
+  openTalkId: number;
+  setOpenTalkId: Dispatch<SetStateAction<number>>;
+  getChatListFunc: () => void;
+}
+
+function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }: Props) {
   const dispatch = useDispatch();
-  const client = useRef();
+  const client = useRef<Client | null>(null);
   const [openRoom, setOpenRoom] = useState(false);
   const [openRoomAnimation, setOpenRoomAnimation] = useState(false);
-  const [roomData, setRoomData] = useState({});
   const [showImageModal, setShowImageModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileUserId, setProfileUserId] = useState(0);
   const [sendImageLoading, setSendImageLoading] = useState(false);
   const [roomId, setRoomId] = useState(0);
-  const ACCESSTOKEN = {
-    "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
-  };
-  const header = { ...ACCESSTOKEN, "room-id": roomId };
+  const [roomData, setRoomData] = useState<ChatRoomDetail>({
+    chatRoomId: 0,
+    headCount: 0,
+    isBlock: false,
+    isBlocked: false,
+    members: [],
+    messages: [],
+    myParty: false,
+    partyId: 0,
+    publicRoomId: 0,
+    roomName: "",
+    type: "COUPLE",
+  });
 
-  const closeRoomHandler = () => {
+  const ACCESSTOKEN = useMemo(
+    () => ({
+      "access-token": `Bearer ${localStorage.getItem("accessToken")}`,
+    }),
+    [localStorage.getItem("accessToken")]
+  );
+
+  const header = useMemo(
+    () => ({ ...ACCESSTOKEN, "room-id": roomId.toString() }),
+    [ACCESSTOKEN, roomId]
+  );
+
+  const closeRoomHandler = useCallback(() => {
     if (client.current) client.current.deactivate();
-
     setOpenTalkId(0);
     setOpenRoomAnimation(false);
     setTimeout(() => setOpenRoom(false), 550);
-  };
+  }, [client]);
 
-  const openRoomHandler = () => {
+  const openRoomHandler = useCallback(() => {
     setOpenRoom(true);
     setTimeout(() => setOpenRoomAnimation(true), 50);
-  };
+  }, []);
 
-  const readMessage = () => {
-    if (!client.current.connected) return;
+  const readMessage = useCallback(() => {
+    if (!client.current || !client.current.connected) return;
 
     client.current.publish({
       destination: "/pub/read",
       headers: header,
     });
-  };
+  }, [client, header]);
 
-  const sendImageHandler = async (image) => {
-    if (!client.current.connected) return;
-    if (!image) return alert("사진을 첨부해주세요.");
+  const sendImageHandler = useCallback(
+    async (image: File) => {
+      if (!client.current || !client.current.connected) return;
+      if (!image) return alert("사진을 첨부해주세요.");
 
-    try {
-      setSendImageLoading(true);
-      const imageURL = await uploadImage(image);
+      try {
+        setSendImageLoading(true);
+        const imageURL = await uploadImage(image);
+
+        client.current.publish({
+          destination: "/pub/write",
+          headers: header,
+          body: JSON.stringify({
+            type: "IMAGE",
+            content: imageURL,
+          }),
+        });
+
+        setShowImageModal(false);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setSendImageLoading(false);
+      }
+    },
+    [client, header]
+  );
+
+  const sendMessageHandler = useCallback(
+    (message: string) => {
+      if (!client.current || !client.current.connected) return;
 
       client.current.publish({
         destination: "/pub/write",
         headers: header,
         body: JSON.stringify({
-          type: "IMAGE",
-          content: imageURL,
+          type: "TEXT",
+          content: message,
         }),
       });
+    },
+    [client, header]
+  );
 
-      setShowImageModal(false);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setSendImageLoading(false);
-    }
-  };
-
-  const sendMessageHandler = (message) => {
-    if (!client.current.connected) return;
-
-    client.current.publish({
-      destination: "/pub/write",
-      headers: header,
-      body: JSON.stringify({
-        type: "TEXT",
-        content: message,
-      }),
-    });
-  };
-
-  const subscribeChatRoomWS = () => {
-    client.current.subscribe(
+  const subscribeChatRoomWS = useCallback(() => {
+    client.current?.subscribe(
       `/sub/room/${roomId}`,
       (messages) => {
         setRoomData((roomData) => {
@@ -110,22 +153,21 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
     );
 
     readMessage();
-  };
+  }, [client, roomId, roomData, ACCESSTOKEN, readMessage]);
 
-  const connectChatRoomWS = () => {
+  const connectChatRoomWS = useCallback(() => {
     if (client.current) client.current.deactivate();
 
     client.current = Stomp.over(() => {
-      const sock = new SockJS(
-        import.meta.env.VITE_BASE_SERVER_URL + "/ws/chat"
-      );
+      const sock = new SockJS(BASE_SERVER_URL + "/ws/chat");
       return sock;
     });
 
+    // @ts-ignore
     client.current.connect(ACCESSTOKEN, subscribeChatRoomWS);
-  };
+  }, [client, ACCESSTOKEN, subscribeChatRoomWS]);
 
-  const getChatRoomDataFunc = async () => {
+  const getChatRoomDataFunc = useCallback(async () => {
     try {
       const result = await getChatRoomData(roomId);
       setRoomData(result.payload);
@@ -133,7 +175,7 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [roomId]);
 
   useEffect(() => {
     if (!roomData?.myParty) {
@@ -173,9 +215,10 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
   if (!roomData) return null;
   return (
     <div
-      className={`fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full pl-0 md:pl-[450px] h-real-screen transition-transform duration-500 bg-white ${
+      className={clsx(
+        "fixed top-0 left-0 z-50 md:z-20 md:pt-16 w-full pl-0 md:pl-[450px] h-real-screen transition-transform duration-500 bg-white",
         openRoomAnimation ? "translate-x-0" : "translate-x-full"
-      }`}
+      )}
     >
       <TalkRoomWrapper>
         <TalkRoomHead
@@ -205,7 +248,6 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
           setProfileUserId={setProfileUserId}
           openTalkId={openTalkId}
           setRoomId={setRoomId}
-          partyId={roomData.partyId}
           {...roomData}
         />
       </TalkRoomWrapper>
@@ -221,9 +263,10 @@ function TalkRoom({ openTalkId, setOpenTalkId, getChatListFunc }) {
         setShowModal={setShowProfileModal}
         userId={profileUserId}
         chatRoomId={roomId}
+        driverName={false}
       />
     </div>
   );
 }
 
-export default TalkRoom;
+export default memo(TalkRoom);

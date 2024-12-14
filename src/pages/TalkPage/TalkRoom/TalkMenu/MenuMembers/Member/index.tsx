@@ -1,5 +1,21 @@
+import { Dispatch, memo, MouseEvent, SetStateAction, useCallback } from "react";
 import { useSelector } from "react-redux";
+import { ChatRoomType } from "../../../../../../types";
+import { RootState } from "../../../../../../redux/store";
 import basicProfileImage from "../../../../../../assets/images/profileImage.png";
+
+interface Props {
+  userId: number;
+  profileImg: string | null;
+  nickname: string;
+  isMyParty: boolean;
+  introduction: string;
+  setShowProfileModal: Dispatch<SetStateAction<boolean>>;
+  setProfileUserId: Dispatch<SetStateAction<number>>;
+  type: ChatRoomType;
+  setKickUser: Dispatch<SetStateAction<{ userId: number; nickname: string }>>;
+  setShowKickModal: Dispatch<SetStateAction<boolean>>;
+}
 
 function Member({
   userId,
@@ -12,23 +28,27 @@ function Member({
   type,
   setKickUser,
   setShowKickModal,
-}) {
-  const publicRoomId = useSelector((state) => state.talkRoom.publicRoomId);
+}: Props) {
+  const publicRoomId = useSelector(
+    (state: RootState) => state.talkRoom.publicRoomId
+  );
 
-  const showProfileHandler = () => {
+  const showProfileHandler = useCallback(() => {
     setProfileUserId(userId);
     setShowProfileModal(true);
-  };
+  }, [userId]);
 
-  const kickHandler = async (e) => {
-    e.stopPropagation();
-
-    setKickUser({
-      userId: userId,
-      nickname: nickname,
-    });
-    setShowKickModal(true);
-  };
+  const kickHandler = useCallback(
+    async (e: MouseEvent) => {
+      e.stopPropagation();
+      setKickUser({
+        userId: userId,
+        nickname: nickname,
+      });
+      setShowKickModal(true);
+    },
+    [userId, nickname]
+  );
 
   return (
     <button
@@ -38,7 +58,7 @@ function Member({
       <img
         className="mr-3 w-10 h-10 rounded-full shrink-0"
         src={profileImg || basicProfileImage}
-        alt="Profile_Image"
+        alt={nickname}
       />
       <div className="w-full h-full flex flex-col gap-0.5 text-left">
         <p className="w-full text-sm text-black font-bold">{nickname}</p>
@@ -58,4 +78,4 @@ function Member({
   );
 }
 
-export default Member;
+export default memo(Member);

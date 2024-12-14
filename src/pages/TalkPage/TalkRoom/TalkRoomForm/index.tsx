@@ -1,11 +1,27 @@
-import { useMemo, useState } from "react";
+import clsx from "clsx";
+import {
+  Dispatch,
+  FormEvent,
+  memo,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+
+interface Props {
+  sendMessageHandler: (message: string) => void;
+  setShowImageModal: Dispatch<SetStateAction<boolean>>;
+  isBlock: boolean;
+  isBlocked: boolean;
+}
 
 function TalkRoomForm({
   sendMessageHandler,
   setShowImageModal,
   isBlock,
   isBlocked,
-}) {
+}: Props) {
   const [message, setMessage] = useState("");
 
   const chatPlaceholder = useMemo(() => {
@@ -14,13 +30,15 @@ function TalkRoomForm({
     return "메시지를 입력해주세요.";
   }, [isBlock, isBlocked]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (message === "") return;
-
-    sendMessageHandler(message);
-    setMessage("");
-  };
+  const submitHandler = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (message === "") return;
+      sendMessageHandler(message);
+      setMessage("");
+    },
+    [message]
+  );
 
   return (
     <form onSubmit={submitHandler}>
@@ -55,9 +73,10 @@ function TalkRoomForm({
         />
         <button
           type="submit"
-          className={`w-20 h-10 p-2 text-sm rounded-lg ${
+          className={clsx(
+            "w-20 h-10 p-2 text-sm rounded-lg",
             !message ? "bg-lightgray text-darkgray" : "bg-primary text-white"
-          }`}
+          )}
           disabled={!message}
         >
           전송
@@ -67,4 +86,4 @@ function TalkRoomForm({
   );
 }
 
-export default TalkRoomForm;
+export default memo(TalkRoomForm);

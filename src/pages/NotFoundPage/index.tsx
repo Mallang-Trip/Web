@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 import PageContainer from "../../components/PageContainer";
@@ -17,4 +17,4 @@ function NotFoundPage() {
   );
 }
 
-export default NotFoundPage;
+export default memo(NotFoundPage);

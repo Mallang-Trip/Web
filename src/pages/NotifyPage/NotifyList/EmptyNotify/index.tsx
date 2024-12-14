@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function EmptyNotify() {
   return (
     <div className="w-full my-28 text-center text-black">
@@ -6,4 +8,4 @@ function EmptyNotify() {
   );
 }
 
-export default EmptyNotify;
+export default memo(EmptyNotify);

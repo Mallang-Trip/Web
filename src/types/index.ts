@@ -14,15 +14,6 @@ export interface Article {
   articleDeleted?: boolean;
 }
 
-export interface Notification {
-  alarmId: number;
-  checked: boolean;
-  content: string;
-  createdAt: string;
-  targetId: number | undefined;
-  type: string;
-}
-
 export interface Destination {
   address: string;
   destinationId: number;
@@ -289,4 +280,15 @@ export interface Payment {
   refundAmount: number;
   refundTime: string;
   status: string;
+}
+
+export type NotifyType = "PARTY" | "ARTICLE" | "DRIVER" | "NONE";
+
+export interface Notify {
+  alarmId: number;
+  checked: boolean;
+  content: string;
+  createdAt: string;
+  targetId: number | null;
+  type: NotifyType;
 }

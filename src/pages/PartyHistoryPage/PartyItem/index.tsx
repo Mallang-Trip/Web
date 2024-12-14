@@ -1,6 +1,8 @@
+import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { customRoundOne } from "../../../utils";
-import basicPartyImage from "../../../assets/images/커뮤니티 사용 이미지.jpg";
+import { HeartParty } from "../../../types";
+import basicPartyImage from "../../../assets/images/Basic_Party_Image.jpg";
 
 function PartyItem({
   partyId,
@@ -10,12 +12,12 @@ function PartyItem({
   headcount,
   capacity,
   price,
-}) {
+}: HeartParty) {
   const navigate = useNavigate();
 
-  const onClickHandler = () => {
+  const onClickHandler = useCallback(() => {
     navigate(`/party/detail/${partyId}`);
-  };
+  }, [partyId]);
 
   return (
     <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
@@ -39,4 +41,4 @@ function PartyItem({
   );
 }
 
-export default PartyItem;
+export default memo(PartyItem);

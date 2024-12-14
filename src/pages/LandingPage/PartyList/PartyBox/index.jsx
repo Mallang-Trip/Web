@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { customRoundOne } from "../../../../utils";
-import basicPartyImage from "../../../../assets/images/커뮤니티 사용 이미지.jpg";
+import basicPartyImage from "../../../../assets/images/Basic_Party_Image.jpg";
 
 function PartyBox({
   partyId,

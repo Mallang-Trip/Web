@@ -8,17 +8,9 @@ interface Props {
     event: FormEvent<HTMLFormElement> | undefined,
     keyword?: string
   ) => void;
-  getAllMarkersFunc: () => void;
-  isAllMarker: boolean;
 }
 
-function SearchBox({
-  searchKeyword,
-  setSearchKeyword,
-  submitHandler,
-  getAllMarkersFunc,
-  isAllMarker,
-}: Props) {
+function SearchBox({ searchKeyword, setSearchKeyword, submitHandler }: Props) {
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center">
       <div className="relative flex w-64 mt-4">
@@ -50,10 +42,7 @@ function SearchBox({
         {searchKeyword && (
           <button
             className="absolute inset-y-0 right-1 items-center pr-3 hover:cursor-pointer"
-            onClick={() => {
-              setSearchKeyword("");
-              if (!isAllMarker) getAllMarkersFunc();
-            }}
+            onClick={() => setSearchKeyword("")}
           >
             <img src={cross} />
           </button>

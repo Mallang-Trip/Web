@@ -36,6 +36,7 @@ interface Props {
 function CourseMap({ mapName, reload, markerData }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const isPanning = useRef<boolean>(false);
   const [isDrawMap, setIsDrawMap] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [courseData, setCourseData] = useState<Destination[]>([]);
@@ -80,7 +81,12 @@ function CourseMap({ mapName, reload, markerData }: Props) {
           lon: 0,
         });
       });
+
+      tmapMarker.addListener("touchstart", () => {
+        isPanning.current = false;
+      });
       tmapMarker.addListener("touchend", () => {
+        if (isPanning.current) return;
         setShowDestinationModal(true);
         setClickedData({
           destinationId: destinationId,
@@ -159,6 +165,10 @@ function CourseMap({ mapName, reload, markerData }: Props) {
       zoom: 12,
       zoomControl: false,
       scrollwheel: true,
+    });
+
+    map.addListener("drag", () => {
+      isPanning.current = true;
     });
 
     // 마커

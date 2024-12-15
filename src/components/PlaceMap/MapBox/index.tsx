@@ -32,7 +32,7 @@ function MapBox({
 }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const isPanning = useRef<boolean>(false);
+  const lastTouchTime = useRef<number>(0);
   const [recentMap, setRecentMap] = useState();
   const [marker, setMarker] = useState<Marker[]>([]);
 
@@ -87,10 +87,6 @@ function MapBox({
     const map = recentMap || makeNewMap();
     const PTbounds = new Tmapv2.LatLngBounds();
 
-    map.addListener("drag", () => {
-      isPanning.current = true;
-    });
-
     setMarker(
       markerData.map((marker) => {
         const tmapMarker = new Tmapv2.Marker({
@@ -110,14 +106,16 @@ function MapBox({
           setShowDestinationModal(true);
           setClickedData(marker);
         });
-
         tmapMarker.addListener("touchstart", () => {
-          isPanning.current = false;
-        });
-        tmapMarker.addListener("touchend", () => {
-          if (isPanning.current) return;
-          setShowDestinationModal(true);
-          setClickedData(marker);
+          const currentTime = Date.now();
+          const timeDifference = currentTime - lastTouchTime.current;
+
+          if (timeDifference < 300) {
+            setShowDestinationModal(true);
+            setClickedData(marker);
+          }
+
+          lastTouchTime.current = currentTime;
         });
 
         return tmapMarker;

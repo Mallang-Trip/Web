@@ -36,7 +36,7 @@ interface Props {
 function CourseMap({ mapName, reload, markerData }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const isPanning = useRef<boolean>(false);
+  const lastTouchTime = useRef<number>(0);
   const [isDrawMap, setIsDrawMap] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [courseData, setCourseData] = useState<Destination[]>([]);
@@ -81,20 +81,22 @@ function CourseMap({ mapName, reload, markerData }: Props) {
           lon: 0,
         });
       });
-
       tmapMarker.addListener("touchstart", () => {
-        isPanning.current = false;
-      });
-      tmapMarker.addListener("touchend", () => {
-        if (isPanning.current) return;
-        setShowDestinationModal(true);
-        setClickedData({
-          destinationId: destinationId,
-          name: name,
-          address: "",
-          lat: 0,
-          lon: 0,
-        });
+        const currentTime = Date.now();
+        const timeDifference = currentTime - lastTouchTime.current;
+
+        if (timeDifference < 300) {
+          setShowDestinationModal(true);
+          setClickedData({
+            destinationId: destinationId,
+            name: name,
+            address: "",
+            lat: 0,
+            lon: 0,
+          });
+        }
+
+        lastTouchTime.current = currentTime;
       });
     },
     [Tmapv2, startMarker, endMarker, pointMarker]
@@ -165,10 +167,6 @@ function CourseMap({ mapName, reload, markerData }: Props) {
       zoom: 12,
       zoomControl: false,
       scrollwheel: true,
-    });
-
-    map.addListener("drag", () => {
-      isPanning.current = true;
     });
 
     // 마커

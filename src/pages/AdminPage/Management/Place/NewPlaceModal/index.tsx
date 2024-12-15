@@ -45,7 +45,7 @@ function NewPlaceModal({
   const Tmapv2 = window.Tmapv2;
   const modalRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const isPanning = useRef<boolean>(false);
+  const lastTouchTime = useRef<number>(0);
   const [keyword, setKeyword] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -115,10 +115,6 @@ function NewPlaceModal({
       scrollwheel: true,
     });
 
-    map.addListener("drag", () => {
-      isPanning.current = true;
-    });
-
     const PTbounds = new Tmapv2.LatLngBounds();
 
     placeData.forEach((marker) => {
@@ -174,10 +170,6 @@ function NewPlaceModal({
             scrollwheel: true,
           });
 
-          map.addListener("drag", () => {
-            isPanning.current = true;
-          });
-
           const positionBounds = new Tmapv2.LatLngBounds();
 
           for (let k in resultpoisData) {
@@ -221,21 +213,23 @@ function NewPlaceModal({
               });
               setShowFormModal(true);
             });
-
             tmapMarker.addListener("touchstart", () => {
-              isPanning.current = false;
-            });
-            tmapMarker.addListener("touchend", () => {
-              if (isPanning.current) return;
-              setNewPlaceInfo({
-                address: `${address} (${telNo})`,
-                content: "",
-                images: [],
-                lat: lat,
-                lon: lon,
-                name: name,
-              });
-              setShowFormModal(true);
+              const currentTime = Date.now();
+              const timeDifference = currentTime - lastTouchTime.current;
+
+              if (timeDifference < 300) {
+                setNewPlaceInfo({
+                  address: `${address} (${telNo})`,
+                  content: "",
+                  images: [],
+                  lat: lat,
+                  lon: lon,
+                  name: name,
+                });
+                setShowFormModal(true);
+              }
+
+              lastTouchTime.current = currentTime;
             });
           }
           map.fitBounds(positionBounds, margin);

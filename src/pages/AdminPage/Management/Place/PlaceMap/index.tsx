@@ -26,7 +26,7 @@ function PlaceMap({
 }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const isPanning = useRef<boolean>(false);
+  const lastTouchTime = useRef<number>(0);
   const [recentMap, setRecentMap] = useState();
   const [marker, setMarker] = useState<any>([]);
   const [isInitialMap, setIsInitialMap] = useState(true);
@@ -58,10 +58,6 @@ function PlaceMap({
       scrollwheel: true,
     });
 
-    map.addListener("drag", () => {
-      isPanning.current = true;
-    });
-
     setRecentMap(map);
 
     return map;
@@ -91,14 +87,16 @@ function PlaceMap({
           setDestinationId(marker.destinationId);
           setShowDestinationModal(true);
         });
-
         tmapMarker.addListener("touchstart", () => {
-          isPanning.current = false;
-        });
-        tmapMarker.addListener("touchend", () => {
-          if (isPanning.current) return;
-          setDestinationId(marker.destinationId);
-          setShowDestinationModal(true);
+          const currentTime = Date.now();
+          const timeDifference = currentTime - lastTouchTime.current;
+
+          if (timeDifference < 300) {
+            setDestinationId(marker.destinationId);
+            setShowDestinationModal(true);
+          }
+
+          lastTouchTime.current = currentTime;
         });
 
         return tmapMarker;

@@ -87,6 +87,7 @@ function DriverDetail() {
   );
 
   const modifyProfileHandler = useCallback(async () => {
+    if (!driverId) return;
     if (!modifyMode) return setModifyMode(true);
 
     const profileImageURL = newProfileImage
@@ -134,6 +135,7 @@ function DriverDetail() {
   }, [modifyMode, newProfileImage, driverInfo, newVehicleImages, driverId]);
 
   const getDriverInfoDetailFunc = useCallback(async () => {
+    if (!driverId) return;
     try {
       const result = await getDriverInfoDetail(driverId);
       setDriverInfo(result.payload);
@@ -146,6 +148,8 @@ function DriverDetail() {
   }, [driverId]);
 
   const autoSaveHandler = useCallback(async () => {
+    if (!driverId) return;
+
     const profileImageURL = newProfileImage
       ? await uploadImage(newProfileImage)
       : driverInfo.profileImg;

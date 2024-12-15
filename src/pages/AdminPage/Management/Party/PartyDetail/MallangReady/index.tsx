@@ -22,6 +22,7 @@ function MallangReady({
   const [ready, setReady] = useState(false);
 
   const readyClickHandler = useCallback(async () => {
+    if (!partyId) return;
     try {
       await getPartyDriverReady(partyId, !ready);
       setReady(!ready);

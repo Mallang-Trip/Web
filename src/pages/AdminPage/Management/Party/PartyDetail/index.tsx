@@ -25,6 +25,7 @@ function PartyDetail({ partyId }: Props) {
   const [partyData, setPartyData] = useState<Party>();
 
   const getPartyDetailFunc = useCallback(async () => {
+    if (!partyId) return;
     try {
       const result = await getPartyDetail(partyId);
       setPartyData(result.payload);

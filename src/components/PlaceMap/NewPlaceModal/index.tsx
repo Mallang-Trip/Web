@@ -40,6 +40,7 @@ function NewPlaceModal({
   const Tmapv2 = window.Tmapv2;
   const modalRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const isPanning = useRef<boolean>(false);
   const [keyword, setKeyword] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,10 @@ function NewPlaceModal({
     lon: 0,
     name: "",
     destinationId: 0,
+    views: 0,
+    avgRate: null,
+    reviews: [],
+    dibs: false,
   });
 
   const margin = useMemo(
@@ -114,6 +119,10 @@ function NewPlaceModal({
       scrollwheel: true,
     });
 
+    map.addListener("drag", () => {
+      isPanning.current = true;
+    });
+
     const PTbounds = new Tmapv2.LatLngBounds();
 
     markerData.forEach((marker) => {
@@ -170,6 +179,10 @@ function NewPlaceModal({
             scrollwheel: true,
           });
 
+          map.addListener("drag", () => {
+            isPanning.current = true;
+          });
+
           const positionBounds = new Tmapv2.LatLngBounds();
 
           for (let k in resultpoisData) {
@@ -211,10 +224,19 @@ function NewPlaceModal({
                 lon: lon,
                 name: name,
                 destinationId: 0,
+                views: 0,
+                avgRate: null,
+                reviews: [],
+                dibs: false,
               });
               setShowFormModal(true);
             });
+
+            tmapMarker.addListener("touchstart", () => {
+              isPanning.current = false;
+            });
             tmapMarker.addListener("touchend", () => {
+              if (isPanning.current) return;
               setNewPlaceInfo({
                 address: `${address} (${telNo})`,
                 content: "",
@@ -223,6 +245,10 @@ function NewPlaceModal({
                 lon: lon,
                 name: name,
                 destinationId: 0,
+                views: 0,
+                avgRate: null,
+                reviews: [],
+                dibs: false,
               });
               setShowFormModal(true);
             });

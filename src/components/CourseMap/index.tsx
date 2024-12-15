@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { Destination } from "../../types";
 import startMarker from "../../assets/svg/start_marker.svg";
 import endMarker from "../../assets/svg/end_marker.svg";
 import pointMarker from "../../assets/svg/point_marker.svg";
@@ -35,11 +36,15 @@ interface Props {
 function CourseMap({ mapName, reload, markerData }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const isPanning = useRef<boolean>(false);
   const [isDrawMap, setIsDrawMap] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
-  const [courseData, setCourseData] = useState([]);
-  const [clickedData, setClickedData] = useState({
+  const [courseData, setCourseData] = useState<Destination[]>([]);
+  const [clickedData, setClickedData] = useState<Destination>({
+    address: "",
     destinationId: 0,
+    lat: 0,
+    lon: 0,
     name: "",
   });
 
@@ -68,11 +73,28 @@ function CourseMap({ mapName, reload, markerData }: Props) {
       tmapMarker._htmlElement.className = "cursor-pointer";
       tmapMarker.addListener("click", () => {
         setShowDestinationModal(true);
-        setClickedData({ destinationId: destinationId, name: name });
+        setClickedData({
+          destinationId: destinationId,
+          name: name,
+          address: "",
+          lat: 0,
+          lon: 0,
+        });
+      });
+
+      tmapMarker.addListener("touchstart", () => {
+        isPanning.current = false;
       });
       tmapMarker.addListener("touchend", () => {
+        if (isPanning.current) return;
         setShowDestinationModal(true);
-        setClickedData({ destinationId: destinationId, name: name });
+        setClickedData({
+          destinationId: destinationId,
+          name: name,
+          address: "",
+          lat: 0,
+          lon: 0,
+        });
       });
     },
     [Tmapv2, startMarker, endMarker, pointMarker]
@@ -143,6 +165,10 @@ function CourseMap({ mapName, reload, markerData }: Props) {
       zoom: 12,
       zoomControl: false,
       scrollwheel: true,
+    });
+
+    map.addListener("drag", () => {
+      isPanning.current = true;
     });
 
     // 마커

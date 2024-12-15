@@ -1,3 +1,5 @@
+import { partyStatusObj } from "../utils/data";
+
 export interface Article {
   articleId: number;
   profileImg: string | null;
@@ -10,15 +12,6 @@ export interface Article {
   commentsCount: number;
   image: string | null;
   articleDeleted?: boolean;
-}
-
-export interface Notification {
-  alarmId: number;
-  checked: boolean;
-  content: string;
-  createdAt: string;
-  targetId: number | undefined;
-  type: string;
 }
 
 export interface Destination {
@@ -64,8 +57,9 @@ export interface Place extends Destination {
   images: (string | File)[];
   content: string;
   views: number;
-  avgRate: number;
+  avgRate: number | null;
   reviews: Review[];
+  dibs: boolean;
 }
 
 export interface Report {
@@ -119,6 +113,22 @@ export interface Party {
   proposalExists: boolean;
   region: string;
   reservation: any;
+  status: keyof typeof partyStatusObj;
+}
+
+export interface HeartParty {
+  capacity: number;
+  createdAt: string;
+  driverName: string;
+  endDate: string;
+  headcount: number;
+  image: string;
+  name: string;
+  partyId: number;
+  price: number;
+  startDate: string;
+  status: keyof typeof partyStatusObj;
+  updatedAt: string;
 }
 
 export interface RegionDriverData {
@@ -204,4 +214,144 @@ export interface NewDriverInfo {
   vehicleImgs: string[];
   vehicleModel: string;
   vehicleNumber: string;
+}
+
+export interface Reply {
+  replyId: number;
+  profileImg: string | undefined;
+  nickname: string;
+  createdAt: string;
+  content: string;
+  userId: number;
+  deleted: boolean;
+}
+
+export interface Comment {
+  commentId: number;
+  profileImg: string | undefined;
+  nickname: string;
+  createdAt: string;
+  content: string;
+  userId: number;
+  deleted: boolean;
+  replies: {
+    replyId: number;
+    profileImg: string | undefined;
+    nickname: string;
+    createdAt: string;
+    content: string;
+    userId: number;
+    deleted: boolean;
+  }[];
+}
+
+export interface ArticleDetailType {
+  articleId: number;
+  comments: Comment[];
+  commentsCount: number;
+  content: string;
+  createdAt: string;
+  dibs: boolean;
+  images: string[];
+  nickname: string;
+  partyId: number | null;
+  partyName: string | null;
+  profileImg: string | undefined;
+  title: string;
+  type: string;
+  updatedAt: string;
+  userId: number;
+}
+
+export type ArticleCategoryType =
+  | "전체"
+  | "자유게시판"
+  | "동행구해요"
+  | "피드백";
+
+export interface Payment {
+  cancelReceiptUrl: string | null;
+  partyId: number;
+  partyName: string;
+  partyStartDate: string;
+  paymentAmount: number;
+  paymentTime: string;
+  receiptUrl: string | null;
+  refundAmount: number;
+  refundTime: string;
+  status: string;
+}
+
+export type NotifyType = "PARTY" | "ARTICLE" | "DRIVER" | "NONE";
+
+export interface Notify {
+  alarmId: number;
+  checked: boolean;
+  content: string;
+  createdAt: string;
+  targetId: number | null;
+  type: NotifyType;
+}
+
+export interface InviteChatMember {
+  nickName: string;
+  profileImg: string | null;
+  userId: number;
+}
+
+export interface ChatMember {
+  createdAt: string;
+  deleted: boolean;
+  introduction: string;
+  nickname: string;
+  profileImg: string | null;
+  suspensionDuration: number | null;
+  userId: number;
+}
+
+export type ChatRoomType =
+  | "COUPLE"
+  | "GROUP"
+  | "PARTY_PUBLIC"
+  | "PARTY_PRIVATE";
+
+export interface ChatRoomList {
+  chatRoomId: number;
+  content: string;
+  headCount: number;
+  image: string | null;
+  roomName: string;
+  type: ChatRoomType;
+  unreadCount: number;
+  updatedAt: string;
+}
+
+export interface ChatRoomDetail {
+  chatRoomId: number;
+  headCount: number;
+  isBlock: boolean;
+  isBlocked: boolean;
+  members: {
+    createdAt: string;
+    deleted: boolean;
+    introduction: string;
+    isMyParty: boolean;
+    nickname: string;
+    profileImg: string | null;
+    userId: number;
+  }[];
+  messages: {
+    content: string;
+    createdAt: string;
+    messageId: number;
+    nickname: string;
+    profileImg: string | null;
+    type: string;
+    userId: number;
+  }[];
+  myParty: boolean | null;
+  partyId: number | null;
+  publicRoomId: number | null;
+  roomName: string;
+  type: ChatRoomType;
 }

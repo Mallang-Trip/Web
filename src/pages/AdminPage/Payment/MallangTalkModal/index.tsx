@@ -34,6 +34,7 @@ function MallangTalkModal({ showModal, setShowModal, mallangTalkInfo }: Props) {
   const [showProfileModal, setShowProfileModal] = useState(false);
 
   const getChatDetailFunc = useCallback(async () => {
+    if (!roomId) return;
     try {
       const result = await getChatDetail(roomId);
       setMessages(result.payload);

@@ -41,7 +41,7 @@ function CommentList({ reviews, isDriver, reloadData }: Props) {
         <Comment
           key={item.reviewId}
           {...item}
-          isMyComment={user.userId === item.userId}
+          isMyComment={user.auth && user.userId === item.userId}
           isDriver={isDriver}
           reloadData={reloadData}
           setShowDeleteModal={setShowDeleteModal}

@@ -28,7 +28,7 @@ interface Destination {
   lat: number;
   lon: number;
   name: string;
-  image: string | File;
+  image?: string | File;
 }
 
 function DriverCourse() {
@@ -53,6 +53,8 @@ function DriverCourse() {
   const courseId = searchParams.get("courseId");
 
   const saveCourse = useCallback(async () => {
+    if (!driverId || !courseId) return;
+
     const destinationImages = destinations.reduce(
       (acc: (string | File)[], cur: Destination) => {
         if (typeof cur.image === "string") {
@@ -151,6 +153,7 @@ function DriverCourse() {
   ]);
 
   const getDriverCourseInfo = useCallback(async () => {
+    if (!driverId || !courseId) return;
     try {
       const driverResult = await getDriverInfoDetail(driverId);
       setCapacity(driverResult.payload.vehicleCapacity);
@@ -218,7 +221,7 @@ function DriverCourse() {
   return (
     <div className="text-base text-black font-medium">
       <PageContainer>
-        <Title courseId={courseId} />
+        <Title courseId={courseId || "0"} />
         <CourseImage images={images} setImages={setImages} />
         <CourseInfo title="여행 기간" content="1일" />
         <CourseInfo title="최대 정원" content={`${capacity}명`} />
@@ -260,7 +263,7 @@ function DriverCourse() {
           setRegion={setRegion}
         />
         <SaveButton
-          courseId={courseId}
+          courseId={courseId || "0"}
           saveHandler={() => setShowCheckModal(true)}
         />
         <DeleteButton />

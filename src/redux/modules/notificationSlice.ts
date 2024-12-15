@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Notification } from "../../types";
+import { Notify } from "../../types";
 
 interface State {
-  notification: Notification[];
+  notification: Notify[];
   uncheckedCount: number;
 }
 

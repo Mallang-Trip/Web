@@ -20,8 +20,9 @@ function NoticeButton({
   const navigation = useNavigate();
 
   const deleteAnnouncementFunc = useCallback(async () => {
+    if (!announcementId) return;
     try {
-      await deleteAnnouncement(announcementId);
+      await deleteAnnouncement(announcementId.toString());
       setMessage("공지사항이 삭제되었습니다.");
       navigation(-1);
     } catch (e) {

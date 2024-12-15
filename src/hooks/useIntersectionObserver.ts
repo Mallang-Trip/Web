@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useIntersectionObserver = (threshold = 0.5) => {
-  const ref = useRef();
+export const useIntersectionObserver = <T extends Element>(threshold = 0.5) => {
+  const ref = useRef<T | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {
@@ -24,5 +24,5 @@ export const useIntersectionObserver = (threshold = 0.5) => {
     };
   }, [ref, threshold]);
 
-  return [ref, isIntersecting];
+  return [ref, isIntersecting] as const;
 };

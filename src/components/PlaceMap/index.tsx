@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllMarkers, getSearchInfo } from "../../api/destination";
+import { getSearchInfo } from "../../api/destination";
 import { Destination } from "../../types";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
@@ -68,16 +68,6 @@ function PlaceMap({
     [searchKeyword, searchPage]
   );
 
-  const getAllMarkersFunc = useCallback(async () => {
-    try {
-      const result = await getAllMarkers();
-      setMarkerData(result.payload);
-      setIsAllMarker(true);
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
   useEffect(() => {
     if (!keyword || keyword === "null") return;
 
@@ -86,9 +76,9 @@ function PlaceMap({
   }, [keyword]);
 
   useEffect(() => {
-    if (courseData?.length && !onlyAllPlace) setMarkerData(courseData);
-    else if (searchKeyword) return;
-    else getAllMarkersFunc();
+    if (courseData?.length && !onlyAllPlace) {
+      setMarkerData(courseData);
+    }
   }, []);
 
   return (
@@ -106,8 +96,6 @@ function PlaceMap({
             searchKeyword={searchKeyword}
             setSearchKeyword={setSearchKeyword}
             submitHandler={submitHandler}
-            getAllMarkersFunc={getAllMarkersFunc}
-            isAllMarker={isAllMarker}
           />
         )}
       </div>

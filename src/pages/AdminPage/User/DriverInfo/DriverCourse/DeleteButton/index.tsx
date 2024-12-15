@@ -11,6 +11,7 @@ function DeleteButton() {
   const courseId = searchParams.get("courseId");
 
   const deleteHandler = useCallback(async () => {
+    if (!driverId || !courseId) return;
     try {
       await deleteDriverCourse(driverId, courseId);
       alert("파티 코스가 삭제되었습니다.");

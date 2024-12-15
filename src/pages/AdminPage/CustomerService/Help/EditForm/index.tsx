@@ -38,7 +38,11 @@ function EditForm({
 }: Props) {
   const navigation = useNavigate();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [images, setImages] = useState([undefined, undefined, undefined]);
+  const [images, setImages] = useState<(string | File | undefined)[]>([
+    undefined,
+    undefined,
+    undefined,
+  ]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,6 +51,7 @@ function EditForm({
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (loading) return;
+      if (!announcementId) return;
 
       try {
         setLoading(true);
@@ -100,6 +105,7 @@ function EditForm({
   );
 
   const getAnnouncementDetailFunc = useCallback(async () => {
+    if (!announcementId) return;
     try {
       const { payload } = await getAnnouncementDetail(announcementId);
       setImages(payload.images);

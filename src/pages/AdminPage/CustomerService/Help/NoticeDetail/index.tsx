@@ -38,8 +38,9 @@ function NoticeDetail({
   });
 
   const getAnnouncementDetailFunc = useCallback(async () => {
+    if (!announcementId) return;
     try {
-      const result = await getAnnouncementDetail(announcementId);
+      const result = await getAnnouncementDetail(announcementId.toString());
       setNotice(result.payload);
       if (result.statusCode === 404) {
         alert("이미 삭제된 공지사항 입니다.");

@@ -4,7 +4,7 @@ import pencil from "../../assets/svg/pencil.svg";
 
 interface Props {
   title: string;
-  className: string;
+  className?: string;
   onClick: () => void;
 }
 

@@ -17,6 +17,7 @@ function ArticleItem() {
   });
 
   const getAnnouncementDetailFunc = useCallback(async () => {
+    if (!id) return;
     try {
       const result = await getAnnouncementDetail(id);
       setNotice(result.payload);

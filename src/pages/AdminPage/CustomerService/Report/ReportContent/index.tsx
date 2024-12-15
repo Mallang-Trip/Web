@@ -56,6 +56,7 @@ function ReportContent({ setCurrent }: Props) {
   });
 
   const getReportDetailFunc = useCallback(async () => {
+    if (!reportId) return;
     try {
       const result =
         status === "WAITING"
@@ -76,6 +77,7 @@ function ReportContent({ setCurrent }: Props) {
   }, [status, reportId]);
 
   const updateReportCompleteFunc = useCallback(async () => {
+    if (!reportId) return;
     try {
       await updateReportComplete(reportId);
       setCurrent(1);

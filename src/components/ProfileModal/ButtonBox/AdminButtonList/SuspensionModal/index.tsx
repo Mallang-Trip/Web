@@ -35,6 +35,7 @@ function SuspensionModal({
   const closeModal = useCallback(() => setShowModal(false), []);
 
   const postSuspensionFunc = useCallback(async () => {
+    if (!userId) return;
     if (!durationInput) return alert("제재 일 수를 입력해주세요.");
     if (!content) return alert("제재 사유를 입력해주세요.");
 

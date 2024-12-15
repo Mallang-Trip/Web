@@ -6,12 +6,16 @@ import deleteIcon from "../../../assets/svg/x-modal-icon.svg";
 import TimeModal from "./TimeModal";
 import clsx from "clsx";
 
+interface DestinationImage extends Destination {
+  image?: string | File;
+}
+
 interface Props {
   name: string;
   setName: Dispatch<SetStateAction<string>>;
   hours: number;
-  destinations: Destination[];
-  setDestinations: Dispatch<SetStateAction<Destination[]>>;
+  destinations: DestinationImage[];
+  setDestinations: Dispatch<SetStateAction<DestinationImage[]>>;
   startTime: string;
   endTime: string;
   setStartTime: Dispatch<SetStateAction<string>>;

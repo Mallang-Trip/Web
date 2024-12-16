@@ -8,7 +8,7 @@ interface Props {
   nickname: string | undefined;
   introduction: string | undefined;
   createdAt: string | undefined;
-  driverName: boolean;
+  driverName: string | boolean;
 }
 
 function ProfileInfo({

@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { getPartyRegionList } from "../../../api/region";
-import { DriverInfo, Review } from "../../../types";
+import { DriverInfo, RegionData, Review } from "../../../types";
 import CheckModal from "../../../components/CheckModal";
 import Title from "../../../components/Title";
 import RegionButton from "./RegionButton";
@@ -17,13 +17,6 @@ interface DriverInfoType extends DriverInfo {
   reservationCount: number;
   avgRate: number | null;
   reviews: Review[];
-}
-
-interface RegionData {
-  image: string;
-  name: string;
-  province: string | null;
-  regionId: number;
 }
 
 interface Props {

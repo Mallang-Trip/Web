@@ -6,7 +6,7 @@ interface Props {
   edit: boolean;
   startDate: string;
   editHandler?: () => void;
-  comment?: boolean;
+  comment?: string;
   course: Course;
 }
 

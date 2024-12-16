@@ -13,15 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRegion } from "../../../../redux/modules/partyFilterSlice";
 import { getPartyRegionList } from "../../../../api/region";
 import { RootState } from "../../../../redux/store";
+import { RegionData } from "../../../../types";
 import RegionButton from "./RegionButton";
 import clsx from "clsx";
-
-interface RegionType {
-  image: string;
-  name: string;
-  province: string | null;
-  regionId: number;
-}
 
 interface Props {
   showModal: boolean;
@@ -38,7 +32,7 @@ function RegionModal({
   const modalRef = useRef<HTMLDivElement | null>(null);
   const region = useSelector((state: RootState) => state.partyFilter.region);
   const [selectedRegion, setSelectedRegion] = useState("");
-  const [regionData, setRegionData] = useState<RegionType[]>([]);
+  const [regionData, setRegionData] = useState<RegionData[]>([]);
 
   const regionClickHandler = useCallback((target: string) => {
     setShowModal(false);

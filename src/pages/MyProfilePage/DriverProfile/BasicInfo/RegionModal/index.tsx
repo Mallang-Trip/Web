@@ -9,16 +9,9 @@ import {
   useState,
 } from "react";
 import { getPartyRegionList } from "../../../../../api/region";
-import { DriverInfo } from "../../../../../types";
+import { DriverInfo, RegionData } from "../../../../../types";
 import Region from "./Region";
 import clsx from "clsx";
-
-interface RegionData {
-  image: string;
-  name: string;
-  province: string | null;
-  regionId: number;
-}
 
 interface Props {
   showModal: boolean;

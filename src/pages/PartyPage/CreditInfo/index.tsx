@@ -1,14 +1,13 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { priceToString, dateToKoreanDataTime } from "../../../utils";
 import { postPaymentAgain } from "../../../api/card";
-import { partyStatusObj } from "../../../utils/data";
 import CheckModal from "../../../components/CheckModal";
 import ConfirmModal from "../../../components/ConfirmModal";
 
 interface Props {
   totalPrice: number;
   capacity: number;
-  partyStatus?: keyof typeof partyStatusObj;
+  partyStatus?: string;
   paymentAmount?: number;
   createdAt?: string;
   receiptUrl?: string | null;

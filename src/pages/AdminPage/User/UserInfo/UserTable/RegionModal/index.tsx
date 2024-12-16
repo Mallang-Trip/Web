@@ -12,6 +12,7 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { postApplyDriver } from "../../../../../../api/admin";
 import { getPartyRegionList } from "../../../../../../api/region";
+import { RegionData } from "../../../../../../types";
 import RegionButton from "./RegionButton";
 import clsx from "clsx";
 
@@ -25,13 +26,7 @@ function RegionModal({ showModal, setShowModal, userId }: Props) {
   const navigation = useNavigate();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<string[]>([]);
-  const [regionData, setRegionData] = useState<
-    {
-      image: string;
-      name: string;
-      regionId: number;
-    }[]
-  >([]);
+  const [regionData, setRegionData] = useState<RegionData[]>([]);
 
   const regionClickHandler = useCallback(async () => {
     try {

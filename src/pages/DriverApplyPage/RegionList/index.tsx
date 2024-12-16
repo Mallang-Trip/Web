@@ -7,14 +7,8 @@ import {
   useState,
 } from "react";
 import { getPartyRegionList } from "../../../api/region";
+import { RegionData } from "../../../types";
 import Region from "./Region";
-
-interface RegionType {
-  image: string;
-  name: string;
-  province: string;
-  regionId: number;
-}
 
 interface Props {
   setActiveNext: Dispatch<SetStateAction<boolean>>;
@@ -23,7 +17,7 @@ interface Props {
 }
 
 function RegionList({ setActiveNext, region, setRegion }: Props) {
-  const [regionData, setRegionData] = useState<RegionType[]>([]);
+  const [regionData, setRegionData] = useState<RegionData[]>([]);
 
   const getPartyRegionListFunc = useCallback(async () => {
     try {

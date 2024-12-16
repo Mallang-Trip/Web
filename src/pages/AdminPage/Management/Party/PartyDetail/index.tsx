@@ -62,16 +62,9 @@ function PartyDetail({ partyId }: Props) {
       <Promotion promotion={partyData?.promotion} />
       <PartyDate startDate={partyData.startDate} />
       <PartyMember
-        headcount={partyData.headcount}
-        capacity={partyData.capacity}
-        members={partyData.members}
-        driverId={partyData.driverId}
+        {...partyData}
         myParty={true}
-        driverReady={partyData.driverReady}
-        partyStatus={partyData.partyStatus}
-        proposal={partyData.proposal}
-        driverName={partyData.driverName}
-        partyId={partyId && parseInt(partyId)}
+        partyId={partyId === null ? 0 : parseInt(partyId)}
       />
       {partyData.partyStatus === "CANCELED_BY_DRIVER_REFUSED" ||
       partyData.partyStatus === "CANCELED_BY_PROPOSER" ||

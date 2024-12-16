@@ -18,7 +18,7 @@ import NewPlaceModal from "./NewPlaceModal";
 
 interface Props {
   search: boolean;
-  keyword: string;
+  keyword?: string;
   searchPage: boolean;
   onlyAllPlace: boolean;
   courseData?: Destination[];

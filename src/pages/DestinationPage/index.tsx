@@ -30,8 +30,9 @@ function DestinationPage() {
   });
 
   const getDestinationInfo = useCallback(async () => {
+    if (!destinationId) return;
     try {
-      const result = await getDestinationDetail(destinationId);
+      const result = await getDestinationDetail(Number(destinationId));
       setDestinationInfo(result.payload);
     } catch (e) {
       console.log(e);

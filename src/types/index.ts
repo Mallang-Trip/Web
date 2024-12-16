@@ -355,3 +355,10 @@ export interface ChatRoomDetail {
   roomName: string;
   type: ChatRoomType;
 }
+
+export interface RegionData {
+  image: string;
+  name: string;
+  province: string | null;
+  regionId: number;
+}

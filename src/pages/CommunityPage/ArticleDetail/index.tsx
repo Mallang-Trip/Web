@@ -33,6 +33,7 @@ function ArticleDetail({ getArticleListFunc }: Props) {
   });
 
   const getArticleDetailFunc = useCallback(async () => {
+    if (!articleId) return;
     try {
       const result = await getArticleDetail(articleId);
 

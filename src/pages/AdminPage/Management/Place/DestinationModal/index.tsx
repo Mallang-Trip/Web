@@ -185,9 +185,11 @@ function DestinationModal({
               ) : (
                 <>
                   <ImageBox
-                    images={destinationInfo.images.filter(
-                      (image) => typeof image === "string"
-                    )}
+                    images={
+                      destinationInfo.images.filter(
+                        (image) => typeof image === "string"
+                      ) as string[]
+                    }
                     name={destinationInfo.name}
                   />
                   <div className="flex gap-2 justify-end mt-2 mb-4">

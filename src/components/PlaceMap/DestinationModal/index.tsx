@@ -87,6 +87,7 @@ function DestinationModal({
   }, [courseData, clickedData]);
 
   const heartClickHandler = useCallback(async () => {
+    if (!clickedData?.destinationId) return;
     if (!user.auth) return setShowLoginModal(true);
 
     try {

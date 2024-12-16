@@ -23,7 +23,7 @@ interface Props {
   userId?: number;
   chatRoomId?: number;
   reportId?: number;
-  driverName: boolean;
+  driverName: string | boolean;
 }
 
 function ProfileModal({

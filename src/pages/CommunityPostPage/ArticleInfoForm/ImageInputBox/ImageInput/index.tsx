@@ -4,6 +4,7 @@ import {
   MouseEvent,
   SetStateAction,
   useCallback,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -40,24 +41,32 @@ function ImageInput({ images, setImages, index }: Props) {
     [images, index]
   );
 
+  const image = useMemo(() => images[index], [images, index]);
+
+  const imagesSrc = useMemo(
+    () =>
+      typeof image === "string"
+        ? image
+        : image instanceof File
+          ? URL.createObjectURL(image)
+          : undefined,
+    [image]
+  );
+
   return (
     <>
       <div
         className="w-20 h-20 bg-skyblue border border-dashed border-primary rounded-lg cursor-pointer flex justify-center items-center"
         onClick={() => imageRef.current?.click()}
       >
-        {images[index] ? (
+        {imagesSrc ? (
           <div
             className="w-full h-full rounded-lg relative"
             onMouseEnter={() => setDeleteMode(true)}
             onMouseLeave={() => setDeleteMode(false)}
           >
             <img
-              src={
-                typeof images[index] === "string"
-                  ? images[index]
-                  : URL.createObjectURL(images[index])
-              }
+              src={imagesSrc}
               alt="Article_Image"
               className="object-cover w-full h-full rounded-lg"
             />

@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useState } from "react";
-import { RegionData } from "..";
+import { RegionData } from "../../../../../types";
 import NewRegion from "./NewRegion";
 import RegionItem from "./RegionItem";
 import EditFormModal from "./EditFormModal";

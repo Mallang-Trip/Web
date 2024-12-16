@@ -61,6 +61,7 @@ function DriverProfilePage() {
   );
 
   const settingDriverInfo = useCallback(async () => {
+    if (!driverId) return;
     try {
       const result = await getDriverInfo(driverId);
       setDriverInfo(result.payload);

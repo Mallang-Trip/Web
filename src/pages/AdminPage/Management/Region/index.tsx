@@ -1,18 +1,12 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getPartyRegionList } from "../../../../api/region";
+import { RegionData } from "../../../../types";
 import Title from "../../../../components/Title";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import SearchBar from "./SearchBar";
 import RegionList from "./RegionList";
 import RegionDriver from "./RegionDriver";
-
-export interface RegionData {
-  image: string;
-  name: string;
-  province: string;
-  regionId: number;
-}
 
 function Region() {
   const [searchParams] = useSearchParams();

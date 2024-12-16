@@ -23,8 +23,8 @@ import CourseImage from "./CourseImage";
 import CourseInfo from "./CourseInfo";
 import PriceList from "./PriceList";
 
-interface DestinationState extends Destination {
-  image?: string | string[];
+interface DestinationImage extends Destination {
+  image?: string | File;
 }
 
 function DriverCoursePage() {
@@ -36,7 +36,7 @@ function DriverCoursePage() {
   const [capacity, setCapacity] = useState(0);
   const [prices, setPrices] = useState<{ hours: number; price: number }[]>([]);
   const [priceIndex, setPriceIndex] = useState(0);
-  const [destinations, setDestinations] = useState<DestinationState[]>([]);
+  const [destinations, setDestinations] = useState<DestinationImage[]>([]);
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,6 +47,8 @@ function DriverCoursePage() {
   const [courseRegion, setCourseRegion] = useState("");
 
   const saveCourse = useCallback(async () => {
+    if (!courseId) return;
+
     const destinationImages = destinations.reduce<string[]>((acc, cur) => {
       if (typeof cur.image === "string") {
         acc.push(cur.image);
@@ -147,7 +149,7 @@ function DriverCoursePage() {
       setPrices(driverResult.payload.prices);
       setDriverRegion(driverResult.payload.region);
 
-      if (courseId !== "new") {
+      if (courseId !== "new" && courseId) {
         const courseResult = await getCourseDetail(courseId);
         setCourseRegion(courseResult.payload.region);
         setName(courseResult.payload.name);

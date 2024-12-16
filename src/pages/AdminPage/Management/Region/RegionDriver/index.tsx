@@ -15,6 +15,8 @@ function RegionDriver() {
   const regionName = searchParams.get("region_name");
 
   const getPartyRegionDriverListFunc = useCallback(async () => {
+    if (!regionId) return;
+
     try {
       const result = await getPartyRegionDriverList(regionId);
       setRegionDriverData(result.payload);

@@ -68,7 +68,7 @@ function ReplyItem({
           <div className="h-10 flex flex-col justify-center">
             <p className="text-sm text-black font-bold">{nickname}</p>
             <p className="text-sm text-boldgray font-medium">
-              {dateToGapKorean(createdAt)}
+              {dateToGapKorean(createdAt, false)}
             </p>
           </div>
         </div>

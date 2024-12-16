@@ -17,7 +17,7 @@ import { getChatRoomData } from "../../../api/chat";
 import { uploadImage } from "../../../api/image";
 import { Client, Stomp } from "@stomp/stompjs";
 import { ChatRoomDetail } from "../../../types";
-import { BASE_SERVER_URL } from "../../../utils/axios";
+import { BASE_SERVER_URL } from "../../../utils/env";
 import SockJS from "sockjs-client/dist/sockjs";
 import TalkRoomHead from "./TalkRoomHead";
 import TalkRoomBody from "./TalkRoomBody";

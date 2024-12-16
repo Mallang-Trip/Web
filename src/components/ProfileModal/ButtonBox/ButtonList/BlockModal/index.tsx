@@ -36,6 +36,7 @@ function BlockModal({
 
   const blockChatUser = useCallback(async () => {
     if (loading) return;
+    if (!userId) return;
 
     try {
       setLoading(true);

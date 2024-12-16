@@ -20,6 +20,7 @@ function CommunitySearchPage() {
 
   const getArticleData = useCallback(async () => {
     if (page >= totalPages) return;
+    if (!keyword) return;
 
     try {
       const result = await searchArticle(keyword, "all", page);

@@ -27,7 +27,7 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }: Props) {
   const [complete, setComplete] = useState(false);
 
   const acceptHandler = useCallback(async () => {
-    if (loading) return;
+    if (loading || !partyId) return;
 
     try {
       setLoading(true);

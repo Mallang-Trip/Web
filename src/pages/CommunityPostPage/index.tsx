@@ -56,6 +56,7 @@ function CommunityPostPage() {
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
+      if (!articleId) return;
       if (selectedType === "선택해주세요.")
         return showModalHandler("게시판을 선택해주세요.");
       if (title === "") return showModalHandler("제목을 입력해주세요.");
@@ -117,6 +118,7 @@ function CommunityPostPage() {
   );
 
   const getArticleData = useCallback(async () => {
+    if (!articleId) return;
     try {
       const result = await getArticleDetail(articleId);
 

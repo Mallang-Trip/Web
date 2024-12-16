@@ -17,6 +17,7 @@ function CommentForm({ getArticleDetailFunc }: Props) {
   const commentSubmitHandler = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      if (!articleId) return;
 
       try {
         await postNewComment(articleId, newComment);

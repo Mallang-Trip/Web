@@ -60,7 +60,7 @@ function JoinModal({
   );
 
   const joinPartyHandler = useCallback(async () => {
-    if (loading) return;
+    if (loading || !partyId) return;
 
     try {
       setLoading(true);

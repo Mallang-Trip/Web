@@ -35,6 +35,7 @@ function ButtonList({ userId, setShowModal, nickname, chatRoomId }: Props) {
   const [isChatBlock, setIsChatBlock] = useState(false);
 
   const goCoupleChat = useCallback(async () => {
+    if (!userId) return;
     if (!user.auth) return setShowLoginModal(true);
     if (isChatBlock) return setShowErrorModal(true);
 

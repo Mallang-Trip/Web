@@ -32,6 +32,7 @@ function HeartItem({
   const heartClickHandler = useCallback(
     async (e: MouseEvent<HTMLImageElement>) => {
       e.stopPropagation();
+      if (!destinationId) return;
 
       try {
         heart

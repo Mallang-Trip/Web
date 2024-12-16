@@ -263,6 +263,8 @@ function PartyPage() {
 
   const getPartyData = useCallback(
     async (toScrollTop = false) => {
+      if (!partyId) return;
+
       try {
         const result = await getPartyDetail(partyId);
         if (result.statusCode !== 200)

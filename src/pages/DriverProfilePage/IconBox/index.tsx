@@ -25,9 +25,10 @@ function IconBox({ images, name, introduction }: Props) {
 
   const goDriverChat = useCallback(async () => {
     if (!user.auth) return setShowLoginModal(true);
+    if (!driverId) return;
 
     try {
-      const result = await makeNewCoupleChat(driverId);
+      const result = await makeNewCoupleChat(Number(driverId));
       dispatch(setPartyRoomId(result.payload.chatRoomId));
       navigation("/talk");
     } catch (e) {

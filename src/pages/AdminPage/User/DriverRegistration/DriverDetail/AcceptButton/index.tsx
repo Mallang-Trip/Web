@@ -17,6 +17,7 @@ function AcceptButton({ getDriverApplyAdminFunc }: Props) {
 
   const driverApplyAcceptHandler = useCallback(
     async (accept: boolean) => {
+      if (!driverId) return;
       try {
         await putDriverApplyAcceptAdmin(driverId, accept);
 
@@ -33,8 +34,9 @@ function AcceptButton({ getDriverApplyAdminFunc }: Props) {
   );
 
   const goDriverChat = useCallback(async () => {
+    if (!driverId) return;
     try {
-      const result = await makeNewCoupleChat(driverId);
+      const result = await makeNewCoupleChat(Number(driverId));
       dispatch(setPartyRoomId(result.payload.chatRoomId));
       navigation("/talk");
     } catch (e) {

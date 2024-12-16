@@ -32,6 +32,7 @@ function AdminButtonList({
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const goCoupleChat = useCallback(async () => {
+    if (!userId) return;
     try {
       const result = await makeNewCoupleChat(userId);
       dispatch(setPartyRoomId(result.payload.chatRoomId));

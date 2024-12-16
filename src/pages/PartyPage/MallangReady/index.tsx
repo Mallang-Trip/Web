@@ -41,6 +41,7 @@ function MallangReady({
   const [loading, setLoading] = useState(false);
 
   const readyClickHandler = useCallback(async () => {
+    if (!partyId) return;
     try {
       await putMallangReady(partyId, !ready);
       setReady(!ready);

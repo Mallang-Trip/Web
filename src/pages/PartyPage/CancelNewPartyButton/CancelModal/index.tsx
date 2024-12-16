@@ -26,7 +26,7 @@ function CancelModal({ showModal, setShowModal }: Props) {
   const [loading, setLoading] = useState(false);
 
   const CancelHandler = useCallback(async () => {
-    if (loading) return;
+    if (loading || !partyId) return;
 
     try {
       setLoading(true);

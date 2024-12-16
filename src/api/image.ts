@@ -1,12 +1,13 @@
+import { BASE_SERVER_URL } from "../utils/axios";
 import axios from "axios";
 
-export const uploadProfileImage = async (image) => {
+export const uploadProfileImage = async (image: File) => {
   try {
     const formData = new FormData();
     formData.append("file", image);
 
     const config = {
-      baseURL: import.meta.env.VITE_BASE_SERVER_URL,
+      baseURL: BASE_SERVER_URL,
       withCredentials: true,
       headers: {
         "Contest-Type": "multipart/form-data",
@@ -20,13 +21,13 @@ export const uploadProfileImage = async (image) => {
   }
 };
 
-export const uploadImage = async (image) => {
+export const uploadImage = async (image: File) => {
   try {
     const formData = new FormData();
     formData.append("file", image);
 
     const config = {
-      baseURL: import.meta.env.VITE_BASE_SERVER_URL,
+      baseURL: BASE_SERVER_URL,
       withCredentials: true,
       headers: {
         "Contest-Type": "multipart/form-data",

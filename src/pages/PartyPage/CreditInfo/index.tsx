@@ -33,6 +33,7 @@ function CreditInfo({
   const [message, setMessage] = useState("");
 
   const repaymentHandler = useCallback(async () => {
+    if (!reservationId) return;
     try {
       const result = await postPaymentAgain(reservationId);
       if (result.statusCode === 200)

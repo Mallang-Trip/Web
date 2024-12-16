@@ -32,7 +32,10 @@ function FormModal({ showModal, setShowModal, getPartyRegionListFunc }: Props) {
     if (!regionImg) return alert("지역 사진을 입력해주세요.");
 
     try {
-      const regionImgURL = await uploadImage(regionImg);
+      const regionImgURL =
+        typeof regionImg === "string"
+          ? regionImg
+          : await uploadImage(regionImg);
       const body = {
         name: region,
         image: regionImgURL,

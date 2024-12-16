@@ -59,7 +59,9 @@ function EditForm({
           images
             .filter((image) => image)
             .map(async (image) =>
-              typeof image === "string" ? image : await uploadImage(image)
+              typeof image === "string"
+                ? image
+                : image && (await uploadImage(image))
             )
         );
         const body = {

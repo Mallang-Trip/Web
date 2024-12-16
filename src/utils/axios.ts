@@ -49,5 +49,5 @@ export const POST = (url: string, body: any, auth = false) =>
 export const PUT = (url: string, body: any, auth = false) =>
   fetchWrap({ method: "put", url, body, auth });
 
-export const DELETE = (url: string, auth = false, body: any) =>
+export const DELETE = (url: string, auth = false, body?: any) =>
   fetchWrap({ method: "delete", url, body, auth });

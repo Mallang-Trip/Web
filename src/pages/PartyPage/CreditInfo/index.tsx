@@ -33,7 +33,7 @@ function CreditInfo({
   const [message, setMessage] = useState("");
 
   const repaymentHandler = useCallback(async () => {
-    if (!reservationId) return;
+    if (!reservationId || !paymentAmount) return;
     try {
       const result = await postPaymentAgain(reservationId);
       if (result.statusCode === 200)
@@ -66,7 +66,7 @@ function CreditInfo({
             partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
             (status === "PAYMENT_COMPLETE" ? (
               <span className="text-sm text-darkgray font-medium">
-                {`(${dateToKoreanDataTime(createdAt)} 결제 완료)`}
+                {`(${dateToKoreanDataTime(createdAt || "")} 결제 완료)`}
               </span>
             ) : (
               <span className="text-sm text-red-500 font-medium">
@@ -77,7 +77,7 @@ function CreditInfo({
         {partyStatus === "SEALED" ||
         partyStatus === "WAITING_COURSE_CHANGE_APPROVAL" ? (
           <p className="text-sm text-darkgray font-medium flex gap-8 items-center">
-            <span>{`${priceToString(paymentAmount)}원`}</span>
+            <span>{`${priceToString(paymentAmount || 0)}원`}</span>
             {status === "PAYMENT_COMPLETE" && (
               <button
                 className="underline underline-offset-2"
@@ -150,7 +150,7 @@ function CreditInfo({
           <CheckModal
             showModal={showRepaymentModal}
             setShowModal={setShowRepaymentModal}
-            message={`${priceToString(paymentAmount)}원을 다시 결제 하시겠습니까?`}
+            message={`${priceToString(paymentAmount || 0)}원을 다시 결제 하시겠습니까?`}
             noText="취소"
             yesText="확인"
             yesHandler={() => repaymentHandler()}

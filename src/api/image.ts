@@ -1,4 +1,4 @@
-import { BASE_SERVER_URL } from "../utils/axios";
+import { BASE_SERVER_URL } from "../utils/env";
 import axios from "axios";
 
 export const uploadProfileImage = async (image: File) => {

@@ -28,7 +28,7 @@ export function setColorTheme() {
   localStorage.setItem("color-theme", "light");
 }
 
-export function makePhoneNumber(value) {
+export function makePhoneNumber(value: string) {
   value = value.replace(/[^0-9]/g, "");
   return value.replace(
     /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
@@ -36,15 +36,15 @@ export function makePhoneNumber(value) {
   );
 }
 
-export function onlyNumber(value) {
+export function onlyNumber(value: string) {
   return value.replace(/[^0-9]/g, "");
 }
 
-export const priceToString = (price) => {
+export const priceToString = (price: number) => {
   return price.toLocaleString("en-US");
 };
 
-export const numberTo00 = (value) => {
+export const numberTo00 = (value: number) => {
   if (value >= 10) {
     return value;
   }
@@ -52,7 +52,7 @@ export const numberTo00 = (value) => {
   return `0${value}`;
 };
 
-export const dateToString = (source, delimiter = "-") => {
+export const dateToString = (source: Date, delimiter = "-") => {
   const year = source.getFullYear();
   const month = numberTo00(source.getMonth() + 1);
   const day = numberTo00(source.getDate());
@@ -60,14 +60,14 @@ export const dateToString = (source, delimiter = "-") => {
   return [year, month, day].join(delimiter);
 };
 
-export const dateToStringHan = (date) => {
+export const dateToStringHan = (date: string) => {
   return `${date.slice(0, 4)}년 ${date.slice(5, 7)}월 ${date.slice(8, 10)}일`;
 };
 
-export const dateToGapKorean = (date, withTime) => {
+export const dateToGapKorean = (date: string, withTime: boolean) => {
   const pivot = new Date(date);
   const now = new Date();
-  const diffMinute = (now - pivot) / (1000 * 60);
+  const diffMinute = (Number(now) - Number(pivot)) / (1000 * 60);
 
   if (diffMinute < 60)
     return `${Math.floor(diffMinute) > 0 ? Math.floor(diffMinute) : 0}분 전`;
@@ -86,7 +86,7 @@ export const dateToGapKorean = (date, withTime) => {
     }시 ${minutes}분`;
 };
 
-export const dateToKoreanDataTime = (date) => {
+export const dateToKoreanDataTime = (date: string) => {
   const year = date.slice(0, 4);
   const month = date.slice(5, 7);
   const day = date.slice(8, 10);
@@ -97,7 +97,7 @@ export const dateToKoreanDataTime = (date) => {
   return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}:${seconds}`;
 };
 
-export const computeGapDay = (date) => {
+export const computeGapDay = (date: string) => {
   const now = new Date();
   const pivot = new Date(date);
 
@@ -107,10 +107,10 @@ export const computeGapDay = (date) => {
   return diffDay;
 };
 
-export const chatListDateToGapKorean = (date) => {
+export const chatListDateToGapKorean = (date: string) => {
   const pivot = new Date(date);
   const now = new Date();
-  const diffMinute = (now - pivot) / (1000 * 60);
+  const diffMinute = (Number(now) - Number(pivot)) / (1000 * 60);
 
   if (diffMinute < 60)
     return `${Math.floor(diffMinute) > 0 ? Math.floor(diffMinute) : 0}분 전`;
@@ -125,7 +125,7 @@ export const chatListDateToGapKorean = (date) => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
-export const dateToKoreanDay = (date) => {
+export const dateToKoreanDay = (date: string) => {
   const koreanDay = ["일", "월", "화", "수", "목", "금", "토"];
   const pivot = new Date(date);
 
@@ -137,7 +137,7 @@ export const dateToKoreanDay = (date) => {
   return `${year}년 ${month}월 ${day}일 ${koreanDay[dayOfWeek]}요일`;
 };
 
-export const dateToKoreanTime = (date) => {
+export const dateToKoreanTime = (date: string) => {
   const pivot = new Date(date);
 
   const hours = pivot.getHours();
@@ -148,10 +148,10 @@ export const dateToKoreanTime = (date) => {
   )}:${numberTo00(minutes)}`;
 };
 
-export const notificationDateToGapKorean = (date) => {
+export const notificationDateToGapKorean = (date: string) => {
   const pivot = new Date(date);
   const now = new Date();
-  const diffMinute = (now - pivot) / (1000 * 60);
+  const diffMinute = (Number(now) - Number(pivot)) / (1000 * 60);
 
   if (diffMinute < 60)
     return `${Math.floor(diffMinute) > 0 ? Math.floor(diffMinute) : 0}분 전`;
@@ -165,7 +165,7 @@ export const notificationDateToGapKorean = (date) => {
   return `${month}월 ${day}일`;
 };
 
-export const customRoundOne = (number) => {
+export const customRoundOne = (number: number) => {
   const roundedNumber = Math.round(number * 10) / 10;
 
   return Math.floor(roundedNumber) === roundedNumber

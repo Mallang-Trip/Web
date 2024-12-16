@@ -2,7 +2,8 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { getToken, isSupported } from "firebase/messaging";
-import { messaging, vapidKey } from "../../utils/firebase";
+import { messaging } from "../../utils/firebase";
+import { vapidKey } from "../../utils/env";
 import { putFirebaseToken } from "../../api/notification";
 import CheckModal from "./CheckModal";
 

@@ -1,7 +1,12 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
+export const passPopupURL = `${import.meta.env.VITE_BASE_SERVER_URL}/mobileOK`;
+export const BASE_SERVER_URL = import.meta.env.VITE_BASE_SERVER_URL;
 
-const firebaseConfig = {
+export const GTM_ID = import.meta.env.VITE_GTM_ID;
+export const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
+export const META_PIXEL_TRACKING_ID = import.meta.env
+  .VITE_META_PIXEL_TRACKING_ID;
+
+export const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_FCM_API_KEY,
   authDomain: import.meta.env.VITE_APP_FCM_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_APP_FCM_PROJECT_ID,
@@ -10,10 +15,5 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_FCM_APP_ID,
   measurementId: import.meta.env.VITE_APP_FCM_MEASUREMENT_ID,
 };
-
-const app = initializeApp(firebaseConfig);
-
-export const messaging =
-  "serviceWorker" in navigator ? getMessaging(app) : undefined;
 
 export const vapidKey = import.meta.env.VITE_APP_FCM_VAPID_KEY;

@@ -1,6 +1,4 @@
-const GTM_ID = import.meta.env.VITE_GTM_ID;
-const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
-const META_PIXEL_TRACKING_ID = import.meta.env.VITE_META_PIXEL_TRACKING_ID;
+import { GTM_ID, GA_TRACKING_ID, META_PIXEL_TRACKING_ID } from "./env";
 
 export const isGAlive = () => {
   return (

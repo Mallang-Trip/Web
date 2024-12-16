@@ -6,7 +6,7 @@ import { setPartyRoomId } from "../../redux/modules/talkRoomSlice";
 import { Client, Stomp } from "@stomp/stompjs";
 import { getChatList } from "../../api/chat";
 import { ChatRoomList } from "../../types";
-import { BASE_SERVER_URL } from "../../utils/axios";
+import { BASE_SERVER_URL } from "../../utils/env";
 import SockJS from "sockjs-client/dist/sockjs";
 import PageContainer from "../../components/PageContainer";
 import TalkList from "./TalkList";

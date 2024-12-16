@@ -1,9 +1,17 @@
+import { BASE_SERVER_URL } from "./env";
 import axios from "axios";
 
-const fetchWrap = async ({ method, url, body, auth }) => {
+interface Params {
+  method: "get" | "post" | "put" | "delete";
+  url: string;
+  body?: any;
+  auth: boolean;
+}
+
+const fetchWrap = async ({ method, url, body, auth }: Params) => {
   try {
-    const config = {
-      baseURL: import.meta.env.VITE_BASE_SERVER_URL,
+    const config: any = {
+      baseURL: BASE_SERVER_URL,
       withCredentials: true,
     };
 
@@ -32,16 +40,14 @@ const fetchWrap = async ({ method, url, body, auth }) => {
   }
 };
 
-export const GET = (url, auth = false) =>
+export const GET = (url: string, auth = false) =>
   fetchWrap({ method: "get", url, auth });
 
-export const POST = (url, body, auth = false) =>
+export const POST = (url: string, body: any, auth = false) =>
   fetchWrap({ method: "post", url, body, auth });
 
-export const PUT = (url, body, auth = false) =>
+export const PUT = (url: string, body: any, auth = false) =>
   fetchWrap({ method: "put", url, body, auth });
 
-export const DELETE = (url, auth = false, body) =>
+export const DELETE = (url: string, auth = false, body: any) =>
   fetchWrap({ method: "delete", url, body, auth });
-
-export const BASE_SERVER_URL = import.meta.env.VITE_BASE_SERVER_URL;

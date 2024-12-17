@@ -80,10 +80,9 @@ function TalkPage() {
   useEffect(() => {
     getChatListFunc();
 
-    document.body.classList.add("overflow-hidden");
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.classList.remove("overflow-hidden");
-      if (client.current) client.current.deactivate();
+      document.body.style.overflow = "auto";
     };
   }, []);
 

@@ -40,11 +40,11 @@ function TalkRoomWrapper({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    document.documentElement.style.height = styleHeight;
     return () => {
-      document.body.style.overflow = "auto";
+      document.documentElement.style.height = "";
     };
-  }, []);
+  }, [styleHeight]);
 
   return (
     <div

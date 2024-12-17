@@ -6,7 +6,9 @@ import {
   SetStateAction,
   useCallback,
   useMemo,
+  useRef,
   useState,
+  useEffect,
 } from "react";
 
 interface Props {
@@ -23,6 +25,8 @@ function TalkRoomForm({
   isBlocked,
 }: Props) {
   const [message, setMessage] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const chatPlaceholder = useMemo(() => {
     if (isBlock) return "차단한 상대와 대화가 불가능합니다.";
@@ -31,17 +35,48 @@ function TalkRoomForm({
   }, [isBlock, isBlocked]);
 
   const submitHandler = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (message === "") return;
+    (e?: FormEvent<HTMLFormElement>) => {
+      if (e) e.preventDefault();
+      if (message.trim() === "") return;
+
       sendMessageHandler(message);
       setMessage("");
+
+      requestAnimationFrame(() => {
+        textareaRef.current?.focus();
+      });
     },
-    [message]
+    [message, sendMessageHandler]
   );
 
+  const onKeyDownHandler = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        submitHandler();
+      }
+    },
+    [submitHandler]
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        formRef.current &&
+        !formRef.current.contains(event.target as Node) &&
+        textareaRef.current
+      ) {
+        textareaRef.current.blur();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} ref={formRef}>
       <div className="flex items-center px-3">
         <button
           type="button"
@@ -63,21 +98,33 @@ function TalkRoomForm({
             ></path>
           </svg>
         </button>
-        <input
-          type="text"
-          className="block mx-2 p-2.5 w-full text-sm text-black bg-white rounded-lg border border-mediumgray focus:outline-none focus:border-primary"
+        <textarea
+          ref={textareaRef}
+          className={clsx(
+            "block mx-2 p-2.5 w-full text-sm text-black bg-white rounded-lg border border-mediumgray focus:outline-none focus:border-primary",
+            "resize-none overflow-y-scroll noScrollBar"
+          )}
           placeholder={chatPlaceholder}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={onKeyDownHandler}
           disabled={isBlock || isBlocked}
+          style={{
+            lineHeight: "20px",
+            minHeight: "40px",
+            maxHeight: "40px",
+          }}
+          rows={1}
         />
         <button
           type="submit"
           className={clsx(
             "w-20 h-10 p-2 text-sm rounded-lg",
-            !message ? "bg-lightgray text-darkgray" : "bg-primary text-white"
+            !message.trim()
+              ? "bg-lightgray text-darkgray"
+              : "bg-primary text-white"
           )}
-          disabled={!message}
+          disabled={!message.trim()}
         >
           전송
         </button>

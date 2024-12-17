@@ -71,7 +71,7 @@ function TalkBubble({
             {type === "TEXT" ? (
               <div
                 className={clsx(
-                  "text-boldgray text-sm p-4 rounded-lg max-w-[200px] md:max-w-[400px]",
+                  "text-boldgray text-sm p-4 rounded-lg max-w-[200px] md:max-w-[400px] whitespace-pre-wrap",
                   isMyMessage ? "bg-skyblue" : "bg-lightgray",
                   !isMyMessage && isPrevSameDate && isPrevSameUser && "ml-12"
                 )}

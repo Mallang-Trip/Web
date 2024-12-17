@@ -35,36 +35,52 @@ function TalkRoomBody({
   const user = useSelector((state: RootState) => state.user);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  const scrollDownHandler = useCallback(() => {
-    const talkRoomSpace = talkRoomRef.current;
-    if (talkRoomSpace) {
-      const { scrollHeight, clientHeight } = talkRoomSpace;
-      talkRoomSpace.scrollTo({
-        top: scrollHeight - clientHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [talkRoomRef]);
+  const scrollDownHandler = useCallback(
+    (smooth: boolean = false) => {
+      const talkRoomSpace = talkRoomRef.current;
+      if (talkRoomSpace) {
+        const { scrollHeight, clientHeight } = talkRoomSpace;
+        talkRoomSpace.scrollTo({
+          top: scrollHeight - clientHeight,
+          behavior: smooth ? "smooth" : "auto",
+        });
+      }
+    },
+    [talkRoomRef]
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      scrollDownHandler();
+    };
+
+    window.addEventListener("resize", handleResize);
+    scrollDownHandler();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [scrollDownHandler]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (!talkRoomRef.current) return;
       const { scrollHeight, clientHeight, scrollTop } = talkRoomRef.current;
       const isScrolledToBottom = scrollHeight - clientHeight <= scrollTop + 200;
-
       setShowScrollButton(!isScrolledToBottom);
     };
 
-    talkRoomRef.current?.addEventListener("scroll", handleScroll);
+    const currentRef = talkRoomRef.current;
+    currentRef?.addEventListener("scroll", handleScroll);
     return () => {
-      talkRoomRef.current?.removeEventListener("scroll", handleScroll);
+      currentRef?.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    if (showScrollButton) return;
-    scrollDownHandler();
-  }, [messages]);
+    if (!showScrollButton) {
+      scrollDownHandler(true);
+    }
+  }, [messages, showScrollButton, scrollDownHandler]);
 
   return (
     <div
@@ -107,7 +123,7 @@ function TalkRoomBody({
             width: `${talkRoomRef.current?.clientWidth}px`,
           }}
         >
-          <button onClick={scrollDownHandler}>
+          <button onClick={() => scrollDownHandler(true)}>
             <img
               src={chatArrowIcon}
               alt="chat-down"

@@ -5,7 +5,7 @@ import {
   SetStateAction,
   useCallback,
 } from "react";
-import { DriverInfo } from "../../../../types";
+import { DriverInfo } from "@/types";
 import DriverIntroduction from "./DriverIntroduction";
 
 interface Props {

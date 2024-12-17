@@ -1,11 +1,11 @@
 import { memo } from "react";
-import PageContainer from "../../../components/PageContainer";
-import PolicyContainer from "../Component/PolicyContainer";
-import HeadTitle from "../Component/HeadTitle";
-import BodyTitle from "../Component/BodyTitle";
-import BodyContent from "../Component/BodyContent";
-import BodyTab from "../Component/BodyTab";
-import PolicyDate from "../Component/PolicyDate";
+import { PageContainer } from "@/components";
+import PolicyContainer from "@/pages/PolicyPage/Component/PolicyContainer";
+import HeadTitle from "@/pages/PolicyPage/Component/HeadTitle";
+import BodyTitle from "@/pages/PolicyPage/Component/BodyTitle";
+import BodyContent from "@/pages/PolicyPage/Component/BodyContent";
+import BodyTab from "@/pages/PolicyPage/Component/BodyTab";
+import PolicyDate from "@/pages/PolicyPage/Component/PolicyDate";
 
 function DriverService() {
   return (

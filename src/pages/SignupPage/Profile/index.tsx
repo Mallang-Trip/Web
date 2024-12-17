@@ -7,7 +7,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import InputImage from "../../../components/InputImage";
+import { InputImage } from "@/components";
 import clsx from "clsx";
 
 interface Props {

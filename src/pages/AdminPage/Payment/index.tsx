@@ -1,9 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { getPaymentList } from "../../../api/admin";
-import { partyStatusObj } from "../../../utils/data";
-import Loading from "../../../components/Loading";
-import TabList from "../../../components/TabList";
-import Title from "../../../components/Title";
+import { getPaymentList } from "@/api/admin";
+import { partyStatusObj } from "@/utils/data";
+import { Loading, TabList, Title } from "@/components";
 import Party from "./Party";
 import MallangTalkModal from "./MallangTalkModal";
 import ReceiptModal from "./ReceiptModal";

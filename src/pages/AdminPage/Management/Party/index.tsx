@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Title from "../../../../components/Title";
+import { Title } from "@/components";
 import PartyTab from "./PartyTab";
 import PartyDetail from "./PartyDetail";
 import BeforeReservation from "./BeforeReservation";

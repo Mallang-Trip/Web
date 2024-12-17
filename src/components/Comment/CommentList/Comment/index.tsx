@@ -8,12 +8,12 @@ import {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { uploadImage } from "../../../../api/image";
-import { putComment } from "../../../../api/driver";
-import { putDestinationComment } from "../../../../api/destination";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
-import Star from "../../../../assets/svg/star.svg";
+import { RootState } from "@/redux/store";
+import { uploadImage } from "@/api/image";
+import { putComment } from "@/api/driver";
+import { putDestinationComment } from "@/api/destination";
+import basicProfileImage from "@/assets/images/profileImage.png";
+import Star from "@/assets/svg/star.svg";
 import CommentImage from "./CommentImage";
 import clsx from "clsx";
 

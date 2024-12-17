@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { HeartParty } from "../../../../../../types";
+import { HeartParty } from "@/types";
 import ReservationItem from "./ReservationItem";
 
 interface Props {

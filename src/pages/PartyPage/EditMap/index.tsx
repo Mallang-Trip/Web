@@ -6,10 +6,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getPartyRegionList } from "../../../api/region";
-import { Destination, RegionData } from "../../../types";
-import CourseMap from "../../../components/CourseMap";
-import PlaceMap from "../../../components/PlaceMap";
+import { getPartyRegionList } from "@/api/region";
+import { Destination, RegionData } from "@/types";
+import { CourseMap, PlaceMap } from "@/components";
 import ToggleButton from "./ToggleButton";
 
 interface Props {

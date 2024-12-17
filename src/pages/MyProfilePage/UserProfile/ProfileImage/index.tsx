@@ -6,9 +6,9 @@ import {
   useCallback,
 } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import InputImage from "../../../../components/InputImage";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
+import { RootState } from "@/redux/store";
+import { InputImage } from "@/components";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   modifyMode: boolean;

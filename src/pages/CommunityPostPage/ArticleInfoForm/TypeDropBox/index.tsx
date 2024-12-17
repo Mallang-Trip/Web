@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import TypeButton from "./TypeButton";
-import info from "../../../../assets/svg/more-info-black.svg";
+import info from "@/assets/svg/more-info-black.svg";
 import clsx from "clsx";
 
 interface Props {

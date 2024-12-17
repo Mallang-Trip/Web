@@ -10,9 +10,9 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../../../../redux/modules/userSlice";
-import { deleteUser } from "../../../../../../api/users";
-import ConfirmModal from "../../../../../../components/ConfirmModal";
+import { logout } from "@/redux/modules/userSlice";
+import { deleteUser } from "@/api/users";
+import { ConfirmModal } from "@/components";
 import clsx from "clsx";
 
 interface Props {

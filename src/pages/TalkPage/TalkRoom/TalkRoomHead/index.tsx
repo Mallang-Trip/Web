@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import headerBack from "../../../../assets/svg/header-back.svg";
+import headerBack from "@/assets/svg/header-back.svg";
 
 interface Props {
   closeRoomHandler: () => void;

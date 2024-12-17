@@ -1,8 +1,8 @@
 import { memo, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import BottomButton from "../../../components/BottomButton";
+import { RootState } from "@/redux/store";
+import { BottomButton } from "@/components";
 
 interface Props {
   joinHandler: () => void;

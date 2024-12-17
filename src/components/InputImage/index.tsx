@@ -1,6 +1,6 @@
 import { ForwardedRef, memo, MouseEvent, useCallback, useState } from "react";
-import { isIos } from "../../utils";
-import ConfirmModal from "../ConfirmModal";
+import { isIos } from "@/utils";
+import { ConfirmModal } from "@/components";
 
 interface Props {
   id?: string;

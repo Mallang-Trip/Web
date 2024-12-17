@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
-import { computeGapDay } from "../../../utils";
-import BottomButton from "../../../components/BottomButton";
+import { computeGapDay } from "@/utils";
+import { BottomButton } from "@/components";
 import QuitModal from "./QuitModal";
 
 interface Props {

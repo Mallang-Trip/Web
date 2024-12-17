@@ -7,30 +7,32 @@ import {
   useRef,
   useState,
 } from "react";
-import { dateToStringHan, priceToString } from "../../../utils";
-import ImageBox from "../../../components/ImageBox";
+import { dateToStringHan, priceToString } from "@/utils";
+import {
+  ImageBox,
+  DriverInfo,
+  CourseList,
+  Credit,
+  BottomRefundUser,
+  Promotion,
+} from "@/components";
 import {
   Course,
   Destination,
   DriverInfo as DriverInfoRawType,
   Review,
-} from "../../../types";
-import DriverInfo from "../../../components/DriverInfo";
-import CourseList from "../../../components/CourseList";
-import Credit from "../../../components/Credit";
-import BottomRefundUser from "../../../components/BottomRefundUser";
-import TextArea from "../Atom/TextArea";
-import ReservationButton from "../Atom/ReservationButton";
-import CreateModal from "../Atom/CreateModal";
-import CreditInfo from "../../PartyPage/CreditInfo";
-import JoinMember from "../../PartyPage/JoinMember";
-import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
-import JoinGreeting from "../../PartyPage/JoinGreeting";
-import CourseDnD from "../../PartyPage/CourseDnD";
-import EditMap from "../../PartyPage/EditMap";
-import JoinAgreement from "../../PartyPage/JoinAgreement";
+} from "@/types";
+import TextArea from "@/pages/NewPartyPage/Atom/TextArea";
+import ReservationButton from "@/pages/NewPartyPage/Atom/ReservationButton";
+import CreateModal from "@/pages/NewPartyPage/Atom/CreateModal";
+import CreditInfo from "@/pages/PartyPage/CreditInfo";
+import JoinMember from "@/pages/PartyPage/JoinMember";
+import JoinMemberInfo from "@/pages/PartyPage/JoinMemberInfo";
+import JoinGreeting from "@/pages/PartyPage/JoinGreeting";
+import CourseDnD from "@/pages/PartyPage/CourseDnD";
+import EditMap from "@/pages/PartyPage/EditMap";
+import JoinAgreement from "@/pages/PartyPage/JoinAgreement";
 import PriceList from "./PriceList";
-import Promotion from "../../../components/Promotion";
 
 interface DriverInfoType extends DriverInfoRawType {
   driverId: number;
@@ -65,7 +67,7 @@ function Edit({
   const courseRef = useRef<HTMLDivElement | null>(null);
   const creditRef = useRef<HTMLDivElement | null>(null);
   const agreementRef = useRef<HTMLDivElement | null>(null);
-  const [courseRegion, setCourseRegion] = useState("");
+  const [_, setCourseRegion] = useState("");
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
   const [name, setName] = useState("");

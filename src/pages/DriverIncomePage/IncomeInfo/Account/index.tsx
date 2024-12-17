@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDriverMyInfo } from "../../../../api/driver";
+import { getDriverMyInfo } from "@/api/driver";
 
 function Account() {
   const navigation = useNavigate();

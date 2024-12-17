@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import cross from "../../../../../assets/svg/cross.svg";
+import cross from "@/assets/svg/cross.svg";
 
 interface Props {
   keyword: string;

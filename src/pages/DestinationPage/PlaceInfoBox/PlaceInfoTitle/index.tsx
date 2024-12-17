@@ -1,5 +1,5 @@
 import { memo } from "react";
-import star from "../../../../assets/svg/star.svg";
+import star from "@/assets/svg/star.svg";
 
 interface Props {
   name: string;

@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useState } from "react";
-import { priceToString } from "../../../../utils";
-import { DriverInfo } from "../../../../types";
+import { priceToString } from "@/utils";
+import { DriverInfo } from "@/types";
 import PriceInfo from "./PriceInfo";
 import PriceModal from "./PriceModal";
 

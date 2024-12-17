@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { putNewPassword } from "../../../../../api/users";
+import { putNewPassword } from "@/api/users";
 import clsx from "clsx";
 
 interface Props {

@@ -10,11 +10,11 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { getUserInfo } from "../../api/users";
+import { getUserInfo } from "@/api/users";
+import { Loading } from "@/components";
 import ModalCloser from "./ModalCloser";
 import ButtonBox from "./ButtonBox";
 import ProfileInfo from "./ProfileInfo";
-import Loading from "../Loading";
 import clsx from "clsx";
 
 interface Props {

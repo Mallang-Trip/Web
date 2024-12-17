@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
-import { ChatRoomType } from "../../../../../types";
-import { RootState } from "../../../../../redux/store";
+import { ChatRoomType } from "@/types";
+import { RootState } from "@/redux/store";
 import Member from "./Member";
 import InviteModal from "./InviteModal";
 import KickModal from "./KickModal";

@@ -9,10 +9,10 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { uploadImage } from "../../../../../../api/image";
-import { putDestinationAdmin } from "../../../../../../api/destination";
-import { Place } from "../../../../../../types";
-import ConfirmModal from "../../../../../../components/ConfirmModal";
+import { uploadImage } from "@/api/image";
+import { putDestinationAdmin } from "@/api/destination";
+import { Place } from "@/types";
+import { ConfirmModal } from "@/components";
 import ImageInput from "./ImageInput";
 import ImageItem from "./ImageItem";
 import clsx from "clsx";

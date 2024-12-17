@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { DriverInfo } from "../../../../types";
-import EditButton from "../../../../components/EditButton";
+import { DriverInfo } from "@/types";
+import { EditButton } from "@/components";
 
 interface Props {
   driverInfo: DriverInfo;

@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { InviteChatMember } from "../../../../../../../types";
+import { InviteChatMember } from "@/types";
 import Member from "./Member";
 
 interface Props {

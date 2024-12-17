@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
-import kakaoIcon from "../../../assets/svg/kakao-icon.svg";
+import kakaoIcon from "@/assets/svg/kakao-icon.svg";
 
 function KakaoButton() {
   return (

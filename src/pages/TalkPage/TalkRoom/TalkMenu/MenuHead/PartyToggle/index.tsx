@@ -1,8 +1,8 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { ChatRoomType } from "../../../../../../types";
-import { RootState } from "../../../../../../redux/store";
-import ConfirmModal from "../../../../../../components/ConfirmModal";
+import { ChatRoomType } from "@/types";
+import { RootState } from "@/redux/store";
+import { ConfirmModal } from "@/components";
 import clsx from "clsx";
 
 interface Props {

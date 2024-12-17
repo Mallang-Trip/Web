@@ -1,7 +1,7 @@
 import { FormEvent, memo, useCallback, useEffect, useState } from "react";
-import { getAllMarkers, getSearchInfo } from "../../../../api/destination";
-import { Destination } from "../../../../types";
-import ConfirmModal from "../../../../components/ConfirmModal";
+import { getAllMarkers, getSearchInfo } from "@/api/destination";
+import { Destination } from "@/types";
+import { ConfirmModal } from "@/components";
 import PlaceTab from "./PlaceTab";
 import PlaceMap from "./PlaceMap";
 import PlaceList from "./PlaceList";

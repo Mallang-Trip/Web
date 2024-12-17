@@ -1,17 +1,17 @@
 import { memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { deleteUnLikeParty, postLikeParty } from "../../api/party";
+import { RootState } from "@/redux/store";
+import { deleteUnLikeParty, postLikeParty } from "@/api/party";
+import { CheckModal } from "@/components";
 import {
   deleteUnLikeDestination,
   postLikeDestination,
-} from "../../api/destination";
-import FillHeart from "../../assets/svg/FillHeart.svg";
-import EmptyHeart from "../../assets/svg/EmptyHeart.svg";
-import shareIcon from "../../assets/svg/share.svg";
+} from "@/api/destination";
+import FillHeart from "@/assets/svg/FillHeart.svg";
+import EmptyHeart from "@/assets/svg/EmptyHeart.svg";
+import shareIcon from "@/assets/svg/share.svg";
 import ShareModal from "./ShareModal";
-import CheckModal from "../CheckModal";
 
 interface Props {
   id: number;

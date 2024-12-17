@@ -1,16 +1,14 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
-import { getUserInfo } from "../../../api/users";
-import { getPartyChatId } from "../../../api/chat";
-import { Party } from "../../../types";
-import { RootState } from "../../../redux/store";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { getUserInfo } from "@/api/users";
+import { getPartyChatId } from "@/api/chat";
+import { Party } from "@/types";
+import { RootState } from "@/redux/store";
+import { ProfileModal, CheckModal, ConfirmModal } from "@/components";
 import MemberProfile from "./MemberProfile";
-import ProfileModal from "../../../components/ProfileModal";
-import partyChatIcon from "../../../assets/svg/go-party-chat.svg";
-import CheckModal from "../../../components/CheckModal";
-import ConfirmModal from "../../../components/ConfirmModal";
+import partyChatIcon from "@/assets/svg/go-party-chat.svg";
 
 function PartyMember({
   partyId,

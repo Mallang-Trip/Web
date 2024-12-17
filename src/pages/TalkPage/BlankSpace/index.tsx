@@ -1,5 +1,5 @@
 import { memo } from "react";
-import mallangTripIcon from "../../../assets/images/intro_icon.png";
+import mallangTripIcon from "@/assets/images/intro_icon.png";
 
 function BlankSpace() {
   return (

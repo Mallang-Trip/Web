@@ -1,8 +1,8 @@
 import { Dispatch, memo, MouseEvent, SetStateAction, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { ChatRoomType } from "../../../../../../types";
-import { RootState } from "../../../../../../redux/store";
-import basicProfileImage from "../../../../../../assets/images/profileImage.png";
+import { ChatRoomType } from "@/types";
+import { RootState } from "@/redux/store";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   userId: number;

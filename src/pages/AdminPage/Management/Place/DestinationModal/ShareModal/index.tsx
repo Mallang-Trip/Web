@@ -8,11 +8,11 @@ import {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
-import { CONSTANT } from "../../../../../../utils/data";
-import { RootState } from "../../../../../../redux/store";
-import closeIcon from "../../../../../../assets/svg/x-modal-icon.svg";
-import copyIcon from "../../../../../../assets/svg/CopyIcon.svg";
-import kakaoIcon from "../../../../../../assets/images/kakaoIcon.png";
+import { CONSTANT } from "@/utils/data";
+import { RootState } from "@/redux/store";
+import closeIcon from "@/assets/svg/x-modal-icon.svg";
+import copyIcon from "@/assets/svg/CopyIcon.svg";
+import kakaoIcon from "@/assets/images/kakaoIcon.png";
 import clsx from "clsx";
 
 interface Props {

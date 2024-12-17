@@ -6,11 +6,11 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { onlyNumber } from "../../../utils";
-import { uploadImage } from "../../../api/image";
+import { onlyNumber } from "@/utils";
+import { uploadImage } from "@/api/image";
+import { InputImage } from "@/components";
 import CarImage from "./CarImage";
-import primaryPlus from "../../../assets/svg/primary_plus.svg";
-import InputImage from "../../../components/InputImage";
+import primaryPlus from "@/assets/svg/primary_plus.svg";
 
 interface Props {
   setActiveNext: Dispatch<SetStateAction<boolean>>;

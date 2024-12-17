@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getPartyList } from "../../../../../api/admin";
-import { Party } from "../../../../../types";
-import Loading from "../../../../../components/Loading";
+import { getPartyList } from "@/api/admin";
+import { Party } from "@/types";
+import { Loading } from "@/components";
 import Head from "./Head";
 import Body from "./Body";
 

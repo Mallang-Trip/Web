@@ -7,10 +7,9 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAnnouncementList } from "../../../../../api/announcement";
-import EditButton from "../../../../../components/EditButton";
-import Title from "../../../../../components/Title";
-import Pagination from "../../../../HelpPage/Pagination";
+import { getAnnouncementList } from "@/api/announcement";
+import { EditButton, Title } from "@/components";
+import Pagination from "@/pages/HelpPage/Pagination";
 import HelpTab from "./HelpTab";
 import Head from "./Head";
 import Notice from "./Notice";

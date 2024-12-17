@@ -11,12 +11,12 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { uploadImage } from "../../../../../api/image";
-import { postNewDestinationAdmin } from "../../../../../api/destination";
-import { Destination } from "../../../../../types";
+import { uploadImage } from "@/api/image";
+import { postNewDestinationAdmin } from "@/api/destination";
+import { Destination } from "@/types";
+import { ConfirmModal } from "@/components";
 import axios from "axios";
-import pointMarker from "../../../../../assets/svg/point_marker.svg";
-import ConfirmModal from "../../../../../components/ConfirmModal";
+import pointMarker from "@/assets/svg/point_marker.svg";
 import PlaceFormModal from "./PlaceFormModal";
 import clsx from "clsx";
 

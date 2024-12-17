@@ -1,5 +1,5 @@
 import { FormEvent, memo, useCallback, useMemo, useState } from "react";
-import TabList from "../../../../components/TabList";
+import { TabList } from "@/components";
 
 function Noti() {
   const [searchKeyword, setSearchKeyword] = useState("");

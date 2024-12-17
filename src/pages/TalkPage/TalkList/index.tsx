@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useMemo } from "react";
-import { ChatRoomList } from "../../../types";
+import { ChatRoomList } from "@/types";
 import NewTalkButton from "./NewTalkButton";
 import NoTalkList from "./NoTalkList";
 import TalkItem from "./TalkItem";

@@ -1,4 +1,4 @@
-import { Dispatch, memo, SetStateAction, useEffect, useMemo } from "react";
+import { Dispatch, memo, SetStateAction, useMemo } from "react";
 import Calendar from "react-calendar";
 import "./index.css";
 

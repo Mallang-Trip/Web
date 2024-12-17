@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import regionCheck from "../../../../../assets/svg/region-check.svg";
+import regionCheck from "@/assets/svg/region-check.svg";
 
 interface Props {
   image: string;

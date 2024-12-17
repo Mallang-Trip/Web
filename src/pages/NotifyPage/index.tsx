@@ -1,6 +1,5 @@
 import { memo } from "react";
-import PageContainer from "../../components/PageContainer";
-import Title from "../../components/Title";
+import { PageContainer, Title } from "@/components";
 import NotifyList from "./NotifyList";
 
 function NotifyPage() {

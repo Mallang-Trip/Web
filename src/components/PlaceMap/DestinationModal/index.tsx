@@ -11,24 +11,26 @@ import {
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { Destination, Review } from "../../../types";
+import { RootState } from "@/redux/store";
+import { Destination, Review } from "@/types";
 import {
   deleteUnLikeDestination,
   getDestinationDetail,
   postLikeDestination,
-} from "../../../api/destination";
-import star from "../../../assets/svg/star.svg";
-import FillHeart from "../../../assets/svg/FillHeart.svg";
-import EmptyHeart from "../../../assets/svg/EmptyHeart.svg";
-import shareIcon from "../../../assets/svg/share.svg";
+} from "@/api/destination";
+import {
+  CheckModal,
+  Loading,
+  CommentList,
+  AddComment,
+  ConfirmModal,
+  ImageBox,
+} from "@/components";
+import star from "@/assets/svg/star.svg";
+import FillHeart from "@/assets/svg/FillHeart.svg";
+import EmptyHeart from "@/assets/svg/EmptyHeart.svg";
+import shareIcon from "@/assets/svg/share.svg";
 import ShareModal from "./ShareModal";
-import CheckModal from "../../CheckModal";
-import Loading from "../../Loading";
-import CommentList from "../../Comment/CommentList";
-import AddComment from "../../Comment/AddComment";
-import ConfirmModal from "../../ConfirmModal";
-import ImageBox from "../../ImageBox";
 import clsx from "clsx";
 
 interface DestinationInfo {

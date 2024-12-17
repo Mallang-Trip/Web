@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { DriverInfo } from "../../../../../../types";
+import { DriverInfo } from "@/types";
 import Course from "./Course";
 import NewCourse from "./NewCourse";
 

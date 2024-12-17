@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
+import { BottomButton } from "@/components";
 import CancelModal from "./CancelModal";
-import BottomButton from "../../../components/BottomButton";
 
 interface Props {
   isDriver: boolean;

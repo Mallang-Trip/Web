@@ -7,9 +7,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { onlyNumber } from "../../../../../utils";
-import { DriverInfo } from "../../../../../types";
-import BankModal from "../../../../DriverApplyPage/Accout/BankModal";
+import { onlyNumber } from "@/utils";
+import { DriverInfo } from "@/types";
+import BankModal from "@/pages/DriverApplyPage/Accout/BankModal";
 import clsx from "clsx";
 
 interface Props {

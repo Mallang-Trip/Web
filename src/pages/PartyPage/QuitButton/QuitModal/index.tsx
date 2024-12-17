@@ -11,12 +11,9 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-import {
-  deleteQuitParty,
-  deleteQuitReservationParty,
-} from "../../../../api/party";
-import { computeGapDay, priceToString } from "../../../../utils";
-import Loading from "../../../../components/Loading";
+import { deleteQuitParty, deleteQuitReservationParty } from "@/api/party";
+import { computeGapDay, priceToString } from "@/utils";
+import { Loading } from "@/components";
 import clsx from "clsx";
 
 interface Props {

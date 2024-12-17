@@ -9,9 +9,9 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { postNewParty } from "../../../../api/party";
-import { Course, Destination } from "../../../../types";
-import { isGAlive } from "../../../../utils/ga";
+import { postNewParty } from "@/api/party";
+import { Course, Destination } from "@/types";
+import { isGAlive } from "@/utils/ga";
 import ReactGA from "react-ga4";
 import clsx from "clsx";
 

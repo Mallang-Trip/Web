@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteCourse } from "../../../api/course";
-import CheckModal from "../../../components/CheckModal";
+import { deleteCourse } from "@/api/course";
+import { CheckModal } from "@/components";
 
 interface Props {
   courseId: string;

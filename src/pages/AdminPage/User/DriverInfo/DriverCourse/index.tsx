@@ -5,21 +5,18 @@ import {
   getDriverInfoDetail,
   postDriverNewCourse,
   putDriverCourseDetail,
-} from "../../../../../api/admin";
-import { getCommisionRate } from "../../../../../api/income";
-import { uploadImage } from "../../../../../api/image";
-import { priceToString } from "../../../../../utils";
-import PageContainer from "../../../../../components/PageContainer";
-import ConfirmModal from "../../../../../components/ConfirmModal";
-import CheckModal from "../../../../../components/CheckModal";
-import Loading from "../../../../../components/Loading";
-import EditMap from "../../../../PartyPage/EditMap";
-import CourseDnD from "../../../../DriverCoursePage/CourseDnD";
-import SaveButton from "../../../../DriverCoursePage/SaveButton";
-import Title from "../../../../DriverCoursePage/Title";
-import CourseImage from "../../../../DriverCoursePage/CourseImage";
-import CourseInfo from "../../../../DriverCoursePage/CourseInfo";
-import PriceList from "../../../../DriverCoursePage/PriceList";
+} from "@/api/admin";
+import { getCommisionRate } from "@/api/income";
+import { uploadImage } from "@/api/image";
+import { priceToString } from "@/utils";
+import { PageContainer, ConfirmModal, CheckModal, Loading } from "@/components";
+import EditMap from "@/pages/PartyPage/EditMap";
+import CourseDnD from "@/pages/DriverCoursePage/CourseDnD";
+import SaveButton from "@/pages/DriverCoursePage/SaveButton";
+import Title from "@/pages/DriverCoursePage/Title";
+import CourseImage from "@/pages/DriverCoursePage/CourseImage";
+import CourseInfo from "@/pages/DriverCoursePage/CourseInfo";
+import PriceList from "@/pages/DriverCoursePage/PriceList";
 import DeleteButton from "./DeleteButton";
 
 interface Destination {

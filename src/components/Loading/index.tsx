@@ -1,6 +1,6 @@
 import { memo } from "react";
 import clsx from "clsx";
-import loadingSpinner from "../../assets/images/loading.gif";
+import loadingSpinner from "@/assets/images/loading.gif";
 
 interface Props {
   full: boolean;

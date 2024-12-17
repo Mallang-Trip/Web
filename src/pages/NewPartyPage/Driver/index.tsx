@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getRegionDriver } from "../../../api/driver";
+import { getRegionDriver } from "@/api/driver";
 import DriverProfile from "./DriverProfile";
 
 interface DriverData {

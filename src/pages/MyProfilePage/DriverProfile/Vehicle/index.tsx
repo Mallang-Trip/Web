@@ -1,6 +1,6 @@
 import { Dispatch, ForwardedRef, memo, SetStateAction } from "react";
-import { DriverInfo } from "../../../../types";
-import Information from "../../UserProfile/Information";
+import { DriverInfo } from "@/types";
+import Information from "@/pages/MyProfilePage/UserProfile/Information";
 import ImageInput from "./ImageInput";
 import VehicleImage from "./VehicleImage";
 

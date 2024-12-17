@@ -1,12 +1,9 @@
 import { memo, MouseEvent, useCallback, useState } from "react";
-import {
-  deleteUnLikeParty,
-  postLikeParty,
-} from "../../../../../../../api/party";
-import { customRoundOne } from "../../../../../../../utils";
-import { HeartParty } from "../../../../../../../types";
-import FillHeart from "../../../../../../../assets/svg/FillHeart.svg";
-import EmptyHeart from "../../../../../../../assets/svg/EmptyHeart.svg";
+import { deleteUnLikeParty, postLikeParty } from "@/api/party";
+import { customRoundOne } from "@/utils";
+import { HeartParty } from "@/types";
+import FillHeart from "@/assets/svg/FillHeart.svg";
+import EmptyHeart from "@/assets/svg/EmptyHeart.svg";
 
 interface Props extends HeartParty {
   selectPartyHandler: (party: { name: string; partyId: number }) => void;

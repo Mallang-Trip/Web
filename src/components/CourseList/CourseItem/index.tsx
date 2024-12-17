@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
-import { isGAlive } from "../../../utils/ga";
+import { isGAlive } from "@/utils/ga";
 import ReactGA from "react-ga4";
 import clsx from "clsx";
 

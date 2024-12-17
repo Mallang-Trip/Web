@@ -6,9 +6,9 @@ import {
   SetStateAction,
   useCallback,
 } from "react";
-import fillStarIcon from "../../../../assets/svg/rateFillStar.svg";
-import emptyStarIcon from "../../../../assets/svg/emptyStar.svg";
-import halfStarIcon from "../../../../assets/svg/halfStar.svg";
+import fillStarIcon from "@/assets/svg/rateFillStar.svg";
+import emptyStarIcon from "@/assets/svg/emptyStar.svg";
+import halfStarIcon from "@/assets/svg/halfStar.svg";
 
 interface Props {
   star: number;

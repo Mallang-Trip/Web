@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { priceToString } from "../../../../../../utils";
+import { priceToString } from "@/utils";
 import PriceInfo from "./PriceInfo";
 
 interface Props {

@@ -6,8 +6,8 @@ import {
   useCallback,
   useState,
 } from "react";
-import { onlyNumber } from "../../../../utils";
-import primaryPlus from "../../../../assets/svg/primary_plus.svg";
+import { onlyNumber } from "@/utils";
+import primaryPlus from "@/assets/svg/primary_plus.svg";
 
 interface Props {
   hour: string[];

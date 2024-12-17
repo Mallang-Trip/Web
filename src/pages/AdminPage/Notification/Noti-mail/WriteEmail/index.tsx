@@ -1,7 +1,5 @@
 import { memo, useCallback, useState } from "react";
-import CheckModal from "../../../../../components/CheckModal";
-import ConfirmModal from "../../../../../components/ConfirmModal";
-import Title from "../../../../../components/Title";
+import { CheckModal, ConfirmModal, Title } from "@/components";
 import clsx from "clsx";
 
 function WriteEmail() {

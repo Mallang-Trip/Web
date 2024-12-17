@@ -1,10 +1,10 @@
 import { memo } from "react";
-import PageContainer from "../../../components/PageContainer";
-import HeadTitle from "../Component/HeadTitle";
-import PolicyContainer from "../Component/PolicyContainer";
-import BodyContent from "../Component/BodyContent";
-import FeeTable from "../../../components/BottomRefundDriver/FeeTable";
-import refundDiagram from "../../../assets/svg/refund-diagram.svg";
+import { PageContainer } from "@/components";
+import FeeTable from "@/components/BottomRefundDriver/FeeTable";
+import HeadTitle from "@/pages/PolicyPage/Component/HeadTitle";
+import PolicyContainer from "@/pages/PolicyPage/Component/PolicyContainer";
+import BodyContent from "@/pages/PolicyPage/Component/BodyContent";
+import refundDiagram from "@/assets/svg/refund-diagram.svg";
 
 function DriverRefund() {
   return (

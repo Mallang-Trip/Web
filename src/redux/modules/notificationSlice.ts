@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Notify } from "../../types";
+import { Notify } from "@/types";
 
 interface State {
   notification: Notify[];

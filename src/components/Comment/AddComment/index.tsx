@@ -1,15 +1,13 @@
 import { useRef, useState, useEffect, memo, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { uploadImage } from "../../../api/image";
-import { postComment } from "../../../api/driver";
-import { postDestinationComment } from "../../../api/destination";
-import { RootState } from "../../../redux/store";
-import cameraIcon from "../../../assets/svg/camera.svg";
-import CheckModal from "../../CheckModal";
-import ConfirmModal from "../../ConfirmModal";
+import { CheckModal, ConfirmModal, InputImage } from "@/components";
+import { uploadImage } from "@/api/image";
+import { postComment } from "@/api/driver";
+import { postDestinationComment } from "@/api/destination";
+import { RootState } from "@/redux/store";
+import cameraIcon from "@/assets/svg/camera.svg";
 import StarInput from "./StarInput";
-import InputImage from "../../InputImage";
 
 interface Props {
   id: number;

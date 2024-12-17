@@ -8,12 +8,10 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { getChatBlockList, makeNewCoupleChat } from "../../../../api/chat";
-import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
-import CheckModal from "../../../CheckModal";
-import ConfirmModal from "../../../ConfirmModal";
-import ReportModal from "../../../ReportModal";
+import { RootState } from "@/redux/store";
+import { getChatBlockList, makeNewCoupleChat } from "@/api/chat";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { CheckModal, ConfirmModal, ReportModal } from "@/components";
 import Button from "./Button";
 import BlockModal from "./BlockModal";
 

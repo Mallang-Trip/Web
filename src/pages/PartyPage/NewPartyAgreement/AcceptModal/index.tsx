@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-import { putNewPartyAccept } from "../../../../api/party";
+import { putNewPartyAccept } from "@/api/party";
 import clsx from "clsx";
 
 interface Props {

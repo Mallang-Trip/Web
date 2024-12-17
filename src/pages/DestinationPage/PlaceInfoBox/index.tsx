@@ -1,8 +1,7 @@
 import { memo } from "react";
-import { Place } from "../../../types";
+import { Place } from "@/types";
+import { ImageBox, PartyIconBox } from "@/components";
 import PlaceInfoTitle from "./PlaceInfoTitle";
-import ImageBox from "../../../components/ImageBox";
-import PartyIconBox from "../../../components/PartyIconBox";
 
 interface Props extends Place {
   id: number;

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { CONSTANT } from "../../../../../../utils/data";
+import { CONSTANT } from "@/utils/data";
 
 interface Props {
   name: string;

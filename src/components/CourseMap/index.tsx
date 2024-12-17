@@ -1,9 +1,9 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { Destination } from "../../types";
-import startMarker from "../../assets/svg/start_marker.svg";
-import endMarker from "../../assets/svg/end_marker.svg";
-import pointMarker from "../../assets/svg/point_marker.svg";
-import DestinationModal from "../PlaceMap/DestinationModal";
+import { Destination } from "@/types";
+import DestinationModal from "@/components/PlaceMap/DestinationModal";
+import startMarker from "@/assets/svg/start_marker.svg";
+import endMarker from "@/assets/svg/end_marker.svg";
+import pointMarker from "@/assets/svg/point_marker.svg";
 import axios from "axios";
 
 declare global {

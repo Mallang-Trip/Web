@@ -1,6 +1,6 @@
 import { memo } from "react";
-import PageContainer from "../../components/PageContainer";
-import Logo from "../../assets/images/logo.png";
+import { PageContainer } from "@/components";
+import Logo from "@/assets/images/logo.png";
 import LoginForm from "./LoginForm";
 import Searchbuttons from "./Searchbuttons";
 

@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteAnnouncement } from "../../../../../../api/announcement";
+import { deleteAnnouncement } from "@/api/announcement";
 
 interface Props {
   announcementId: number;

@@ -7,11 +7,11 @@ import {
   useState,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { __asyncAuth } from "../../../redux/modules/userSlice";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { uploadProfileImage } from "../../../api/image";
-import { putProfile } from "../../../api/profile";
-import ConfirmModal from "../../../components/ConfirmModal";
+import { __asyncAuth } from "@/redux/modules/userSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { uploadProfileImage } from "@/api/image";
+import { putProfile } from "@/api/profile";
+import { ConfirmModal } from "@/components";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import BasicInfo from "./BasicInfo";
@@ -23,7 +23,7 @@ function UserProfile() {
   const user = useSelector((state: RootState) => state.user);
   const [modifyMode, setModifyMode] = useState(false);
   const [modifyImage, setModifyImage] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+  const [phoneNumber] = useState(user.phoneNumber);
   const [introduction, setIntroduction] = useState(user.introduction);
   const [email, setEmail] = useState(user.email);
   const [modifyProfileImage, setModifyProfileImage] = useState<

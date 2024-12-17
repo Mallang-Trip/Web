@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
-import { InviteChatMember } from "../../../../../../../../types";
-import deleteMemberIcon from "../../../../../../../../assets/svg/invite-member-x.svg";
+import { InviteChatMember } from "@/types";
+import deleteMemberIcon from "@/assets/svg/invite-member-x.svg";
 
 interface Props {
   inviteMember: InviteChatMember[];

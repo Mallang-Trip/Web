@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { getMyParty } from "../../../../api/party";
-import { HeartParty } from "../../../../types";
-import PartyBox from "../../PartyList/PartyBox";
+import { getMyParty } from "@/api/party";
+import { HeartParty } from "@/types";
+import PartyBox from "@/pages/LandingPage/PartyList/PartyBox";
 import NoParty from "./NoParty";
 
 interface Props {

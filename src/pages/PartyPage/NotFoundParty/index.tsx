@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import PageContainer from "../../../components/PageContainer";
+import { PageContainer } from "@/components";
 
 function NotFoundParty() {
   const navigation = useNavigate();

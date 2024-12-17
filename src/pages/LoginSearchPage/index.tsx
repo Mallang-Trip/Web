@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { useParams } from "react-router-dom";
-import PageContainer from "../../components/PageContainer";
+import { PageContainer } from "@/components";
 import HeadLogo from "./HeadLogo";
 import SearchComplete from "./SearchComplete";
 import Search from "./Search";

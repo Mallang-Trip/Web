@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { Destination } from "../../../../../types";
+import { Destination } from "@/types";
 import PlaceItem from "./PlaceItem";
 
 interface Props {

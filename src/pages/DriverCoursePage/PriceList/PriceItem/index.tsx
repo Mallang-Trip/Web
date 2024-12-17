@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { priceToString } from "../../../../utils";
+import { priceToString } from "@/utils";
 import clsx from "clsx";
 
 interface Props {

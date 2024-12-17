@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import basicProfileImage from "../../../assets/images/profileImage.png";
+import { RootState } from "@/redux/store";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   profileImg: string | undefined;

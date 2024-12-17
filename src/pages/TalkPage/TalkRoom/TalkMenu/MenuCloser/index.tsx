@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import closeIcon from "../../../../../assets/svg/x-modal-icon.svg";
+import closeIcon from "@/assets/svg/x-modal-icon.svg";
 
 interface Props {
   setShowMenu: Dispatch<SetStateAction<boolean>>;

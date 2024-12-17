@@ -1,11 +1,10 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { putMallangReady } from "../../../api/party";
-import { computeGapDay } from "../../../utils";
-import Loading from "../../../components/Loading";
-import CheckModal from "../../../components/CheckModal";
+import { RootState } from "@/redux/store";
+import { putMallangReady } from "@/api/party";
+import { computeGapDay } from "@/utils";
+import { Loading, CheckModal } from "@/components";
 import WhatReady from "./WhatReady";
 import clsx from "clsx";
 

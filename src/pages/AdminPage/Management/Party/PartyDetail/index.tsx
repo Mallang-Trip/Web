@@ -1,17 +1,19 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getPartyDetail } from "../../../../../api/admin";
-import { Party } from "../../../../../types";
-import Loading from "../../../../../components/Loading";
-import HeadTitle from "../../../../../components/HeadTitle";
-import ImageBox from "../../../../../components/ImageBox";
-import PartyIconBox from "../../../../../components/PartyIconBox";
-import PartyDate from "../../../../PartyPage/PartyDate";
-import PartyMember from "../../../../PartyPage/PartyMember";
-import ToTalPrice from "../../../../PartyPage/ToTalPrice";
-import PartyPlan from "../../../../../components/PartyPlan";
-import CourseMap from "../../../../../components/CourseMap";
-import BottomRefundUser from "../../../../../components/BottomRefundUser";
-import BottomRefundDriver from "../../../../../components/BottomRefundDriver";
+import { getPartyDetail } from "@/api/admin";
+import { Party } from "@/types";
+import {
+  Loading,
+  HeadTitle,
+  ImageBox,
+  PartyIconBox,
+  PartyPlan,
+  CourseMap,
+  BottomRefundUser,
+  BottomRefundDriver,
+} from "@/components";
+import PartyDate from "@/pages/PartyPage/PartyDate";
+import PartyMember from "@/pages/PartyPage/PartyMember";
+import ToTalPrice from "@/pages/PartyPage/ToTalPrice";
 import MallangReady from "./MallangReady";
 import CancelPrice from "./CancelPrice";
 import Promotion from "./Promotion";

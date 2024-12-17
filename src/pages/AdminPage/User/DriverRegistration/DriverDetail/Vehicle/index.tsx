@@ -1,5 +1,5 @@
 import { memo } from "react";
-import Information from "../../../../../MyProfilePage/UserProfile/Information";
+import Information from "@/pages/MyProfilePage/UserProfile/Information";
 
 interface Props {
   vehicleModel: string;

@@ -1,10 +1,10 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
-import PageContainer from "../../../components/PageContainer";
-import HeadTitle from "../Component/HeadTitle";
-import PolicyContainer from "../Component/PolicyContainer";
-import BodyContent from "../Component/BodyContent";
-import BodyTab from "../Component/BodyTab";
+import { PageContainer } from "@/components";
+import HeadTitle from "@/pages/PolicyPage/Component/HeadTitle";
+import PolicyContainer from "@/pages/PolicyPage/Component/PolicyContainer";
+import BodyContent from "@/pages/PolicyPage/Component/BodyContent";
+import BodyTab from "@/pages/PolicyPage/Component/BodyTab";
 
 function UserPrivacy() {
   return (

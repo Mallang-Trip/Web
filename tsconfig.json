@@ -1,17 +1,7 @@
 {
-  "compilerOptions": {
-    "target": "es2021",
-    "jsx": "react-jsx",
-    "module": "commonjs",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": false,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
-  },
-  "include": ["src", "src/types/custom.d.ts", ".eslintrc.cjs"],
-  "exclude": ["node_modules"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

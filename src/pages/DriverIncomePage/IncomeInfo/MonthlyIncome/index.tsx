@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { getDriverMonthlyIncome } from "../../../../api/income";
-import { priceToString } from "../../../../utils";
+import { getDriverMonthlyIncome } from "@/api/income";
+import { priceToString } from "@/utils";
 
 function MonthlyIncome() {
   const today = useMemo(() => new Date(), []);

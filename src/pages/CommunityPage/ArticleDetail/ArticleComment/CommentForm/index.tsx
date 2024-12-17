@@ -1,9 +1,9 @@
 import { FormEvent, memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { postNewComment } from "../../../../../api/article";
-import { RootState } from "../../../../../redux/store";
-import basicProfileImage from "../../../../../assets/images/profileImage.png";
+import { postNewComment } from "@/api/article";
+import { RootState } from "@/redux/store";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   getArticleDetailFunc: () => void;

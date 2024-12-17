@@ -1,4 +1,4 @@
-import { DELETE, GET, POST, PUT } from "../utils/axios";
+import { DELETE, GET, POST, PUT } from "@/utils/axios";
 
 export const getArticleList = async (type: string, page: number) =>
   await GET(`/article?type=${type}&page=${page}`);

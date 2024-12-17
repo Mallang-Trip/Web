@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { GTM_ID } from "../utils/ga";
+import { GTM_ID } from "@/utils/ga";
 import TagManager from "react-gtm-module";
 
 export const useGoogleTagManager = () => {

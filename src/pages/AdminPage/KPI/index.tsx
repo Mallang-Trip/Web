@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { GET } from "../../../utils/axios";
+import { GET } from "@/utils/axios";
 import Container from "./Container";
 
 function KPI() {

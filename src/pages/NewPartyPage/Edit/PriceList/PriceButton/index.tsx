@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
-import { Course } from "../../../../../types";
+import { Course } from "@/types";
 import clsx from "clsx";
 
 interface Props {

@@ -9,8 +9,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import Loading from "../../../../components/Loading";
-import InputImage from "../../../../components/InputImage";
+import { Loading, InputImage } from "@/components";
 import clsx from "clsx";
 
 interface Props {

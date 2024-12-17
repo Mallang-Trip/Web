@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
-import ConfirmModal from "../../../../components/ConfirmModal";
+import { ConfirmModal } from "@/components";
 import clsx from "clsx";
 
 interface Props {

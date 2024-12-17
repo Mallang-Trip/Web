@@ -9,12 +9,8 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  getCertificationCode,
-  searchId,
-  searchPassword,
-} from "../../../../../api/users";
-import ConfirmModal from "../../../../../components/ConfirmModal";
+import { getCertificationCode, searchId, searchPassword } from "@/api/users";
+import { ConfirmModal } from "@/components";
 import clsx from "clsx";
 
 interface Props {

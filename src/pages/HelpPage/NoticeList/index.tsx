@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getAnnouncementList } from "../../../api/announcement";
-import Loading from "../../../components/Loading";
-import Pagination from "../Pagination";
+import { getAnnouncementList } from "@/api/announcement";
+import { Loading } from "@/components";
+import Pagination from "@/pages/HelpPage/Pagination";
 import Head from "./Head";
 import Notice from "./Notice";
 

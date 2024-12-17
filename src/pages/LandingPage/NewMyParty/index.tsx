@@ -1,8 +1,8 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import mallangtripLogo from "../../../assets/svg/mallangtrip-logo-grey.svg";
+import { RootState } from "@/redux/store";
+import mallangtripLogo from "@/assets/svg/mallangtrip-logo-grey.svg";
 
 interface Props {
   setShowLoginModal: Dispatch<SetStateAction<boolean>>;

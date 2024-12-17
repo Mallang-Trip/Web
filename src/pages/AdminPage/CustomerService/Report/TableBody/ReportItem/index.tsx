@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Report } from "../../../../../../types";
+import { Report } from "@/types";
 import clsx from "clsx";
 
 interface Props extends Report {

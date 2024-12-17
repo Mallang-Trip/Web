@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { putProposalAccept } from "../../../../api/party";
+import { putProposalAccept } from "@/api/party";
 import clsx from "clsx";
 
 interface Props {

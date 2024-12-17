@@ -10,14 +10,14 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { uploadImage } from "../../../../../api/image";
+import { uploadImage } from "@/api/image";
 import {
   getAnnouncementDetail,
   postAnnouncement,
   updateAnnouncement,
-} from "../../../../../api/announcement";
-import Title from "../../../../../components/Title";
-import ImageInputBox from "../../../../CommunityPostPage/ArticleInfoForm/ImageInputBox";
+} from "@/api/announcement";
+import Title from "@/components/Title";
+import ImageInputBox from "@/pages/CommunityPostPage/ArticleInfoForm/ImageInputBox";
 
 interface Props {
   mode: string | null;

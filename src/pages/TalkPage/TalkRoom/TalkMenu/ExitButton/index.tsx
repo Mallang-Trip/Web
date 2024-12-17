@@ -1,9 +1,9 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { leaveChat } from "../../../../../api/chat";
-import { RootState } from "../../../../../redux/store";
+import { leaveChat } from "@/api/chat";
+import { RootState } from "@/redux/store";
+import { ConfirmModal } from "@/components";
 import ExitCheckModal from "./ExitCheckModal";
-import ConfirmModal from "../../../../../components/ConfirmModal";
 
 interface Props {
   chatRoomId: number;

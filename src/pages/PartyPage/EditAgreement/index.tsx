@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { numberTo00 } from "../../../utils";
+import { RootState } from "@/redux/store";
+import { numberTo00 } from "@/utils";
 import AcceptModal from "./AcceptModal";
 import CancelModal from "./CancelModal";
 import clsx from "clsx";

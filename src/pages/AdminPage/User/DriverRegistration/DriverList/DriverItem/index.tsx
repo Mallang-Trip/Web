@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { NewDriverInfo } from "../../../../../../types";
+import { NewDriverInfo } from "@/types";
 
 interface Props {
   driver: NewDriverInfo;

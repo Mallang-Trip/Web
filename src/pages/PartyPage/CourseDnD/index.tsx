@@ -7,13 +7,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { dateToStringHan } from "../../../utils";
-import { Course, Destination } from "../../../types";
-import dragIcon from "../../../assets/svg/dragIcon.svg";
-import deleteIcon from "../../../assets/svg/x-modal-icon.svg";
-import ConfirmModal from "../../../components/ConfirmModal";
-import TimeModal from "../../DriverCoursePage/CourseDnD/TimeModal";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { dateToStringHan } from "@/utils";
+import { Course, Destination } from "@/types";
+import { ConfirmModal } from "@/components";
+import dragIcon from "@/assets/svg/dragIcon.svg";
+import deleteIcon from "@/assets/svg/x-modal-icon.svg";
+import TimeModal from "@/pages/DriverCoursePage/CourseDnD/TimeModal";
 import clsx from "clsx";
 
 interface Props {

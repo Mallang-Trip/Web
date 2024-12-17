@@ -1,11 +1,11 @@
 import { memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setNum } from "../../../../../redux/modules/partyFilterSlice";
-import { RootState } from "../../../../../redux/store";
-import minusGray from "../../../../../assets/svg/people_minus_gray.svg";
-import minusPrimary from "../../../../../assets/svg/people_minus_primary.svg";
-import plusgray from "../../../../../assets/svg/people_plus_gray.svg";
-import plusPrimary from "../../../../../assets/svg/people_plus_primary.svg";
+import { setNum } from "@/redux/modules/partyFilterSlice";
+import { RootState } from "@/redux/store";
+import minusGray from "@/assets/svg/people_minus_gray.svg";
+import minusPrimary from "@/assets/svg/people_minus_primary.svg";
+import plusgray from "@/assets/svg/people_plus_gray.svg";
+import plusPrimary from "@/assets/svg/people_plus_primary.svg";
 import clsx from "clsx";
 
 function PeopleFilter() {

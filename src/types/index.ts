@@ -1,4 +1,4 @@
-import { partyStatusObj } from "../utils/data";
+import { partyStatusObj } from "@/utils/data";
 
 export interface Article {
   articleId: number;

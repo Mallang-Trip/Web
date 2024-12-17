@@ -10,10 +10,10 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setRegion } from "../../../../redux/modules/partyFilterSlice";
-import { getPartyRegionList } from "../../../../api/region";
-import { RootState } from "../../../../redux/store";
-import { RegionData } from "../../../../types";
+import { setRegion } from "@/redux/modules/partyFilterSlice";
+import { getPartyRegionList } from "@/api/region";
+import { RootState } from "@/redux/store";
+import { RegionData } from "@/types";
 import RegionButton from "./RegionButton";
 import clsx from "clsx";
 

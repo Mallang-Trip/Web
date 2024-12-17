@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useLocation } from "react-router-dom";
-import { postSuspension } from "../../../../../api/admin";
+import { postSuspension } from "@/api/admin";
 import clsx from "clsx";
 
 interface Props {

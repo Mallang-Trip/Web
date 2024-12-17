@@ -1,13 +1,13 @@
 import { memo, MouseEvent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteUnLikeParty, postLikeParty } from "../../../api/party";
+import { deleteUnLikeParty, postLikeParty } from "@/api/party";
 import {
   deleteUnLikeDestination,
   postLikeDestination,
-} from "../../../api/destination";
-import star from "../../../assets/svg/star.svg";
-import FillHeart from "../../../assets/svg/FillHeart.svg";
-import EmptyHeart from "../../../assets/svg/EmptyHeart.svg";
+} from "@/api/destination";
+import star from "@/assets/svg/star.svg";
+import FillHeart from "@/assets/svg/FillHeart.svg";
+import EmptyHeart from "@/assets/svg/EmptyHeart.svg";
 
 interface Props {
   partyId: number;

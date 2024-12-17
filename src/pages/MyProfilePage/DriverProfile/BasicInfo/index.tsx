@@ -1,8 +1,8 @@
 import { Dispatch, memo, SetStateAction, useState } from "react";
-import { makePhoneNumber } from "../../../../utils";
-import { days } from "../../../../utils/data";
-import { DriverInfo } from "../../../../types";
-import Information from "../../UserProfile/Information";
+import { makePhoneNumber } from "@/utils";
+import { days } from "@/utils/data";
+import { DriverInfo } from "@/types";
+import Information from "@/pages/MyProfilePage/UserProfile/Information";
 import RegionModal from "./RegionModal";
 import HolidayModal from "./HolidayModal";
 import AccountModal from "./AccountModal";

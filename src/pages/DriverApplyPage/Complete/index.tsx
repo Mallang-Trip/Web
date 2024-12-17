@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useState } from "react";
 import CancelModal from "./CancelModal";
-import logo from "../../../assets/images/logo.png";
+import logo from "@/assets/images/logo.png";
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;

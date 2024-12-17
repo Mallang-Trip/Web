@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { deleteProposalCancel } from "../../../../api/party";
+import { deleteProposalCancel } from "@/api/party";
 import clsx from "clsx";
 
 interface Props {

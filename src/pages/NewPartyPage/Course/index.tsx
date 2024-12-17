@@ -1,23 +1,25 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { dateToStringHan, priceToString } from "../../../utils";
+import { RootState } from "@/redux/store";
+import { dateToStringHan, priceToString } from "@/utils";
 import {
   DriverInfo as DriverInfoRawType,
   Course as CourseType,
   Review,
-} from "../../../types";
-import ImageBox from "../../../components/ImageBox";
-import PartyPlan from "../../../components/PartyPlan";
-import CourseMap from "../../../components/CourseMap";
-import CreditInfo from "../../PartyPage/CreditInfo";
-import DriverInfo from "../../../components/DriverInfo";
-import CourseList from "../../../components/CourseList";
-import CommentList from "../../../components/Comment/CommentList";
-import AddComment from "../../../components/Comment/AddComment";
-import TextArea from "../Atom/TextArea";
-import ReservationButton from "../Atom/ReservationButton";
+} from "@/types";
+import {
+  ImageBox,
+  PartyPlan,
+  CourseMap,
+  DriverInfo,
+  CourseList,
+  CommentList,
+  AddComment,
+} from "@/components";
+import CreditInfo from "@/pages/PartyPage/CreditInfo";
+import TextArea from "@/pages/NewPartyPage/Atom/TextArea";
+import ReservationButton from "@/pages/NewPartyPage/Atom/ReservationButton";
 
 interface DriverInfoType extends DriverInfoRawType {
   driverId: number;

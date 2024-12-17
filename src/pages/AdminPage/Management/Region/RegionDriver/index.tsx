@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getPartyRegionDriverList } from "../../../../../api/region";
-import { RegionDriverData } from "../../../../../types";
-import Loading from "../../../../../components/Loading";
+import { getPartyRegionDriverList } from "@/api/region";
+import { RegionDriverData } from "@/types";
+import { Loading } from "@/components";
 import DriverList from "./DriverList";
 
 function RegionDriver() {

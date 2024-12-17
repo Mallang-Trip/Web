@@ -1,12 +1,10 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getReportList, getReportCompleteList } from "../../../../api/admin";
-import Loading from "../../../../components/Loading";
+import { getReportList, getReportCompleteList } from "@/api/admin";
+import { Loading, Title, ProfileModal } from "@/components";
 import ReportContent from "./ReportContent";
-import Title from "../../../../components/Title";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
-import ProfileModal from "../../../../components/ProfileModal";
 import Tab from "./Tab";
 
 function Report() {

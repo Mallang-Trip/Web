@@ -10,12 +10,12 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { setNum } from "../../../../redux/modules/partyFilterSlice";
-import minusGray from "../../../../assets/svg/people_minus_gray.svg";
-import minusPrimary from "../../../../assets/svg/people_minus_primary.svg";
-import plusgray from "../../../../assets/svg/people_plus_gray.svg";
-import plusPrimary from "../../../../assets/svg/people_plus_primary.svg";
+import { RootState } from "@/redux/store";
+import { setNum } from "@/redux/modules/partyFilterSlice";
+import minusGray from "@/assets/svg/people_minus_gray.svg";
+import minusPrimary from "@/assets/svg/people_minus_primary.svg";
+import plusgray from "@/assets/svg/people_plus_gray.svg";
+import plusPrimary from "@/assets/svg/people_plus_primary.svg";
 import clsx from "clsx";
 
 interface Props {

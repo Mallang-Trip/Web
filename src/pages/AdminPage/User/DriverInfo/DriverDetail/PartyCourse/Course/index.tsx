@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { CourseType } from "../../../../../../../types";
+import { CourseType } from "@/types";
 
 function Course({ courseImg, courseName, courseId }: CourseType) {
   const navigation = useNavigate();

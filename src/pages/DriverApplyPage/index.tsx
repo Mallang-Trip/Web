@@ -1,15 +1,10 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { __asyncRefreshAuth } from "../../redux/modules/userSlice";
-import { AppDispatch, RootState } from "../../redux/store";
-import {
-  postDriverApply,
-  getDriverApply,
-  putDriverApply,
-} from "../../api/driver";
-import { uploadImage } from "../../api/image";
-import PageContainer from "../../components/PageContainer";
-import Loading from "../../components/Loading";
+import { __asyncRefreshAuth } from "@/redux/modules/userSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { postDriverApply, getDriverApply, putDriverApply } from "@/api/driver";
+import { uploadImage } from "@/api/image";
+import { PageContainer, Loading } from "@/components";
 import Title from "./Title";
 import Stepper from "./Stepper";
 import CarInfo from "./CarInfo";

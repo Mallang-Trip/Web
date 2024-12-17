@@ -9,10 +9,10 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { __asyncLogin } from "../../../redux/modules/userSlice";
-import { AppDispatch } from "../../../redux/store";
-import ConfirmModal from "../../../components/ConfirmModal";
-import CheckIcon from "../../../assets/svg/agree-check.svg";
+import { __asyncLogin } from "@/redux/modules/userSlice";
+import { AppDispatch } from "@/redux/store";
+import { ConfirmModal } from "@/components";
+import CheckIcon from "@/assets/svg/agree-check.svg";
 import clsx from "clsx";
 
 function LoginForm() {

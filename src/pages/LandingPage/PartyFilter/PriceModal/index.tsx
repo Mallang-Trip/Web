@@ -10,8 +10,8 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setPrice } from "../../../../redux/modules/partyFilterSlice";
-import { RootState } from "../../../../redux/store";
+import { setPrice } from "@/redux/modules/partyFilterSlice";
+import { RootState } from "@/redux/store";
 import clsx from "clsx";
 
 interface Props {

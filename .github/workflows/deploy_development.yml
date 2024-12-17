@@ -29,14 +29,20 @@ jobs:
           echo "mkdir /home/ubuntu/mallang-trip/dev" >> deploy.sh
           echo "mv /home/ubuntu/mallang-trip-code/dev/* /home/ubuntu/mallang-trip/dev/" >> deploy.sh
 
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          check-latest: true
+
       - name: Check Node version
         run: node -v
 
       - name: Install Dependencies
-        run: npm install
+        run: yarn install
 
       - name: Build
-        run: npm run build -- --outDir=dev
+        run: yarn build -- --outDir=dev
         env:
           CI: ""
 

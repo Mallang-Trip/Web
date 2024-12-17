@@ -1,5 +1,5 @@
 import { Fragment, memo } from "react";
-import { Payment } from "../../../types";
+import { Payment } from "@/types";
 import Head from "./Head";
 import Body from "./Body";
 

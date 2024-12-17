@@ -1,5 +1,5 @@
 import { ForwardedRef, memo, useCallback, useState } from "react";
-import InputImage from "../../../../../components/InputImage";
+import { InputImage } from "@/components";
 
 interface Props {
   modifyMode: boolean;

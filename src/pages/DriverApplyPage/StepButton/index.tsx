@@ -1,6 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback, useEffect } from "react";
-import CheckModal from "../../../components/CheckModal";
-import Loading from "../../../components/Loading";
+import { CheckModal, Loading } from "@/components";
 import clsx from "clsx";
 
 interface Props {

@@ -1,9 +1,9 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { getPartyList } from "../../../api/party";
-import { dateToString } from "../../../utils";
-import { HeartParty } from "../../../types";
+import { RootState } from "@/redux/store";
+import { getPartyList } from "@/api/party";
+import { dateToString } from "@/utils";
+import { HeartParty } from "@/types";
 import PartyBox from "./PartyBox";
 import NoParty from "./NoParty";
 

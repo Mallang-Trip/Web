@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import primaryPlus from "../../../../../assets/svg/primary_plus.svg";
+import primaryPlus from "@/assets/svg/primary_plus.svg";
 
 function NewCourse() {
   const navigation = useNavigate();

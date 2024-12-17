@@ -7,7 +7,7 @@ import {
   useEffect,
   useMemo,
 } from "react";
-import Check from "../../../assets/svg/agree-check.svg";
+import Check from "@/assets/svg/agree-check.svg";
 import AgreeItem from "./AgreeItem";
 
 interface Props {

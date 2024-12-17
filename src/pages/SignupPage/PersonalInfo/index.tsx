@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
-import PassCheck from "../../../components/PassCheck";
+import { PassCheck } from "@/components";
 
 interface Props {
   setStep: Dispatch<SetStateAction<number>>;

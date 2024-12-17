@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deletePartyRegion } from "../../../../../../api/region";
+import { deletePartyRegion } from "@/api/region";
 import { EditTarget } from "..";
 
 interface Props {

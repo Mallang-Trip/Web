@@ -10,7 +10,7 @@ import {
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Zoom, Navigation, Pagination } from "swiper/modules";
-import headerBack from "../../../assets/svg/header-back.svg";
+import headerBack from "@/assets/svg/header-back.svg";
 import clsx from "clsx";
 
 interface Props {

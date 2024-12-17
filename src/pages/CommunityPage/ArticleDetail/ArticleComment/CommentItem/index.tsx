@@ -1,17 +1,16 @@
 import { memo, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../../../redux/modules/talkRoomSlice";
-import { RootState } from "../../../../../redux/store";
-import { dateToGapKorean } from "../../../../../utils";
-import { deleteMyComment } from "../../../../../api/article";
-import { makeNewCoupleChat } from "../../../../../api/chat";
-import { Comment } from "../../../../../types";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { RootState } from "@/redux/store";
+import { dateToGapKorean } from "@/utils";
+import { deleteMyComment } from "@/api/article";
+import { makeNewCoupleChat } from "@/api/chat";
+import { Comment } from "@/types";
+import { CheckModal, ReportModal } from "@/components";
 import ReplyItem from "./ReplyItem";
 import ReplyForm from "./ReplyForm";
-import CheckModal from "../../../../../components/CheckModal";
-import basicProfileImage from "../../../../../assets/images/profileImage.png";
-import ReportModal from "../../../../../components/ReportModal";
+import basicProfileImage from "@/assets/images/profileImage.png";
 import clsx from "clsx";
 
 interface Props extends Comment {

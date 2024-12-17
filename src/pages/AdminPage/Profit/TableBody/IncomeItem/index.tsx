@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { priceToString } from "../../../../../utils";
+import { priceToString } from "@/utils";
 import { IncomeData, SelectedIncome } from "../..";
 
 interface Props extends IncomeData {

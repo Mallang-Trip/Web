@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Title from "../../../../components/Title";
-import img_more_info from "../../../../assets/svg/more-info-gray500.svg";
+import { Title } from "@/components";
+import img_more_info from "@/assets/svg/more-info-gray500.svg";
 import Tab from "./Tab";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";

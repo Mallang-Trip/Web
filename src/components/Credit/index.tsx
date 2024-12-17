@@ -8,12 +8,11 @@ import {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { getCard, postCard, deleteCard } from "../../api/card";
-import CheckModal from "../CheckModal";
-import ConfirmModal from "../ConfirmModal";
-import PlusBtn from "../../assets/svg/PlusBtn.svg";
-import Logo from "../../assets/images/logo.png";
+import { RootState } from "@/redux/store";
+import { getCard, postCard, deleteCard } from "@/api/card";
+import { CheckModal, ConfirmModal } from "@/components";
+import PlusBtn from "@/assets/svg/PlusBtn.svg";
+import Logo from "@/assets/images/logo.png";
 import clsx from "clsx";
 
 declare global {

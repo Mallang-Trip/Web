@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getPartyDriverReady } from "../../../../../../api/admin";
-import { computeGapDay } from "../../../../../../utils";
+import { getPartyDriverReady } from "@/api/admin";
+import { computeGapDay } from "@/utils";
 import WhatReady from "./WhatReady";
 import clsx from "clsx";
 

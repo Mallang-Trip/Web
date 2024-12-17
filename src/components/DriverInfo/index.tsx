@@ -1,6 +1,6 @@
 import { memo } from "react";
-import star from "../../assets/svg/star.svg";
-import basicProfileImage from "../../assets/images/profileImage.png";
+import star from "@/assets/svg/star.svg";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   name: string;

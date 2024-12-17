@@ -1,5 +1,5 @@
 import { memo, MouseEvent } from "react";
-import { ArticleCategoryType } from "../../../../types";
+import { ArticleCategoryType } from "@/types";
 import clsx from "clsx";
 
 interface Props {

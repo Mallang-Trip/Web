@@ -1,8 +1,6 @@
 import { memo } from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../Header";
-import BottomNav from "../BottomNav";
-import Footer from "../Footer";
+import { Header, BottomNav, Footer } from "@/components";
 
 function MainLayout() {
   return (

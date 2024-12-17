@@ -1,12 +1,12 @@
 import { memo, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
-import { RootState } from "../../../redux/store";
-import { makeNewCoupleChat } from "../../../api/chat";
-import ChatBox from "../../../assets/svg/EmptyChatIcon.svg";
-import shareIcon from "../../../assets/svg/share.svg";
-import CheckModal from "../../../components/CheckModal";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { RootState } from "@/redux/store";
+import { makeNewCoupleChat } from "@/api/chat";
+import { CheckModal } from "@/components";
+import ChatBox from "@/assets/svg/EmptyChatIcon.svg";
+import shareIcon from "@/assets/svg/share.svg";
 import ShareModal from "./ShareModal";
 
 interface Props {

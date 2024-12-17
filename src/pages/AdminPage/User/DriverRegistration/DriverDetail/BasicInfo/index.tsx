@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { makePhoneNumber } from "../../../../../../utils";
-import Information from "../../../../../MyProfilePage/UserProfile/Information";
+import { makePhoneNumber } from "@/utils";
+import Information from "@/pages/MyProfilePage/UserProfile/Information";
 
 interface Props {
   region: string[];

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { dateToStringHan } from "../../../utils";
+import { dateToStringHan } from "@/utils";
 
 interface Props {
   startDate: string;

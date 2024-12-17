@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { InviteChatMember } from "../../../../../../types";
-import basicProfileImage from "../../../../../../assets/images/profileImage.png";
-import groupTalkImage from "../../../../../../assets/images/groupTalkImage.png";
+import { InviteChatMember } from "@/types";
+import basicProfileImage from "@/assets/images/profileImage.png";
+import groupTalkImage from "@/assets/images/groupTalkImage.png";
 import clsx from "clsx";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { computeGapDay } from "../../../utils";
+import { computeGapDay } from "@/utils";
 
 interface Props {
   driverId: number;

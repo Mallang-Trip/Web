@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ChatRoomDetail } from "../../../../types";
+import { ChatRoomDetail } from "@/types";
 import MenuCloser from "./MenuCloser";
 import MenuHead from "./MenuHead";
 import MenuMembers from "./MenuMembers";

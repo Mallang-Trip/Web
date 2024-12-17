@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Course } from "../../../../types";
+import { Course } from "@/types";
 import PriceButton from "./PriceButton";
 import clsx from "clsx";
 

@@ -10,9 +10,9 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { searchUser } from "../../../../../../api/users";
-import { inviteMemberAPI } from "../../../../../../api/chat";
-import { ChatMember, InviteChatMember } from "../../../../../../types";
+import { searchUser } from "@/api/users";
+import { inviteMemberAPI } from "@/api/chat";
+import { ChatMember, InviteChatMember } from "@/types";
 import Input from "./Input";
 import SelectMembers from "./SelectMembers";
 import SearchMemberList from "./SearchMemberList";

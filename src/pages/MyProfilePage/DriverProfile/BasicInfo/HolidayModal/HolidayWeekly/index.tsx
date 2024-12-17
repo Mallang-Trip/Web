@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { days } from "../../../../../../utils/data";
+import { days } from "@/utils/data";
 import DayButton from "./DayButton";
 
 interface Props {

@@ -1,13 +1,13 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { makeNewCoupleChat } from "../../../../api/chat";
-import { deleteSuspensionReport } from "../../../../api/admin";
-import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
-import CheckModal from "../../../CheckModal";
+import { makeNewCoupleChat } from "@/api/chat";
+import { deleteSuspensionReport } from "@/api/admin";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { CheckModal } from "@/components";
 import ConfirmModal from "./ConfirmModal";
 import SuspensionModal from "./SuspensionModal";
-import Button from "../ButtonList/Button";
+import Button from "@/components/ProfileModal/ButtonBox/ButtonList/Button";
 
 interface Props {
   userId: number | undefined;

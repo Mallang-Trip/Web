@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import EditButton from "../../../components/EditButton";
+import { EditButton } from "@/components";
 
 function Title() {
   const navigation = useNavigate();

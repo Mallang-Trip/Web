@@ -5,7 +5,7 @@ import {
   SetStateAction,
   useCallback,
 } from "react";
-import { makePhoneNumber } from "../../../../utils";
+import { makePhoneNumber } from "@/utils";
 
 interface Props {
   index: number;

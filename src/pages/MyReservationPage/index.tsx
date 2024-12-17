@@ -1,13 +1,11 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getMyParty, getMyDriverParty } from "../../api/party";
-import { RootState } from "../../redux/store";
-import { Party } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import Loading from "../../components/Loading";
+import { getMyParty, getMyDriverParty } from "@/api/party";
+import { RootState } from "@/redux/store";
+import { Party } from "@/types";
+import { PageContainer, Loading, Title } from "@/components";
 import NoReservationData from "./NoReservationData";
 import ReservationList from "./ReservationList";
-import Title from "../../components/Title";
 
 function MyReservationPage() {
   const user = useSelector((state: RootState) => state.user);

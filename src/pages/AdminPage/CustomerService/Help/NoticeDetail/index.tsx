@@ -7,8 +7,8 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAnnouncementDetail } from "../../../../../api/announcement";
-import Title from "../../../../../components/Title";
+import { getAnnouncementDetail } from "@/api/announcement";
+import { Title } from "@/components";
 import NoticeButton from "./NoticeButton";
 import Notice from "./Notice";
 

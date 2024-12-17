@@ -1,21 +1,19 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getDriverInfo } from "../../api/driver";
-import { getCourseDetail } from "../../api/course";
-import { RootState } from "../../redux/store";
-import { isGAlive } from "../../utils/ga";
-import { Course as CourseType } from "../../types";
+import { getDriverInfo } from "@/api/driver";
+import { getCourseDetail } from "@/api/course";
+import { RootState } from "@/redux/store";
+import { isGAlive } from "@/utils/ga";
+import { Course as CourseType } from "@/types";
+import { PageContainer, ConfirmModal, Loading } from "@/components";
 import ReactGA from "react-ga4";
-import PageContainer from "../../components/PageContainer";
-import ConfirmModal from "../../components/ConfirmModal";
 import Region from "./Region";
 import MemberAndDate from "./MemberAndDate";
 import Driver from "./Driver";
 import Course from "./Course";
 import Edit from "./Edit";
 import Reservation from "./Reservation";
-import Loading from "../../components/Loading";
 
 function NewPartyPage() {
   const navigation = useNavigate();

@@ -11,10 +11,10 @@ import {
   useState,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { postPartyJoin, putPartyCourse } from "../../../api/party";
-import { priceToString } from "../../../utils";
-import { Course, Destination } from "../../../types";
-import { isGAlive } from "../../../utils/ga";
+import { postPartyJoin, putPartyCourse } from "@/api/party";
+import { priceToString } from "@/utils";
+import { Course, Destination } from "@/types";
+import { isGAlive } from "@/utils/ga";
 import ReactGA from "react-ga4";
 import clsx from "clsx";
 

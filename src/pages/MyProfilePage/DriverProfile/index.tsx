@@ -7,9 +7,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { putDriverMyInfo } from "../../../api/driver";
-import { uploadImage } from "../../../api/image";
-import { DriverInfo } from "../../../types";
+import { putDriverMyInfo } from "@/api/driver";
+import { uploadImage } from "@/api/image";
+import { DriverInfo } from "@/types";
+import { Loading, ConfirmModal } from "@/components";
 import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import BasicInfo from "./BasicInfo";
@@ -17,8 +18,6 @@ import Introduction from "./Introduction";
 import Vehicle from "./Vehicle";
 import Price from "./Price";
 import PartyCourse from "./PartyCourse";
-import Loading from "../../../components/Loading";
-import ConfirmModal from "../../../components/ConfirmModal";
 import NoData from "./NoData";
 
 interface Props {

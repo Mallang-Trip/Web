@@ -1,6 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
-import CheckModal from "../../../components/CheckModal";
-import Loading from "../../../components/Loading";
+import { CheckModal, Loading } from "@/components";
 import Filter from "./Filter";
 import RegionModal from "./RegionModal";
 import DateModal from "./DateModal";

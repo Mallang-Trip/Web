@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { NewDriverInfo } from "../../../../../types";
+import { NewDriverInfo } from "@/types";
 import DriverItem from "./DriverItem";
 
 interface Props {

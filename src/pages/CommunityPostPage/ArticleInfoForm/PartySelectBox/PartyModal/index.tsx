@@ -9,13 +9,9 @@ import {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../redux/store";
-import { HeartParty } from "../../../../../types";
-import {
-  getLikeParty,
-  getMyDriverParty,
-  getMyParty,
-} from "../../../../../api/party";
+import { RootState } from "@/redux/store";
+import { HeartParty } from "@/types";
+import { getLikeParty, getMyDriverParty, getMyParty } from "@/api/party";
 import PartyModalTab from "./PartyModalTab";
 import HeartList from "./HeartList";
 import NoPartyButton from "./NoPartyButton";

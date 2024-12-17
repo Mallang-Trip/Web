@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction, useCallback, useRef } from "react";
 import { NewPlace } from "../..";
-import primaryPlus from "../../../../../../../assets/svg/primary_plus.svg";
-import InputImage from "../../../../../../../components/InputImage";
+import { InputImage } from "@/components";
+import primaryPlus from "@/assets/svg/primary_plus.svg";
 
 interface Props {
   newPlaceInfo: NewPlace;

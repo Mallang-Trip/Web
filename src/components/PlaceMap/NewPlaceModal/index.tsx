@@ -11,13 +11,13 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { uploadImage } from "../../../api/image";
-import { postNewDestinationUser } from "../../../api/destination";
-import { Destination, Place } from "../../../types";
+import { uploadImage } from "@/api/image";
+import { postNewDestinationUser } from "@/api/destination";
+import { Destination, Place } from "@/types";
+import { ConfirmModal } from "@/components";
 import axios from "axios";
-import pointMarker from "../../../assets/svg/point_marker.svg";
+import pointMarker from "@/assets/svg/point_marker.svg";
 import PlaceFormModal from "./PlaceFormModal";
-import ConfirmModal from "../../ConfirmModal";
 import clsx from "clsx";
 
 interface Props {

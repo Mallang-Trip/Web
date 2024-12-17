@@ -1,6 +1,6 @@
 import { memo } from "react";
 import clsx from "clsx";
-import pencil from "../../assets/svg/pencil.svg";
+import pencil from "@/assets/svg/pencil.svg";
 
 interface Props {
   title: string;

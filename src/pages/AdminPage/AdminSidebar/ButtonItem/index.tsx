@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import img_more_info from "../../../../assets/svg/more-info-gray500.svg";
+import img_more_info from "@/assets/svg/more-info-gray500.svg";
 import clsx from "clsx";
 
 interface Props {

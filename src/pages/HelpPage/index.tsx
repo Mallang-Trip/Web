@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
-import PageContainer from "../../components/PageContainer";
-import Title from "../../components/Title";
+import { PageContainer, Title } from "@/components";
 import Tab from "./Tab";
 import ArticleItem from "./ArticleItem";
 import NoticeList from "./NoticeList";

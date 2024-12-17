@@ -51,7 +51,8 @@ function TalkRoomForm({
 
   const onKeyDownHandler = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === "Enter" && !e.shiftKey) {
+      const isShiftKey = window.innerWidth < 768 ? true : e.shiftKey;
+      if (e.key === "Enter" && !isShiftKey) {
         e.preventDefault();
         submitHandler();
       }

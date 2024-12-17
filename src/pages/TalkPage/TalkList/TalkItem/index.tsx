@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction, useMemo } from "react";
-import { chatListDateToGapKorean } from "../../../../utils";
-import { ChatRoomList } from "../../../../types";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
+import { chatListDateToGapKorean } from "@/utils";
+import { ChatRoomList } from "@/types";
+import basicProfileImage from "@/assets/images/profileImage.png";
 import clsx from "clsx";
 
 interface Props extends ChatRoomList {

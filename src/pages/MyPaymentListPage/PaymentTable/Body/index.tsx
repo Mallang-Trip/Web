@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { priceToString } from "../../../../utils";
-import { Payment } from "../../../../types";
+import { priceToString } from "@/utils";
+import { Payment } from "@/types";
 
 interface Props extends Payment {
   type: "payment" | "refund";

@@ -1,6 +1,6 @@
 import { ChangeEvent, memo } from "react";
 import { useNavigate } from "react-router-dom";
-import Check from "../../../../assets/svg/agree-check.svg";
+import Check from "@/assets/svg/agree-check.svg";
 
 interface Props {
   checkedHandler: (e: ChangeEvent<HTMLInputElement>, id: number) => void;

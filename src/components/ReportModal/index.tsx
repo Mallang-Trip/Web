@@ -10,8 +10,8 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
-import { postNewReport } from "../../api/users";
-import Loading from "../Loading";
+import { postNewReport } from "@/api/users";
+import { Loading } from "@/components";
 import clsx from "clsx";
 
 interface Props {

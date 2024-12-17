@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback, useEffect } from "react";
-import { uploadImage } from "../../../api/image";
+import { uploadImage } from "@/api/image";
 import ImageInput from "./ImageInput";
 
 interface Props {

@@ -1,20 +1,13 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getDriverMyInfo } from "../../api/driver";
-import {
-  getCourseDetail,
-  postNewCourse,
-  putCourseDetail,
-} from "../../api/course";
-import { getCommisionRate } from "../../api/income";
-import { uploadImage } from "../../api/image";
-import { priceToString } from "../../utils";
-import { Destination } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import ConfirmModal from "../../components/ConfirmModal";
-import CheckModal from "../../components/CheckModal";
-import Loading from "../../components/Loading";
-import EditMap from "../PartyPage/EditMap";
+import { getDriverMyInfo } from "@/api/driver";
+import { getCourseDetail, postNewCourse, putCourseDetail } from "@/api/course";
+import { getCommisionRate } from "@/api/income";
+import { uploadImage } from "@/api/image";
+import { priceToString } from "@/utils";
+import { Destination } from "@/types";
+import { PageContainer, ConfirmModal, CheckModal, Loading } from "@/components";
+import EditMap from "@/pages/PartyPage/EditMap";
 import CourseDnD from "./CourseDnD";
 import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";

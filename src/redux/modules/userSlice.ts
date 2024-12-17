@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { auth, login, refresh } from "../../api/users";
-import { deleteFirebaseToken } from "../../api/notification";
+import { auth, login, refresh } from "@/api/users";
+import { deleteFirebaseToken } from "@/api/notification";
 
 interface State {
   auth: boolean;

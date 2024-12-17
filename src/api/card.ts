@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from "../utils/axios";
+import { GET, POST, DELETE } from "@/utils/axios";
 
 export const getCard = async () => await GET("/card", true);
 

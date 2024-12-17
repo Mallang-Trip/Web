@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { setAutoLogin, setColorTheme, setScreenHeight } from "../utils";
+import { setAutoLogin, setColorTheme, setScreenHeight } from "@/utils";
 
 export const useInitialSetting = () => {
   useEffect(() => {

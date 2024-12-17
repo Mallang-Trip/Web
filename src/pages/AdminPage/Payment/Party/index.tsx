@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { partyStatusObj } from "../../../../utils/data";
-import { priceToString } from "../../../../utils";
+import { partyStatusObj } from "@/utils/data";
+import { priceToString } from "@/utils";
 import { MallangTalkInfo, ReceiptInfo } from "..";
 import clsx from "clsx";
 

@@ -8,10 +8,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { putPartyRegion } from "../../../../../../api/region";
-import { uploadImage } from "../../../../../../api/image";
+import { putPartyRegion } from "@/api/region";
+import { uploadImage } from "@/api/image";
+import { InputImage } from "@/components";
 import { EditTarget } from "..";
-import InputImage from "../../../../../../components/InputImage";
 import clsx from "clsx";
 
 interface Props {

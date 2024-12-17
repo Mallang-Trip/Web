@@ -9,10 +9,10 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { getChatDetail } from "../../../../../../api/admin";
-import { Message } from "../../../../../../types";
-import ProfileModal from "../../../../../../components/ProfileModal";
-import TalkBubble from "../../../../../TalkPage/TalkRoom/TalkRoomBody/TalkBubble";
+import { getChatDetail } from "@/api/admin";
+import { Message } from "@/types";
+import { ProfileModal } from "@/components";
+import TalkBubble from "@/pages/TalkPage/TalkRoom/TalkRoomBody/TalkBubble";
 import clsx from "clsx";
 
 interface Props {

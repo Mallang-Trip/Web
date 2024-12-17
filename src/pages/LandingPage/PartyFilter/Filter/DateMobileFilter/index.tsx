@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../redux/store";
-import partyFilterDate from "../../../../../assets/svg/party_filter_date.svg";
+import { RootState } from "@/redux/store";
+import partyFilterDate from "@/assets/svg/party_filter_date.svg";
 import clsx from "clsx";
 
 interface Props {

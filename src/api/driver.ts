@@ -1,4 +1,4 @@
-import { POST, GET, PUT, DELETE } from "../utils/axios";
+import { POST, GET, PUT, DELETE } from "@/utils/axios";
 
 export const getRegionDriver = async (
   region: string,

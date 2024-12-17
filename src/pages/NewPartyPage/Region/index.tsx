@@ -6,10 +6,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getPartyRegionList } from "../../../api/region";
-import { DriverInfo, RegionData, Review } from "../../../types";
-import CheckModal from "../../../components/CheckModal";
-import Title from "../../../components/Title";
+import { getPartyRegionList } from "@/api/region";
+import { DriverInfo, RegionData, Review } from "@/types";
+import { CheckModal, Title } from "@/components";
 import RegionButton from "./RegionButton";
 
 interface DriverInfoType extends DriverInfo {

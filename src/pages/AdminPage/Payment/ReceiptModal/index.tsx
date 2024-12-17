@@ -9,14 +9,11 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { CONSTANT } from "../../../../utils/data";
-import { priceToString } from "../../../../utils";
+import { CONSTANT } from "@/utils/data";
+import { priceToString } from "@/utils";
 import { ReceiptInfo } from "..";
-import {
-  driverPenaltyBefore,
-  driverPenaltyComplete,
-} from "../../../../api/admin";
-import CheckModal from "../../../../components/CheckModal";
+import { driverPenaltyBefore, driverPenaltyComplete } from "@/api/admin";
+import { CheckModal } from "@/components";
 import clsx from "clsx";
 
 interface Props {

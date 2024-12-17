@@ -1,8 +1,8 @@
 import { Dispatch, memo, MouseEvent, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { isGAlive } from "../../../../utils/ga";
+import { isGAlive } from "@/utils/ga";
 import ReactGA from "react-ga4";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   profileImg: string | undefined;

@@ -1,10 +1,10 @@
 import { memo, useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
-import { RootState } from "../../../redux/store";
-import { makeNewCoupleChat } from "../../../api/chat";
-import CheckModal from "../../CheckModal";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { RootState } from "@/redux/store";
+import { makeNewCoupleChat } from "@/api/chat";
+import { CheckModal } from "@/components";
 
 function Company() {
   const navigation = useNavigate();

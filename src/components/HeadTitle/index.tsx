@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import Vector from "../../../src/assets/svg/Vector.svg";
+import Vector from "@/assets/svg/Vector.svg";
 
 interface Props {
   name: string;

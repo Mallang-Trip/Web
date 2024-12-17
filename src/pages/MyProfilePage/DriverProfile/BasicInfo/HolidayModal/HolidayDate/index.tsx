@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import Calendar from "react-calendar";
-import "../../../../../NewPartyPage/MemberAndDate/PartyDate/index.css";
+import "@/pages/NewPartyPage/MemberAndDate/PartyDate/index.css";
 
 interface Props {
   date: string;

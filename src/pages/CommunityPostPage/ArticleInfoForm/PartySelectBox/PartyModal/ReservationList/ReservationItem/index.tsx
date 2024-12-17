@@ -1,7 +1,7 @@
 import { memo } from "react";
-import { HeartParty } from "../../../../../../../types";
-import { customRoundOne, dateToStringHan } from "../../../../../../../utils";
-import { partyStatusObj } from "../../../../../../../utils/data";
+import { HeartParty } from "@/types";
+import { customRoundOne, dateToStringHan } from "@/utils";
+import { partyStatusObj } from "@/utils/data";
 
 interface Props extends HeartParty {
   selectPartyHandler: (party: { name: string; partyId: number }) => void;

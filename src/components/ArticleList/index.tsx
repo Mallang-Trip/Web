@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Article } from "../../types";
+import { Article } from "@/types";
 import NoArticleData from "./NoArticleData";
 import ArticleItem from "./ArticleItem";
 

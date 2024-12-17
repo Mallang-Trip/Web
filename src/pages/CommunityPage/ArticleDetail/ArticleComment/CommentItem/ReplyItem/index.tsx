@@ -1,15 +1,14 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../../../../redux/modules/talkRoomSlice";
-import { dateToGapKorean } from "../../../../../../utils";
-import { deleteMyReply } from "../../../../../../api/article";
-import { makeNewCoupleChat } from "../../../../../../api/chat";
-import { RootState } from "../../../../../../redux/store";
-import { Reply } from "../../../../../../types";
-import CheckModal from "../../../../../../components/CheckModal";
-import ReportModal from "../../../../../../components/ReportModal";
-import basicProfileImage from "../../../../../../assets/images/profileImage.png";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { dateToGapKorean } from "@/utils";
+import { deleteMyReply } from "@/api/article";
+import { makeNewCoupleChat } from "@/api/chat";
+import { RootState } from "@/redux/store";
+import { Reply } from "@/types";
+import { CheckModal, ReportModal } from "@/components";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props extends Reply {
   getArticleDetailFunc: () => void;

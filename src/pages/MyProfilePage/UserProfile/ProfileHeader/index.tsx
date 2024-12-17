@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import EditButton from "../../../../components/EditButton";
+import { RootState } from "@/redux/store";
+import { EditButton } from "@/components";
 
 interface Props {
   modifyMode: boolean;

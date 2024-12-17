@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import mallangTripIcon from "../../../assets/images/intro_icon.png";
-import basicProfileImage from "../../../assets/images/profileImage.png";
+import { RootState } from "@/redux/store";
+import mallangTripIcon from "@/assets/images/intro_icon.png";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 function Profile() {
   const user = useSelector((state: RootState) => state.user);

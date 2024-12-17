@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { deleteDriverCourse } from "../../../../../../api/admin";
-import CheckModal from "../../../../../../components/CheckModal";
+import { deleteDriverCourse } from "@/api/admin";
+import { CheckModal } from "@/components";
 
 function DeleteButton() {
   const navigation = useNavigate();

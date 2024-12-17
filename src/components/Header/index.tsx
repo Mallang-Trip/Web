@@ -1,21 +1,20 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/modules/userSlice";
-import { RootState } from "../../redux/store";
-import { setNotification } from "../../redux/modules/notificationSlice";
-import { getNotification } from "../../api/notification";
-import Ping from "../Ping";
-import CheckModal from "../CheckModal";
-import Logo from "../../assets/images/logo.png";
-import basicProfileImage from "../../assets/images/profileImage.png";
-import headerBack from "../../assets/svg/header-back.svg";
-import HeaderChat from "../../assets/svg/HeaderChat.svg";
-import HeaderChatPrimary from "../../assets/svg/HeaderChatPrimary.svg";
-import HeaderCommunity from "../../assets/svg/HeaderCommunity.svg";
-import HeaderCommunityPrimary from "../../assets/svg/HeaderCommunityPrimary.svg";
-import HeaderHeart from "../../assets/svg/HeaderHeart.svg";
-import HeaderHeartPrimary from "../../assets/svg/HeaderHeartPrimary.svg";
+import { logout } from "@/redux/modules/userSlice";
+import { RootState } from "@/redux/store";
+import { setNotification } from "@/redux/modules/notificationSlice";
+import { getNotification } from "@/api/notification";
+import { Ping, CheckModal } from "@/components";
+import Logo from "@/assets/images/logo.png";
+import basicProfileImage from "@/assets/images/profileImage.png";
+import headerBack from "@/assets/svg/header-back.svg";
+import HeaderChat from "@/assets/svg/HeaderChat.svg";
+import HeaderChatPrimary from "@/assets/svg/HeaderChatPrimary.svg";
+import HeaderCommunity from "@/assets/svg/HeaderCommunity.svg";
+import HeaderCommunityPrimary from "@/assets/svg/HeaderCommunityPrimary.svg";
+import HeaderHeart from "@/assets/svg/HeaderHeart.svg";
+import HeaderHeartPrimary from "@/assets/svg/HeaderHeartPrimary.svg";
 import clsx from "clsx";
 
 function Header() {

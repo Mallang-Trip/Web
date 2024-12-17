@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { NewDriverInfo } from "../../../../../types";
-import Loading from "../../../../../components/Loading";
+import { NewDriverInfo } from "@/types";
+import { Loading } from "@/components";
 import AcceptButton from "./AcceptButton";
 import BasicInfo from "./BasicInfo";
 import Introduction from "./Introduction";

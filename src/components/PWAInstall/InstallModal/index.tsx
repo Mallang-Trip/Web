@@ -8,7 +8,7 @@ import {
   useRef,
 } from "react";
 import { createPortal } from "react-dom";
-import appIcon from "../../../assets/images/app-icon.png";
+import appIcon from "@/assets/images/app-icon.png";
 import clsx from "clsx";
 
 interface Props {

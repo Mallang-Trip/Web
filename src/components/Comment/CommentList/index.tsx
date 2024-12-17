@@ -1,11 +1,11 @@
 import { memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { deleteComment } from "../../../api/driver";
-import { deleteDestinationComment } from "../../../api/destination";
-import { Review } from "../../../types";
+import { RootState } from "@/redux/store";
+import { deleteComment } from "@/api/driver";
+import { deleteDestinationComment } from "@/api/destination";
+import { Review } from "@/types";
+import { CheckModal } from "@/components";
 import Comment from "./Comment";
-import CheckModal from "../../CheckModal";
 
 interface Props {
   reviews: Review[];

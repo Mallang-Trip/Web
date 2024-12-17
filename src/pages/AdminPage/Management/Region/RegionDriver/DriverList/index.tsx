@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
-import { RegionDriverData } from "../../../../../../types";
+import { RegionDriverData } from "@/types";
+import { ProfileModal } from "@/components";
 import DriverItem from "./DriverItem";
-import ProfileModal from "../../../../../../components/ProfileModal";
 
 interface Props {
   regionDriverData: RegionDriverData[];

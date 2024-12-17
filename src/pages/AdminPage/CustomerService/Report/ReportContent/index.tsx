@@ -8,18 +8,17 @@ import {
 } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../../../redux/modules/talkRoomSlice";
-import { makeNewCoupleChat } from "../../../../../api/chat";
-import { Report } from "../../../../../types";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { makeNewCoupleChat } from "@/api/chat";
+import { Report } from "@/types";
 import {
   getReportCompleteDetail,
   getReportDetail,
   updateReportComplete,
-} from "../../../../../api/admin";
-import Loading from "../../../../../components/Loading";
-import reportVector from "../../../../../assets/svg/report-vector.svg";
+} from "@/api/admin";
+import { Loading, ProfileModal } from "@/components";
+import reportVector from "@/assets/svg/report-vector.svg";
 import MallangTalkModal from "./MallangTalkModal";
-import ProfileModal from "../../../../../components/ProfileModal";
 import clsx from "clsx";
 
 interface Props {

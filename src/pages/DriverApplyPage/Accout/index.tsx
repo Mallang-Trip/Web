@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
-import { onlyNumber } from "../../../utils";
+import { onlyNumber } from "@/utils";
 import BankModal from "./BankModal";
 import HourPrice from "./HourPrice";
 import clsx from "clsx";

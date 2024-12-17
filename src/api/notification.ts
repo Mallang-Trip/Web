@@ -1,4 +1,4 @@
-import { GET, PUT, DELETE } from "../utils/axios";
+import { GET, PUT, DELETE } from "@/utils/axios";
 
 export const getNotification = async () => await GET("/notification", true);
 

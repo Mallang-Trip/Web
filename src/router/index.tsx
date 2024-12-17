@@ -1,37 +1,39 @@
 import { memo } from "react";
 import { Routes, Route } from "react-router-dom";
-import MainLayout from "../components/MainLayout";
-import Auth from "../hoc/Auth";
-import LandingPage from "../pages/LandingPage";
-import IntroPage from "../pages/IntroPage";
-import PolicyPage from "../pages/PolicyPage";
-import LoginPage from "../pages/LoginPage";
-import LoginSearchPage from "../pages/LoginSearchPage";
-import PartyPage from "../pages/PartyPage";
-import SignupPage from "../pages/SignupPage";
-import MyMenuPage from "../pages/MyMenuPage";
-import MyProfilePage from "../pages/MyProfilePage";
-import MyHeartPage from "../pages/MyHeartPage";
-import MyArticlePage from "../pages/MyArticlePage";
-import MyReservationPage from "../pages/MyReservationPage";
-import MyPaymentPage from "../pages/MyPaymentPage";
-import MyPaymentListPage from "../pages/MyPaymentListPage";
-import NewPartyPage from "../pages/NewPartyPage";
-import PartyHistoryPage from "../pages/PartyHistoryPage";
-import DriverProfilePage from "../pages/DriverProfilePage";
-import SearchPlacePage from "../pages/SearchPlacePage";
-import DestinationPage from "../pages/DestinationPage";
-import DriverApplyPage from "../pages/DriverApplyPage";
-import DriverCoursePage from "../pages/DriverCoursePage";
-import DriverIncomePage from "../pages/DriverIncomePage";
-import CommunityPage from "../pages/CommunityPage";
-import CommunityPostPage from "../pages/CommunityPostPage";
-import CommunitySearchPage from "../pages/CommunitySearchPage";
-import TalkPage from "../pages/TalkPage";
-import NotifyPage from "../pages/NotifyPage";
-import HelpPage from "../pages/HelpPage";
-import AdminPage from "../pages/AdminPage";
-import NotFoundPage from "../pages/NotFoundPage";
+import Auth from "@/hoc/Auth";
+import { MainLayout } from "@/components";
+import {
+  AdminPage,
+  CommunityPage,
+  CommunityPostPage,
+  CommunitySearchPage,
+  DestinationPage,
+  DriverApplyPage,
+  DriverCoursePage,
+  DriverIncomePage,
+  DriverProfilePage,
+  HelpPage,
+  IntroPage,
+  LandingPage,
+  LoginPage,
+  LoginSearchPage,
+  MyArticlePage,
+  MyHeartPage,
+  MyMenuPage,
+  MyPaymentListPage,
+  MyPaymentPage,
+  MyProfilePage,
+  MyReservationPage,
+  NewPartyPage,
+  NotFoundPage,
+  NotifyPage,
+  PartyHistoryPage,
+  PartyPage,
+  PolicyPage,
+  SearchPlacePage,
+  SignupPage,
+  TalkPage,
+} from "@/pages";
 
 function Router() {
   const AuthLandingPage = Auth(LandingPage, null);

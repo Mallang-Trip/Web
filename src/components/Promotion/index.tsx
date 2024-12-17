@@ -6,9 +6,9 @@ import {
   useMemo,
   memo,
 } from "react";
-import { POST } from "../../utils/axios";
+import { POST } from "@/utils/axios";
+import { ConfirmModal } from "@/components";
 import clsx from "clsx";
-import ConfirmModal from "../ConfirmModal";
 
 interface Props {
   price: number;

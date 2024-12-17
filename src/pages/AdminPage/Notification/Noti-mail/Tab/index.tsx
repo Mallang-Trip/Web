@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback, useMemo } from "react";
-import TabList from "../../../../../components/TabList";
+import { TabList } from "@/components";
 
 interface Props {
   current: number;

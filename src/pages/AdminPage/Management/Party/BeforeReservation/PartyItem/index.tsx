@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { customRoundOne, dateToStringHan } from "../../../../../../utils";
-import { Party } from "../../../../../../types";
+import { customRoundOne, dateToStringHan } from "@/utils";
+import { Party } from "@/types";
 
 function PartyItem({
   partyId,

@@ -10,8 +10,8 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { setNowDate } from "../../../../redux/modules/partyFilterSlice";
+import { RootState } from "@/redux/store";
+import { setNowDate } from "@/redux/modules/partyFilterSlice";
 import Calendar from "react-calendar";
 import clsx from "clsx";
 import "./index.css";

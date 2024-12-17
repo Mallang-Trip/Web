@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { makePhoneNumber } from "../../../../utils";
+import { RootState } from "@/redux/store";
+import { makePhoneNumber } from "@/utils";
 
 function MyInfo() {
   const user = useSelector((state: RootState) => state.user);

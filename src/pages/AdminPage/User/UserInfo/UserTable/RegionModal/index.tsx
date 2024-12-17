@@ -10,9 +10,9 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import { postApplyDriver } from "../../../../../../api/admin";
-import { getPartyRegionList } from "../../../../../../api/region";
-import { RegionData } from "../../../../../../types";
+import { postApplyDriver } from "@/api/admin";
+import { getPartyRegionList } from "@/api/region";
+import { RegionData } from "@/types";
 import RegionButton from "./RegionButton";
 import clsx from "clsx";
 

@@ -1,8 +1,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getLikeParty } from "../../api/party";
-import { getLikeDestination } from "../../api/destination";
-import PageContainer from "../../components/PageContainer";
-import Title from "../../components/Title";
+import { getLikeParty } from "@/api/party";
+import { getLikeDestination } from "@/api/destination";
+import { PageContainer, Title } from "@/components";
 import HeartItem from "./HeartItem";
 import NoHeartData from "./NoHeartData";
 

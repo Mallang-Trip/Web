@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleDetail } from "../../../api/article";
-import { ArticleDetailType } from "../../../types";
-import Loading from "../../../components/Loading";
+import { getArticleDetail } from "@/api/article";
+import { ArticleDetailType } from "@/types";
+import { Loading } from "@/components";
 import NoArticleData from "./NoArticleData";
 import ArticleBody from "./ArticleBody";
 import ArticleComment from "./ArticleComment";

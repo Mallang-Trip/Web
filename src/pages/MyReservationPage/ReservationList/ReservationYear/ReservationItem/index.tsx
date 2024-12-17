@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { partyStatusObj } from "../../../../../utils/data";
-import { customRoundOne, dateToStringHan } from "../../../../../utils";
-import { Party } from "../../../../../types";
+import { partyStatusObj } from "@/utils/data";
+import { customRoundOne, dateToStringHan } from "@/utils";
+import { Party } from "@/types";
 
 function ReservationItem({
   partyId,

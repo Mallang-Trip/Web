@@ -1,5 +1,5 @@
 import { memo } from "react";
-import ImageBox from "../../../../components/ImageBox";
+import { ImageBox } from "@/components";
 
 interface Props {
   createdAt: string;

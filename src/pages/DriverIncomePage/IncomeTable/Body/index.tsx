@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { priceToString } from "../../../../utils";
-import incomeMoreInfo from "../../../../assets/svg/income-more-info.svg";
+import { priceToString } from "@/utils";
+import incomeMoreInfo from "@/assets/svg/income-more-info.svg";
 import clsx from "clsx";
 
 interface Props {

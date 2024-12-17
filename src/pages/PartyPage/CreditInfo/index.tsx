@@ -1,8 +1,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { priceToString, dateToKoreanDataTime } from "../../../utils";
-import { postPaymentAgain } from "../../../api/card";
-import CheckModal from "../../../components/CheckModal";
-import ConfirmModal from "../../../components/ConfirmModal";
+import { priceToString, dateToKoreanDataTime } from "@/utils";
+import { postPaymentAgain } from "@/api/card";
+import { CheckModal, ConfirmModal } from "@/components";
 
 interface Props {
   totalPrice: number;

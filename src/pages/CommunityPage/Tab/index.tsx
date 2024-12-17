@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-import { ArticleCategoryType } from "../../../types";
+import { ArticleCategoryType } from "@/types";
 import TabBar from "./TabBar";
 import TabItem from "./TabItem";
 

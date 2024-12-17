@@ -1,18 +1,18 @@
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { NotifyType } from "../../../types";
+import { RootState } from "@/redux/store";
+import { NotifyType } from "@/types";
 import {
   setDeleteNotification,
   setNotification,
-} from "../../../redux/modules/notificationSlice";
+} from "@/redux/modules/notificationSlice";
 import {
   deleteNotification,
   getNotification,
   putNotification,
   putAllNotification,
-} from "../../../api/notification";
+} from "@/api/notification";
 import NotifyItem from "./NotifyItem";
 import EmptyNotify from "./EmptyNotify";
 

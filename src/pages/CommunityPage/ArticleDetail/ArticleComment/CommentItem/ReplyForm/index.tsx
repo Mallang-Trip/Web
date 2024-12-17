@@ -1,8 +1,8 @@
 import { FormEvent, memo, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { postNewReply } from "../../../../../../api/article";
-import { RootState } from "../../../../../../redux/store";
-import basicProfileImage from "../../../../../../assets/images/profileImage.png";
+import { postNewReply } from "@/api/article";
+import { RootState } from "@/redux/store";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   commentId: number;

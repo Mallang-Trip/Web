@@ -1,22 +1,24 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../../redux/modules/talkRoomSlice";
-import { RootState } from "../../../../redux/store";
-import { getChatBlockList, makeNewCoupleChat } from "../../../../api/chat";
-import { deleteMyArticle } from "../../../../api/article";
-import { dateToGapKorean } from "../../../../utils";
-import { ArticleDetailType } from "../../../../types";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { RootState } from "@/redux/store";
+import { getChatBlockList, makeNewCoupleChat } from "@/api/chat";
+import { deleteMyArticle } from "@/api/article";
+import { dateToGapKorean } from "@/utils";
+import { ArticleDetailType } from "@/types";
+import {
+  ImageBox,
+  CheckModal,
+  ConfirmModal,
+  ProfileModal,
+  ReportModal,
+} from "@/components";
 import ShareModal from "./ShareModal";
-import ImageBox from "../../../../components/ImageBox";
-import CheckModal from "../../../../components/CheckModal";
-import ConfirmModal from "../../../../components/ConfirmModal";
-import ChatBox from "../../../../assets/svg/EmptyChatIcon.svg";
-import shareIcon from "../../../../assets/svg/share.svg";
-import MoreDot from "../../../../assets/svg/MoreDot.svg";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
-import ProfileModal from "../../../../components/ProfileModal";
-import ReportModal from "../../../../components/ReportModal";
+import ChatBox from "@/assets/svg/EmptyChatIcon.svg";
+import shareIcon from "@/assets/svg/share.svg";
+import MoreDot from "@/assets/svg/MoreDot.svg";
+import basicProfileImage from "@/assets/images/profileImage.png";
 import clsx from "clsx";
 
 interface Props extends ArticleDetailType {
@@ -31,7 +33,6 @@ function ArticleBody({
   title,
   content,
   images,
-  dibs,
   partyName,
   partyId,
   userId,

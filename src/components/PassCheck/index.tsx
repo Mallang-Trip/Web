@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { passPopupURL } from "../../utils/env";
-import ConfirmModal from "../ConfirmModal";
-import passLogo from "../../assets/images/PASS-Logo.png";
-import passArrow from "../../assets/svg/Pass-Mobile-Arrow.svg";
+import { passPopupURL } from "@/utils/env";
+import { ConfirmModal } from "@/components";
+import passLogo from "@/assets/images/PASS-Logo.png";
+import passArrow from "@/assets/svg/Pass-Mobile-Arrow.svg";
 
 declare global {
   interface Window {

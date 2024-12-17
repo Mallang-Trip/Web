@@ -11,13 +11,14 @@ import {
 import {
   setPrivateRoomId,
   setPublicRoomId,
-} from "../../../redux/modules/talkRoomSlice";
+} from "@/redux/modules/talkRoomSlice";
 import { useDispatch } from "react-redux";
-import { getChatRoomData } from "../../../api/chat";
-import { uploadImage } from "../../../api/image";
+import { getChatRoomData } from "@/api/chat";
+import { uploadImage } from "@/api/image";
 import { Client, Stomp } from "@stomp/stompjs";
-import { ChatRoomDetail } from "../../../types";
-import { BASE_SERVER_URL } from "../../../utils/env";
+import { ChatRoomDetail } from "@/types";
+import { BASE_SERVER_URL } from "@/utils/env";
+import { ProfileModal } from "@/components";
 import SockJS from "sockjs-client/dist/sockjs";
 import TalkRoomHead from "./TalkRoomHead";
 import TalkRoomBody from "./TalkRoomBody";
@@ -25,7 +26,6 @@ import TalkRoomForm from "./TalkRoomForm";
 import TalkRoomWrapper from "./TalkRoomWrapper";
 import ImageModal from "./ImageModal";
 import TalkMenu from "./TalkMenu";
-import ProfileModal from "../../../components/ProfileModal";
 import clsx from "clsx";
 
 interface Props {

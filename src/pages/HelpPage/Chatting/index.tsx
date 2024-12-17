@@ -1,10 +1,10 @@
 import { memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../redux/modules/talkRoomSlice";
-import { makeNewCoupleChat } from "../../../api/chat";
-import { RootState } from "../../../redux/store";
-import ConfirmModal from "../../../components/ConfirmModal";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { makeNewCoupleChat } from "@/api/chat";
+import { RootState } from "@/redux/store";
+import { ConfirmModal } from "@/components";
 
 function Chatting() {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { Party } from "../../../types";
+import { Party } from "@/types";
 import ReservationYear from "./ReservationYear";
 
 interface Props {

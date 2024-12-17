@@ -1,11 +1,9 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getMyArticleList, getMyCommentList } from "../../api/article";
-import { useIntersectionObserver } from "../../hooks";
-import { Article } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import ArticleList from "../../components/ArticleList";
+import { getMyArticleList, getMyCommentList } from "@/api/article";
+import { useIntersectionObserver } from "@/hooks";
+import { Article } from "@/types";
+import { PageContainer, ArticleList, Loading } from "@/components";
 import Tab from "./Tab";
-import Loading from "../../components/Loading";
 import clsx from "clsx";
 
 function MyArticlePage() {

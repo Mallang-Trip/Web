@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getDriverMonthlyIncome } from "../../../api/income";
-import Loading from "../../../components/Loading";
+import { getDriverMonthlyIncome } from "@/api/income";
+import { Loading } from "@/components";
 import Body from "./Body";
 import Head from "./Head";
 

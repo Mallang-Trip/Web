@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import Title from "../../../../components/Title";
+import { Title } from "@/components";
 import FeedbackItem from "./FeedbackItem";
 import Tab from "./Tab";
 

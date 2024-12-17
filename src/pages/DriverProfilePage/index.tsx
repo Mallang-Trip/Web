@@ -1,15 +1,17 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { getDriverInfo } from "../../api/driver";
-import { getCourseDetail } from "../../api/course";
-import { Review } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import ImageBox from "../../components/ImageBox";
-import CommentList from "../../components/Comment/CommentList";
-import AddComment from "../../components/Comment/AddComment";
-import Loading from "../../components/Loading";
-import DriverInfo from "../../components/DriverInfo";
-import CourseList from "../../components/CourseList";
+import { getDriverInfo } from "@/api/driver";
+import { getCourseDetail } from "@/api/course";
+import { Review } from "@/types";
+import {
+  PageContainer,
+  ImageBox,
+  CommentList,
+  AddComment,
+  Loading,
+  DriverInfo,
+  CourseList,
+} from "@/components";
 import ServiceRegion from "./ServiceRegion";
 import IconBox from "./IconBox";
 import CarInfo from "./CarInfo";

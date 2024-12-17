@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 import clsx from "clsx";
 import FeeTable from "./FeeTable";
-import info from "../../assets/svg/more-info-black.svg";
-import refundDiagram from "../../assets/svg/refund-diagram.svg";
+import info from "@/assets/svg/more-info-black.svg";
+import refundDiagram from "@/assets/svg/refund-diagram.svg";
 
 function BottomRefundDriver() {
   const [showRefund, setShowRefund] = useState(false);

@@ -6,24 +6,26 @@ import {
   useRef,
   useState,
 } from "react";
-import { dateToStringHan, priceToString } from "../../../utils";
-import { Course, DriverInfo as DriverInfoRaw, Review } from "../../../types";
-import ImageBox from "../../../components/ImageBox";
-import DriverInfo from "../../../components/DriverInfo";
-import CourseList from "../../../components/CourseList";
-import Credit from "../../../components/Credit";
-import BottomRefundUser from "../../../components/BottomRefundUser";
-import CourseMap from "../../../components/CourseMap";
-import PartyPlan from "../../../components/PartyPlan";
-import TextArea from "../Atom/TextArea";
-import ReservationButton from "../Atom/ReservationButton";
-import CreateModal from "../Atom/CreateModal";
-import CreditInfo from "../../PartyPage/CreditInfo";
-import JoinMember from "../../PartyPage/JoinMember";
-import JoinMemberInfo from "../../PartyPage/JoinMemberInfo";
-import JoinGreeting from "../../PartyPage/JoinGreeting";
-import JoinAgreement from "../../PartyPage/JoinAgreement";
-import Promotion from "../../../components/Promotion";
+import { dateToStringHan, priceToString } from "@/utils";
+import { Course, DriverInfo as DriverInfoRaw, Review } from "@/types";
+import {
+  ImageBox,
+  DriverInfo,
+  CourseList,
+  Credit,
+  BottomRefundUser,
+  CourseMap,
+  PartyPlan,
+  Promotion,
+} from "@/components";
+import TextArea from "@/pages/NewPartyPage/Atom/TextArea";
+import ReservationButton from "@/pages/NewPartyPage/Atom/ReservationButton";
+import CreateModal from "@/pages/NewPartyPage/Atom/CreateModal";
+import CreditInfo from "@/pages/PartyPage/CreditInfo";
+import JoinMember from "@/pages/PartyPage/JoinMember";
+import JoinMemberInfo from "@/pages/PartyPage/JoinMemberInfo";
+import JoinGreeting from "@/pages/PartyPage/JoinGreeting";
+import JoinAgreement from "@/pages/PartyPage/JoinAgreement";
 
 interface DriverInfoType extends DriverInfoRaw {
   driverId: number;

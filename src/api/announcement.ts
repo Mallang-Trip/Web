@@ -1,4 +1,4 @@
-import { GET, PUT, POST, DELETE } from "../utils/axios";
+import { GET, PUT, POST, DELETE } from "@/utils/axios";
 
 export const getAnnouncementList = async (type: string, page: number) =>
   await GET(`/announcement?type=${type}&page=${page}&size=10`, true);

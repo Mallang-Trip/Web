@@ -1,14 +1,12 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleList } from "../../api/article";
-import { useIntersectionObserver } from "../../hooks";
-import { ArticleCategoryType, Article } from "../../types";
-import PageContainer from "../../components/PageContainer";
+import { getArticleList } from "@/api/article";
+import { useIntersectionObserver } from "@/hooks";
+import { ArticleCategoryType, Article } from "@/types";
+import { PageContainer, ArticleList, Loading } from "@/components";
 import Title from "./Title";
 import Tab from "./Tab";
-import ArticleList from "../../components/ArticleList";
 import ArticleDetail from "./ArticleDetail";
-import Loading from "../../components/Loading";
 import SearchBar from "./SearchBar";
 import clsx from "clsx";
 

@@ -1,7 +1,6 @@
 import { memo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../components/Loading";
-import PageContainer from "../../components/PageContainer";
+import { PageContainer, Loading } from "@/components";
 
 function NotFoundPage() {
   const navigation = useNavigate();

@@ -1,9 +1,9 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __asyncAuth } from "../redux/modules/userSlice";
-import { AppDispatch, RootState } from "../redux/store";
-import Loading from "../components/Loading";
+import { __asyncAuth } from "@/redux/modules/userSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { Loading } from "@/components";
 
 /**
  * 페이지별 사용자 인증을 처리하기 위한 High Order Component

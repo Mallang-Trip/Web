@@ -8,8 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { DriverInfo } from "../../../../../types";
-import HourPrice from "../../../../DriverApplyPage/Accout/HourPrice";
+import { DriverInfo } from "@/types";
+import HourPrice from "@/pages/DriverApplyPage/Accout/HourPrice";
 import clsx from "clsx";
 
 interface Props {

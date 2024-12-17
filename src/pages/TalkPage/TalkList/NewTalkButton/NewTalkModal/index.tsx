@@ -10,12 +10,12 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { searchUser } from "../../../../../api/users";
-import { makeNewCoupleChat, makeNewGroupChat } from "../../../../../api/chat";
-import { ChatMember, InviteChatMember } from "../../../../../types";
-import Input from "../../../TalkRoom/TalkMenu/MenuMembers/InviteModal/Input";
-import SelectMembers from "../../../TalkRoom/TalkMenu/MenuMembers/InviteModal/SelectMembers";
-import SearchMemberList from "../../../TalkRoom/TalkMenu/MenuMembers/InviteModal/SearchMemberList";
+import { searchUser } from "@/api/users";
+import { makeNewCoupleChat, makeNewGroupChat } from "@/api/chat";
+import { ChatMember, InviteChatMember } from "@/types";
+import Input from "@/pages/TalkPage/TalkRoom/TalkMenu/MenuMembers/InviteModal/Input";
+import SelectMembers from "@/pages/TalkPage/TalkRoom/TalkMenu/MenuMembers/InviteModal/SelectMembers";
+import SearchMemberList from "@/pages/TalkPage/TalkRoom/TalkMenu/MenuMembers/InviteModal/SearchMemberList";
 import NewTalkInfo from "./NewTalkInfo";
 import clsx from "clsx";
 

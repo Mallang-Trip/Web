@@ -8,8 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { getPartyRegionList } from "../../../../../api/region";
-import { DriverInfo, RegionData } from "../../../../../types";
+import { getPartyRegionList } from "@/api/region";
+import { DriverInfo, RegionData } from "@/types";
 import Region from "./Region";
 import clsx from "clsx";
 

@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useMemo } from "react";
 import PageButton from "./PageButton";
-import paginationNext from "../../../assets/svg/pagination.svg";
+import paginationNext from "@/assets/svg/pagination.svg";
 import clsx from "clsx";
 
 interface Props {

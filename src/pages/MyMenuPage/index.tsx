@@ -1,5 +1,5 @@
 import { memo } from "react";
-import PageContainer from "../../components/PageContainer";
+import { PageContainer } from "@/components";
 import Profile from "./Profile";
 import Menu from "./Menu";
 

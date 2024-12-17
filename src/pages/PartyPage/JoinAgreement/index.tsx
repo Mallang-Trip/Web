@@ -9,7 +9,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import Check from "../../../assets/svg/agree-check.svg";
+import Check from "@/assets/svg/agree-check.svg";
 import AgreeItem from "./AgreeItem";
 import clsx from "clsx";
 

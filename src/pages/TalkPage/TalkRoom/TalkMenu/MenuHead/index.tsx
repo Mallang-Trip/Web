@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChatRoomType } from "../../../../../types";
-import groupTalkImage from "../../../../../assets/images/groupTalkImage.png";
+import { ChatRoomType } from "@/types";
+import groupTalkImage from "@/assets/images/groupTalkImage.png";
 import PartyToggle from "./PartyToggle";
 import clsx from "clsx";
 

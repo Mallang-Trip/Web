@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToGapKorean } from "../../../utils";
-import { Article } from "../../../types";
-import basicProfileImage from "../../../assets/images/profileImage.png";
+import { dateToGapKorean } from "@/utils";
+import { Article } from "@/types";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 function ArticleItem({
   articleId,

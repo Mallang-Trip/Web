@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { blockUser, nonBlockUser } from "../../../../../api/chat";
+import { blockUser, nonBlockUser } from "@/api/chat";
 import clsx from "clsx";
 
 interface Props {

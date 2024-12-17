@@ -1,10 +1,10 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../redux/store";
-import plusIcon from "../../../../../assets/svg/new-party-plus-mobile.svg";
-import leftLogo from "../../../../../assets/svg/new-party-left-mobile.svg";
-import rightLogo from "../../../../../assets/svg/new-party-right-mobile.svg";
+import { RootState } from "@/redux/store";
+import plusIcon from "@/assets/svg/new-party-plus-mobile.svg";
+import leftLogo from "@/assets/svg/new-party-left-mobile.svg";
+import rightLogo from "@/assets/svg/new-party-right-mobile.svg";
 
 interface Props {
   setShowLoginModal: Dispatch<SetStateAction<boolean>>;

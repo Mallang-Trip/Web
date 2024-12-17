@@ -1,13 +1,10 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getDestinationDetail } from "../../api/destination";
-import { Place } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import CommentList from "../../components/Comment/CommentList";
-import AddComment from "../../components/Comment/AddComment";
+import { getDestinationDetail } from "@/api/destination";
+import { Place } from "@/types";
+import { PageContainer, CommentList, AddComment, Loading } from "@/components";
 import PlaceInfoBox from "./PlaceInfoBox";
 import Detailed from "./Detailed";
-import Loading from "../../components/Loading";
 
 interface DestinationInfo extends Place {
   images: string[];

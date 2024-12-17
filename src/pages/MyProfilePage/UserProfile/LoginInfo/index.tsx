@@ -1,8 +1,8 @@
 import { ChangeEvent, memo, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import EditButton from "../../../../components/EditButton";
-import Information from "../Information";
+import { RootState } from "@/redux/store";
+import { EditButton } from "@/components";
+import Information from "@/pages/MyProfilePage/UserProfile/Information";
 import NewPasswordModal from "./NewPasswordModal";
 import ExitButton from "./ExitButton";
 

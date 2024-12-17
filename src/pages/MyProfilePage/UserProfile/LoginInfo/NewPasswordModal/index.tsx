@@ -10,7 +10,7 @@ import {
   MouseEvent,
   memo,
 } from "react";
-import { putPassword } from "../../../../../api/profile";
+import { putPassword } from "@/api/profile";
 import clsx from "clsx";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
-import { UserData } from "../../../../../types";
-import ProfileModal from "../../../../../components/ProfileModal";
+import { UserData } from "@/types";
+import { ProfileModal } from "@/components";
 import Body from "./Body";
 import Head from "./Head";
 import RegionModal from "./RegionModal";

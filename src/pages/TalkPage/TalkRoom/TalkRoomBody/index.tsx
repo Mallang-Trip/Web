@@ -8,9 +8,9 @@ import {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
+import { RootState } from "@/redux/store";
 import TalkBubble from "./TalkBubble";
-import chatArrowIcon from "../../../../assets/svg/right-arrow.svg";
+import chatArrowIcon from "@/assets/svg/right-arrow.svg";
 
 interface Props {
   messages: {

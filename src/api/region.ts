@@ -1,4 +1,4 @@
-import { GET, POST, PUT, DELETE } from "../utils/axios";
+import { GET, POST, PUT, DELETE } from "@/utils/axios";
 
 export const getPartyRegionList = async () => await GET("/region");
 

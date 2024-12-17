@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/images/logo.png";
+import logo from "@/assets/images/logo.png";
 
 interface Props {
   step: number;

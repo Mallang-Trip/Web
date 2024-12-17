@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback, useMemo } from "react";
 import Status from "./Status";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   userId: number;

@@ -1,21 +1,17 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { uploadImage } from "../../../../../api/image";
-import {
-  getDriverInfoDetail,
-  putDriverInfoDetail,
-} from "../../../../../api/admin";
-import { DriverInfo } from "../../../../../types";
-import Loading from "../../../../../components/Loading";
-import ConfirmModal from "../../../../../components/ConfirmModal";
-import ProfileImage from "../../../../../pages/MyProfilePage/DriverProfile/ProfileImage";
-import ProfileHeader from "../../../../../pages/MyProfilePage/DriverProfile/ProfileHeader";
-import BasicInfo from "../../../../../pages/MyProfilePage/DriverProfile/BasicInfo";
-import Introduction from "../../../../../pages/MyProfilePage/DriverProfile/Introduction";
-import Vehicle from "../../../../../pages/MyProfilePage/DriverProfile/Vehicle";
-import Price from "../../../../../pages/MyProfilePage/DriverProfile/Price";
+import { uploadImage } from "@/api/image";
+import { getDriverInfoDetail, putDriverInfoDetail } from "@/api/admin";
+import { DriverInfo } from "@/types";
+import { Loading, ConfirmModal } from "@/components";
+import ProfileImage from "@/pages/MyProfilePage/DriverProfile/ProfileImage";
+import ProfileHeader from "@/pages/MyProfilePage/DriverProfile/ProfileHeader";
+import BasicInfo from "@/pages/MyProfilePage/DriverProfile/BasicInfo";
+import Introduction from "@/pages/MyProfilePage/DriverProfile/Introduction";
+import Vehicle from "@/pages/MyProfilePage/DriverProfile/Vehicle";
+import Price from "@/pages/MyProfilePage/DriverProfile/Price";
+import License from "@/pages/MyProfilePage/DriverProfile/License";
 import PartyCourse from "./PartyCourse";
-import License from "../../../../MyProfilePage/DriverProfile/License";
 
 function DriverDetail() {
   const profileImageRef = useRef<HTMLInputElement | null>(null);

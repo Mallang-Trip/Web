@@ -1,8 +1,8 @@
 import { memo, MouseEvent, useCallback, useEffect, useState } from "react";
-import { notificationDateToGapKorean } from "../../../../utils";
-import { Notify, NotifyType } from "../../../../types";
-import notifyPrimary from "../../../../assets/svg/notify-primary.svg";
-import notifyDarkgray from "../../../../assets/svg/notify-darkgray.svg";
+import { notificationDateToGapKorean } from "@/utils";
+import { Notify, NotifyType } from "@/types";
+import notifyPrimary from "@/assets/svg/notify-primary.svg";
+import notifyDarkgray from "@/assets/svg/notify-darkgray.svg";
 import clsx from "clsx";
 
 interface Props extends Notify {

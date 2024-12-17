@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { Report } from "../../../../../types";
+import { Report } from "@/types";
 import ReportItem from "./ReportItem";
 
 interface Props {

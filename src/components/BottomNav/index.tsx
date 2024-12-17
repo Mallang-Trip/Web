@@ -1,17 +1,17 @@
 import { memo, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import Ping from "../Ping";
-import basicProfileImage from "../../assets/images/profileImage.png";
-import Talk from "../../assets/svg/bottom-talk.svg";
-import Community from "../../assets/svg/bottom-community.svg";
-import Home from "../../assets/svg/bottom-home.svg";
-import Heart from "../../assets/svg/bottom-heart.svg";
-import TalkPrimary from "../../assets/svg/bottom-talk-primary.svg";
-import CommunityPrimary from "../../assets/svg/bottom-community-primary.svg";
-import HomePrimary from "../../assets/svg/bottom-home-primary.svg";
-import HeartPrimary from "../../assets/svg/bottom-heart-primary.svg";
+import { RootState } from "@/redux/store";
+import { Ping } from "@/components";
+import basicProfileImage from "@/assets/images/profileImage.png";
+import Talk from "@/assets/svg/bottom-talk.svg";
+import Community from "@/assets/svg/bottom-community.svg";
+import Home from "@/assets/svg/bottom-home.svg";
+import Heart from "@/assets/svg/bottom-heart.svg";
+import TalkPrimary from "@/assets/svg/bottom-talk-primary.svg";
+import CommunityPrimary from "@/assets/svg/bottom-community-primary.svg";
+import HomePrimary from "@/assets/svg/bottom-home-primary.svg";
+import HeartPrimary from "@/assets/svg/bottom-heart-primary.svg";
 import clsx from "clsx";
 
 function BottomNav() {

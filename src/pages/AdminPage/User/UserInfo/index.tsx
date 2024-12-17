@@ -1,8 +1,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getUserListAdmin } from "../../../../api/admin";
-import { UserData } from "../../../../types";
-import Title from "../../../../components/Title";
-import Loading from "../../../../components/Loading";
+import { getUserListAdmin } from "@/api/admin";
+import { UserData } from "@/types";
+import { Title, Loading } from "@/components";
 import UserTable from "./UserTable";
 
 function UserInfo() {

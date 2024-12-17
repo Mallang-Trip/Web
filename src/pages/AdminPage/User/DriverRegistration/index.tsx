@@ -1,9 +1,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getDriverApplyAdmin } from "../../../../api/driver";
-import { NewDriverInfo } from "../../../../types";
-import Title from "../../../../components/Title";
-import Loading from "../../../../components/Loading";
+import { getDriverApplyAdmin } from "@/api/driver";
+import { NewDriverInfo } from "@/types";
+import { Title, Loading } from "@/components";
 import WaitingCount from "./WaitingCount";
 import DriverDetail from "./DriverDetail";
 import DriverList from "./DriverList";

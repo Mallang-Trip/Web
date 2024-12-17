@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { GA_TRACKING_ID, isGAlive, META_PIXEL_TRACKING_ID } from "../utils/ga";
+import { GA_TRACKING_ID, isGAlive, META_PIXEL_TRACKING_ID } from "@/utils/ga";
 import ReactGA from "react-ga4";
 import ReactPixel from "react-facebook-pixel";
 

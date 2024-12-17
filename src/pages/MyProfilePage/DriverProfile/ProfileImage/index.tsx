@@ -5,9 +5,9 @@ import {
   SetStateAction,
   useCallback,
 } from "react";
-import { DriverInfo } from "../../../../types";
-import basicProfileImage from "../../../../assets/images/profileImage.png";
-import InputImage from "../../../../components/InputImage";
+import { DriverInfo } from "@/types";
+import { InputImage } from "@/components";
+import basicProfileImage from "@/assets/images/profileImage.png";
 
 interface Props {
   modifyMode: boolean;

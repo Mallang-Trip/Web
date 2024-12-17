@@ -1,5 +1,5 @@
 import { memo, useRef } from "react";
-import InputImage from "../../../../components/InputImage";
+import { InputImage } from "@/components";
 
 interface Props {
   title: string;

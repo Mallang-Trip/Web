@@ -1,8 +1,8 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import info from "../../../assets/svg/more-info-black.svg";
-import basicProfileImage from "../../../assets/images/profileImage.png";
+import { RootState } from "@/redux/store";
+import info from "@/assets/svg/more-info-black.svg";
+import basicProfileImage from "@/assets/images/profileImage.png";
 import clsx from "clsx";
 
 interface Props {

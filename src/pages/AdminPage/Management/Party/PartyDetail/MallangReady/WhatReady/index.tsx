@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from "react";
-import info from "../../../../../../../assets/svg/more-info-darkgray.svg";
+import info from "@/assets/svg/more-info-darkgray.svg";
 import clsx from "clsx";
 
 function WhatReady() {

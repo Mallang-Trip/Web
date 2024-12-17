@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Comment } from "../../../../types";
+import { Comment } from "@/types";
 import CommentInfo from "./CommentInfo";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";

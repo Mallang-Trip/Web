@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { useIntersectionObserver } from "../../../hooks";
+import { useIntersectionObserver } from "@/hooks";
 import clsx from "clsx";
 
 function ServiceList() {

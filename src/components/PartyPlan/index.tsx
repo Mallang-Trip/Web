@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import { Course, Destination } from "../../types";
+import { Course, Destination } from "@/types";
 import PlanBox from "./PlanBox";
 
 interface Props {

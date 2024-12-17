@@ -1,12 +1,11 @@
 import { memo } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { useInitialSetting, useGoogleTagManager } from "./hooks";
-import store from "./redux/store";
-import Router from "./router";
-import PushNotification from "./components/PushNotification";
-import PWAInstall from "./components/PWAInstall";
-import RouteChangeTracker from "./router/RouteChangeTracker";
+import { useInitialSetting, useGoogleTagManager } from "@/hooks";
+import { PushNotification, PWAInstall } from "@/components";
+import store from "@/redux/store";
+import Router from "@/router";
+import RouteChangeTracker from "@/router/RouteChangeTracker";
 
 function App() {
   useInitialSetting();

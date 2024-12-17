@@ -1,8 +1,8 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Destination } from "../../../types";
-import dragIcon from "../../../assets/svg/dragIcon.svg";
-import deleteIcon from "../../../assets/svg/x-modal-icon.svg";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { Destination } from "@/types";
+import dragIcon from "@/assets/svg/dragIcon.svg";
+import deleteIcon from "@/assets/svg/x-modal-icon.svg";
 import TimeModal from "./TimeModal";
 import clsx from "clsx";
 

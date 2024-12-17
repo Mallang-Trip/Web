@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "../../../../../../types";
-import { makePhoneNumber } from "../../../../../../utils";
+import { UserData } from "@/types";
+import { makePhoneNumber } from "@/utils";
 
 function Body({
   userId,

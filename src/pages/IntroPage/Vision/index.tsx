@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { useIntersectionObserver } from "../../../hooks";
-import introLogo from "../../../assets/images/intro_logo.png";
+import { useIntersectionObserver } from "@/hooks";
+import introLogo from "@/assets/images/intro_logo.png";
 import clsx from "clsx";
 
 function Vision() {

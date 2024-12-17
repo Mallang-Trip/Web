@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { kickPartyChatUser } from "../../../../../../api/chat";
+import { kickPartyChatUser } from "@/api/chat";
 import clsx from "clsx";
 
 interface Props {

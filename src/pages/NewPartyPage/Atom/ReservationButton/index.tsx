@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import BottomButton from "../../../../components/BottomButton";
+import { BottomButton } from "@/components";
 
 interface Props {
   joinHandler: () => void;

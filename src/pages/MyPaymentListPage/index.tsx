@@ -1,9 +1,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getMyPaymentList } from "../../api/card";
-import { Payment } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import Title from "../../components/Title";
-import Loading from "../../components/Loading";
+import { getMyPaymentList } from "@/api/card";
+import { Payment } from "@/types";
+import { PageContainer, Title, Loading } from "@/components";
 import PaymentTable from "./PaymentTable";
 
 function MyPaymentListPage() {

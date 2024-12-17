@@ -10,11 +10,11 @@ import {
 } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { CONSTANT } from "../../../utils/data";
-import closeIcon from "../../../assets/svg/x-modal-icon.svg";
-import copyIcon from "../../../assets/svg/CopyIcon.svg";
-import kakaoIcon from "../../../assets/images/kakaoIcon.png";
+import { RootState } from "@/redux/store";
+import { CONSTANT } from "@/utils/data";
+import closeIcon from "@/assets/svg/x-modal-icon.svg";
+import copyIcon from "@/assets/svg/CopyIcon.svg";
+import kakaoIcon from "@/assets/images/kakaoIcon.png";
 import clsx from "clsx";
 
 declare global {

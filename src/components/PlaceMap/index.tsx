@@ -8,8 +8,8 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSearchInfo } from "../../api/destination";
-import { Destination } from "../../types";
+import { getSearchInfo } from "@/api/destination";
+import { Destination } from "@/types";
 import SearchBox from "./SearchBox";
 import MapBox from "./MapBox";
 import NoDataModal from "./NoDataModal";

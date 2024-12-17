@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from "react";
-import { Party } from "../../../../types";
+import { Party } from "@/types";
 import ReservationItem from "./ReservationItem";
-import infoPrimary from "../../../../assets/svg/more-info-primary.svg";
+import infoPrimary from "@/assets/svg/more-info-primary.svg";
 import clsx from "clsx";
 
 interface Props {

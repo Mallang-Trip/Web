@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Party } from "../../../../../../types";
+import { Party } from "@/types";
 import clsx from "clsx";
 
 function Body({

@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { dateToKoreanDay, dateToKoreanTime } from "../../../../../utils";
+import { dateToKoreanDay, dateToKoreanTime } from "@/utils";
 import InfoBubble from "./InfoBubble";
-import basicProfileImage from "../../../../../assets/images/profileImage.png";
+import basicProfileImage from "@/assets/images/profileImage.png";
 import clsx from "clsx";
 
 interface Props {

@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { priceToString } from "../../../../../../utils";
-import { Party } from "../../../../../../types";
+import { priceToString } from "@/utils";
+import { Party } from "@/types";
 import clsx from "clsx";
 
 function Body({

@@ -1,8 +1,8 @@
 import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { customRoundOne } from "../../../../utils";
-import { HeartParty } from "../../../../types";
-import basicPartyImage from "../../../../assets/images/Basic_Party_Image.jpg";
+import { customRoundOne } from "@/utils";
+import { HeartParty } from "@/types";
+import basicPartyImage from "@/assets/images/Basic_Party_Image.jpg";
 
 function PartyBox({
   partyId,

@@ -1,8 +1,8 @@
 import { Dispatch, memo, SetStateAction, useCallback, useEffect } from "react";
-import minusGray from "../../../../assets/svg/people_minus_gray.svg";
-import minusPrimary from "../../../../assets/svg/people_minus_primary.svg";
-import plusgray from "../../../../assets/svg/people_plus_gray.svg";
-import plusPrimary from "../../../../assets/svg/people_plus_primary.svg";
+import minusGray from "@/assets/svg/people_minus_gray.svg";
+import minusPrimary from "@/assets/svg/people_minus_primary.svg";
+import plusgray from "@/assets/svg/people_plus_gray.svg";
+import plusPrimary from "@/assets/svg/people_plus_primary.svg";
 import clsx from "clsx";
 
 interface Props {

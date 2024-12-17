@@ -1,10 +1,9 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { getPartyHistory } from "../../api/party";
-import { HeartParty } from "../../types";
-import PageContainer from "../../components/PageContainer";
+import { getPartyHistory } from "@/api/party";
+import { HeartParty } from "@/types";
+import { PageContainer, Title } from "@/components";
 import PartyItem from "./PartyItem";
 import NoHistoryData from "./NoHistoryData";
-import Title from "../../components/Title";
 
 function PartyHistoryPage() {
   const [myHistoryData, setMyHistoryData] = useState<HeartParty[]>([]);

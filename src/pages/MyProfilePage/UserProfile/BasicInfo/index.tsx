@@ -1,8 +1,8 @@
 import { ChangeEvent, memo } from "react";
 import { useSelector } from "react-redux";
-import { makePhoneNumber } from "../../../../utils";
-import { RootState } from "../../../../redux/store";
-import Information from "../Information";
+import { makePhoneNumber } from "@/utils";
+import { RootState } from "@/redux/store";
+import Information from "@/pages/MyProfilePage/UserProfile/Information";
 
 interface Props {
   modifyMode: boolean;

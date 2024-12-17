@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAnnouncementDetail } from "../../../api/announcement";
+import { getAnnouncementDetail } from "@/api/announcement";
 import ArticleTitle from "./ArticleTitle";
 import ArticleBody from "./ArticleBody";
 

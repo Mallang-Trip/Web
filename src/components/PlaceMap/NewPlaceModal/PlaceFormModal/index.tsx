@@ -7,7 +7,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { Place } from "../../../../types";
+import { Place } from "@/types";
 import ImageInput from "./ImageInput";
 import ImageItem from "./ImageItem";
 import clsx from "clsx";

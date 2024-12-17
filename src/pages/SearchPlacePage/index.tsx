@@ -1,8 +1,6 @@
 import { memo } from "react";
 import { useParams } from "react-router-dom";
-import PageContainer from "../../components/PageContainer";
-import PlaceMap from "../../components/PlaceMap";
-import Title from "../../components/Title";
+import { PageContainer, PlaceMap, Title } from "@/components";
 
 function SearchPlacePage() {
   const { keyword } = useParams();

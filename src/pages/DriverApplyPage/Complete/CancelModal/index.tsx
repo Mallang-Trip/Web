@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteDriverApply } from "../../../../api/driver";
+import { deleteDriverApply } from "@/api/driver";
 import clsx from "clsx";
 
 interface Props {

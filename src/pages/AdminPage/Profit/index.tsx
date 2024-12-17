@@ -1,21 +1,23 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { priceToString } from "../../../utils";
-import { getCommisionRate } from "../../../api/income";
+import { priceToString } from "@/utils";
+import { getCommisionRate } from "@/api/income";
 import {
   getIncomeList,
   updateIncomeAmount,
   updateCommissionPercent,
   deleteIncome,
-} from "../../../api/admin";
-import Loading from "../../../components/Loading";
-import ConfirmModal from "../../../components/ConfirmModal";
-import InputModal from "../../../components/InputModal";
-import CheckModal from "../../../components/CheckModal";
-import Title from "../../../components/Title";
+} from "@/api/admin";
+import {
+  Loading,
+  ConfirmModal,
+  InputModal,
+  CheckModal,
+  Title,
+} from "@/components";
+import img_more_info from "@/assets/svg/more-info-gray500.svg";
 import MonthModal from "./MonthModal";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
-import img_more_info from "../../../assets/svg/more-info-gray500.svg";
 
 export interface SelectedIncome {
   incomeId: number;

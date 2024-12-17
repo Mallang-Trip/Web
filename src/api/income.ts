@@ -1,4 +1,4 @@
-import { GET } from "../utils/axios";
+import { GET } from "@/utils/axios";
 
 export const getDriverMonthlyIncome = async (month: string) =>
   await GET(`/income/monthly?month=${month}`, true);

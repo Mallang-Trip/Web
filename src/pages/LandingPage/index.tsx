@@ -1,9 +1,8 @@
 import { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import CheckModal from "../../components/CheckModal";
-import Title from "../../components/Title";
+import { RootState } from "@/redux/store";
+import { CheckModal, Title } from "@/components";
 import PartyFilter from "./PartyFilter";
 import PartyList from "./PartyList";
 import KakaoButton from "./KakaoButton";

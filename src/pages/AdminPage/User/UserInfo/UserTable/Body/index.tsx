@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { makePhoneNumber } from "../../../../../../utils";
+import { makePhoneNumber } from "@/utils";
 
 interface Props {
   userId: number;

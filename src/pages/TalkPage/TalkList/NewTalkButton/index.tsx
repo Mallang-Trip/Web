@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useState } from "react";
-import Plus from "../../../../assets/svg/plus.svg";
+import Plus from "@/assets/svg/plus.svg";
 import NewTalkModal from "./NewTalkModal";
 
 interface Props {

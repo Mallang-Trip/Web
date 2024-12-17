@@ -1,4 +1,4 @@
-import { DELETE, GET, POST } from "../utils/axios";
+import { DELETE, GET, POST } from "@/utils/axios";
 
 export const getChatList = async () => await GET("/chat/list", true);
 

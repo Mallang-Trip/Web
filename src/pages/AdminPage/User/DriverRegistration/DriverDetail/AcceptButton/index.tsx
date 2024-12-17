@@ -1,9 +1,9 @@
 import { memo, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setPartyRoomId } from "../../../../../../redux/modules/talkRoomSlice";
-import { putDriverApplyAcceptAdmin } from "../../../../../../api/driver";
-import { makeNewCoupleChat } from "../../../../../../api/chat";
+import { setPartyRoomId } from "@/redux/modules/talkRoomSlice";
+import { putDriverApplyAcceptAdmin } from "@/api/driver";
+import { makeNewCoupleChat } from "@/api/chat";
 
 interface Props {
   getDriverApplyAdminFunc: () => void;

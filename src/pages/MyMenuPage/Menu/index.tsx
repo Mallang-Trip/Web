@@ -1,11 +1,10 @@
 import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../../redux/modules/userSlice";
-import { RootState } from "../../../redux/store";
-import Ping from "../../../components/Ping";
-import headerBack from "../../../assets/svg/header-back.svg";
-import CheckModal from "../../../components/CheckModal";
+import { logout } from "@/redux/modules/userSlice";
+import { RootState } from "@/redux/store";
+import { Ping, CheckModal } from "@/components";
+import headerBack from "@/assets/svg/header-back.svg";
 
 function Menu() {
   const dispatch = useDispatch();

@@ -1,7 +1,5 @@
 import { memo, useRef, useState } from "react";
-import PageContainer from "../../components/PageContainer";
-import Title from "../../components/Title";
-import Credit from "../../components/Credit";
+import { PageContainer, Title, Credit } from "@/components";
 
 function MyPaymentPage() {
   const creditRef = useRef<HTMLDivElement | null>(null);

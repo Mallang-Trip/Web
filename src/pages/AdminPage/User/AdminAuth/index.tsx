@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
-import Title from "../../../../components/Title";
-import ConfirmModal from "../../../../components/ConfirmModal";
+import { Title, ConfirmModal } from "@/components";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import AddUserModal from "./AddUserModal";

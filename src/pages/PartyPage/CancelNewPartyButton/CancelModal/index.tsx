@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteNewParty } from "../../../../api/party";
+import { deleteNewParty } from "@/api/party";
 import clsx from "clsx";
 
 interface Props {

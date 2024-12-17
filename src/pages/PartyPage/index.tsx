@@ -1,23 +1,26 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { getPartyDetail } from "../../api/party";
-import { Destination, Party } from "../../types";
-import { isGAlive } from "../../utils/ga";
+import { RootState } from "@/redux/store";
+import { getPartyDetail } from "@/api/party";
+import { Destination, Party } from "@/types";
+import { isGAlive } from "@/utils/ga";
+import {
+  PageContainer,
+  HeadTitle,
+  PartyPlan,
+  PartyIconBox,
+  ImageBox,
+  CourseMap,
+  Loading,
+  Credit,
+  BottomRefundUser,
+  BottomRefundDriver,
+  ConfirmModal,
+  CheckModal,
+  Promotion,
+} from "@/components";
 import ReactGA from "react-ga4";
-import PageContainer from "../../components/PageContainer";
-import HeadTitle from "../../components/HeadTitle";
-import PartyPlan from "../../components/PartyPlan";
-import PartyIconBox from "../../components/PartyIconBox";
-import ImageBox from "../../components/ImageBox";
-import CourseMap from "../../components/CourseMap";
-import Loading from "../../components/Loading";
-import Credit from "../../components/Credit";
-import BottomRefundUser from "../../components/BottomRefundUser";
-import BottomRefundDriver from "../../components/BottomRefundDriver";
-import ConfirmModal from "../../components/ConfirmModal";
-import CheckModal from "../../components/CheckModal";
 import PartyDate from "./PartyDate";
 import PartyMember from "./PartyMember";
 import PartyIntro from "./PartyIntro";
@@ -39,7 +42,6 @@ import EditAgreement from "./EditAgreement";
 import CancelNewPartyButton from "./CancelNewPartyButton";
 import NewPartyAgreement from "./NewPartyAgreement";
 import NotFoundParty from "./NotFoundParty";
-import Promotion from "../../components/Promotion";
 
 function PartyPage() {
   const navigation = useNavigate();

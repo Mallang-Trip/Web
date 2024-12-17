@@ -1,4 +1,4 @@
-import { PUT } from "../utils/axios";
+import { PUT } from "@/utils/axios";
 
 export const putProfile = async (data: any) =>
   await PUT(`/profile`, data, true);

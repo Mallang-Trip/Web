@@ -1,11 +1,11 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { __asyncAuth, logout } from "../../redux/modules/userSlice";
-import { getDriverMyInfo } from "../../api/driver";
-import { AppDispatch } from "../../redux/store";
-import { DriverInfo } from "../../types";
-import PageContainer from "../../components/PageContainer";
+import { __asyncAuth, logout } from "@/redux/modules/userSlice";
+import { getDriverMyInfo } from "@/api/driver";
+import { AppDispatch } from "@/redux/store";
+import { DriverInfo } from "@/types";
+import { PageContainer } from "@/components";
 import Header from "./Header";
 import UserProfile from "./UserProfile";
 import DriverProfile from "./DriverProfile";

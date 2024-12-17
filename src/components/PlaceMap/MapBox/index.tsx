@@ -8,8 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { Destination } from "../../../types";
-import pointMarker from "../../../assets/svg/point_marker.svg";
+import { Destination } from "@/types";
+import pointMarker from "@/assets/svg/point_marker.svg";
 
 interface Marker extends Destination {
   setMap: (map: any) => void;

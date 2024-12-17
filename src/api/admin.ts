@@ -1,4 +1,4 @@
-import { GET, PUT, POST, DELETE } from "../utils/axios";
+import { GET, PUT, POST, DELETE } from "@/utils/axios";
 
 export const getPartyList = async (status: string) =>
   await GET(`/admin/party?status=${status}`, true);

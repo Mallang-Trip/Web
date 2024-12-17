@@ -1,5 +1,5 @@
 import { memo } from "react";
-import closeIcon from "../../../assets/svg/x-modal-icon.svg";
+import closeIcon from "@/assets/svg/x-modal-icon.svg";
 
 interface Props {
   closeModal: () => void;

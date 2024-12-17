@@ -11,13 +11,11 @@ import {
   getArticleDetail,
   postNewArticle,
   updateMyArticle,
-} from "../../api/article";
-import { uploadImage } from "../../api/image";
-import PageContainer from "../../components/PageContainer";
-import Title from "../../components/Title";
+} from "@/api/article";
+import { uploadImage } from "@/api/image";
+import { PageContainer, Title, ConfirmModal } from "@/components";
 import ArticleInfoForm from "./ArticleInfoForm";
 import ArticleBodyForm from "./ArticleBodyForm";
-import ConfirmModal from "../../components/ConfirmModal";
 
 function CommunityPostPage() {
   const { articleId } = useParams();

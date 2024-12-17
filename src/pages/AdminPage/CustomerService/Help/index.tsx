@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import ConfirmModal from "../../../../components/ConfirmModal";
+import { ConfirmModal } from "@/components";
 import NoticeList from "./NoticeList";
 import EditForm from "./EditForm";
 import NoticeDetail from "./NoticeDetail";

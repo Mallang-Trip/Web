@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { DriverInfo } from "../../../../../types";
+import { DriverInfo } from "@/types";
 import HolidayDate from "./HolidayDate";
 import HolidayWeekly from "./HolidayWeekly";
 import clsx from "clsx";

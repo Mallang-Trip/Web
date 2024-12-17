@@ -1,16 +1,15 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { uploadProfileImage } from "../../api/image";
-import { signup, checkDuplication } from "../../api/users";
-import { CONSTANT } from "../../utils/data";
-import { isGAlive } from "../../utils/ga";
+import { uploadProfileImage } from "@/api/image";
+import { signup, checkDuplication } from "@/api/users";
+import { CONSTANT } from "@/utils/data";
+import { isGAlive } from "@/utils/ga";
+import { PageContainer, ConfirmModal } from "@/components";
 import ReactGA from "react-ga4";
-import PageContainer from "../../components/PageContainer";
 import Agreement from "./Agreement";
 import PersonalInfo from "./PersonalInfo";
 import Account from "./Account";
 import Profile from "./Profile";
 import Complete from "./Complete";
-import ConfirmModal from "../../components/ConfirmModal";
 import clsx from "clsx";
 
 function SignupPage() {

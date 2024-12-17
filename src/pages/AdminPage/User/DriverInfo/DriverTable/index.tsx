@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { UserData } from "../../../../../types";
+import { UserData } from "@/types";
 import Body from "./Body";
 import Head from "./Head";
 

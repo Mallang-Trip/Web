@@ -1,14 +1,12 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { searchArticle } from "../../api/article";
-import { useIntersectionObserver } from "../../hooks";
-import { Article } from "../../types";
-import PageContainer from "../../components/PageContainer";
-import Title from "../CommunityPage/Title";
+import { searchArticle } from "@/api/article";
+import { useIntersectionObserver } from "@/hooks";
+import { Article } from "@/types";
+import { PageContainer, ArticleList, Loading } from "@/components";
+import Title from "@/pages/CommunityPage/Title";
+import SearchBar from "@/pages/CommunityPage/SearchBar";
 import SearchKeyword from "./SearchKeyword";
-import ArticleList from "../../components/ArticleList";
-import Loading from "../../components/Loading";
-import SearchBar from "../CommunityPage/SearchBar";
 import clsx from "clsx";
 
 function CommunitySearchPage() {

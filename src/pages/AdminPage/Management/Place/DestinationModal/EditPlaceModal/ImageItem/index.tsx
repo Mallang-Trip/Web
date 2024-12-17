@@ -1,6 +1,6 @@
 import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
-import { Place } from "../../../../../../../types";
-import deleteIcon from "../../../../../../../assets/svg/delete_image_icon.svg";
+import { Place } from "@/types";
+import deleteIcon from "@/assets/svg/delete_image_icon.svg";
 
 interface Props {
   image: string | File;

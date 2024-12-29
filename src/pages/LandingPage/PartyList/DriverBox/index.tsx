@@ -11,7 +11,7 @@ function DriverBox({ driverId, name, profileImg, region }: DriverData) {
   }, [driverId]);
 
   return (
-    <div className="cursor-pointer bg-skyblue rounded-lg h-64">
+    <div className="bg-skyblue rounded-lg h-64">
       <div className="relative h-[220px] border rounded-lg">
         <img
           className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"

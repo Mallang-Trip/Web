@@ -10,6 +10,8 @@ export const getRegionDriver = async (
     true
   );
 
+export const getDriver = async () => await GET(`/driver/search`, true);
+
 export const getDriverInfo = async (driverId: string | number) =>
   await GET(`/driver/${driverId}`, true);
 

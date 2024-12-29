@@ -51,12 +51,12 @@ function PartyList() {
     } finally {
       setLoading(false);
     }
-  }, [region, nowDate, num, price]);
+  }, [region, nowDate, num, price, ramdomSeed]);
 
   useEffect(() => {
     getData();
     window.scrollTo({ top: 0 });
-  }, [region, nowDate, num, price]);
+  }, [region, nowDate, num, price, ramdomSeed]);
 
   if (loading) return null;
   if (partyData.length === 0 && driverData.length === 0) return <NoParty />;

@@ -21,7 +21,7 @@ function UserMenu({ userMenu, setUserMenu }: Props) {
         onClick={() => setUserMenu("recommend")}
         disabled={user.role !== "ROLE_USER"}
       >
-        {user.auth ? `${user.nickname} 님께 추천하는 파티` : "추천 파티"}
+        {user.auth ? `${user.nickname} 님께 추천하는 여행` : "추천 여행"}
       </button>
       {user.role === "ROLE_USER" && (
         <button
@@ -32,7 +32,7 @@ function UserMenu({ userMenu, setUserMenu }: Props) {
           onClick={() => setUserMenu("myParty")}
           disabled={user.role !== "ROLE_USER"}
         >
-          나의 파티
+          나의 여행
         </button>
       )}
     </div>

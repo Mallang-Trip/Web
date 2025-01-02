@@ -142,6 +142,13 @@ export interface RegionDriverData {
   userNickname: string;
 }
 
+export interface DriverData {
+  driverId: number;
+  name: string;
+  profileImg: string;
+  region: string[];
+}
+
 export interface Message {
   type: string;
   userId: number;

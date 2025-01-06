@@ -54,7 +54,7 @@ function Region({ setRegion, member, driverId, date, driverInfo }: Props) {
         driverId === "null"
       )
         setRegionData([...otherItems, ...lastItem]);
-      else if (driverInfo.driverId === 0) {
+      else if (driverInfo.driverId !== 0) {
         setRegionData(
           result.payload.filter((item: DriverInfoType) =>
             driverInfo.region.includes(item.name)
@@ -68,7 +68,7 @@ function Region({ setRegion, member, driverId, date, driverInfo }: Props) {
 
   useEffect(() => {
     getPartyRegionListFunc();
-  }, [driverInfo]);
+  }, [driverInfo, driverId]);
 
   return (
     <>

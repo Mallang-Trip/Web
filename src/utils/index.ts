@@ -1,3 +1,5 @@
+import { DriverData } from "@/types";
+
 export function setScreenHeight() {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -181,4 +183,14 @@ export const isIos = () => {
     UA.indexOf("ipad") > -1 ||
     UA.indexOf("ipod") > -1
   );
+};
+
+export const shuffleArray = (array: DriverData[], seed: number) => {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(seed % (i + 1));
+    [result[i], result[randomIndex]] = [result[randomIndex], result[i]];
+    seed = (seed * 9301 + 49297) % 233280; // 간단한 난수 생성
+  }
+  return result;
 };

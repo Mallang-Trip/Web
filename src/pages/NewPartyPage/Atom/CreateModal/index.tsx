@@ -14,6 +14,7 @@ import { Course, Destination } from "@/types";
 import { isGAlive } from "@/utils/ga";
 import ReactGA from "react-ga4";
 import clsx from "clsx";
+import { loadNaverScript } from "@/utils/naverTracking";
 
 interface Props {
   showModal: boolean;
@@ -104,6 +105,9 @@ function CreateModal({
         setMessage(
           "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
         );
+
+        const cleanup = loadNaverScript("lead");
+        return cleanup;
       } else setMessage(result.message);
 
       setComplete(true);

@@ -16,6 +16,7 @@ import { priceToString } from "@/utils";
 import { isGAlive } from "@/utils/ga";
 import ReactGA from "react-ga4";
 import clsx from "clsx";
+import { loadNaverScript } from "@/utils/naverTracking";
 
 interface Props {
   showModal: boolean;
@@ -193,6 +194,12 @@ function JoinModal({
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
+  }, [showModal]);
+
+  useEffect(() => {
+    if (!showModal) return;
+    const cleanup = loadNaverScript("lead");
+    return cleanup;
   }, [showModal]);
 
   return (

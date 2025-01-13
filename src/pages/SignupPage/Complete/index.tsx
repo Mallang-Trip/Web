@@ -1,4 +1,5 @@
-import { memo, useCallback } from "react";
+import { loadNaverScript } from "@/utils/naverTracking";
+import { memo, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Complete() {
@@ -7,6 +8,11 @@ function Complete() {
   const goLogin = useCallback(() => navigation("/login"), []);
 
   const goHome = useCallback(() => navigation("/"), []);
+
+  useEffect(() => {
+    const cleanup = loadNaverScript("sign_up");
+    return cleanup;
+  }, []);
 
   return (
     <div className="w-full mx-auto">

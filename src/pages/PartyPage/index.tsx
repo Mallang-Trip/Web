@@ -42,6 +42,7 @@ import EditAgreement from "./EditAgreement";
 import CancelNewPartyButton from "./CancelNewPartyButton";
 import NewPartyAgreement from "./NewPartyAgreement";
 import NotFoundParty from "./NotFoundParty";
+import { loadNaverScript } from "@/utils/naverTracking";
 
 function PartyPage() {
   const navigation = useNavigate();
@@ -312,6 +313,13 @@ function PartyPage() {
 
     if (!partyData.partyId) getPartyData();
   }, [type, partyId]);
+
+  useEffect(() => {
+    if (type === "detail") {
+      const cleanup = loadNaverScript("view_content");
+      return cleanup;
+    }
+  }, [type]);
 
   if (!partyData.partyId) return <Loading full={true} />;
   if (partyData.partyId === -1) return <NotFoundParty />;

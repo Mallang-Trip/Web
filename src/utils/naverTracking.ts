@@ -1,5 +1,5 @@
 export const loadNaverScript = (type: string, additionalData = {}) => {
-  if (window.location.origin === "https://mallangtrip.com") return;
+  if (window.location.origin !== "https://mallangtrip.com") return;
 
   const script = document.createElement("script");
   script.src = "//wcs.naver.net/wcslog.js";

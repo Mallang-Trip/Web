@@ -40,7 +40,7 @@ function ExitModal({ showModal, setShowModal }: Props) {
 
       if (statusCode !== 200)
         setMessage(
-          "예약된 파티 내역이 남아 있어 탈퇴 실패했습니다.\n해당 파티를 예약 취소한 뒤 처리해주세요.\n\n문제 발생 시 고객센터로 문의해주세요."
+          "예약된 일정 내역이 남아 있어 탈퇴 실패했습니다.\n해당 일정을 예약 취소한 뒤 처리해주세요.\n\n문제 발생 시 고객센터로 문의해주세요."
         );
       else {
         alert("말랑트립 회원 탈퇴 완료하였습니다.\n\n이용해주셔서 감사합니다.");
@@ -98,7 +98,7 @@ function ExitModal({ showModal, setShowModal }: Props) {
               정말로 회원 탈퇴하시겠습니까?
               <br />
               <br />
-              예약된 파티 내역이 있으면 탈퇴 처리할 수 없으며
+              예약된 일정 내역이 있으면 탈퇴 처리할 수 없으며
               <br />
               회원 탈퇴 시 정보를 다시 불러올 수 없습니다.
               <br />

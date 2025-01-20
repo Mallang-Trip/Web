@@ -16,7 +16,7 @@ function NoPartyButton({ selectPartyHandler }: Props) {
           })
         }
       >
-        파티 선택 취소
+        일정 선택 취소
       </button>
     </div>
   );

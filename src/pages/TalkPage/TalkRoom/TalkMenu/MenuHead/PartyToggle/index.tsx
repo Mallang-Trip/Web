@@ -39,7 +39,7 @@ function PartyToggle({ type, openTalkId, setRoomId }: Props) {
           )}
           onClick={() => toggleHandler(true)}
         >
-          파티 전용방
+          일정 전용방
         </button>
         <button
           className={clsx(
@@ -48,7 +48,7 @@ function PartyToggle({ type, openTalkId, setRoomId }: Props) {
           )}
           onClick={() => toggleHandler(false)}
         >
-          파티 공개방
+          일정 공개방
         </button>
         <div
           className={clsx(
@@ -62,7 +62,7 @@ function PartyToggle({ type, openTalkId, setRoomId }: Props) {
         showModal={showModal}
         setShowModal={setShowModal}
         message={
-          "파티 전용방은 파티원만 접근 가능합니다.\n파티에 먼저 가입해주세요."
+          "일정 전용방은 일행만 접근 가능합니다.\n일정에 먼저 가입해주세요."
         }
       />
     </>

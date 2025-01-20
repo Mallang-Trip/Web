@@ -83,27 +83,27 @@ function JoinModal({
 
       if (result.statusCode === 403)
         setMessage(
-          "제재 상태에서는 파티 가입이 불가능합니다.\n자세한 내용은 고객센터에 문의해주세요."
+          "제재 상태에서는 일정 가입이 불가능합니다.\n자세한 내용은 고객센터에 문의해주세요."
         );
       else if (isMemberFull)
         setMessage(
           <div>
-            <span className="text-primary">파티 가입 및 예약금 결제</span>가
+            <span className="text-primary">일정 가입 및 예약금 결제</span>가
             완료되었습니다!
           </div>
         );
       else
         setMessage(
           <div>
-            <span className="text-primary">파티 가입이 완료</span>되었습니다!
+            <span className="text-primary">일정 가입이 완료</span>되었습니다!
             <br />
             <br />
-            4명이 파티에 가입한 순간
+            4명이 일정에 가입한 순간
             <br />
             예약이 확정되고 예약금 결제가 자동으로 진행됩니다.
             <br />
             <br />
-            또는 파티원 모두와 말랑레디를 ON으로 설정하여
+            또는 일행 모두와 말랑레디를 ON으로 설정하여
             <br />
             남은 인원들과 예약을 확정시킬 수 있습니다.
           </div>
@@ -159,7 +159,7 @@ function JoinModal({
     if (isMemberFull)
       setMessage(
         <div>
-          파티에 가입하는 즉시
+          일정에 가입하는 즉시
           <br />
           <span className="text-primary">
             {priceToString(
@@ -168,10 +168,10 @@ function JoinModal({
           </span>
           원 예약금 결제가 진행되며
           <br />
-          파티원 모두 예약이 확정됩니다.
+          일행 모두 예약이 확정됩니다.
           <br />
           <br />
-          파티에 가입하여 예약을 확정하겠습니까?
+          일정에 가입하여 예약을 확정하겠습니까?
         </div>
       );
     else
@@ -179,7 +179,7 @@ function JoinModal({
         <div>
           <span className="text-primary">[{partyName}]</span>
           <br />
-          <br />위 파티에 가입하시겠습니까?
+          <br />위 일정에 가입하시겠습니까?
         </div>
       );
 

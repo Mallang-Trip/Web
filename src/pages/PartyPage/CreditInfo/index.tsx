@@ -103,7 +103,7 @@ function CreditInfo({
             )}
           </p>
         ) : (
-          <p className="text-sm text-darkgray font-medium">{`여행자 ${capacity}명 가입 즉시 또는 파티원 전원 말랑레디 완료 즉시 자동결제`}</p>
+          <p className="text-sm text-darkgray font-medium">{`여행자 ${capacity}명 가입 즉시 또는 일행 전원 말랑레디 완료 즉시 자동결제`}</p>
         )}
       </div>
       {partyStatus !== "SEALED" &&
@@ -141,7 +141,7 @@ function CreditInfo({
           기한 상관 없이 타인이 예약 취소 시
         </p>
         <p className="text-sm text-primary font-medium">
-          결제금이 전액 환불되고 다시 파티원 모집 상태로 되돌아갑니다.
+          결제금이 전액 환불되고 다시 일행 모집 상태로 되돌아갑니다.
         </p>
       </div>
       {status === "PAYMENT_FAILED" && (

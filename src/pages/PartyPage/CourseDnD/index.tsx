@@ -84,7 +84,7 @@ function CourseDnD({
         <input
           type="text"
           className="w-full text-boldblue text-2xl text-center focus:outline-none placeholder:text-darkgray"
-          placeholder="파티명을 입력해주세요"
+          placeholder="일정명을 입력해주세요"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

@@ -103,7 +103,7 @@ function CreateModal({
         }
         setPartyId(result.payload.partyId);
         setMessage(
-          "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+          "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
         );
 
         const cleanup = loadNaverScript("lead");
@@ -137,11 +137,11 @@ function CreateModal({
     if (
       complete &&
       message ===
-        "드라이버에게 파티 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+        "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
     ) {
       if (isGAlive()) {
         ReactGA.event({
-          category: "새로운 파티 만들기",
+          category: "새로운 일정 만들기",
           action: "11_new_suggestionsent",
         });
       }
@@ -168,7 +168,7 @@ function CreateModal({
 
     setComplete(false);
     setMessage(
-      "드라이버에게 파티 가입을 제안합니다.\n\n드라이버가 승인할 경우 파티에 가입되며,\n말랑트립 확정 이전까지 예약금은 청구되지 않습니다.\n\n제안을 보내시겠습니까?"
+      "드라이버에게 일정 가입을 제안합니다.\n\n드라이버가 승인할 경우 일정에 가입되며,\n말랑트립 확정 이전까지 예약금은 청구되지 않습니다.\n\n제안을 보내시겠습니까?"
     );
 
     if (isGAlive()) {

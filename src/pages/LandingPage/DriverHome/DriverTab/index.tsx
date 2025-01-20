@@ -16,7 +16,7 @@ function DriverTab({ tab, setTab }: Props) {
         )}
         onClick={() => setTab(0)}
       >
-        예약된 파티
+        예약된 일정
       </button>
       <button
         className={clsx(
@@ -25,7 +25,7 @@ function DriverTab({ tab, setTab }: Props) {
         )}
         onClick={() => setTab(1)}
       >
-        가입된 파티
+        가입된 일정
       </button>
       <button
         className={clsx(
@@ -34,7 +34,7 @@ function DriverTab({ tab, setTab }: Props) {
         )}
         onClick={() => setTab(2)}
       >
-        새로운 파티 승인 대기
+        새로운 일정 승인 대기
       </button>
     </div>
   );

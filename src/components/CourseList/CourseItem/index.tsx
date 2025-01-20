@@ -19,7 +19,7 @@ function CourseItem({
   const clickHandler = useCallback(() => {
     if (isGAlive()) {
       ReactGA.event({
-        category: "새로운 파티 만들기",
+        category: "새로운 일정 만들기",
         action: "08_new_suggestedcourse",
       });
     }

@@ -34,8 +34,8 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }: Props) {
 
       await putNewPartyAccept(partyId, accept);
 
-      if (accept) setMessage("파티 가입을 승인하였습니다.");
-      else setMessage("파티 가입을 거절하였습니다.");
+      if (accept) setMessage("일정 가입을 승인하였습니다.");
+      else setMessage("일정 가입을 거절하였습니다.");
       setComplete(true);
     } catch (e) {
       console.log(e);
@@ -66,8 +66,8 @@ function AcceptModal({ showModal, setShowModal, getPartyData, accept }: Props) {
 
     setComplete(false);
 
-    if (accept) setMessage("파티 가입을 승인하겠습니까?");
-    else setMessage("파티 가입을 거절하겠습니까?");
+    if (accept) setMessage("일정 가입을 승인하겠습니까?");
+    else setMessage("일정 가입을 거절하겠습니까?");
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

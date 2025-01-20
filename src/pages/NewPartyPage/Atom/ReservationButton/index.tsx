@@ -26,11 +26,11 @@ function ReservationButton({ joinHandler }: Props) {
           className="h-14 text-white rounded-full text-lg font-bold w-64 md:w-80 bg-primary"
           onClick={joinHandler}
         >
-          파티 가입하기
+          일정 가입하기
         </button>
       </div>
       {scrollPosition > 400 && (
-        <BottomButton text="파티 가입하기" onClick={joinHandler} />
+        <BottomButton text="일정 가입하기" onClick={joinHandler} />
       )}
     </>
   );

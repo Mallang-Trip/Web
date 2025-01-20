@@ -33,7 +33,7 @@ function CancelModal({ showModal, setShowModal }: Props) {
 
       await deleteNewParty(partyId);
 
-      setMessage("파티 가입 제안이 취소되었습니다.");
+      setMessage("일정 가입 제안이 취소되었습니다.");
       setComplete(true);
     } catch (e) {
       console.log(e);
@@ -70,7 +70,7 @@ function CancelModal({ showModal, setShowModal }: Props) {
     document.body.classList.add("overflow-hidden");
 
     setComplete(false);
-    setMessage("드라이버에게 파티 가입 제안을 취소하시겠습니까?");
+    setMessage("드라이버에게 일정 가입 제안을 취소하시겠습니까?");
 
     document.addEventListener("keydown", handleKeyPress);
     return () => {

@@ -16,7 +16,7 @@ function JoinButton({ joinHandler, partyStatus }: Props) {
 
   const buttonText = useMemo(
     () => ({
-      detail: "파티 가입하기",
+      detail: "일정 가입하기",
       join: "가입 완료하기",
       edit: "제안 보내기",
     }),

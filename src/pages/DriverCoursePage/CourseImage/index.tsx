@@ -23,7 +23,7 @@ function CourseImage({ images, setImages }: Props) {
 
   return (
     <div className="flex flex-col gap-2 my-8">
-      <p className="text-lg text-black font-bold">파티 코스 이미지</p>
+      <p className="text-lg text-black font-bold">일정 코스 이미지</p>
       <div className="flex gap-4 custom-scrollbar">
         <ImageInput images={images} setImages={setImages} />
         <DragDropContext onDragEnd={handleChange}>

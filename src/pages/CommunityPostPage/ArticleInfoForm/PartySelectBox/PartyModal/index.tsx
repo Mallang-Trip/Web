@@ -97,7 +97,7 @@ function PartyModal({ showModal, setShowModal, setSelectedParty }: Props) {
       onClick={modalOutSideClick}
     >
       <div className="m-auto shadow w-full max-w-[800px] h-[700px] px-8 py-9 bg-white rounded-lg relative">
-        <p className="text-xl text-black font-bold">파티 선택</p>
+        <p className="text-xl text-black font-bold">일정 선택</p>
         <button
           type="button"
           className="absolute top-6 right-6 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"

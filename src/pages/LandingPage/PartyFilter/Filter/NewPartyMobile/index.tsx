@@ -28,17 +28,17 @@ function NewPartyMobile({ setShowLoginModal }: Props) {
       onClick={clickHandler}
     >
       <div className="w-6 h-6 flex justify-center items-center">
-        <img src={plusIcon} alt="나만의 새로운 파티 만들기" />
+        <img src={plusIcon} alt="나만의 새로운 일정 만들기" />
       </div>
-      나만의 새로운 파티 만들기
+      나만의 새로운 일정 만들기
       <img
         src={leftLogo}
-        alt="나만의 새로운 파티 만들기"
+        alt="나만의 새로운 일정 만들기"
         className="absolute top-3 left-3"
       />
       <img
         src={rightLogo}
-        alt="나만의 새로운 파티 만들기"
+        alt="나만의 새로운 일정 만들기"
         className="absolute right-1"
       />
     </button>

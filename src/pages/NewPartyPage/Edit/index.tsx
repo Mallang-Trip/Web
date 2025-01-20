@@ -108,7 +108,7 @@ function Edit({
       setTimeout(() => setShakeCoursePrice(false), 1000);
       return;
     }
-    // 파티명 및 여행지 체크
+    // 일정명 및 여행지 체크
     if (courseData.length === 0 || !name) {
       if (courseRef.current) {
         const containerRect = courseRef.current.getBoundingClientRect();
@@ -246,7 +246,7 @@ function Edit({
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <>
         <TextArea
-          title="전체 파티 여행비"
+          title="전체 일정 여행비"
           content={`${priceToString(planData.totalPrice)}원`}
         />
         <CreditInfo

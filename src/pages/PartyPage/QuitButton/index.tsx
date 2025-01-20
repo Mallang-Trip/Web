@@ -39,7 +39,7 @@ function QuitButton({
           {partyStatus === "SEALED" ||
           partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
             ? "예약 취소하기"
-            : "파티 탈퇴하기"}
+            : "일정 탈퇴하기"}
         </button>
       </div>
       <BottomButton
@@ -47,7 +47,7 @@ function QuitButton({
           partyStatus === "SEALED" ||
           partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
             ? "예약 취소하기"
-            : "파티 탈퇴하기"
+            : "일정 탈퇴하기"
         }
         onClick={() => setShowModal(true)}
       />

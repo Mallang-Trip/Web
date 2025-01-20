@@ -25,7 +25,7 @@ function NewMyParty({ setShowLoginModal }: Props) {
       <div className="max-w-screen-xl mx-auto px-8 flex justify-between items-center">
         <div className="flex flex-col gap-3">
           <p className="text-lg text-black font-bold">
-            나만의 특별한 파티를 만들어보세요!
+            나만의 특별한 일정을 만들어보세요!
           </p>
           <p className="text-sm text-black font-normal">
             나만의 여행 코스를 만들어 더욱 특별한 여행을 경험해보세요.
@@ -39,10 +39,10 @@ function NewMyParty({ setShowLoginModal }: Props) {
         >
           <img
             src={mallangtripLogo}
-            alt="나만의 새로운 파티 만들기"
+            alt="나만의 새로운 일정 만들기"
             className="absolute top-3 left-3"
           />
-          나만의 새로운 파티 만들기
+          나만의 새로운 일정 만들기
         </button>
       </div>
     </div>

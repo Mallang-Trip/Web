@@ -47,14 +47,14 @@ function KickModal({
         setMessage(
           <div>
             <span className="text-primary">{nickname}</span>
-            님은 파티원이므로 강퇴할 수 없습니다.
+            님은 일행이므로 강퇴할 수 없습니다.
           </div>
         );
       else {
         setMessage(
           <div>
             <span className="text-primary">{nickname}</span>
-            님을 파티 공개방에서 강퇴하였습니다.
+            님을 일정 공개방에서 강퇴하였습니다.
           </div>
         );
         getChatRoomDataFunc();

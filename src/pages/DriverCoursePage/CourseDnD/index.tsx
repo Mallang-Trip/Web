@@ -57,7 +57,7 @@ function CourseDnD({
         <input
           type="text"
           className="w-full text-boldblue text-2xl text-center focus:outline-none placeholder:text-darkgray"
-          placeholder="파티 코스 이름"
+          placeholder="일정 코스 이름"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

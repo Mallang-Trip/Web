@@ -118,7 +118,7 @@ function PartyPage() {
       partyData.capacity === partyData.headcount
     ) {
       setJoinErrorMessage(
-        "이미 인원이 모두 찬 파티이므로\n가입 또는 코스 수정 제안이 불가능합니다."
+        "이미 인원이 모두 찬 일정이므로\n가입 또는 코스 수정 제안이 불가능합니다."
       );
       setShowJoinErrorModal(true);
       return false;
@@ -128,7 +128,7 @@ function PartyPage() {
       partyData.partyStatus === "CANCELED_BY_ALL_QUIT" ||
       partyData.partyStatus === "CANCELED_BY_DRIVER_QUIT"
     ) {
-      setJoinErrorMessage("이미 기한이 만료 또는 취소된 파티입니다.");
+      setJoinErrorMessage("이미 기한이 만료 또는 취소된 일정입니다.");
       setShowJoinErrorModal(true);
       return false;
     }
@@ -137,7 +137,7 @@ function PartyPage() {
       partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL"
     ) {
       setJoinErrorMessage(
-        "현재 파티원들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n파티원들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
+        "현재 일행들이 코스를 수정하는 중이므로\n가입 또는 코스 수정 제안이 불가능합니다.\n\n일행들의 코스 수정이 완료되면\n가입과 코스 수정 제안이 가능합니다."
       );
       setShowJoinErrorModal(true);
       return false;
@@ -316,6 +316,7 @@ function PartyPage() {
 
   useEffect(() => {
     if (type === "detail") {
+      console.log("tt");
       const cleanup = loadNaverScript("view_content");
       return cleanup;
     }
@@ -448,7 +449,7 @@ function PartyPage() {
               course={partyData.proposal.course}
               startDate={partyData.startDate}
               editHandler={editHandler}
-              comment="새로 제안된 파티 코스"
+              comment="새로 제안된 일정 코스"
             />
             <CourseMap
               markerData={partyData.proposal.course.days[0].destinations}
@@ -494,7 +495,7 @@ function PartyPage() {
               (partyData.partyStatus === "WAITING_JOIN_APPROVAL" ||
                 partyData.partyStatus === "WAITING_COURSE_CHANGE_APPROVAL") &&
               partyData.myParty
-                ? "기존 파티 코스"
+                ? "기존 일정 코스"
                 : ""
             }
           />

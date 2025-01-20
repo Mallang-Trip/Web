@@ -7,9 +7,9 @@ function NoParty() {
   return (
     <div className="w-full my-28">
       <p className="text-center text-black">
-        해당 조건에 맞는 파티가 없습니다.
+        해당 조건에 맞는 일정 없습니다.
         <br />
-        직접 새로운 파티를 만들어보세요!
+        직접 새로운 일정을 만들어보세요!
       </p>
       <div className="flex justify-center mt-16">
         <button
@@ -20,7 +20,7 @@ function NoParty() {
             )
           }
         >
-          새로운 파티 만들기
+          새로운 일정 만들기
         </button>
       </div>
     </div>

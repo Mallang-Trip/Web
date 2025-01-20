@@ -72,7 +72,7 @@ function Course({
       />
       {member > 0 && <TextArea title="날짜" content={dateToStringHan(date)} />}
       <TextArea
-        title="전체 파티 여행비"
+        title="전체 일정 여행비"
         content={`${priceToString(planData.totalPrice)}원`}
       />
       <CreditInfo

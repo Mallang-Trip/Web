@@ -23,7 +23,7 @@ function PartyHistoryPage() {
 
   return (
     <PageContainer>
-      <Title title="최근 본 파티" />
+      <Title title="최근 본 일정" />
       {myHistoryData.length === 0 ? (
         <NoHistoryData />
       ) : (

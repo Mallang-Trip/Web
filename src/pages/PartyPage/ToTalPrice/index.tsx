@@ -17,7 +17,7 @@ function ToTalPrice({ totalPrice, isDriver, partyStatus }: Props) {
   return (
     <div className="flex flex-col gap-1 my-7">
       <p className="text-lg text-black font-bold">
-        {isDriver ? "총 수익" : "전체 파티 여행비"}
+        {isDriver ? "총 수익" : "전체 일정 여행비"}
       </p>
       <p className="text-sm text-darkgray">{`${priceToString(
         totalPrice

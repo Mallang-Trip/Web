@@ -52,17 +52,17 @@ function DriverCoursePage() {
     }, []);
 
     if (name === "") {
-      setErrorMessage("파티 코스 이름을 입력해주세요.");
+      setErrorMessage("일정 코스 이름을 입력해주세요.");
       setShowErrorModal(true);
       return;
     }
     if (destinations.length < 3) {
-      setErrorMessage("파티 코스에 여행지를 3개 이상 등록해주세요.");
+      setErrorMessage("일정 코스에 여행지를 3개 이상 등록해주세요.");
       setShowErrorModal(true);
       return;
     }
     if (destinationImages.length === 0 && images.length === 0) {
-      setErrorMessage("파티 코스 이미지를 1개 이상 업로드해주세요.");
+      setErrorMessage("일정 코스 이미지를 1개 이상 업로드해주세요.");
       setShowErrorModal(true);
       return;
     }
@@ -110,13 +110,13 @@ function DriverCoursePage() {
       );
       setErrorMessage(
         courseId === "new"
-          ? "파티 코스가 등록되었습니다."
-          : "파티 코스가 수정되었습니다."
+          ? "일정 코스가 등록되었습니다."
+          : "일정 코스가 수정되었습니다."
       );
       setShowErrorModal(true);
     } catch (e) {
       console.log(e);
-      setErrorMessage("파티 코스 등록에 실패했습니다.");
+      setErrorMessage("일정 코스 등록에 실패했습니다.");
       setShowErrorModal(true);
     } finally {
       setLoading(false);
@@ -208,7 +208,7 @@ function DriverCoursePage() {
       <CourseInfo title="여행 기간" content="1일" />
       <CourseInfo title="최대 정원" content={`${capacity}명`} />
       <CourseInfo
-        title="전체 파티 여행비"
+        title="전체 일정 여행비"
         content={
           <PriceList
             prices={prices}
@@ -218,7 +218,7 @@ function DriverCoursePage() {
         }
       />
       <CourseInfo
-        title="파티 가격"
+        title="일정 가격"
         content={`${priceToString(prices[priceIndex].price)}원`}
       />
       <CourseInfo
@@ -260,8 +260,8 @@ function DriverCoursePage() {
         setShowModal={setShowCheckModal}
         message={
           courseId === "new"
-            ? "파티 코스를 등록하시겠습니까?"
-            : "파티 코스를 수정하시겠습니까?"
+            ? "일정 코스를 등록하시겠습니까?"
+            : "일정 코스를 수정하시겠습니까?"
         }
         noText="취소"
         yesText="확인"

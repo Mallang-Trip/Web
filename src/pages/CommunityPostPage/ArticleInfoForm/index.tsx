@@ -45,7 +45,7 @@ function ArticleInfoForm({
         </div>
         <div className="flex gap-4">
           <p className="text-sm text-black font-bold w-[70px] h-[50px] py-4 whitespace-nowrap">
-            파티 선택
+            일정 선택
           </p>
           <PartySelectBox
             selectedParty={selectedParty}

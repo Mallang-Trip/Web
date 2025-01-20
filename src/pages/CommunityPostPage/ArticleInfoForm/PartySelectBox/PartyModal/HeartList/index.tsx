@@ -12,7 +12,7 @@ function HeartList({ myHeartData, selectPartyHandler }: Props) {
     return (
       <div className="h-[430px] flex justify-center items-center">
         <p className="text-base text-center text-black">
-          나의 파티 찜 목록이 비어있습니다.
+          나의 일정 찜 목록이 비어있습니다.
         </p>
       </div>
     );

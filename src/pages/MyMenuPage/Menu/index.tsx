@@ -84,7 +84,7 @@ function Menu() {
           className="w-full flex justify-between p-4 my-0.5"
           onClick={() => navigation("/my/party/history")}
         >
-          <span className="text-base">최근 본 파티</span>
+          <span className="text-base">최근 본 일정</span>
           <img src={headerBack} alt="더보기" className="rotate-180" />
         </button>
         <button

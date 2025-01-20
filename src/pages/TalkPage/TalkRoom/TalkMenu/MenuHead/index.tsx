@@ -28,8 +28,8 @@ function MenuHead({
     () => ({
       COUPLE: "개인 말랑챗",
       GROUP: "그룹 말랑챗",
-      PARTY_PUBLIC: "파티 공개 말랑챗",
-      PARTY_PRIVATE: "파티원 전용 말랑챗",
+      PARTY_PUBLIC: "일정 공개 말랑챗",
+      PARTY_PRIVATE: "일행 전용 말랑챗",
     }),
     []
   );

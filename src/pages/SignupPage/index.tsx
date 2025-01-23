@@ -1,9 +1,10 @@
 import { memo, useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { uploadProfileImage } from "@/api/image";
 import { signup, checkDuplication } from "@/api/users";
 import { CONSTANT } from "@/utils/data";
 import { isGAlive } from "@/utils/ga";
-import { PageContainer, ConfirmModal } from "@/components";
+import { PageContainer, ConfirmModal, Loading } from "@/components";
 import ReactGA from "react-ga4";
 import Agreement from "./Agreement";
 import PersonalInfo from "./PersonalInfo";
@@ -13,6 +14,9 @@ import Complete from "./Complete";
 import clsx from "clsx";
 
 function SignupPage() {
+  const navigation = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(0);
   const [activeNext, setActiveNext] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -27,6 +31,10 @@ function SignupPage() {
   const [emailDuplication, setEmailDuplication] = useState(false);
   const [idDuplication, setIdDuplication] = useState(false);
   const [nickNameDuplication, setNickNameDuplication] = useState(false);
+  const [paramImpUid, paramStatusCode] = [
+    searchParams.get("impUid"),
+    searchParams.get("statusCode"),
+  ];
 
   const goSignup = useCallback(async () => {
     try {
@@ -96,6 +104,19 @@ function SignupPage() {
     }
   }, [step]);
 
+  useEffect(() => {
+    if (!localStorage.getItem("isPassWaiting")) setLoading(false);
+    if (!paramImpUid || !paramStatusCode) setLoading(false);
+    else {
+      setStep(1);
+      localStorage.setItem("impUid", paramImpUid);
+      localStorage.setItem("passResult", paramStatusCode);
+      localStorage.removeItem("isPassWaiting");
+      navigation("/signup", { replace: true });
+    }
+  }, [paramImpUid, paramStatusCode]);
+
+  if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
       <div className="flex flex-col justify-center h-real-screen absolute top-0 left-0 w-full px-2">

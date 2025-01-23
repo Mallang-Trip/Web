@@ -15,78 +15,41 @@ interface Props {
 }
 
 function PassCheck({ completeHandler }: Props) {
-  const [showModal, setShowModal] = useState(false);
+  const passResult = localStorage.getItem("passResult");
+  const impUid = localStorage.getItem("impUid");
+  const [showModal, setShowModal] = useState(impUid ? true : false);
   const [message, setMessage] = useState("");
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-
-  const clearTimer = useCallback(() => {
-    if (!timer) return;
-    clearInterval(timer);
-    setTimer(null);
-    localStorage.removeItem("passResult");
-    localStorage.removeItem("impUid");
-  }, [timer]);
 
   const openPopup = useCallback(() => {
-    window.MOBILEOK.process(passPopupURL, "WB", "result");
+    localStorage.setItem("isPassWaiting", "true");
+    window.MOBILEOK.process(passPopupURL, "WB", "");
   }, []);
 
   useEffect(() => {
-    const getResult = () => {
-      const passResult = localStorage.getItem("passResult");
+    if (!passResult || !impUid) return;
 
-      if (passResult === "200") {
-        setMessage("본인 인증에 성공하였습니다.");
-        setShowModal(true);
-      } else if (passResult === "401") {
-        setMessage("본인 인증에 10분이 경과하였습니다.\n다시 시도해주세요.");
-        setShowModal(true);
-      } else if (passResult === "403") {
-        setMessage("19세 미만은 가입이 불가능합니다.");
-        setShowModal(true);
-      } else if (passResult === "409") {
-        setMessage("이미 가입된 계정이 존재합니다.");
-        setShowModal(true);
-      } else if (passResult === "400" || passResult === "500") {
-        setMessage("서버 통신 오류가 발생했습니다.\n잠시후 다시 시도해주세요.");
-        setShowModal(true);
-      }
-    };
-
-    const checkTimer = setInterval(getResult, 500);
-    setTimer(checkTimer);
-
-    return () => clearTimer();
+    if (passResult === "200") {
+      setMessage("본인 인증에 성공하였습니다.");
+    } else if (passResult === "401") {
+      setMessage("본인 인증에 10분이 경과하였습니다.\n다시 시도해주세요.");
+    } else if (passResult === "403") {
+      setMessage("19세 미만은 가입이 불가능합니다.");
+    } else if (passResult === "409") {
+      setMessage("이미 가입된 계정이 존재합니다.");
+    } else if (passResult === "400" || passResult === "500") {
+      setMessage("서버 통신 오류가 발생했습니다.\n잠시후 다시 시도해주세요.");
+    }
+    setShowModal(true);
   }, []);
 
   useEffect(() => {
     if (showModal) return;
-
-    const passResult = localStorage.getItem("passResult");
-    const impUid = localStorage.getItem("impUid");
-
-    if (passResult === "200") completeHandler(impUid);
-    clearTimer();
+    if (passResult === "200") {
+      completeHandler(impUid);
+      localStorage.removeItem("passResult");
+      localStorage.removeItem("impUid");
+    }
   }, [showModal]);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    const callBackFunc = document.createTextNode(
-      `
-        function result(result) {
-          try {
-            result = JSON.parse(result);
-            localStorage.setItem("passResult", result.statusCode);
-            if (result.statusCode === 200) localStorage.setItem("impUid", result.payload.impUid);
-          } catch (error) {
-            localStorage.setItem("passResult", "500");
-          }
-        };
-      `
-    );
-    script.appendChild(callBackFunc);
-    document.body.appendChild(script);
-  }, []);
 
   return (
     <>

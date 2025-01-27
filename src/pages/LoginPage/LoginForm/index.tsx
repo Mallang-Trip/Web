@@ -7,11 +7,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "@/redux/modules/userSlice";
 import { AppDispatch } from "@/redux/store";
 import { ConfirmModal } from "@/components";
+import { isIosPwa } from "@/utils";
 import CheckIcon from "@/assets/svg/agree-check.svg";
 import clsx from "clsx";
 
@@ -121,13 +122,23 @@ function LoginForm() {
           >
             로그인
           </button>
-          <button
-            type="button"
-            className="h-12 bg-white border rounded-full text-darkgray text-md w-64 sm:w-80 border-darkgray"
-            onClick={() => navigation("/signup")}
-          >
-            회원가입
-          </button>
+          {isIosPwa() ? (
+            <Link
+              to="http://www.mallangtrip.kro.kr"
+              target="_blank"
+              className="h-12 bg-white border rounded-full text-darkgray text-md w-64 sm:w-80 border-darkgray flex justify-center items-center"
+            >
+              회원가입
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="h-12 bg-white border rounded-full text-darkgray text-md w-64 sm:w-80 border-darkgray"
+              onClick={() => navigation("/signup")}
+            >
+              회원가입
+            </button>
+          )}
         </div>
       </form>
 

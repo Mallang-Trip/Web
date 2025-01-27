@@ -31,9 +31,10 @@ function SignupPage() {
   const [emailDuplication, setEmailDuplication] = useState(false);
   const [idDuplication, setIdDuplication] = useState(false);
   const [nickNameDuplication, setNickNameDuplication] = useState(false);
-  const [paramImpUid, paramStatusCode] = [
+  const [paramImpUid, paramStatusCode, webView] = [
     searchParams.get("impUid"),
     searchParams.get("statusCode"),
+    searchParams.get("webview"),
   ];
 
   const goSignup = useCallback(async () => {
@@ -105,11 +106,19 @@ function SignupPage() {
   }, [step]);
 
   useEffect(() => {
-    if (!localStorage.getItem("isPassWaiting")) setLoading(false);
-    if (!paramImpUid || !paramStatusCode) setLoading(false);
+    if (webView) localStorage.setItem("isWebView", webView);
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("isPassWaiting")) {
+      setLoading(false);
+      if (!webView && !localStorage.getItem("isWebView")) {
+        navigation("/signup", { replace: true });
+      }
+    } else if (!paramStatusCode) setLoading(false);
     else {
       setStep(1);
-      localStorage.setItem("impUid", paramImpUid);
+      localStorage.setItem("impUid", paramImpUid || "");
       localStorage.setItem("passResult", paramStatusCode);
       localStorage.removeItem("isPassWaiting");
       navigation("/signup", { replace: true });

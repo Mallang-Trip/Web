@@ -1,5 +1,5 @@
-import { memo, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { memo, useCallback, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Ping } from "@/components";
@@ -21,6 +21,10 @@ function BottomNav() {
   const uncheckedCount = useSelector(
     (state: RootState) => state.notification.uncheckedCount
   );
+  const [searchParams] = useSearchParams();
+  const [isWebView, _] = useState(
+    searchParams.get("webview") || localStorage.getItem("isWebView")
+  );
 
   const checkLocation = useCallback(() => {
     if (location.pathname === "/talk") return "talk";
@@ -37,6 +41,7 @@ function BottomNav() {
     else return "home";
   }, [location.pathname]);
 
+  if (isWebView) return null;
   return (
     <div className="fixed bottom-0 left-0 z-40 w-full h-20 bg-white border-t border-x border-mediumgray rounded-t-2xl md:hidden">
       <div className="grid h-full pb-4-safe max-w-lg grid-cols-5 mx-auto font-medium">

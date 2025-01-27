@@ -194,3 +194,14 @@ export const shuffleArray = (array: DriverData[], seed: number) => {
   }
   return result;
 };
+
+export const isIosPwa = () => {
+  const UA = navigator.userAgent.toLowerCase();
+  const isIOS =
+    UA.indexOf("iphone") > -1 ||
+    UA.indexOf("ipad") > -1 ||
+    UA.indexOf("ipod") > -1;
+  const isPWA = UA.indexOf("pwa") > -1;
+
+  return isIOS && isPWA;
+};

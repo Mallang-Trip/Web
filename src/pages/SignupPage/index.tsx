@@ -105,11 +105,13 @@ function SignupPage() {
   }, [step]);
 
   useEffect(() => {
-    if (!localStorage.getItem("isPassWaiting")) setLoading(false);
-    if (!paramImpUid || !paramStatusCode) setLoading(false);
+    if (!localStorage.getItem("isPassWaiting")) {
+      setLoading(false);
+      navigation("/signup", { replace: true });
+    } else if (!paramStatusCode) setLoading(false);
     else {
       setStep(1);
-      localStorage.setItem("impUid", paramImpUid);
+      localStorage.setItem("impUid", paramImpUid || "");
       localStorage.setItem("passResult", paramStatusCode);
       localStorage.removeItem("isPassWaiting");
       navigation("/signup", { replace: true });

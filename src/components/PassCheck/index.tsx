@@ -17,7 +17,7 @@ interface Props {
 function PassCheck({ completeHandler }: Props) {
   const passResult = localStorage.getItem("passResult");
   const impUid = localStorage.getItem("impUid");
-  const [showModal, setShowModal] = useState(impUid ? true : false);
+  const [showModal, setShowModal] = useState(passResult ? true : false);
   const [message, setMessage] = useState("");
 
   const openPopup = useCallback(() => {
@@ -26,7 +26,7 @@ function PassCheck({ completeHandler }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!passResult || !impUid) return;
+    if (!passResult) return;
 
     if (passResult === "200") {
       setMessage("본인 인증에 성공하였습니다.");
@@ -44,11 +44,9 @@ function PassCheck({ completeHandler }: Props) {
 
   useEffect(() => {
     if (showModal) return;
-    if (passResult === "200") {
-      completeHandler(impUid);
-      localStorage.removeItem("passResult");
-      localStorage.removeItem("impUid");
-    }
+    if (passResult === "200") completeHandler(impUid);
+    localStorage.removeItem("passResult");
+    localStorage.removeItem("impUid");
   }, [showModal]);
 
   return (

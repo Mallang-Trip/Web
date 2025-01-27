@@ -1,11 +1,17 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/modules/userSlice";
 import { RootState } from "@/redux/store";
 import { setNotification } from "@/redux/modules/notificationSlice";
 import { getNotification } from "@/api/notification";
 import { Ping, CheckModal } from "@/components";
+import { isIosPwa } from "@/utils";
 import Logo from "@/assets/images/logo.png";
 import basicProfileImage from "@/assets/images/profileImage.png";
 import headerBack from "@/assets/svg/header-back.svg";
@@ -33,6 +39,10 @@ function Header() {
   const mallang_header = useRef<HTMLDivElement | null>(null);
   const header_profile = useRef<HTMLLIElement | null>(null);
   const user_menu = useRef<HTMLDivElement | null>(null);
+  const [searchParams] = useSearchParams();
+  const [isWebView, _] = useState(
+    searchParams.get("webview") || localStorage.getItem("isWebView")
+  );
 
   const getMenuPosition = useCallback(() => {
     const x = header_profile.current?.getBoundingClientRect()?.x;
@@ -84,6 +94,7 @@ function Header() {
     };
   }, []);
 
+  if (isWebView) return null;
   return (
     <>
       <nav className="fixed top-0 left-0 w-full bg-white border-gray-200 z-50">
@@ -137,16 +148,29 @@ function Header() {
             >
               로그인
             </button>
-            <button
-              type="button"
-              onClick={() => navigation("/signup")}
-              className={clsx(
-                "flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center",
-                user.auth ? "hidden" : "flex"
-              )}
-            >
-              회원가입
-            </button>
+            {isIosPwa() ? (
+              <Link
+                to="http://www.mallangtrip.kro.kr"
+                target="_blank"
+                className={clsx(
+                  "flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center",
+                  user.auth ? "hidden" : "flex"
+                )}
+              >
+                회원가입
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => navigation("/signup")}
+                className={clsx(
+                  "flex-row text-black font-medium rounded-lg text-sm px-5 py-2 text-center",
+                  user.auth ? "hidden" : "flex"
+                )}
+              >
+                회원가입
+              </button>
+            )}
             <ul
               className={clsx(
                 "flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-20 lg:space-x-32 md:mt-0 md:border-0 md:bg-white",

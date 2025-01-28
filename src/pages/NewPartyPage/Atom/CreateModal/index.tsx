@@ -31,6 +31,7 @@ interface Props {
   startTime?: string;
   endTime?: string;
   promotionId: number;
+  partyType: string;
 }
 
 function CreateModal({
@@ -48,6 +49,7 @@ function CreateModal({
   startTime,
   endTime,
   promotionId,
+  partyType,
 }: Props) {
   const navigation = useNavigate();
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -87,6 +89,7 @@ function CreateModal({
           ],
           region: planData.region || region,
           totalPrice: planData.days[0].price,
+          capacity: partyType === "Friend" ? memberCount : planData.capacity,
         },
         monopoly: false,
         userPromotionCodeId: promotionId,

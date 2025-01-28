@@ -14,12 +14,14 @@ import Driver from "./Driver";
 import Course from "./Course";
 import Edit from "./Edit";
 import Reservation from "./Reservation";
+import PartyType from "./PartyType";
 
 function NewPartyPage() {
   const navigation = useNavigate();
   const { step } = useParams();
   const user = useSelector((state: RootState) => state.user);
   const [searchParams] = useSearchParams();
+  const [partyType, setPartyType] = useState("");
   const [region, setRegion] = useState("");
   const [member, setMember] = useState(1);
   const [date, setDate] = useState("");
@@ -247,6 +249,9 @@ function NewPartyPage() {
   if (loading) return <Loading full={true} />;
   return (
     <PageContainer>
+      {step === "0" && (
+        <PartyType partyType={partyType} setPartyType={setPartyType} />
+      )}
       {step === "1" && (
         <Region
           setRegion={setRegion}
@@ -297,6 +302,7 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
+          partyType={partyType}
         />
       )}
       {step === "6" && (
@@ -308,6 +314,7 @@ function NewPartyPage() {
           setSelectedCourseId={setSelectedCourseId}
           member={member}
           region={region}
+          partyType={partyType}
         />
       )}
       <ConfirmModal

@@ -42,6 +42,7 @@ interface Props {
   setSelectedCourseId: Dispatch<SetStateAction<number>>;
   member: number;
   region: string;
+  partyType: string;
 }
 
 function Reservation({
@@ -52,6 +53,7 @@ function Reservation({
   setSelectedCourseId,
   member,
   region,
+  partyType,
 }: Props) {
   const companionsRef = useRef<HTMLDivElement | null>(null);
   const creditRef = useRef<HTMLDivElement | null>(null);
@@ -228,6 +230,7 @@ function Reservation({
         driverId={driverInfo.driverId}
         region={region}
         promotionId={promotionId}
+        partyType={partyType}
       />
     </div>
   );

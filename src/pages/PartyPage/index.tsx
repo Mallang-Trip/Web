@@ -316,7 +316,6 @@ function PartyPage() {
 
   useEffect(() => {
     if (type === "detail") {
-      console.log("tt");
       const cleanup = loadNaverScript("view_content");
       return cleanup;
     }

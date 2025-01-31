@@ -50,6 +50,7 @@ interface Props {
   setSelectedCourseId: Dispatch<SetStateAction<number>>;
   member: number;
   region: string;
+  partyType: string;
 }
 
 function Edit({
@@ -61,6 +62,7 @@ function Edit({
   setSelectedCourseId,
   member,
   region,
+  partyType,
 }: Props) {
   const coursePriceRef = useRef<HTMLDivElement | null>(null);
   const companionsRef = useRef<HTMLDivElement | null>(null);
@@ -331,6 +333,7 @@ function Edit({
         startTime={startTime}
         endTime={endTime}
         promotionId={promotionId}
+        partyType={partyType}
       />
     </div>
   );

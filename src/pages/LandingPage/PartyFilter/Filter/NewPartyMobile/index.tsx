@@ -17,7 +17,7 @@ function NewPartyMobile({ setShowLoginModal }: Props) {
   const clickHandler = useCallback(() => {
     if (user.auth)
       navigation(
-        `/party/new/1?region=${null}&member=${null}&date=${null}&driverId=${null}`
+        `/party/new/0?region=${null}&member=${null}&date=${null}&driverId=${null}`
       );
     else setShowLoginModal(true);
   }, [user]);

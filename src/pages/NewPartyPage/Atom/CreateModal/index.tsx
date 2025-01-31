@@ -31,6 +31,7 @@ interface Props {
   startTime?: string;
   endTime?: string;
   promotionId: number;
+  partyType: string;
 }
 
 function CreateModal({
@@ -48,6 +49,7 @@ function CreateModal({
   startTime,
   endTime,
   promotionId,
+  partyType,
 }: Props) {
   const navigation = useNavigate();
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -87,6 +89,7 @@ function CreateModal({
           ],
           region: planData.region || region,
           totalPrice: planData.days[0].price,
+          capacity: partyType === "Friend" ? memberCount : planData.capacity,
         },
         monopoly: false,
         userPromotionCodeId: promotionId,
@@ -105,12 +108,11 @@ function CreateModal({
         setMessage(
           "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
         );
+        setComplete(true);
 
         const cleanup = loadNaverScript("lead");
         return cleanup;
-      } else setMessage(result.message);
-
-      setComplete(true);
+      } else setMessage(`${result.message}\n\n다시 시도하시겠습니까?`);
     } catch (e) {
       console.log(e);
     } finally {

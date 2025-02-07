@@ -41,6 +41,7 @@ function PartyPlan({ edit, startDate, course, editHandler, comment }: Props) {
               ? course.days[0].startTime
               : index === planData.length - 1 && course.days[0].endTime
           }
+          lat={item.lat}
         />
       ))}
       {edit && (

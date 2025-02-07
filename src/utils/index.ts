@@ -205,3 +205,20 @@ export const isIosPwa = () => {
 
   return isIOS && isPWA;
 };
+
+export function formatNegativeHour(value: number): string {
+  const absValue = Math.abs(value);
+  return `${absValue}시간`;
+}
+
+export function calculateEndTime(
+  startTime: string,
+  baseHours: number,
+  restTime: number // 추가된 휴식 시간(시간 단위)
+) {
+  const startHour = Number(startTime.slice(0, 2));
+  const totalHours = (startHour + baseHours + restTime) % 24;
+  const endTime = String(totalHours).padStart(2, "0") + startTime.slice(2);
+
+  return endTime;
+}

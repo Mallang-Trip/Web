@@ -8,13 +8,15 @@ import {
   useState,
 } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { dateToStringHan } from "@/utils";
+import { calculateEndTime, dateToStringHan, formatNegativeHour } from "@/utils";
 import { Course, Destination } from "@/types";
 import { ConfirmModal } from "@/components";
 import dragIcon from "@/assets/svg/dragIcon.svg";
 import deleteIcon from "@/assets/svg/x-modal-icon.svg";
 import TimeModal from "@/pages/DriverCoursePage/CourseDnD/TimeModal";
 import clsx from "clsx";
+import RestTimeModal from "./RestTimeModal";
+import { postNewDestinationUser } from "@/api/destination";
 
 interface Props {
   name: string;
@@ -26,7 +28,9 @@ interface Props {
   setCourseData: Dispatch<SetStateAction<Destination[]>>;
   startTime: string;
   endTime: string;
+  setEndTime: React.Dispatch<React.SetStateAction<string>>;
   setStartTime: Dispatch<SetStateAction<string>>;
+  baseTime: number;
   shakeCourse?: boolean;
   courseRef?: ForwardedRef<HTMLDivElement>;
 }
@@ -42,18 +46,34 @@ function CourseDnD({
   startTime,
   endTime,
   setStartTime,
+  setEndTime,
+  baseTime,
   shakeCourse,
   courseRef,
 }: Props) {
   const [showText, setShowText] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTimeModal, setShowTimeModal] = useState(false);
+  const [showRestTimeModal, setShowRestTimeModal] = useState(false);
 
   const handleChange = useCallback(
     (result: any) => {
       if (!result.destination) return;
       const items = [...courseData];
       const [reorderedItem] = items.splice(result.source.index, 1);
+
+      const isGoingToLastIndex =
+        result.destination.index === courseData.length - 1 ||
+        result.destination.index === items.length;
+
+      const isGoingToFirstIndex = result.destination.index === 0;
+
+      if (
+        reorderedItem.name === "휴식" &&
+        (isGoingToLastIndex || isGoingToFirstIndex)
+      )
+        return;
+
       items.splice(result.destination.index, 0, reorderedItem);
       setCourseData(items);
     },
@@ -61,12 +81,68 @@ function CourseDnD({
   );
 
   const deleteHandler = useCallback(
-    (targetIndex: number) => {
-      if (courseData.length === 2) return setShowModal(true);
+    (targetIndex: number, item: Destination) => {
+      const originCourseData = courseData.filter(
+        (item) => item.name !== "휴식"
+      );
+      if (item.name !== "휴식" && originCourseData.length === 2)
+        return setShowModal(true);
       setCourseData(courseData.filter((_, index) => index !== targetIndex));
     },
     [courseData]
   );
+
+  const addRestHandler = useCallback(() => {
+    const originCourseData = courseData.filter(
+      (_, index) => index !== courseData.length - 1
+    );
+    const lastCourseData = courseData.filter(
+      (_, index) => index === courseData.length - 1
+    );
+
+    const updateCourseData = [
+      ...originCourseData,
+      {
+        address: "",
+        destinationId: -1,
+        lat: 0,
+        lon: 0,
+        name: "휴식",
+      },
+      ...lastCourseData,
+    ];
+
+    setCourseData(updateCourseData);
+    setShowRestTimeModal(true);
+  }, [courseData]);
+
+  const cancelRestHandler = () => {
+    const newCourseData = courseData.filter(
+      (item) => item.destinationId !== -1
+    );
+    setCourseData(newCourseData);
+    setShowRestTimeModal(false);
+  };
+
+  const addRestTimeHandler = async (time: number) => {
+    const result = await postNewDestinationUser({
+      address: "휴식",
+      content: "휴식",
+      images: [""],
+      lat: -time,
+      lon: 0,
+      name: "휴식",
+    });
+
+    const newCourseData = courseData.map((item) =>
+      item.destinationId === -1
+        ? { ...item, destinationId: result.payload.destinationId, lat: -time }
+        : item
+    );
+
+    setCourseData(newCourseData);
+    setEndTime(calculateEndTime(startTime, baseTime, time));
+  };
 
   useEffect(() => {
     if (courseData.length === 0) {
@@ -93,8 +169,14 @@ function CourseDnD({
         >
           {courseData.length === 0 && "여행지를 추가해주세요!"}
         </div>
-        <div className="text-primary text-lg">
-          {`${dateToStringHan(startDate)} (${hours}시간)`}
+        <div className="relative flex items-center justify-center md:w-[900px]">
+          <p className="text-primary text-lg">{`${dateToStringHan(startDate)} (${hours}시간)`}</p>
+          <button
+            className="absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 underline font-medium"
+            onClick={addRestHandler}
+          >
+            휴식 추가
+          </button>
         </div>
       </div>
       <DragDropContext onDragEnd={handleChange}>
@@ -131,17 +213,25 @@ function CourseDnD({
                         <div
                           className={clsx(
                             "ml-auto",
-                            index === 0 && "cursor-pointer hover:font-bold"
+                            item.name !== "휴식" &&
+                              index === 0 &&
+                              "cursor-pointer hover:font-bold"
                           )}
-                          onClick={() => index === 0 && setShowTimeModal(true)}
+                          onClick={() =>
+                            item.name !== "휴식" &&
+                            index === 0 &&
+                            setShowTimeModal(true)
+                          }
                         >
-                          {index === 0
-                            ? startTime
-                            : index === courseData.length - 1 && endTime}
+                          {item.name !== "휴식"
+                            ? index === 0
+                              ? startTime
+                              : index === courseData.length - 1 && endTime
+                            : formatNegativeHour(item.lat)}
                         </div>
                         <button
                           className="mx-3 rounded hover:bg-gray-200"
-                          onClick={() => deleteHandler(index)}
+                          onClick={() => deleteHandler(index, item)}
                         >
                           <img src={deleteIcon} alt="delete" />
                         </button>
@@ -168,6 +258,12 @@ function CourseDnD({
         setShowModal={setShowTimeModal}
         startTime={startTime}
         setStartTime={setStartTime}
+      />
+      <RestTimeModal
+        showModal={showRestTimeModal}
+        setShowModal={setShowRestTimeModal}
+        onConfirm={addRestTimeHandler}
+        onCancel={cancelRestHandler}
       />
     </div>
   );

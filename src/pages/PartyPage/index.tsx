@@ -470,7 +470,9 @@ function PartyPage() {
             setCourseData={setCourseData}
             startTime={startTime}
             endTime={endTime}
+            setEndTime={setEndTime}
             setStartTime={setStartTime}
+            baseTime={partyData.course?.days[0]?.hours || 0}
           />
           <EditMap
             courseData={courseData}

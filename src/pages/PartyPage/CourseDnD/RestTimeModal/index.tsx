@@ -3,7 +3,6 @@ import clsx from "clsx";
 import {
   Dispatch,
   memo,
-  MouseEvent,
   SetStateAction,
   useCallback,
   useEffect,

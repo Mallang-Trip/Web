@@ -1,19 +1,21 @@
-import { ForwardedRef, memo } from "react";
+import { RefObject, memo } from "react";
 import LicensePicture from "./LicensePicture";
 
 interface Props {
   modifyMode: boolean;
-  licenseImgs: { value: string; name: string; key: string }[];
-  licenseImgRef: ForwardedRef<HTMLInputElement>;
-  modifyLicenseHandler: (key: string) => void;
+  licenseImgs: {
+    value: string;
+    name: string;
+    key: string;
+    ref: RefObject<HTMLInputElement>;
+  }[];
+  modifyLicenseHandler: (
+    key: string,
+    licenceImgRef: RefObject<HTMLInputElement>
+  ) => void;
 }
 
-function License({
-  modifyMode,
-  licenseImgs,
-  licenseImgRef,
-  modifyLicenseHandler,
-}: Props) {
+function License({ modifyMode, licenseImgs, modifyLicenseHandler }: Props) {
   return (
     <>
       <p className="text-lg font-bold w-full text-black mt-12 mb-5">
@@ -27,7 +29,7 @@ function License({
             name={licenseImg.name}
             keyValue={licenseImg.key}
             modifyMode={modifyMode}
-            licenseImgRef={licenseImgRef}
+            licenseImgRef={licenseImg.ref}
             modifyLicenseHandler={modifyLicenseHandler}
           />
         ))}{" "}

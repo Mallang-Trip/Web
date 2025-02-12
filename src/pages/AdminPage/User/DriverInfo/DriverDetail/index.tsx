@@ -1,4 +1,12 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useSearchParams } from "react-router-dom";
 import { uploadImage } from "@/api/image";
 import { getDriverInfoDetail, putDriverInfoDetail } from "@/api/admin";
@@ -16,7 +24,9 @@ import PartyCourse from "./PartyCourse";
 function DriverDetail() {
   const profileImageRef = useRef<HTMLInputElement | null>(null);
   const vehicleImageRef = useRef<HTMLInputElement | null>(null);
-  const licenceImgRef = useRef<HTMLInputElement | null>(null);
+  const driverLicenseImgRef = useRef<HTMLInputElement | null>(null);
+  const insuranceLicenseImgRef = useRef<HTMLInputElement | null>(null);
+  const taxiLicenseImgRef = useRef<HTMLInputElement | null>(null);
   const [searchParams] = useSearchParams();
   const driverId = searchParams.get("driverId");
   const [modifyMode, setModifyMode] = useState(false);
@@ -35,9 +45,9 @@ function DriverDetail() {
     accountNumber: "",
     bank: "",
     courses: [],
-    driverLicenceImg: "",
+    driverLicenseImg: "",
     holidays: [],
-    insuranceLicenceImg: "",
+    insuranceLicenseImg: "",
     introduction: "",
     name: "",
     phoneNumber: "",
@@ -45,7 +55,7 @@ function DriverDetail() {
     profileImg: null,
     region: [],
     status: "",
-    taxiLicenceImg: "",
+    taxiLicenseImg: "",
     userId: 0,
     vehicleCapacity: 0,
     vehicleImgs: [],
@@ -69,7 +79,7 @@ function DriverDetail() {
   }, [vehicleImageRef]);
 
   const modifyLicenceHandler = useCallback(
-    async (key: string) => {
+    async (key: string, licenceImgRef: RefObject<HTMLInputElement>) => {
       if (licenceImgRef.current && licenceImgRef.current.files) {
         const imageFile = licenceImgRef.current.files[0];
         const licenceImageURL = await uploadImage(imageFile);
@@ -79,7 +89,7 @@ function DriverDetail() {
         }));
       }
     },
-    [licenceImgRef]
+    []
   );
 
   const modifyProfileHandler = useCallback(async () => {
@@ -114,9 +124,9 @@ function DriverDetail() {
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
-      driverLicenceImg: driverInfo.driverLicenceImg,
-      taxiLicenceImg: driverInfo.taxiLicenceImg,
-      insuranceLicenceImg: driverInfo.insuranceLicenceImg,
+      driverLicenseImg: driverInfo.driverLicenseImg,
+      taxiLicenseImg: driverInfo.taxiLicenseImg,
+      insuranceLicenseImg: driverInfo.insuranceLicenseImg,
     };
 
     try {
@@ -174,9 +184,9 @@ function DriverDetail() {
       vehicleModel: driverInfo.vehicleModel,
       vehicleNumber: driverInfo.vehicleNumber,
       weeklyHolidays: driverInfo.weeklyHoliday,
-      driverLicenceImg: driverInfo.driverLicenceImg,
-      taxiLicenceImg: driverInfo.taxiLicenceImg,
-      insuranceLicenceImg: driverInfo.insuranceLicenceImg,
+      driverLicenseImg: driverInfo.driverLicenseImg,
+      taxiLicenseImg: driverInfo.taxiLicenseImg,
+      insuranceLicenseImg: driverInfo.insuranceLicenseImg,
     };
 
     try {
@@ -202,25 +212,37 @@ function DriverDetail() {
     getDriverInfoDetailFunc();
   }, [driverId]);
 
-  const licenceImgs = useMemo(() => {
-    const driverLicenceImg = driverInfo.driverLicenceImg;
-    const taxiLicenceImg = driverInfo.taxiLicenceImg;
-    const insuranceLicenceImg = driverInfo.insuranceLicenceImg;
+  const licenseImgs = useMemo(() => {
+    const driverLicenseImg = driverInfo.driverLicenseImg;
+    const taxiLicenseImg = driverInfo.taxiLicenseImg;
+    const insuranceLicenseImg = driverInfo.insuranceLicenseImg;
 
     return [
-      { key: "driverLicenceImg", value: driverLicenceImg, name: "운전 면허증" },
       {
-        key: "taxiLicenceImg",
-        value: taxiLicenceImg,
-        name: "택시 운전 면허증",
+        key: "driverLicenseImg",
+        value: driverLicenseImg ?? "",
+        name: "운전 면허증",
+        ref: driverLicenseImgRef,
       },
       {
-        key: "insuranceLicenceImg",
-        value: insuranceLicenceImg,
+        key: "taxiLicenseImg",
+        value: taxiLicenseImg ?? "",
+        name: "택시 운전 면허증",
+        ref: taxiLicenseImgRef,
+      },
+      {
+        key: "insuranceLicenseImg",
+        value: insuranceLicenseImg ?? "",
         name: "보험증서",
+        ref: insuranceLicenseImgRef,
       },
     ];
-  }, [driverInfo]);
+  }, [
+    driverInfo,
+    driverLicenseImgRef,
+    insuranceLicenseImgRef,
+    taxiLicenseImgRef,
+  ]);
 
   if (loading) return <Loading full={true} />;
   return (
@@ -267,8 +289,7 @@ function DriverDetail() {
       <PartyCourse driverInfo={driverInfo} />
       <License
         modifyMode={modifyMode}
-        licenseImgs={licenceImgs}
-        licenseImgRef={licenceImgRef}
+        licenseImgs={licenseImgs}
         modifyLicenseHandler={modifyLicenceHandler}
       />
       <ConfirmModal

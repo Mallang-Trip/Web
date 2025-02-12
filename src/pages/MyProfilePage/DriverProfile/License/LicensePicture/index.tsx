@@ -1,13 +1,16 @@
-import { ForwardedRef, memo, useCallback, useState } from "react";
+import { RefObject, memo, useCallback, useState } from "react";
 import { InputImage } from "@/components";
 
 interface Props {
   modifyMode: boolean;
-  licenseImgRef: ForwardedRef<HTMLInputElement>;
+  licenseImgRef: RefObject<HTMLInputElement>;
   image: string;
   name: string;
   keyValue: string;
-  modifyLicenseHandler: (key: string) => void;
+  modifyLicenseHandler: (
+    key: string,
+    licenceImgRef: RefObject<HTMLInputElement>
+  ) => void;
 }
 
 function LicensePicture({
@@ -50,7 +53,7 @@ function LicensePicture({
           inputRef={licenseImgRef}
           className="hidden"
           id="licenseImage_Input"
-          onChange={() => modifyLicenseHandler(keyValue)}
+          onChange={() => modifyLicenseHandler(keyValue, licenseImgRef)}
         />
       </div>
       <p className="text-center text-darkgray text-sm mt-1 font-medium">

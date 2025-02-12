@@ -289,7 +289,9 @@ function Edit({
         setCourseData={setCourseData}
         startTime={startTime}
         endTime={endTime}
+        setEndTime={setEndTime}
         setStartTime={setStartTime}
+        baseTime={planData.days[0].hours || 0}
         shakeCourse={shakeCourse}
         courseRef={courseRef}
       />

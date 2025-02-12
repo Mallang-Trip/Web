@@ -184,9 +184,11 @@ export interface DriverInfo {
   accountNumber: string;
   bank: string;
   courses: CourseType[];
-  driverLicenceImg: string;
+  driverLicenceImg?: string;
+  driverLicenseImg?: string;
   holidays: string[];
-  insuranceLicenceImg: string;
+  insuranceLicenceImg?: string;
+  insuranceLicenseImg?: string;
   introduction: string;
   name: string;
   phoneNumber: string;
@@ -194,7 +196,8 @@ export interface DriverInfo {
   profileImg: string | null;
   region: string[];
   status: string;
-  taxiLicenceImg: string;
+  taxiLicenceImg?: string;
+  taxiLicenseImg?: string;
   userId: number;
   vehicleCapacity: number;
   vehicleImgs: string[];

@@ -237,7 +237,9 @@ function DriverCoursePage() {
         setDestinations={setDestinations}
         startTime={startTime}
         endTime={endTime}
+        setEndTime={setEndTime}
         setStartTime={setStartTime}
+        baseTime={prices[priceIndex].hours || 0}
       />
       <EditMap
         courseData={destinations}

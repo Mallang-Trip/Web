@@ -5,6 +5,9 @@ import dragIcon from "@/assets/svg/dragIcon.svg";
 import deleteIcon from "@/assets/svg/x-modal-icon.svg";
 import TimeModal from "./TimeModal";
 import clsx from "clsx";
+import { postNewDestinationUser } from "@/api/destination";
+import { calculateEndTime, formatNegativeHour } from "@/utils";
+import RestTimeModal from "@/pages/PartyPage/CourseDnD/RestTimeModal";
 
 interface DestinationImage extends Destination {
   image?: string | File;
@@ -19,6 +22,8 @@ interface Props {
   startTime: string;
   endTime: string;
   setStartTime: Dispatch<SetStateAction<string>>;
+  setEndTime: React.Dispatch<React.SetStateAction<string>>;
+  baseTime: number;
 }
 
 function CourseDnD({
@@ -30,14 +35,30 @@ function CourseDnD({
   startTime,
   endTime,
   setStartTime,
+  setEndTime,
+  baseTime,
 }: Props) {
   const [showTimeModal, setShowTimeModal] = useState(false);
+  const [showRestTimeModal, setShowRestTimeModal] = useState(false);
 
   const handleChange = useCallback(
     (result: any) => {
       if (!result.destination) return;
       const items = [...destinations];
       const [reorderedItem] = items.splice(result.source.index, 1);
+
+      const isGoingToLastIndex =
+        result.destination.index === destinations.length - 1 ||
+        result.destination.index === items.length;
+
+      const isGoingToFirstIndex = result.destination.index === 0;
+
+      if (
+        reorderedItem.name === "휴식" &&
+        (isGoingToLastIndex || isGoingToFirstIndex)
+      )
+        return;
+
       items.splice(result.destination.index, 0, reorderedItem);
       setDestinations(items);
     },
@@ -51,6 +72,58 @@ function CourseDnD({
     [destinations]
   );
 
+  const addRestHandler = useCallback(() => {
+    const originCourseData = destinations.filter(
+      (_, index) => index !== destinations.length - 1
+    );
+    const lastCourseData = destinations.filter(
+      (_, index) => index === destinations.length - 1
+    );
+
+    const updateCourseData = [
+      ...originCourseData,
+      {
+        address: "",
+        destinationId: -1,
+        lat: 0,
+        lon: 0,
+        name: "휴식",
+      },
+      ...lastCourseData,
+    ];
+
+    setDestinations(updateCourseData);
+    setShowRestTimeModal(true);
+  }, [destinations]);
+
+  const cancelRestHandler = () => {
+    const newCourseData = destinations.filter(
+      (item) => item.destinationId !== -1
+    );
+    setDestinations(newCourseData);
+    setShowRestTimeModal(false);
+  };
+
+  const addRestTimeHandler = async (time: number) => {
+    const result = await postNewDestinationUser({
+      address: "휴식",
+      content: "휴식",
+      images: [""],
+      lat: -time,
+      lon: 0,
+      name: "휴식",
+    });
+
+    const newCourseData = destinations.map((item) =>
+      item.destinationId === -1
+        ? { ...item, destinationId: result.payload.destinationId, lat: -time }
+        : item
+    );
+
+    setDestinations(newCourseData);
+    setEndTime(calculateEndTime(startTime, baseTime, time));
+  };
+
   return (
     <>
       <div className="mt-20 font-bold flex flex-col items-center gap-6">
@@ -61,7 +134,17 @@ function CourseDnD({
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <div className="text-primary text-xl">{`${hours}시간`}</div>
+        <div className="relative flex items-center justify-center md:w-[900px]">
+          <p className="text-primary text-lg">{`${hours}시간`}</p>
+          {destinations.length > 1 && (
+            <button
+              className="absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 underline font-medium"
+              onClick={addRestHandler}
+            >
+              휴식 추가
+            </button>
+          )}
+        </div>
       </div>
       <DragDropContext onDragEnd={handleChange}>
         <Droppable droppableId="courselists">
@@ -97,13 +180,21 @@ function CourseDnD({
                         <div
                           className={clsx(
                             "ml-auto",
-                            index === 0 && "cursor-pointer hover:font-bold"
+                            item.name !== "휴식" &&
+                              index === 0 &&
+                              "cursor-pointer hover:font-bold"
                           )}
-                          onClick={() => index === 0 && setShowTimeModal(true)}
+                          onClick={() =>
+                            item.name !== "휴식" &&
+                            index === 0 &&
+                            setShowTimeModal(true)
+                          }
                         >
-                          {index === 0
-                            ? startTime
-                            : index === destinations.length - 1 && endTime}
+                          {item.name !== "휴식"
+                            ? index === 0
+                              ? startTime
+                              : index === destinations.length - 1 && endTime
+                            : formatNegativeHour(item.lat)}
                         </div>
                         <button
                           className="mx-3 rounded hover:bg-gray-200"
@@ -127,6 +218,12 @@ function CourseDnD({
         setShowModal={setShowTimeModal}
         startTime={startTime}
         setStartTime={setStartTime}
+      />
+      <RestTimeModal
+        showModal={showRestTimeModal}
+        setShowModal={setShowRestTimeModal}
+        onConfirm={addRestTimeHandler}
+        onCancel={cancelRestHandler}
       />
     </>
   );

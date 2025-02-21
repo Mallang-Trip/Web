@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { postNewDestinationUser } from "@/api/destination";
 import { calculateEndTime, formatNegativeHour } from "@/utils";
 import RestTimeModal from "@/pages/PartyPage/CourseDnD/RestTimeModal";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 interface DestinationImage extends Destination {
   image?: string | File;
@@ -40,6 +41,7 @@ function CourseDnD({
 }: Props) {
   const [showTimeModal, setShowTimeModal] = useState(false);
   const [showRestTimeModal, setShowRestTimeModal] = useState(false);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const handleChange = useCallback(
     (result: any) => {
@@ -138,11 +140,21 @@ function CourseDnD({
           <p className="text-primary text-lg">{`${hours}시간`}</p>
           {destinations.length > 1 && (
             <button
-              className="absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 underline font-medium"
+              className="flex items-center gap-1 absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 font-medium"
               onClick={addRestHandler}
+              onMouseOver={() => setShowTooltip(true)}
+              onMouseOut={() => setShowTooltip(false)}
             >
-              휴식 추가
+              + 휴식 추가
+              <AiOutlineInfoCircle className="relative top-[1px] w-5 h-5" />
             </button>
+          )}
+          {showTooltip && (
+            <div className="absolute right-0 -top-[180%] py-2 px-4 font-medium text-xs rounded-full bg-white text-gray-400 shadow-total">
+              운행 시간에 포함하지 않고 별도 휴식 시간을 가질 수 있습니다.
+              <br />
+              (자세한 휴식 가능 여부는 드라이버와 상의하세요)
+            </div>
           )}
         </div>
       </div>

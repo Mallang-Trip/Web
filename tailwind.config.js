@@ -29,6 +29,9 @@ module.exports = {
       height: {
         "real-screen": "calc(var(--vh) * 100)",
       },
+      boxShadow: {
+        total: "0 0 8px 1px #e9e9e9",
+      },
     },
   },
   plugins: [

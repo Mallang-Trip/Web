@@ -17,6 +17,7 @@ import TimeModal from "@/pages/DriverCoursePage/CourseDnD/TimeModal";
 import clsx from "clsx";
 import RestTimeModal from "./RestTimeModal";
 import { postNewDestinationUser } from "@/api/destination";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 interface Props {
   name: string;
@@ -55,6 +56,7 @@ function CourseDnD({
   const [showModal, setShowModal] = useState(false);
   const [showTimeModal, setShowTimeModal] = useState(false);
   const [showRestTimeModal, setShowRestTimeModal] = useState(false);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const handleChange = useCallback(
     (result: any) => {
@@ -171,19 +173,31 @@ function CourseDnD({
         </div>
         <div className="relative flex items-center justify-center md:w-[900px]">
           <p className="text-primary text-lg">{`${dateToStringHan(startDate)} (${hours}시간)`}</p>
-          <button
-            className="absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 underline font-medium"
-            onClick={addRestHandler}
-          >
-            휴식 추가
-          </button>
+          {courseData.length > 1 && (
+            <button
+              className="lg:flex hidden items-center gap-1 absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 font-medium"
+              onClick={addRestHandler}
+              onMouseOver={() => setShowTooltip(true)}
+              onMouseOut={() => setShowTooltip(false)}
+            >
+              + 휴식 추가
+              <AiOutlineInfoCircle className="relative top-[1px] w-5 h-5" />
+            </button>
+          )}
+          {showTooltip && (
+            <div className="absolute right-0 -top-[180%] py-2 px-4 font-medium text-xs rounded-full bg-white text-gray-400 shadow-total">
+              운행 시간에 포함하지 않고 별도 휴식 시간을 가질 수 있습니다.
+              <br />
+              (자세한 휴식 가능 여부는 드라이버와 상의하세요)
+            </div>
+          )}
         </div>
       </div>
       <DragDropContext onDragEnd={handleChange}>
         <Droppable droppableId="courselists">
           {(provided) => (
             <div
-              className="courselists bg-skyblue w-full md:w-[900px] my-6 mx-auto border border-primary"
+              className="courselists bg-skyblue w-full md:w-[900px] lg:my-6 mt-6 mb-3 mx-auto border border-primary"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -245,6 +259,19 @@ function CourseDnD({
           )}
         </Droppable>
       </DragDropContext>
+      <button
+        className="relative items-center justify-center w-full py-4 rounded-lg font-medium bg-gray-100 text-gray-400 flex lg:hidden"
+        onClick={addRestHandler}
+      >
+        + 휴식 추가
+      </button>
+      <div className="gap-1.5 mt-2 text-gray-400 flex lg:hidden">
+        <AiOutlineInfoCircle className="relative top-[1px] w-5 h-5" />
+        <p className="text-sm">
+          운행 시간에 포함하지 않고 별도 휴식 시간을 가질 수 있습니다. <br />
+          (자세한 휴식 가능 여부는 드라이버와 상의하세요)
+        </p>
+      </div>
 
       <ConfirmModal
         showModal={showModal}

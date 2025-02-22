@@ -9,6 +9,7 @@ import Tab from "./Tab";
 import ArticleDetail from "./ArticleDetail";
 import SearchBar from "./SearchBar";
 import clsx from "clsx";
+import TripSoda from "./TripSoda";
 
 function CommunityPage() {
   const { articleId } = useParams();
@@ -64,6 +65,7 @@ function CommunityPage() {
       <Title />
       <SearchBar />
       <Tab category={category} setCategory={setCategory} />
+      <TripSoda />
       {articleId === "main" ? (
         <ArticleList articleData={articleData} />
       ) : (

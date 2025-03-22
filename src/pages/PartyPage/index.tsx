@@ -148,11 +148,7 @@ function PartyPage() {
   const editHandler = useCallback(() => {
     if (!user.auth) return setShowLoginModal(true);
 
-    if (type === "detail") {
-      if (!checkJoinEdit()) return;
-
-      return navigation(`/party/edit/${partyId}`);
-    }
+    if (checkJoinEdit()) navigation(`/party/edit/${partyId}`);
   }, [user, type, partyId]);
 
   const joinHandler = useCallback(() => {
@@ -316,6 +312,8 @@ function PartyPage() {
 
   useEffect(() => {
     if (type === "detail") {
+      if (!partyData.myParty)
+        navigation(`/party/join/${partyId}`, { replace: true });
       const cleanup = loadNaverScript("view_content");
       return cleanup;
     }
@@ -484,10 +482,12 @@ function PartyPage() {
         <>
           <PartyPlan
             edit={
-              type === "detail" &&
-              user.role !== "ROLE_DRIVER" &&
-              ((partyData.partyStatus === "RECRUITING" && !partyData.myParty) ||
-                (partyData.partyStatus === "SEALED" && partyData.myParty))
+              (type === "detail" &&
+                user.role !== "ROLE_DRIVER" &&
+                ((partyData.partyStatus === "RECRUITING" &&
+                  !partyData.myParty) ||
+                  (partyData.partyStatus === "SEALED" && partyData.myParty))) ||
+              (type === "join" && !partyData.myParty)
             }
             course={partyData.course}
             startDate={partyData.startDate}

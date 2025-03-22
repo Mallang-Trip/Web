@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import { dateToStringHan, priceToString } from "@/utils";
 import { Course, DriverInfo as DriverInfoRaw, Review } from "@/types";
 import {
@@ -55,6 +56,7 @@ function Reservation({
   region,
   partyType,
 }: Props) {
+  const navigation = useNavigate();
   const companionsRef = useRef<HTMLDivElement | null>(null);
   const creditRef = useRef<HTMLDivElement | null>(null);
   const agreementRef = useRef<HTMLDivElement | null>(null);
@@ -191,7 +193,16 @@ function Reservation({
         shakeCompanions={shakeCompanions}
       />
       <JoinGreeting content={content} setContent={setContent} />
-      <PartyPlan edit={false} course={planData} startDate={date} />
+      <PartyPlan
+        edit={true}
+        course={planData}
+        startDate={date}
+        editHandler={() =>
+          navigation(
+            `/party/new/5?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`
+          )
+        }
+      />
       <CourseMap
         markerData={planData.days[0].destinations}
         reload={true}

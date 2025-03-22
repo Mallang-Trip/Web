@@ -231,6 +231,13 @@ function NewPartyPage() {
   useEffect(() => {
     window.scrollTo({ top: 0 });
 
+    if (step === "4") {
+      navigation(
+        `/party/new/6?region=${region}&member=${member}&date=${date}&driverId=${driverId}`,
+        { replace: true }
+      );
+    }
+
     if (isGAlive()) {
       let eventName = "";
 

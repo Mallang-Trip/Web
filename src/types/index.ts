@@ -39,6 +39,7 @@ export interface Course {
     startTime: string;
     destinations: Destination[];
   }[];
+  driverId?: number;
 }
 
 export interface Review {

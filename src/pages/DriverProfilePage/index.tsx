@@ -58,7 +58,7 @@ function DriverProfilePage() {
   });
 
   const courseImgs = useMemo(
-    () => driverInfo.courses?.map((item) => item.courseImg),
+    () => driverInfo?.courses?.map((item) => item.courseImg) || [],
     [driverInfo]
   );
 
@@ -100,7 +100,7 @@ function DriverProfilePage() {
     makeParty();
   }, [selectedCourseId]);
 
-  if (!driverInfo.driverId) return <Loading full={true} />;
+  if (!driverInfo || !driverInfo.driverId) return <Loading full={true} />;
   return (
     <PageContainer>
       <DriverInfo

@@ -11,24 +11,14 @@ function DriverBox({ driverId, name, profileImg, region }: DriverData) {
   }, [driverId]);
 
   return (
-    <div className="bg-skyblue rounded-lg h-64">
-      <div className="relative h-[220px] border rounded-lg">
-        <img
-          className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-          src={profileImg || basicProfileImage}
-          alt={name}
-        />
-        <div className="absolute top-0 left-0 flex flex-col items-center justify-end w-full h-full text-base text-darkgray pb-3">
-          <button
-            className="h-9 text-white rounded-full text-xs font-bold w-32 bg-primary"
-            onClick={onClickHandler}
-          >
-            프로필
-          </button>
-        </div>
-      </div>
-      <div className="py-1 text-center text-lg text-primary font-semibold">{`${region.length === 1 ? region : "다양한 지역"} ${name} 드라이버`}</div>
-    </div>
+    <button className="w-28 flex-shrink-0" onClick={onClickHandler}>
+      <img
+        className="object-cover object-center w-28 h-28 overflow-hidden rounded-full"
+        src={profileImg || basicProfileImage}
+        alt={name}
+      />
+      <div className="py-1 text-center text-sm text-darkgray font-semibold whitespace-pre-wrap">{`${name} 드라이버\n${region.length === 1 ? region : "다양한 지역"}`}</div>
+    </button>
   );
 }
 

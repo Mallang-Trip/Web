@@ -1,4 +1,4 @@
-import { DriverData } from "@/types";
+import { Course, DriverData } from "@/types";
 
 export function setScreenHeight() {
   const vh = window.innerHeight * 0.01;
@@ -185,7 +185,7 @@ export const isIos = () => {
   );
 };
 
-export const shuffleArray = (array: DriverData[], seed: number) => {
+export const shuffleArray = (array: DriverData[] | Course[], seed: number) => {
   const result = [...array];
   for (let i = result.length - 1; i > 0; i--) {
     const randomIndex = Math.floor(seed % (i + 1));

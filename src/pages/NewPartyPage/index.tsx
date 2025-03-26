@@ -88,6 +88,7 @@ function NewPartyPage() {
           `/party/new/${newStep}?region=${region}&member=${member}&date=${date}&driverId=${null}`,
           { replace: true }
         );
+        setDriverId("null");
         return;
       }
 

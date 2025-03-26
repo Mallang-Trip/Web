@@ -69,7 +69,7 @@ function PartyList() {
     window.scrollTo({ top: 0 });
   }, [region, nowDate, num, price, ramdomSeed]);
 
-  if (loading) return <Skeleton count={10} />;
+  if (loading) return <Skeleton count={20} />;
   if (
     partyData.length === 0 &&
     courseData.length === 0 &&

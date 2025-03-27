@@ -298,6 +298,8 @@ function NewPartyPage() {
           member={member}
           region={region}
           settingDriverInfo={settingDriverInfo}
+          partyType={partyType}
+          setPartyType={setPartyType}
         />
       )}
       {step === "5" && (

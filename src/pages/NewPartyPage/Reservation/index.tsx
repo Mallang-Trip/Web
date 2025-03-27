@@ -62,7 +62,7 @@ function Reservation({
   const agreementRef = useRef<HTMLDivElement | null>(null);
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
-  const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [agreeChecked, setAgreeChecked] = useState([true, true]);
   const [registerCredit, setRegisterCredit] = useState(false);
   const [shakeCompanions, setShakeCompanions] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
@@ -220,12 +220,14 @@ function Reservation({
           creditRef={creditRef}
         />
       )}
-      <JoinAgreement
-        checked={agreeChecked}
-        setChecked={setAgreeChecked}
-        shakeAgree={shakeAgree}
-        agreementRef={agreementRef}
-      />
+      {false && (
+        <JoinAgreement
+          checked={agreeChecked}
+          setChecked={setAgreeChecked}
+          shakeAgree={shakeAgree}
+          agreementRef={agreementRef}
+        />
+      )}
       <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
 

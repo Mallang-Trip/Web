@@ -75,7 +75,7 @@ function Edit({
   const [name, setName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [agreeChecked, setAgreeChecked] = useState([true, true]);
   const [courseData, setCourseData] = useState<Destination[]>([]);
   const [registerCredit, setRegisterCredit] = useState(false);
   const [shakeCoursePrice, setShakeCoursePrice] = useState(false);
@@ -312,12 +312,14 @@ function Edit({
           creditRef={creditRef}
         />
       )}
-      <JoinAgreement
-        checked={agreeChecked}
-        setChecked={setAgreeChecked}
-        shakeAgree={shakeAgree}
-        agreementRef={agreementRef}
-      />
+      {false && (
+        <JoinAgreement
+          checked={agreeChecked}
+          setChecked={setAgreeChecked}
+          shakeAgree={shakeAgree}
+          agreementRef={agreementRef}
+        />
+      )}
       <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
       <CreateModal

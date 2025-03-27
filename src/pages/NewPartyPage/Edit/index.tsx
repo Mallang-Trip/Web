@@ -51,6 +51,7 @@ interface Props {
   member: number;
   region: string;
   partyType: string;
+  setPartyType: Dispatch<SetStateAction<string>>;
 }
 
 function Edit({
@@ -63,6 +64,7 @@ function Edit({
   member,
   region,
   partyType,
+  setPartyType,
 }: Props) {
   const coursePriceRef = useRef<HTMLDivElement | null>(null);
   const companionsRef = useRef<HTMLDivElement | null>(null);
@@ -249,10 +251,12 @@ function Edit({
       <>
         <TextArea
           title="전체 일정 여행비"
-          content={`${priceToString(planData.totalPrice)}원`}
+          content={`${priceToString(promotionId === 0 ? planData.totalPrice : planData.totalPrice * 0.8)}원`}
         />
         <CreditInfo
-          totalPrice={planData.totalPrice}
+          totalPrice={
+            promotionId === 0 ? planData.totalPrice : planData.totalPrice * 0.8
+          }
           capacity={planData.capacity}
         />
         <JoinMember
@@ -320,7 +324,11 @@ function Edit({
           agreementRef={agreementRef}
         />
       )}
-      <ReservationButton joinHandler={joinHandler} />
+      <ReservationButton
+        partyType={partyType}
+        setPartyType={setPartyType}
+        joinHandler={joinHandler}
+      />
       <BottomRefundUser />
       <CreateModal
         showModal={showEditModal}

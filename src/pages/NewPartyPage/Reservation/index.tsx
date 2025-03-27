@@ -44,6 +44,7 @@ interface Props {
   member: number;
   region: string;
   partyType: string;
+  setPartyType: Dispatch<SetStateAction<string>>;
 }
 
 function Reservation({
@@ -55,6 +56,7 @@ function Reservation({
   member,
   region,
   partyType,
+  setPartyType,
 }: Props) {
   const navigation = useNavigate();
   const companionsRef = useRef<HTMLDivElement | null>(null);
@@ -173,10 +175,12 @@ function Reservation({
       <TextArea title="날짜" content={dateToStringHan(date)} />
       <TextArea
         title="전체 일정 여행비"
-        content={`${priceToString(planData.totalPrice)}원`}
+        content={`${priceToString(promotionId === 0 ? planData.totalPrice : planData.totalPrice * 0.8)}원`}
       />
       <CreditInfo
-        totalPrice={planData.totalPrice}
+        totalPrice={
+          promotionId === 0 ? planData.totalPrice : planData.totalPrice * 0.8
+        }
         capacity={planData.capacity}
       />
       <JoinMember
@@ -228,7 +232,11 @@ function Reservation({
           agreementRef={agreementRef}
         />
       )}
-      <ReservationButton joinHandler={joinHandler} />
+      <ReservationButton
+        partyType={partyType}
+        setPartyType={setPartyType}
+        joinHandler={joinHandler}
+      />
       <BottomRefundUser />
 
       <CreateModal

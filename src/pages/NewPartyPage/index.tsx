@@ -311,6 +311,7 @@ function NewPartyPage() {
           member={member}
           region={region}
           partyType={partyType}
+          setPartyType={setPartyType}
         />
       )}
       {step === "6" && (
@@ -323,6 +324,7 @@ function NewPartyPage() {
           member={member}
           region={region}
           partyType={partyType}
+          setPartyType={setPartyType}
         />
       )}
       <ConfirmModal

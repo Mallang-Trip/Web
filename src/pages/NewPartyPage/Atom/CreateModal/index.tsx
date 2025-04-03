@@ -106,7 +106,9 @@ function CreateModal({
         }
         setPartyId(result.payload.partyId);
         setMessage(
-          "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+          partyType === "Friend"
+            ? "드라이버에게 예약 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+            : "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
         );
         setComplete(true);
 
@@ -138,8 +140,10 @@ function CreateModal({
   const closeModal = useCallback(() => {
     if (
       complete &&
-      message ===
-        "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다."
+      (message ===
+        "드라이버에게 일정 가입 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다." ||
+        message ===
+          "드라이버에게 예약 신청이 완료되었습니다.\n\n드라이버가 승인하면 결과를 알림으로 전송합니다.")
     ) {
       if (isGAlive()) {
         ReactGA.event({
@@ -170,7 +174,9 @@ function CreateModal({
 
     setComplete(false);
     setMessage(
-      "드라이버에게 일정 가입을 제안합니다.\n\n드라이버가 승인할 경우 일정에 가입되며,\n말랑트립 확정 이전까지 예약금은 청구되지 않습니다.\n\n제안을 보내시겠습니까?"
+      partyType === "Friend"
+        ? "드라이버에게 예약을 신청할까요?\n\n드라이버 신청 승인 시 결제 및 예약이 확정됩니다."
+        : "드라이버에게 일정 가입을 제안합니다.\n\n드라이버가 승인할 경우 일정에 가입되며,\n말랑트립 확정 이전까지 예약금은 청구되지 않습니다.\n\n제안을 보내시겠습니까?"
     );
 
     if (isGAlive()) {

@@ -53,6 +53,7 @@ function PlaceMap({
         });
       }
 
+      document.getElementById("place-search-input")?.blur();
       setShowDestinationModal(false);
       try {
         const result = await getSearchInfo(keyword || searchKeyword);
@@ -71,7 +72,6 @@ function PlaceMap({
   useEffect(() => {
     if (!keyword || keyword === "null") return;
 
-    document.getElementById("place-search-input")?.blur();
     setSearchKeyword(keyword);
     submitHandler(undefined, keyword);
   }, [keyword]);

@@ -32,7 +32,7 @@ function MapBox({
 }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const lastTouchTime = useRef<number>(0);
+  const touchRef = useRef({ _lat: 0, _lng: 0 });
   const [recentMap, setRecentMap] = useState();
   const [marker, setMarker] = useState<Marker[]>([]);
 
@@ -107,15 +107,19 @@ function MapBox({
           setClickedData(marker);
         });
         tmapMarker.addListener("touchstart", () => {
-          const currentTime = Date.now();
-          const timeDifference = currentTime - lastTouchTime.current;
-
-          if (timeDifference < 300) {
-            setShowDestinationModal(true);
-            setClickedData(marker);
-          }
-
-          lastTouchTime.current = currentTime;
+          const { _lat, _lng } = map.getCenter();
+          touchRef.current._lat = _lat;
+          touchRef.current._lng = _lng;
+        });
+        tmapMarker.addListener("touchend", () => {
+          const { _lat, _lng } = map.getCenter();
+          if (
+            Math.abs(touchRef.current._lat - _lat) > 0.005 ||
+            Math.abs(touchRef.current._lng - _lng) > 0.005
+          )
+            return;
+          setShowDestinationModal(true);
+          setClickedData(marker);
         });
 
         return tmapMarker;

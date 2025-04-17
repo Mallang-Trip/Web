@@ -74,7 +74,7 @@ function Edit({
   const [_, setCourseRegion] = useState("");
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState(planData.name);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [agreeChecked, setAgreeChecked] = useState([true, true]);
@@ -130,7 +130,7 @@ function Edit({
       return;
     }
     // 동행자 정보 입력 체크
-    if (memberCount > 1) {
+    if (!memberCount) {
       let checkValid = true;
 
       companions.slice(0, memberCount - 1).forEach((item) => {

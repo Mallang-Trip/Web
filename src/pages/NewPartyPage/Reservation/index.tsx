@@ -80,7 +80,7 @@ function Reservation({
 
   const joinHandler = useCallback(() => {
     // 동행자 정보 입력 체크
-    if (memberCount > 1) {
+    if (!memberCount) {
       let checkValid = true;
 
       companions.slice(0, memberCount - 1).forEach((item) => {

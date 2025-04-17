@@ -10,6 +10,13 @@ export const getPartyList = async (
     `/party/search?region=${region}&headcount=${num}&startDate=${nowDate[0]}&endDate=${nowDate[1]}&maxPrice=${price}`
   );
 
+export const getCourseList = async (
+  region: string,
+  num: number,
+  price: string | number
+) =>
+  await GET(`/course/list?region=${region}&headcount=${num}&maxPrice=${price}`);
+
 export const getPartyDetail = async (partyId: string) =>
   await GET(`/party/${partyId}`, true);
 

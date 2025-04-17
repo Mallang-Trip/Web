@@ -36,7 +36,7 @@ interface Props {
 function CourseMap({ mapName, reload, markerData }: Props) {
   const Tmapv2 = window.Tmapv2;
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const lastTouchTime = useRef<number>(0);
+  const touchRef = useRef({ _lat: 0, _lng: 0 });
   const [isDrawMap, setIsDrawMap] = useState(false);
   const [showDestinationModal, setShowDestinationModal] = useState(false);
   const [courseData, setCourseData] = useState<Destination[]>([]);
@@ -82,21 +82,25 @@ function CourseMap({ mapName, reload, markerData }: Props) {
         });
       });
       tmapMarker.addListener("touchstart", () => {
-        const currentTime = Date.now();
-        const timeDifference = currentTime - lastTouchTime.current;
-
-        if (timeDifference < 300) {
-          setShowDestinationModal(true);
-          setClickedData({
-            destinationId: destinationId,
-            name: name,
-            address: "",
-            lat: 0,
-            lon: 0,
-          });
-        }
-
-        lastTouchTime.current = currentTime;
+        const { _lat, _lng } = map.getCenter();
+        touchRef.current._lat = _lat;
+        touchRef.current._lng = _lng;
+      });
+      tmapMarker.addListener("touchend", () => {
+        const { _lat, _lng } = map.getCenter();
+        if (
+          Math.abs(touchRef.current._lat - _lat) > 0.005 ||
+          Math.abs(touchRef.current._lng - _lng) > 0.005
+        )
+          return;
+        setShowDestinationModal(true);
+        setClickedData({
+          destinationId: destinationId,
+          name: name,
+          address: "",
+          lat: 0,
+          lon: 0,
+        });
       });
     },
     [Tmapv2, startMarker, endMarker, pointMarker]

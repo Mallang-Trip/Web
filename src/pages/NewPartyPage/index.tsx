@@ -88,6 +88,7 @@ function NewPartyPage() {
           `/party/new/${newStep}?region=${region}&member=${member}&date=${date}&driverId=${null}`,
           { replace: true }
         );
+        setDriverId("null");
         return;
       }
 
@@ -297,6 +298,8 @@ function NewPartyPage() {
           member={member}
           region={region}
           settingDriverInfo={settingDriverInfo}
+          partyType={partyType}
+          setPartyType={setPartyType}
         />
       )}
       {step === "5" && (
@@ -310,6 +313,7 @@ function NewPartyPage() {
           member={member}
           region={region}
           partyType={partyType}
+          setPartyType={setPartyType}
         />
       )}
       {step === "6" && (
@@ -322,6 +326,7 @@ function NewPartyPage() {
           member={member}
           region={region}
           partyType={partyType}
+          setPartyType={setPartyType}
         />
       )}
       <ConfirmModal

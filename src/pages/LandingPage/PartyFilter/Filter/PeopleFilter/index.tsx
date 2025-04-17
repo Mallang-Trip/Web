@@ -16,9 +16,9 @@ function PeopleFilter() {
   const setDecrease = useCallback(() => dispatch(setNum(num - 1)), [num]);
 
   return (
-    <div className="w-full h-full px-8 py-6 flex flex-col justify-between rounded-l-3xl border-r border-gray300">
+    <div className="w-full h-full px-8 py-6 flex flex-col justify-between items-center rounded-l-3xl border-r border-gray300">
       <p className="text-base leading-5 text-gray700 font-medium">참여 인원</p>
-      <div className="w-full flex justify-start items-center">
+      <div className="w-full flex justify-center items-center">
         <button
           className={clsx(
             "w-7 h-7 rounded-full ring-1 flex justify-center items-center",

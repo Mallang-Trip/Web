@@ -57,7 +57,7 @@ function PartyPage() {
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("");
   const [registerCredit, setRegisterCredit] = useState(false);
-  const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [agreeChecked, setAgreeChecked] = useState([true, true]);
   const [shakeCompanions, setShakeCompanions] = useState(false);
   const [shakeCredit, setShakeCredit] = useState(false);
   const [shakeAgree, setShakeAgree] = useState(false);
@@ -163,7 +163,7 @@ function PartyPage() {
     }
 
     // 동행자 정보 입력 체크
-    if (memberCount > 1) {
+    if (!memberCount) {
       let checkValid = true;
 
       companions.slice(0, memberCount - 1).forEach((item) => {
@@ -521,12 +521,14 @@ function PartyPage() {
               creditRef={creditRef}
             />
           )}
-          <JoinAgreement
-            checked={agreeChecked}
-            setChecked={setAgreeChecked}
-            shakeAgree={shakeAgree}
-            agreementRef={agreementRef}
-          />
+          {false && (
+            <JoinAgreement
+              checked={agreeChecked}
+              setChecked={setAgreeChecked}
+              shakeAgree={shakeAgree}
+              agreementRef={agreementRef}
+            />
+          )}
         </>
       )}
       {partyData.myParty && type !== "edit" ? (

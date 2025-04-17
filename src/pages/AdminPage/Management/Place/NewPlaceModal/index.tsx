@@ -45,7 +45,7 @@ function NewPlaceModal({
   const Tmapv2 = window.Tmapv2;
   const modalRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const lastTouchTime = useRef<number>(0);
+  const touchRef = useRef({ _lat: 0, _lng: 0 });
   const [keyword, setKeyword] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -214,22 +214,26 @@ function NewPlaceModal({
               setShowFormModal(true);
             });
             tmapMarker.addListener("touchstart", () => {
-              const currentTime = Date.now();
-              const timeDifference = currentTime - lastTouchTime.current;
-
-              if (timeDifference < 300) {
-                setNewPlaceInfo({
-                  address: `${address} (${telNo})`,
-                  content: "",
-                  images: [],
-                  lat: lat,
-                  lon: lon,
-                  name: name,
-                });
-                setShowFormModal(true);
-              }
-
-              lastTouchTime.current = currentTime;
+              const { _lat, _lng } = map.getCenter();
+              touchRef.current._lat = _lat;
+              touchRef.current._lng = _lng;
+            });
+            tmapMarker.addListener("touchend", () => {
+              const { _lat, _lng } = map.getCenter();
+              if (
+                Math.abs(touchRef.current._lat - _lat) > 0.005 ||
+                Math.abs(touchRef.current._lng - _lng) > 0.005
+              )
+                return;
+              setNewPlaceInfo({
+                address: `${address} (${telNo})`,
+                content: "",
+                images: [],
+                lat: lat,
+                lon: lon,
+                name: name,
+              });
+              setShowFormModal(true);
             });
           }
           map.fitBounds(positionBounds, margin);

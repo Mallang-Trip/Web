@@ -1,29 +1,31 @@
 import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { customRoundOne } from "@/utils";
-import { HeartParty } from "@/types";
+import { Course } from "@/types";
 import basicPartyImage from "@/assets/images/Basic_Party_Image.jpg";
 
-function PartyBox({
-  partyId,
-  image,
+function CourseBox({
+  courseId,
+  images,
   name,
-  startDate,
-  headcount,
+  region,
   capacity,
-  price,
-}: HeartParty) {
+  totalPrice,
+  driverId,
+}: Course) {
   const navigate = useNavigate();
 
   const onClickHandler = useCallback(() => {
-    navigate(`/party/detail/${partyId}`);
-  }, [partyId]);
+    navigate(
+      `/party/new/4?region=${region}&member=${1}&date=${null}&driverId=${driverId}&selectedCourseId=${courseId}`
+    );
+  }, [courseId]);
 
   return (
     <div className="relative h-64 cursor-pointer" onClick={onClickHandler}>
       <img
         className="absolute top-0 left-0 object-cover object-center w-full h-full overflow-hidden rounded-lg"
-        src={image || basicPartyImage}
+        src={images[0] || basicPartyImage}
         alt={name}
         loading="lazy"
       />
@@ -31,10 +33,8 @@ function PartyBox({
         {name}
       </div>
       <div className="w-full absolute bottom-0 left-0 flex justify-center text-white py-1 rounded-b-lg z-10">
-        {`${startDate
-          .slice(5)
-          .replace("-", "/")} | ${headcount}/${capacity}명 | ${customRoundOne(
-          price / 10000
+        {`${region ? region + " | " : ""}최대 ${capacity}명 | ${customRoundOne(
+          totalPrice / 10000
         )}만원`}
       </div>
       <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 rounded-lg" />
@@ -42,4 +42,4 @@ function PartyBox({
   );
 }
 
-export default memo(PartyBox);
+export default memo(CourseBox);

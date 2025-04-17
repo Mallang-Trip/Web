@@ -27,11 +27,12 @@ function BottomRefundUser() {
         className={clsx(
           "flex flex-col gap-7 text-sm text-darkgray font-medium overflow-hidden transition-all duration-500",
           {
-            "max-h-[2000px] opacity-100": showRefund,
+            "max-h-full opacity-100": showRefund,
             "max-h-0 opacity-0": !showRefund,
           }
         )}
       >
+        <h3 className="text-base text-black font-bold">1. 공유예약</h3>
         <img src={refundDiagram} alt="환불 정책" className="w-full" />
         <div>
           <div className="text-primary font-bold mb-1">말랑레디란?</div>
@@ -77,6 +78,17 @@ function BottomRefundUser() {
             저렴해집니다.
           </div>
         </div>
+        <h3 className="text-base text-black font-bold">2. 개인예약</h3>
+        <div>
+          <div className="text-primary font-bold mb-1">
+            지인들과 함께 하는 개인예약의 경우:
+          </div>
+          <div>
+            드라이버 예약 승인 즉시 결제 및 예약 확정되고, 그 이후 예약 취소할
+            경우 아래 표와 같이 환불 정책이 적용됩니다.
+          </div>
+        </div>
+        <FeeTable />
       </div>
     </div>
   );

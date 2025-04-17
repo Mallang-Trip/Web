@@ -51,6 +51,7 @@ interface Props {
   member: number;
   region: string;
   partyType: string;
+  setPartyType: Dispatch<SetStateAction<string>>;
 }
 
 function Edit({
@@ -63,6 +64,7 @@ function Edit({
   member,
   region,
   partyType,
+  setPartyType,
 }: Props) {
   const coursePriceRef = useRef<HTMLDivElement | null>(null);
   const companionsRef = useRef<HTMLDivElement | null>(null);
@@ -72,10 +74,10 @@ function Edit({
   const [_, setCourseRegion] = useState("");
   const [memberCount, setMemberCount] = useState(member);
   const [content, setContent] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState(planData.name);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [agreeChecked, setAgreeChecked] = useState([false, false]);
+  const [agreeChecked, setAgreeChecked] = useState([true, true]);
   const [courseData, setCourseData] = useState<Destination[]>([]);
   const [registerCredit, setRegisterCredit] = useState(false);
   const [shakeCoursePrice, setShakeCoursePrice] = useState(false);
@@ -128,7 +130,7 @@ function Edit({
       return;
     }
     // 동행자 정보 입력 체크
-    if (memberCount > 1) {
+    if (!memberCount) {
       let checkValid = true;
 
       companions.slice(0, memberCount - 1).forEach((item) => {
@@ -249,10 +251,12 @@ function Edit({
       <>
         <TextArea
           title="전체 일정 여행비"
-          content={`${priceToString(planData.totalPrice)}원`}
+          content={`${priceToString(promotionId === 0 ? planData.totalPrice : planData.totalPrice * 0.8)}원`}
         />
         <CreditInfo
-          totalPrice={planData.totalPrice}
+          totalPrice={
+            promotionId === 0 ? planData.totalPrice : planData.totalPrice * 0.8
+          }
           capacity={planData.capacity}
         />
         <JoinMember
@@ -312,13 +316,19 @@ function Edit({
           creditRef={creditRef}
         />
       )}
-      <JoinAgreement
-        checked={agreeChecked}
-        setChecked={setAgreeChecked}
-        shakeAgree={shakeAgree}
-        agreementRef={agreementRef}
+      {false && (
+        <JoinAgreement
+          checked={agreeChecked}
+          setChecked={setAgreeChecked}
+          shakeAgree={shakeAgree}
+          agreementRef={agreementRef}
+        />
+      )}
+      <ReservationButton
+        partyType={partyType}
+        setPartyType={setPartyType}
+        joinHandler={joinHandler}
       />
-      <ReservationButton joinHandler={joinHandler} />
       <BottomRefundUser />
       <CreateModal
         showModal={showEditModal}

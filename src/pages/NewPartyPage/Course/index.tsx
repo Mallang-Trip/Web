@@ -37,6 +37,8 @@ interface Props {
   member: number;
   region: string;
   settingDriverInfo: () => void;
+  partyType: string;
+  setPartyType: Dispatch<SetStateAction<string>>;
 }
 
 function Course({
@@ -48,6 +50,8 @@ function Course({
   member,
   region,
   settingDriverInfo,
+  partyType,
+  setPartyType,
 }: Props) {
   const navigation = useNavigate();
   const user = useSelector((state: RootState) => state.user);
@@ -95,6 +99,8 @@ function Course({
         mapName="TMAP_COURSE"
       />
       <ReservationButton
+        partyType={partyType}
+        setPartyType={setPartyType}
         joinHandler={() =>
           navigation(
             `/party/new/${member > 0 ? 6 : 2}?region=${region}&member=${member}&date=${date}&driverId=${driverInfo.driverId}`

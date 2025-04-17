@@ -53,11 +53,12 @@ function PlaceMap({
         });
       }
 
+      document.getElementById("place-search-input")?.blur();
       setShowDestinationModal(false);
       try {
         const result = await getSearchInfo(keyword || searchKeyword);
 
-        if (result.payload.length === 0) return setShowNoDataModal(true);
+        if (result.payload.length === 0) return setShowNewPlaceModal(true);
         setMarkerData(result.payload);
         setRecentSearched(result.payload);
         setIsAllMarker(false);

@@ -75,6 +75,7 @@ function Promotion({ price, setPromotionId }: Props) {
           className="placeholder-textgray inline-block font-light text-base w-full text-textgray bg-lightgray pl-4 py-[15px] rounded-[15px] focus:outline-none"
           placeholder="무료 프로모션 코드를 입력해주세요"
           onChange={(e) => setPromotionCode(e.target.value)}
+          onBlur={handlePromotion}
         />
         <button onClick={handlePromotion} disabled={disable}>
           <span

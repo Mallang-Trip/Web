@@ -28,3 +28,4 @@ export { default as PolicyPage } from "./PolicyPage";
 export { default as SearchPlacePage } from "./SearchPlacePage";
 export { default as SignupPage } from "./SignupPage";
 export { default as TalkPage } from "./TalkPage";
+export { default as CourseDetailPage } from "./CourseDetailPage";

@@ -16,9 +16,7 @@ function CourseBox({
   const navigate = useNavigate();
 
   const onClickHandler = useCallback(() => {
-    navigate(
-      `/party/new/4?region=${region}&member=${1}&date=${null}&driverId=${driverId}&selectedCourseId=${courseId}`
-    );
+    navigate(`/course/detail/${courseId}/${driverId}`);
   }, [courseId]);
 
   return (

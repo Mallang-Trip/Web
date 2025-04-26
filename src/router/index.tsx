@@ -33,6 +33,7 @@ import {
   SearchPlacePage,
   SignupPage,
   TalkPage,
+  CourseDetailPage,
 } from "@/pages";
 
 function Router() {
@@ -41,6 +42,7 @@ function Router() {
   const AuthPolicyPage = Auth(PolicyPage, null);
   const AuthPartyPage = Auth(PartyPage, null);
   const AuthNewPartyPage = Auth(NewPartyPage, true);
+  const AuthCourseDetailPage = Auth(CourseDetailPage, null);
   const AuthPartyHistoryPage = Auth(PartyHistoryPage, true);
   const AuthDriverProfilePage = Auth(DriverProfilePage, null);
   const AuthMyMenuPage = Auth(MyMenuPage, true);
@@ -99,6 +101,10 @@ function Router() {
         <Route
           path="/destination/detail/:destinationId"
           element={<AuthDestinationPage />}
+        />
+        <Route
+          path="/course/detail/:courseId/:driverId"
+          element={<AuthCourseDetailPage />}
         />
         <Route path="/community/:articleId" element={<AuthCommunityPage />} />
         <Route

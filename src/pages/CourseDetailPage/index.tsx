@@ -79,8 +79,12 @@ function CourseDetailPage() {
     try {
       const courseResult = await getCourseDetail(courseId);
       const driverResult = await getDriverInfo(driverId || "");
-      setCourseDetail(courseResult.payload);
-      setDriverInfo(driverResult.payload);
+      if (courseResult.statusCode === 200) {
+        setCourseDetail(courseResult.payload);
+      }
+      if (driverResult.statusCode === 200) {
+        setDriverInfo(driverResult.payload);
+      }
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -96,10 +100,13 @@ function CourseDetailPage() {
   return (
     <PageContainer>
       <DriverInfo
-        name={driverInfo.name}
+        name={driverInfo.name || "말랑트립"}
         reservationCount={driverInfo.reservationCount}
         avgRate={driverInfo.avgRate}
-        introduction={driverInfo.introduction}
+        introduction={
+          driverInfo.introduction ||
+          "안녕하세요, 말랑트립 입니다.\n현재는 예약이 불가능한 코스 입니다.\n다른 코스를 이용해주세요."
+        }
         profileImg={driverInfo.profileImg}
       />
       <ImageBox images={courseDetail.images} name={driverInfo.name} />
@@ -126,6 +133,7 @@ function CourseDetailPage() {
       <ReservationButton
         partyType={partyType}
         setPartyType={setPartyType}
+        disabled={driverInfo.driverId === 0}
         joinHandler={() =>
           navigation(
             `/party/new/4?region=${driverInfo.region}&member=${1}&date=${null}&driverId=${driverId}&selectedCourseId=${courseId}`

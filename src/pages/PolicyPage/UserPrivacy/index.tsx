@@ -405,7 +405,7 @@ function UserPrivacy() {
             <br />
             담당자 : 김제윤
             <br />
-            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
+            {"연락처 : <TEL: 0507-1344-4159>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 10 조 (추가적인 이용·제공 판단기준)"}>
@@ -449,7 +449,7 @@ function UserPrivacy() {
             <br />
             담당자 : 김제윤
             <br />
-            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
+            {"연락처 : <TEL: 0507-1344-4159>, <이메일: mallangtrip@gmail.com>"}
             <br />※ 개인정보 보호 담당부서로 연결됩니다.
           </BodyTab>
           <br />▶ 개인정보 보호 담당부서
@@ -458,7 +458,7 @@ function UserPrivacy() {
             <br />
             담당자 : 김제윤
             <br />
-            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
+            {"연락처 : <TEL: 0507-1344-4159>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
           <br />② 정보주체는 회사의 서비스를 이용하시면서 발생한 모든 개인정보
           보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보
@@ -476,7 +476,7 @@ function UserPrivacy() {
             <br />
             담당자 : 김제윤
             <br />
-            {"연락처 : <TEL: 070-8080-2665>, <이메일: mallangtrip@gmail.com>"}
+            {"연락처 : <TEL: 0507-1344-4159>, <이메일: mallangtrip@gmail.com>"}
           </BodyTab>
         </BodyContent>
         <BodyContent title={"제 13 조 (권익침해 구제방법)"}>

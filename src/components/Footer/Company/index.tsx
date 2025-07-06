@@ -58,7 +58,7 @@ function Company() {
               공식 카카오톡
             </Link>
           </p>
-          <p className="my-1">유선 번호 : 070-8080-2665</p>
+          <p className="my-1">유선 번호 : 0507-1344-4159</p>
           <p>기타문의 : mallangtrip@mallangtrip.com</p>
         </div>
         <div className="text-xs text-darkgray">

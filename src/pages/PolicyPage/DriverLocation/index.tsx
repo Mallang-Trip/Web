@@ -176,7 +176,7 @@ function DriverLocation() {
             3. 주소 : 경기도 의왕시 모락로 89-15 109동 403호
             <br />
             <br />
-            4. 대표전화 : 070-8080-2665
+            4. 대표전화 : 0507-1344-4159
           </BodyTab>
         </BodyContent>
         <PolicyDate />

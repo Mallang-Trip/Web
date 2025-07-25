@@ -1,0 +1,1577 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>제주 택시 대절 9시간 19만원 – MallangTrip</title>
+    <meta
+      name="description"
+      content="중국인 모바일 월렛·국제 카드 전액 결제 지원, 야간·휴식·추가 운행 요금은 현장 카드 결제. 3일 전 무료 취소!"
+    />
+
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+
+    <style>
+      /* CSS는 이전 버전과 동일합니다. (생략하지 않고 모두 포함) */
+      :root {
+        --primary-color: #1e8bf9;
+        --text-primary: #111;
+        --text-secondary: #555;
+        --bg-white: #ffffff;
+        --bg-light-gray: #f8f9fa;
+        --border-color: #dee2e6;
+        --error-color: #dc2626;
+        --font-main: "Pretendard", sans-serif;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-main);
+        color: var(--text-primary);
+        background-color: var(--bg-white);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .section-container {
+        max-width: 1024px;
+        margin: auto;
+        padding: 80px 20px;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin-top: 0;
+        font-weight: 700;
+      }
+      h2 {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 48px;
+      }
+
+      .main-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        padding: 0 20px;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .main-nav .logo {
+        font-weight: 800;
+        font-size: 20px;
+      }
+      .main-nav .anchor-menu {
+        display: flex;
+        gap: 24px;
+      }
+      .main-nav .anchor-menu a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      .main-nav .lang-switcher {
+        font-size: 14px;
+      }
+      .hamburger-menu {
+        display: none;
+      }
+
+      #hero {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 560px;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://images.unsplash.com/photo-1579169825453-8d4b4653cc2c?q=80&w=1440")
+            center/cover no-repeat;
+      }
+      .hero-title {
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 24px;
+      }
+      .cta-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 12px;
+        box-shadow:
+          0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .cta-primary:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+      }
+      .cta-primary:disabled {
+        background-color: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .usp-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .usp-card {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        padding: 24px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+      }
+      .usp-card svg {
+        width: 64px;
+        height: 64px;
+        margin: auto;
+        color: var(--primary-color);
+      }
+      .usp-card h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+      .usp-card p {
+        color: var(--text-secondary);
+        margin: 0;
+      }
+
+      .price-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      .price-table th,
+      .price-table td {
+        padding: 16px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .price-table tbody tr:nth-child(odd) {
+        background-color: var(--bg-light-gray);
+      }
+      .price-table .price {
+        font-weight: 700;
+        text-align: right;
+      }
+      .price-table .note {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .review-card {
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        overflow: hidden;
+        text-align: center;
+      }
+      .review-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        cursor: pointer;
+      }
+      .review-card-content {
+        padding: 16px;
+      }
+      .review-card-content .rating {
+        color: #f59e0b;
+      }
+      .review-card-content .author {
+        margin-top: 8px;
+        font-weight: 600;
+      }
+
+      #pdp-section {
+        padding: 80px 0;
+        background-color: var(--bg-light-gray);
+      }
+      .pdp-img-container {
+        position: relative;
+        max-width: 1080px;
+        margin: auto;
+      }
+      .pdp-img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .pdp-booking-link {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 10%;
+        display: block;
+        border-radius: 50px;
+      }
+
+      #booking-section {
+        background-color: white;
+      }
+      .booking-container {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 40px;
+        align-items: flex-start;
+      }
+      #booking-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+      .form-group label {
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: var(--font-main);
+      }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+      .form-group .radio-group {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .phone-input-group {
+        display: flex;
+        gap: 8px;
+      }
+      .phone-input-group select {
+        flex-basis: 120px;
+      }
+      .phone-input-group input {
+        flex-grow: 1;
+      }
+
+      .payment-widget {
+        border: 1px dashed var(--primary-color);
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+      }
+      .payment-widget h3 {
+        margin-bottom: 16px;
+      }
+      .payment-widget .amount {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .payment-widget .note {
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+      }
+      #eximbay-widget {
+        display: none;
+      }
+      #stripe-widget {
+        display: block;
+      }
+      .payment-placeholder {
+        height: 150px;
+        background-color: #e9ecef;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+
+      /* --- 예약 조회 섹션 스타일 --- */
+      #lookup {
+        background-color: var(--bg-light-gray);
+      }
+      #lookup-form {
+        max-width: 380px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .otp-group {
+        display: none;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .lookup-result-card {
+        max-width: 600px;
+        margin: 32px auto 0;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background-color: var(--bg-white);
+        padding: 24px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        display: none;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .lookup-result-card.is-canceled {
+        background-color: #fef2f2;
+        border-color: #fecaca;
+      }
+      .lookup-result-card h3 {
+        font-size: 20px;
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .lookup-result-card h4 {
+        font-size: 16px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 8px;
+      }
+      .lookup-result-card .status-badge {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 16px;
+        text-transform: uppercase;
+      }
+      .lookup-result-card .status-badge.canceled {
+        background-color: #fee2e2;
+        color: var(--error-color);
+      }
+      .lookup-result-card .canceled-text {
+        text-decoration: line-through;
+        color: var(--text-secondary);
+      }
+      .details-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .details-grid p {
+        margin: 0;
+        font-size: 15px;
+        color: var(--text-secondary);
+      }
+      .details-grid p strong {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-left: 8px;
+      }
+      .refund-info {
+        font-size: 14px;
+        color: var(--error-color);
+        font-weight: 500;
+        text-align: center;
+        margin-top: 16px;
+      }
+      .lookup-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .btn-cancel {
+        background-color: var(--text-secondary) !important;
+      }
+      .btn-cancel:hover {
+        background-color: var(--error-color) !important;
+      }
+
+      /* --- 푸터 스타일 --- */
+      footer {
+        background-color: #343a40;
+        color: #adb5bd;
+        padding: 40px 20px;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .footer-container {
+        max-width: 1024px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .footer-info p,
+      .footer-links p {
+        margin: 4px 0;
+      }
+      .footer-links {
+        margin: 16px 0;
+      }
+      .footer-links a {
+        color: #ced4da;
+        margin: 0 8px;
+        text-decoration: none;
+      }
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+      .copyright {
+        font-size: 12px;
+        margin-top: 24px;
+        color: #868e96;
+      }
+
+      @media (max-width: 1023px) {
+        .booking-container {
+          grid-template-columns: 400px 1fr;
+        }
+      }
+      @media (max-width: 767px) {
+        .section-container {
+          padding: 60px 16px;
+        }
+        h2 {
+          font-size: 28px;
+          margin-bottom: 32px;
+        }
+        .main-nav .anchor-menu {
+          display: none;
+        }
+        .hamburger-menu {
+          display: block;
+        } /* 기능 미구현 */
+        #hero {
+          height: 400px;
+        }
+        .hero-title {
+          font-size: 28px;
+        }
+        .usp-grid {
+          grid-template-columns: 1fr;
+        }
+        .price-table thead {
+          display: none;
+        }
+        .price-table,
+        .price-table tbody,
+        .price-table tr,
+        .price-table td {
+          display: block;
+          width: 100%;
+        }
+        .price-table tr {
+          margin-bottom: 10px;
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          overflow: hidden;
+        }
+        .price-table td {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          text-align: left;
+          border: none;
+          padding: 12px 16px;
+        }
+        .price-table td::before {
+          content: attr(data-label);
+          font-weight: 600;
+        }
+        .price-table .price {
+          text-align: right;
+        }
+        .reviews-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .booking-container {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .lookup-result-card {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="main-nav">
+      <div class="logo">MallangTrip</div>
+      <nav class="anchor-menu">
+        <a href="#overview" data-key="nav_overview">서비스 개요</a>
+        <a href="#pricing" data-key="nav_pricing">요금 안내</a>
+        <a href="#reviews" data-key="nav_reviews">이용 후기</a>
+        <a href="#booking" data-key="nav_booking">바로 예약</a>
+        <a href="#lookup" data-key="nav_lookup">예약 조회</a>
+      </nav>
+      <div class="lang-switcher">
+        <select
+          name="lang"
+          id="lang-select"
+          style="border: none; background: transparent; font-size: 14px"
+        >
+          <option value="ko">🇰🇷 한국어</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+      </div>
+      <div class="hamburger-menu">☰</div>
+    </header>
+
+    <main>
+      <section id="hero">
+        <h1 class="hero-title" data-key="hero_title">
+          제주 어디든 9시간 19만원
+        </h1>
+        <p
+          style="margin-bottom: 32px; max-width: 500px; line-height: 1.6"
+          data-key="hero_subtitle"
+        >
+          자유로운 코스, 친절한 전용 기사님과 함께 제주의 모든 것을 경험하세요.
+        </p>
+        <a href="#booking" class="cta-primary" data-key="hero_cta"
+          >지금 바로 예약하기</a
+        >
+      </section>
+
+      <section id="overview" class="section-container">
+        <h2 data-key="overview_title">MallangTrip 택시투어만의 특별함</h2>
+        <div class="usp-grid">
+          <div class="usp-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 7 17l-5-5" />
+              <path d="m22 10-7.5 7.5L9 13" />
+            </svg>
+            <h3 data-key="usp1_title">100% 자유로운 코스</h3>
+            <p data-key="usp1_desc">
+              가고 싶은 곳 어디든! 원하는 일정대로 자유롭게 여행하세요.
+            </p>
+          </div>
+          <div class="usp-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 12s-4-2.5-4-5a4 4 0 1 1 8 0c0 2.5-4 5-4 5Z" />
+              <path d="M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+            </svg>
+            <h3 data-key="usp2_title">친절한 전용 기사</h3>
+            <p data-key="usp2_desc">
+              안전은 기본, 현지 맛집과 숨은 명소 추천까지! 최고의 여행 파트너
+            </p>
+          </div>
+          <div class="usp-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 13c0 5-3.5 7.5-7.5 7.5S5 18 5 13s3.5-7.5 7.5-7.5 7.5 2.5 7.5 7.5Z"
+              />
+              <path d="M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+              <path d="m18.5 8.5-4 4" />
+            </svg>
+            <h3 data-key="usp3_title">3일 전 무료 취소</h3>
+            <p data-key="usp3_desc">
+              여행 계획이 변경되어도 걱정 마세요. 위약금 없이 취소 가능합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="section-container">
+        <h2 data-key="pricing_title">합리적인 요금 안내</h2>
+        <table class="price-table">
+          <thead class="sr-only">
+            <tr>
+              <th data-key="price_col_item">항목</th>
+              <th data-key="price_col_desc">상세 내용</th>
+              <th data-key="price_col_payment">결제 방식</th>
+              <th data-key="price_col_amount">금액</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="항목" data-key="price1_item">
+                기본 대절 (9시간)
+              </td>
+              <td data-label="상세 내용" data-key="price1_desc">
+                제주 전지역 / 전용 기사 / 유류비 포함
+              </td>
+              <td data-label="결제 방식" data-key="price1_payment">
+                선결제 (온라인)
+              </td>
+              <td data-label="금액" class="price">₩ 190,000</td>
+            </tr>
+            <tr>
+              <td data-label="항목" data-key="price2_item">야간 운행</td>
+              <td data-label="상세 내용" class="note" data-key="price2_desc">
+                18:00 이후 ~ 22:00 이전 종료
+              </td>
+              <td data-label="결제 방식" data-key="price_payment_onsite">
+                현장 카드 결제
+              </td>
+              <td data-label="금액" class="price">+ ₩ 10,000</td>
+            </tr>
+            <tr>
+              <td data-label="항목" data-key="price3_item">기사님 휴식</td>
+              <td data-label="상세 내용" class="note" data-key="price3_desc">
+                기사님과 식사하지 않을 경우
+              </td>
+              <td data-label="결제 방식" data-key="price_payment_onsite">
+                현장 카드 결제
+              </td>
+              <td data-label="금액" class="price">+ ₩ 30,000</td>
+            </tr>
+            <tr>
+              <td data-label="항목" data-key="price4_item">시간 추가</td>
+              <td data-label="상세 내용" class="note" data-key="price4_desc">
+                기본 9시간 초과 시
+              </td>
+              <td data-label="결제 방식" data-key="price_payment_onsite">
+                현장 카드 결제
+              </td>
+              <td data-label="금액" class="price" data-key="price4_amount">
+                + ₩ 20,000 / 시간
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="reviews" class="section-container">
+        <h2 data-key="reviews_title">생생한 이용 후기</h2>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <img
+              src="https://images.unsplash.com/photo-1542359649-31e03cd7d369?q=80&w=800"
+              alt="제주 해변에서 찍은 후기 사진 1"
+            />
+            <div class="review-card-content">
+              <div class="rating">★★★★★</div>
+              <p class="author">🇨🇳 Wang* (28)</p>
+              <p class="comment">
+                "드라이버가 매우 친절하고 사진도 잘 찍어줬어요! 덕분에 편하게
+                여행했습니다."
+              </p>
+            </div>
+          </div>
+          <div class="review-card">
+            <img
+              src="https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800"
+              alt="성산일출봉 배경 후기 사진 2"
+            />
+            <div class="review-card-content">
+              <div class="rating">★★★★★</div>
+              <p class="author">🇺🇸 Chris* (35)</p>
+              <p class="comment">
+                "Perfect way to see Jeju! The driver recommended a fantastic
+                local black pork restaurant."
+              </p>
+            </div>
+          </div>
+          <div class="review-card">
+            <img
+              src="https://images.unsplash.com/photo-15639990066-83403697305?q=80&w=800"
+              alt="카페에서 찍은 후기 사진 3"
+            />
+            <div class="review-card-content">
+              <div class="rating">★★★★☆</div>
+              <p class="author">🇨🇳 Li* (24)</p>
+              <p class="comment">
+                "코스 짜는게 어려웠는데 기사님이 추천해준 곳들이 다 좋았어요.
+                하지만 차가 조금 작았어요."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pdp-section">
+        <div class="pdp-img-container">
+          <img
+            id="pdp-image"
+            src="https://via.placeholder.com/1080x2800.webp/f8f9fa/dee2e6?text=상품+상세+인포그래픽+(KO)"
+            alt="제주 택시 대절 상품 상세 인포그래픽"
+            loading="lazy"
+            fetchpriority="low"
+            data-key="pdp_alt"
+          />
+          <a
+            href="#booking"
+            class="pdp-booking-link"
+            aria-label="즉시 예약 섹션으로 이동"
+            data-key="pdp_aria_label"
+          ></a>
+        </div>
+      </section>
+
+      <section
+        id="booking"
+        class="section-container"
+        style="background-color: white"
+      >
+        <h2 data-key="booking_title">예약 및 결제</h2>
+        <div class="booking-container">
+          <form id="booking-form" action="#" method="POST">
+            <div class="form-group">
+              <label for="name" data-key="form_name_label">이름 (Name)</label
+              ><input
+                type="text"
+                id="name"
+                name="name"
+                required
+                minlength="2"
+                maxlength="30"
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone-number" data-key="form_phone_label"
+                >국제 전화번호 (Phone)</label
+              >
+              <div class="phone-input-group">
+                <select id="phone-prefix" name="phone_prefix">
+                  <option value="+82">🇰🇷 +82</option>
+                  <option value="+86">🇨🇳 +86</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+81">🇯🇵 +81</option>
+                  <option value="+886">🇹🇼 +886</option>
+                </select>
+                <input
+                  type="tel"
+                  id="phone-number"
+                  name="phone_number"
+                  required
+                  pattern="\d{6,15}"
+                  data-key="form_phone_placeholder"
+                  placeholder="'-' 제외 숫자만 입력"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="meet-date" data-key="form_date_label"
+                >미팅 날짜 (Date)</label
+              >
+              <input type="date" id="meet-date" name="meet_date" required />
+            </div>
+            <div class="form-group">
+              <label for="meet-time" data-key="form_time_label"
+                >미팅 시간 (Meet Time)</label
+              ><input
+                type="time"
+                id="meet-time"
+                name="meet_time"
+                required
+                min="09:00"
+                max="18:00"
+              />
+            </div>
+            <div class="form-group">
+              <label for="meet-address" data-key="form_address_label"
+                >미팅 주소 (Pickup Address)</label
+              ><textarea
+                id="meet-address"
+                name="meet_address"
+                required
+                minlength="10"
+                maxlength="100"
+                data-key="form_address_placeholder"
+                placeholder="정확한 호텔명 또는 주소를 입력하세요."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="return-address" data-key="form_return_label"
+                >복귀 주소 (Drop-off Address)</label
+              ><textarea
+                id="return-address"
+                name="return_address"
+                minlength="10"
+                maxlength="100"
+                data-key="form_return_placeholder"
+                placeholder="미입력 시 미팅 주소와 동일"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label data-key="form_itinerary_label"
+                >예정 코스 (Itinerary)</label
+              >
+              <div class="radio-group">
+                <label
+                  ><input
+                    type="radio"
+                    name="itinerary_option"
+                    value="undecided"
+                    checked
+                  />
+                  <span data-key="form_itinerary_option_undecided"
+                    >미정</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="itinerary_option" value="custom" />
+                  <span data-key="form_itinerary_option_custom"
+                    >직접 입력</span
+                  ></label
+                >
+              </div>
+              <textarea
+                id="route-desc"
+                name="route_desc"
+                maxlength="200"
+                data-key="form_itinerary_placeholder"
+                placeholder="ex) 성산일출봉 – 우도 등"
+                style="display: none"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="cta-primary"
+              data-key="form_submit_button"
+            >
+              결제 진행하기
+            </button>
+          </form>
+
+          <div class="payment-widget">
+            <h3 data-key="payment_title">최종 결제 금액</h3>
+            <div id="stripe-widget">
+              <p class="amount">KRW 190,000</p>
+              <p class="note" data-key="payment_stripe_note">
+                국제 신용카드(Visa, Master) 등으로 결제
+              </p>
+              <div class="payment-placeholder">Stripe Elements</div>
+            </div>
+            <div id="eximbay-widget">
+              <p class="amount">CNY ¥1,000 (예상)</p>
+              <p class="note" data-key="payment_eximbay_note">
+                Alipay, Wechat Pay 등으로 결제
+              </p>
+              <div class="payment-placeholder">Eximbay</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lookup" class="section-container">
+        <h2 data-key="lookup_title">예약 조회</h2>
+        <form id="lookup-form" action="javascript:void(0);">
+          <div class="form-group">
+            <label for="lookup-phone-number" data-key="lookup_phone_label"
+              >예약 시 사용한 국제 전화번호</label
+            >
+            <div class="phone-input-group">
+              <select id="lookup-phone-prefix" name="lookup_phone_prefix">
+                <option value="+82">🇰🇷 +82</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+81">🇯🇵 +81</option>
+                <option value="+886">🇹🇼 +886</option>
+              </select>
+              <input
+                type="tel"
+                id="lookup-phone-number"
+                name="lookup_phone_number"
+                required
+                pattern="\d{6,15}"
+                data-key="form_phone_placeholder"
+                placeholder="'-' 제외 숫자만 입력"
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            id="btn-send-otp"
+            class="cta-primary"
+            data-key="lookup_send_otp_button"
+          >
+            인증 코드 받기
+          </button>
+
+          <div class="otp-group" id="otp-group">
+            <div class="form-group">
+              <label for="otp" data-key="lookup_otp_label">SMS 인증 코드</label>
+              <input
+                type="text"
+                id="otp"
+                name="otp"
+                required
+                pattern="\d{6}"
+                maxlength="6"
+                data-key="lookup_otp_placeholder"
+                placeholder="6자리 숫자"
+                style="text-align: center; letter-spacing: 0.2em"
+              />
+            </div>
+            <button
+              type="submit"
+              id="btn-lookup"
+              class="cta-primary"
+              data-key="lookup_verify_button"
+            >
+              예약 조회하기
+            </button>
+          </div>
+        </form>
+
+        <div id="lookup-result-container"></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-info">
+          <p>
+            <span data-key="footer_owner_label">대표</span>: 김제윤 |
+            <span data-key="footer_reg_label">사업자등록번호</span>:
+            399-51-00784
+          </p>
+          <p data-key="footer_address">
+            주소: 경기도 안양시 동안구 시민대로327번길 11-41 310호
+          </p>
+          <p data-key="footer_contact">
+            고객문의: 공식 카카오톡 (실시간) / +82-507-1344-4159 (유선)
+          </p>
+        </div>
+        <div class="footer-links">
+          <p><a href="#" target="_blank">Instagram @mallang_trip</a></p>
+          <p data-key="footer_legal_links">
+            <a href="#">회사소개</a> · <a href="#">이용약관</a> ·
+            <a href="#">개인정보처리방침</a>
+          </p>
+          <p data-key="footer_biz_info">
+            통신판매업신고번호: 2024-안양동안-0716호 | 관광사업등록번호: 제
+            2024-000003호
+          </p>
+        </div>
+        <p class="copyright">© 2025 MallangTrip. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- 다국어 번역 데이터 ---
+        const translations = {
+          ko: {
+            meta_title: "제주 택시 대절 9시간 19만원 – MallangTrip",
+            meta_desc:
+              "중국인 모바일 월렛·국제 카드 전액 결제 지원, 야간·휴식·추가 운행 요금은 현장 카드 결제. 3일 전 무료 취소!",
+            nav_overview: "서비스 개요",
+            nav_pricing: "요금 안내",
+            nav_reviews: "이용 후기",
+            nav_booking: "바로 예약",
+            nav_lookup: "예약 조회",
+            hero_title: "제주 어디든 9시간 19만원",
+            hero_subtitle:
+              "자유로운 코스, 친절한 전용 기사님과 함께 제주의 모든 것을 경험하세요.",
+            hero_cta: "지금 바로 예약하기",
+            overview_title: "MallangTrip 택시투어만의 특별함",
+            usp1_title: "100% 자유로운 코스",
+            usp1_desc:
+              "가고 싶은 곳 어디든! 원하는 일정대로 자유롭게 여행하세요.",
+            usp2_title: "친절한 전용 기사",
+            usp2_desc:
+              "안전은 기본, 현지 맛집과 숨은 명소 추천까지! 최고의 여행 파트너",
+            usp3_title: "3일 전 무료 취소",
+            usp3_desc:
+              "여행 계획이 변경되어도 걱정 마세요. 위약금 없이 취소 가능합니다.",
+            pricing_title: "합리적인 요금 안내",
+            price_col_item: "항목",
+            price_col_desc: "상세 내용",
+            price_col_payment: "결제 방식",
+            price_col_amount: "금액",
+            price1_item: "기본 대절 (9시간)",
+            price1_desc: "제주 전지역 / 전용 기사 / 유류비 포함",
+            price1_payment: "선결제 (온라인)",
+            price2_item: "야간 운행",
+            price2_desc: "18:00 이후 ~ 22:00 이전 종료",
+            price3_item: "기사님 휴식",
+            price3_desc: "기사님과 식사하지 않을 경우",
+            price4_item: "시간 추가",
+            price4_desc: "기본 9시간 초과 시",
+            price4_amount: "+ ₩ 20,000 / 시간",
+            price_payment_onsite: "현장 카드 결제",
+            reviews_title: "생생한 이용 후기",
+            pdp_alt: "제주 택시 대절 상품 상세 인포그래픽",
+            pdp_aria_label: "즉시 예약 섹션으로 이동",
+            booking_title: "예약 및 결제",
+            form_name_label: "이름 (Name)",
+            form_phone_label: "국제 전화번호 (Phone)",
+            form_phone_placeholder: "'-' 제외 숫자만 입력",
+            form_date_label: "미팅 날짜 (Date)",
+            form_time_label: "미팅 시간 (Meet Time)",
+            form_address_label: "미팅 주소 (Pickup Address)",
+            form_address_placeholder: "정확한 호텔명 또는 주소를 입력하세요.",
+            form_return_label: "복귀 주소 (Drop-off Address)",
+            form_return_placeholder: "미입력 시 미팅 주소와 동일",
+            form_itinerary_label: "예정 코스 (Itinerary)",
+            form_itinerary_option_undecided: "미정",
+            form_itinerary_option_custom: "직접 입력",
+            form_itinerary_placeholder: "ex) 성산일출봉 – 우도 등 / 미정",
+            form_submit_button: "결제 진행하기",
+            payment_title: "최종 결제 금액",
+            payment_stripe_note: "국제 신용카드(Visa, Master) 등으로 결제",
+            payment_eximbay_note: "Alipay, Wechat Pay 등으로 결제",
+            lookup_title: "예약 조회",
+            lookup_phone_label: "예약 시 사용한 국제 전화번호",
+            lookup_send_otp_button: "인증 코드 받기",
+            lookup_otp_label: "SMS 인증 코드",
+            lookup_otp_placeholder: "6자리 숫자",
+            lookup_verify_button: "예약 조회하기",
+            lookup_result_booking_details: "예약 정보",
+            lookup_result_driver_details: "담당 기사님 정보",
+            lookup_result_name: "이름",
+            lookup_result_phone: "연락처",
+            lookup_result_date: "미팅 날짜",
+            lookup_result_time: "미팅 시간",
+            lookup_result_pickup: "미팅 장소",
+            lookup_result_dropoff: "하차 장소",
+            lookup_result_itinerary: "예정 코스",
+            lookup_result_driver_name: "기사명",
+            lookup_result_vehicle_number: "차량번호",
+            lookup_result_status_canceled: "취소됨",
+            lookup_cancel_button: "예약 취소",
+            lookup_new_booking_button: "새 예약하기",
+            lookup_refund_info: "환불 처리중: 영업일 5-7일 소요",
+            lookup_not_found:
+              "예약 정보를 찾을 수 없습니다. 전화번호를 확인 후 다시 시도해주세요.",
+            lookup_cancel_confirm:
+              "예약을 취소하시겠습니까? 취소 규정에 따라 위약금이 발생할 수 있습니다.",
+            footer_owner_label: "대표",
+            footer_reg_label: "사업자등록번호",
+            footer_address:
+              "주소: 경기도 안양시 동안구 시민대로327번길 11-41 310호",
+            footer_contact:
+              "고객문의: 공식 카카오톡 (실시간) / +82-507-1344-4159 (유선)",
+            footer_legal_links: `<a href="#">회사소개</a> · <a href="#">이용약관</a> · <a href="#">개인정보처리방침</a>`,
+            footer_biz_info:
+              "통신판매업신고번호: 2024-안양동안-0716호 | 관광사업등록번호: 제 2024-000003호",
+            alert_success:
+              "예약 정보가 성공적으로 접수되었습니다. 콘솔에서 Webhook 전송 데이터를 확인하세요.",
+            alert_otp_sent: "인증번호가 발송되었습니다.",
+            alert_otp_error:
+              "인증번호 발송에 실패했습니다. 잠시 후 다시 시도해주세요.",
+          },
+          en: {
+            meta_title: "Jeju Taxi Charter 9 Hours ₩190,000 – MallangTrip",
+            meta_desc:
+              "Full payment support for international cards & mobile wallets. Overtime/night fees paid on-site. Free cancellation up to 3 days prior!",
+            nav_overview: "Overview",
+            nav_pricing: "Pricing",
+            nav_reviews: "Reviews",
+            nav_booking: "Book Now",
+            nav_lookup: "My Booking",
+            hero_title: "Jeju All-Access: 9 Hours, ₩190,000",
+            hero_subtitle:
+              "Experience all of Jeju with your own flexible itinerary and a friendly private driver.",
+            hero_cta: "Book Your Tour Now",
+            overview_title: "Why Choose MallangTrip Taxi Tour?",
+            usp1_title: "100% Flexible Itinerary",
+            usp1_desc:
+              "Go wherever you want! Travel freely according to your desired schedule.",
+            usp2_title: "Friendly Private Driver",
+            usp2_desc:
+              "Safety is our priority. Your best travel partner, with local restaurant tips!",
+            usp3_title: "Free Cancellation",
+            usp3_desc:
+              "Plans changed? No worries. Cancel for free up to 3 days in advance.",
+            pricing_title: "Fair & Transparent Pricing",
+            price_col_item: "Item",
+            price_col_desc: "Details",
+            price_col_payment: "Payment",
+            price_col_amount: "Amount",
+            price1_item: "Basic Charter (9 hours)",
+            price1_desc: "All of Jeju / Private driver / Fuel included",
+            price1_payment: "Pre-payment (Online)",
+            price2_item: "Night Service",
+            price2_desc: "For tours ending after 18:00 and before 22:00",
+            price3_item: "Driver's Meal Break",
+            price3_desc: "If you don't dine with the driver",
+            price4_item: "Overtime",
+            price4_desc: "When exceeding the basic 9 hours",
+            price4_amount: "+ ₩ 20,000 / hour",
+            price_payment_onsite: "Pay on-site (Card)",
+            reviews_title: "Real Customer Reviews",
+            pdp_alt: "Jeju Taxi Charter Product Infographic",
+            pdp_aria_label: "Go to booking section",
+            booking_title: "Booking & Payment",
+            form_name_label: "Name",
+            form_phone_label: "International Phone",
+            form_phone_placeholder: "Numbers only",
+            form_date_label: "Meeting Date",
+            form_time_label: "Meet Time",
+            form_address_label: "Pickup Address",
+            form_address_placeholder: "Enter your exact hotel name or address.",
+            form_return_label: "Drop-off Address",
+            form_return_placeholder: "Same as pickup if left blank",
+            form_itinerary_label: "Planned Itinerary",
+            form_itinerary_option_undecided: "Undecided",
+            form_itinerary_option_custom: "Custom",
+            form_itinerary_placeholder:
+              "e.g.) Seongsan Ilchulbong - Udo Island",
+            form_submit_button: "Proceed to Payment",
+            payment_title: "Total Amount Due",
+            payment_stripe_note:
+              "Pay with international credit cards (Visa, Master, etc.)",
+            payment_eximbay_note: "Pay with Alipay, WeChat Pay, etc.",
+            lookup_title: "Find My Booking",
+            lookup_phone_label: "International phone number used for booking",
+            lookup_send_otp_button: "Get Verification Code",
+            lookup_otp_label: "SMS Verification Code",
+            lookup_otp_placeholder: "6-digit code",
+            lookup_verify_button: "Find Booking",
+            lookup_result_booking_details: "Reservation Details",
+            lookup_result_driver_details: "Driver Information",
+            lookup_result_name: "Name",
+            lookup_result_phone: "Phone",
+            lookup_result_date: "Date",
+            lookup_result_time: "Time",
+            lookup_result_pickup: "Pickup",
+            lookup_result_dropoff: "Drop-off",
+            lookup_result_itinerary: "Itinerary",
+            lookup_result_driver_name: "Driver Name",
+            lookup_result_vehicle_number: "Vehicle No.",
+            lookup_result_status_canceled: "Canceled",
+            lookup_cancel_button: "Cancel Booking",
+            lookup_new_booking_button: "Book a New Tour",
+            lookup_refund_info: "Refund processing: 5-7 business days",
+            lookup_not_found:
+              "Could not find your reservation. Please check the phone number and try again.",
+            lookup_cancel_confirm:
+              "Are you sure you want to cancel this booking? A cancellation fee may apply according to our policy.",
+            footer_owner_label: "CEO",
+            footer_reg_label: "Business Reg. No.",
+            footer_address:
+              "Address: 310, 11-41, Simin-daero 327beon-gil, Dongan-gu, Anyang-si, Gyeonggi-do, Rep. of KOREA",
+            footer_contact:
+              "Support: Official KakaoTalk (Live) / +82-507-1344-4159",
+            footer_legal_links: `<a href="#">About</a> · <a href="#">Terms</a> · <a href="#">Privacy</a>`,
+            footer_biz_info:
+              "E-commerce Permit: 2024-AnyangDongan-0716 | Tourism Business Reg: 2024-000003",
+            alert_success:
+              "Booking submitted successfully. Check the console for Webhook data simulation.",
+            alert_otp_sent: "Verification code has been sent.",
+            alert_otp_error: "Failed to send code. Please try again later.",
+          },
+          zh: {
+            meta_title: "济州岛出租车包车9小时19万韩元 – MallangTrip",
+            meta_desc:
+              "支持国际信用卡与中国手机钱包全额支付。夜间、休息、超时费用现场支付。3天前可免费取消！",
+            nav_overview: "服务概要",
+            nav_pricing: "费用说明",
+            nav_reviews: "客户评价",
+            nav_booking: "立即预订",
+            nav_lookup: "查询预订",
+            hero_title: "畅游济州9小时, 仅需19万韩元",
+            hero_subtitle:
+              "自由的行程，亲切的专属司机，与您一同体验济州的一切。",
+            hero_cta: "立即预订您的旅程",
+            overview_title: "为什么选择MallangTrip出租车旅行？",
+            usp1_title: "100%自由行程",
+            usp1_desc: "想去哪里就去哪里！按照您想要的日程自由地旅行吧。",
+            usp2_title: "亲切的专属司机",
+            usp2_desc: "安全第一。您最佳的旅行伙伴，还会推荐当地美食！",
+            usp3_title: "3天前免费取消",
+            usp3_desc: "旅行计划有变？别担心。提前3天可免费取消。",
+            pricing_title: "合理透明的费用",
+            price_col_item: "项目",
+            price_col_desc: "详细内容",
+            price_col_payment: "支付方式",
+            price_col_amount: "金额",
+            price1_item: "基本包车 (9小时)",
+            price1_desc: "济州全境 / 专属司机 / 含燃油费",
+            price1_payment: "在线预付",
+            price2_item: "夜间行驶",
+            price2_desc: "行程在18:00之后, 22:00之前结束时",
+            price3_item: "司机休息",
+            price3_desc: "不与司机一同用餐时",
+            price4_item: "超时费用",
+            price4_desc: "超过基本9小时后",
+            price4_amount: "+ ₩ 20,000 / 小时",
+            price_payment_onsite: "现场刷卡支付",
+            reviews_title: "真实客户评价",
+            pdp_alt: "济州岛出租车包车服务详细信息图",
+            pdp_aria_label: "转到预订区",
+            booking_title: "预订与支付",
+            form_name_label: "姓名 (Name)",
+            form_phone_label: "国际电话号码 (Phone)",
+            form_phone_placeholder: "请输入号码 (不要'-')",
+            form_date_label: "会面日期 (Date)",
+            form_time_label: "会面时间 (Meet Time)",
+            form_address_label: "上车地址 (Pickup Address)",
+            form_address_placeholder: "请输入确切的酒店名称或地址。",
+            form_return_label: "下车地址 (Drop-off Address)",
+            form_return_placeholder: "如不填写，则与上车地址相同",
+            form_itinerary_label: "计划路线 (Itinerary)",
+            form_itinerary_option_undecided: "未定",
+            form_itinerary_option_custom: "自行输入",
+            form_itinerary_placeholder: "例) 城山日出峰 - 牛岛",
+            form_submit_button: "前往付款",
+            payment_title: "最终结算金额",
+            payment_stripe_note: "使用国际信用卡 (Visa, Master等) 支付",
+            payment_eximbay_note: "使用支付宝、微信支付等付款",
+            lookup_title: "查询我的预订",
+            lookup_phone_label: "预订时使用的国际电话号码",
+            lookup_send_otp_button: "获取验证码",
+            lookup_otp_label: "短信验证码",
+            lookup_otp_placeholder: "6位数字",
+            lookup_verify_button: "查询预订",
+            lookup_result_booking_details: "预订详情",
+            lookup_result_driver_details: "司机信息",
+            lookup_result_name: "姓名",
+            lookup_result_phone: "电话",
+            lookup_result_date: "日期",
+            lookup_result_time: "时间",
+            lookup_result_pickup: "上车地点",
+            lookup_result_dropoff: "下车地点",
+            lookup_result_itinerary: "计划路线",
+            lookup_result_driver_name: "司机姓名",
+            lookup_result_vehicle_number: "车牌号码",
+            lookup_result_status_canceled: "已取消",
+            lookup_cancel_button: "取消预订",
+            lookup_new_booking_button: "重新预订",
+            lookup_refund_info: "退款处理中：需要 5-7 个工作日",
+            lookup_not_found: "找不到您的预订。请检查电话号码后重试。",
+            lookup_cancel_confirm:
+              "您确定要取消预订吗？根据取消政策，可能会产生取消费用。",
+            footer_owner_label: "法人代表",
+            footer_reg_label: "营业执照号码",
+            footer_address:
+              "地址: 京畿道安养市东安区市民大路327番路11-41, 310号",
+            footer_contact: "客服: KakaoTalk (中文) / +82-507-1344-4159",
+            footer_legal_links: `<a href="#">公司简介</a> · <a href="#">服务条款</a> · <a href="#">隐私政策</a>`,
+            footer_biz_info:
+              "通信销售业申告: 2024-安养东安-0716 | 旅游业登录: 2024-000003",
+            alert_success:
+              "预订信息已成功提交。请在控制台查看Webhook数据模拟。",
+            alert_otp_sent: "验证码已发送。",
+            alert_otp_error: "验证码发送失败，请稍后重试。",
+          },
+        };
+
+        // --- 다국어 변경 함수 ---
+        const changeLanguage = (lang) => {
+          document.documentElement.lang = lang;
+          document.title = translations[lang].meta_title;
+          document
+            .querySelector('meta[name="description"]')
+            .setAttribute("content", translations[lang].meta_desc);
+
+          document.querySelectorAll("[data-key]").forEach((el) => {
+            const key = el.getAttribute("data-key");
+            if (translations[lang][key]) {
+              const translation = translations[lang][key];
+              if (el.placeholder) el.placeholder = translation;
+              else if (el.alt) el.alt = translation;
+              else if (el.getAttribute("aria-label"))
+                el.setAttribute("aria-label", translation);
+              else el.innerHTML = translation;
+            }
+          });
+
+          const pdpImage = document.getElementById("pdp-image");
+          pdpImage.src = `https://via.placeholder.com/1080x2800.webp/f8f9fa/dee2e6?text=Product+Details+(${lang.toUpperCase()})`;
+          updateTableHeaders(lang);
+        };
+
+        const updateTableHeaders = (lang) => {
+          const table = document.querySelector(".price-table");
+          const headers = [
+            translations[lang].price_col_item,
+            translations[lang].price_col_desc,
+            translations[lang].price_col_payment,
+            translations[lang].price_col_amount,
+          ];
+          table.querySelectorAll("tbody tr").forEach((row) => {
+            row.querySelectorAll("td").forEach((td, index) => {
+              td.setAttribute("data-label", headers[index]);
+            });
+          });
+        };
+
+        // --- 유틸리티 함수 ---
+        const getFullPhoneNumber = (prefixId, numberId) => {
+          const prefix = document.getElementById(prefixId).value;
+          const number = document.getElementById(numberId).value;
+          return `${prefix}${number}`;
+        };
+
+        // --- 이벤트 리스너 설정 ---
+        const langSelect = document.getElementById("lang-select");
+        langSelect.addEventListener("change", (e) =>
+          changeLanguage(e.target.value),
+        );
+
+        const phonePrefixSelect = document.getElementById("phone-prefix");
+        const stripeWidget = document.getElementById("stripe-widget");
+        const eximbayWidget = document.getElementById("eximbay-widget");
+        phonePrefixSelect.addEventListener("change", () => {
+          const isCN = phonePrefixSelect.value === "+86";
+          stripeWidget.style.display = isCN ? "none" : "block";
+          eximbayWidget.style.display = isCN ? "block" : "none";
+        });
+
+        const bookingForm = document.getElementById("booking-form");
+        bookingForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (!bookingForm.checkValidity()) {
+            bookingForm.reportValidity();
+            return;
+          }
+
+          const formData = new FormData(bookingForm);
+          const data = Object.fromEntries(formData.entries());
+          data.full_phone = getFullPhoneNumber("phone-prefix", "phone-number");
+
+          console.log("--- Webhook 전송 (시뮬레이션) ---");
+          console.log(JSON.stringify(data, null, 2));
+          alert(translations[document.documentElement.lang].alert_success);
+        });
+
+        document
+          .querySelectorAll(".anchor-menu a, .cta-primary, .pdp-booking-link")
+          .forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+              const href = this.getAttribute("href");
+              if (href && href.startsWith("#")) {
+                e.preventDefault();
+                document
+                  .querySelector(href)
+                  .scrollIntoView({ behavior: "smooth" });
+              }
+            });
+          });
+
+        const datePicker = document.getElementById("meet-date");
+        const today = new Date();
+        const timeZoneOffset = today.getTimezoneOffset() * 60000;
+        const todayKST = new Date(
+          today.getTime() - timeZoneOffset + 9 * 3600000,
+        );
+        todayKST.setDate(todayKST.getDate() + 1); // 내일부터 예약 가능
+        const minDate = todayKST.toISOString().split("T")[0];
+        datePicker.min = minDate;
+
+        const itineraryRadios = document.querySelectorAll(
+          'input[name="itinerary_option"]',
+        );
+        const itineraryTextarea = document.getElementById("route-desc");
+        itineraryRadios.forEach((radio) => {
+          radio.addEventListener("change", () => {
+            itineraryTextarea.style.display =
+              radio.value === "custom" ? "block" : "none";
+            itineraryTextarea.required = radio.value === "custom";
+          });
+        });
+
+        // --- 예약 조회 로직 (시뮬레이션) ---
+        const lookupForm = document.getElementById("lookup-form");
+        const otpGroup = document.getElementById("otp-group");
+        const sendOtpBtn = document.getElementById("btn-send-otp");
+        const lookupPhoneNumberInput = document.getElementById(
+          "lookup-phone-number",
+        );
+        let otpTimer;
+        let mockBookingData = {}; // 조회된 예약 데이터를 저장할 변수
+
+        sendOtpBtn.addEventListener("click", () => {
+          if (!lookupPhoneNumberInput.checkValidity()) {
+            lookupPhoneNumberInput.reportValidity();
+            return;
+          }
+          alert(translations[document.documentElement.lang].alert_otp_sent);
+          otpGroup.style.display = "flex";
+          sendOtpBtn.disabled = true;
+          let seconds = 60;
+          const originalTextKey = "lookup_send_otp_button";
+          const originalText =
+            translations[document.documentElement.lang][originalTextKey];
+          sendOtpBtn.textContent = `${originalText} (${seconds}s)`;
+
+          otpTimer = setInterval(() => {
+            seconds--;
+            sendOtpBtn.textContent = `${originalText} (${seconds}s)`;
+            if (seconds <= 0) {
+              clearInterval(otpTimer);
+              sendOtpBtn.disabled = false;
+              sendOtpBtn.textContent = originalText;
+            }
+          }, 1000);
+        });
+
+        lookupForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          // 시뮬레이션용 목업 데이터 생성
+          mockBookingData = {
+            name: "김제주",
+            phone: getFullPhoneNumber(
+              "lookup-phone-prefix",
+              "lookup-phone-number",
+            ),
+            date: "2025-07-20",
+            time: "09:30",
+            pickup: "제주국제공항 1층 3번 게이트",
+            dropoff: "서귀포 칼 호텔",
+            itinerary: "성산일출봉 - 섭지코지 - 점심(고등어회) - 우도",
+            isCanceled: false,
+            driver: {
+              name: "박민수 기사님",
+              phone: "+82-10-1234-5678",
+              vehicle: "12가 3456",
+            },
+          };
+          displayLookupResult(mockBookingData);
+        });
+
+        function displayLookupResult(data) {
+          const container = document.getElementById("lookup-result-container");
+          const lang = document.documentElement.lang;
+
+          const card = document.createElement("div");
+          card.className = "lookup-result-card";
+          if (data.isCanceled) card.classList.add("is-canceled");
+
+          const itineraryText = data.isCanceled
+            ? `<span class="canceled-text">${data.itinerary}</span>`
+            : `<strong>${data.itinerary || translations[lang].form_itinerary_option_undecided}</strong>`;
+          const nameText = data.isCanceled
+            ? `<span class="canceled-text">${data.name}</span>`
+            : `<strong>${data.name}</strong>`;
+
+          card.innerHTML = `
+                <div>
+                    <h3>
+                        <span class="${data.isCanceled ? "canceled-text" : ""}">${data.date} / ${data.time}</span>
+                        ${data.isCanceled ? `<span class="status-badge canceled">${translations[lang].lookup_result_status_canceled}</span>` : ""}
+                    </h3>
+                </div>
+                <div>
+                    <h4 data-key="lookup_result_booking_details">${translations[lang].lookup_result_booking_details}</h4>
+                    <div class="details-grid">
+                        <p>${translations[lang].lookup_result_name}: ${nameText}</p>
+                        <p>${translations[lang].lookup_result_phone}: <strong class="${data.isCanceled ? "canceled-text" : ""}">${data.phone}</strong></p>
+                        <p>${translations[lang].lookup_result_pickup}: <strong class="${data.isCanceled ? "canceled-text" : ""}">${data.pickup}</strong></p>
+                        <p>${translations[lang].lookup_result_dropoff}: <strong class="${data.isCanceled ? "canceled-text" : ""}">${data.dropoff}</strong></p>
+                        <p>${translations[lang].lookup_result_itinerary}: ${itineraryText}</p>
+                    </div>
+                </div>
+                ${
+                  !data.isCanceled
+                    ? `
+                <div>
+                    <h4 data-key="lookup_result_driver_details">${translations[lang].lookup_result_driver_details}</h4>
+                    <div class="details-grid">
+                        <p>${translations[lang].lookup_result_driver_name}: <strong>${data.driver.name}</strong></p>
+                        <p>${translations[lang].lookup_result_phone}: <strong>${data.driver.phone}</strong></p>
+                        <p>${translations[lang].lookup_result_vehicle_number}: <strong>${data.driver.vehicle}</strong></p>
+                    </div>
+                </div>`
+                    : ""
+                }
+                <div class="lookup-actions">
+                    ${
+                      data.isCanceled
+                        ? `
+                        <p class="refund-info">${translations[lang].lookup_refund_info}</p>
+                        <a href="#booking" class="cta-primary">${translations[lang].lookup_new_booking_button}</a>
+                    `
+                        : `
+                        <button class="cta-primary btn-cancel">${translations[lang].lookup_cancel_button}</button>
+                    `
+                    }
+                </div>
+            `;
+          container.innerHTML = "";
+          container.appendChild(card);
+          card.style.display = "flex";
+
+          // 예약 취소 버튼에 이벤트 리스너 추가
+          if (!data.isCanceled) {
+            const cancelButton = card.querySelector(".btn-cancel");
+            cancelButton.addEventListener("click", () => {
+              if (confirm(translations[lang].lookup_cancel_confirm)) {
+                mockBookingData.isCanceled = true;
+                displayLookupResult(mockBookingData); // 취소된 상태로 카드 다시 그리기
+              }
+            });
+          }
+        }
+
+        // 페이지 로드 시 초기 언어(한국어)로 설정
+        changeLanguage("ko");
+      });
+    </script>
+  </body>
+</html>

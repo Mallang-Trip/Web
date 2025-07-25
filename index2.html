@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>예약 완료 – MallangTrip 제주 택시 대절</title>
+    <meta name="robots" content="noindex" />
+
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/lucide-react/dist/lucide-react.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+      /* --- 기본 스타일 변수 --- */
+      :root {
+        --primary-color: #1e8bf9;
+        --text-primary: #111;
+        --text-secondary: #555;
+        --bg-white: #ffffff;
+        --bg-light-gray: #f8f9fa;
+        --border-color: #dee2e6;
+        --font-main: "Pretendard", sans-serif;
+        --gradient-start: #3b82f6;
+        --gradient-end: #34d399;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-main);
+        color: var(--text-primary);
+        background-color: var(--bg-light-gray);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      a:hover {
+        color: var(--primary-color);
+      }
+
+      /* --- 헤더 (햄버거 버튼 제거됨) --- */
+      .thank-you-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 56px;
+        padding: 0 24px;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .thank-you-header .logo {
+        font-weight: 800;
+        font-size: 20px;
+        color: var(--text-primary);
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .lang-switcher select {
+        border: none;
+        background: transparent;
+        font-family: var(--font-main);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      /* --- Hero 섹션 --- */
+      #hero {
+        padding: 64px 24px;
+        color: white;
+        text-align: center;
+        background: linear-gradient(
+          to right,
+          var(--gradient-start),
+          var(--gradient-end)
+        );
+      }
+      .thank-title {
+        font-size: 36px;
+        font-weight: 800;
+        margin: 0 0 16px;
+      }
+
+      /* --- 영수증 안내 배너 --- */
+      .banner-receipt {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        max-width: 600px;
+        margin: -24px auto 24px;
+        padding: 12px 20px;
+        background-color: #ffffff;
+        color: var(--text-secondary);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        z-index: 5;
+        position: relative;
+        font-size: 14px;
+        opacity: 1;
+        transition:
+          opacity 0.5s ease-out,
+          transform 0.5s ease-out;
+        transform: translateY(0);
+      }
+      .banner-receipt.fade-out {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      /* --- 페이지 본문 컨테이너 --- */
+      .page-container {
+        max-width: 1024px;
+        margin: auto;
+        padding: 24px;
+      }
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      /* --- 카드 & 아코디언 --- */
+      .card {
+        background-color: var(--bg-white);
+        border-radius: 12px;
+        box-shadow:
+          0 4px 6px -1px rgb(0 0 0 / 0.05),
+          0 2px 4px -2px rgb(0 0 0 / 0.05);
+        padding: 24px;
+      }
+      .card h2 {
+        font-size: 20px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .info-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .info-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 15px;
+      }
+      .info-list li .icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+        color: var(--primary-color);
+      }
+      .info-list li span {
+        color: var(--text-secondary);
+        min-width: 70px;
+      }
+      .info-list li strong {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .card-driver {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .driver-profile {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .driver-profile img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .driver-info h3 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .driver-info p {
+        margin: 4px 0 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .driver-info .copy-btn {
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 2px;
+        display: inline-flex;
+      }
+
+      .accordion-fee summary {
+        font-weight: 600;
+        cursor: pointer;
+        padding-bottom: 10px;
+      }
+      .accordion-fee .details-content {
+        padding-top: 16px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* --- 액션 버튼 --- */
+      #actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .btn-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        border: 1px solid var(--primary-color);
+        background-color: transparent;
+        color: var(--primary-color);
+      }
+      .btn-action:hover {
+        background-color: #e9f4ff;
+      }
+
+      /* --- 에러 배너 --- */
+      #error-banner {
+        display: none;
+        padding: 20px;
+        background-color: #fff1f2;
+        color: #be123c;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        text-align: center;
+      }
+      #error-banner h2 {
+        margin-top: 0;
+      }
+
+      /* --- 푸터 --- */
+      footer {
+        background-color: #343a40;
+        color: #adb5bd;
+        padding: 40px 24px;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .footer-container {
+        max-width: 1024px;
+        margin: auto;
+      }
+      .footer-container p {
+        margin: 0 0 8px 0;
+      }
+      .footer-info,
+      .footer-links {
+        margin-bottom: 20px;
+      }
+      .copyright {
+        margin-top: 30px;
+        font-size: 12px;
+        color: #6c757d;
+      }
+      @media (min-width: 768px) {
+        .footer-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+        .copyright {
+          grid-column: 1 / -1;
+        }
+      }
+
+      /* --- 반응형 레이아웃 --- */
+      @media (min-width: 768px) {
+        .content-grid {
+          grid-template-columns: repeat(2, 1fr);
+          align-items: flex-start;
+        }
+        #actions {
+          grid-template-columns: repeat(2, 200px);
+          justify-content: center;
+        }
+      }
+      @media (max-width: 767px) {
+        .thank-title {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="thank-you-header">
+      <a href="/" class="logo">MallangTrip</a>
+      <div class="header-right">
+        <div class="lang-switcher">
+          <select name="lang" id="lang-select">
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="zh">🇨🇳 中文</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero">
+        <h1 class="thank-title">🎉 예약 완료!</h1>
+        <p style="margin: 0; font-size: 16px; opacity: 0.9">
+          예약 정보가 정상적으로 접수되었습니다.
+        </p>
+      </section>
+
+      <div id="receipt-banner" class="banner-receipt">
+        <i data-lucide="mail" style="color: #34d399"></i>
+        <span>결제 영수증은 이메일로 자동 발송됩니다.</span>
+      </div>
+
+      <div class="page-container">
+        <div id="error-banner">
+          <h2>⚠️ 예약 정보 로딩 실패</h2>
+          <p>
+            예약 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시
+            시도해주세요.
+          </p>
+        </div>
+
+        <div id="content-container" class="content-grid">
+          <div id="summary-info" class="card card-info">
+            <h2><i data-lucide="calendar-check"></i>예약 정보</h2>
+            <ul class="info-list">
+              <li>
+                <i data-lucide="calendar" class="icon"></i><span>픽업 날짜</span
+                ><strong id="pickup-date">2025년 8월 12일</strong>
+              </li>
+              <li>
+                <i data-lucide="clock" class="icon"></i><span>픽업 시간</span
+                ><strong id="pickup-time">09:00</strong>
+              </li>
+              <li>
+                <i data-lucide="map-pin" class="icon"></i><span>미팅 장소</span
+                ><strong id="meeting-point">제주 국제공항 Gate 5 앞</strong>
+              </li>
+              <li>
+                <i data-lucide="corner-up-left" class="icon"></i
+                ><span>복귀 주소</span
+                ><strong id="return-address">서귀포 칼 호텔</strong>
+              </li>
+              <li>
+                <i data-lucide="route" class="icon"></i><span>예정 코스</span
+                ><strong id="planned-course"
+                  >동쪽 코스 (함덕해변, 월정리, 성산일출봉)</strong
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="card card-driver">
+            <h2><i data-lucide="user-check"></i>담당 드라이버</h2>
+            <div class="driver-profile">
+              <img
+                id="driver-avatar"
+                src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=200&auto=format&fit=crop"
+                alt="드라이버 프로필 사진"
+              />
+              <div class="driver-info">
+                <h3 id="driver-name">박민수 기사님</h3>
+                <p>
+                  <i
+                    data-lucide="car-front"
+                    style="width: 14px; height: 14px"
+                  ></i
+                  ><span id="driver-license">34오 5678</span>
+                </p>
+                <p id="driver-phone-container" data-phone="+82-10-1234-5678">
+                  <i data-lucide="phone" style="width: 14px; height: 14px"></i>
+                  <span id="driver-phone">+82-10-1234-5678</span>
+                  <button class="copy-btn" title="전화번호 복사">
+                    <i data-lucide="copy" style="width: 14px; height: 14px"></i>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="onsite-payment-info" class="card">
+            <details class="accordion-fee" open>
+              <summary>현장 결제 안내</summary>
+              <div class="details-content">
+                기본 대절료(9시간) 외 추가되는 요금은 투어 종료 시 담당 기사님께
+                직접 카드로 결제해주세요. (국내/해외 카드 가능)
+              </div>
+            </details>
+          </div>
+
+          <div id="actions">
+            <button id="btn-lookup" class="btn-action">
+              <i data-lucide="search"></i>예약 조회
+            </button>
+            <button id="btn-pdf" class="btn-action">
+              <i data-lucide="file-text"></i>예약내역 저장
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-info">
+          <p>
+            <span>대표</span>: 김제윤 | <span>사업자등록번호</span>:
+            399-51-00784
+          </p>
+          <p>주소: 경기도 안양시 동안구 시민대로327번길 11-41 310호</p>
+          <p>고객문의: 공식 카카오톡 (실시간) / +82-507-1344-4159 (유선)</p>
+        </div>
+        <div class="footer-links">
+          <p>
+            <a href="https://instagram.com/mallang_trip" target="_blank"
+              >Instagram @mallang_trip</a
+            >
+          </p>
+          <p>
+            <a href="#">회사소개</a> · <a href="#">이용약관</a> ·
+            <a href="#">개인정보처리방침</a>
+          </p>
+          <p>
+            통신판매업신고번호: 2024-안양동안-0716호 | 관광사업등록번호: 제
+            2024-000003호
+          </p>
+        </div>
+        <p class="copyright">© 2025 MallangTrip. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // 페이지가 로드된 후 스크립트를 실행하여 인터랙티브 기능을 추가합니다.
+      document.addEventListener("DOMContentLoaded", () => {
+        // 아이콘 렌더링
+        lucide.createIcons();
+
+        // GA4 트래킹 함수 시뮬레이션
+        const trackEvent = (eventName, params) => {
+          console.log(`[GA4 Tracked] Event: ${eventName}`, params || "");
+        };
+
+        // 영수증 배너 자동 숨김
+        const receiptBanner = document.getElementById("receipt-banner");
+        trackEvent("view_receipt_banner");
+        setTimeout(() => {
+          receiptBanner.classList.add("fade-out");
+        }, 5000);
+
+        // PDF 다운로드
+        document.getElementById("btn-pdf").addEventListener("click", () => {
+          trackEvent("download_pdf");
+          const { jsPDF } = window.jspdf;
+          const pdfCapture = document.getElementById("content-container");
+
+          html2canvas(pdfCapture, { scale: 2, useCORS: true }).then(
+            (canvas) => {
+              const imgData = canvas.toDataURL("image/png");
+              const pdf = new jsPDF({
+                orientation: "p",
+                unit: "mm",
+                format: "a4",
+              });
+              const pdfWidth = pdf.internal.pageSize.getWidth();
+              const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+              pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+              pdf.save(`MallangTrip_Reservation_Details.pdf`);
+            },
+          );
+        });
+
+        // 드라이버 연락처 복사
+        document
+          .getElementById("driver-phone-container")
+          .addEventListener("click", (e) => {
+            if (e.target.closest(".copy-btn")) {
+              const phone = e.currentTarget.dataset.phone;
+              navigator.clipboard.writeText(phone).then(() => {
+                alert("전화번호가 복사되었습니다.");
+                trackEvent("copy_driver_phone");
+              });
+            }
+          });
+
+        // 예약조회 버튼
+        document.getElementById("btn-lookup").addEventListener("click", () => {
+          alert("예약 조회 페이지로 이동합니다.");
+          // window.location.href = '/lookup-page.html';
+        });
+
+        // 페이지 초기화 시 이벤트 트래킹
+        trackEvent("view_thankyou");
+      });
+    </script>
+  </body>
+</html>

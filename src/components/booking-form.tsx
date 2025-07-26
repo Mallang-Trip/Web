@@ -232,7 +232,7 @@ export default function BookingForm() {
         onClick={handleSubmit}
         disabled={!formData.agreedToTerms}
       >
-        ₩ 190,000 결제 진행하기
+        ₩190,000 결제 진행하기
       </Button>
     </div>
   );

@@ -4,57 +4,188 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
+import { useState } from "react";
 
 export default function Header() {
   const { isAuthenticated, phoneNumber, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 h-16 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-full max-w-screen-2xl items-center justify-between px-4">
-        {/* 로고 */}
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            width={112}
-            height={27}
-            alt="말랑트립"
-            className="h-7 w-auto"
-          />
-        </Link>
+    <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+      <div className="mx-auto max-w-screen-2xl px-4">
+        {/* 메인 헤더 */}
+        <div className="flex h-16 items-center justify-between">
+          {/* 로고 */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              width={112}
+              height={27}
+              alt="말랑트립"
+              className="h-7 w-auto"
+            />
+          </Link>
 
-        {/* 오른쪽 메뉴 */}
-        <div className="flex items-center gap-4">
-          {/* 로그인 상태에 따른 버튼 표시 */}
-          {isAuthenticated ? (
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-600">{phoneNumber}</span>
-              <Link href="/result">
+          {/* 데스크톱 메뉴 */}
+          <div className="hidden items-center gap-4 md:flex">
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-600">{phoneNumber}</span>
+                <Link href="/result">
+                  <Button variant="outline" size="sm">
+                    예약 조회
+                  </Button>
+                </Link>
+                <Button variant="outline" size="sm" onClick={logout}>
+                  로그아웃
+                </Button>
+              </div>
+            ) : (
+              <Link href="/login">
                 <Button variant="outline" size="sm">
-                  예약 조회
+                  로그인
                 </Button>
               </Link>
-              <Button variant="outline" size="sm" onClick={logout}>
-                로그아웃
-              </Button>
-            </div>
-          ) : (
-            <Link href="/login">
-              <Button variant="outline" size="sm">
-                로그인
-              </Button>
-            </Link>
-          )}
+            )}
 
-          {/* 언어 선택 드롭다운 */}
-          <select
-            defaultValue="ko"
-            className="h-9 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm"
-          >
-            <option value="ko">🇰🇷 한국어</option>
-            <option value="en">🇺🇸 English</option>
-            <option value="zh">🇨🇳 中문</option>
-          </select>
+            {/* 언어 선택 드롭다운 */}
+            <select
+              defaultValue="ko"
+              className="h-9 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm"
+            >
+              <option value="ko">🇰🇷 한국어</option>
+              <option value="en">🇺🇸 English</option>
+              <option value="zh">🇨🇳 中문</option>
+            </select>
+          </div>
+
+          {/* 모바일 햄버거 메뉴 버튼 */}
+          <div className="flex items-center gap-2 md:hidden">
+            {/* 언어 선택 (모바일에서 축약) */}
+            <select
+              defaultValue="ko"
+              className="h-8 w-16 rounded-md border border-gray-300 px-2 py-1 text-xs"
+            >
+              <option value="ko">🇰🇷</option>
+              <option value="en">🇺🇸</option>
+              <option value="zh">🇨🇳</option>
+            </select>
+
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="rounded-md p-2 hover:bg-gray-100"
+              aria-label="메뉴 열기"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {/* 모바일 드롭다운 메뉴 */}
+        {isMobileMenuOpen && (
+          <div className="border-t border-gray-200 py-4 md:hidden">
+            {isAuthenticated ? (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-600">
+                    로그인됨: {phoneNumber}
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  <Link
+                    href="/result"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block"
+                  >
+                    <Button variant="outline" className="w-full justify-start">
+                      <svg
+                        className="mr-2 h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                      예약 조회
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                    로그아웃
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block"
+              >
+                <Button variant="outline" className="w-full justify-start">
+                  <svg
+                    className="mr-2 h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                    />
+                  </svg>
+                  로그인
+                </Button>
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );

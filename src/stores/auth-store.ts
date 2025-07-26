@@ -38,8 +38,6 @@ export const useAuthStore = create<AuthStore>()(
           document.cookie = `auth-token=${userToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7일
           document.cookie = `is-authenticated=true; path=/; max-age=${60 * 60 * 24 * 7}`;
         }
-
-        console.log("로그인 완료:", { userToken, phoneNumber });
       },
 
       logout: () => {
@@ -56,8 +54,6 @@ export const useAuthStore = create<AuthStore>()(
           document.cookie =
             "is-authenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
-
-        console.log("로그아웃 완료");
       },
 
       clearAuth: () => {

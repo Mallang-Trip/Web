@@ -118,7 +118,6 @@ export function LoginForm({
       // 원래 접근하려던 페이지로 리다이렉트 (없으면 메인 페이지)
       setTimeout(() => {
         const redirectTo = returnUrl || "/";
-        console.log("로그인 성공 후 리다이렉트:", redirectTo);
 
         // returnUrl 정리
         if (typeof window !== "undefined") {

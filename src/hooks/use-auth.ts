@@ -18,7 +18,6 @@ export const useAuth = () => {
         const currentPath = window.location.pathname;
         localStorage.setItem("returnUrl", currentPath);
 
-        console.log("🔒 인증 필요 - 로그인 페이지로 리다이렉트:", currentPath);
         router.push(`/login?returnUrl=${encodeURIComponent(currentPath)}`);
       } else {
         router.push("/login");

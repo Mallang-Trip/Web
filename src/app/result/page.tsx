@@ -5,8 +5,42 @@ import Footer from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useAuth } from "@/hooks/use-auth";
+import { useEffect } from "react";
 
 export default function ResultPage() {
+  const { isAuthenticated, hasHydrated, requireAuth } = useAuth();
+
+  // 인증 확인 (hydration이 완료된 후에만 실행)
+  useEffect(() => {
+    if (!hasHydrated) {
+      console.log("🔄 Zustand hydration 대기 중...");
+      return; // hydration이 완료될 때까지 대기
+    }
+
+    console.log("🔒 /result 페이지 인증 확인:", {
+      hasHydrated,
+      isAuthenticated,
+    });
+    if (!requireAuth()) {
+      return; // requireAuth()가 false를 반환하면 자동으로 로그인 페이지로 리다이렉트
+    }
+  }, [hasHydrated, isAuthenticated, requireAuth]);
+
+  // hydration이 완료되지 않았거나 인증되지 않은 사용자에게는 로딩 화면 표시
+  if (!hasHydrated || !isAuthenticated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
+          <p className="text-gray-600">
+            {!hasHydrated ? "데이터 로딩 중..." : "인증 확인 중..."}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // 예약 정보 (실제로는 URL 파라미터나 상태에서 가져올 수 있음)
   const bookingInfo = {
     pickupDate: "2025년 8월 12일",

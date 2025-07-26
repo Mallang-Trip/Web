@@ -3,8 +3,11 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Header() {
+  const { isAuthenticated, phoneNumber, logout } = useAuth();
+
   return (
     <header className="fixed top-0 right-0 left-0 z-50 h-16 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex h-full max-w-screen-2xl items-center justify-between px-4">
@@ -21,12 +24,26 @@ export default function Header() {
 
         {/* 오른쪽 메뉴 */}
         <div className="flex items-center gap-4">
-          {/* 예약 조회 버튼 */}
-          <Link href="/login">
-            <Button variant="outline" size="sm">
-              예약 조회
-            </Button>
-          </Link>
+          {/* 로그인 상태에 따른 버튼 표시 */}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-600">{phoneNumber}</span>
+              <Link href="/result">
+                <Button variant="outline" size="sm">
+                  예약 조회
+                </Button>
+              </Link>
+              <Button variant="outline" size="sm" onClick={logout}>
+                로그아웃
+              </Button>
+            </div>
+          ) : (
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                로그인
+              </Button>
+            </Link>
+          )}
 
           {/* 언어 선택 드롭다운 */}
           <select

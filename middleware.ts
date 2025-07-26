@@ -7,7 +7,7 @@ const getSession = async () => {
 };
 
 // 인증이 필요한 페이지 리스트
-const matchersForAuth = ["/admin{/*path}"];
+const matchersForAuth = ["/result{/*path}"];
 
 // 미들웨어
 export async function middleware(request: NextRequest) {
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   if (isMatch(request.nextUrl.pathname, matchersForAuth)) {
     return (await getSession())
       ? NextResponse.next()
-      : NextResponse.redirect(new URL("/signin", request.url));
+      : NextResponse.redirect(new URL("/login", request.url));
   }
   return NextResponse.next();
 }

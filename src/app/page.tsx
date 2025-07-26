@@ -1,16 +1,13 @@
-import Header from "@/components/header";
 import HeroSection from "@/components/hero-section";
 import FeaturesSection from "@/components/features-section";
 import PricingSection from "@/components/pricing-section";
 import ReviewsSection from "@/components/reviews-section";
 import BookingSidebar from "@/components/booking-sidebar";
 import MobileBottomBar from "@/components/mobile-bottom-bar";
-import Footer from "@/components/footer";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
       <HeroSection />
 
       {/* 메인 콘텐츠 영역 */}
@@ -31,8 +28,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <Footer />
 
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar />

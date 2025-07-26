@@ -5,6 +5,8 @@ import { QueryProvider } from "@/providers/query";
 
 import { CounterStoreProvider } from "@/providers/counter-store-provider";
 import { Toaster } from "@/components/ui/sonner";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -44,7 +46,9 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <CounterStoreProvider>
+            <Header />
             {children}
+            <Footer />
             <Toaster />
           </CounterStoreProvider>
         </QueryProvider>

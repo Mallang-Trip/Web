@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-800 px-5 py-10 text-sm leading-relaxed text-gray-400">
@@ -17,47 +19,43 @@ export default function Footer() {
 
         <div className="mb-5">
           <p className="mb-2">
-            <a
+            <Link
               href="https://www.instagram.com/mallang_trip/"
               target="_blank"
               rel="noopener noreferrer"
               className="mx-2 text-gray-300 hover:underline"
             >
               Instagram @mallang_trip
-            </a>
+            </Link>
           </p>
           <p className="mb-2">
-            <a
-              href="/terms_service.html"
-              target="_blank"
+            <Link
+              href="/policy/service"
               className="mx-2 text-gray-300 hover:underline"
             >
               서비스 이용약관
-            </a>{" "}
+            </Link>{" "}
             ·{" "}
-            <a
-              href="/terms_travel.html"
-              target="_blank"
+            <Link
+              href="/policy/travel"
               className="mx-2 text-gray-300 hover:underline"
             >
               국내여행 표준약관
-            </a>{" "}
+            </Link>{" "}
             ·{" "}
-            <a
-              href="/privacy_collection.html"
-              target="_blank"
+            <Link
+              href="/policy/privacy"
               className="mx-2 text-gray-300 hover:underline"
             >
               개인정보 수집·이용
-            </a>{" "}
+            </Link>{" "}
             ·{" "}
-            <a
-              href="/privacy_thirdparty.html"
-              target="_blank"
+            <Link
+              href="/policy/thirdparty"
               className="mx-2 text-gray-300 hover:underline"
             >
               개인정보 제3자 제공
-            </a>
+            </Link>
           </p>
           <p>
             통신판매업신고번호: 2024-안양동안-0716호 | 관광사업등록번호: 제

@@ -10,7 +10,7 @@ export default function FeaturesSection() {
     },
     {
       icon: MapPin,
-      title: "친절한 전용 기사",
+      title: "제주도 경력 25년 현지 기사님",
       description:
         "안전은 기본, 현지 맛집과 숨은 명소 추천까지! 최고의 여행 파트너",
     },
@@ -29,7 +29,7 @@ export default function FeaturesSection() {
           <span className="text-blue-500">말랑트립</span> 택시투어만의 특별함
         </CardTitle>
 
-        <CardContent className="grid gap-8 md:grid-cols-3">
+        <CardContent className="grid gap-8 px-0 md:grid-cols-3">
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (

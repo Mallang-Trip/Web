@@ -11,7 +11,7 @@ export default function Home() {
       <HeroSection />
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="mx-auto max-w-screen-2xl px-4 py-8">
+      <div className="mx-auto mb-20 max-w-screen-2xl px-4 py-8">
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* 왼쪽: 상품 설명 (2/3 영역) */}
           <div className="w-full lg:w-3/4">
@@ -31,9 +31,6 @@ export default function Home() {
 
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar />
-
-      {/* 모바일용 하단 바 때문에 추가된 공간 */}
-      <div className="h-20 lg:hidden" />
     </div>
   );
 }

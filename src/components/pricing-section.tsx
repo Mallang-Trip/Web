@@ -15,8 +15,8 @@ export default function PricingSection() {
       amount: "+ ₩ 10,000",
     },
     {
-      item: "기사님 휴식",
-      description: "기사님과 식사하지 않을 경우",
+      item: "휴식 시간 4시간",
+      description: "이용 시간을 잠시 멈추고 기사님과 4시간 후에 뵙기",
       payment: "현장 카드 결제",
       amount: "+ ₩ 30,000",
     },
@@ -35,7 +35,7 @@ export default function PricingSection() {
           합리적인 요금 안내
         </CardTitle>
 
-        <CardContent>
+        <CardContent className="px-0">
           <div className="md:overflow-hidden md:rounded-lg md:border md:border-gray-200 md:bg-white md:shadow-sm">
             <table className="w-full table-fixed border-collapse text-left">
               <thead className="hidden bg-gray-50 md:table-header-group">

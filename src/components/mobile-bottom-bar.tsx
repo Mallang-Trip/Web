@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 export default function MobileBottomBar() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,7 +15,10 @@ export default function MobileBottomBar() {
       const scrollPercentage = (scrollPosition / windowHeight) * 100;
 
       // 스크롤이 화면 높이의 50% 이상일 때 보이기
-      setIsVisible(scrollPercentage >= 50);
+      const shouldShowFromScroll = scrollPercentage >= 50;
+
+      // footer가 보이지 않고, 스크롤 조건을 만족할 때만 보이기
+      setIsVisible(shouldShowFromScroll && !isFooterVisible);
     };
 
     // 초기 상태 설정
@@ -26,6 +30,31 @@ export default function MobileBottomBar() {
     // 클린업
     return () => {
       window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isFooterVisible]);
+
+  useEffect(() => {
+    // footer 요소를 찾아서 Intersection Observer 설정
+    const footerElement = document.querySelector("footer");
+
+    if (!footerElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsFooterVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1, // footer의 10%가 보이면 감지
+        rootMargin: "0px 0px 0px 0px",
+      },
+    );
+
+    observer.observe(footerElement);
+
+    // 클린업
+    return () => {
+      observer.disconnect();
     };
   }, []);
 

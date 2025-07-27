@@ -1,3 +1,5 @@
+import { ChevronDown } from "lucide-react";
+
 export default function HeroSection() {
   return (
     <section className="relative flex h-screen items-center justify-center text-white">
@@ -17,6 +19,15 @@ export default function HeroSection() {
         <p className="mx-auto max-w-2xl text-lg leading-relaxed md:text-xl">
           내가 원하는 코스, 친절한 기사님과 함께 제주의 모든 것을 경험하세요.
         </p>
+      </div>
+
+      {/* 스크롤 다운 아이콘 */}
+      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 transform">
+        <div className="flex flex-col items-center">
+          <div className="animate-bounce">
+            <ChevronDown className="h-8 w-8 text-white opacity-80" />
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -36,7 +36,7 @@ export default function ReviewsSection() {
           생생한 이용 후기
         </CardTitle>
 
-        <CardContent className="grid gap-6 md:grid-cols-3">
+        <CardContent className="grid gap-6 px-0 md:grid-cols-3">
           {reviews.map((review, index) => (
             <Card key={index} className="gap-3 overflow-hidden py-0 pb-6">
               <div className="relative aspect-[4/3]">

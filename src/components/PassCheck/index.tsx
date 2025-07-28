@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { passPopupURL } from "@/utils/env";
 import { ConfirmModal } from "@/components";
 import passLogo from "@/assets/images/PASS-Logo.png";
 import passArrow from "@/assets/svg/Pass-Mobile-Arrow.svg";
+import { getInicisFormData } from "@/api/users";
 
 declare global {
   interface Window {
@@ -15,45 +15,151 @@ interface Props {
 }
 
 function PassCheck({ completeHandler }: Props) {
-  const passResult = localStorage.getItem("passResult");
-  const impUid = localStorage.getItem("impUid");
-  const [showModal, setShowModal] = useState(passResult ? true : false);
+  const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [popup, setPopup] = useState<Window | null>(null);
+  const [result, setResult] = useState({
+    statusCode: "",
+    impUid: "",
+  });
 
-  const openPopup = useCallback(() => {
-    localStorage.setItem("isPassWaiting", "true");
-    window.MOBILEOK.process(passPopupURL, "WB", "");
+  // 팝업 창을 가운데 정렬로 열기
+  const popupCenter = useCallback(() => {
+    const _width = 400;
+    const _height = 640;
+    const xPos = document.body.offsetWidth / 2 - _width / 2 + window.screenLeft;
+
+    return window.open(
+      "",
+      "sa_popup",
+      `width=${_width}, height=${_height}, left=${xPos}, menubar=yes, status=yes, titlebar=yes, resizable=yes`
+    );
   }, []);
 
+  // 메시지 윈도우 리스너 - 새창에서 인증 완료 시 메시지 수신
   useEffect(() => {
-    if (!passResult) return;
+    const handleMessage = (event: MessageEvent) => {
+      const { type, statusCode, impUid } = event.data;
 
-    if (passResult === "200") {
-      setMessage("본인 인증에 성공하였습니다.");
-    } else if (passResult === "401") {
-      setMessage("본인 인증에 10분이 경과하였습니다.\n다시 시도해주세요.");
-    } else if (passResult === "403") {
-      setMessage("19세 미만은 가입이 불가능합니다.");
-    } else if (passResult === "409") {
-      setMessage("이미 가입된 계정이 존재합니다.");
-    } else if (passResult === "400" || passResult === "500") {
-      setMessage("서버 통신 오류가 발생했습니다.\n잠시후 다시 시도해주세요.");
+      if (type === "PASS_AUTH_COMPLETE") {
+        setIsWaiting(false);
+
+        // 팝업 창 닫기
+        if (popup) {
+          popup.close();
+          setPopup(null);
+        }
+
+        // 결과에 따른 메시지 설정
+        let resultMessage = "";
+        if (statusCode === "200") {
+          resultMessage = "본인 인증에 성공하였습니다.";
+        } else if (statusCode === "401") {
+          resultMessage =
+            "본인 인증에 10분이 경과하였습니다.\n다시 시도해주세요.";
+        } else if (statusCode === "403") {
+          resultMessage = "19세 미만은 가입이 불가능합니다.";
+        } else if (statusCode === "409") {
+          resultMessage = "이미 가입된 계정이 존재합니다.";
+        } else if (statusCode === "400" || statusCode === "500") {
+          resultMessage =
+            "서버 통신 오류가 발생했습니다.\n잠시후 다시 시도해주세요.";
+        }
+
+        setMessage(resultMessage);
+        setShowModal(true);
+        setResult({ statusCode, impUid });
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [popup, completeHandler]);
+
+  useEffect(() => {
+    if (!showModal && result.statusCode && result.impUid) {
+      completeHandler(result.impUid);
+      localStorage.removeItem("impUid");
+      localStorage.removeItem("passResult");
+      localStorage.removeItem("isPassWaiting");
     }
-    setShowModal(true);
-  }, []);
+  }, [showModal]);
 
+  // 팝업 창 닫힘 감지
   useEffect(() => {
-    if (showModal) return;
-    if (passResult === "200") completeHandler(impUid);
+    if (!popup || !isWaiting) return;
+
+    const checkClosed = setInterval(() => {
+      if (popup.closed) {
+        setIsWaiting(false);
+        setPopup(null);
+        clearInterval(checkClosed);
+      }
+    }, 1000);
+
+    return () => clearInterval(checkClosed);
+  }, [popup, isWaiting]);
+
+  // 이니시스 인증 요청 함수
+  const callSa = useCallback(
+    async (inicisFormData: any) => {
+      const newPopup = popupCenter();
+
+      if (newPopup != undefined && newPopup != null) {
+        setPopup(newPopup);
+
+        // 동적으로 form 생성
+        const form = document.createElement("form");
+        form.setAttribute("target", "sa_popup");
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", "https://sa.inicis.com/auth");
+        form.style.display = "none";
+
+        // 폼 데이터 추가
+        Object.keys(inicisFormData).forEach((key) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = inicisFormData[key];
+          form.appendChild(input);
+        });
+
+        // body에 form 추가 후 submit
+        document.body.appendChild(form);
+        form.submit();
+
+        // form 제거
+        document.body.removeChild(form);
+      }
+    },
+    [popupCenter]
+  );
+
+  const openPopup = useCallback(async () => {
+    // 기존 결과 초기화
     localStorage.removeItem("passResult");
     localStorage.removeItem("impUid");
-  }, [showModal]);
+    localStorage.setItem("isPassWaiting", "true");
+
+    setIsWaiting(true);
+
+    try {
+      const inicisFormData = await getInicisFormData();
+      await callSa(inicisFormData);
+    } catch (e) {
+      console.log(e);
+      setIsWaiting(false);
+      localStorage.removeItem("isPassWaiting");
+    }
+  }, [callSa]);
 
   return (
     <>
       <button
         className="hidden md:flex w-full max-w-[330px] mx-auto mt-14 py-9 flex-col items-center bg-lightgray rounded-[20px] border border-mediumgray"
         onClick={openPopup}
+        disabled={isWaiting}
       >
         <img
           src={passLogo}
@@ -61,15 +167,18 @@ function PassCheck({ completeHandler }: Props) {
           className="w-20 h-20 rounded-[20px]"
         />
         <p className="text-xl text-black font-bold mt-7 mb-2">
-          PASS 본인 인증하기
+          {isWaiting ? "인증 진행 중..." : "PASS 본인 인증하기"}
         </p>
         <span className="text-base text-black font-medium">
-          PASS 앱이 없어도 인증이 가능합니다
+          {isWaiting
+            ? "팝업 창에서 인증을 완료해주세요"
+            : "PASS 앱이 없어도 인증이 가능합니다"}
         </span>
       </button>
       <button
         className="flex md:hidden w-full mx-auto p-6 justify-between items-center bg-white rounded-2xl border border-gray300"
         onClick={openPopup}
+        disabled={isWaiting}
       >
         <img
           src={passLogo}
@@ -78,10 +187,12 @@ function PassCheck({ completeHandler }: Props) {
         />
         <p className="flex flex-col justify-between items-start shrink-0">
           <span className="text-base text-black font-semibold">
-            PASS 본인 인증하기
+            {isWaiting ? "인증 진행 중..." : "PASS 본인 인증하기"}
           </span>
           <span className="text-xs text-gray500 font-medium">
-            PASS 앱이 없어도 인증이 가능합니다.
+            {isWaiting
+              ? "팝업 창에서 인증을 완료해주세요"
+              : "PASS 앱이 없어도 인증이 가능합니다."}
           </span>
         </p>
         <img src={passArrow} alt="본인 인증하기" className="w-6 h-6 shrink-0" />

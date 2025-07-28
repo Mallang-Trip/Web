@@ -109,21 +109,56 @@ function SignupPage() {
     if (webView) localStorage.setItem("isWebView", webView);
   }, []);
 
+  // 팝업 창에서 리다이렉트된 경우 처리
   useEffect(() => {
+    // 팝업 창인지 확인 (window.opener 존재 여부)
+    if (window.opener && (paramStatusCode || paramImpUid)) {
+      try {
+        // 로컬스토리지에 저장
+        if (paramStatusCode) {
+          localStorage.setItem("passResult", paramStatusCode);
+        }
+        if (paramImpUid) {
+          localStorage.setItem("impUid", paramImpUid);
+        }
+
+        // 부모 창에 메시지 전송
+        window.opener.postMessage(
+          {
+            type: "PASS_AUTH_COMPLETE",
+            statusCode: paramStatusCode,
+            impUid: paramImpUid,
+          },
+          window.location.origin
+        );
+
+        // 팝업 창 닫기
+        window.close();
+      } catch (error) {
+        console.error("팝업 처리 중 오류:", error);
+        // 오류 발생 시에도 창 닫기
+        window.close();
+      }
+      return;
+    }
+
+    // 일반적인 페이지 로딩 로직
     if (!localStorage.getItem("isPassWaiting")) {
       setLoading(false);
       if (!webView && !localStorage.getItem("isWebView")) {
         navigation("/signup", { replace: true });
       }
-    } else if (!paramStatusCode) setLoading(false);
-    else {
+    } else if (!paramStatusCode) {
+      setLoading(false);
+    } else {
+      // 기존 로직 유지 (혹시나 하는 fallback)
       setStep(1);
       localStorage.setItem("impUid", paramImpUid || "");
       localStorage.setItem("passResult", paramStatusCode);
       localStorage.removeItem("isPassWaiting");
       navigation("/signup", { replace: true });
     }
-  }, [paramImpUid, paramStatusCode]);
+  }, [paramImpUid, paramStatusCode, webView, navigation]);
 
   if (loading) return <Loading full={true} />;
   return (

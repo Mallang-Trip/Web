@@ -33,3 +33,5 @@ export const deleteUser = async () => await DELETE("/user/withdrawal", true);
 
 export const postNewReport = async (body: any) =>
   await POST("/report", body, true);
+
+export const getInicisFormData = async () => await GET("/inicis/form-data");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,7 @@ import { functions } from "@/lib/firebase";
 import { toast } from "sonner";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function BookingForm() {
   const [formData, setFormData] = useState({
@@ -22,10 +23,15 @@ export default function BookingForm() {
     returnAddress: "",
     itineraryOption: "courseA",
     routeDesc: "",
-    agreedToTerms: false,
+    // 개별 약관 동의 상태
+    agreeService: false,
+    agreeTravel: false,
+    agreePrivacy: false,
+    agreeThirdparty: false,
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [agreeAll, setAgreeAll] = useState(false);
   const router = useRouter();
 
   const courseDetails = {
@@ -68,7 +74,13 @@ export default function BookingForm() {
     if (formData.itineraryOption === "courseD" && !formData.routeDesc.trim()) {
       errors.push("직접 입력 코스 내용을 입력해주세요.");
     }
-    if (!formData.agreedToTerms) errors.push("약관에 동의해주세요.");
+    // 모든 약관 동의 확인
+    if (!formData.agreeService) errors.push("서비스 이용약관에 동의해주세요.");
+    if (!formData.agreeTravel) errors.push("국내여행 표준약관에 동의해주세요.");
+    if (!formData.agreePrivacy)
+      errors.push("개인정보 수집·이용에 동의해주세요.");
+    if (!formData.agreeThirdparty)
+      errors.push("개인정보 제3자 제공에 동의해주세요.");
 
     return errors;
   };
@@ -82,7 +94,10 @@ export default function BookingForm() {
       formData.meetTime,
       formData.meetAddress.trim(),
       formData.returnAddress.trim(),
-      formData.agreedToTerms,
+      formData.agreeService,
+      formData.agreeTravel,
+      formData.agreePrivacy,
+      formData.agreeThirdparty,
     ];
 
     const isBaseValid = baseFields.every(Boolean);
@@ -93,6 +108,35 @@ export default function BookingForm() {
     }
 
     return isBaseValid;
+  };
+
+  // "모두 동의하기" 체크박스 핸들러
+  const handleAgreeAllChange = (checked: boolean) => {
+    setAgreeAll(checked);
+    setFormData((prev) => ({
+      ...prev,
+      agreeService: checked,
+      agreeTravel: checked,
+      agreePrivacy: checked,
+      agreeThirdparty: checked,
+    }));
+  };
+
+  // 개별 약관 동의 핸들러
+  const handleIndividualAgreeChange = (field: string, checked: boolean) => {
+    setFormData((prev) => {
+      const updated = { ...prev, [field]: checked };
+
+      // 모든 개별 약관이 체크되었는지 확인
+      const allChecked =
+        updated.agreeService &&
+        updated.agreeTravel &&
+        updated.agreePrivacy &&
+        updated.agreeThirdparty;
+      setAgreeAll(allChecked);
+
+      return updated;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -350,28 +394,136 @@ export default function BookingForm() {
           />
         </div>
 
-        <div>
-          <label className="flex items-start space-x-2">
+        {/* 약관 동의 섹션 */}
+        <div className="mt-8 rounded-lg border border-gray-300 p-4">
+          {/* 모두 동의하기 */}
+          <div className="mb-4 flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={formData.agreedToTerms}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  agreedToTerms: e.target.checked,
-                }))
-              }
-              required
-              className="mt-1"
+              id="agreeAll"
+              checked={agreeAll}
+              onChange={(e) => handleAgreeAllChange(e.target.checked)}
+              className="h-5 w-5"
             />
-            <span className="text-sm">
-              [필수]{" "}
-              <a href="#" className="text-blue-600 underline">
-                여행상품 계약
-              </a>{" "}
-              에 동의합니다.
-            </span>
-          </label>
+            <label
+              htmlFor="agreeAll"
+              className="cursor-pointer text-base font-semibold"
+            >
+              아래 약관에 모두 동의합니다.
+            </label>
+          </div>
+
+          <hr className="my-3 border-t border-gray-300" />
+
+          {/* 개별 약관들 */}
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="agreeService"
+                checked={formData.agreeService}
+                onChange={(e) =>
+                  handleIndividualAgreeChange("agreeService", e.target.checked)
+                }
+                className="h-4 w-4"
+                required
+              />
+              <label
+                htmlFor="agreeService"
+                className="flex cursor-pointer items-center gap-1 text-sm"
+              >
+                <span className="text-red-500">[필수]</span>
+                <Link
+                  href="/policy/service"
+                  target="_blank"
+                  className="text-blue-600 underline hover:text-blue-800"
+                >
+                  말랑트립 투어 서비스 이용약관
+                </Link>
+              </label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="agreeTravel"
+                checked={formData.agreeTravel}
+                onChange={(e) =>
+                  handleIndividualAgreeChange("agreeTravel", e.target.checked)
+                }
+                className="h-4 w-4"
+                required
+              />
+              <label
+                htmlFor="agreeTravel"
+                className="flex cursor-pointer items-center gap-1 text-sm"
+              >
+                <span className="text-red-500">[필수]</span>
+                <Link
+                  href="/policy/travel"
+                  target="_blank"
+                  className="text-blue-600 underline hover:text-blue-800"
+                >
+                  말랑트립 투어 국내여행 표준약관
+                </Link>
+              </label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="agreePrivacy"
+                checked={formData.agreePrivacy}
+                onChange={(e) =>
+                  handleIndividualAgreeChange("agreePrivacy", e.target.checked)
+                }
+                className="h-4 w-4"
+                required
+              />
+              <label
+                htmlFor="agreePrivacy"
+                className="flex cursor-pointer items-center gap-1 text-sm"
+              >
+                <span className="text-red-500">[필수]</span>
+                <Link
+                  href="/policy/privacy"
+                  target="_blank"
+                  className="text-blue-600 underline hover:text-blue-800"
+                >
+                  개인정보 수집·이용 동의
+                </Link>
+              </label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="agreeThirdparty"
+                checked={formData.agreeThirdparty}
+                onChange={(e) =>
+                  handleIndividualAgreeChange(
+                    "agreeThirdparty",
+                    e.target.checked,
+                  )
+                }
+                className="h-4 w-4"
+                required
+              />
+              <label
+                htmlFor="agreeThirdparty"
+                className="flex cursor-pointer items-center gap-1 text-sm"
+              >
+                <span className="text-red-500">[필수]</span>
+                <Link
+                  href="/policy/thirdparty"
+                  target="_blank"
+                  className="text-blue-600 underline hover:text-blue-800"
+                >
+                  개인정보 제3자 제공 동의
+                </Link>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 

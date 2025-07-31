@@ -22,7 +22,7 @@ export default function HeroSection() {
       </div>
 
       {/* 스크롤 다운 아이콘 */}
-      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 transform">
+      <div className="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 transform">
         <div className="flex flex-col items-center">
           <div className="animate-bounce">
             <ChevronDown className="h-8 w-8 text-white opacity-80" />

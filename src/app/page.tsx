@@ -4,6 +4,7 @@ import PricingSection from "@/components/pricing-section";
 import ReviewsSection from "@/components/reviews-section";
 import BookingSidebar from "@/components/booking-sidebar";
 import MobileBottomBar from "@/components/mobile-bottom-bar";
+import PicturesSection from "@/components/pictures-section";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
           <div className="w-full lg:w-3/4">
             <div className="space-y-8">
               <FeaturesSection />
+              <PicturesSection />
               <PricingSection />
               <ReviewsSection />
             </div>

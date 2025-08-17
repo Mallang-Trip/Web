@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import ReservationListDrawer from "@/components/reservation-list-drawer";
+import ReservationListDrawer from "@/app/result/_component/reservation-list-drawer";
 
 interface Reservation {
   reservationId: string;

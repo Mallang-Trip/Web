@@ -15,7 +15,7 @@ import DriverInfoCard from "./_component/driver-info-card";
 import PaymentInfoCard from "./_component/payment-info-card";
 import ReservationActions from "./_component/reservation-actions";
 import { Button } from "@/components/ui/button";
-import ReservationListDrawer from "@/components/reservation-list-drawer";
+import ReservationListDrawer from "@/app/result/_component/reservation-list-drawer";
 
 interface Reservation {
   reservationId: string;

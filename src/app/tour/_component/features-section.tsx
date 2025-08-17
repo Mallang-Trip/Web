@@ -1,27 +1,14 @@
-import { CheckCheck, MapPin, Clock } from "lucide-react";
-import { Card, CardTitle, CardContent } from "./ui/card";
+import { Card, CardTitle, CardContent } from "@/components/ui/card";
 
-export default function FeaturesSection() {
-  const features = [
-    {
-      icon: CheckCheck,
-      title: "100% 자유로운 코스",
-      description: "가고 싶은 곳 어디든! 원하는 일정대로 자유롭게 여행하세요.",
-    },
-    {
-      icon: MapPin,
-      title: "제주도 경력 25년 현지 기사님",
-      description:
-        "안전은 기본, 현지 맛집과 숨은 명소 추천까지! 최고의 여행 파트너",
-    },
-    {
-      icon: Clock,
-      title: "3일 전 무료 취소",
-      description:
-        "여행 계획이 변경되어도 걱정 마세요. 위약금 없이 취소 가능합니다.",
-    },
-  ];
+interface FeaturesSectionProps {
+  features: {
+    icon: React.ElementType;
+    title: string;
+    description: string;
+  }[];
+}
 
+export default function FeaturesSection({ features }: FeaturesSectionProps) {
   return (
     <Card className="bg-white py-20">
       <div className="mx-auto max-w-4xl px-4">

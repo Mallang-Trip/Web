@@ -1,33 +1,15 @@
-import { Card, CardContent, CardTitle } from "./ui/card";
+import { Card, CardContent, CardTitle } from "../../../components/ui/card";
 
-export default function PricingSection() {
-  const pricingItems = [
-    {
-      item: "기본 대절 (9시간)",
-      description: "제주 전지역 / 전용 기사 / 유류비 포함",
-      payment: "선결제 (온라인)",
-      amount: "₩ 190,000",
-    },
-    {
-      item: "야간 운행",
-      description: "18:00 이후 ~ 22:00 이전 종료",
-      payment: "현장 카드 결제",
-      amount: "+ ₩ 10,000",
-    },
-    {
-      item: "휴식 시간 4시간",
-      description: "이용 시간을 잠시 멈추고 기사님과 4시간 후에 뵙기",
-      payment: "현장 카드 결제",
-      amount: "+ ₩ 30,000",
-    },
-    {
-      item: "시간 추가",
-      description: "기본 9시간 초과 시",
-      payment: "현장 카드 결제",
-      amount: "+ ₩ 20,000 / 시간",
-    },
-  ];
+interface PricingSectionProps {
+  pricingItems: {
+    item: string;
+    description: string;
+    payment: string;
+    amount: string;
+  }[];
+}
 
+export default function PricingSection({ pricingItems }: PricingSectionProps) {
   return (
     <Card className="py-20">
       <div className="mx-auto max-w-4xl px-4">

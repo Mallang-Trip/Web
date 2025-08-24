@@ -1,0 +1,170 @@
+import HeroSection from "@/app/detail/_component/hero-section";
+import FeaturesSection from "@/app/detail/_component/features-section";
+import PricingSection from "@/app/detail/_component/pricing-section";
+import ReviewsSection from "@/app/detail/_component/reviews-section";
+import BookingSidebar from "@/app/detail/_component/booking-sidebar";
+import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
+import PicturesSection from "@/app/detail/_component/pictures-section";
+import { CheckCheck, MapPin, Clock } from "lucide-react";
+
+export default function SeoulDetailPage() {
+  const features = [
+    {
+      icon: CheckCheck,
+      title: "100% 자유로운 코스",
+      description: "가고 싶은 곳 어디든! 원하는 일정대로 자유롭게 여행하세요.",
+    },
+    {
+      icon: MapPin,
+      title: "서울 경력 20년 현지 기사님",
+      description:
+        "안전은 기본, 현지 맛집과 숨은 명소 추천까지! 최고의 여행 파트너",
+    },
+    {
+      icon: Clock,
+      title: "3일 전 무료 취소",
+      description:
+        "여행 계획이 변경되어도 걱정 마세요. 위약금 없이 취소 가능합니다.",
+    },
+  ];
+
+  const images = Array.from({ length: 5 }, (_, index) => index + 1).map(
+    (index) => `/tour-images/seoul/${index.toString().padStart(2, "0")}.jpg`,
+  );
+
+  const pricingItems = [
+    {
+      item: "기본 대절 (5시간)",
+      description: "서울 전지역 / 전용 기사 / 유류비 포함",
+      payment: "선결제 (온라인)",
+      amount: "₩ 200,000",
+    },
+    {
+      item: "야간 운행",
+      description: "18:00 이후 ~ 22:00 이전 종료",
+      payment: "현장 카드 결제",
+      amount: "+ ₩ 10,000",
+    },
+    {
+      item: "휴식 시간 4시간",
+      description: "이용 시간을 잠시 멈추고 기사님과 4시간 후에 뵙기",
+      payment: "현장 카드 결제",
+      amount: "+ ₩ 30,000",
+    },
+    {
+      item: "시간 추가",
+      description: "기본 5시간 초과 시",
+      payment: "현장 카드 결제",
+      amount: "+ ₩ 20,000 / 시간",
+    },
+  ];
+
+  const reviews = [
+    {
+      image:
+        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
+      rating: "★★★★★",
+      author: "🇨🇳 Wang* (28)",
+      comment:
+        "드라이버가 매우 친절하고 사진도 잘 찍어줬어요! 덕분에 편하게 여행했습니다.",
+    },
+    {
+      image:
+        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
+      rating: "★★★★★",
+      author: "🇺🇸 Chris* (35)",
+      comment:
+        "Perfect way to see Jeju! The driver recommended a fantastic local black pork restaurant.",
+    },
+    {
+      image:
+        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
+      rating: "★★★★☆",
+      author: "🇨🇳 Li* (24)",
+      comment:
+        "코스 짜는게 어려웠는데 기사님이 추천해준 곳들이 다 좋았어요. 하지만 차가 조금 작았어요.",
+    },
+  ];
+
+  const courseDetails = {
+    courseA: {
+      title: "A코스: 유네스코 절경·동부",
+      route:
+        "[출발] → 함덕해변 → 월정리해변 → 성산일출봉 → 섭지코지(점심) → 만장굴 → 동문시장 → [복귀]",
+      courseNo: 1,
+    },
+    courseB: {
+      title: "B코스: 서부 힐링·핫플",
+      route:
+        "[출발] → 협재해수욕장 → 한림공원 → 오설록티뮤지엄 → 카멜리아힐 → 중문관광단지 → [복귀]",
+      courseNo: 2,
+    },
+    courseC: {
+      title: "C코스: 중문·서귀포 액티비티",
+      route:
+        "[출발] → 주상절리대 → 천지연폭포 → 정방폭포 → 올레시장(점심) → 쇠소깍 → 섭지코지 → [복귀]",
+      courseNo: 3,
+    },
+    courseD: {
+      title: "D코스: 직접 입력",
+      route: "원하시는 코스를 아래에 직접 입력해주세요.",
+      courseNo: 4,
+    },
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <HeroSection
+        title="비오는날 서울투어 5시간 20만원"
+        description="내가 원하는 코스, 친절한 기사님과 함께 서울의 모든 것을 경험하세요."
+        image="https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg"
+      />
+
+      {/* 메인 콘텐츠 영역 */}
+      <div className="mx-auto mb-20 max-w-screen-2xl px-4 py-8">
+        <div className="flex flex-col gap-8 lg:flex-row">
+          {/* 왼쪽: 상품 설명 (2/3 영역) */}
+          <div className="w-full lg:w-3/4">
+            <div className="space-y-8">
+              <FeaturesSection features={features} />
+              <PicturesSection images={images} name="서울" />
+              <PricingSection pricingItems={pricingItems} />
+              <ReviewsSection reviews={reviews} />
+            </div>
+          </div>
+
+          {/* 오른쪽: 예약 사이드바 (1/3 영역, 데스크톱만) */}
+          <div className="hidden lg:block lg:w-1/4">
+            <BookingSidebar
+              title="비오는날 서울투어"
+              price="200,000"
+              time="5시간"
+              subItems={[
+                {
+                  title: "투어 시간",
+                  value: "5시간",
+                },
+                {
+                  title: "포함 사항",
+                  value: "기사님, 유류비",
+                },
+                {
+                  title: "취소 정책",
+                  value: "3일 전 무료",
+                },
+              ]}
+              courseDetails={courseDetails}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 모바일용 하단 고정 바 */}
+      <MobileBottomBar
+        price="200,000"
+        time="5시간"
+        courseDetails={courseDetails}
+      />
+    </div>
+  );
+}

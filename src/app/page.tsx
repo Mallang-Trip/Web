@@ -163,7 +163,7 @@ export default function Home() {
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {tours.map((tour) => (
-              <Link key={tour.id} href={`/tour/${tour.id}`}>
+              <Link key={tour.id} href={`/detail/${tour.id}`}>
                 <Card className="group h-full overflow-hidden py-0 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image

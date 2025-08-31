@@ -29,6 +29,7 @@ interface BookingDrawerProps {
   };
   price: string;
   time: string;
+  variant?: "default" | "vip";
 }
 
 export default function BookingDrawer({
@@ -36,6 +37,7 @@ export default function BookingDrawer({
   courseDetails,
   price,
   time,
+  variant = "default",
 }: BookingDrawerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -52,6 +54,7 @@ export default function BookingDrawer({
             courseDetails={courseDetails}
             price={price}
             time={time}
+            variant={variant}
           />
         </DialogContent>
       </Dialog>
@@ -69,6 +72,7 @@ export default function BookingDrawer({
             courseDetails={courseDetails}
             price={price}
             time={time}
+            variant={variant}
           />
         </div>
       </DrawerContent>

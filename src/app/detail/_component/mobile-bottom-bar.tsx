@@ -14,12 +14,14 @@ interface MobileBottomBarProps {
       courseNo: number;
     };
   };
+  variant?: "default" | "vip";
 }
 
 export default function MobileBottomBar({
   price,
   time,
   courseDetails,
+  variant = "default",
 }: MobileBottomBarProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -86,7 +88,12 @@ export default function MobileBottomBar({
           <div className="text-sm text-gray-600">{time} 기본 요금</div>
         </div>
 
-        <BookingDrawer courseDetails={courseDetails} price={price} time={time}>
+        <BookingDrawer
+          courseDetails={courseDetails}
+          price={price}
+          time={time}
+          variant={variant}
+        >
           <Button className="bg-blue-600 px-8 hover:bg-blue-700" size="lg">
             예약하기
           </Button>

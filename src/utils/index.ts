@@ -24,3 +24,7 @@ export const elapsedTime = (date: string): string => {
 export const getBaseUrl = (): string => {
   return "https://mallangtrip.com";
 };
+
+export const getBackendBaseUrl = (): string => {
+  return process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "";
+};

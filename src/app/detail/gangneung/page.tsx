@@ -87,32 +87,6 @@ export default function GangneungDetailPage() {
     },
   ];
 
-  const courseDetails = {
-    courseA: {
-      title: "A코스: 유네스코 절경·동부",
-      route:
-        "[출발] → 함덕해변 → 월정리해변 → 성산일출봉 → 섭지코지(점심) → 만장굴 → 동문시장 → [복귀]",
-      courseNo: 1,
-    },
-    courseB: {
-      title: "B코스: 서부 힐링·핫플",
-      route:
-        "[출발] → 협재해수욕장 → 한림공원 → 오설록티뮤지엄 → 카멜리아힐 → 중문관광단지 → [복귀]",
-      courseNo: 2,
-    },
-    courseC: {
-      title: "C코스: 중문·서귀포 액티비티",
-      route:
-        "[출발] → 주상절리대 → 천지연폭포 → 정방폭포 → 올레시장(점심) → 쇠소깍 → 섭지코지 → [복귀]",
-      courseNo: 3,
-    },
-    courseD: {
-      title: "D코스: 직접 입력",
-      route: "원하시는 코스를 아래에 직접 입력해주세요.",
-      courseNo: 4,
-    },
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <HeroSection
@@ -154,7 +128,7 @@ export default function GangneungDetailPage() {
                   value: "3일 전 무료",
                 },
               ]}
-              courseDetails={courseDetails}
+              destinationId={503}
             />
           </div>
         </div>
@@ -162,9 +136,10 @@ export default function GangneungDetailPage() {
 
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar
+        title="강릉 손님 마음대로 투어"
         price="175,000"
         time="7시간"
-        courseDetails={courseDetails}
+        destinationId={503}
       />
     </div>
   );

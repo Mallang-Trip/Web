@@ -5,23 +5,17 @@ import BookingDrawer from "./booking-drawer";
 import { useState, useEffect } from "react";
 
 interface MobileBottomBarProps {
+  title: string;
   price: string;
   time: string;
-  courseDetails: {
-    [key: string]: {
-      title: string;
-      route: string;
-      courseNo: number;
-    };
-  };
-  variant?: "default" | "vip";
+  destinationId: number;
 }
 
 export default function MobileBottomBar({
+  title,
   price,
   time,
-  courseDetails,
-  variant = "default",
+  destinationId,
 }: MobileBottomBarProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -89,10 +83,10 @@ export default function MobileBottomBar({
         </div>
 
         <BookingDrawer
-          courseDetails={courseDetails}
+          title={title}
           price={price}
           time={time}
-          variant={variant}
+          destinationId={destinationId}
         >
           <Button className="bg-blue-600 px-8 hover:bg-blue-700" size="lg">
             예약하기

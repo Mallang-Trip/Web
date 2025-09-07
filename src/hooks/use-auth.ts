@@ -2,8 +2,14 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useRouter } from "next/navigation";
 
 export const useAuth = () => {
-  const { userToken, isAuthenticated, phoneNumber, hasHydrated, logout } =
-    useAuthStore();
+  const {
+    accessToken,
+    refreshToken,
+    isAuthenticated,
+    phoneNumber,
+    hasHydrated,
+    logout,
+  } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -28,7 +34,8 @@ export const useAuth = () => {
   };
 
   return {
-    userToken,
+    accessToken,
+    refreshToken,
     isAuthenticated,
     phoneNumber,
     hasHydrated,

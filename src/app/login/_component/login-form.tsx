@@ -20,10 +20,9 @@ import {
 } from "@/components/ui/input-otp";
 import { toast } from "sonner";
 import { CheckCircle, XCircle } from "lucide-react";
-import { httpsCallable } from "firebase/functions";
-import { functions } from "@/lib/firebase";
-import { useAuthStore } from "@/stores/auth-store";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSendLoginSms, useVerifyLoginSms } from "@/hooks/use-auth-api";
+import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -39,7 +38,6 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
 
   const otpInputRef = useRef<HTMLInputElement>(null);
-  const { login } = useAuthStore();
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnUrl =
@@ -55,16 +53,25 @@ export function LoginForm({
     }
   }, [isOtpVisible]);
 
+  const sendLoginSms = useSendLoginSms();
+  const verifyLoginSms = useVerifyLoginSms();
+
   const handlePhoneSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const requestPhoneAuth = httpsCallable(functions, "requestPhoneAuth");
-      const fullPhoneNumber = `${formData.phonePrefix}${formData.phoneNumber}`;
-
-      const result = await requestPhoneAuth({ phone: fullPhoneNumber });
-      const { txId: transactionId } = result.data as { txId: string };
+      // 국제 전화번호 조합 (KR 정책: 010 → 10 으로 변환)
+      const digitsOnly = formData.phoneNumber.replace(/\D/g, "");
+      const normalizedLocal =
+        formData.phonePrefix === "+82" && digitsOnly.startsWith("010")
+          ? digitsOnly.slice(1)
+          : digitsOnly;
+      const fullPhoneNumber = `${formData.phonePrefix}${normalizedLocal}`;
+      const res = await sendLoginSms.mutateAsync({
+        phoneNumber: fullPhoneNumber,
+      });
+      const transactionId = res?.txId as string;
 
       setTxId(transactionId);
 
@@ -73,18 +80,13 @@ export function LoginForm({
         icon: <CheckCircle className="text-green-500" />,
       });
       setIsOtpVisible(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("SMS 전송 실패:", error);
+      const message = (error as { message?: string })?.message;
+      const serverMessage = message || "인증번호 전송에 실패했습니다.";
 
-      let errorMessage = "인증번호 전송에 실패했습니다.";
-      if (error.code === "functions/invalid-argument") {
-        errorMessage = "전화번호 형식이 올바르지 않습니다.";
-      } else if (error.code === "functions/unavailable") {
-        errorMessage = "SMS 전송 서비스를 사용할 수 없습니다.";
-      }
-
-      toast.error(errorMessage, {
-        description: "다시 시도해주세요.",
+      toast.error("인증번호 전송 실패", {
+        description: serverMessage,
         icon: <XCircle className="text-red-500" />,
       });
     } finally {
@@ -97,18 +99,18 @@ export function LoginForm({
     setIsLoading(true);
 
     try {
-      const verifyPhoneSignup = httpsCallable(functions, "verifyPhoneSignup");
-
-      const result = await verifyPhoneSignup({
-        txId: txId,
-        code: otpValue,
+      // 국제 전화번호 조합 (KR 정책: 010 → 10 으로 변환)
+      const digitsOnly = formData.phoneNumber.replace(/\D/g, "");
+      const normalizedLocal =
+        formData.phonePrefix === "+82" && digitsOnly.startsWith("010")
+          ? digitsOnly.slice(1)
+          : digitsOnly;
+      const fullPhoneNumber = `${formData.phonePrefix}${normalizedLocal}`;
+      await verifyLoginSms.mutateAsync({
+        txId,
+        verificationCode: otpValue,
+        phoneNumber: fullPhoneNumber,
       });
-
-      const { userToken } = result.data as { userToken: string };
-
-      // Auth Store에 로그인 정보 저장
-      const fullPhoneNumber = `${formData.phonePrefix}${formData.phoneNumber}`;
-      login(userToken, fullPhoneNumber);
 
       toast.success("인증이 완료되었습니다.", {
         description: "로그인이 성공적으로 완료되었습니다.",
@@ -126,20 +128,23 @@ export function LoginForm({
 
         router.push(redirectTo);
       }, 1500);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("인증 실패:", error);
-
-      let errorMessage = "인증번호가 올바르지 않습니다.";
-      if (error.code === "functions/not-found") {
-        errorMessage = "유효하지 않은 인증 요청입니다.";
-      } else if (error.code === "functions/permission-denied") {
-        errorMessage = "인증번호가 일치하지 않습니다.";
-      } else if (error.code === "functions/invalid-argument") {
-        errorMessage = "인증 정보가 올바르지 않습니다.";
+      const err = error as { message?: string; status?: number } | undefined;
+      const title = err?.message || "인증번호가 올바르지 않습니다.";
+      let description = "다시 확인해주세요.";
+      if (err?.status === 404) {
+        description =
+          "인증 세션을 찾을 수 없습니다. 인증번호를 다시 요청해주세요.";
+      } else if (err?.status === 429) {
+        description =
+          "최대 시도 횟수를 초과했습니다. 새로운 인증번호를 요청해주세요.";
+      } else if (err?.status === 400) {
+        description = "인증코드가 일치하지 않습니다. 다시 입력해주세요.";
       }
 
-      toast.error(errorMessage, {
-        description: "다시 확인해주세요.",
+      toast.error(title, {
+        description,
         icon: <XCircle className="text-red-500" />,
       });
     } finally {
@@ -162,7 +167,7 @@ export function LoginForm({
         <CardContent>
           <div className="flex flex-col gap-6">
             <form className="grid gap-3" onSubmit={handlePhoneSubmit}>
-              <Label htmlFor="phone">국제 전화번호 (Phone)</Label>
+              <Label htmlFor="phone">국제 전화번호 *</Label>
               <div className="mt-1 flex gap-2">
                 <select
                   value={formData.phonePrefix}
@@ -243,10 +248,10 @@ export function LoginForm({
             )}
           </div>
           <div className="mt-4 text-center text-sm">
-            문제가 발생했나요?{" "}
-            <a href="#" className="underline underline-offset-4">
-              문의하기
-            </a>
+            등록된 계정이 없으신가요?{" "}
+            <Link href="/register" className="underline underline-offset-4">
+              회원가입
+            </Link>
           </div>
         </CardContent>
       </Card>

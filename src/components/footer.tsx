@@ -13,8 +13,9 @@ export default function Footer() {
             우편번호: 14055 | 주소: 경기도 안양시 동안구 시민대로327번길 11-41
             310호
           </p>
-          <p className="mb-2">대표이메일: mallangtrip@gmail.com</p>
-          <p>고객문의: 공식 카카오톡 (실시간) / +82-507-1344-4159 (유선)</p>
+          <p>
+            고객문의: 공식 카카오톡 채널 | 이메일: mallangtrip@mallangtrip.com
+          </p>
         </div>
 
         <div className="mb-5">

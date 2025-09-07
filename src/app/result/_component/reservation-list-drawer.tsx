@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
@@ -17,18 +18,16 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Card, CardContent } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-interface Reservation {
-  reservationId: string;
+export interface ReservationListItem {
+  reservationId: string | number;
   tripName: string;
   startTime: string;
   endTime: string;
   price: number;
   tripStatus: string;
   paymentStatus: string;
-  canceled: boolean;
-  refunded: boolean;
   createdAt: string;
   pickupLocation?: string;
   dropLocation?: string;
@@ -36,7 +35,7 @@ interface Reservation {
 
 interface ReservationListDrawerProps {
   children: React.ReactNode;
-  reservations: Reservation[];
+  reservations: ReservationListItem[];
 }
 
 export default function ReservationListDrawer({
@@ -46,6 +45,7 @@ export default function ReservationListDrawer({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
@@ -71,21 +71,43 @@ export default function ReservationListDrawer({
     return formatTime(end.toISOString());
   };
 
-  const handleReservationClick = (reservationId: string) => {
+  const handleReservationClick = (reservationId: string | number) => {
     setIsModalOpen(false);
-    router.push(`/result?reservationId=${reservationId}`);
+    const current = new URLSearchParams(searchParams?.toString() || "");
+    current.set("reservationId", String(reservationId));
+    const query = current.toString();
+    router.push(`/result${query ? `?${query}` : ""}`);
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (raw: string) => {
+    const status = (raw || "").toUpperCase();
     switch (status) {
-      case "여행전":
+      case "PENDING":
         return "text-blue-600 bg-blue-50";
-      case "여행중":
+      case "APPROVED":
         return "text-green-600 bg-green-50";
-      case "여행완료":
+      case "REJECTED":
+        return "text-red-600 bg-red-50";
+      case "CANCELED":
         return "text-gray-600 bg-gray-50";
       default:
         return "text-gray-600 bg-gray-50";
+    }
+  };
+
+  const statusLabelKo = (raw: string) => {
+    const status = (raw || "").toUpperCase();
+    switch (status) {
+      case "PENDING":
+        return "예약 확인 중";
+      case "APPROVED":
+        return "예약 승인";
+      case "REJECTED":
+        return "예약 반려";
+      case "CANCELED":
+        return "예약 취소";
+      default:
+        return raw || "예약 상태";
     }
   };
 
@@ -103,7 +125,9 @@ export default function ReservationListDrawer({
           <Card
             key={reservation.reservationId}
             className={`cursor-pointer transition-shadow hover:shadow-md ${
-              reservation.canceled ? "bg-gray-50 opacity-75" : ""
+              reservation.tripStatus?.toUpperCase() === "CANCELED"
+                ? "bg-gray-50 opacity-75"
+                : ""
             }`}
             onClick={() => handleReservationClick(reservation.reservationId)}
           >
@@ -112,13 +136,13 @@ export default function ReservationListDrawer({
                 <div>
                   <h3
                     className={`font-semibold ${
-                      reservation.canceled
+                      reservation.tripStatus?.toUpperCase() === "CANCELED"
                         ? "text-gray-600 line-through"
                         : "text-gray-900"
                     }`}
                   >
                     {reservation.tripName || "제주 여행"}
-                    {reservation.canceled && (
+                    {reservation.tripStatus?.toUpperCase() === "CANCELED" && (
                       <span className="ml-2 text-xs font-normal text-red-600">
                         (취소됨)
                       </span>
@@ -126,7 +150,9 @@ export default function ReservationListDrawer({
                   </h3>
                   <p
                     className={`text-sm ${
-                      reservation.canceled ? "text-gray-500" : "text-gray-600"
+                      reservation.tripStatus?.toUpperCase() === "CANCELED"
+                        ? "text-gray-500"
+                        : "text-gray-600"
                     }`}
                   >
                     결제 일시: {formatDate(reservation.createdAt)}{" "}
@@ -135,20 +161,20 @@ export default function ReservationListDrawer({
                 </div>
                 <div className="flex gap-2">
                   <span
-                    className={`rounded-full px-2 py-1 text-xs font-medium ${
-                      reservation.canceled
-                        ? "bg-red-50 text-red-600"
-                        : getStatusColor(reservation.tripStatus)
-                    }`}
+                    className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(
+                      reservation.tripStatus,
+                    )}`}
                   >
-                    {reservation.tripStatus}
+                    {statusLabelKo(reservation.tripStatus)}
                   </span>
                 </div>
               </div>
 
               <div
                 className={`space-y-2 text-sm ${
-                  reservation.canceled ? "text-gray-500" : "text-gray-600"
+                  reservation.tripStatus?.toUpperCase() === "CANCELED"
+                    ? "text-gray-500"
+                    : "text-gray-600"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -254,7 +280,9 @@ export default function ReservationListDrawer({
                     </svg>
                     <span
                       className={`font-semibold ${
-                        reservation.canceled ? "line-through" : ""
+                        reservation.tripStatus?.toUpperCase() === "CANCELED"
+                          ? "line-through"
+                          : ""
                       }`}
                     >
                       ₩{reservation.price.toLocaleString()}
@@ -262,7 +290,7 @@ export default function ReservationListDrawer({
                   </div>
                   <span
                     className={`rounded px-2 py-1 text-xs ${
-                      reservation.canceled
+                      reservation.tripStatus?.toUpperCase() === "CANCELED"
                         ? "bg-gray-100 text-gray-500"
                         : reservation.paymentStatus === "결제완료"
                           ? "bg-green-50 text-green-600"
@@ -287,6 +315,9 @@ export default function ReservationListDrawer({
         <DialogContent className="max-h-[80vh] max-w-lg overflow-y-auto border-none bg-white">
           <DialogHeader>
             <DialogTitle>나의 예약 내역</DialogTitle>
+            <DialogDescription>
+              예약 내역을 확인하고 상세를 선택하세요.
+            </DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             <ReservationList />

@@ -19,7 +19,7 @@ export default function Timeline({
 }: TimelineProps) {
   return (
     <Card className="rounded-2xl bg-white p-8">
-      <CardContent className="mx-auto max-w-4xl">
+      <CardContent className="mx-auto max-w-4xl p-0">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-light text-slate-900">{heading}</h2>
           <p className="text-lg font-light text-slate-600">{subheading}</p>

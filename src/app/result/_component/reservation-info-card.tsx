@@ -1,15 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Reservation {
-  reservationId: string;
+  reservationId: string | number;
   tripName: string;
   startTime: string;
   endTime: string;
   price: number;
   tripStatus: string;
   paymentStatus: string;
-  canceled: boolean;
-  refunded: boolean;
+  requestedAt?: string | null;
+  approvedAt?: string | null;
+  rejectedAt?: string | null;
+  canceledAt?: string | null;
   createdAt: string;
   pickupLocation?: string;
   dropLocation?: string;
@@ -40,14 +42,16 @@ export default function ReservationInfoCard({
     plannedCourse: currentReservation.courseDetail || "정보 없음",
   };
 
+  const isCanceled =
+    (currentReservation.tripStatus || "").toUpperCase() === "CANCELED" ||
+    !!currentReservation.canceledAt;
+
   return (
-    <Card
-      className={currentReservation.canceled ? "bg-gray-50 opacity-75" : ""}
-    >
+    <Card className={isCanceled ? "bg-gray-50 opacity-75" : ""}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <svg
-            className={`h-5 w-5 ${currentReservation.canceled ? "text-red-500" : ""}`}
+            className={`h-5 w-5 ${isCanceled ? "text-red-500" : ""}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -57,27 +61,21 @@ export default function ReservationInfoCard({
               strokeLinejoin="round"
               strokeWidth={2}
               d={
-                currentReservation.canceled
+                isCanceled
                   ? "M6 18L18 6M6 6l12 12"
                   : "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               }
             />
           </svg>
-          <span
-            className={
-              currentReservation.canceled ? "text-gray-600 line-through" : ""
-            }
-          >
+          <span className={isCanceled ? "text-gray-600 line-through" : ""}>
             예약 정보
           </span>
-          {currentReservation.canceled && (
+          {isCanceled && (
             <span className="text-sm font-normal text-red-600">(취소됨)</span>
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent
-        className={currentReservation.canceled ? "text-gray-600" : ""}
-      >
+      <CardContent className={isCanceled ? "text-gray-600" : ""}>
         <div className="space-y-4">
           <div className="flex items-start gap-3">
             <svg
@@ -118,7 +116,7 @@ export default function ReservationInfoCard({
             <div className="flex-1">
               <div className="mb-1 text-sm text-gray-600">픽업 시간</div>
               <div className="font-semibold text-gray-900">
-                {bookingInfo.pickupTime} ~ {bookingInfo.endTime}
+                {bookingInfo.pickupTime}
               </div>
             </div>
           </div>
@@ -188,7 +186,7 @@ export default function ReservationInfoCard({
               />
             </svg>
             <div className="flex-1">
-              <div className="mb-1 text-sm text-gray-600">예정 코스</div>
+              <div className="mb-1 text-sm text-gray-600">요청사항</div>
               <div className="leading-relaxed font-semibold text-gray-900">
                 {bookingInfo.plannedCourse}
               </div>

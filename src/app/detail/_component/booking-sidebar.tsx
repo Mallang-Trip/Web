@@ -10,14 +10,7 @@ interface BookingSidebarProps {
     title: string;
     value: string;
   }[];
-  courseDetails: {
-    [key: string]: {
-      title: string;
-      route: string;
-      courseNo: number;
-    };
-  };
-  variant?: "default" | "vip";
+  destinationId: number;
 }
 
 export default function BookingSidebar({
@@ -25,8 +18,7 @@ export default function BookingSidebar({
   price,
   time,
   subItems,
-  courseDetails,
-  variant = "default",
+  destinationId,
 }: BookingSidebarProps) {
   return (
     <Card className="sticky top-20 w-full">
@@ -49,10 +41,10 @@ export default function BookingSidebar({
         </div>
 
         <BookingDrawer
-          courseDetails={courseDetails}
+          title={title}
           price={price}
           time={time}
-          variant={variant}
+          destinationId={destinationId}
         >
           <Button className="w-full bg-blue-600 hover:bg-blue-700" size="lg">
             예약하기

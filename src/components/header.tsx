@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
+import { useLangStore } from "@/stores/lang-store";
 
 export default function Header() {
   const { isAuthenticated, phoneNumber, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { currentLanguage, setLanguage } = useLangStore();
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
@@ -16,13 +18,16 @@ export default function Header() {
         {/* 메인 헤더 */}
         <div className="flex h-16 items-center justify-between">
           {/* 로고 */}
-          <Link href="/" className="flex items-center">
+          <Link href="/detail/vip" className="flex items-center">
             <Image
               src="/logo.png"
               width={112}
               height={27}
               alt="말랑트립"
               className="h-7 w-auto"
+              priority
+              loading="eager"
+              fetchPriority="high"
             />
           </Link>
 
@@ -31,6 +36,15 @@ export default function Header() {
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
                 <span className="text-sm text-gray-600">{phoneNumber}</span>
+                {(phoneNumber === "+821049259550" ||
+                  phoneNumber === "+821025264159" ||
+                  phoneNumber === "+821033273496") && (
+                  <Link href="/admin">
+                    <Button variant="outline" size="sm">
+                      관리자
+                    </Button>
+                  </Link>
+                )}
                 <Link href="/result">
                   <Button variant="outline" size="sm">
                     예약 조회
@@ -50,12 +64,13 @@ export default function Header() {
 
             {/* 언어 선택 드롭다운 */}
             <select
-              defaultValue="ko"
+              value={currentLanguage}
+              onChange={(e) => setLanguage(e.target.value as any)}
               className="h-9 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
               <option value="ko">🇰🇷 한국어</option>
               <option value="en">🇺🇸 English</option>
-              <option value="zh">🇨🇳 中문</option>
+              {/* <option value="zh">🇨🇳 中문</option> */}
             </select>
           </div>
 
@@ -63,12 +78,13 @@ export default function Header() {
           <div className="flex items-center gap-2 md:hidden">
             {/* 언어 선택 (모바일에서 축약) */}
             <select
-              defaultValue="ko"
-              className="h-8 w-16 rounded-md border border-gray-300 px-2 py-1 text-xs"
+              value={currentLanguage}
+              onChange={(e) => setLanguage(e.target.value as any)}
+              className="h-8 w-24 rounded-md border border-gray-300 px-2 py-1 text-xs"
             >
-              <option value="ko">🇰🇷</option>
-              <option value="en">🇺🇸</option>
-              <option value="zh">🇨🇳</option>
+              <option value="ko">🇰🇷 한국어</option>
+              <option value="en">🇺🇸 English</option>
+              {/* <option value="zh">🇨🇳 中문</option> */}
             </select>
 
             <button

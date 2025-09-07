@@ -17,7 +17,7 @@ export default function PricingTable({
   rows,
 }: PricingTableProps) {
   return (
-    <section className="rounded-2xl bg-slate-900 p-8 text-white">
+    <section className="rounded-2xl bg-slate-900 px-4 py-8 text-white">
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="mb-2 text-3xl font-light">{heading}</h2>
         <p className="text-amber-200">{subheading}</p>

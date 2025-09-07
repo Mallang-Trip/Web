@@ -1,13 +1,14 @@
 "use client";
 
 import { Suspense } from "react";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import { useAuth } from "@/hooks/use-auth";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { httpsCallable } from "firebase/functions";
-import { functions } from "@/lib/firebase";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  useCancelReservation,
+  useSearchReservations,
+  useMyReservations,
+} from "@/hooks/use-reservations";
+import type { MyReservationsData } from "@/hooks/use-reservations";
 import { toast } from "sonner";
 import ReservationHero from "./_component/reservation-hero";
 import ReservationInfoCard from "./_component/reservation-info-card";
@@ -16,110 +17,159 @@ import PaymentInfoCard from "./_component/payment-info-card";
 import ReservationActions from "./_component/reservation-actions";
 import { Button } from "@/components/ui/button";
 import ReservationListDrawer from "@/app/result/_component/reservation-list-drawer";
+import ReservationEditDialog from "@/app/result/_component/reservation-edit-dialog";
+import { useAuth } from "@/hooks/use-auth";
 
 interface Reservation {
-  reservationId: string;
+  reservationId: string | number;
   tripName: string;
   startTime: string;
   endTime: string;
   price: number;
   tripStatus: string;
   paymentStatus: string;
-  canceled: boolean;
-  refunded: boolean;
+  isCancelable?: boolean;
+  isModifiable?: boolean;
+  requestedAt?: string | null;
+  approvedAt?: string | null;
+  rejectedAt?: string | null;
+  canceledAt?: string | null;
   createdAt: string;
   pickupLocation?: string;
   dropLocation?: string;
   courseDetail?: string;
+  email?: string;
+  name?: string;
+  phoneNumber?: string;
 }
 
+type ApiReservation = {
+  reservationId?: number;
+  id?: number;
+  reservationName?: string;
+  meetingDate?: string;
+  price?: number;
+  status?: string;
+  isCancelable?: boolean;
+  isModifiable?: boolean;
+  pickupAddress?: string;
+  returnAddress?: string;
+  requests?: string | null;
+  createdAt: string;
+  requestedAt?: string | null;
+  approvedAt?: string | null;
+  rejectedAt?: string | null;
+  canceledAt?: string | null;
+  email?: string;
+  name?: string;
+  phoneNumber?: string;
+};
+
 function ResultPageContent() {
-  const { isAuthenticated, hasHydrated, requireAuth, phoneNumber } = useAuth();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [currentReservation, setCurrentReservation] =
     useState<Reservation | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [resumedAction, setResumedAction] = useState(false);
 
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const { isAuthenticated, hasHydrated } = useAuth();
   const reservationId = searchParams.get("reservationId");
+  const queryEmail = searchParams.get("email") || "";
+  const queryPhone = searchParams.get("phoneNumber") || "";
+  const actionParam = searchParams.get("action") || "";
 
-  // 인증 확인 (hydration이 완료된 후에만 실행)
+  // 비로그인 게스트: 쿼리(email, phone)가 있어야 조회 허용
+  const guestEnabled = useMemo(
+    () =>
+      !isAuthenticated && queryEmail.trim() !== "" && queryPhone.trim() !== "",
+    [isAuthenticated, queryEmail, queryPhone],
+  );
+  const searchQuery = useSearchReservations({
+    email: queryEmail,
+    phoneNumber: queryPhone,
+    enabled: guestEnabled,
+  });
+  // 로그인 사용자: 토큰 기반 내 목록 조회
+  const myQuery = useMyReservations({ enabled: isAuthenticated });
+  const cancelMutation = useCancelReservation();
+
+  // 예약 정보 조회 (내 목록)
   useEffect(() => {
+    // 하이드레이션 전이면 로딩 유지
     if (!hasHydrated) {
-      return; // hydration이 완료될 때까지 대기
+      setIsLoading(true);
+      return;
     }
 
-    if (!requireAuth()) {
-      return; // requireAuth()가 false를 반환하면 자동으로 로그인 페이지로 리다이렉트
-    }
-  }, [hasHydrated, isAuthenticated, requireAuth]);
-
-  // 예약 정보 조회 (일반 + 취소된 예약)
-  useEffect(() => {
-    if (!isAuthenticated || !phoneNumber) return;
-
-    const fetchReservations = async () => {
-      try {
-        setIsLoading(true);
-
-        // 일반 예약과 취소된 예약을 동시에 조회
-        const [getTrips, getCanceledTrips] = [
-          httpsCallable(functions, "getTrips"),
-          httpsCallable(functions, "getCanceledTrips"),
-        ];
-
-        const [activeResult, canceledResult] = await Promise.all([
-          getTrips({ phone: phoneNumber, isAdmin: false }),
-          getCanceledTrips({ phone: phoneNumber }),
-        ]);
-
-        const activeReservations = (
-          activeResult.data as { reservations: Reservation[] }
-        ).reservations;
-        const canceledReservations = (
-          canceledResult.data as { reservations: Reservation[] }
-        ).reservations;
-
-        // 모든 예약을 합쳐서 날짜순으로 정렬
-        const allReservations = [
-          ...activeReservations,
-          ...canceledReservations,
-        ].sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-
-        setReservations(allReservations);
-
-        // reservationId가 있으면 해당 예약 찾기
-        if (reservationId) {
-          const found = allReservations.find(
-            (r) => r.reservationId === reservationId,
-          );
-          if (found) {
-            setCurrentReservation(found);
-          } else {
-            setNotFound(true);
-          }
-        } else if (allReservations.length > 0) {
-          // reservationId가 없으면 가장 최근 예약 표시
-          setCurrentReservation(allReservations[0]);
-        } else {
-          setNotFound(true);
-        }
-      } catch (error: any) {
-        console.error("예약 조회 실패:", error);
-        toast.error("예약 정보를 불러오는데 실패했습니다.");
-        setNotFound(true);
-      } finally {
-        setIsLoading(false);
+    // 비로그인이고 게스트 조회 조건 불충족 시 로그인으로 이동
+    if (!isAuthenticated && !guestEnabled) {
+      setIsLoading(true);
+      if (typeof window !== "undefined") {
+        const returnUrl = window.location.pathname + window.location.search;
+        router.replace(`/login?returnUrl=${encodeURIComponent(returnUrl)}`);
       }
-    };
+      return;
+    }
 
-    fetchReservations();
-  }, [isAuthenticated, phoneNumber, reservationId]);
+    const apiData = isAuthenticated
+      ? (myQuery.data as MyReservationsData | undefined)
+      : (searchQuery.data as MyReservationsData | undefined);
+    if (!apiData) return;
+    const list: Reservation[] = (apiData.reservations || []).map((raw) => {
+      const r = raw as ApiReservation;
+      return {
+        reservationId: r.reservationId ?? r.id!,
+        tripName: r.reservationName ?? "여행 예약",
+        startTime: r.meetingDate ?? "",
+        endTime: r.meetingDate ?? "",
+        price: Number(r.price ?? 0),
+        tripStatus: (r.status as string) ?? "PENDING",
+        paymentStatus: "결제대기",
+        isCancelable: r.isCancelable === true,
+        isModifiable: r.isModifiable === true,
+        requestedAt: r.requestedAt ?? null,
+        approvedAt: r.approvedAt ?? null,
+        rejectedAt: r.rejectedAt ?? null,
+        canceledAt: r.canceledAt ?? null,
+        createdAt: r.createdAt,
+        pickupLocation: r.pickupAddress ?? undefined,
+        dropLocation: r.returnAddress ?? undefined,
+        courseDetail: r.requests ?? undefined,
+        email: r.email ?? undefined,
+        name: r.name ?? undefined,
+        phoneNumber: r.phoneNumber ?? undefined,
+      };
+    });
+    const sorted = list.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+    setReservations(sorted);
+    if (reservationId) {
+      const found = sorted.find(
+        (r) => String(r.reservationId) === reservationId,
+      );
+      setCurrentReservation(found || null);
+      setNotFound(!found);
+    } else {
+      setCurrentReservation(sorted[0] || null);
+      setNotFound(sorted.length === 0);
+    }
+    setIsLoading(false);
+  }, [
+    hasHydrated,
+    isAuthenticated,
+    guestEnabled,
+    searchQuery.data,
+    myQuery.data,
+    reservationId,
+    router,
+  ]);
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
@@ -153,9 +203,8 @@ function ResultPageContent() {
   };
 
   const handleCancelClick = () => {
-    if (!currentReservation || currentReservation.canceled) {
-      return;
-    }
+    if (!currentReservation) return;
+    if (!currentReservation.isCancelable) return;
     setShowCancelDialog(true);
   };
 
@@ -164,17 +213,16 @@ function ResultPageContent() {
       setIsLoading(true);
       setShowCancelDialog(false);
 
-      const cancelTrip = httpsCallable(functions, "cancelTrip");
-
-      await cancelTrip({
+      await cancelMutation.mutateAsync({
         reservationId: currentReservation!.reservationId,
       });
 
       // 현재 예약 상태를 취소로 업데이트
-      const updatedReservation = {
+      const updatedReservation: Reservation = {
         ...currentReservation!,
-        canceled: true,
-        tripStatus: "취소됨",
+        isCancelable: false,
+        tripStatus: "CANCELED",
+        canceledAt: new Date().toISOString(),
       };
 
       setCurrentReservation(updatedReservation);
@@ -191,42 +239,99 @@ function ResultPageContent() {
       toast.success("예약이 성공적으로 취소되었습니다.", {
         description: "취소된 예약은 나의 예약 내역에서 확인할 수 있습니다.",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("예약 취소 실패:", error);
+      const err = error as { status?: number; message?: string } | undefined;
+      const status = err?.status;
+      let desc = err?.message || "잠시 후 다시 시도해주세요.";
+      if (status === 403) desc = "취소 권한이 없습니다.";
+      else if (status === 404) desc = "예약을 찾을 수 없습니다.";
+      else if (status === 409) desc = "현재 상태에서는 취소할 수 없습니다.";
       toast.error("예약 취소 중 오류가 발생했습니다.", {
-        description: error.message || "잠시 후 다시 시도해주세요.",
+        description: desc,
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // hydration이 완료되지 않았거나 인증되지 않은 사용자에게는 로딩 화면 표시
-  if (!hasHydrated || !isAuthenticated) {
+  const canEdit = useMemo(
+    () => currentReservation?.isModifiable,
+    [currentReservation],
+  );
+
+  const handleSaved = (updated: Reservation) => {
+    setCurrentReservation(updated);
+    setReservations((prev) =>
+      prev.map((r) =>
+        r.reservationId === updated.reservationId ? updated : r,
+      ),
+    );
+  };
+
+  // 로그인 복귀 후 의도한 동작 자동 재개 (cancel/edit)
+  useEffect(() => {
+    if (!hasHydrated || !isAuthenticated) return;
+    if (!currentReservation) return;
+    if (resumedAction) return;
+    const action = actionParam;
+    if (!action) return;
+
+    const removeActionFromUrl = () => {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        params.delete("action");
+        const query = params.toString();
+        const newUrl = `${window.location.pathname}${query ? `?${query}` : ""}`;
+        router.replace(newUrl);
+      }
+    };
+
+    if (action === "cancel") {
+      setShowCancelDialog(true);
+      setResumedAction(true);
+      removeActionFromUrl();
+    } else if (action === "edit") {
+      if (canEdit) {
+        setShowEditDialog(true);
+      }
+      setResumedAction(true);
+      removeActionFromUrl();
+    }
+  }, [
+    hasHydrated,
+    isAuthenticated,
+    currentReservation,
+    actionParam,
+    canEdit,
+    resumedAction,
+    router,
+  ]);
+
+  // 초기 로딩 또는 리디렉션 대기
+  if (!hasHydrated || (!isAuthenticated && !guestEnabled)) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
-          <p className="text-gray-600">
-            {!hasHydrated ? "데이터 로딩 중..." : "인증 확인 중..."}
-          </p>
+      <div className="min-h-screen bg-gray-50">
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-center">
+            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
+            <p className="text-gray-600">예약 정보를 준비하는 중...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   // 예약 정보 로딩 중
-  if (isLoading) {
+  if (isLoading || searchQuery.isLoading || myQuery.isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
             <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
             <p className="text-gray-600">예약 정보를 불러오는 중...</p>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -235,7 +340,6 @@ function ResultPageContent() {
   if (notFound || !currentReservation) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="flex min-h-screen items-center justify-center">
           <div className="mx-auto max-w-md px-6 text-center">
             <div className="mb-8">
@@ -278,7 +382,6 @@ function ResultPageContent() {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -300,7 +403,10 @@ function ResultPageContent() {
             formatTime={formatTime}
             calculateEndTime={calculateEndTime}
           />
-          <DriverInfoCard handleCopyPhone={handleCopyPhone} />
+          <DriverInfoCard
+            handleCopyPhone={handleCopyPhone}
+            status={currentReservation.tripStatus}
+          />
         </div>
 
         <PaymentInfoCard />
@@ -313,6 +419,14 @@ function ResultPageContent() {
           setShowCancelDialog={setShowCancelDialog}
           handleCancelClick={handleCancelClick}
           handleCancelConfirm={handleCancelConfirm}
+          canEdit={!!canEdit}
+          onEditClick={() => setShowEditDialog(true)}
+        />
+        <ReservationEditDialog
+          open={showEditDialog}
+          onOpenChange={setShowEditDialog}
+          reservation={currentReservation}
+          onSaved={handleSaved}
         />
       </div>
     </main>

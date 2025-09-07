@@ -20,24 +20,18 @@ import BookingForm from "./booking-form";
 
 interface BookingDrawerProps {
   children: React.ReactNode;
-  courseDetails: {
-    [key: string]: {
-      title: string;
-      route: string;
-      courseNo: number;
-    };
-  };
+  title: string;
   price: string;
   time: string;
-  variant?: "default" | "vip";
+  destinationId: number;
 }
 
 export default function BookingDrawer({
+  title,
   children,
-  courseDetails,
   price,
   time,
-  variant = "default",
+  destinationId,
 }: BookingDrawerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -51,10 +45,10 @@ export default function BookingDrawer({
             <DialogTitle>예약하기</DialogTitle>
           </DialogHeader>
           <BookingForm
-            courseDetails={courseDetails}
+            title={title}
             price={price}
             time={time}
-            variant={variant}
+            destinationId={destinationId}
           />
         </DialogContent>
       </Dialog>
@@ -69,10 +63,10 @@ export default function BookingDrawer({
         </DrawerHeader>
         <div className="flex-1 overflow-auto px-4">
           <BookingForm
-            courseDetails={courseDetails}
+            title={title}
             price={price}
             time={time}
-            variant={variant}
+            destinationId={destinationId}
           />
         </div>
       </DrawerContent>

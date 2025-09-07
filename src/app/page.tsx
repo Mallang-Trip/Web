@@ -19,7 +19,6 @@ const tours = [
     tags: ["자연", "문화", "맛집"],
     featured: true,
   },
-  // 향후 추가될 투어들을 위한 예시
   {
     id: "seoul",
     name: "비오는날 서울투어",
@@ -256,12 +255,14 @@ export default function Home() {
           <p className="mb-8 text-xl text-blue-100">
             말랑트립과 함께 특별한 추억을 만들어보세요
           </p>
-          <Button
-            size="lg"
-            className="bg-white text-blue-600 hover:bg-gray-100"
-          >
-            투어 예약하기
-          </Button>
+          <Link href="/detail/vip" className="inline-block">
+            <Button
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-100"
+            >
+              투어 예약하기
+            </Button>
+          </Link>
         </div>
       </section>
     </div>

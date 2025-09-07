@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 import { QueryProvider } from "@/providers/query";
+import { TokenRefreshProvider } from "@/providers/token-refresh-provider";
 
 import { CounterStoreProvider } from "@/providers/counter-store-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import CustomerService from "@/components/customer-service";
 
 export const metadata: Metadata = {
   title: {
@@ -46,10 +48,13 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <CounterStoreProvider>
-            <Header />
-            {children}
-            <Footer />
-            <Toaster />
+            <TokenRefreshProvider>
+              <Header />
+              {children}
+              <Footer />
+              <Toaster />
+              <CustomerService />
+            </TokenRefreshProvider>
           </CounterStoreProvider>
         </QueryProvider>
       </body>

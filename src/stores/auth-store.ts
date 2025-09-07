@@ -2,14 +2,23 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface AuthState {
-  userToken: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   phoneNumber: string | null;
   hasHydrated: boolean;
 }
 
 interface AuthActions {
-  login: (userToken: string, phoneNumber: string) => void;
+  loginWithTokens: (
+    accessToken: string,
+    refreshToken: string,
+    phoneNumber: string,
+  ) => void;
+  setTokens: (tokens: {
+    accessToken: string | null;
+    refreshToken: string | null;
+  }) => void;
   logout: () => void;
   clearAuth: () => void;
 }
@@ -20,29 +29,55 @@ export const useAuthStore = create<AuthStore>()(
   persist(
     (set, get) => ({
       // State
-      userToken: null,
+      accessToken: null,
+      refreshToken: null,
       isAuthenticated: false,
       phoneNumber: null,
       hasHydrated: false,
 
       // Actions
-      login: (userToken: string, phoneNumber: string) => {
+      loginWithTokens: (
+        accessToken: string,
+        refreshToken: string,
+        phoneNumber: string,
+      ) => {
         set({
-          userToken,
+          accessToken,
+          refreshToken,
           isAuthenticated: true,
           phoneNumber,
         });
 
         // 쿠키에도 인증 상태 저장 (미들웨어에서 사용)
         if (typeof document !== "undefined") {
-          document.cookie = `auth-token=${userToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7일
+          document.cookie = `auth-token=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7일
           document.cookie = `is-authenticated=true; path=/; max-age=${60 * 60 * 24 * 7}`;
+        }
+      },
+
+      setTokens: ({ accessToken, refreshToken }) => {
+        set((state) => ({
+          accessToken,
+          refreshToken,
+          isAuthenticated: !!accessToken,
+        }));
+        if (typeof document !== "undefined") {
+          if (accessToken) {
+            document.cookie = `auth-token=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`;
+            document.cookie = `is-authenticated=true; path=/; max-age=${60 * 60 * 24 * 7}`;
+          } else {
+            document.cookie =
+              "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            document.cookie =
+              "is-authenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+          }
         }
       },
 
       logout: () => {
         set({
-          userToken: null,
+          accessToken: null,
+          refreshToken: null,
           isAuthenticated: false,
           phoneNumber: null,
         });
@@ -58,7 +93,8 @@ export const useAuthStore = create<AuthStore>()(
 
       clearAuth: () => {
         set({
-          userToken: null,
+          accessToken: null,
+          refreshToken: null,
           isAuthenticated: false,
           phoneNumber: null,
         });
@@ -75,7 +111,8 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: "auth-storage", // localStorage key
       partialize: (state) => ({
-        userToken: state.userToken,
+        accessToken: state.accessToken,
+        refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
         phoneNumber: state.phoneNumber,
       }),

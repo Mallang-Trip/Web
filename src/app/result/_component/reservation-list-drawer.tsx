@@ -288,7 +288,7 @@ export default function ReservationListDrawer({
                       ₩{reservation.price.toLocaleString()}
                     </span>
                   </div>
-                  <span
+                  {/* <span
                     className={`rounded px-2 py-1 text-xs ${
                       reservation.tripStatus?.toUpperCase() === "CANCELED"
                         ? "bg-gray-100 text-gray-500"
@@ -298,7 +298,7 @@ export default function ReservationListDrawer({
                     }`}
                   >
                     {reservation.paymentStatus}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </CardContent>

@@ -22,7 +22,6 @@ import { toast } from "sonner";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSendLoginSms, useVerifyLoginSms } from "@/hooks/use-auth-api";
-import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -119,7 +118,7 @@ export function LoginForm({
 
       // 원래 접근하려던 페이지로 리다이렉트 (없으면 메인 페이지)
       setTimeout(() => {
-        const redirectTo = returnUrl || "/";
+        const redirectTo = returnUrl || "/detail/vip";
 
         // returnUrl 정리
         if (typeof window !== "undefined") {
@@ -246,12 +245,6 @@ export function LoginForm({
                 </div>
               </form>
             )}
-          </div>
-          <div className="mt-4 text-center text-sm">
-            등록된 계정이 없으신가요?{" "}
-            <Link href="/register" className="underline underline-offset-4">
-              회원가입
-            </Link>
           </div>
         </CardContent>
       </Card>

@@ -37,32 +37,3 @@ export function useVerifyLoginSms() {
     },
   });
 }
-
-export function useSendRegisterSms() {
-  return useMutation({
-    mutationFn: async ({ phoneNumber }: { phoneNumber: string }) => {
-      const res = await AuthAPI.sendRegisterSms(phoneNumber);
-      return res?.data;
-    },
-  });
-}
-
-export function useVerifyRegisterSms() {
-  const { loginWithTokens } = useAuthStore();
-  return useMutation({
-    mutationFn: async (params: { txId: string; verificationCode: string }) => {
-      const res = await AuthAPI.verifyRegisterSms({
-        txId: params.txId,
-        verificationCode: params.verificationCode,
-      });
-      return res?.data;
-    },
-    onSuccess: (api) => {
-      const accessToken: string | undefined = api?.accessToken;
-      const refreshToken: string | undefined = api?.refreshToken;
-      if (accessToken && refreshToken) {
-        useAuthStore.getState().loginWithTokens(accessToken, refreshToken, "");
-      }
-    },
-  });
-}

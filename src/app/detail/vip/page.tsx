@@ -11,7 +11,7 @@ import PricingTable from "./_component/PricingTable";
 import FAQ from "./_component/FAQ";
 import CTA from "./_component/CTA";
 import { Car, ShieldCheck, Gift } from "lucide-react";
-import ReviewsSection from "../_component/reviews-section";
+// import ReviewsSection from "../_component/reviews-section";
 
 const breweries = [
   {
@@ -28,7 +28,7 @@ const breweries = [
     signatureText:
       "프랑스 칼바도스의 고귀한 전통 방식으로 두 번 증류하여 오크통에서 3년 이상 숙성한 명품 애플 브랜디. 잘 익은 사과의 농축된 달콤함과 오크의 바닐라, 꿀, 토피 풍미가 어우러집니다.",
     images: "/tour-images/vip/Yesan",
-    imagesCount: 20,
+    imagesCount: 10,
     address: "충남 예산군 고덕면 대몽로 107-25",
   },
   {
@@ -45,7 +45,7 @@ const breweries = [
     signatureText:
       "청와대 만찬주로 선정된 프리미엄 막걸리. 백련잎의 은은하고 깨끗한 향이 쌀의 텁텁함을 마법처럼 잡아주어, 놀랍도록 부드럽고 깔끔한 맛을 선사합니다.",
     images: "/tour-images/vip/Sinpyeong",
-    imagesCount: 20,
+    imagesCount: 10,
     address: "충남 당진시 신평면 신평로 813",
   },
   {
@@ -62,7 +62,7 @@ const breweries = [
     signatureText:
       "아세안 정상회의 공식 건배주이자 대통령상 수상작. 다섯 번의 발효와 9개월의 저온 숙성을 거쳐 꿀, 버터스카치, 잘 익은 배의 복합적인 향과 비단처럼 부드러운 질감이 완벽한 균형을 이룹니다.",
     images: "/tour-images/vip/Cheonbi",
-    imagesCount: 17,
+    imagesCount: 10,
     address: "경기 평택시 오성면 숙성뜰길 108",
   },
 ];
@@ -95,29 +95,29 @@ const timeline = [
   },
 ];
 
-const reviews = [
-  {
-    image: "/tour-images/vip/Sinpyeong/06.jpg",
-    rating: "★★★★★",
-    author: "",
-    comment:
-      "양조장 오너 가족을 직접 만나고 소통할 수 있었던 점이 인상 깊었습니다. 비즈니스 접대용으로도 손색이 없는 세련된 경험입니다.",
-  },
-  {
-    image: "/tour-images/vip/Sinpyeong/04.jpg",
-    rating: "★★★★★",
-    author: "",
-    comment:
-      "오크통에서 갓 꺼낸 원액을 맛보고, 나만의 술을 직접 만들어 가져갈 수 있다는 점이 정말 특별했습니다. 단순한 시음 투어가 아니었어요.",
-  },
-  {
-    image: "/tour-images/vip/Cheonbi/05.jpg",
-    rating: "★★★★★",
-    author: "",
-    comment:
-      "각 양조장의 개성이 뚜렷해서 지루할 틈이 없었습니다. 특히 마지막 양조장에서 제공된 따뜻한 음식과 술의 조화는 최고였습니다. 친구들과 꼭 다시 오고 싶은 곳입니다.",
-  },
-];
+// const reviews = [
+//   {
+//     image: "/tour-images/vip/Sinpyeong/06.jpg",
+//     rating: "★★★★★",
+//     author: "",
+//     comment:
+//       "양조장 오너 가족을 직접 만나고 소통할 수 있었던 점이 인상 깊었습니다. 비즈니스 접대용으로도 손색이 없는 세련된 경험입니다.",
+//   },
+//   {
+//     image: "/tour-images/vip/Sinpyeong/04.jpg",
+//     rating: "★★★★★",
+//     author: "",
+//     comment:
+//       "오크통에서 갓 꺼낸 원액을 맛보고, 나만의 술을 직접 만들어 가져갈 수 있다는 점이 정말 특별했습니다. 단순한 시음 투어가 아니었어요.",
+//   },
+//   {
+//     image: "/tour-images/vip/Cheonbi/05.jpg",
+//     rating: "★★★★★",
+//     author: "",
+//     comment:
+//       "각 양조장의 개성이 뚜렷해서 지루할 틈이 없었습니다. 특히 마지막 양조장에서 제공된 따뜻한 음식과 술의 조화는 최고였습니다. 친구들과 꼭 다시 오고 싶은 곳입니다.",
+//   },
+// ];
 
 const faqs = [
   {
@@ -255,7 +255,7 @@ export default function VipDetailPage() {
                 subheading="한국 전통주의 진수를 경험하는 프리미엄 투어"
               />
 
-              <ReviewsSection reviews={reviews} />
+              {/* <ReviewsSection reviews={reviews} /> */}
 
               <FAQ
                 items={faqs}

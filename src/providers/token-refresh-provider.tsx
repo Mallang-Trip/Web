@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useAuthStore } from "@/stores/auth-store";
 
-const ONE_HOUR_MS = 60 * 60 * 1000;
 const FIVE_MIN_MS = 5 * 60 * 1000;
 
 export function TokenRefreshProvider({
@@ -11,11 +10,11 @@ export function TokenRefreshProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { accessToken, refreshToken, setTokens, logout } = useAuthStore();
+  const { refreshToken, setTokens, logout } = useAuthStore();
   const timerRef = useRef<number | null>(null);
 
   // 공용 호출자: refresh 토큰으로 액세스 토큰 재발급
-  const refreshAccessToken = async () => {
+  const refreshAccessToken = useCallback(async () => {
     if (!refreshToken) return false;
     const backend = process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "";
     try {
@@ -38,88 +37,31 @@ export function TokenRefreshProvider({
       // ignore
     }
     return false;
-  };
+  }, [logout, refreshToken, setTokens]);
 
-  // 액세스 토큰 유효성 검증
-  const validateAccessToken = async (): Promise<{
-    valid: boolean;
-    expiresAt?: number;
-  }> => {
-    const backend = process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "";
-    if (!accessToken) return { valid: false };
-    try {
-      const resp = await fetch(`${backend}/auth/validate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accessToken }),
-      });
-      if (!resp.ok) return { valid: false };
-      const json = await resp.json();
-      const valid = Boolean(json?.data?.valid);
-      const expiresAt = json?.data?.expiresAt as number | undefined;
-      return { valid, expiresAt };
-    } catch {
-      return { valid: false };
-    }
-  };
+  const startInterval = useCallback(() => {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(async () => {
+      await refreshAccessToken();
+    }, FIVE_MIN_MS);
+  }, [refreshAccessToken]);
 
-  const schedule = (ms: number) => {
-    if (timerRef.current) window.clearTimeout(timerRef.current);
-    timerRef.current = window.setTimeout(
-      async () => {
-        const ok = await refreshAccessToken();
-        // 갱신 성공 시 다음 스케줄은 55분 후 (명세상 1시간 유효)
-        if (ok) schedule(ONE_HOUR_MS - FIVE_MIN_MS);
-      },
-      Math.max(ms, FIVE_MIN_MS),
-    );
-  };
-
-  // 앱 최초 진입: 유효성 검증 후 스케줄링 (임박/무효 시 즉시 갱신)
+  // 최초 로그인(또는 앱 로드 시 이미 로그인된 상태)이면 즉시 1회 갱신 후 5분 주기 갱신 시작
   useEffect(() => {
     let active = true;
     (async () => {
       if (!active) return;
-      if (!refreshToken) return; // 인증 안 된 상태
+      if (!refreshToken) return; // 미인증 상태에서는 주기 갱신 시작 안 함
 
-      // accessToken 없으면 즉시 갱신
-      if (!accessToken) {
-        const ok = await refreshAccessToken();
-        if (!active) return;
-        if (ok) schedule(ONE_HOUR_MS - FIVE_MIN_MS);
-        return;
-      }
-
-      const result = await validateAccessToken();
+      await refreshAccessToken(); // 즉시 1회 갱신
       if (!active) return;
-      if (!result.valid) {
-        const ok = await refreshAccessToken();
-        if (!active) return;
-        if (ok) schedule(ONE_HOUR_MS - FIVE_MIN_MS);
-        return;
-      }
-
-      const expiresAt = result.expiresAt;
-      if (!expiresAt) {
-        // 만료 시간이 없으면 안전하게 55분 주기
-        schedule(ONE_HOUR_MS - FIVE_MIN_MS);
-        return;
-      }
-      const msToExpiry = expiresAt - Date.now();
-      if (msToExpiry <= FIVE_MIN_MS) {
-        const ok = await refreshAccessToken();
-        if (!active) return;
-        if (ok) schedule(ONE_HOUR_MS - FIVE_MIN_MS);
-        return;
-      }
-      // 만료 5분 전으로 스케줄
-      schedule(msToExpiry - FIVE_MIN_MS);
+      startInterval(); // 이후 5분마다 갱신
     })();
     return () => {
       active = false;
-      if (timerRef.current) window.clearTimeout(timerRef.current);
+      if (timerRef.current) window.clearInterval(timerRef.current);
     };
-  }, [accessToken, refreshToken]);
+  }, [refreshToken, refreshAccessToken, startInterval]);
 
   return <>{children}</>;
 }

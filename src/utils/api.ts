@@ -197,26 +197,6 @@ export const AuthAPI = {
       txId: params.txId,
       verificationCode: params.verificationCode,
     }),
-  sendRegisterSms: (phoneNumber: string) =>
-    apiPost<{
-      txId: string;
-      expiresAt: string;
-      maskedPhoneNumber: string;
-      message: string;
-    }>(`/auth/register/sms/send`, { phoneNumber }),
-  verifyRegisterSms: (params: { txId: string; verificationCode: string }) =>
-    apiPost<{
-      userId: number;
-      isNewUser: boolean;
-      accessToken: string;
-      refreshToken: string;
-      tokenType: string;
-      expiresIn: number;
-      user: Record<string, unknown>;
-    }>(`/auth/register/sms/verify`, {
-      txId: params.txId,
-      verificationCode: params.verificationCode,
-    }),
 };
 
 export const ReservationAPI = {

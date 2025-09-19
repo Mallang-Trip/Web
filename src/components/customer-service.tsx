@@ -1,11 +1,68 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import { useLangStore } from "@/stores/lang-store";
 
 export default function CustomerService() {
   const { currentLanguage } = useLangStore();
+  const [mobileBottomOffset, setMobileBottomOffset] = useState<number>(24); // bottom-6 기본값(px)
+
+  // Tawk 위젯(iframe) 하단 오프셋 적용 유틸리티
+  const applyTawkOffset = (offsetPx: number) => {
+    let attempts = 0;
+    const tryApply = () => {
+      attempts += 1;
+
+      const candidates: (HTMLElement | null)[] = [
+        document.getElementById("tawkchat-container") as HTMLElement | null,
+        (
+          document.getElementById(
+            "tawk-messenger-frame",
+          ) as HTMLIFrameElement | null
+        )?.parentElement as HTMLElement | null,
+        document.querySelector(
+          "iframe#tawk-messenger-frame",
+        ) as HTMLElement | null,
+        (
+          document.querySelector(
+            'iframe[title="chat widget"]',
+          ) as HTMLIFrameElement | null
+        )?.parentElement as HTMLElement | null,
+        document.querySelector(
+          'iframe[title="chat widget"]',
+        ) as HTMLElement | null,
+      ];
+
+      const extra = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          "#tawkchat-container, .tawk-min-container, .tawk-button",
+        ),
+      );
+
+      const elements = [
+        ...candidates.filter((e): e is HTMLElement => !!e),
+        ...extra,
+      ];
+      if (elements.length === 0) return false;
+
+      const px = `${offsetPx}px`;
+      elements.forEach((el: HTMLElement) => {
+        el.style.setProperty("bottom", px, "important");
+      });
+      return true;
+    };
+
+    if (tryApply()) return; // 즉시 적용 성공
+
+    const interval = setInterval(() => {
+      const ok = tryApply();
+      if (ok || attempts > 60) {
+        // 최대 약 15초 재시도 (250ms * 60)
+        clearInterval(interval);
+      }
+    }, 250);
+  };
 
   // 언어 변경 시 이미 로드된 위젯을 즉시 토글(표시/숨김)
   useEffect(() => {
@@ -49,6 +106,95 @@ export default function CustomerService() {
     };
   }, [currentLanguage]);
 
+  // 모바일 바텀 바 등장/퇴장에 맞춰 버튼 위치를 동적으로 조정 (모바일 화면에서만)
+  useEffect(() => {
+    // 초기 동기화: 바텀 바가 이미 보이는 상태로 로드될 수 있으므로, 저장된 전역 상태를 먼저 반영
+    const initialState = (
+      globalThis as unknown as {
+        __mobileBottomBarState?: { visible: boolean; height: number };
+      }
+    ).__mobileBottomBarState;
+    if (initialState) {
+      const isMobileInit = window.matchMedia("(max-width: 1023.98px)").matches;
+      if (isMobileInit) {
+        if (initialState.visible) {
+          const offset = Math.max(24, (initialState.height || 0) + 16);
+          setMobileBottomOffset(offset);
+          if (currentLanguage === "en") applyTawkOffset(offset);
+        } else {
+          setMobileBottomOffset(24);
+          if (currentLanguage === "en") applyTawkOffset(24);
+        }
+      }
+    }
+
+    const onVisibility = (e: Event) => {
+      const { visible, height } = (
+        e as CustomEvent<{
+          visible: boolean;
+          height: number;
+        }>
+      ).detail || { visible: false, height: 0 };
+
+      const isMobile = window.matchMedia("(max-width: 1023.98px)").matches; // < lg
+      if (!isMobile) {
+        setMobileBottomOffset(24);
+        return;
+      }
+
+      if (visible) {
+        // 바텀 바 높이 + 약간의 여유(16px)
+        const offset = Math.max(24, (height || 0) + 16);
+        setMobileBottomOffset(offset);
+        if (currentLanguage === "en") applyTawkOffset(offset);
+      } else {
+        setMobileBottomOffset(24);
+        if (currentLanguage === "en") applyTawkOffset(24);
+      }
+    };
+
+    const onResize = () => {
+      const isMobile = window.matchMedia("(max-width: 1023.98px)").matches;
+      if (!isMobile) setMobileBottomOffset(24);
+    };
+
+    window.addEventListener(
+      "mobile-bottom-bar:visibility",
+      onVisibility as EventListener,
+    );
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener(
+        "mobile-bottom-bar:visibility",
+        onVisibility as EventListener,
+      );
+      window.removeEventListener("resize", onResize);
+    };
+  }, [currentLanguage]);
+
+  // Tawk 위젯이 지연 렌더링될 때도 자동 보정: DOM 변화 감시로 등장 즉시 오프셋 적용
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 1023.98px)").matches;
+    if (!isMobile || currentLanguage !== "en") return;
+
+    // 최초 한 번 시도
+    applyTawkOffset(mobileBottomOffset);
+
+    const observer = new MutationObserver(() => {
+      applyTawkOffset(mobileBottomOffset);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // 10초 뒤 자동 해제(부하 방지). 이후 바텀 바 이벤트에서 다시 적용됨
+    const timer = setTimeout(() => observer.disconnect(), 10000);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [currentLanguage, mobileBottomOffset]);
+
   return (
     <>
       {currentLanguage === "en" ? (
@@ -63,6 +209,10 @@ export default function CustomerService() {
               }
             )?.Tawk_API;
             if (api && typeof api.showWidget === "function") api.showWidget();
+            // 로드 직후 현재 오프셋을 한 번 적용 (모바일일 때)
+            if (window.matchMedia("(max-width: 1023.98px)").matches) {
+              applyTawkOffset(mobileBottomOffset);
+            }
           }}
         />
       ) : null}
@@ -76,6 +226,7 @@ export default function CustomerService() {
           rel="noopener noreferrer"
           aria-label="카카오톡 고객센터 열기"
           className="fixed right-6 bottom-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#FEE500] shadow-lg ring-1 ring-[#FEE500] transition hover:brightness-95"
+          style={{ bottom: mobileBottomOffset }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

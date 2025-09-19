@@ -61,24 +61,21 @@ export default function JejuDetailPage() {
 
   const reviews = [
     {
-      image:
-        "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800",
+      image: "/tour-images/jeju/03.jpg",
       rating: "★★★★★",
       author: "🇨🇳 Wang* (28)",
       comment:
         "드라이버가 매우 친절하고 사진도 잘 찍어줬어요! 덕분에 편하게 여행했습니다.",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800",
+      image: "/tour-images/jeju/05.jpg",
       rating: "★★★★★",
       author: "🇺🇸 Chris* (35)",
       comment:
         "Perfect way to see Jeju! The driver recommended a fantastic local black pork restaurant.",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800",
+      image: "/tour-images/jeju/11.jpg",
       rating: "★★★★☆",
       author: "🇨🇳 Li* (24)",
       comment:
@@ -128,6 +125,7 @@ export default function JejuDetailPage() {
                 },
               ]}
               destinationId={501}
+              disabled={true}
             />
           </div>
         </div>
@@ -139,6 +137,7 @@ export default function JejuDetailPage() {
         price="190,000"
         time="9시간"
         destinationId={501}
+        disabled={true}
       />
     </div>
   );

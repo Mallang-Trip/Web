@@ -9,6 +9,7 @@ import BrewerySection from "./_component/BrewerySection";
 import Timeline from "./_component/Timeline";
 import PricingTable from "./_component/PricingTable";
 import FAQ from "./_component/FAQ";
+import Link from "next/link";
 import CTA from "./_component/CTA";
 import { Car, ShieldCheck, Gift } from "lucide-react";
 // import ReviewsSection from "../_component/reviews-section";
@@ -75,13 +76,13 @@ const timeline = [
   },
   {
     time: "11:30",
-    activity: "첫 번째 양조장",
-    description: "체험 1시간 + 자유시간 30분",
+    activity: "현지 맛집 점심",
+    description: "엄선된 맛집에서 전통주와 함께",
   },
   {
     time: "13:00",
-    activity: "현지 맛집 점심",
-    description: "엄선된 맛집에서 전통주와 함께",
+    activity: "첫 번째 양조장",
+    description: "체험 1시간 + 자유시간 30분",
   },
   {
     time: "14:30",
@@ -127,8 +128,28 @@ const faqs = [
   },
   {
     question: "어떤 식당을 안내해주시나요?",
-    answer:
-      "말랑트립은 한 끼의 식사 또한 투어의 가장 중요한 경험이 되어야 한다고 믿습니다. 이를 위해 저희는 고객님의 예약이 확정된 후 고객님께서 제공해주신 정보와 전체적인 투어 동선을 종합적으로 고려하여, 이동 시간을 최소화하고 만족도를 극대화할 수 있는 최적의 맛집들을 엄선하여 추천해 드립니다.",
+    answer: (
+      <>
+        저희는 정해진 식당으로 안내하는 대신, 투어의 만족도를 높이기 위해 엄선한
+        <Link
+          href="/detail/vip/guide"
+          className="ml-1 font-semibold text-blue-600 underline underline-offset-4 hover:text-blue-700"
+        >
+          ‘미식 가이드’
+        </Link>
+        를 제공합니다. 이 가이드는 방문할 양조장 인근에서 최고의 평가를 받는
+        식당들을 모아놓은 저희만의 추천 리스트입니다. 투어 확정 후 가이드를
+        전달드리며 고객님의 취향에 맞는 곳을 자유롭게 선택하실 수 있습니다. 물론
+        리스트 외의 식당도 방문 가능하지만, 원활한 투어 시간 준수를 위해
+        방문하시는 양조장과 가까운 곳으로 안내해 드리는 점 양해 부탁드립니다.
+        <Link
+          href="/detail/vip/guide"
+          className="ml-2 inline-flex items-center gap-1 rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white hover:bg-blue-800"
+        >
+          식당 리스트 확인하기
+        </Link>
+      </>
+    ),
   },
   {
     question: "점심 식사를 제외하고 투어 시간을 조정할 수 있나요?",
@@ -141,9 +162,9 @@ const faqs = [
       "본 투어는 단순한 방문이 아닌, 최고의 경험을 선사하기 위해 세심하게 큐레이션됩니다. 저희 전문가 팀이 당일의 예약 상황, 양조장의 컨디션, 그리고 계절적 특색까지 종합적으로 고려하여 고객님께 가장 완벽한 경험을 선사할 최적의 양조장 2곳을 선정하여 안내해 드립니다. 말랑트립의 안목을 믿고 맡겨주시면, 기대 이상의 만족을 경험하시게 될 것입니다.",
   },
   {
-    question: "영어 소통에 어려움은 없나요?",
+    question: "(외국인 대상) 영어 소통에 어려움은 없나요?",
     answer:
-      "투어의 핵심인 각 양조장 체험은 해당 분야의 전문가가 영어로 직접 진행하여, 깊이 있는 소통에 전혀 문제가 없습니다. 이동을 도와주시는 드라이버님은 안전한 운행을 책임지는 베테랑으로, 영어 소통은 제한될 수 있습니다. 하지만 번역기(앱)를 통해 목적지 변경이나 간단한 요청 등 필요하신 소통은 충분히 원활하게 가능합니다. 차량으로 이동하는 시간은 온전히 일행과 함께 편안한 휴식을 즐기는 프라이빗한 순간이 될 것입니다.",
+      "네, 소통에 전혀 문제없습니다. 말랑트립 VIP 투어는 고객님의 국적에 맞춰 언어 서비스를 제공합니다. 외국인 고객님의 경우, 투어의 핵심인 양조장 체험은 해당 분야 전문가가 영어로 직접 진행하며, 내국인 고객님께는 모든 안내와 체험이 한국어로 편안하게 제공됩니다. 투어 내내 안전 운행을 책임지는 베테랑 드라이버님이 동행하며, 이동 시간은 온전히 일행과 함께 프라이빗한 휴식을 즐기는 시간이 될 것입니다. (외국인 고객님의 경우, 필요시 번역 앱을 통해 목적지 변경 등 간단한 소통이 원활하게 가능합니다.)",
   },
   {
     question: "술을 마시지 않거나, 어린이도 투어에 참여할 수 있나요?",
@@ -199,7 +220,7 @@ export default function VipDetailPage() {
       icon: Gift,
       title: "올인클루시브",
       description:
-        "차량, 기사, 체험비, 시음 모두 포함\n식사만 개인 취향대로 선택",
+        "서울-양조장 왕복 프라이빗 이동(약 200km), 톨비, 유류비, 주차비 모두 포함\n식사만 개인 취향대로 선택",
     },
     {
       icon: ShieldCheck,
@@ -271,10 +292,11 @@ export default function VipDetailPage() {
               title="VIP 프라이빗 양조장 투어"
               price="1,160,000"
               time="8시간"
+              baseMember="2인"
               subItems={[
                 {
                   title: "인원",
-                  value: "2~8인",
+                  value: "2인 이상",
                 },
                 {
                   title: "투어 시간",
@@ -290,6 +312,7 @@ export default function VipDetailPage() {
                 },
               ]}
               destinationId={6001}
+              disabled={false}
             />
           </div>
         </div>
@@ -301,6 +324,7 @@ export default function VipDetailPage() {
         price="1,160,000"
         time="8시간"
         destinationId={6001}
+        disabled={false}
       />
     </div>
   );

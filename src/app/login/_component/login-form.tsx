@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSendLoginSms, useVerifyLoginSms } from "@/hooks/use-auth-api";
+import { getFirstEntryTarget } from "@/utils";
 
 export function LoginForm({
   className,
@@ -42,6 +43,8 @@ export function LoginForm({
   const returnUrl =
     searchParams.get("returnUrl") ||
     (typeof window !== "undefined" ? localStorage.getItem("returnUrl") : null);
+  const firstEntryTarget =
+    typeof window !== "undefined" ? getFirstEntryTarget() : "/";
 
   // OTP 입력란이 보일 때 자동 포커스
   useEffect(() => {
@@ -116,9 +119,9 @@ export function LoginForm({
         icon: <CheckCircle className="text-green-500" />,
       });
 
-      // 원래 접근하려던 페이지로 리다이렉트 (없으면 메인 페이지)
+      // returnUrl > 첫 접속 경로(/detail*만 허용) > 랜딩('/') 순서로 리다이렉트
       setTimeout(() => {
-        const redirectTo = returnUrl || "/detail/vip";
+        const redirectTo = returnUrl || firstEntryTarget || "/";
 
         // returnUrl 정리
         if (typeof window !== "undefined") {

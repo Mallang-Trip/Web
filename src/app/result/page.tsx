@@ -106,10 +106,20 @@ function ResultPageContent() {
       return;
     }
 
-    // 비로그인이고 게스트 조회 조건 불충족 시 로그인으로 이동
+    // 비로그인이고 게스트 조회 조건 불충족 시 이동 처리
     if (!isAuthenticated && !guestEnabled) {
       setIsLoading(true);
       if (typeof window !== "undefined") {
+        try {
+          const logoutRedirectTo =
+            window.sessionStorage.getItem("logoutRedirectTo");
+          if (logoutRedirectTo) {
+            window.sessionStorage.removeItem("logoutRedirectTo");
+            router.replace(logoutRedirectTo);
+            return;
+          }
+        } catch {}
+
         const returnUrl = window.location.pathname + window.location.search;
         router.replace(`/login?returnUrl=${encodeURIComponent(returnUrl)}`);
       }

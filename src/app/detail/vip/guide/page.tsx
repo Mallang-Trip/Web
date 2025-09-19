@@ -530,7 +530,7 @@ export default function VipGuidePage() {
   const lang: Lang = currentLanguage === "en" ? "en" : "ko";
 
   return (
-    <div className="mt-16 min-h-screen bg-gray-50">
+    <div className="mt-16 min-h-screen bg-[#FAF9F6]">
       <div className="mx-auto max-w-5xl px-4 py-8">
         {/* 헤더 타이틀 */}
         <div className="text-center">

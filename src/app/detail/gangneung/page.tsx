@@ -1,7 +1,7 @@
 import HeroSection from "@/app/detail/_component/hero-section";
 import FeaturesSection from "@/app/detail/_component/features-section";
 import PricingSection from "@/app/detail/_component/pricing-section";
-import ReviewsSection from "@/app/detail/_component/reviews-section";
+// import ReviewsSection from "@/app/detail/_component/reviews-section";
 import BookingSidebar from "@/app/detail/_component/booking-sidebar";
 import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
 import PicturesSection from "@/app/detail/_component/pictures-section";
@@ -104,7 +104,7 @@ export default function GangneungDetailPage() {
               <FeaturesSection features={features} />
               <PicturesSection images={images} name="강릉" />
               <PricingSection pricingItems={pricingItems} />
-              <ReviewsSection reviews={reviews} />
+              {/* <ReviewsSection reviews={reviews} /> */}
             </div>
           </div>
 
@@ -129,6 +129,7 @@ export default function GangneungDetailPage() {
                 },
               ]}
               destinationId={503}
+              disabled={true}
             />
           </div>
         </div>
@@ -140,6 +141,7 @@ export default function GangneungDetailPage() {
         price="175,000"
         time="7시간"
         destinationId={503}
+        disabled={true}
       />
     </div>
   );

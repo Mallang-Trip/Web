@@ -4,13 +4,21 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLangStore } from "@/stores/lang-store";
+import { getFirstEntryTarget } from "@/utils";
 
 export default function Header() {
-  const { isAuthenticated, phoneNumber, logout } = useAuth();
+  const [logoHref, setLogoHref] = useState<string>("/");
+  const { isAuthenticated, phoneNumber, logout } = useAuth(logoHref);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { currentLanguage, setLanguage } = useLangStore();
+
+  useEffect(() => {
+    // 클라이언트에서 첫 접속 타겟을 읽어 로고 이동 경로로 사용
+    const target = getFirstEntryTarget();
+    setLogoHref(target || "/");
+  }, []);
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
@@ -18,7 +26,7 @@ export default function Header() {
         {/* 메인 헤더 */}
         <div className="flex h-16 items-center justify-between">
           {/* 로고 */}
-          <Link href="/detail/vip" className="flex items-center">
+          <Link href={logoHref} className="flex items-center">
             <Image
               src="/logo.png"
               width={112}
@@ -65,7 +73,9 @@ export default function Header() {
             {/* 언어 선택 드롭다운 */}
             <select
               value={currentLanguage}
-              onChange={(e) => setLanguage(e.target.value as any)}
+              onChange={(e) =>
+                setLanguage(e.target.value as "ko" | "en" | "zh")
+              }
               className="h-9 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
               <option value="ko">🇰🇷 한국어</option>
@@ -79,7 +89,9 @@ export default function Header() {
             {/* 언어 선택 (모바일에서 축약) */}
             <select
               value={currentLanguage}
-              onChange={(e) => setLanguage(e.target.value as any)}
+              onChange={(e) =>
+                setLanguage(e.target.value as "ko" | "en" | "zh")
+              }
               className="h-8 w-24 rounded-md border border-gray-300 px-2 py-1 text-xs"
             >
               <option value="ko">🇰🇷 한국어</option>

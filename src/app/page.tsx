@@ -6,6 +6,19 @@ import { Badge } from "@/components/ui/badge";
 
 const tours = [
   {
+    id: "vip",
+    name: "프라이빗 도어투도어 양조장 투어",
+    description:
+      "한국 전통주 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
+    image: "/tour-images/vip/Yesan/01.jpg",
+    duration: "8시간",
+    price: "1,160,000원",
+    rating: 4.8,
+    reviewCount: 127,
+    tags: ["프라이빗", "도어투도어", "양조장"],
+    featured: true,
+  },
+  {
     id: "jeju",
     name: "제주도 택시 투어",
     description:
@@ -14,10 +27,10 @@ const tours = [
       "https://images.unsplash.com/photo-1579169825453-8d4b4653cc2c?q=80&w=1440",
     duration: "9시간",
     price: "190,000원",
-    rating: 4.8,
-    reviewCount: 127,
+    rating: 4.4,
+    reviewCount: 86,
     tags: ["자연", "문화", "맛집"],
-    featured: true,
+    featured: false,
   },
   {
     id: "seoul",
@@ -27,8 +40,8 @@ const tours = [
       "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
     duration: "5시간",
     price: "200,000원",
-    rating: 4.6,
-    reviewCount: 89,
+    rating: 4.2,
+    reviewCount: 61,
     tags: ["비오는날", "서울", "투어"],
     featured: false,
   },
@@ -40,8 +53,8 @@ const tours = [
       "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/4ddb1918-ab15-4d15-ac1b-b54aa1e30a16%EA%B0%95%EB%A6%89.jpg",
     duration: "7시간",
     price: "175,000원",
-    rating: 4.7,
-    reviewCount: 64,
+    rating: 4.3,
+    reviewCount: 22,
     tags: ["강릉", "투어", "손님 마음대로"],
     featured: false,
   },
@@ -260,7 +273,7 @@ export default function Home() {
               size="lg"
               className="bg-white text-blue-600 hover:bg-gray-100"
             >
-              투어 예약하기
+              추천 여행 보기
             </Button>
           </Link>
         </div>

@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import CustomerService from "@/components/customer-service";
+import { FirstEntryProvider } from "@/providers/first-entry-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -49,6 +50,7 @@ export default function RootLayout({
         <QueryProvider>
           <CounterStoreProvider>
             <TokenRefreshProvider>
+              <FirstEntryProvider />
               <Header />
               {children}
               <Footer />

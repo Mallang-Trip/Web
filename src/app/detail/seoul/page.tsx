@@ -1,7 +1,7 @@
 import HeroSection from "@/app/detail/_component/hero-section";
 import FeaturesSection from "@/app/detail/_component/features-section";
 import PricingSection from "@/app/detail/_component/pricing-section";
-import ReviewsSection from "@/app/detail/_component/reviews-section";
+// import ReviewsSection from "@/app/detail/_component/reviews-section";
 import BookingSidebar from "@/app/detail/_component/booking-sidebar";
 import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
 import PicturesSection from "@/app/detail/_component/pictures-section";
@@ -103,7 +103,7 @@ export default function SeoulDetailPage() {
               <FeaturesSection features={features} />
               <PicturesSection images={images} name="서울" />
               <PricingSection pricingItems={pricingItems} />
-              <ReviewsSection reviews={reviews} />
+              {/* <ReviewsSection reviews={reviews} /> */}
             </div>
           </div>
 
@@ -128,6 +128,7 @@ export default function SeoulDetailPage() {
                 },
               ]}
               destinationId={502}
+              disabled={true}
             />
           </div>
         </div>
@@ -139,6 +140,7 @@ export default function SeoulDetailPage() {
         price="200,000"
         time="5시간"
         destinationId={502}
+        disabled={true}
       />
     </div>
   );

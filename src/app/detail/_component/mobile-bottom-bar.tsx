@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import BookingDrawer from "./booking-drawer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface MobileBottomBarProps {
   title: string;
   price: string;
   time: string;
   destinationId: number;
+  disabled: boolean;
 }
 
 export default function MobileBottomBar({
@@ -16,9 +17,11 @@ export default function MobileBottomBar({
   price,
   time,
   destinationId,
+  disabled,
 }: MobileBottomBarProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,8 +73,39 @@ export default function MobileBottomBar({
     };
   }, []);
 
+  // 가시성 상태가 바뀔 때마다 브라우저 전역에 이벤트를 브로드캐스트 (모바일에서 사용)
+  useEffect(() => {
+    const height = containerRef.current?.offsetHeight ?? 0;
+    const state = { visible: isVisible, height };
+    (
+      globalThis as unknown as {
+        __mobileBottomBarState?: { visible: boolean; height: number };
+      }
+    ).__mobileBottomBarState = state;
+    const event = new CustomEvent("mobile-bottom-bar:visibility", {
+      detail: state,
+    });
+    window.dispatchEvent(event);
+
+    // 언마운트 시 숨김 상태를 알림
+    return () => {
+      const hideState = { visible: false, height: 0 };
+      (
+        globalThis as unknown as {
+          __mobileBottomBarState?: { visible: boolean; height: number };
+        }
+      ).__mobileBottomBarState = hideState;
+      const hideEvent = new CustomEvent("mobile-bottom-bar:visibility", {
+        detail: hideState,
+      });
+      window.dispatchEvent(hideEvent);
+    };
+  }, [isVisible]);
+
   return (
     <div
+      ref={containerRef}
+      id="mobile-bottom-bar"
       className={`fixed right-0 bottom-0 left-0 z-40 border-t border-gray-200 bg-white p-4 transition-transform duration-300 ease-in-out lg:hidden ${
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
@@ -88,8 +122,12 @@ export default function MobileBottomBar({
           time={time}
           destinationId={destinationId}
         >
-          <Button className="bg-blue-600 px-8 hover:bg-blue-700" size="lg">
-            예약하기
+          <Button
+            className="bg-blue-600 px-8 hover:bg-blue-700"
+            size="lg"
+            disabled={disabled}
+          >
+            {disabled ? "현재 예약 불가능" : "예약하기"}
           </Button>
         </BookingDrawer>
       </div>

@@ -128,7 +128,7 @@ export default function ReservationHero({
               d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
             />
           </svg>
-          <span>결제 정보는 문자 메시지로 자동 발송됩니다.</span>
+          <span>영업일 기준 24시간 내로 확정 여부를 안내드리겠습니다.</span>
         </div>
       </div>
     </>

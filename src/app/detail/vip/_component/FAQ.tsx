@@ -2,10 +2,11 @@
 
 import { Card } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { ReactNode } from "react";
 
 export interface FAQItem {
   question: string;
-  answer: string;
+  answer: ReactNode;
 }
 
 interface FAQProps {
@@ -40,8 +41,8 @@ export default function FAQ({ items, selectedIndex, onToggle }: FAQProps) {
               )}
             </button>
             {selectedIndex === index && (
-              <div className="px-6 pb-6">
-                <p className="leading-relaxed text-slate-600">{faq.answer}</p>
+              <div className="px-6 pb-6 leading-relaxed text-slate-600">
+                {faq.answer}
               </div>
             )}
           </Card>

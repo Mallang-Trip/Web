@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { baseUrl } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "프라이빗 도어투도어 - 양조장 투어",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     description:
       "한국 전통주 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
     images: "/tour-images/vip/Yesan/01.jpg",
-    url: "https://mallang-trip.vercel.app/detail/vip",
+    url: `${baseUrl}/detail/vip`,
   },
 };
 

@@ -7,6 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import {
   Dialog,
@@ -64,17 +65,48 @@ function BreweryCard({
   const [isLightboxOpen, setIsLightboxOpen] = React.useState(false);
   const [lightboxIndex, setLightboxIndex] = React.useState(0);
   const [isLightboxLoading, setIsLightboxLoading] = React.useState(true);
+  const [lightboxApi, setLightboxApi] = React.useState<CarouselApi | null>(
+    null,
+  );
+  const [loadedIndexes, setLoadedIndexes] = React.useState<Set<number>>(
+    () => new Set(),
+  );
+
+  const handleSetLightboxApi = React.useCallback((api: CarouselApi) => {
+    setLightboxApi(api);
+  }, []);
 
   const openLightbox = (idx: number) => {
     setLightboxIndex(idx);
-    setIsLightboxLoading(true);
+    setIsLightboxLoading(!loadedIndexes.has(idx));
     setIsLightboxOpen(true);
   };
 
   React.useEffect(() => {
     if (!isLightboxOpen) return;
-    setIsLightboxLoading(true);
-  }, [lightboxIndex, isLightboxOpen]);
+    setIsLightboxLoading(!loadedIndexes.has(lightboxIndex));
+  }, [lightboxIndex, isLightboxOpen, loadedIndexes]);
+
+  React.useEffect(() => {
+    if (!lightboxApi) return;
+    const onSelect = () => {
+      const idx = lightboxApi.selectedScrollSnap();
+      setLightboxIndex(idx);
+      setIsLightboxLoading(!loadedIndexes.has(idx));
+    };
+    lightboxApi.on("select", onSelect);
+    lightboxApi.on("reInit", onSelect);
+    // 초기 선택 상태 동기화
+    onSelect();
+    return () => {
+      lightboxApi.off("select", onSelect);
+    };
+  }, [lightboxApi, loadedIndexes]);
+
+  React.useEffect(() => {
+    if (!isLightboxOpen || !lightboxApi) return;
+    lightboxApi.scrollTo(lightboxIndex, false);
+  }, [isLightboxOpen, lightboxIndex, lightboxApi]);
 
   return (
     <Card
@@ -216,28 +248,47 @@ function BreweryCard({
           <DialogDescription className="sr-only">
             확대 보기. ESC 또는 X 버튼으로 닫을 수 있습니다.
           </DialogDescription>
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-5xl overflow-hidden rounded-lg bg-black">
-            {/* 로딩 스피너 (이미지 뒤 레이어) */}
-            {isLightboxLoading && (
-              <div className="absolute inset-0 z-[1] flex items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-              </div>
-            )}
-
-            {images[lightboxIndex] && (
-              <Image
-                src={images[lightboxIndex]}
-                alt={`${brewery.name} 확대 이미지 ${lightboxIndex + 1}`}
-                fill
-                sizes="100vw"
-                className={`object-contain transition-opacity duration-300 ${
-                  isLightboxLoading ? "opacity-0" : "opacity-100"
-                }`}
-                priority
-                onLoadingComplete={() => setIsLightboxLoading(false)}
-              />
-            )}
-          </div>
+          <Carousel
+            opts={{ startIndex: lightboxIndex, loop: true }}
+            setApi={handleSetLightboxApi}
+            className="w-full"
+          >
+            <CarouselContent>
+              {images.map((src, idx) => (
+                <CarouselItem key={src}>
+                  <div className="relative mx-auto aspect-[4/3] w-full max-w-5xl overflow-hidden rounded-lg bg-black">
+                    {isLightboxLoading && lightboxIndex === idx && (
+                      <div className="absolute inset-0 z-[1] flex items-center justify-center">
+                        <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      </div>
+                    )}
+                    <Image
+                      src={src}
+                      alt={`${brewery.name} 확대 이미지 ${idx + 1}`}
+                      fill
+                      sizes="100vw"
+                      className={`object-contain transition-opacity duration-300 ${
+                        isLightboxLoading && lightboxIndex === idx
+                          ? "opacity-0"
+                          : "opacity-100"
+                      }`}
+                      priority={idx === 0}
+                      onLoad={() => {
+                        setLoadedIndexes((prev) => {
+                          const next = new Set(prev);
+                          next.add(idx);
+                          return next;
+                        });
+                        if (idx === lightboxIndex) setIsLightboxLoading(false);
+                      }}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="-left-4 z-[60] md:-left-12" />
+            <CarouselNext className="-right-4 z-[60] md:-right-12" />
+          </Carousel>
           <DialogClose asChild>
             <button
               type="button"

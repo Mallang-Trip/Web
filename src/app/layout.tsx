@@ -10,8 +10,10 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import CustomerService from "@/components/customer-service";
 import { FirstEntryProvider } from "@/providers/first-entry-provider";
+import { baseUrl } from "@/lib/env";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
     template: "%s | 말랑트립",
     default: "말랑트립",
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
       "버스보다 빠르고, 택시보다 저렴하게! 택시 카풀 여행 플랫폼 말랑트립",
     images:
       "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/9a360955-8f22-4911-9708-53b1065f9b5amallangtrip.png",
-    url: "https://mallang-trip.vercel.app",
+    url: baseUrl,
     type: "website",
     siteName: "말랑트립",
     locale: "ko_KR",

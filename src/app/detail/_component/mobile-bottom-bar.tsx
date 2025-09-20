@@ -8,6 +8,7 @@ interface MobileBottomBarProps {
   title: string;
   price: string;
   time: string;
+  baseMember?: string;
   destinationId: number;
   disabled: boolean;
 }
@@ -16,6 +17,7 @@ export default function MobileBottomBar({
   title,
   price,
   time,
+  baseMember,
   destinationId,
   disabled,
 }: MobileBottomBarProps) {
@@ -113,7 +115,9 @@ export default function MobileBottomBar({
       <div className="flex items-center justify-between gap-4">
         <div>
           <div className="text-lg font-bold text-blue-600">₩{price}</div>
-          <div className="text-sm text-gray-600">{time} 기본 요금</div>
+          <div className="text-sm text-gray-600">
+            {baseMember || `${time} 기본`} 요금
+          </div>
         </div>
 
         <BookingDrawer

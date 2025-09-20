@@ -323,6 +323,7 @@ export default function VipDetailPage() {
         title="VIP 프라이빗 양조장 투어"
         price="1,160,000"
         time="8시간"
+        baseMember="2인"
         destinationId={6001}
         disabled={false}
       />

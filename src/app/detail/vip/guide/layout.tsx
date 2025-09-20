@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { baseUrl } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "VIP 투어 미식 가이드",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     description: "안목 있는 여행자를 위한 큐레이션 가이드",
     images:
       "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/9a360955-8f22-4911-9708-53b1065f9b5amallangtrip.png",
-    url: "https://mallang-trip.vercel.app/detail/vip/guide",
+    url: `${baseUrl}/detail/vip/guide`,
   },
 };
 

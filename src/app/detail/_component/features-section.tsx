@@ -22,12 +22,14 @@ export default function FeaturesSection({ features }: FeaturesSectionProps) {
             return (
               <div
                 key={index}
-                className="rounded-xl border border-gray-200 p-6 text-center"
+                className="rounded-xl border border-gray-200 px-4 py-6 text-center"
               >
                 <div className="mb-4 flex justify-center">
                   <IconComponent className="h-16 w-16 text-blue-500" />
                 </div>
-                <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
+                <h3 className="mb-2 text-xl font-semibold whitespace-nowrap">
+                  {feature.title}
+                </h3>
                 <p className="leading-relaxed text-gray-600">
                   {feature.description}
                 </p>

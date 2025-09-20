@@ -36,6 +36,7 @@ export function LoginForm({
   const [otpValue, setOtpValue] = useState("");
   const [txId, setTxId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isCustomPhonePrefix, setIsCustomPhonePrefix] = useState(false);
 
   const otpInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -60,6 +61,14 @@ export function LoginForm({
 
   const handlePhoneSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!/^\+\d{1,3}$/.test(formData.phonePrefix)) {
+      toast.error("국가 번호를 '+숫자' 형식으로 입력해주세요. 예: +82", {
+        icon: <XCircle className="text-red-500" />,
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -172,22 +181,43 @@ export function LoginForm({
               <Label htmlFor="phone">국제 전화번호 *</Label>
               <div className="mt-1 flex gap-2">
                 <select
-                  value={formData.phonePrefix}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      phonePrefix: e.target.value,
-                    }))
+                  value={
+                    isCustomPhonePrefix ? "__custom__" : formData.phonePrefix
                   }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "__custom__") {
+                      setIsCustomPhonePrefix(true);
+                      setFormData((prev) => ({ ...prev, phonePrefix: "+" }));
+                    } else {
+                      setIsCustomPhonePrefix(false);
+                      setFormData((prev) => ({ ...prev, phonePrefix: value }));
+                    }
+                  }}
                   className="h-9 w-28 rounded-md border border-gray-300 px-3 py-2 text-sm"
-                  disabled={isLoading}
                 >
                   <option value="+82">🇰🇷 +82</option>
                   <option value="+86">🇨🇳 +86</option>
                   <option value="+1">🇺🇸 +1</option>
                   <option value="+81">🇯🇵 +81</option>
                   <option value="+886">🇹🇼 +886</option>
+                  <option value="__custom__">직접 입력</option>
                 </select>
+                {isCustomPhonePrefix && (
+                  <Input
+                    type="text"
+                    value={formData.phonePrefix}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        phonePrefix: e.target.value.replace(/\s/g, ""),
+                      }))
+                    }
+                    placeholder="+82"
+                    className="h-9 w-20"
+                    aria-label="국가 번호 직접 입력"
+                  />
+                )}
                 <Input
                   type="tel"
                   value={formData.phoneNumber}

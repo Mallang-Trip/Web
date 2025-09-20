@@ -42,6 +42,8 @@ export default function BookingForm({
     agreeThirdparty: false,
   });
 
+  const [isCustomPhonePrefix, setIsCustomPhonePrefix] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [agreeAll, setAgreeAll] = useState(false);
   const router = useRouter();
@@ -68,6 +70,8 @@ export default function BookingForm({
 
     if (!formData.name.trim()) errors.push("이름을 입력해주세요.");
     if (!formData.phoneNumber.trim()) errors.push("전화번호를 입력해주세요.");
+    if (!/^\+\d{1,3}$/.test(formData.phonePrefix))
+      errors.push("국가 번호를 '+숫자' 형식으로 입력해주세요. 예: +82");
     if (!formData.email.trim()) errors.push("이메일을 입력해주세요.");
     if (!formData.peopleCount) errors.push("참여 인원을 선택해주세요.");
     if (!formData.meetDate) errors.push("미팅 날짜를 선택해주세요.");
@@ -269,21 +273,41 @@ export default function BookingForm({
           </Label>
           <div className="mt-1 flex gap-2">
             <select
-              value={formData.phonePrefix}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  phonePrefix: e.target.value,
-                }))
-              }
-              className="h-10 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm"
+              value={isCustomPhonePrefix ? "__custom__" : formData.phonePrefix}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "__custom__") {
+                  setIsCustomPhonePrefix(true);
+                  setFormData((prev) => ({ ...prev, phonePrefix: "+" }));
+                } else {
+                  setIsCustomPhonePrefix(false);
+                  setFormData((prev) => ({ ...prev, phonePrefix: value }));
+                }
+              }}
+              className="h-9 w-28 rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
               <option value="+82">🇰🇷 +82</option>
               <option value="+86">🇨🇳 +86</option>
               <option value="+1">🇺🇸 +1</option>
               <option value="+81">🇯🇵 +81</option>
               <option value="+886">🇹🇼 +886</option>
+              <option value="__custom__">직접 입력</option>
             </select>
+            {isCustomPhonePrefix && (
+              <Input
+                type="text"
+                value={formData.phonePrefix}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    phonePrefix: e.target.value.replace(/\s/g, ""),
+                  }))
+                }
+                placeholder="+82"
+                className="h-9 w-20"
+                aria-label="국가 번호 직접 입력"
+              />
+            )}
             <Input
               type="tel"
               value={formData.phoneNumber}
@@ -590,7 +614,7 @@ export default function BookingForm({
       </Button>
 
       {/* 필수 입력 안내 */}
-      <div className="mb-2 text-center text-xs text-gray-500">
+      <div className="mb-10 text-center text-xs text-gray-500 md:mb-2">
         <span className="text-red-500">*</span> 표시는 필수 입력 항목입니다
       </div>
     </div>

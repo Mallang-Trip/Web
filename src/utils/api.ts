@@ -240,3 +240,22 @@ export const ReservationAPI = {
   availability: <T = unknown>(destinationId: number) =>
     apiGet<T>(`/reservations/availability/${destinationId}`),
 };
+
+// 결제(Payple) 관련 API 헬퍼
+export const PaymentsAPI = {
+  // 독립 결제 준비
+  preparePayple: <T = unknown>(body: {
+    productName: string;
+    payerName: string;
+    payerEmail: string;
+    amount: number;
+    paymentMethod?: string; // 기본 CREDIT_CARD
+    productDescription?: string;
+    memo?: string;
+    payerPhone?: string;
+  }) => apiPost<T>(`/payments/payple/prepare`, body as Record<string, unknown>),
+
+  // 결제 상태/상세 조회
+  getPaypleByNumber: <T = unknown>(paymentNumber: string) =>
+    apiGet<T>(`/payments/payple/${encodeURIComponent(paymentNumber)}`),
+};

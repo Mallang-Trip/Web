@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,24 @@ import { toast } from "sonner";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PaymentsAPI } from "@/utils/api";
+
+declare global {
+  interface Window {
+    PaypleCpayAuthCheck?: (params: Record<string, unknown>) => void;
+  }
+}
+
+type PaymentPrepareData = {
+  clientKey: string;
+  paymentNumber: string;
+  payerName: string;
+  payerPhone?: string;
+  productName: string;
+  amount: number;
+};
+
+// 결제 상태 조회 타입은 사용하지 않음 (결제 후 바로 예약 생성 재시도 전략)
 
 interface BookingFormProps {
   title: string;
@@ -63,6 +81,119 @@ export default function BookingForm({
     "7": 1610000,
     "8": 1700000,
   };
+
+  // Payple 상품명 유효성 보장 (허용 문자만 남기고 길이 제한)
+  const sanitizeProductName = (name: string) => {
+    // 한글, 영문, 숫자, 공백, 일부 구두점만 허용
+    let cleaned = name.replace(/[^\uAC00-\uD7A3a-zA-Z0-9\s\-_.()\[\]]/g, "");
+    cleaned = cleaned.replace(/\s+/g, " ").trim();
+    if (!cleaned) cleaned = "말랑트립 투어";
+    // 길이 제한 (과도한 길이로 인한 오류 예방)
+    if (cleaned.length > 40) cleaned = cleaned.slice(0, 40);
+    return cleaned;
+  };
+
+  // 최신 폼 상태를 보관해 콜백 메시지에서 안전하게 사용
+  const formRef = useRef(formData);
+  const authReturnedRef = useRef(false);
+  useEffect(() => {
+    formRef.current = formData;
+  }, [formData]);
+
+  // Payple 콜백(팝업/새탭) → postMessage 수신 후 결제 상태 확인 및 예약 생성
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let cancelled = false;
+    const onMessage = async (e: MessageEvent<{ type?: string }>) => {
+      try {
+        if (e.origin !== window.location.origin) return;
+        if (!e.data || e.data.type !== "PAYPLE_AUTH_RETURN") return;
+        authReturnedRef.current = true;
+        const payNum = window.sessionStorage.getItem("payplePaymentNumber");
+        if (!payNum) return;
+
+        const checkOnce = async () => {
+          const statusResp = await PaymentsAPI.getPaypleByNumber<any>(payNum);
+          return statusResp.data as { status?: string } | null;
+        };
+
+        // 단일 확인만 수행 (추가 폴링 제거)
+        const status = await checkOnce();
+        if (status?.status !== "PENDING") {
+          toast.error("결제 승인 확인에 실패했습니다.", {
+            description: "잠시 후 다시 시도해주세요.",
+            icon: <XCircle className="text-red-500" />,
+          });
+          return;
+        }
+
+        // 예약 생성 (현재 폼 상태 사용)
+        const d = formRef.current;
+        const digitsOnly = (d.phoneNumber || "").replace(/\D/g, "");
+        const normalizedLocal =
+          d.phonePrefix === "+82" && digitsOnly.startsWith("010")
+            ? digitsOnly.slice(1)
+            : digitsOnly;
+        const phoneInternational = `${d.phonePrefix}${normalizedLocal}`;
+        const priceNumber = d.peopleCount
+          ? vipPrices[d.peopleCount]
+          : (() => {
+              const numeric = Number(String(price).replace(/[^0-9]/g, ""));
+              return Number.isFinite(numeric) && numeric > 0 ? numeric : 190000;
+            })();
+        const requests = d.requests || undefined;
+        const requestData = {
+          reservationName: title,
+          email: (d.email || "").trim(),
+          name: (d.name || "").trim(),
+          phoneNumber: phoneInternational,
+          userCount: d.peopleCount ? Number(d.peopleCount.replace("+", "")) : 2,
+          meetingDate: `${d.meetDate}T${d.meetTime}:00`,
+          pickupTime: d.meetTime,
+          pickupAddress: (d.meetAddress || "").trim(),
+          returnAddress: (d.returnAddress || "").trim(),
+          requests,
+          price: priceNumber,
+          paymentNumber: payNum,
+        };
+
+        const result = await reservationMutation.mutateAsync(requestData);
+        const reservationId = (result?.reservationId ?? result?.id ?? "") as
+          | string
+          | number;
+
+        toast.success("예약이 완료되었습니다!", {
+          description: "결제가 확인되어 예약이 생성되었습니다.",
+          icon: <CheckCircle className="text-green-500" />,
+        });
+
+        try {
+          window.sessionStorage.removeItem("payplePaymentNumber");
+        } catch {}
+
+        setTimeout(() => {
+          if (cancelled) return;
+          router.push(
+            `/result?reservationId=${reservationId}&email=${encodeURIComponent(
+              (d.email || "").trim(),
+            )}&phoneNumber=${encodeURIComponent(phoneInternational)}`,
+          );
+        }, 1200);
+      } catch (err) {
+        console.error("결제 후 처리 실패:", err);
+        toast.error("결제 후 처리 중 오류가 발생했습니다.", {
+          description: "문제가 지속되면 고객센터로 문의해주세요.",
+          icon: <XCircle className="text-red-500" />,
+        });
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("message", onMessage);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 유효성 검증
   const validateForm = () => {
@@ -169,9 +300,7 @@ export default function BookingForm({
         return;
       }
 
-      // API 호출을 위한 데이터 준비 (새 스키마)
-
-      // 국제 전화번호 조합 (KR 정책: 010 → 10 으로 변환)
+      // 1) 결제 준비를 위한 데이터 구성
       const digitsOnly = formData.phoneNumber.replace(/\D/g, "");
       const normalizedLocal =
         formData.phonePrefix === "+82" && digitsOnly.startsWith("010")
@@ -179,55 +308,136 @@ export default function BookingForm({
           : digitsOnly;
       const phoneInternational = `${formData.phonePrefix}${normalizedLocal}`;
 
-      // 날짜/시간 변환은 로컬 ISO 문자열 그대로 사용
-
-      // 가격 계산
       const priceNumber = formData.peopleCount
         ? vipPrices[formData.peopleCount]
         : (() => {
-            // prop으로 받은 price 문자열을 숫자로 파싱 (예: "190,000")
             const numeric = Number(String(price).replace(/[^0-9]/g, ""));
             return Number.isFinite(numeric) && numeric > 0 ? numeric : 190000;
           })();
 
-      // 요청사항 구성
+      // 개발/테스트 환경 최소 결제금액 보정 (Payple 데모 권장: 1000원 이상)
+      const preferDemoEnv =
+        typeof window !== "undefined" &&
+        (window.location.hostname.includes("localhost") ||
+          window.location.hostname.includes("dev") ||
+          window.location.hostname.includes("test"));
+      const amountForPrepare = (() => {
+        const base = Math.round(priceNumber);
+        if (preferDemoEnv && base < 1000) return 1000;
+        return base > 0 ? base : 1000;
+      })();
+
       const requests = formData.requests || undefined;
 
-      const requestData = {
-        reservationName: title,
-        email: formData.email.trim(),
-        name: formData.name.trim(),
-        phoneNumber: phoneInternational,
-        userCount: formData.peopleCount
-          ? Number(formData.peopleCount.replace("+", ""))
-          : 2,
-        // 서버 예시와 동일한 로컬 ISO 형식(타임존 미포함)
-        meetingDate: `${formData.meetDate}T${formData.meetTime}:00`,
-        pickupTime: formData.meetTime,
-        pickupAddress: formData.meetAddress.trim(),
-        returnAddress: formData.returnAddress.trim(),
-        requests,
-        price: priceNumber,
-      };
-
-      const result = await reservationMutation.mutateAsync(requestData);
-      const reservationId = (result?.reservationId ?? result?.id ?? "") as
-        | string
-        | number;
-
-      toast.success("예약이 완료되었습니다!", {
-        description: `예약 정보가 정상적으로 접수되었습니다.`,
-        icon: <CheckCircle className="text-green-500" />,
+      // 2) 백엔드에 결제 준비 요청
+      const productNameSafe = sanitizeProductName(title);
+      const prepareResp = await PaymentsAPI.preparePayple<PaymentPrepareData>({
+        productName: productNameSafe,
+        payerName: formData.name.trim(),
+        payerEmail: formData.email.trim(),
+        payerPhone: phoneInternational,
+        amount: amountForPrepare,
+        paymentMethod: "CREDIT_CARD",
+        productDescription: `${productNameSafe} 예약 결제`,
+        memo: requests,
       });
+      const paymentInfo = prepareResp.data;
 
-      // 예약 완료 페이지로 이동 (이메일/전화번호 쿼리로 전달)
-      setTimeout(() => {
-        router.push(
-          `/result?reservationId=${reservationId}&email=${encodeURIComponent(
-            formData.email.trim(),
-          )}&phoneNumber=${encodeURIComponent(phoneInternational)}`,
+      if (!paymentInfo?.clientKey || !paymentInfo?.paymentNumber) {
+        throw new Error("결제 준비 정보가 올바르지 않습니다.");
+      }
+
+      // 3) 결제 인증을 새 탭/팝업에서 실행 (원본 페이지는 유지)
+      try {
+        window.sessionStorage.setItem(
+          "payplePaymentNumber",
+          paymentInfo.paymentNumber,
         );
-      }, 1500);
+      } catch {}
+
+      const paypleParams = {
+        clientKey: paymentInfo.clientKey,
+        PCD_PAY_TYPE: "card",
+        PCD_PAY_WORK: "CERT",
+        PCD_CARD_VER: "02",
+        PCD_PAY_GOODS: productNameSafe,
+        PCD_PAY_TOTAL:
+          typeof paymentInfo.amount === "number" && paymentInfo.amount > 0
+            ? Math.round(paymentInfo.amount)
+            : amountForPrepare,
+        PCD_PAY_OID: paymentInfo.paymentNumber,
+        PCD_RST_URL: `${window.location.origin}/api/payple/callback`,
+        PCD_PAYER_NAME: paymentInfo.payerName,
+        PCD_PAYER_HP: paymentInfo.payerPhone || phoneInternational,
+        callbackFunction: function () {},
+      } as Record<string, unknown>;
+
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        ) || window.innerWidth < 768;
+      let features = "";
+      if (!isMobile) {
+        const popupWidth = 860; // 더 넓은 가로 크기
+        const popupHeight = 720; // 기존 세로 유지
+        const dualScreenLeft =
+          window.screenLeft !== undefined
+            ? window.screenLeft
+            : (window as any).screenX || 0;
+        const dualScreenTop =
+          window.screenTop !== undefined
+            ? window.screenTop
+            : (window as any).screenY || 0;
+        const w = window.outerWidth || window.innerWidth || 1200;
+        const h = window.outerHeight || window.innerHeight || 800;
+        const left = Math.max(
+          0,
+          Math.floor(dualScreenLeft + (w - popupWidth) / 2),
+        );
+        const top = Math.max(
+          0,
+          Math.floor(dualScreenTop + (h - popupHeight) / 2),
+        );
+        features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},menubar=0,location=0,resizable=1,scrollbars=1,status=0`;
+      }
+      const child = window.open(
+        "about:blank",
+        isMobile ? "_blank" : "paypleWindow",
+        features,
+      );
+      if (!child) {
+        // 팝업 차단 시 현재 창에서 SDK 호출 (다만 콜백은 postMessage를 기대하므로 경험 저하 가능)
+        window.PaypleCpayAuthCheck?.(paypleParams);
+      } else {
+        // 창 닫힘 감지 → 결제창을 사용자가 닫으면 안내
+        const closeWatcher = window.setInterval(() => {
+          try {
+            if (child.closed) {
+              window.clearInterval(closeWatcher);
+              if (!authReturnedRef.current) {
+                toast.error("결제가 취소되었거나 창이 닫혔습니다.");
+              }
+            }
+          } catch {}
+        }, 500);
+        const PROD = "https://cpay.payple.kr/js/cpay.payple.1.0.1.js";
+        const DEMO = "https://demo-cpay.payple.kr/js/cpay.payple.1.0.1.js";
+        const preferDemo =
+          window.location.hostname.includes("localhost") ||
+          window.location.hostname.includes("dev") ||
+          window.location.hostname.includes("test");
+        const first = preferDemo ? DEMO : PROD;
+        const second = preferDemo ? PROD : DEMO;
+        const html = `<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Payple</title></head><body><div style="font:14px/1.4 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:16px;">결제창을 여는 중입니다...</div><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><script>(function(){var cfg=${JSON.stringify(
+          paypleParams,
+        )};function load(u,cb,err){var s=document.createElement('script');s.src=u;s.async=true;s.onload=cb;s.onerror=err;document.head.appendChild(s);}function start(){try{window.PaypleCpayAuthCheck?window.PaypleCpayAuthCheck(cfg):setTimeout(start,200);}catch(e){setTimeout(start,200);}}load('${first}',function(){start();},function(){load('${second}',function(){start();},function(){document.body.innerHTML='<div style="padding:16px;color:#d00;">결제 스크립트를 로드하지 못했습니다.</div>';});});})();</script></body></html>`;
+        child.document.open();
+        child.document.write(html);
+        child.document.close();
+      }
+
+      toast.info("결제창이 열렸습니다. 결제를 완료해 주세요.");
+      return; // 이후 처리는 메시지 리스너(useEffect)에서 진행
     } catch (error: unknown) {
       console.error("예약 실패:", error);
       const err = error as { message?: string; status?: number } | undefined;

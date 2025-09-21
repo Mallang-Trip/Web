@@ -20,6 +20,8 @@ type CreateReservationBody = {
   returnAddress: string;
   requests?: string;
   price: number;
+  // 결제 선행 플로우: 결제 완료 후 부여된 결제번호
+  paymentNumber?: string;
 };
 
 export type ReservationCreateData = {

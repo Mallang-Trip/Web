@@ -57,7 +57,7 @@ export default function BookingDrawer({
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="flex max-h-[90vh] flex-col bg-white">
+      <DrawerContent className="flex max-h-[90vh] flex-col border-none bg-white">
         <DrawerHeader className="flex-shrink-0 text-left">
           <DrawerTitle>예약하기</DrawerTitle>
         </DrawerHeader>

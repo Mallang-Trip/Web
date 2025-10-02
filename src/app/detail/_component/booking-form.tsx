@@ -741,7 +741,7 @@ export default function BookingForm({
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, requests: e.target.value }))
             }
-            placeholder="특별한 요청사항이 있으시면 입력해주세요"
+            placeholder="식단 제한, 알러지 등 특이사항이 있으실 경우 반드시 입력해주세요"
             className="mt-1"
             rows={3}
           />
@@ -890,10 +890,10 @@ export default function BookingForm({
         {isLoading ? (
           <div className="flex items-center gap-2">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-            예약 처리 중...
+            결제 처리 중...
           </div>
         ) : (
-          "예약하기"
+          "결제하기"
         )}
       </Button>
 

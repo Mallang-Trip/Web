@@ -75,6 +75,21 @@ export default function ReservationHero({
     }
   })();
 
+  const messageByStatus = (() => {
+    switch (status) {
+      case "PENDING":
+        return "영업일 기준 24시간 내로 확정 여부를 안내드리겠습니다.";
+      case "APPROVED":
+        return "예약이 승인되었습니다.";
+      case "REJECTED":
+        return "예약이 반려되었습니다. 3영업일 이내에 결제금액이 환불됩니다.";
+      case "CANCELED":
+        return "예약이 취소되었습니다. 3영업일 이내에 결제금액이 환불됩니다.";
+      default:
+        return "즐거운 여행 되세요!";
+    }
+  })();
+
   return (
     <>
       {/* Hero Section */}
@@ -128,7 +143,7 @@ export default function ReservationHero({
               d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
             />
           </svg>
-          <span>영업일 기준 24시간 내로 확정 여부를 안내드리겠습니다.</span>
+          <span>{messageByStatus}</span>
         </div>
       </div>
     </>

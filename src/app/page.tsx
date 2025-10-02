@@ -9,7 +9,7 @@ const tours = [
     id: "vip",
     name: "프라이빗 도어투도어 양조장 투어",
     description:
-      "한국 전통주 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
+      "한국 전통주 & 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
     image: "/tour-images/vip/Yesan/01.jpg",
     duration: "8시간",
     price: "1,160,000원",

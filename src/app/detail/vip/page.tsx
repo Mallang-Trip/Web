@@ -12,6 +12,7 @@ import FAQ from "./_component/FAQ";
 import Link from "next/link";
 import CTA from "./_component/CTA";
 import { Car, ShieldCheck, Gift } from "lucide-react";
+import PickupDropoffAreasSection from "../_component/pickup-dropoff-areas";
 // import ReviewsSection from "../_component/reviews-section";
 
 const breweries = [
@@ -232,10 +233,10 @@ export default function VipDetailPage() {
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       <Hero
-        titleLines={["프라이빗 도어투도어", "양조장 투어"]}
+        titleLines={["프라이빗 도어투도어", "양조장 투어 | 근교 에디션"]}
         subtitleLines={[
           "마음껏 즐기세요, 운전은 저희가 할게요.",
-          "한국 전통주 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
+          "한국 전통주 & 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
         ]}
         videoSrc="/tour-images/vip/VIP_ver1.mp4"
       />
@@ -277,6 +278,8 @@ export default function VipDetailPage() {
               />
 
               {/* <ReviewsSection reviews={reviews} /> */}
+
+              <PickupDropoffAreasSection />
 
               <FAQ
                 items={faqs}

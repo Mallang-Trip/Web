@@ -22,8 +22,8 @@ export default function PaymentInfoCard() {
             </svg>
           </summary>
           <div className="mt-4 text-sm leading-relaxed text-gray-600">
-            기본 대절료(9시간) 외 추가되는 요금은 투어 종료 시 담당 기사님께
-            직접 카드로 결제해주세요. (국내/해외 카드 가능)
+            기본 투어 요금 외 픽업/드랍 추가 등으로 발생하는 부가 비용은 예약
+            확정 전 말랑트립이 이메일과 전화번호를 통해 따로 안내해드립니다.
           </div>
         </details>
       </CardContent>

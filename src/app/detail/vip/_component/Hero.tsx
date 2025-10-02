@@ -35,7 +35,7 @@ export default function Hero({
       )}
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
         <span className="mb-6 inline-block border border-amber-400 px-6 py-2 text-sm tracking-[0.3em] text-amber-300">
-          VIP 프리미엄 경험
+          술차오름 by Mallangtrip
         </span>
         <h1 className="mb-4 text-4xl font-light md:text-6xl">
           {titleLines.map((line, idx) => (

@@ -23,6 +23,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSendLoginSms, useVerifyLoginSms } from "@/hooks/use-auth-api";
 import { getFirstEntryTarget } from "@/utils";
+import { Combobox } from "@/components/ui/combobox";
 
 export function LoginForm({
   className,
@@ -180,12 +181,12 @@ export function LoginForm({
             <form className="grid gap-3" onSubmit={handlePhoneSubmit}>
               <Label htmlFor="phone">국제 전화번호 *</Label>
               <div className="mt-1 flex gap-2">
-                <select
+                <Combobox
                   value={
                     isCustomPhonePrefix ? "__custom__" : formData.phonePrefix
                   }
-                  onChange={(e) => {
-                    const value = e.target.value;
+                  onChange={(v) => {
+                    const value = v || "+82";
                     if (value === "__custom__") {
                       setIsCustomPhonePrefix(true);
                       setFormData((prev) => ({ ...prev, phonePrefix: "+" }));
@@ -194,15 +195,19 @@ export function LoginForm({
                       setFormData((prev) => ({ ...prev, phonePrefix: value }));
                     }
                   }}
-                  className="h-9 w-28 rounded-md border border-gray-300 px-3 py-2 text-sm"
-                >
-                  <option value="+82">🇰🇷 +82</option>
-                  <option value="+86">🇨🇳 +86</option>
-                  <option value="+1">🇺🇸 +1</option>
-                  <option value="+81">🇯🇵 +81</option>
-                  <option value="+886">🇹🇼 +886</option>
-                  <option value="__custom__">직접 입력</option>
-                </select>
+                  options={[
+                    { value: "+82", label: "🇰🇷 +82" },
+                    { value: "+86", label: "🇨🇳 +86" },
+                    { value: "+1", label: "🇺🇸 +1" },
+                    { value: "+81", label: "🇯🇵 +81" },
+                    { value: "+886", label: "🇹🇼 +886" },
+                    { value: "__custom__", label: "직접 입력" },
+                  ]}
+                  widthClassName="w-28"
+                  buttonClassName="h-9 text-sm"
+                  disabled={isLoading}
+                  modal
+                />
                 {isCustomPhonePrefix && (
                   <Input
                     type="text"

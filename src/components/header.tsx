@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
 import { useLangStore } from "@/stores/lang-store";
+import { Combobox } from "@/components/ui/combobox";
 import { getFirstEntryTarget } from "@/utils";
 
 export default function Header() {
@@ -70,34 +71,34 @@ export default function Header() {
               </Link>
             )}
 
-            {/* 언어 선택 드롭다운 */}
-            <select
+            {/* 언어 선택 (Combobox) */}
+            <Combobox
               value={currentLanguage}
-              onChange={(e) =>
-                setLanguage(e.target.value as "ko" | "en" | "zh")
-              }
-              className="h-9 w-32 rounded-md border border-gray-300 px-3 py-2 text-sm"
-            >
-              <option value="ko">🇰🇷 한국어</option>
-              <option value="en">🇺🇸 English</option>
-              {/* <option value="zh">🇨🇳 中문</option> */}
-            </select>
+              onChange={(v) => setLanguage((v || "ko") as "ko" | "en" | "zh")}
+              options={[
+                { value: "ko", label: "🇰🇷 한국어" },
+                { value: "en", label: "🇺🇸 English" },
+                // { value: "zh", label: "🇨🇳 中문" },
+              ]}
+              widthClassName="w-32"
+              buttonClassName="h-9 text-sm"
+            />
           </div>
 
           {/* 모바일 햄버거 메뉴 버튼 */}
           <div className="flex items-center gap-2 md:hidden">
-            {/* 언어 선택 (모바일에서 축약) */}
-            <select
+            {/* 언어 선택 (모바일 Combobox) */}
+            <Combobox
               value={currentLanguage}
-              onChange={(e) =>
-                setLanguage(e.target.value as "ko" | "en" | "zh")
-              }
-              className="h-8 w-24 rounded-md border border-gray-300 px-2 py-1 text-xs"
-            >
-              <option value="ko">🇰🇷 한국어</option>
-              <option value="en">🇺🇸 English</option>
-              {/* <option value="zh">🇨🇳 中문</option> */}
-            </select>
+              onChange={(v) => setLanguage((v || "ko") as "ko" | "en" | "zh")}
+              options={[
+                { value: "ko", label: "🇰🇷 한국어" },
+                { value: "en", label: "🇺🇸 English" },
+                // { value: "zh", label: "🇨🇳 中문" },
+              ]}
+              widthClassName="w-24"
+              buttonClassName="h-8 text-xs px-2"
+            />
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

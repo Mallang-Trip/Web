@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
+import { TimePicker } from "@/components/ui/time-picker";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateReservation } from "@/hooks/use-reservations";
@@ -11,6 +13,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PaymentsAPI } from "@/utils/api";
+import { Combobox } from "@/components/ui/combobox";
 
 declare global {
   interface Window {
@@ -556,10 +559,10 @@ export default function BookingForm({
             국제 전화번호 (Phone) <span className="text-red-500">*</span>
           </Label>
           <div className="mt-1 flex gap-2">
-            <select
+            <Combobox
               value={isCustomPhonePrefix ? "__custom__" : formData.phonePrefix}
-              onChange={(e) => {
-                const value = e.target.value;
+              onChange={(v) => {
+                const value = v || "+82";
                 if (value === "__custom__") {
                   setIsCustomPhonePrefix(true);
                   setFormData((prev) => ({ ...prev, phonePrefix: "+" }));
@@ -568,15 +571,18 @@ export default function BookingForm({
                   setFormData((prev) => ({ ...prev, phonePrefix: value }));
                 }
               }}
-              className="h-9 w-28 rounded-md border border-gray-300 px-3 py-2 text-sm"
-            >
-              <option value="+82">🇰🇷 +82</option>
-              <option value="+86">🇨🇳 +86</option>
-              <option value="+1">🇺🇸 +1</option>
-              <option value="+81">🇯🇵 +81</option>
-              <option value="+886">🇹🇼 +886</option>
-              <option value="__custom__">직접 입력</option>
-            </select>
+              options={[
+                { value: "+82", label: "🇰🇷 +82" },
+                { value: "+86", label: "🇨🇳 +86" },
+                { value: "+1", label: "🇺🇸 +1" },
+                { value: "+81", label: "🇯🇵 +81" },
+                { value: "+886", label: "🇹🇼 +886" },
+                { value: "__custom__", label: "직접 입력" },
+              ]}
+              widthClassName="w-28"
+              buttonClassName="h-9 text-sm"
+              modal
+            />
             {isCustomPhonePrefix && (
               <Input
                 type="text"
@@ -629,28 +635,26 @@ export default function BookingForm({
           <Label htmlFor="people">
             참여 인원 (People) <span className="text-red-500">*</span>
           </Label>
-          <select
-            id="people"
+          <Combobox
             value={formData.peopleCount}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                peopleCount: e.target.value,
-              }))
+            onChange={(v) =>
+              setFormData((prev) => ({ ...prev, peopleCount: v || "" }))
             }
-            className="mt-1 h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-            required
-          >
-            <option value="">인원을 선택하세요</option>
-            <option value="2">2인</option>
-            <option value="3">3인</option>
-            <option value="4">4인</option>
-            <option value="5">5인</option>
-            <option value="6">6인</option>
-            <option value="7">7인</option>
-            <option value="8">8인</option>
-            <option value="9+">9인 이상 (별도 문의)</option>
-          </select>
+            options={[
+              { value: "", label: "인원을 선택하세요" },
+              { value: "2", label: "2인" },
+              { value: "3", label: "3인" },
+              { value: "4", label: "4인" },
+              { value: "5", label: "5인" },
+              { value: "6", label: "6인" },
+              { value: "7", label: "7인" },
+              { value: "8", label: "8인" },
+              { value: "9+", label: "9인 이상 (별도 문의)" },
+            ]}
+            widthClassName="w-full"
+            buttonClassName="h-9 text-sm justify-between"
+            modal
+          />
 
           {/* 총 결제 금액 표시 */}
           {formData.peopleCount && (
@@ -669,33 +673,29 @@ export default function BookingForm({
           <Label htmlFor="meetDate">
             미팅 날짜 (Date) <span className="text-red-500">*</span>
           </Label>
-          <Input
-            id="meetDate"
-            type="date"
-            value={formData.meetDate}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, meetDate: e.target.value }))
-            }
-            required
-            className="mt-1"
-            min={new Date().toISOString().split("T")[0]} // 오늘 이후 날짜만 선택 가능
-          />
+          <div className="mt-1">
+            <DatePicker
+              value={formData.meetDate}
+              onChange={(v) =>
+                setFormData((prev) => ({ ...prev, meetDate: v }))
+              }
+              minDate={new Date()}
+            />
+          </div>
         </div>
 
         <div>
           <Label htmlFor="meetTime">
             픽업 시간 (Pick-up Time) <span className="text-red-500">*</span>
           </Label>
-          <Input
-            id="meetTime"
-            type="time"
-            value={formData.meetTime}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, meetTime: e.target.value }))
-            }
-            required
-            className="mt-1"
-          />
+          <div className="mt-1">
+            <TimePicker
+              value={formData.meetTime}
+              onChange={(v) =>
+                setFormData((prev) => ({ ...prev, meetTime: v }))
+              }
+            />
+          </div>
         </div>
 
         <div>

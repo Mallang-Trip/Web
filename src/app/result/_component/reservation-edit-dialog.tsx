@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useUpdateReservation } from "@/hooks/use-reservations";
 import { toast } from "sonner";
+import { Combobox } from "@/components/ui/combobox";
 
 interface Reservation {
   reservationId: string | number;
@@ -244,23 +245,23 @@ export default function ReservationEditDialog({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <Label className="mb-1 block">인원</Label>
-          <select
-            className="h-9 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+          <Combobox
             value={form.userCount}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, userCount: e.target.value }))
-            }
-          >
-            <option value="">인원을 선택하세요</option>
-            <option value="2">2인</option>
-            <option value="3">3인</option>
-            <option value="4">4인</option>
-            <option value="5">5인</option>
-            <option value="6">6인</option>
-            <option value="7">7인</option>
-            <option value="8">8인</option>
-            <option value="9+">9인 이상 (별도 문의)</option>
-          </select>
+            onChange={(v) => setForm((p) => ({ ...p, userCount: v || "" }))}
+            options={[
+              { value: "", label: "인원을 선택하세요" },
+              { value: "2", label: "2인" },
+              { value: "3", label: "3인" },
+              { value: "4", label: "4인" },
+              { value: "5", label: "5인" },
+              { value: "6", label: "6인" },
+              { value: "7", label: "7인" },
+              { value: "8", label: "8인" },
+              { value: "9+", label: "9인 이상 (별도 문의)" },
+            ]}
+            widthClassName="w-full"
+            buttonClassName="h-9 text-sm justify-between"
+          />
         </div>
         <div>
           <Label className="mb-1 block">총 금액(₩)</Label>

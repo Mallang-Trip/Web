@@ -5,12 +5,9 @@ import { QueryProvider } from "@/providers/query";
 import { TokenRefreshProvider } from "@/providers/token-refresh-provider";
 
 import { CounterStoreProvider } from "@/providers/counter-store-provider";
-import { Toaster } from "@/components/ui/sonner";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import CustomerService from "@/components/customer-service";
 import { FirstEntryProvider } from "@/providers/first-entry-provider";
 import { baseUrl } from "@/lib/env";
+import LayoutShell from "@/components/layout-shell";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -53,11 +50,7 @@ export default function RootLayout({
           <CounterStoreProvider>
             <TokenRefreshProvider>
               <FirstEntryProvider />
-              <Header />
-              {children}
-              <Footer />
-              <Toaster />
-              <CustomerService />
+              <LayoutShell>{children}</LayoutShell>
             </TokenRefreshProvider>
           </CounterStoreProvider>
         </QueryProvider>

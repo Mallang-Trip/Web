@@ -44,6 +44,7 @@ interface BookingFormProps {
   peopleOptions?: PeopleOption[];
   priceByPeople?: Record<string, number | null | undefined>;
   inquiryDeposit?: number; // 가격 문의일 때 결제될 예약금 (기본 10000)
+  color?: string;
 }
 
 export default function BookingForm({
@@ -54,6 +55,7 @@ export default function BookingForm({
   peopleOptions = [],
   priceByPeople = {},
   inquiryDeposit = 10000,
+  color = "blue",
 }: BookingFormProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -83,6 +85,28 @@ export default function BookingForm({
   void destinationId;
   // 일부 props는 현재 사용하지 않음
   void time;
+
+  let colorClass: {
+    priceColor: string;
+    buttonColor: string;
+    accentColor: string;
+  };
+
+  switch (color) {
+    case "emerald":
+      colorClass = {
+        priceColor: "text-emerald-600",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600",
+        accentColor: "accent-emerald-600",
+      };
+      break;
+    default:
+      colorClass = {
+        priceColor: "text-blue-600",
+        buttonColor: "bg-blue-600 hover:bg-blue-700",
+        accentColor: "accent-blue-600",
+      };
+  }
 
   // 투어별 인원/가격 정보는 props(priceByPeople)로 주입
 
@@ -769,7 +793,7 @@ export default function BookingForm({
               id="agreeAll"
               checked={agreeAll}
               onChange={(e) => handleAgreeAllChange(e.target.checked)}
-              className="h-5 w-5"
+              className={`h-5 w-5 ${colorClass.accentColor}`}
             />
             <label
               htmlFor="agreeAll"
@@ -791,7 +815,7 @@ export default function BookingForm({
                 onChange={(e) =>
                   handleIndividualAgreeChange("agreeService", e.target.checked)
                 }
-                className="h-4 w-4"
+                className={`h-4 w-4 ${colorClass.accentColor}`}
                 required
               />
               <label
@@ -817,7 +841,7 @@ export default function BookingForm({
                 onChange={(e) =>
                   handleIndividualAgreeChange("agreeTravel", e.target.checked)
                 }
-                className="h-4 w-4"
+                className={`h-4 w-4 ${colorClass.accentColor}`}
                 required
               />
               <label
@@ -843,7 +867,7 @@ export default function BookingForm({
                 onChange={(e) =>
                   handleIndividualAgreeChange("agreePrivacy", e.target.checked)
                 }
-                className="h-4 w-4"
+                className={`h-4 w-4 ${colorClass.accentColor}`}
                 required
               />
               <label
@@ -872,7 +896,7 @@ export default function BookingForm({
                     e.target.checked,
                   )
                 }
-                className="h-4 w-4"
+                className={`h-4 w-4 ${colorClass.accentColor}`}
                 required
               />
               <label
@@ -896,7 +920,7 @@ export default function BookingForm({
       {/* 고정된 하단 버튼 */}
       <Button
         type="submit"
-        className="my-4 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400"
+        className={`my-4 w-full text-white ${colorClass.buttonColor} disabled:bg-gray-400`}
         onClick={handleSubmit}
         disabled={!isFormValid() || isLoading}
       >

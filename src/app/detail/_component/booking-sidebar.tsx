@@ -18,6 +18,7 @@ interface BookingSidebarProps {
   }[];
   destinationId: number;
   disabled: boolean;
+  color?: string;
   peopleOptions?: PeopleOption[];
   priceByPeople?: Record<string, number | null | undefined>;
   inquiryDeposit?: number;
@@ -34,7 +35,24 @@ export default function BookingSidebar({
   peopleOptions,
   priceByPeople,
   inquiryDeposit,
+  color = "blue",
 }: BookingSidebarProps) {
+  let colorClass: { priceColor: string; buttonColor: string };
+
+  switch (color) {
+    case "emerald":
+      colorClass = {
+        priceColor: "text-emerald-600",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600",
+      };
+      break;
+    default:
+      colorClass = {
+        priceColor: "text-blue-600",
+        buttonColor: "bg-blue-600 hover:bg-blue-700",
+      };
+  }
+
   return (
     <Card className="sticky top-20 w-full">
       <CardHeader>
@@ -42,15 +60,20 @@ export default function BookingSidebar({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="border-b pb-4">
-          <div className="text-2xl font-bold text-blue-600">₩ {price}</div>
+          <div className={`text-2xl font-bold ${colorClass.priceColor}`}>
+            ₩ {price}
+          </div>
           <div className="text-sm text-gray-600">
             {baseMember || `${time} 기본`} 요금
           </div>
         </div>
 
-        <div className="space-y-2 text-sm">
-          {subItems.map((item) => (
-            <div key={item.title} className="flex justify-between">
+        <div className="mb-5 space-y-2 text-sm">
+          {subItems.map((item, index) => (
+            <div
+              key={`${item.title}-${index}`}
+              className="flex justify-between"
+            >
               <span className="text-gray-600">{item.title}</span>
               <span>{item.value}</span>
             </div>
@@ -65,15 +88,19 @@ export default function BookingSidebar({
           peopleOptions={peopleOptions}
           priceByPeople={priceByPeople}
           inquiryDeposit={inquiryDeposit}
+          color={color}
         >
           <Button
-            className="w-full bg-blue-600 hover:bg-blue-700"
+            className={`w-full text-white ${colorClass.buttonColor}`}
             size="lg"
             disabled={disabled}
           >
             {disabled ? "현재 예약 불가능" : "예약하기"}
           </Button>
         </BookingDrawer>
+        <p className="text-center text-xs text-gray-500">
+          예약 승인 후 확정 • 무료 취소
+        </p>
       </CardContent>
     </Card>
   );

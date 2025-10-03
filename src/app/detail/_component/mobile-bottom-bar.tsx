@@ -14,6 +14,7 @@ interface MobileBottomBarProps {
   peopleOptions?: { value: string; label: string }[];
   priceByPeople?: Record<string, number | null | undefined>;
   inquiryDeposit?: number;
+  color?: string;
 }
 
 export default function MobileBottomBar({
@@ -26,10 +27,27 @@ export default function MobileBottomBar({
   peopleOptions,
   priceByPeople,
   inquiryDeposit,
+  color = "blue",
 }: MobileBottomBarProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  let colorClass: { priceColor: string; buttonColor: string };
+
+  switch (color) {
+    case "emerald":
+      colorClass = {
+        priceColor: "text-emerald-600",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600",
+      };
+      break;
+    default:
+      colorClass = {
+        priceColor: "text-blue-600",
+        buttonColor: "bg-blue-600 hover:bg-blue-700",
+      };
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -120,7 +138,9 @@ export default function MobileBottomBar({
     >
       <div className="flex items-center justify-between gap-4">
         <div>
-          <div className="text-lg font-bold text-blue-600">₩{price}</div>
+          <div className={`text-lg font-bold ${colorClass.priceColor}`}>
+            ₩{price}
+          </div>
           <div className="text-sm text-gray-600">
             {baseMember || `${time} 기본`} 요금
           </div>
@@ -136,7 +156,7 @@ export default function MobileBottomBar({
           inquiryDeposit={inquiryDeposit}
         >
           <Button
-            className="bg-blue-600 px-8 hover:bg-blue-700"
+            className={`px-8 text-white ${colorClass.buttonColor}`}
             size="lg"
             disabled={disabled}
           >

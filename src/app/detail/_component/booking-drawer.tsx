@@ -32,6 +32,7 @@ interface BookingDrawerProps {
   peopleOptions?: PeopleOption[];
   priceByPeople?: Record<string, number | null | undefined>;
   inquiryDeposit?: number;
+  color?: string;
 }
 
 export default function BookingDrawer({
@@ -43,6 +44,7 @@ export default function BookingDrawer({
   peopleOptions,
   priceByPeople,
   inquiryDeposit,
+  color = "blue",
 }: BookingDrawerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -63,6 +65,7 @@ export default function BookingDrawer({
             peopleOptions={peopleOptions}
             priceByPeople={priceByPeople}
             inquiryDeposit={inquiryDeposit}
+            color={color}
           />
         </DialogContent>
       </Dialog>
@@ -84,6 +87,7 @@ export default function BookingDrawer({
             peopleOptions={peopleOptions}
             priceByPeople={priceByPeople}
             inquiryDeposit={inquiryDeposit}
+            color={color}
           />
         </div>
       </DrawerContent>

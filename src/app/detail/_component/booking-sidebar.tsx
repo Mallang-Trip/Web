@@ -2,6 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BookingDrawer from "@/app/detail/_component/booking-drawer";
 import { Button } from "@/components/ui/button";
 
+interface PeopleOption {
+  value: string;
+  label: string;
+}
+
 interface BookingSidebarProps {
   title: string;
   price: string;
@@ -13,6 +18,9 @@ interface BookingSidebarProps {
   }[];
   destinationId: number;
   disabled: boolean;
+  peopleOptions?: PeopleOption[];
+  priceByPeople?: Record<string, number | null | undefined>;
+  inquiryDeposit?: number;
 }
 
 export default function BookingSidebar({
@@ -23,6 +31,9 @@ export default function BookingSidebar({
   baseMember,
   destinationId,
   disabled,
+  peopleOptions,
+  priceByPeople,
+  inquiryDeposit,
 }: BookingSidebarProps) {
   return (
     <Card className="sticky top-20 w-full">
@@ -51,6 +62,9 @@ export default function BookingSidebar({
           price={price}
           time={time}
           destinationId={destinationId}
+          peopleOptions={peopleOptions}
+          priceByPeople={priceByPeople}
+          inquiryDeposit={inquiryDeposit}
         >
           <Button
             className="w-full bg-blue-600 hover:bg-blue-700"

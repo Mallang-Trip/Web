@@ -31,11 +31,19 @@ type PaymentPrepareData = {
   amount: number;
 };
 
+interface PeopleOption {
+  value: string;
+  label: string;
+}
+
 interface BookingFormProps {
   title: string;
   price: string;
   time: string;
   destinationId: number;
+  peopleOptions?: PeopleOption[];
+  priceByPeople?: Record<string, number | null | undefined>;
+  inquiryDeposit?: number; // 가격 문의일 때 결제될 예약금 (기본 10000)
 }
 
 export default function BookingForm({
@@ -43,6 +51,9 @@ export default function BookingForm({
   price,
   time,
   destinationId,
+  peopleOptions = [],
+  priceByPeople = {},
+  inquiryDeposit = 10000,
 }: BookingFormProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -73,16 +84,7 @@ export default function BookingForm({
   // 일부 props는 현재 사용하지 않음
   void time;
 
-  // VIP 가격표 (HTML과 동일)
-  const vipPrices: Record<string, number> = {
-    "2": 1160000,
-    "3": 1185000,
-    "4": 1260000,
-    "5": 1335000,
-    "6": 1520000,
-    "7": 1610000,
-    "8": 1700000,
-  };
+  // 투어별 인원/가격 정보는 props(priceByPeople)로 주입
 
   // Payple 상품명 유효성 보장 (허용 문자만 남기고 길이 제한)
   const sanitizeProductName = (name: string) => {
@@ -118,12 +120,19 @@ export default function BookingForm({
         ? digitsOnly.slice(1)
         : digitsOnly;
     const phoneInternational = `${d.phonePrefix}${normalizedLocal}`;
-    const priceNumber = d.peopleCount
-      ? vipPrices[d.peopleCount]
-      : (() => {
-          const numeric = Number(String(price).replace(/[^0-9]/g, ""));
-          return Number.isFinite(numeric) && numeric > 0 ? numeric : 190000;
-        })();
+    // 가격 계산: 인원별 가격 우선, 값이 없거나 0/NaN이면 예약금(inquiryDeposit) 사용
+    const parsedDisplayed = Number(String(price).replace(/[^0-9]/g, ""));
+    const isInquiry = !Number.isFinite(parsedDisplayed) || parsedDisplayed <= 0;
+    const priceFromPeople = d.peopleCount
+      ? Number(priceByPeople[d.peopleCount] ?? NaN)
+      : NaN;
+    const priceNumber = isInquiry
+      ? inquiryDeposit
+      : Number.isFinite(priceFromPeople)
+        ? (priceFromPeople as number)
+        : parsedDisplayed > 0
+          ? parsedDisplayed
+          : inquiryDeposit;
     const requests = d.requests || undefined;
     const forceTestPriceNow =
       typeof d.requests === "string" && d.requests.includes("말랑트립");
@@ -375,12 +384,20 @@ export default function BookingForm({
           : digitsOnly;
       const phoneInternational = `${formData.phonePrefix}${normalizedLocal}`;
 
-      const priceNumber = formData.peopleCount
-        ? vipPrices[formData.peopleCount]
-        : (() => {
-            const numeric = Number(String(price).replace(/[^0-9]/g, ""));
-            return Number.isFinite(numeric) && numeric > 0 ? numeric : 190000;
-          })();
+      // 표시 가격이 '가격문의' 등일 때는 예약금(inquiryDeposit)으로 결제
+      const parsedDisplayed2 = Number(String(price).replace(/[^0-9]/g, ""));
+      const isInquiry2 =
+        !Number.isFinite(parsedDisplayed2) || parsedDisplayed2 <= 0;
+      const priceFromPeople2 = formData.peopleCount
+        ? Number(priceByPeople[formData.peopleCount] ?? NaN)
+        : NaN;
+      const priceNumber = isInquiry2
+        ? inquiryDeposit
+        : Number.isFinite(priceFromPeople2)
+          ? (priceFromPeople2 as number)
+          : parsedDisplayed2 > 0
+            ? parsedDisplayed2
+            : inquiryDeposit;
 
       // 개발/테스트 환경 최소 결제금액 보정 (Payple 데모 권장: 1000원 이상)
       const preferDemoEnv =
@@ -642,14 +659,7 @@ export default function BookingForm({
             }
             options={[
               { value: "", label: "인원을 선택하세요" },
-              { value: "2", label: "2인" },
-              { value: "3", label: "3인" },
-              { value: "4", label: "4인" },
-              { value: "5", label: "5인" },
-              { value: "6", label: "6인" },
-              { value: "7", label: "7인" },
-              { value: "8", label: "8인" },
-              { value: "9+", label: "9인 이상 (별도 문의)" },
+              ...peopleOptions,
             ]}
             widthClassName="w-full"
             buttonClassName="h-9 text-sm justify-between"
@@ -661,9 +671,12 @@ export default function BookingForm({
             <div className="mt-3 rounded-md bg-gray-50 p-3 text-center">
               <div className="text-xs text-gray-500">총 결제 금액</div>
               <div className="text-2xl font-semibold text-gray-900">
-                {formData.peopleCount === "9+"
-                  ? "별도 문의"
-                  : `₩${vipPrices[formData.peopleCount].toLocaleString()}`}
+                {(() => {
+                  const val = formData.peopleCount;
+                  const p = Number(priceByPeople[val] ?? NaN);
+                  if (!Number.isFinite(p) || p <= 0) return "별도 문의";
+                  return `₩${p.toLocaleString()}`;
+                })()}
               </div>
             </div>
           )}

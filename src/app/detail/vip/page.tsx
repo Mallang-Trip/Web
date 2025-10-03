@@ -230,6 +230,29 @@ export default function VipDetailPage() {
     },
   ];
 
+  const peopleOptions = [
+    { value: "2", label: "2인" },
+    { value: "3", label: "3인" },
+    { value: "4", label: "4인" },
+    { value: "5", label: "5인" },
+    { value: "6", label: "6인" },
+    { value: "7", label: "7인" },
+    { value: "8", label: "8인" },
+    { value: "9+", label: "9인 이상 (별도 문의)" },
+  ];
+
+  const priceByPeople: Record<string, number | null> = {
+    "2": 1160000,
+    "3": 1185000,
+    "4": 1260000,
+    "5": 1335000,
+    "6": 1520000,
+    "7": 1610000,
+    "8": 1700000,
+  };
+
+  const inquiryDeposit = 10000;
+
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       <Hero
@@ -316,6 +339,9 @@ export default function VipDetailPage() {
               ]}
               destinationId={6001}
               disabled={false}
+              peopleOptions={peopleOptions}
+              priceByPeople={priceByPeople}
+              inquiryDeposit={inquiryDeposit}
             />
           </div>
         </div>
@@ -329,6 +355,9 @@ export default function VipDetailPage() {
         baseMember="2인"
         destinationId={6001}
         disabled={false}
+        peopleOptions={peopleOptions}
+        priceByPeople={priceByPeople}
+        inquiryDeposit={inquiryDeposit}
       />
     </div>
   );

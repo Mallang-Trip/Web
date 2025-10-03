@@ -18,12 +18,20 @@ import {
 } from "@/components/ui/drawer";
 import BookingForm from "./booking-form";
 
+interface PeopleOption {
+  value: string;
+  label: string;
+}
+
 interface BookingDrawerProps {
   children: React.ReactNode;
   title: string;
   price: string;
   time: string;
   destinationId: number;
+  peopleOptions?: PeopleOption[];
+  priceByPeople?: Record<string, number | null | undefined>;
+  inquiryDeposit?: number;
 }
 
 export default function BookingDrawer({
@@ -32,6 +40,9 @@ export default function BookingDrawer({
   price,
   time,
   destinationId,
+  peopleOptions,
+  priceByPeople,
+  inquiryDeposit,
 }: BookingDrawerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -49,6 +60,9 @@ export default function BookingDrawer({
             price={price}
             time={time}
             destinationId={destinationId}
+            peopleOptions={peopleOptions}
+            priceByPeople={priceByPeople}
+            inquiryDeposit={inquiryDeposit}
           />
         </DialogContent>
       </Dialog>
@@ -67,6 +81,9 @@ export default function BookingDrawer({
             price={price}
             time={time}
             destinationId={destinationId}
+            peopleOptions={peopleOptions}
+            priceByPeople={priceByPeople}
+            inquiryDeposit={inquiryDeposit}
           />
         </div>
       </DrawerContent>

@@ -11,6 +11,9 @@ interface MobileBottomBarProps {
   baseMember?: string;
   destinationId: number;
   disabled: boolean;
+  peopleOptions?: { value: string; label: string }[];
+  priceByPeople?: Record<string, number | null | undefined>;
+  inquiryDeposit?: number;
 }
 
 export default function MobileBottomBar({
@@ -20,6 +23,9 @@ export default function MobileBottomBar({
   baseMember,
   destinationId,
   disabled,
+  peopleOptions,
+  priceByPeople,
+  inquiryDeposit,
 }: MobileBottomBarProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -125,6 +131,9 @@ export default function MobileBottomBar({
           price={price}
           time={time}
           destinationId={destinationId}
+          peopleOptions={peopleOptions}
+          priceByPeople={priceByPeople}
+          inquiryDeposit={inquiryDeposit}
         >
           <Button
             className="bg-blue-600 px-8 hover:bg-blue-700"

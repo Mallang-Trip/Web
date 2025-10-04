@@ -53,7 +53,7 @@ export default function BookingDrawer({
     return (
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto border-none bg-white">
+        <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto border-none bg-white px-6 pt-6 pb-0">
           <DialogHeader>
             <DialogTitle>예약하기</DialogTitle>
           </DialogHeader>

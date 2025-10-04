@@ -19,45 +19,98 @@ const tours = [
     featured: true,
   },
   {
-    id: "jeju",
-    name: "제주도 택시 투어",
+    id: "jookhwa",
+    name: "조옥화 안동소주 프라이빗 투어",
     description:
-      "내가 원하는 코스, 친절한 기사님과 함께 제주의 모든 것을 경험하세요.",
-    image:
-      "https://images.unsplash.com/photo-1579169825453-8d4b4653cc2c?q=80&w=1440",
-    duration: "9시간",
-    price: "190,000원",
-    rating: 4.4,
-    reviewCount: 86,
-    tags: ["자연", "문화", "맛집"],
-    featured: false,
+      "3대째 전승하는 전통 양조법과 맞춤형 칵테일 체험, 우리 그룹만을 위한 가장 프라이빗한 안동소주 체험을 만나보세요.",
+    image: "/tour-images/jookhwa/00.jpg",
+    duration: "2시간",
+    price: "140,000원",
+    rating: 4.8,
+    reviewCount: 127,
+    tags: ["조옥화", "안동소주", "프라이빗"],
+    featured: true,
   },
   {
-    id: "seoul",
-    name: "비오는날 서울투어",
-    description: "비오는날 서울투어",
-    image:
-      "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
-    duration: "5시간",
-    price: "200,000원",
-    rating: 4.2,
-    reviewCount: 61,
-    tags: ["비오는날", "서울", "투어"],
-    featured: false,
+    id: "sinabro",
+    name: "시나브로 와이너리 프라이빗 투어",
+    description:
+      "계절별 특별 체험과 수상작 와인, 집같은 따뜻함이 있는 우리 그룹만을 위한 가장 프라이빗한 와인 체험을 만나보세요.",
+    image: "/tour-images/sinabro/00.jpg",
+    duration: "2시간",
+    price: "140,000원",
+    rating: 4.8,
+    reviewCount: 127,
+    tags: ["시나브로", "와이너리", "프라이빗"],
+    featured: true,
   },
   {
-    id: "gangneung",
-    name: "강릉 손님 마음대로 투어",
-    description: "강릉 손님 마음대로 투어",
-    image:
-      "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/4ddb1918-ab15-4d15-ac1b-b54aa1e30a16%EA%B0%95%EB%A6%89.jpg",
-    duration: "7시간",
-    price: "175,000원",
-    rating: 4.3,
-    reviewCount: 22,
-    tags: ["강릉", "투어", "손님 마음대로"],
-    featured: false,
+    id: "chunbi",
+    name: "좋은술 천비향 프라이빗 투어",
+    description:
+      "대통령의 만찬주, 우리 그룹만을 위한 가장 프라이빗한 경험을 가장 편리하게 만나보세요.",
+    image: "/tour-images/chunbi/00.jpg",
+    duration: "2시간",
+    price: "300,000원",
+    rating: 4.8,
+    reviewCount: 127,
+    tags: ["좋은술", "천비향", "프라이빗"],
+    featured: true,
   },
+  {
+    id: "yeongdong",
+    name: "영동 와이너리 투어",
+    description:
+      "오직 우리만을 위한 하루, 소중한 사람들과 단독으로 즐기는 프라이빗 와인 여정",
+    image:
+      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1440",
+    duration: "8시간",
+    price: "가격 문의",
+    rating: 4.8,
+    reviewCount: 127,
+    tags: ["영동", "와이너리", "프라이빗"],
+    featured: true,
+  },
+  // {
+  //   id: "jeju",
+  //   name: "제주도 택시 투어",
+  //   description:
+  //     "내가 원하는 코스, 친절한 기사님과 함께 제주의 모든 것을 경험하세요.",
+  //   image:
+  //     "https://images.unsplash.com/photo-1579169825453-8d4b4653cc2c?q=80&w=1440",
+  //   duration: "9시간",
+  //   price: "190,000원",
+  //   rating: 4.4,
+  //   reviewCount: 86,
+  //   tags: ["자연", "문화", "맛집"],
+  //   featured: false,
+  // },
+  // {
+  //   id: "seoul",
+  //   name: "비오는날 서울투어",
+  //   description: "비오는날 서울투어",
+  //   image:
+  //     "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
+  //   duration: "5시간",
+  //   price: "200,000원",
+  //   rating: 4.2,
+  //   reviewCount: 61,
+  //   tags: ["비오는날", "서울", "투어"],
+  //   featured: false,
+  // },
+  // {
+  //   id: "gangneung",
+  //   name: "강릉 손님 마음대로 투어",
+  //   description: "강릉 손님 마음대로 투어",
+  //   image:
+  //     "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/4ddb1918-ab15-4d15-ac1b-b54aa1e30a16%EA%B0%95%EB%A6%89.jpg",
+  //   duration: "7시간",
+  //   price: "175,000원",
+  //   rating: 4.3,
+  //   reviewCount: 22,
+  //   tags: ["강릉", "투어", "손님 마음대로"],
+  //   featured: false,
+  // },
 ];
 
 export default function Home() {
@@ -190,7 +243,8 @@ export default function Home() {
                         인기
                       </Badge>
                     )}
-                    <div className="absolute right-4 bottom-4 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-sm text-white">
+                    {/* 평점 미사용 (임시) */}
+                    {/* <div className="absolute right-4 bottom-4 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-sm text-white">
                       <svg
                         className="h-4 w-4 fill-yellow-400"
                         viewBox="0 0 20 20"
@@ -201,7 +255,7 @@ export default function Home() {
                       <span className="text-gray-300">
                         ({tour.reviewCount})
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                   <CardContent className="p-6">
                     <div className="mb-3 flex items-start justify-between">

@@ -918,25 +918,29 @@ export default function BookingForm({
       </div>
 
       {/* 고정된 하단 버튼 */}
-      <Button
-        type="submit"
-        className={`my-4 w-full text-white ${colorClass.buttonColor} disabled:bg-gray-400`}
-        onClick={handleSubmit}
-        disabled={!isFormValid() || isLoading}
-      >
-        {isLoading ? (
-          <div className="flex items-center gap-2">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-            결제 처리 중...
-          </div>
-        ) : (
-          "결제하기"
-        )}
-      </Button>
+      <div className="relative sticky bottom-0 left-0 mt-8 w-full bg-white">
+        {/* 상단 그라데이션 페이드 (위로 갈수록 투명) */}
+        <div className="pointer-events-none absolute -top-8 right-0 left-0 h-8 bg-gradient-to-t from-white via-white/70 to-transparent" />
+        <Button
+          type="submit"
+          className={`mb-4 w-full text-white ${colorClass.buttonColor} disabled:bg-gray-400`}
+          onClick={handleSubmit}
+          disabled={!isFormValid() || isLoading}
+        >
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+              결제 처리 중...
+            </div>
+          ) : (
+            "결제하기"
+          )}
+        </Button>
 
-      {/* 필수 입력 안내 */}
-      <div className="mb-10 text-center text-xs text-gray-500 md:mb-2">
-        <span className="text-red-500">*</span> 표시는 필수 입력 항목입니다
+        {/* 필수 입력 안내 */}
+        <div className="mb-4 text-center text-xs text-gray-500">
+          <span className="text-red-500">*</span> 표시는 필수 입력 항목입니다
+        </div>
       </div>
     </div>
   );

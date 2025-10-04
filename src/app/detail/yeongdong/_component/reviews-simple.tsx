@@ -25,7 +25,7 @@ export default function ReviewsSimple({ heading, items }: ReviewsSimpleProps) {
                 className="rounded-xl border-t-4 border-yellow-500 bg-white p-6 shadow-sm"
               >
                 <p className="leading-relaxed text-gray-700 italic">
-                  "{item.text}"
+                  &quot;{item.text}&quot;
                 </p>
                 <div className="mt-4 text-right font-semibold text-gray-900">
                   - {item.author}

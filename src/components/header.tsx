@@ -96,7 +96,7 @@ export default function Header() {
                 { value: "en", label: "🇺🇸 English" },
                 // { value: "zh", label: "🇨🇳 中문" },
               ]}
-              widthClassName="w-24"
+              widthClassName="w-32"
               buttonClassName="h-8 text-xs px-2"
             />
 

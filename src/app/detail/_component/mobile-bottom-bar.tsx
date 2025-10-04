@@ -154,6 +154,7 @@ export default function MobileBottomBar({
           peopleOptions={peopleOptions}
           priceByPeople={priceByPeople}
           inquiryDeposit={inquiryDeposit}
+          color={color}
         >
           <Button
             className={`px-8 text-white ${colorClass.buttonColor}`}

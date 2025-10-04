@@ -164,7 +164,7 @@ export default function YeongdongDetailPage() {
                 { title: "포함 사항", value: "프라이빗 차량, 기사, 시음" },
                 { title: "취소 정책", value: "3일 전 무료" },
               ]}
-              destinationId={504}
+              destinationId={1001}
               disabled={false}
               peopleOptions={peopleOptions}
               priceByPeople={priceByPeople}
@@ -178,7 +178,7 @@ export default function YeongdongDetailPage() {
         title="도어투도어 영동 와이너리 투어"
         price="가격문의"
         time="하루"
-        destinationId={504}
+        destinationId={1001}
         disabled={false}
         peopleOptions={peopleOptions}
         priceByPeople={priceByPeople}

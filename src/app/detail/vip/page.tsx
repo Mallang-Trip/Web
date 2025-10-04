@@ -337,7 +337,7 @@ export default function VipDetailPage() {
                   value: "4일 전 무료",
                 },
               ]}
-              destinationId={6001}
+              destinationId={1000}
               disabled={false}
               peopleOptions={peopleOptions}
               priceByPeople={priceByPeople}
@@ -353,7 +353,7 @@ export default function VipDetailPage() {
         price="1,160,000"
         time="8시간"
         baseMember="2인"
-        destinationId={6001}
+        destinationId={1000}
         disabled={false}
         peopleOptions={peopleOptions}
         priceByPeople={priceByPeople}

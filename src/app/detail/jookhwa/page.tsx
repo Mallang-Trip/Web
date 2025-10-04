@@ -1,0 +1,93 @@
+import BookingSidebar from "@/app/detail/_component/booking-sidebar";
+import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
+import HeroSection from "./_component/hero-section";
+import HighlightsSection from "./_component/highlights-section";
+import PhotoGallery from "./_component/photo-gallery";
+import ItinerarySection from "./_component/itinerary-section";
+import PricingSection from "./_component/pricing-section";
+import ReviewsSection from "./_component/reviews-section";
+import FAQSection from "./_component/FAQ-section";
+import PartnersSection from "./_component/partners-section";
+
+export default function JookhwaDetailPage() {
+  const peopleOptions = [
+    { value: "2", label: "2인" },
+    { value: "3", label: "3인" },
+    { value: "4", label: "4인" },
+    { value: "5", label: "5인" },
+    { value: "6", label: "6인" },
+    { value: "7", label: "7인" },
+    { value: "8", label: "8인" },
+    { value: "9", label: "9인" },
+    { value: "10", label: "10인 이상" },
+  ];
+
+  const priceByPeople: Record<string, number | null> = {
+    "2": 140000,
+    "3": 140000,
+    "4": 140000,
+    "5": 175000,
+    "6": 210000,
+    "7": 245000,
+    "8": 280000,
+    "9": 315000,
+    "10": null,
+  };
+
+  const inquiryDeposit = 10000;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <HeroSection image="/tour-images/jookhwa/00.jpg" />
+
+      <div className="mx-auto max-w-screen-2xl px-4 py-8 pb-20">
+        <div className="flex flex-col gap-8 lg:flex-row">
+          <div className="w-full lg:w-3/4">
+            <div className="space-y-24">
+              <HighlightsSection />
+              <PhotoGallery />
+              <ItinerarySection />
+              <PricingSection />
+              <ReviewsSection />
+              <FAQSection />
+              <PartnersSection />
+            </div>
+          </div>
+
+          <div className="hidden lg:block lg:w-1/4">
+            <BookingSidebar
+              title="조옥화 안동소주 프라이빗 투어"
+              price="140,000"
+              time="4인 이하"
+              subItems={[
+                { title: "", value: "2~20명 완전 프라이빗 투어" },
+                { title: "", value: "약 2시간" },
+                { title: "", value: "픽업/드랍 서비스 포함" },
+                { title: "", value: "매일 운영 (예약 필수)" },
+                { title: "", value: "4일 전 100% 취소 가능" },
+              ]}
+              color="emerald"
+              destinationId={1004}
+              disabled={false}
+              peopleOptions={peopleOptions}
+              priceByPeople={priceByPeople}
+              inquiryDeposit={inquiryDeposit}
+            />
+          </div>
+        </div>
+      </div>
+
+      <MobileBottomBar
+        title="조옥화 안동소주 프라이빗 투어"
+        price="140,000"
+        time="4인 이하"
+        color="emerald"
+        destinationId={1004}
+        disabled={false}
+        peopleOptions={peopleOptions}
+        priceByPeople={priceByPeople}
+        inquiryDeposit={inquiryDeposit}
+      />
+    </div>
+  );
+}

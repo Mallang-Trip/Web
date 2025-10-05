@@ -14,7 +14,6 @@ export function useSendLoginSms() {
 }
 
 export function useVerifyLoginSms() {
-  const { loginWithTokens } = useAuthStore();
   return useMutation({
     mutationFn: async (params: {
       txId: string;
@@ -27,13 +26,6 @@ export function useVerifyLoginSms() {
         verificationCode,
       });
       return { api: res?.data, phoneNumber: params.phoneNumber } as const;
-    },
-    onSuccess: ({ api, phoneNumber }) => {
-      const accessToken: string | undefined = api?.accessToken;
-      const refreshToken: string | undefined = api?.refreshToken;
-      if (accessToken && refreshToken) {
-        loginWithTokens(accessToken, refreshToken, phoneNumber);
-      }
     },
   });
 }

@@ -1,19 +1,13 @@
 interface Reservation {
   reservationId: string | number;
-  tripName: string;
-  startTime: string;
-  endTime: string;
+  reservationName: string;
   price: number;
-  tripStatus: string; // PENDING | APPROVED | REJECTED | CANCELED
-  paymentStatus: string;
-  createdAt: string; // 결제/요청 시점과는 무관 - 서버 생성 시간
+  status: string; // PENDING | APPROVED | REJECTED | CANCELED
+  createdAt: string;
   requestedAt?: string | null;
   approvedAt?: string | null;
   rejectedAt?: string | null;
   canceledAt?: string | null;
-  pickupLocation?: string;
-  dropLocation?: string;
-  courseDetail?: string;
 }
 
 interface ReservationHeroProps {
@@ -27,7 +21,7 @@ export default function ReservationHero({
   formatDate,
   formatTime,
 }: ReservationHeroProps) {
-  const status = (currentReservation.tripStatus || "").toUpperCase();
+  const status = (currentReservation.status || "").toUpperCase();
   // const paymentStatus = currentReservation.paymentStatus;
 
   const titleByStatus = (() => {

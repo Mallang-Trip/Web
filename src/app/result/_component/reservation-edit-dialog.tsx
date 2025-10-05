@@ -24,24 +24,35 @@ import { Combobox } from "@/components/ui/combobox";
 
 interface Reservation {
   reservationId: string | number;
-  tripName: string;
-  startTime: string;
-  endTime: string;
+  // 새 스키마 필드
+  reservationName: string;
+  meetingDate: string; // ISO 8601
+  pickupTime: string; // HH:mm
+  pickupAddress: string;
+  returnAddress: string;
+  requests: string | null;
   price: number;
-  tripStatus: string;
-  paymentStatus: string;
+  status: string;
+  isModifiable?: boolean;
+  isCancelable?: boolean;
+  createdAt: string;
   requestedAt?: string | null;
   approvedAt?: string | null;
   rejectedAt?: string | null;
   canceledAt?: string | null;
-  createdAt: string;
-  pickupLocation?: string;
-  dropLocation?: string;
-  courseDetail?: string;
   email?: string;
   name?: string;
   phoneNumber?: string;
   userCount?: number;
+  // 구 스키마 호환 필드 (폴백용)
+  tripName?: string;
+  startTime?: string;
+  endTime?: string;
+  pickupLocation?: string;
+  dropLocation?: string;
+  courseDetail?: string;
+  tripStatus?: string;
+  paymentStatus?: string;
 }
 
 type Props = {
@@ -76,28 +87,61 @@ export default function ReservationEditDialog({
   );
 
   const [form, setForm] = useState({
-    reservationName: reservation.tripName || "",
+    reservationName: reservation.reservationName || reservation.tripName || "",
     userCount: String(reservation.userCount ?? 2),
-    meetingDate: "",
-    pickupTime: "",
-    pickupAddress: reservation.pickupLocation || "",
-    returnAddress: reservation.dropLocation || "",
-    requests: reservation.courseDetail || "",
+    meetingDate: reservation.meetingDate?.split("T")[0] || "",
+    pickupTime: reservation.pickupTime || "",
+    pickupAddress:
+      reservation.pickupAddress || reservation.pickupLocation || "",
+    returnAddress: reservation.returnAddress || reservation.dropLocation || "",
+    requests: reservation.requests || reservation.courseDetail || "",
     price: reservation.price || 0,
   });
 
   // 초기 값 세팅
   useEffect(() => {
-    const start = new Date(reservation.startTime);
-    const isoDate = start.toISOString().split("T")[0];
-    const hh = String(start.getHours()).padStart(2, "0");
-    const mm = String(start.getMinutes()).padStart(2, "0");
+    // meetingDate / pickupTime 우선, 없으면 startTime 파싱
+    let isoDate = form.meetingDate;
+    let hhmm = form.pickupTime;
+    if (!isoDate) {
+      if (reservation.meetingDate) {
+        const raw = reservation.meetingDate;
+        isoDate = raw.includes("T") ? raw.split("T")[0] : raw;
+        if (!hhmm) {
+          const t =
+            reservation.pickupTime ||
+            (raw.includes("T") ? raw.split("T")[1].slice(0, 5) : "");
+          hhmm = t || "09:00";
+        }
+      } else if (reservation.startTime) {
+        const d = new Date(reservation.startTime);
+        if (!Number.isNaN(d.getTime())) {
+          isoDate = d.toISOString().split("T")[0];
+          const hh = String(d.getHours()).padStart(2, "0");
+          const mm = String(d.getMinutes()).padStart(2, "0");
+          hhmm = `${hh}:${mm}`;
+        }
+      }
+    }
     setForm((prev) => ({
       ...prev,
-      reservationName: reservation.tripName || prev.reservationName,
-      meetingDate: isoDate,
-      pickupTime: `${hh}:${mm}`,
-      price: reservation.price,
+      reservationName:
+        reservation.reservationName ||
+        reservation.tripName ||
+        prev.reservationName,
+      meetingDate: isoDate || prev.meetingDate,
+      pickupTime: hhmm || prev.pickupTime || "09:00",
+      price: reservation.price ?? prev.price,
+      pickupAddress:
+        reservation.pickupAddress ||
+        reservation.pickupLocation ||
+        prev.pickupAddress,
+      returnAddress:
+        reservation.returnAddress ||
+        reservation.dropLocation ||
+        prev.returnAddress,
+      requests:
+        reservation.requests || reservation.courseDetail || prev.requests,
     }));
   }, [reservation]);
 
@@ -153,45 +197,52 @@ export default function ReservationEditDialog({
         body,
       });
 
-      // API 응답을 로컬 타입으로 매핑
+      // API 응답을 새 스키마로 매핑
       const u = updated as unknown as {
         reservationId?: number;
         id?: number;
         reservationName?: string;
         meetingDate?: string;
+        pickupTime?: string;
+        pickupAddress?: string;
+        returnAddress?: string;
+        requests?: string | null;
         price?: number;
         status?: string;
+        isCancelable?: boolean;
+        isModifiable?: boolean;
         createdAt?: string;
         requestedAt?: string | null;
         approvedAt?: string | null;
         rejectedAt?: string | null;
         canceledAt?: string | null;
-        pickupAddress?: string;
-        returnAddress?: string;
-        requests?: string | null;
       };
 
       const next: Reservation = {
         reservationId: u.reservationId ?? u.id ?? reservation.reservationId,
-        tripName: u.reservationName || form.reservationName,
-        startTime:
-          u.meetingDate ||
-          new Date(`${form.meetingDate}T${form.pickupTime}:00`).toISOString(),
-        endTime: reservation.endTime,
+        reservationName: u.reservationName || form.reservationName,
+        meetingDate:
+          u.meetingDate || `${form.meetingDate}T${form.pickupTime}:00`,
+        pickupTime: u.pickupTime || form.pickupTime,
+        pickupAddress: u.pickupAddress || form.pickupAddress,
+        returnAddress: u.returnAddress || form.returnAddress,
+        requests: u.requests ?? form.requests,
         price: Number(u.price ?? form.price),
-        tripStatus: (u.status as string) || reservation.tripStatus,
-        paymentStatus: reservation.paymentStatus,
+        status: (u.status as string) || reservation.status || "PENDING",
+        isCancelable: u.isCancelable ?? reservation.isCancelable ?? false,
+        isModifiable: u.isModifiable ?? reservation.isModifiable ?? false,
+        createdAt: u.createdAt || reservation.createdAt,
         requestedAt: u.requestedAt ?? reservation.requestedAt,
         approvedAt: u.approvedAt ?? reservation.approvedAt,
         rejectedAt: u.rejectedAt ?? reservation.rejectedAt,
         canceledAt: u.canceledAt ?? reservation.canceledAt,
-        createdAt: u.createdAt || reservation.createdAt,
-        pickupLocation: u.pickupAddress || form.pickupAddress,
-        dropLocation: u.returnAddress || form.returnAddress,
-        courseDetail: u.requests ?? form.requests,
-      };
+        email: reservation.email,
+        name: reservation.name,
+        phoneNumber: reservation.phoneNumber,
+        userCount: reservation.userCount,
+      } as Reservation;
 
-      onSaved(next);
+      onSaved(next as any);
       toast.success("예약이 수정되었습니다.");
       onOpenChange(false);
     } catch (error: unknown) {

@@ -18,17 +18,11 @@ import { useRouter } from "next/navigation";
 
 interface Reservation {
   reservationId: string | number;
-  tripName: string;
-  startTime: string;
-  endTime: string;
+  reservationName: string;
   price: number;
-  tripStatus: string;
-  paymentStatus: string;
-  isCancelable?: boolean;
+  status: string;
+  isCancelable: boolean;
   createdAt: string;
-  pickupLocation?: string;
-  dropLocation?: string;
-  courseDetail?: string;
 }
 
 interface ReservationActionsProps {

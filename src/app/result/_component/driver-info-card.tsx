@@ -4,21 +4,28 @@ import Image from "next/image";
 interface DriverInfoCardProps {
   handleCopyPhone: () => void;
   status: string; // 예약 상태
+  attributes: {
+    driver?: {
+      name: string;
+      phoneNumber: string;
+      vehicleNumber: string;
+      vehicleImageUrls?: string[];
+    } | null;
+    breweries?: Array<{
+      order: number;
+      breweryName: string;
+      address: string;
+    }> | null;
+  } | null;
 }
 
 export default function DriverInfoCard({
   handleCopyPhone,
   status,
+  attributes,
 }: DriverInfoCardProps) {
   const isApproved = (status || "").toUpperCase() === "APPROVED";
-
-  const driver = {
-    name: "박민수 기사님",
-    license: "34오 5678",
-    phone: "+82-10-1234-5678",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=200&auto=format&fit=crop",
-  };
+  const driver = attributes?.driver || null;
 
   return (
     <Card>
@@ -41,11 +48,14 @@ export default function DriverInfoCard({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {isApproved ? (
+        {isApproved && driver ? (
           <div className="flex items-center gap-4">
             <Image
-              src={driver.avatar}
-              alt="드라이버 프로필"
+              src={
+                driver.vehicleImageUrls?.[0] ||
+                "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=200&auto=format&fit=crop"
+              }
+              alt="드라이버/차량"
               width={64}
               height={64}
               className="rounded-full object-cover"
@@ -72,7 +82,7 @@ export default function DriverInfoCard({
                     d="M13 6h3l2 7H9l-1-4H5"
                   />
                 </svg>
-                {driver.license}
+                {driver.vehicleNumber}
               </p>
               <div className="flex items-center gap-1 text-sm text-gray-600">
                 <svg
@@ -88,7 +98,7 @@ export default function DriverInfoCard({
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
-                {driver.phone}
+                {driver.phoneNumber}
                 <button
                   onClick={handleCopyPhone}
                   className="ml-1 rounded p-1 hover:bg-gray-100"

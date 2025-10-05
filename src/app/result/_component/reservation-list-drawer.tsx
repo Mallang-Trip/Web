@@ -22,15 +22,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export interface ReservationListItem {
   reservationId: string | number;
-  tripName: string;
-  startTime: string;
-  endTime: string;
+  reservationName: string;
+  meetingDate: string;
   price: number;
-  tripStatus: string;
-  paymentStatus: string;
+  status: string;
   createdAt: string;
-  pickupLocation?: string;
-  dropLocation?: string;
+  pickupAddress?: string;
+  returnAddress?: string;
 }
 
 interface ReservationListDrawerProps {
@@ -125,7 +123,7 @@ export default function ReservationListDrawer({
           <Card
             key={reservation.reservationId}
             className={`cursor-pointer transition-shadow hover:shadow-md ${
-              reservation.tripStatus?.toUpperCase() === "CANCELED"
+              (reservation.status || "").toUpperCase() === "CANCELED"
                 ? "bg-gray-50 opacity-75"
                 : ""
             }`}
@@ -136,13 +134,14 @@ export default function ReservationListDrawer({
                 <div>
                   <h3
                     className={`font-semibold ${
-                      reservation.tripStatus?.toUpperCase() === "CANCELED"
+                      (reservation.status || "").toUpperCase() === "CANCELED"
                         ? "text-gray-600 line-through"
                         : "text-gray-900"
                     }`}
                   >
-                    {reservation.tripName || "제주 여행"}
-                    {reservation.tripStatus?.toUpperCase() === "CANCELED" && (
+                    {reservation.reservationName || "여행 예약"}
+                    {(reservation.status || "").toUpperCase() ===
+                      "CANCELED" && (
                       <span className="ml-2 text-xs font-normal text-red-600">
                         (취소됨)
                       </span>
@@ -150,7 +149,7 @@ export default function ReservationListDrawer({
                   </h3>
                   <p
                     className={`text-sm ${
-                      reservation.tripStatus?.toUpperCase() === "CANCELED"
+                      (reservation.status || "").toUpperCase() === "CANCELED"
                         ? "text-gray-500"
                         : "text-gray-600"
                     }`}
@@ -162,17 +161,17 @@ export default function ReservationListDrawer({
                 <div className="flex gap-2">
                   <span
                     className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(
-                      reservation.tripStatus,
+                      reservation.status,
                     )}`}
                   >
-                    {statusLabelKo(reservation.tripStatus)}
+                    {statusLabelKo(reservation.status)}
                   </span>
                 </div>
               </div>
 
               <div
                 className={`space-y-2 text-sm ${
-                  reservation.tripStatus?.toUpperCase() === "CANCELED"
+                  (reservation.status || "").toUpperCase() === "CANCELED"
                     ? "text-gray-500"
                     : "text-gray-600"
                 }`}
@@ -191,7 +190,7 @@ export default function ReservationListDrawer({
                       d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0h6a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V9a2 2 0 012-2z"
                     />
                   </svg>
-                  <span>{formatDate(reservation.startTime)}</span>
+                  <span>{formatDate(reservation.meetingDate)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg
@@ -207,14 +206,11 @@ export default function ReservationListDrawer({
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>
-                    {formatTime(reservation.startTime)} ~{" "}
-                    {calculateEndTime(reservation.startTime)}
-                  </span>
+                  <span>{formatTime(reservation.meetingDate)}</span>
                 </div>
 
                 {/* 미팅장소 */}
-                {reservation.pickupLocation && (
+                {reservation.pickupAddress && (
                   <div className="flex items-center gap-2">
                     <svg
                       className="h-4 w-4"
@@ -226,7 +222,7 @@ export default function ReservationListDrawer({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        d="M17.657 16.657L13.414 20.9a1 1 0 01-1.414 0l-4.243-4.243a8 8 0 1111.314 0z"
                       />
                       <path
                         strokeLinecap="round"
@@ -236,13 +232,13 @@ export default function ReservationListDrawer({
                       />
                     </svg>
                     <span className="truncate">
-                      미팅 장소: {reservation.pickupLocation}
+                      미팅 장소: {reservation.pickupAddress}
                     </span>
                   </div>
                 )}
 
                 {/* 하차장소 */}
-                {reservation.dropLocation && (
+                {reservation.returnAddress && (
                   <div className="flex items-center gap-2">
                     <svg
                       className="h-4 w-4"
@@ -258,7 +254,7 @@ export default function ReservationListDrawer({
                       />
                     </svg>
                     <span className="truncate">
-                      하차 장소: {reservation.dropLocation}
+                      하차 장소: {reservation.returnAddress}
                     </span>
                   </div>
                 )}
@@ -280,7 +276,7 @@ export default function ReservationListDrawer({
                     </svg>
                     <span
                       className={`font-semibold ${
-                        reservation.tripStatus?.toUpperCase() === "CANCELED"
+                        (reservation.status || "").toUpperCase() === "CANCELED"
                           ? "line-through"
                           : ""
                       }`}

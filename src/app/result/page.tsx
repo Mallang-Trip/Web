@@ -20,49 +20,92 @@ import ReservationListDrawer from "@/app/result/_component/reservation-list-draw
 import ReservationEditDialog from "@/app/result/_component/reservation-edit-dialog";
 import { useAuth } from "@/hooks/use-auth";
 
+interface ReservationPaymentInfo {
+  paymentNumber: string;
+  transactionId: string | null;
+  amount: number;
+  status: string;
+  paymentMethod: string;
+  provider: string;
+  approvalNumber: string;
+  cardInfo: {
+    cardNumber: string;
+    cardName: string;
+    installment: number;
+  } | null;
+  requestedAt: string;
+  approvedAt: string | null;
+  canceledAt: string | null;
+}
+
+interface ReservationAttributes {
+  driver?: {
+    name: string;
+    phoneNumber: string;
+    vehicleNumber: string;
+    vehicleImageUrls?: string[];
+  } | null;
+  breweries?: Array<{
+    order: number;
+    breweryName: string;
+    address: string;
+  }> | null;
+}
+
 interface Reservation {
-  reservationId: string | number;
-  tripName: string;
-  startTime: string;
-  endTime: string;
+  reservationId: number | string;
+  reservationName: string;
+  email: string;
+  name: string;
+  phoneNumber: string;
+  userId?: number;
+  userCount: number;
+  meetingDate: string; // ISO
+  pickupTime: string; // HH:mm
+  pickupAddress: string;
+  returnAddress: string;
+  requests: string | null;
   price: number;
-  tripStatus: string;
-  paymentStatus: string;
-  isCancelable?: boolean;
-  isModifiable?: boolean;
+  status: string; // PENDING/APPROVED/REJECTED/CANCELED
+  isModifiable: boolean;
+  isCancelable: boolean;
+  adminMemo?: string | null;
+  createdAt: string;
   requestedAt?: string | null;
   approvedAt?: string | null;
   rejectedAt?: string | null;
   canceledAt?: string | null;
-  createdAt: string;
-  pickupLocation?: string;
-  dropLocation?: string;
-  courseDetail?: string;
-  email?: string;
-  name?: string;
-  phoneNumber?: string;
+  paymentNumber?: string | null;
+  paymentInfo?: ReservationPaymentInfo | null;
+  attributes?: ReservationAttributes | null;
 }
 
 type ApiReservation = {
-  reservationId?: number;
-  id?: number;
-  reservationName?: string;
-  meetingDate?: string;
-  price?: number;
-  status?: string;
-  isCancelable?: boolean;
-  isModifiable?: boolean;
-  pickupAddress?: string;
-  returnAddress?: string;
-  requests?: string | null;
+  reservationId: number;
+  reservationName: string;
+  email: string;
+  name: string;
+  phoneNumber: string;
+  userId?: number;
+  userCount: number;
+  meetingDate: string;
+  pickupTime: string;
+  pickupAddress: string;
+  returnAddress: string;
+  requests: string | null;
+  price: number;
+  status: string;
+  isModifiable: boolean;
+  isCancelable: boolean;
+  adminMemo?: string | null;
   createdAt: string;
   requestedAt?: string | null;
   approvedAt?: string | null;
   rejectedAt?: string | null;
   canceledAt?: string | null;
-  email?: string;
-  name?: string;
-  phoneNumber?: string;
+  paymentNumber?: string | null;
+  paymentInfo?: ReservationPaymentInfo | null;
+  attributes?: ReservationAttributes | null;
 };
 
 function ResultPageContent() {
@@ -133,27 +176,32 @@ function ResultPageContent() {
     const list: Reservation[] = (apiData.reservations || []).map((raw) => {
       const r = raw as ApiReservation;
       return {
-        reservationId: r.reservationId ?? r.id!,
-        tripName: r.reservationName ?? "여행 예약",
-        startTime: r.meetingDate ?? "",
-        endTime: r.meetingDate ?? "",
+        reservationId: r.reservationId,
+        reservationName: r.reservationName,
+        email: r.email,
+        name: r.name,
+        phoneNumber: r.phoneNumber,
+        userId: r.userId,
+        userCount: Number(r.userCount ?? 0),
+        meetingDate: r.meetingDate,
+        pickupTime: r.pickupTime,
+        pickupAddress: r.pickupAddress,
+        returnAddress: r.returnAddress,
+        requests: r.requests ?? null,
         price: Number(r.price ?? 0),
-        tripStatus: (r.status as string) ?? "PENDING",
-        paymentStatus: "결제대기",
+        status: r.status || "PENDING",
         isCancelable: r.isCancelable === true,
         isModifiable: r.isModifiable === true,
+        adminMemo: r.adminMemo ?? null,
+        createdAt: r.createdAt,
         requestedAt: r.requestedAt ?? null,
         approvedAt: r.approvedAt ?? null,
         rejectedAt: r.rejectedAt ?? null,
         canceledAt: r.canceledAt ?? null,
-        createdAt: r.createdAt,
-        pickupLocation: r.pickupAddress ?? undefined,
-        dropLocation: r.returnAddress ?? undefined,
-        courseDetail: r.requests ?? undefined,
-        email: r.email ?? undefined,
-        name: r.name ?? undefined,
-        phoneNumber: r.phoneNumber ?? undefined,
-      };
+        paymentNumber: r.paymentNumber ?? null,
+        paymentInfo: r.paymentInfo ?? null,
+        attributes: r.attributes ?? null,
+      } as Reservation;
     });
     const sorted = list.sort(
       (a, b) =>
@@ -199,25 +247,6 @@ function ResultPageContent() {
     });
   };
 
-  // 현재 예약 정보 가공
-  const calculateEndTime = (startTime: string) => {
-    const start = new Date(startTime);
-    const end = new Date(start.getTime() + 9 * 60 * 60 * 1000); // 9시간 추가
-    return formatTime(end.toISOString());
-  };
-
-  const handleCopyPhone = () => {
-    const driverPhone = "+82-10-1234-5678";
-    navigator.clipboard.writeText(driverPhone);
-    alert("전화번호가 복사되었습니다.");
-  };
-
-  const handleCancelClick = () => {
-    if (!currentReservation) return;
-    if (!currentReservation.isCancelable) return;
-    setShowCancelDialog(true);
-  };
-
   const handleCancelConfirm = async () => {
     try {
       setIsLoading(true);
@@ -231,7 +260,7 @@ function ResultPageContent() {
       const updatedReservation: Reservation = {
         ...currentReservation!,
         isCancelable: false,
-        tripStatus: "CANCELED",
+        status: "CANCELED",
         canceledAt: new Date().toISOString(),
       };
 
@@ -407,27 +436,42 @@ function ResultPageContent() {
       {/* Main Content */}
       <div className="mx-auto max-w-6xl px-6 py-8">
         <div className="grid gap-6 md:grid-cols-2">
-          <ReservationInfoCard
-            currentReservation={currentReservation}
-            formatDate={formatDate}
-            formatTime={formatTime}
-            calculateEndTime={calculateEndTime}
-          />
+          <ReservationInfoCard currentReservation={currentReservation} />
           <DriverInfoCard
-            handleCopyPhone={handleCopyPhone}
-            status={currentReservation.tripStatus}
+            attributes={currentReservation.attributes || null}
+            status={currentReservation.status}
+            handleCopyPhone={() => {}}
           />
         </div>
 
-        <PaymentInfoCard />
+        <PaymentInfoCard
+          reservation={currentReservation}
+          isAuthenticated={isAuthenticated}
+        />
 
         <ReservationActions
-          currentReservation={currentReservation}
-          reservations={reservations}
+          currentReservation={{
+            reservationId: currentReservation.reservationId,
+            reservationName: currentReservation.reservationName,
+            price: currentReservation.price,
+            status: currentReservation.status,
+            isCancelable: currentReservation.isCancelable,
+            createdAt: currentReservation.createdAt,
+          }}
+          reservations={reservations.map((r) => ({
+            reservationId: r.reservationId,
+            reservationName: r.reservationName,
+            meetingDate: r.meetingDate,
+            price: r.price,
+            status: r.status,
+            createdAt: r.createdAt,
+            pickupAddress: r.pickupAddress,
+            returnAddress: r.returnAddress,
+          }))}
           isLoading={isLoading}
           showCancelDialog={showCancelDialog}
           setShowCancelDialog={setShowCancelDialog}
-          handleCancelClick={handleCancelClick}
+          handleCancelClick={() => {}}
           handleCancelConfirm={handleCancelConfirm}
           canEdit={!!canEdit}
           onEditClick={() => setShowEditDialog(true)}
@@ -435,8 +479,8 @@ function ResultPageContent() {
         <ReservationEditDialog
           open={showEditDialog}
           onOpenChange={setShowEditDialog}
-          reservation={currentReservation}
-          onSaved={handleSaved}
+          reservation={currentReservation as any}
+          onSaved={(updated: any) => handleSaved(updated as Reservation)}
         />
       </div>
     </main>

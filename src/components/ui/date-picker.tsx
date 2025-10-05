@@ -20,6 +20,7 @@ type DatePickerProps = {
   className?: string;
   minDate?: Date; // 선택 불가 하한
   buttonClassName?: string;
+  modal?: boolean;
 };
 
 function formatDateKo(d: Date): string {
@@ -59,8 +60,10 @@ export function DatePicker({
   className,
   minDate,
   buttonClassName,
+  modal = false,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
   const selected = React.useMemo(() => parseYmd(value) || new Date(), [value]);
   const [view, setView] = React.useState<Date>(() => startOfMonth(selected));
 
@@ -116,12 +119,24 @@ export function DatePicker({
   const todayYmd = toYmd(today);
 
   return (
-    <Popover open={open} onOpenChange={setOpen} modal>
+    <Popover open={open} onOpenChange={setOpen} modal={modal}>
       <PopoverTrigger asChild>
         <Button
+          ref={triggerRef}
           type="button"
           variant="outline"
           className={cn("h-9 w-full justify-between", buttonClassName)}
+          onMouseDown={(e) => {
+            // 버튼 클릭 시 즉시 포커스를 제거하여 aria-hidden 경고 방지
+            const target = e.currentTarget;
+            if (target) {
+              setTimeout(() => target.blur(), 0);
+            }
+          }}
+          onFocus={(e) => {
+            // 포커스가 설정되면 즉시 제거하여 aria-hidden 경고 방지
+            e.currentTarget.blur();
+          }}
         >
           <span className="truncate">
             {value
@@ -136,7 +151,36 @@ export function DatePicker({
           "w-[320px] border-gray-200 bg-white p-0 shadow-md",
           className,
         )}
-        onPointerDownOutside={(e) => e.preventDefault()}
+        onInteractOutside={(e) => {
+          const target = e.target as HTMLElement;
+
+          // 트리거 버튼을 클릭한 경우
+          if (
+            triggerRef.current &&
+            (triggerRef.current === target ||
+              triggerRef.current.contains(target))
+          ) {
+            e.preventDefault();
+            return;
+          }
+
+          // Dialog/Drawer overlay를 클릭한 경우
+          const isOverlay =
+            (target.hasAttribute("data-slot") &&
+              (target.getAttribute("data-slot") === "dialog-overlay" ||
+                target.getAttribute("data-slot") === "drawer-overlay")) ||
+            target.hasAttribute("data-vaul-drawer-wrapper") ||
+            target.hasAttribute("data-vaul-overlay") ||
+            target.closest("[data-vaul-drawer-wrapper]");
+
+          if (isOverlay) {
+            // 이벤트를 완전히 차단하여 Dialog가 닫히지 않도록 함
+            e.preventDefault();
+            e.stopPropagation();
+            setOpen(false);
+            return;
+          }
+        }}
       >
         <div className="flex items-center justify-between border-b border-gray-200 px-3 py-2">
           <Button

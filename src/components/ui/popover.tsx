@@ -30,9 +30,25 @@ function PopoverContent({
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-[70] w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-[1000] w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
           className,
         )}
+        onOpenAutoFocus={(e) => {
+          // Popover가 열릴 때 자동 포커스를 방지
+          e.preventDefault();
+          // 트리거 버튼의 포커스도 제거하여 aria-hidden 경고 방지
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+          }
+        }}
+        onCloseAutoFocus={(e) => {
+          // 닫힐 때 포커스 반환을 막아 모달/페이지에서 포커스 루프 문제 방지
+          e.preventDefault();
+        }}
+        onEscapeKeyDown={(e) => {
+          // ESC 키가 부모 Dialog/Drawer로 전파되지 않도록 방지
+          e.stopPropagation();
+        }}
         {...props}
       />
     </PopoverPrimitive.Portal>

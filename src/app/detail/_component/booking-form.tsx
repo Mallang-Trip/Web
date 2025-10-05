@@ -307,7 +307,7 @@ export default function BookingForm({
     if (!formData.peopleCount) errors.push("참여 인원을 선택해주세요.");
     if (!formData.meetDate) errors.push("미팅 날짜를 선택해주세요.");
     if (!formData.meetTime) errors.push("픽업 시간을 선택해주세요.");
-    if (!formData.meetAddress.trim()) errors.push("미팅 주소를 입력해주세요.");
+    if (!formData.meetAddress.trim()) errors.push("픽업 주소를 입력해주세요.");
     if (!formData.returnAddress.trim())
       errors.push("복귀 주소를 입력해주세요.");
     // 코스 입력 섹션은 사용하지 않음
@@ -622,7 +622,7 @@ export default function BookingForm({
               ]}
               widthClassName="w-28"
               buttonClassName="h-9 text-sm"
-              modal
+              modal={true}
             />
             {isCustomPhonePrefix && (
               <Input
@@ -687,7 +687,7 @@ export default function BookingForm({
             ]}
             widthClassName="w-full"
             buttonClassName="h-9 text-sm justify-between"
-            modal
+            modal={true}
           />
 
           {/* 총 결제 금액 표시 */}
@@ -717,6 +717,7 @@ export default function BookingForm({
                 setFormData((prev) => ({ ...prev, meetDate: v }))
               }
               minDate={new Date()}
+              modal={true}
             />
           </div>
         </div>
@@ -731,13 +732,14 @@ export default function BookingForm({
               onChange={(v) =>
                 setFormData((prev) => ({ ...prev, meetTime: v }))
               }
+              modal={true}
             />
           </div>
         </div>
 
         <div>
           <Label htmlFor="meetAddress">
-            미팅 주소 (Pickup Address) <span className="text-red-500">*</span>
+            픽업 주소 (Pickup Address) <span className="text-red-500">*</span>
           </Label>
           <Textarea
             id="meetAddress"

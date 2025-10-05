@@ -6,6 +6,20 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { Check, X } from "lucide-react";
+
+const includedItems = [
+  "호텔/자택 등에서 양조장까지 왕복 이동 서비스",
+  "[체험] 양조장 두 곳 계절 별 맞춤 체험 클래스",
+  "[시음] 양조장 두 곳 테이스팅",
+  "점심 식사를 위한 식당까지의 이동",
+];
+
+const excludedItems = [
+  "점심 식사(식사 메뉴를 직접 선택)",
+  "여행자 보험",
+  "안내된 픽업/드랍 권역 외 추가 이동 비용",
+];
 
 export default function PickupDropoffAreasSection() {
   return (
@@ -131,6 +145,40 @@ export default function PickupDropoffAreasSection() {
                   저희가 별도 연락을 드려 사전 안내드리며, 이에 따라 추가 결제를
                   부탁드립니다.
                 </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {/* Included */}
+            <div className="rounded-xl bg-emerald-50 p-6">
+              <h3 className="mb-6 flex items-center text-xl font-semibold text-emerald-800">
+                <Check className="mr-2 h-6 w-6" />
+                포함 내역
+              </h3>
+              <ul className="space-y-3">
+                {includedItems.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <Check className="mt-0.5 mr-3 h-5 w-5 flex-shrink-0 text-emerald-600" />
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Excluded */}
+            <div className="rounded-xl bg-red-50 p-6">
+              <h3 className="mb-6 flex items-center text-xl font-semibold text-red-800">
+                <X className="mr-2 h-6 w-6" />
+                불포함 내역
+              </h3>
+              <ul className="space-y-3">
+                {excludedItems.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <X className="mt-0.5 mr-3 h-5 w-5 flex-shrink-0 text-red-600" />
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

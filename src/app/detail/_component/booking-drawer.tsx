@@ -49,11 +49,41 @@ export default function BookingDrawer({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
+  const handleOpenChange = (open: boolean) => {
+    // Dialog/Drawer가 열리거나 닫힐 때 포커스를 정리
+    const activeElement = document.activeElement as HTMLElement;
+    if (activeElement && activeElement !== document.body) {
+      activeElement.blur();
+    }
+    setIsModalOpen(open);
+  };
+
   if (isDesktop)
     return (
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isModalOpen} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto border-none bg-white px-6 pt-6 pb-0">
+        <DialogContent
+          className="max-h-[90vh] max-w-md overflow-y-auto border-none bg-white px-6 pt-6 pb-0"
+          aria-describedby={undefined}
+          onOpenAutoFocus={(e) => {
+            // Dialog가 열릴 때 자동 포커스를 방지하여 aria-hidden 경고 해결
+            e.preventDefault();
+          }}
+          onInteractOutside={(e) => {
+            // Popover가 열려있는지 확인
+            const hasOpenPopover = document.querySelector(
+              "[data-radix-popper-content-wrapper]",
+            );
+            if (hasOpenPopover) {
+              // Popover가 열려있으면 Dialog는 닫히지 않도록 막음
+              e.preventDefault();
+            }
+          }}
+          onCloseAutoFocus={(e) => {
+            // Dialog가 닫힐 때 포커스를 트리거로 돌리지 않고 방지
+            e.preventDefault();
+          }}
+        >
           <DialogHeader>
             <DialogTitle>예약하기</DialogTitle>
           </DialogHeader>
@@ -72,9 +102,22 @@ export default function BookingDrawer({
     );
 
   return (
-    <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
+    <Drawer open={isModalOpen} onOpenChange={handleOpenChange}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="flex max-h-[90vh] flex-col border-none bg-white">
+      <DrawerContent
+        className="flex h-[100dvh] max-h-[100dvh] flex-col border-none bg-white data-[vaul-drawer-direction=bottom]:mt-0 data-[vaul-drawer-direction=bottom]:max-h-[100dvh]"
+        aria-describedby={undefined}
+        onInteractOutside={(e) => {
+          // Popover가 열려있는지 확인
+          const hasOpenPopover = document.querySelector(
+            "[data-radix-popper-content-wrapper]",
+          );
+          if (hasOpenPopover) {
+            // Popover가 열려있으면 Drawer는 닫히지 않도록 막음
+            e.preventDefault();
+          }
+        }}
+      >
         <DrawerHeader className="flex-shrink-0 text-left">
           <DrawerTitle>예약하기</DrawerTitle>
         </DrawerHeader>

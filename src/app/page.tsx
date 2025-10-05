@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 const tours = [
   {
     id: "vip",
-    name: "프라이빗 도어투도어 양조장 투어",
+    name: "도어투도어 전통주 투어",
     description:
       "한국 전통주 & 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
     image: "/tour-images/vip/Yesan/01.jpg",
@@ -19,16 +19,17 @@ const tours = [
     featured: true,
   },
   {
-    id: "jookhwa",
-    name: "조옥화 안동소주 프라이빗 투어",
+    id: "yeongdong",
+    name: "도어투도어 영동 와이너리 투어",
     description:
-      "3대째 전승하는 전통 양조법과 맞춤형 칵테일 체험, 우리 그룹만을 위한 가장 프라이빗한 안동소주 체험을 만나보세요.",
-    image: "/tour-images/jookhwa/00.jpg",
-    duration: "2시간",
-    price: "140,000원",
+      "오직 우리만을 위한 하루, 소중한 사람들과 단독으로 즐기는 프라이빗 와인 여정",
+    image:
+      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1440",
+    duration: "8시간",
+    price: "가격 문의",
     rating: 4.8,
     reviewCount: 127,
-    tags: ["조옥화", "안동소주", "프라이빗"],
+    tags: ["영동", "와이너리", "프라이빗"],
     featured: true,
   },
   {
@@ -58,17 +59,16 @@ const tours = [
     featured: true,
   },
   {
-    id: "yeongdong",
-    name: "영동 와이너리 투어",
+    id: "jookhwa",
+    name: "조옥화 안동소주 프라이빗 투어",
     description:
-      "오직 우리만을 위한 하루, 소중한 사람들과 단독으로 즐기는 프라이빗 와인 여정",
-    image:
-      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1440",
-    duration: "8시간",
-    price: "가격 문의",
+      "3대째 전승하는 전통 양조법과 맞춤형 칵테일 체험, 우리 그룹만을 위한 가장 프라이빗한 안동소주 체험을 만나보세요.",
+    image: "/tour-images/jookhwa/00.jpg",
+    duration: "2시간",
+    price: "140,000원",
     rating: 4.8,
     reviewCount: 127,
-    tags: ["영동", "와이너리", "프라이빗"],
+    tags: ["조옥화", "안동소주", "프라이빗"],
     featured: true,
   },
   // {

@@ -1,7 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,36 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState, useRef, useEffect } from "react";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
+import { useState } from "react";
 import { toast } from "sonner";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSendLoginSms, useVerifyLoginSms } from "@/hooks/use-auth-api";
 import { getFirstEntryTarget } from "@/utils";
-import { Combobox } from "@/components/ui/combobox";
-import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useAuthStore } from "@/stores/auth-store";
+import PhoneNumber from "./phone-number";
+import Otp from "./otp";
+import NewAgreeDialog from "./new-agree-dialog";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm() {
   const [formData, setFormData] = useState({
     phonePrefix: "+82",
     phoneNumber: "",
@@ -66,7 +46,6 @@ export function LoginForm({
     null,
   );
 
-  const otpInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnUrl =
@@ -74,15 +53,6 @@ export function LoginForm({
     (typeof window !== "undefined" ? localStorage.getItem("returnUrl") : null);
   const firstEntryTarget =
     typeof window !== "undefined" ? getFirstEntryTarget() : "/";
-
-  // OTP 입력란이 보일 때 자동 포커스
-  useEffect(() => {
-    if (isOtpVisible && otpInputRef.current) {
-      setTimeout(() => {
-        otpInputRef.current?.focus();
-      }, 100); // 약간의 지연을 주어 렌더링 완료 후 포커스
-    }
-  }, [isOtpVisible]);
 
   const sendLoginSms = useSendLoginSms();
   const verifyLoginSms = useVerifyLoginSms();
@@ -213,7 +183,7 @@ export function LoginForm({
     }
   };
 
-  // 약관 동의 핸들러들 (예약 폼과 동일한 동작)
+  // 약관 동의 핸들러들
   const handleAgreeAllChange = (checked: boolean) => {
     setAgreeAll(checked);
     setAgreeService(checked);
@@ -221,6 +191,7 @@ export function LoginForm({
     setAgreePrivacy(checked);
     setAgreeThirdparty(checked);
   };
+
   const handleIndividualAgreeChange = (field: string, checked: boolean) => {
     const next = {
       service: field === "agreeService" ? checked : agreeService,
@@ -273,11 +244,8 @@ export function LoginForm({
     }, 800);
   };
 
-  // 전화번호 입력 여부 확인
-  const isPhoneNumberValid = formData.phoneNumber.trim().length > 0;
-
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className="flex flex-col gap-6">
       <Card>
         <CardHeader>
           <CardTitle>로그인</CardTitle>
@@ -287,276 +255,46 @@ export function LoginForm({
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">
-            <form className="grid gap-3" onSubmit={handlePhoneSubmit}>
-              <Label htmlFor="phone">국제 전화번호 *</Label>
-              <div className="mt-1 flex gap-2">
-                <Combobox
-                  value={
-                    isCustomPhonePrefix ? "__custom__" : formData.phonePrefix
-                  }
-                  onChange={(v) => {
-                    const value = v || "+82";
-                    if (value === "__custom__") {
-                      setIsCustomPhonePrefix(true);
-                      setFormData((prev) => ({ ...prev, phonePrefix: "+" }));
-                    } else {
-                      setIsCustomPhonePrefix(false);
-                      setFormData((prev) => ({ ...prev, phonePrefix: value }));
-                    }
-                  }}
-                  options={[
-                    { value: "+82", label: "🇰🇷 +82" },
-                    { value: "+86", label: "🇨🇳 +86" },
-                    { value: "+1", label: "🇺🇸 +1" },
-                    { value: "+81", label: "🇯🇵 +81" },
-                    { value: "+886", label: "🇹🇼 +886" },
-                    { value: "__custom__", label: "직접 입력" },
-                  ]}
-                  widthClassName="w-28"
-                  buttonClassName="h-9 text-sm"
-                  disabled={isLoading}
-                  modal
-                />
-                {isCustomPhonePrefix && (
-                  <Input
-                    type="text"
-                    value={formData.phonePrefix}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        phonePrefix: e.target.value.replace(/\s/g, ""),
-                      }))
-                    }
-                    placeholder="+82"
-                    className="h-9 w-20"
-                    aria-label="국가 번호 직접 입력"
-                  />
-                )}
-                <Input
-                  type="tel"
-                  value={formData.phoneNumber}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      phoneNumber: e.target.value,
-                    }))
-                  }
-                  placeholder="'-' 제외 숫자만 입력"
-                  required
-                  className="flex-1"
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={!isPhoneNumberValid || isLoading}
-                >
-                  {isLoading ? "전송 중..." : "인증번호 전송"}
-                </Button>
-              </div>
-            </form>
+            <PhoneNumber
+              phonePrefix={formData.phonePrefix}
+              phoneNumber={formData.phoneNumber}
+              isCustomPhonePrefix={isCustomPhonePrefix}
+              isLoading={isLoading}
+              onPhonePrefixChange={(value) =>
+                setFormData((prev) => ({ ...prev, phonePrefix: value }))
+              }
+              onPhoneNumberChange={(value) =>
+                setFormData((prev) => ({ ...prev, phoneNumber: value }))
+              }
+              onCustomPhonePrefixToggle={setIsCustomPhonePrefix}
+              onSubmit={handlePhoneSubmit}
+            />
 
             {isOtpVisible && (
-              <form className="grid gap-3" onSubmit={handleOtpSubmit}>
-                <Label htmlFor="otp">인증번호</Label>
-                <div className="mt-1 flex gap-2">
-                  <InputOTP
-                    ref={otpInputRef}
-                    id="otp"
-                    maxLength={6}
-                    pattern={REGEXP_ONLY_DIGITS}
-                    value={otpValue}
-                    onChange={(value) => setOtpValue(value)}
-                    disabled={isLoading}
-                  >
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                      <InputOTPSlot index={3} />
-                      <InputOTPSlot index={4} />
-                      <InputOTPSlot index={5} />
-                    </InputOTPGroup>
-                  </InputOTP>
-                  <div className="flex-1">
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={otpValue.length !== 6 || isLoading}
-                    >
-                      {isLoading ? "인증 중..." : "인증하기"}
-                    </Button>
-                  </div>
-                </div>
-              </form>
+              <Otp
+                otpValue={otpValue}
+                isLoading={isLoading}
+                onOtpChange={setOtpValue}
+                onSubmit={handleOtpSubmit}
+              />
             )}
           </div>
         </CardContent>
       </Card>
 
       {/* 신규 사용자 최초 로그인: 약관 동의 다이얼로그 */}
-      <Dialog open={isTermsOpen} onOpenChange={setIsTermsOpen}>
-        <DialogContent className="border-none bg-white">
-          <DialogHeader>
-            <DialogTitle>약관 동의</DialogTitle>
-            <DialogDescription>
-              서비스 이용을 위해 아래 필수 약관에 동의해 주세요.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-2 space-y-3">
-            <div className="mb-3 flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="loginAgreeAll"
-                checked={agreeAll}
-                onChange={(e) => handleAgreeAllChange(e.target.checked)}
-                className="h-5 w-5 accent-blue-600"
-              />
-              <label
-                htmlFor="loginAgreeAll"
-                className="cursor-pointer text-base font-semibold"
-              >
-                아래 약관에 모두 동의합니다.
-              </label>
-            </div>
-
-            <hr className="my-2 border-t border-gray-200" />
-
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="loginAgreeService"
-                  checked={agreeService}
-                  onChange={(e) =>
-                    handleIndividualAgreeChange(
-                      "agreeService",
-                      e.target.checked,
-                    )
-                  }
-                  className="h-4 w-4 accent-blue-600"
-                  required
-                />
-                <label
-                  htmlFor="loginAgreeService"
-                  className="flex cursor-pointer items-center gap-1 text-sm"
-                >
-                  <span className="text-red-500">[필수]</span>
-                  <Link
-                    href="/policy/service"
-                    target="_blank"
-                    className="text-blue-600 underline hover:text-blue-800"
-                  >
-                    말랑트립 투어 서비스 이용약관
-                  </Link>
-                </label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="loginAgreeTravel"
-                  checked={agreeTravel}
-                  onChange={(e) =>
-                    handleIndividualAgreeChange("agreeTravel", e.target.checked)
-                  }
-                  className="h-4 w-4 accent-blue-600"
-                  required
-                />
-                <label
-                  htmlFor="loginAgreeTravel"
-                  className="flex cursor-pointer items-center gap-1 text-sm"
-                >
-                  <span className="text-red-500">[필수]</span>
-                  <Link
-                    href="/policy/travel"
-                    target="_blank"
-                    className="text-blue-600 underline hover:text-blue-800"
-                  >
-                    말랑트립 투어 국내여행 표준약관
-                  </Link>
-                </label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="loginAgreePrivacy"
-                  checked={agreePrivacy}
-                  onChange={(e) =>
-                    handleIndividualAgreeChange(
-                      "agreePrivacy",
-                      e.target.checked,
-                    )
-                  }
-                  className="h-4 w-4 accent-blue-600"
-                  required
-                />
-                <label
-                  htmlFor="loginAgreePrivacy"
-                  className="flex cursor-pointer items-center gap-1 text-sm"
-                >
-                  <span className="text-red-500">[필수]</span>
-                  <Link
-                    href="/policy/privacy"
-                    target="_blank"
-                    className="text-blue-600 underline hover:text-blue-800"
-                  >
-                    개인정보 수집·이용 동의
-                  </Link>
-                </label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="loginAgreeThirdparty"
-                  checked={agreeThirdparty}
-                  onChange={(e) =>
-                    handleIndividualAgreeChange(
-                      "agreeThirdparty",
-                      e.target.checked,
-                    )
-                  }
-                  className="h-4 w-4 accent-blue-600"
-                  required
-                />
-                <label
-                  htmlFor="loginAgreeThirdparty"
-                  className="flex cursor-pointer items-center gap-1 text-sm"
-                >
-                  <span className="text-red-500">[필수]</span>
-                  <Link
-                    href="/policy/thirdparty"
-                    target="_blank"
-                    className="text-blue-600 underline hover:text-blue-800"
-                  >
-                    개인정보 제3자 제공 동의
-                  </Link>
-                </label>
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              className="w-full"
-              onClick={handleConfirmTerms}
-              disabled={
-                !(
-                  agreeService &&
-                  agreeTravel &&
-                  agreePrivacy &&
-                  agreeThirdparty
-                )
-              }
-            >
-              동의하고 계속하기
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <NewAgreeDialog
+        isOpen={isTermsOpen}
+        onOpenChange={setIsTermsOpen}
+        agreeAll={agreeAll}
+        agreeService={agreeService}
+        agreeTravel={agreeTravel}
+        agreePrivacy={agreePrivacy}
+        agreeThirdparty={agreeThirdparty}
+        onAgreeAllChange={handleAgreeAllChange}
+        onIndividualAgreeChange={handleIndividualAgreeChange}
+        onConfirm={handleConfirmTerms}
+      />
     </div>
   );
 }

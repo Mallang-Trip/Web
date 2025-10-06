@@ -1,6 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -10,15 +9,16 @@ import {
 } from "@/hooks/use-reservations";
 import type { MyReservationsData } from "@/hooks/use-reservations";
 import { toast } from "sonner";
+import { formatDate, formatTime } from "@/utils/date";
 import ReservationHero from "./_component/reservation-hero";
 import ReservationInfoCard from "./_component/reservation-info-card";
 import DriverInfoCard from "./_component/driver-info-card";
 import PaymentInfoCard from "./_component/payment-info-card";
 import ReservationActions from "./_component/reservation-actions";
-import { Button } from "@/components/ui/button";
-import ReservationListDrawer from "@/app/result/_component/reservation-list-drawer";
-import ReservationEditDialog from "@/app/result/_component/reservation-edit-dialog";
+import ReservationEditDialog from "./_component/reservation-edit-dialog";
+import NotFound from "./_component/not-found";
 import { useAuth } from "@/hooks/use-auth";
+import Loading from "@/components/loading";
 
 interface ReservationPaymentInfo {
   paymentNumber: string;
@@ -108,7 +108,7 @@ type ApiReservation = {
   attributes?: ReservationAttributes | null;
 };
 
-function ResultPageContent() {
+export default function ResultPage() {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [currentReservation, setCurrentReservation] =
     useState<Reservation | null>(null);
@@ -229,24 +229,6 @@ function ResultPageContent() {
     router,
   ]);
 
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      weekday: "short",
-    });
-  };
-
-  const formatTime = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleTimeString("ko-KR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   const handleCancelConfirm = async () => {
     try {
       setIsLoading(true);
@@ -350,13 +332,8 @@ function ResultPageContent() {
   // 초기 로딩 또는 리디렉션 대기
   if (!hasHydrated || (!isAuthenticated && !guestEnabled)) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
-            <p className="text-gray-600">예약 정보를 준비하는 중...</p>
-          </div>
-        </div>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <Loading text="예약 정보를 준비하는 중..." />
       </div>
     );
   }
@@ -364,13 +341,8 @@ function ResultPageContent() {
   // 예약 정보 로딩 중
   if (isLoading || searchQuery.isLoading || myQuery.isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
-            <p className="text-gray-600">예약 정보를 불러오는 중...</p>
-          </div>
-        </div>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <Loading text="예약 정보를 불러오는 중..." />
       </div>
     );
   }
@@ -378,50 +350,18 @@ function ResultPageContent() {
   // 404 상태 - 예약 정보가 없거나 잘못된 접근
   if (notFound || !currentReservation) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="mx-auto max-w-md px-6 text-center">
-            <div className="mb-8">
-              <svg
-                className="mx-auto h-24 w-24 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </div>
-            <h1 className="mb-4 text-2xl font-bold text-gray-900">
-              예약 정보를 찾을 수 없습니다
-            </h1>
-            <p className="mb-8 text-gray-600">
-              {reservations.length === 0
-                ? "아직 예약 내역이 없습니다. 새로운 여행을 예약해보세요!"
-                : "잘못된 예약 번호이거나 접근 권한이 없습니다."}
-            </p>
-            <div className="space-y-3">
-              {reservations.length > 0 && (
-                <ReservationListDrawer reservations={reservations}>
-                  <Button variant="outline" className="w-full">
-                    나의 예약 내역 보기
-                  </Button>
-                </ReservationListDrawer>
-              )}
-              <Button
-                onClick={() => (window.location.href = "/")}
-                className="w-full"
-              >
-                홈으로 돌아가기
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NotFound
+        reservations={reservations.map((r) => ({
+          reservationId: r.reservationId,
+          reservationName: r.reservationName,
+          meetingDate: r.meetingDate,
+          price: r.price,
+          status: r.status,
+          createdAt: r.createdAt,
+          pickupAddress: r.pickupAddress,
+          returnAddress: r.returnAddress,
+        }))}
+      />
     );
   }
 
@@ -433,14 +373,12 @@ function ResultPageContent() {
         formatTime={formatTime}
       />
 
-      {/* Main Content */}
       <div className="mx-auto max-w-6xl px-6 py-8">
         <div className="grid gap-6 md:grid-cols-2">
           <ReservationInfoCard currentReservation={currentReservation} />
           <DriverInfoCard
             attributes={currentReservation.attributes || null}
             status={currentReservation.status}
-            handleCopyPhone={() => {}}
           />
         </div>
 
@@ -471,7 +409,6 @@ function ResultPageContent() {
           isLoading={isLoading}
           showCancelDialog={showCancelDialog}
           setShowCancelDialog={setShowCancelDialog}
-          handleCancelClick={() => {}}
           handleCancelConfirm={handleCancelConfirm}
           canEdit={!!canEdit}
           onEditClick={() => setShowEditDialog(true)}
@@ -479,27 +416,26 @@ function ResultPageContent() {
         <ReservationEditDialog
           open={showEditDialog}
           onOpenChange={setShowEditDialog}
-          reservation={currentReservation as any}
-          onSaved={(updated: any) => handleSaved(updated as Reservation)}
+          reservation={{
+            ...currentReservation,
+            email: currentReservation.email,
+            name: currentReservation.name,
+            phoneNumber: currentReservation.phoneNumber,
+            userCount: currentReservation.userCount,
+          }}
+          onSaved={(updated) =>
+            handleSaved({
+              ...currentReservation,
+              ...updated,
+              email: updated.email || currentReservation.email,
+              name: updated.name || currentReservation.name,
+              phoneNumber:
+                updated.phoneNumber || currentReservation.phoneNumber,
+              userCount: updated.userCount || currentReservation.userCount,
+            })
+          }
         />
       </div>
     </main>
-  );
-}
-
-export default function ResultPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-gray-50">
-          <div className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
-            <p className="text-gray-600">페이지 로딩 중...</p>
-          </div>
-        </div>
-      }
-    >
-      <ResultPageContent />
-    </Suspense>
   );
 }

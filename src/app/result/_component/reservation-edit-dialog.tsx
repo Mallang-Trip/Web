@@ -26,10 +26,9 @@ import { TimePicker } from "@/components/ui/time-picker";
 
 interface Reservation {
   reservationId: string | number;
-  // 새 스키마 필드
   reservationName: string;
-  meetingDate: string; // ISO 8601
-  pickupTime: string; // HH:mm
+  meetingDate: string;
+  pickupTime: string;
   pickupAddress: string;
   returnAddress: string;
   requests: string | null;
@@ -46,7 +45,6 @@ interface Reservation {
   name?: string;
   phoneNumber?: string;
   userCount?: number;
-  // 구 스키마 호환 필드 (폴백용)
   tripName?: string;
   startTime?: string;
   endTime?: string;
@@ -64,6 +62,17 @@ type Props = {
   onSaved: (updated: Reservation) => void;
 };
 
+// VIP 가격표
+const VIP_PRICES: Record<string, number> = {
+  "2": 1160000,
+  "3": 1185000,
+  "4": 1260000,
+  "5": 1335000,
+  "6": 1520000,
+  "7": 1610000,
+  "8": 1700000,
+};
+
 export default function ReservationEditDialog({
   open,
   onOpenChange,
@@ -75,27 +84,12 @@ export default function ReservationEditDialog({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const handleOpenChange = (newOpen: boolean) => {
-    // Dialog/Drawer가 열리거나 닫힐 때 포커스를 정리
     const activeElement = document.activeElement as HTMLElement;
     if (activeElement && activeElement !== document.body) {
       activeElement.blur();
     }
     onOpenChange(newOpen);
   };
-
-  // VIP 가격표 (booking-form과 동일)
-  const vipPrices = useMemo(
-    () => ({
-      "2": 1160000,
-      "3": 1185000,
-      "4": 1260000,
-      "5": 1335000,
-      "6": 1520000,
-      "7": 1610000,
-      "8": 1700000,
-    }),
-    [],
-  );
 
   const [form, setForm] = useState({
     reservationName: reservation.reservationName || reservation.tripName || "",
@@ -111,52 +105,40 @@ export default function ReservationEditDialog({
 
   // 초기 값 세팅
   useEffect(() => {
-    // meetingDate / pickupTime 우선, 없으면 startTime 파싱
-    let isoDate = form.meetingDate;
-    let hhmm = form.pickupTime;
-    if (!isoDate) {
-      if (reservation.meetingDate) {
-        const raw = reservation.meetingDate;
-        isoDate = raw.includes("T") ? raw.split("T")[0] : raw;
-        if (!hhmm) {
-          const t =
-            reservation.pickupTime ||
-            (raw.includes("T") ? raw.split("T")[1].slice(0, 5) : "");
-          hhmm = t || "09:00";
-        }
-      } else if (reservation.startTime) {
-        const d = new Date(reservation.startTime);
-        if (!Number.isNaN(d.getTime())) {
-          isoDate = d.toISOString().split("T")[0];
-          const hh = String(d.getHours()).padStart(2, "0");
-          const mm = String(d.getMinutes()).padStart(2, "0");
-          hhmm = `${hh}:${mm}`;
-        }
+    let isoDate = "";
+    let hhmm = "";
+    if (reservation.meetingDate) {
+      const raw = reservation.meetingDate;
+      isoDate = raw.includes("T") ? raw.split("T")[0] : raw;
+      const t =
+        reservation.pickupTime ||
+        (raw.includes("T") ? raw.split("T")[1].slice(0, 5) : "");
+      hhmm = t || "09:00";
+    } else if (reservation.startTime) {
+      const d = new Date(reservation.startTime);
+      if (!Number.isNaN(d.getTime())) {
+        isoDate = d.toISOString().split("T")[0];
+        const hh = String(d.getHours()).padStart(2, "0");
+        const mm = String(d.getMinutes()).padStart(2, "0");
+        hhmm = `${hh}:${mm}`;
       }
     }
-    setForm((prev) => ({
-      ...prev,
+    setForm({
       reservationName:
-        reservation.reservationName ||
-        reservation.tripName ||
-        prev.reservationName,
-      meetingDate: isoDate || prev.meetingDate,
-      pickupTime: hhmm || prev.pickupTime || "09:00",
-      price: reservation.price ?? prev.price,
+        reservation.reservationName || reservation.tripName || "",
+      userCount: String(reservation.userCount ?? 2),
+      meetingDate: isoDate || "",
+      pickupTime: hhmm || "09:00",
+      price: reservation.price ?? 0,
       pickupAddress:
-        reservation.pickupAddress ||
-        reservation.pickupLocation ||
-        prev.pickupAddress,
+        reservation.pickupAddress || reservation.pickupLocation || "",
       returnAddress:
-        reservation.returnAddress ||
-        reservation.dropLocation ||
-        prev.returnAddress,
-      requests:
-        reservation.requests || reservation.courseDetail || prev.requests,
-    }));
+        reservation.returnAddress || reservation.dropLocation || "",
+      requests: reservation.requests || reservation.courseDetail || "",
+    });
   }, [reservation]);
 
-  // 인원 변경 시 가격 자동 반영 (9+는 안내 후 고정)
+  // 인원 변경 시 가격 자동 반영
   useEffect(() => {
     const raw = form.userCount;
     if (!raw) return;
@@ -164,11 +146,11 @@ export default function ReservationEditDialog({
       toast.error("9인 이상 단체는 고객센터로 문의해주세요.");
       return;
     }
-    const count = raw as keyof typeof vipPrices;
-    if (vipPrices[count] !== undefined) {
-      setForm((p) => ({ ...p, price: vipPrices[count] }));
+    const count = raw as keyof typeof VIP_PRICES;
+    if (VIP_PRICES[count] !== undefined) {
+      setForm((p) => ({ ...p, price: VIP_PRICES[count] }));
     }
-  }, [form.userCount, vipPrices]);
+  }, [form.userCount]);
 
   const isValid = useMemo(() => {
     const validCount = form.userCount !== "9+" && Number(form.userCount) > 0;
@@ -190,14 +172,12 @@ export default function ReservationEditDialog({
       const body = {
         reservationName: form.reservationName.trim(),
         userCount: form.userCount === "9+" ? undefined : Number(form.userCount),
-        // 서버 예시와 동일한 로컬 ISO 형식(타임존 미포함)
         meetingDate: `${form.meetingDate}T${form.pickupTime}:00`,
         pickupTime: form.pickupTime,
         pickupAddress: form.pickupAddress.trim(),
         returnAddress: form.returnAddress.trim(),
         requests: form.requests?.trim() || undefined,
         price: Number(form.price),
-        // 본인 확인 및 필드 충족: 조회된 예약의 이메일/이름/전화번호를 기본 포함
         email: reservation.email || undefined,
         name: reservation.name || undefined,
         phoneNumber: reservation.phoneNumber || undefined,
@@ -208,7 +188,6 @@ export default function ReservationEditDialog({
         body,
       });
 
-      // API 응답을 새 스키마로 매핑
       const u = updated as unknown as {
         reservationId?: number;
         id?: number;
@@ -253,7 +232,7 @@ export default function ReservationEditDialog({
         userCount: reservation.userCount,
       } as Reservation;
 
-      onSaved(next as any);
+      onSaved(next as Reservation);
       toast.success("예약이 수정되었습니다.");
       onOpenChange(false);
     } catch (error: unknown) {
@@ -268,7 +247,108 @@ export default function ReservationEditDialog({
     }
   };
 
-  const FormBody = (
+  if (isDesktop) {
+    return (
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent
+          className="max-h-[80vh] max-w-lg overflow-y-auto border-none bg-white"
+          aria-describedby={undefined}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          onInteractOutside={(e) => {
+            const hasOpenPopover = document.querySelector(
+              "[data-radix-popper-content-wrapper]",
+            );
+            if (hasOpenPopover) {
+              e.preventDefault();
+            }
+          }}
+          onCloseAutoFocus={(e) => e.preventDefault()}
+        >
+          <DialogHeader>
+            <DialogTitle>예약 정보 수정</DialogTitle>
+          </DialogHeader>
+          <div className="px-1 pb-4">
+            <p className="mb-3 text-sm text-gray-500">
+              승인 대기 상태에서만 수정할 수 있습니다.
+            </p>
+            <FormBody form={form} setForm={setForm} />
+          </div>
+          <FormActions
+            onCancel={() => onOpenChange(false)}
+            onSave={handleSave}
+            isValid={isValid}
+            isSaving={isSaving}
+          />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer open={open} onOpenChange={handleOpenChange}>
+      <DrawerContent
+        className="flex h-[100dvh] max-h-[100dvh] flex-col border-none bg-white data-[vaul-drawer-direction=bottom]:mt-0 data-[vaul-drawer-direction=bottom]:max-h-[100dvh]"
+        aria-describedby={undefined}
+        onInteractOutside={(e) => {
+          const hasOpenPopover = document.querySelector(
+            "[data-radix-popper-content-wrapper]",
+          );
+          if (hasOpenPopover) {
+            e.preventDefault();
+          }
+        }}
+      >
+        <DrawerHeader className="flex-shrink-0 text-left">
+          <DrawerTitle>예약 정보 수정</DrawerTitle>
+        </DrawerHeader>
+
+        <div className="flex-1 overflow-auto px-4 pb-4">
+          <p className="mb-3 text-sm text-gray-500">
+            승인 대기(PENDING) 상태에서만 수정할 수 있습니다.
+          </p>
+          <FormBody form={form} setForm={setForm} />
+        </div>
+
+        <FormActions
+          onCancel={() => onOpenChange(false)}
+          onSave={handleSave}
+          isValid={isValid}
+          isSaving={isSaving}
+        />
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+// 폼 본문 컴포넌트
+function FormBody({
+  form,
+  setForm,
+}: {
+  form: {
+    reservationName: string;
+    userCount: string;
+    meetingDate: string;
+    pickupTime: string;
+    pickupAddress: string;
+    returnAddress: string;
+    requests: string;
+    price: number;
+  };
+  setForm: React.Dispatch<
+    React.SetStateAction<{
+      reservationName: string;
+      userCount: string;
+      meetingDate: string;
+      pickupTime: string;
+      pickupAddress: string;
+      returnAddress: string;
+      requests: string;
+      price: number;
+    }>
+  >;
+}) {
+  return (
     <div className="space-y-4">
       <div>
         <Label className="mb-1 block">예약명</Label>
@@ -355,98 +435,28 @@ export default function ReservationEditDialog({
       </div>
     </div>
   );
+}
 
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent
-          className="max-h-[80vh] max-w-lg overflow-y-auto border-none bg-white"
-          aria-describedby={undefined}
-          onOpenAutoFocus={(e) => {
-            // Dialog가 열릴 때 자동 포커스를 방지하여 aria-hidden 경고 해결
-            e.preventDefault();
-          }}
-          onInteractOutside={(e) => {
-            // Popover가 열려있는지 확인
-            const hasOpenPopover = document.querySelector(
-              "[data-radix-popper-content-wrapper]",
-            );
-            if (hasOpenPopover) {
-              // Popover가 열려있으면 Dialog는 닫히지 않도록 막음
-              e.preventDefault();
-            }
-          }}
-          onCloseAutoFocus={(e) => {
-            // Dialog가 닫힐 때 포커스를 트리거로 돌리지 않고 방지
-            e.preventDefault();
-          }}
-        >
-          <DialogHeader>
-            <DialogTitle>예약 정보 수정</DialogTitle>
-          </DialogHeader>
-          <div className="px-1 pb-4">
-            <p className="mb-3 text-sm text-gray-500">
-              승인 대기 상태에서만 수정할 수 있습니다.
-            </p>
-            {FormBody}
-          </div>
-          <div className="flex justify-end gap-2 px-1 py-3">
-            <Button
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={isSaving}
-            >
-              취소
-            </Button>
-            <Button onClick={handleSave} disabled={!isValid || isSaving}>
-              {isSaving ? "저장 중..." : "저장"}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
+// 폼 액션 버튼
+function FormActions({
+  onCancel,
+  onSave,
+  isValid,
+  isSaving,
+}: {
+  onCancel: () => void;
+  onSave: () => void;
+  isValid: boolean;
+  isSaving: boolean;
+}) {
   return (
-    <Drawer open={open} onOpenChange={handleOpenChange}>
-      <DrawerContent
-        className="flex h-[100dvh] max-h-[100dvh] flex-col border-none bg-white data-[vaul-drawer-direction=bottom]:mt-0 data-[vaul-drawer-direction=bottom]:max-h-[100dvh]"
-        aria-describedby={undefined}
-        onInteractOutside={(e) => {
-          // Popover가 열려있는지 확인
-          const hasOpenPopover = document.querySelector(
-            "[data-radix-popper-content-wrapper]",
-          );
-          if (hasOpenPopover) {
-            // Popover가 열려있으면 Drawer는 닫히지 않도록 막음
-            e.preventDefault();
-          }
-        }}
-      >
-        <DrawerHeader className="flex-shrink-0 text-left">
-          <DrawerTitle>예약 정보 수정</DrawerTitle>
-        </DrawerHeader>
-
-        <div className="flex-1 overflow-auto px-4 pb-4">
-          <p className="mb-3 text-sm text-gray-500">
-            승인 대기(PENDING) 상태에서만 수정할 수 있습니다.
-          </p>
-          {FormBody}
-        </div>
-
-        <div className="flex flex-shrink-0 justify-end gap-2 px-4 py-3">
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={isSaving}
-          >
-            취소
-          </Button>
-          <Button onClick={handleSave} disabled={!isValid || isSaving}>
-            {isSaving ? "저장 중..." : "저장"}
-          </Button>
-        </div>
-      </DrawerContent>
-    </Drawer>
+    <div className="flex flex-shrink-0 justify-end gap-2 px-4 py-3">
+      <Button variant="outline" onClick={onCancel} disabled={isSaving}>
+        취소
+      </Button>
+      <Button onClick={onSave} disabled={!isValid || isSaving}>
+        {isSaving ? "저장 중..." : "저장"}
+      </Button>
+    </div>
   );
 }

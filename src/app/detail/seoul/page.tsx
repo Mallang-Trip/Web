@@ -1,7 +1,6 @@
 import HeroSection from "@/app/detail/_component/hero-section";
 import FeaturesSection from "@/app/detail/_component/features-section";
 import PricingSection from "@/app/detail/_component/pricing-section";
-// import ReviewsSection from "@/app/detail/_component/reviews-section";
 import BookingSidebar from "@/app/detail/_component/booking-sidebar";
 import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
 import PicturesSection from "@/app/detail/_component/pictures-section";
@@ -59,33 +58,6 @@ export default function SeoulDetailPage() {
     },
   ];
 
-  const reviews = [
-    {
-      image:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
-      rating: "★★★★★",
-      author: "🇨🇳 Wang* (28)",
-      comment:
-        "드라이버가 매우 친절하고 사진도 잘 찍어줬어요! 덕분에 편하게 여행했습니다.",
-    },
-    {
-      image:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
-      rating: "★★★★★",
-      author: "🇺🇸 Chris* (35)",
-      comment:
-        "Perfect way to see Jeju! The driver recommended a fantastic local black pork restaurant.",
-    },
-    {
-      image:
-        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/55e2af66-460e-4dd7-8c1f-97ce194b48fe%EC%96%91%ED%8F%89.jpg",
-      rating: "★★★★☆",
-      author: "🇨🇳 Li* (24)",
-      comment:
-        "코스 짜는게 어려웠는데 기사님이 추천해준 곳들이 다 좋았어요. 하지만 차가 조금 작았어요.",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50">
       <HeroSection
@@ -103,7 +75,6 @@ export default function SeoulDetailPage() {
               <FeaturesSection features={features} />
               <PicturesSection images={images} name="서울" />
               <PricingSection pricingItems={pricingItems} />
-              {/* <ReviewsSection reviews={reviews} /> */}
             </div>
           </div>
 

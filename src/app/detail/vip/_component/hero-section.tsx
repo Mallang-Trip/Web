@@ -1,16 +1,16 @@
-interface HeroProps {
+interface HeroSectionProps {
   titleLines: string[];
   subtitleLines: string[];
   backgroundImage?: string;
   videoSrc?: string;
 }
 
-export default function Hero({
+export default function HeroSection({
   titleLines,
   subtitleLines,
   backgroundImage,
   videoSrc,
-}: HeroProps) {
+}: HeroSectionProps) {
   return (
     <section className="relative flex min-h-screen items-center justify-center text-white">
       {videoSrc ? (

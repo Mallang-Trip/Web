@@ -6,17 +6,17 @@ export interface FeatureItem {
   description: string;
 }
 
-interface FeaturesProps {
+interface FeaturesSectionProps {
   heading: string;
   description: string;
   items: FeatureItem[];
 }
 
-export default function Features({
+export default function FeaturesSection({
   heading,
   description,
   items,
-}: FeaturesProps) {
+}: FeaturesSectionProps) {
   return (
     <section>
       <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -41,4 +41,3 @@ export default function Features({
     </section>
   );
 }
-

@@ -202,7 +202,6 @@ export default function BookingForm({
   // Payple 콜백(팝업/새탭) → postMessage 수신 후 결제 상태 확인 및 예약 생성
   useEffect(() => {
     if (typeof window === "undefined") return;
-    let cancelled = false;
     // SPA 콜백 함수 (페이플 SDK callbackFunction 경유)
     window.mallangTripPaymentCallback = async (
       params: Record<string, unknown>,
@@ -252,7 +251,9 @@ export default function BookingForm({
         if (!payNum) return;
 
         const checkOnce = async () => {
-          const statusResp = await PaymentsAPI.getPaypleByNumber<any>(payNum);
+          const statusResp = await PaymentsAPI.getPaypleByNumber<{
+            status?: string;
+          }>(payNum);
           return statusResp.data as { status?: string } | null;
         };
 
@@ -288,7 +289,6 @@ export default function BookingForm({
     window.addEventListener("message", onMessage);
     window.addEventListener("storage", onStorage);
     return () => {
-      cancelled = true;
       window.removeEventListener("message", onMessage);
       window.removeEventListener("storage", onStorage);
     };
@@ -497,11 +497,11 @@ export default function BookingForm({
         const dualScreenLeft =
           window.screenLeft !== undefined
             ? window.screenLeft
-            : (window as any).screenX || 0;
+            : (window as Window & { screenX?: number }).screenX || 0;
         const dualScreenTop =
           window.screenTop !== undefined
             ? window.screenTop
-            : (window as any).screenY || 0;
+            : (window as Window & { screenY?: number }).screenY || 0;
         const w = window.outerWidth || window.innerWidth || 1200;
         const h = window.outerHeight || window.innerHeight || 800;
         const left = Math.max(
@@ -545,7 +545,11 @@ export default function BookingForm({
         const second = preferDemo ? PROD : DEMO;
         const paramsForChild = { ...paypleParams } as Record<string, unknown>;
         // 함수는 JSON 직렬화되지 않으므로 제거 후 스크립트에서 재지정
-        delete (paramsForChild as any).callbackFunction;
+        delete (
+          paramsForChild as Record<string, unknown> & {
+            callbackFunction?: unknown;
+          }
+        ).callbackFunction;
         const html = `<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Payple</title></head><body><div style="font:14px/1.4 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:16px;">결제창을 여는 중입니다...</div><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><script>(function(){var cfg=${JSON.stringify(
           paramsForChild,
         )};cfg.callbackFunction=function(params){try{if(window.opener&&window.opener.mallangTripPaymentCallback){window.opener.mallangTripPaymentCallback(params);}}catch(e){}};function load(u,cb,err){var s=document.createElement('script');s.src=u;s.async=true;s.onload=cb;s.onerror=err;document.head.appendChild(s);}function start(){try{window.PaypleCpayAuthCheck?window.PaypleCpayAuthCheck(cfg):setTimeout(start,200);}catch(e){setTimeout(start,200);}}load('${first}',function(){start();},function(){load('${second}',function(){start();},function(){document.body.innerHTML='<div style="padding:16px;color:#d00;">결제 스크립트를 로드하지 못했습니다.</div>';});});})();</script></body></html>`;
@@ -917,10 +921,11 @@ export default function BookingForm({
             </div>
           </div>
         </div>
+        <div className="h-4 md:hidden"></div>
       </div>
 
       {/* 고정된 하단 버튼 */}
-      <div className="relative sticky bottom-0 left-0 mt-8 w-full bg-white">
+      <div className="sticky bottom-0 left-0 mt-0 w-full bg-white md:mt-8">
         {/* 상단 그라데이션 페이드 (위로 갈수록 투명) */}
         <div className="pointer-events-none absolute -top-8 right-0 left-0 h-8 bg-gradient-to-t from-white via-white/70 to-transparent" />
         <Button

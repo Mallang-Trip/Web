@@ -3,14 +3,14 @@
 import { useState } from "react";
 import BookingSidebar from "@/app/detail/_component/booking-sidebar";
 import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
-import Hero from "./_component/Hero";
-import Features from "./_component/Features";
-import BrewerySection from "./_component/BrewerySection";
-import Timeline from "./_component/Timeline";
-import PricingTable from "./_component/PricingTable";
-import FAQ from "./_component/FAQ";
+import HeroSection from "./_component/hero-section";
+import FeaturesSection from "./_component/features-section";
+import BrewerySection from "./_component/brewery-section";
+import Timeline from "./_component/time-line";
+import PricingTable from "./_component/pricing-table";
+import FAQSection from "./_component/faq-section";
 import Link from "next/link";
-import CTA from "./_component/CTA";
+import CTASection from "./_component/cta-section";
 import { Car, ShieldCheck, Gift } from "lucide-react";
 import PickupDropoffAreasSection from "../_component/pickup-dropoff-areas";
 // import ReviewsSection from "../_component/reviews-section";
@@ -255,7 +255,7 @@ export default function VipDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
-      <Hero
+      <HeroSection
         titleLines={["프라이빗 도어투도어", "양조장 투어"]}
         subtitleLines={[
           "마음껏 즐기세요, 운전은 저희가 할게요.",
@@ -270,7 +270,7 @@ export default function VipDetailPage() {
           {/* 왼쪽: 상품 설명 (2/3 영역) */}
           <div className="w-full lg:w-3/4">
             <div className="space-y-16">
-              <Features
+              <FeaturesSection
                 heading="그날의 가장 완벽한 조합을 선물합니다"
                 description={
                   "고객님의 투어는 아래 세 곳의 명품 양조장 중, 당일 예약 가능한 최적의 두 곳을 저희가 직접 큐레이션하여 구성됩니다. 각 양조장의 예약 상황, 계절별 특별 프로그램, 그리고 이동 동선을 종합적으로 고려하여 가장 완벽한 하루를 설계해드립니다."
@@ -295,7 +295,7 @@ export default function VipDetailPage() {
                 rows={pricingTable}
               />
 
-              <CTA
+              <CTASection
                 heading="지금 예약하고 특별한 하루를 만들어보세요"
                 subheading="한국 전통주의 진수를 경험하는 프리미엄 투어"
               />
@@ -304,7 +304,7 @@ export default function VipDetailPage() {
 
               <PickupDropoffAreasSection />
 
-              <FAQ
+              <FAQSection
                 items={faqs}
                 selectedIndex={selectedFaq}
                 onToggle={toggleFaq}

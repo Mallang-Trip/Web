@@ -9,13 +9,17 @@ export interface FAQItem {
   answer: ReactNode;
 }
 
-interface FAQProps {
+interface FAQSectionProps {
   items: FAQItem[];
   selectedIndex: number | null;
   onToggle: (index: number) => void;
 }
 
-export default function FAQ({ items, selectedIndex, onToggle }: FAQProps) {
+export default function FAQSection({
+  items,
+  selectedIndex,
+  onToggle,
+}: FAQSectionProps) {
   return (
     <section>
       <h2 className="mb-8 text-center text-2xl font-bold text-slate-900">

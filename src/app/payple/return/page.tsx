@@ -1,10 +1,32 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { ShimmeringText } from "@/components/ui/shadcn-io/shimmering-text";
 
-const Loading = () => {
+export default function PaypleReturnPage() {
+  const search = useSearchParams();
+
+  useEffect(() => {
+    const payNum = search.get("paymentNumber") || "";
+    if (payNum) localStorage.setItem("payplePaymentNumber", payNum);
+
+    if (
+      payNum &&
+      (window.opener as Window | null) &&
+      window.opener.postMessage
+    ) {
+      window.opener.postMessage(
+        { type: "PAYPLE_AUTH_RETURN", paymentNumber: payNum },
+        window.location.origin,
+      );
+    }
+
+    setTimeout(() => {
+      window.close();
+    }, 1500);
+  }, [search]);
+
   return (
     <div className="flex min-h-dvh items-center justify-center">
       <div className="flex items-center gap-3 text-gray-700">
@@ -18,45 +40,5 @@ const Loading = () => {
         />
       </div>
     </div>
-  );
-};
-
-function PaypleReturnContent() {
-  const search = useSearchParams();
-
-  useEffect(() => {
-    const payNum = search.get("paymentNumber") || "";
-    try {
-      if (payNum) {
-        localStorage.setItem("payplePaymentNumber", payNum);
-      }
-    } catch {}
-    try {
-      if (
-        payNum &&
-        (window.opener as Window | null) &&
-        window.opener.postMessage
-      ) {
-        window.opener.postMessage(
-          { type: "PAYPLE_AUTH_RETURN", paymentNumber: payNum },
-          window.location.origin,
-        );
-      }
-    } catch {}
-    setTimeout(() => {
-      try {
-        window.close();
-      } catch {}
-    }, 1500);
-  }, [search]);
-
-  return <Loading />;
-}
-
-export default function PaypleReturnPage() {
-  return (
-    <Suspense fallback={<Loading />}>
-      <PaypleReturnContent />
-    </Suspense>
   );
 }

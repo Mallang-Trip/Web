@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,11 +9,12 @@ import {
   CardDescription,
   CardFooter,
 } from "@/components/ui/card";
+import FailureIcon from "./_component/failure-icon";
 
 const DEFAULT_ERROR_MESSAGE =
   "결제 진행 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.";
 
-function PaypleFailureContent() {
+export default function PaypleFailurePage() {
   const [message, setMessage] = useState<string>(DEFAULT_ERROR_MESSAGE);
 
   useEffect(() => {
@@ -36,31 +37,7 @@ function PaypleFailureContent() {
     <div className="bg-background flex min-h-dvh items-center justify-center p-6">
       <Card className="w-full max-w-md">
         <CardHeader className="items-center justify-items-center border-b border-gray-200 text-center">
-          <div className="mb-2 rounded-full bg-red-50 p-4">
-            {/* 실패 아이콘 */}
-            <svg
-              className="h-10 w-10 text-red-600"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                className="stroke-current"
-                strokeWidth="1.5"
-                opacity="0.3"
-              />
-              <path
-                d="M15 9L9 15M9 9l6 6"
-                className="stroke-current"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
+          <FailureIcon />
           <CardTitle className="text-xl">결제에 실패했습니다</CardTitle>
           <CardDescription className="whitespace-pre-line">
             {message}
@@ -80,13 +57,5 @@ function PaypleFailureContent() {
         </CardFooter>
       </Card>
     </div>
-  );
-}
-
-export default function PaypleFailurePage() {
-  return (
-    <Suspense fallback={null}>
-      <PaypleFailureContent />
-    </Suspense>
   );
 }

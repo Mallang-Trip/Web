@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function AdminNotFoundPage() {
   const router = useRouter();
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 pt-16">
       <div className="mx-auto max-w-6xl px-6 py-16 text-center">

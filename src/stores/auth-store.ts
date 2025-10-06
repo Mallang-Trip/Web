@@ -27,7 +27,7 @@ type AuthStore = AuthState & AuthActions;
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // State
       accessToken: null,
       refreshToken: null,
@@ -56,7 +56,7 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       setTokens: ({ accessToken, refreshToken }) => {
-        set((state) => ({
+        set(() => ({
           accessToken,
           refreshToken,
           isAuthenticated: !!accessToken,

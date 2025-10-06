@@ -2,7 +2,6 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { AuthAPI } from "@/utils/api";
-import { useAuthStore } from "@/stores/auth-store";
 
 export function useSendLoginSms() {
   return useMutation({

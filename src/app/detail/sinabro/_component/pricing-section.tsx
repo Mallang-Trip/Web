@@ -1,20 +1,15 @@
 import { Check, X } from "lucide-react";
 
 const includedItems = [
-  "전용 차량 픽업/드랍 서비스",
-  "와이너리 프라이빗 투어",
-  "와인 시음 (3-4종)",
-  "전문 가이드",
-  "와인 제조 체험",
-  "안주",
+  "영동역/읍내에서 양조장까지 왕복 이동 서비스",
+  "[체험] 시나브로 와이너리 계절 별 맞춤 체험 클래스",
+  "[시음] 시나브로 와인 테이스팅",
 ];
 
 const excludedItems = [
-  "개인 교통비 (픽업 지역 외)",
-  "추가 주류 구매",
-  "개인 용품",
+  "개인 추가 구매 비용 (기념품, 추가 주류 등)",
   "여행자 보험",
-  "기타 개인 경비",
+  "안내된 픽업/드랍 권역 외 추가 이동 비용",
 ];
 
 const pricingTable = [
@@ -31,10 +26,10 @@ const pricingTable = [
 
 export default function PricingSection() {
   return (
-    <section className="py-16">
+    <section>
       <div className="container mx-auto px-4">
         {/* Included/Excluded */}
-        <div className="mx-auto mb-16 max-w-6xl">
+        <div className="mx-auto mb-24 max-w-6xl">
           <h2 className="mb-12 text-center text-3xl font-bold">
             포함 및 불포함 내역
           </h2>
@@ -74,7 +69,7 @@ export default function PricingSection() {
           </div>
 
           {/* Pickup/Drop-off Notice */}
-          <div className="mx-auto mt-8 max-w-4xl rounded-xl bg-blue-50 p-6">
+          <div className="mx-auto mt-8 rounded-xl bg-blue-50 p-6">
             <h3 className="mb-4 text-lg font-semibold text-blue-800">
               📍 픽업/드랍 서비스 안내
             </h3>
@@ -117,7 +112,7 @@ export default function PricingSection() {
               >
                 <div className="grid grid-cols-3 items-center gap-4">
                   <div className="font-medium">{row.people}</div>
-                  <div className="text-center text-lg font-semibold text-emerald-600">
+                  <div className="text-center text-lg font-semibold whitespace-nowrap text-emerald-600">
                     {row.total}
                   </div>
                   <div className="text-right text-gray-600">
@@ -131,8 +126,6 @@ export default function PricingSection() {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               * 모든 가격은 부가세 포함 금액입니다
-              <br />* 최소 출발 인원: 2명 | 최대 참여 인원: 20명 (10명 초과 시
-              별도 문의)
             </p>
           </div>
         </div>

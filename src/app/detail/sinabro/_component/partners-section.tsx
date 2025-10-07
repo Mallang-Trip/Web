@@ -25,7 +25,7 @@ const partners = [
 
 export default function PartnersSection() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold">공식 파트너</h2>

@@ -18,8 +18,7 @@ const highlights = [
   {
     icon: Users,
     title: "우리만의 투어",
-    description:
-      "2명 이상 20명 이하 그룹을 위한 완전 프라이빗 투어 경험입니다.",
+    description: "2명 이상 그룹을 위한 완전 프라이빗 투어 경험입니다.",
     bgColor: "bg-emerald-100",
     iconColor: "text-emerald-600",
   },

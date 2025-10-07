@@ -19,8 +19,7 @@ const highlights = [
   {
     icon: Users,
     title: "우리만의 투어",
-    description:
-      "2명 이상 20명 이하 그룹을 위한 완전 프라이빗 투어 경험입니다.",
+    description: "2명 이상 그룹을 위한 완전 프라이빗 투어 경험입니다.",
     bgColor: "bg-emerald-100",
     iconColor: "text-emerald-600",
   },
@@ -36,7 +35,7 @@ const highlights = [
 
 export default function HighlightsSection() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold">이런 점이 특별해요!</h2>

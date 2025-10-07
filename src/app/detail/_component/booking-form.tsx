@@ -100,6 +100,13 @@ export default function BookingForm({
         accentColor: "accent-emerald-600",
       };
       break;
+    case "amber":
+      colorClass = {
+        priceColor: "text-amber-400",
+        buttonColor: "bg-amber-400 hover:bg-amber-500",
+        accentColor: "accent-amber-600",
+      };
+      break;
     default:
       colorClass = {
         priceColor: "text-blue-600",

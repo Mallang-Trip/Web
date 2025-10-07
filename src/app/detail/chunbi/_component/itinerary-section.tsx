@@ -57,7 +57,7 @@ export default function ItinerarySection() {
 
                 {/* Content */}
                 <div className="ml-8 flex-1 rounded-xl bg-white p-6 shadow-sm">
-                  <div className="mb-2 flex items-center">
+                  <div className="mb-2 flex flex-col items-start md:flex-row md:items-center">
                     <span className="mr-4 text-lg font-semibold text-emerald-600">
                       {item.time}
                     </span>

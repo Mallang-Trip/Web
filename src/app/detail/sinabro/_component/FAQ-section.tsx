@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "투어 참여 최소/최대 인원은 어떻게 되나요?",
     answer:
-      "최소 2명부터 최대 20명까지 참여 가능합니다. 10명 이하는 온라인 예약 가능하며, 10명을 초과하는 경우 별도 문의를 통해 맞춤형 투어를 제공합니다.",
+      "최소 2명부터 참여 가능합니다. 11명 이상 다수 인원은 별도로 문의 부탁드립니다.",
   },
   {
     question: "픽업 서비스 지역은 어디까지 가능한가요?",
@@ -40,7 +40,7 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <section className="py-16">
+    <section>
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold">자주 묻는 질문</h2>

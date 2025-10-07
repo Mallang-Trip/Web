@@ -253,6 +253,19 @@ export default function VipDetailPage() {
 
   const inquiryDeposit = 10000;
 
+  const includedItems = [
+    "호텔/자택 등에서 양조장까지 왕복 이동 서비스",
+    "[체험] 양조장 두 곳 계절 별 맞춤 체험 클래스",
+    "[시음] 양조장 두 곳 테이스팅",
+    "점심 식사를 위한 식당까지의 이동",
+  ];
+
+  const excludedItems = [
+    "점심 식사(식사 메뉴를 직접 선택)",
+    "여행자 보험",
+    "안내된 픽업/드랍 권역 외 추가 이동 비용",
+  ];
+
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       <HeroSection
@@ -261,7 +274,7 @@ export default function VipDetailPage() {
           "마음껏 즐기세요, 운전은 저희가 할게요.",
           "한국 전통주 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
         ]}
-        videoSrc="/tour-images/vip/VIP_ver1.mp4"
+        videoSrc="/tour-images/vip/vip-hero.mp4"
       />
 
       {/* 메인 콘텐츠 영역 */}
@@ -302,7 +315,10 @@ export default function VipDetailPage() {
 
               {/* <ReviewsSection reviews={reviews} /> */}
 
-              <PickupDropoffAreasSection />
+              <PickupDropoffAreasSection
+                includedItems={includedItems}
+                excludedItems={excludedItems}
+              />
 
               <FAQSection
                 items={faqs}
@@ -342,6 +358,7 @@ export default function VipDetailPage() {
               peopleOptions={peopleOptions}
               priceByPeople={priceByPeople}
               inquiryDeposit={inquiryDeposit}
+              color="amber"
             />
           </div>
         </div>
@@ -358,6 +375,7 @@ export default function VipDetailPage() {
         peopleOptions={peopleOptions}
         priceByPeople={priceByPeople}
         inquiryDeposit={inquiryDeposit}
+        color="amber"
       />
     </div>
   );

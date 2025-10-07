@@ -42,6 +42,12 @@ export default function MobileBottomBar({
         buttonColor: "bg-emerald-500 hover:bg-emerald-600",
       };
       break;
+    case "amber":
+      colorClass = {
+        priceColor: "text-amber-400",
+        buttonColor: "bg-amber-400 hover:bg-amber-500",
+      };
+      break;
     default:
       colorClass = {
         priceColor: "text-blue-600",

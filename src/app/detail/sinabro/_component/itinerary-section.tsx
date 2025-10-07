@@ -5,7 +5,7 @@ const itineraryItems = [
     time: "선택한 시간",
     title: "픽업 및 출발",
     description:
-      "영동역 또는 대전역에서 픽업하여 시나브로 와이너리로 출발합니다. 편안한 차량으로 이동하며 투어에 대한 간단한 소개를 들으실 수 있습니다.",
+      "영동역 또는 대전역에서 픽업하여 시나브로 와이너리로 출발합니다.",
     icon: MapPin,
     color: "bg-blue-500",
   },
@@ -29,7 +29,7 @@ const itineraryItems = [
 
 export default function ItinerarySection() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold">하루의 여정</h2>
@@ -57,7 +57,7 @@ export default function ItinerarySection() {
 
                 {/* Content */}
                 <div className="ml-8 flex-1 rounded-xl bg-white p-6 shadow-sm">
-                  <div className="mb-2 flex items-center">
+                  <div className="mb-2 flex flex-col items-start md:flex-row md:items-center">
                     <span className="mr-4 text-lg font-semibold text-emerald-600">
                       {item.time}
                     </span>

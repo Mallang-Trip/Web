@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   useCancelReservation,
@@ -108,7 +108,7 @@ type ApiReservation = {
   attributes?: ReservationAttributes | null;
 };
 
-export default function ResultPage() {
+function ResultPageInner() {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [currentReservation, setCurrentReservation] =
     useState<Reservation | null>(null);
@@ -437,5 +437,19 @@ export default function ResultPage() {
         />
       </div>
     </main>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <Loading text="로딩 중..." />
+        </div>
+      }
+    >
+      <ResultPageInner />
+    </Suspense>
   );
 }

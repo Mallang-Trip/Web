@@ -46,14 +46,14 @@ export function TimePicker({
 
   const times = React.useMemo(() => {
     const list: string[] = [];
-    for (let h = 7; h < 13; h++) {
+    for (let h = 7; h < 10; h++) {
       for (let m = 0; m < 60; m += stepMinutes) {
         list.push(
           `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
         );
       }
     }
-    list.push("13:00");
+    list.push("10:00");
     return list;
   }, [stepMinutes]);
 

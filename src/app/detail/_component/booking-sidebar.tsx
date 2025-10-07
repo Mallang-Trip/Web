@@ -46,6 +46,12 @@ export default function BookingSidebar({
         buttonColor: "bg-emerald-500 hover:bg-emerald-600",
       };
       break;
+    case "amber":
+      colorClass = {
+        priceColor: "text-amber-400",
+        buttonColor: "bg-amber-400 hover:bg-amber-500",
+      };
+      break;
     default:
       colorClass = {
         priceColor: "text-blue-600",
@@ -98,9 +104,7 @@ export default function BookingSidebar({
             {disabled ? "현재 예약 불가능" : "예약하기"}
           </Button>
         </BookingDrawer>
-        <p className="text-center text-xs text-gray-500">
-          예약 승인 후 확정 • 무료 취소
-        </p>
+        <p className="text-center text-xs text-gray-500">예약 승인 후 확정</p>
       </CardContent>
     </Card>
   );

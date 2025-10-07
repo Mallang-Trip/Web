@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { ShimmeringText } from "@/components/ui/shadcn-io/shimmering-text";
+import Loading from "@/components/loading";
 
-export default function PaypleReturnPage() {
+function PaypleReturnPageInner() {
   const search = useSearchParams();
 
   useEffect(() => {
@@ -40,5 +41,19 @@ export default function PaypleReturnPage() {
         />
       </div>
     </div>
+  );
+}
+
+export default function PaypleReturnPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <Loading text="로딩 중..." />
+        </div>
+      }
+    >
+      <PaypleReturnPageInner />
+    </Suspense>
   );
 }

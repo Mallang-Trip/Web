@@ -1,32 +1,40 @@
 import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
-interface HeroSectionProps {
-  image: string;
-}
-
-export default function HeroSection({ image }: HeroSectionProps) {
+export default function HeroSection() {
   return (
     <section className="relative flex h-screen items-center justify-center text-white">
       {/* 배경 이미지 */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${image}')`,
-        }}
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/tour-images/sinabro/hero-video.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
       />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,20,25,0.4),rgba(15,20,25,0.6))]" />
 
       {/* 컨텐츠 */}
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
+        <Image
+          src="/tour-images/brewery_logo.png"
+          alt="찾아가는 양조장"
+          width={300}
+          height={200}
+          className="mx-auto mb-4 rounded-lg"
+          style={{ width: "auto", height: "auto" }}
+        />
         <Badge
           variant="secondary"
           className="mb-4 border-none bg-emerald-500/90 text-white"
         >
-          교통 포함 프라이빗 와이너리 투어
+          교통 포함 프라이빗 와이너리 체험
         </Badge>
 
         <h1 className="mb-6 text-5xl font-bold md:text-6xl">
-          시나브로 와이너리 프라이빗 투어
+          시나브로 와이너리 프라이빗 체험
         </h1>
 
         <p className="mb-8 text-xl text-gray-200 md:text-2xl">

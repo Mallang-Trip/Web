@@ -2,32 +2,34 @@
 
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 const galleryImages = [
   {
-    url: "https://images.unsplash.com/photo-1676476520241-94ef50a315cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lcnklMjB0b3VyJTIwd2luZSUyMGNlbGxhcnxlbnwxfHx8fDE3NTg4OTQ0OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "와이너리 투어",
+    url: "/tour-images/sinabro/01.jpg",
+    alt: "시나브로 와이너리",
     size: "large",
   },
   {
-    url: "https://images.unsplash.com/photo-1615780324244-29b71ae12f7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwdGFzdGluZyUyMGV4cGVyaWVuY2V8ZW58MXx8fHwxNzU4ODg0MDIwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "와인 시음 체험",
+    url: "/tour-images/sinabro/02.jpg",
+    alt: "시나브로 와이너리",
     size: "medium",
   },
   {
-    url: "https://images.unsplash.com/photo-1701622669938-fa4e09a1f1fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYmFycmVscyUyMGNlbGxhcnxlbnwxfHx8fDE3NTg4OTQ0OTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "와인 숙성고",
+    url: "/tour-images/sinabro/03.jpg",
+    alt: "시나브로 와이너리",
     size: "medium",
   },
   {
-    url: "https://images.unsplash.com/photo-1695043478092-c59a4df9cae2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMGdyYXBlcyUyMHdpbmV8ZW58MXx8fHwxNzU4ODk0NTAxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "포도밭 풍경",
+    url: "/tour-images/sinabro/04.jpg",
+    alt: "시나브로 와이너리",
     size: "small",
   },
   {
-    url: "https://images.unsplash.com/photo-1717460654164-4430727be1a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYm90dGxlcyUyMGNvbGxlY3Rpb258ZW58MXx8fHwxNzU4ODk0NTA0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "와인 컬렉션",
+    url: "/tour-images/sinabro/05.jpg",
+    alt: "시나브로 와이너리",
     size: "small",
   },
 ];
@@ -36,9 +38,15 @@ interface GalleryImageProps {
   src: string;
   alt: string;
   className?: string;
+  priority?: boolean;
 }
 
-function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
+function GalleryImage({
+  src,
+  alt,
+  className = "",
+  priority = false,
+}: GalleryImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -60,7 +68,8 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
           setHasError(true);
           setIsLoaded(true);
         }}
-        loading="lazy"
+        priority={priority}
+        loading={priority ? undefined : "lazy"}
       />
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
@@ -75,8 +84,33 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
 }
 
 export default function PhotoGallery() {
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openImageViewer = (index: number) => {
+    setCurrentImageIndex(index);
+    setViewerOpen(true);
+  };
+
+  const goToPrevious = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? galleryImages.length - 1 : prev - 1,
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentImageIndex((prev) =>
+      prev === galleryImages.length - 1 ? 0 : prev + 1,
+    );
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") goToPrevious();
+    if (e.key === "ArrowRight") goToNext();
+  };
+
   return (
-    <section className="py-16" id="gallery" aria-labelledby="gallery-title">
+    <section id="gallery" aria-labelledby="gallery-title">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 id="gallery-title" className="mb-4 text-3xl font-bold">
@@ -95,10 +129,11 @@ export default function PhotoGallery() {
               tabIndex={0}
               role="button"
               aria-label={`${galleryImages[0].alt} 이미지 보기`}
+              onClick={() => openImageViewer(0)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  // 여기에 이미지 모달 열기 로직 추가 가능
+                  openImageViewer(0);
                 }
               }}
             >
@@ -106,6 +141,7 @@ export default function PhotoGallery() {
                 src={galleryImages[0].url}
                 alt={galleryImages[0].alt}
                 className="h-80 rounded-xl"
+                priority={true}
               />
             </div>
           </div>
@@ -120,10 +156,11 @@ export default function PhotoGallery() {
                   tabIndex={0}
                   role="button"
                   aria-label={`${image.alt} 이미지 보기`}
+                  onClick={() => openImageViewer(index + 1)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      // 여기에 이미지 모달 열기 로직 추가 가능
+                      openImageViewer(index + 1);
                     }
                   }}
                 >
@@ -146,10 +183,11 @@ export default function PhotoGallery() {
                 tabIndex={0}
                 role="button"
                 aria-label={`${image.alt} 이미지 보기`}
+                onClick={() => openImageViewer(index + 3)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    // 여기에 이미지 모달 열기 로직 추가 가능
+                    openImageViewer(index + 3);
                   }
                 }}
               >
@@ -162,6 +200,53 @@ export default function PhotoGallery() {
             ))}
           </div>
         </div>
+
+        {/* 이미지 뷰어 */}
+        <Dialog open={viewerOpen} onOpenChange={setViewerOpen}>
+          <DialogContent
+            className="max-w-[95vw] border-none bg-black/95 p-0 sm:max-w-7xl"
+            onKeyDown={handleKeyDown}
+            aria-describedby={undefined}
+          >
+            <DialogTitle className="sr-only">갤러리 이미지</DialogTitle>
+            <div className="relative flex h-[85vh] items-center justify-center sm:h-[90vh]">
+              <button
+                onClick={() => setViewerOpen(false)}
+                className="absolute top-4 right-4 z-50 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+              >
+                <X className="h-6 w-6" />
+              </button>
+
+              <button
+                onClick={goToPrevious}
+                className="absolute left-4 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-4 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+
+              <div className="relative h-full w-full">
+                <Image
+                  src={galleryImages[currentImageIndex].url}
+                  alt={galleryImages[currentImageIndex].alt}
+                  fill
+                  sizes="(max-width: 640px) 95vw, 90vw"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-sm text-white">
+                {currentImageIndex + 1} / {galleryImages.length}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );

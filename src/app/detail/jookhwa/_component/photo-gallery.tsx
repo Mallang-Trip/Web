@@ -76,7 +76,7 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
 
 export default function PhotoGallery() {
   return (
-    <section className="py-16" id="gallery" aria-labelledby="gallery-title">
+    <section id="gallery" aria-labelledby="gallery-title">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 id="gallery-title" className="mb-4 text-3xl font-bold">

@@ -8,20 +8,15 @@ import {
 } from "@/components/ui/card";
 import { Check, X } from "lucide-react";
 
-const includedItems = [
-  "호텔/자택 등에서 양조장까지 왕복 이동 서비스",
-  "[체험] 양조장 두 곳 계절 별 맞춤 체험 클래스",
-  "[시음] 양조장 두 곳 테이스팅",
-  "점심 식사를 위한 식당까지의 이동",
-];
+interface PickupDropoffAreasSectionProps {
+  includedItems: string[];
+  excludedItems: string[];
+}
 
-const excludedItems = [
-  "점심 식사(식사 메뉴를 직접 선택)",
-  "여행자 보험",
-  "안내된 픽업/드랍 권역 외 추가 이동 비용",
-];
-
-export default function PickupDropoffAreasSection() {
+export default function PickupDropoffAreasSection({
+  includedItems,
+  excludedItems,
+}: PickupDropoffAreasSectionProps) {
   return (
     <section className="mx-auto">
       <Card className="overflow-hidden rounded-2xl">

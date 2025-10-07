@@ -2,32 +2,34 @@
 
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 const galleryImages = [
   {
-    url: "https://images.unsplash.com/photo-1667971286475-8ae561e26a9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBzb2p1JTIwZGlzdGlsbGVyeSUyMHRvdXJ8ZW58MXx8fHwxNzU4ODkwOTg3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "양조장 투어",
+    url: "/tour-images/chunbi/01.jpg",
+    alt: "천비향 프라이빗 투어",
     size: "large",
   },
   {
-    url: "https://images.unsplash.com/photo-1689672726829-9bace31c82c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBhbGNvaG9sJTIwdGFzdGluZyUyMGV4cGVyaWVuY2V8ZW58MXx8fHwxNzU4ODkwOTg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "시음 체험",
+    url: "/tour-images/chunbi/02.jpg",
+    alt: "천비향 프라이빗 투어",
     size: "medium",
   },
   {
-    url: "https://images.unsplash.com/photo-1711472302554-0de6058c6e8e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGtvcmVhbiUyMGRpc3RpbGxlcnklMjBpbnRlcmlvcnxlbnwxfHx8fDE3NTg4OTA5ODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "증류 시설",
+    url: "/tour-images/chunbi/03.jpg",
+    alt: "천비향 프라이빗 투어",
     size: "medium",
   },
   {
-    url: "https://images.unsplash.com/photo-1708388064424-e7673d7e5959?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBmb29kJTIwZGluaW5nJTIwZXhwZXJpZW5jZXxlbnwxfHx8fDE3NTg4OTA5ODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "전통 음식",
+    url: "/tour-images/chunbi/04.jpg",
+    alt: "천비향 프라이빗 투어",
     size: "small",
   },
   {
-    url: "https://images.unsplash.com/photo-1694763891594-3b19ad17dec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjB0cmFkaXRpb25hbCUyMGFsY29ob2wlMjBib3R0bGVzfGVufDF8fHx8MTc1ODg5MDk4OHww&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "전통주 컬렉션",
+    url: "/tour-images/chunbi/05.jpg",
+    alt: "천비향 프라이빗 투어",
     size: "small",
   },
 ];
@@ -36,9 +38,15 @@ interface GalleryImageProps {
   src: string;
   alt: string;
   className?: string;
+  priority?: boolean;
 }
 
-function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
+function GalleryImage({
+  src,
+  alt,
+  className = "",
+  priority = false,
+}: GalleryImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -60,7 +68,8 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
           setHasError(true);
           setIsLoaded(true);
         }}
-        loading="lazy"
+        priority={priority}
+        loading={priority ? undefined : "lazy"}
       />
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
@@ -75,6 +84,31 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
 }
 
 export default function PhotoGallery() {
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openImageViewer = (index: number) => {
+    setCurrentImageIndex(index);
+    setViewerOpen(true);
+  };
+
+  const goToPrevious = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? galleryImages.length - 1 : prev - 1,
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentImageIndex((prev) =>
+      prev === galleryImages.length - 1 ? 0 : prev + 1,
+    );
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") goToPrevious();
+    if (e.key === "ArrowRight") goToNext();
+  };
+
   return (
     <section id="gallery" aria-labelledby="gallery-title">
       <div className="container mx-auto px-4">
@@ -95,10 +129,11 @@ export default function PhotoGallery() {
               tabIndex={0}
               role="button"
               aria-label={`${galleryImages[0].alt} 이미지 보기`}
+              onClick={() => openImageViewer(0)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  // 여기에 이미지 모달 열기 로직 추가 가능
+                  openImageViewer(0);
                 }
               }}
             >
@@ -106,6 +141,7 @@ export default function PhotoGallery() {
                 src={galleryImages[0].url}
                 alt={galleryImages[0].alt}
                 className="h-80 rounded-xl"
+                priority={true}
               />
             </div>
           </div>
@@ -120,10 +156,11 @@ export default function PhotoGallery() {
                   tabIndex={0}
                   role="button"
                   aria-label={`${image.alt} 이미지 보기`}
+                  onClick={() => openImageViewer(index + 1)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      // 여기에 이미지 모달 열기 로직 추가 가능
+                      openImageViewer(index + 1);
                     }
                   }}
                 >
@@ -146,10 +183,11 @@ export default function PhotoGallery() {
                 tabIndex={0}
                 role="button"
                 aria-label={`${image.alt} 이미지 보기`}
+                onClick={() => openImageViewer(index + 3)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    // 여기에 이미지 모달 열기 로직 추가 가능
+                    openImageViewer(index + 3);
                   }
                 }}
               >
@@ -162,6 +200,53 @@ export default function PhotoGallery() {
             ))}
           </div>
         </div>
+
+        {/* 이미지 뷰어 */}
+        <Dialog open={viewerOpen} onOpenChange={setViewerOpen}>
+          <DialogContent
+            className="max-w-[95vw] border-none bg-black/95 p-0 sm:max-w-7xl"
+            onKeyDown={handleKeyDown}
+            aria-describedby={undefined}
+          >
+            <DialogTitle className="sr-only">갤러리 이미지</DialogTitle>
+            <div className="relative flex h-[85vh] items-center justify-center sm:h-[90vh]">
+              <button
+                onClick={() => setViewerOpen(false)}
+                className="absolute top-4 right-4 z-50 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+              >
+                <X className="h-6 w-6" />
+              </button>
+
+              <button
+                onClick={goToPrevious}
+                className="absolute left-4 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-4 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+
+              <div className="relative h-full w-full">
+                <Image
+                  src={galleryImages[currentImageIndex].url}
+                  alt={galleryImages[currentImageIndex].alt}
+                  fill
+                  sizes="(max-width: 640px) 95vw, 90vw"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-sm text-white">
+                {currentImageIndex + 1} / {galleryImages.length}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );

@@ -5,9 +5,9 @@ import HighlightsSection from "./_component/highlights-section";
 import PhotoGallery from "./_component/photo-gallery";
 import ItinerarySection from "./_component/itinerary-section";
 import PricingSection from "./_component/pricing-section";
-import ReviewsSection from "./_component/reviews-section";
+// import ReviewsSection from "./_component/reviews-section";
 import FAQSection from "./_component/FAQ-section";
-import PartnersSection from "./_component/partners-section";
+// import PartnersSection from "./_component/partners-section";
 
 export default function ChunbiDetailPage() {
   const peopleOptions = [
@@ -32,19 +32,19 @@ export default function ChunbiDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeroSection image="/tour-images/chunbi/00.jpg" />
+      <HeroSection />
 
       <div className="mx-auto max-w-screen-2xl px-4 py-8 pb-20">
         <div className="flex flex-col gap-8 lg:flex-row">
           <div className="w-full lg:w-3/4">
-            <div className="space-y-24">
+            <div className="space-y-28">
               <HighlightsSection />
               <PhotoGallery />
               <ItinerarySection />
               <PricingSection />
-              <ReviewsSection />
+              {/* <ReviewsSection /> */}
               <FAQSection />
-              <PartnersSection />
+              {/* <PartnersSection /> */}
             </div>
           </div>
 
@@ -54,11 +54,13 @@ export default function ChunbiDetailPage() {
               price="300,000"
               time="2~5인"
               subItems={[
-                { title: "", value: "2~20명 완전 프라이빗 투어" },
                 { title: "", value: "약 2시간" },
                 { title: "", value: "픽업/드랍 서비스 포함" },
-                { title: "", value: "매일 운영 (예약 필수)" },
                 { title: "", value: "4일 전 100% 취소 가능" },
+                {
+                  title: "",
+                  value: "상세 체험 내용은 시기 별로 변동될 수 있습니다.",
+                },
               ]}
               color="emerald"
               destinationId={1002}

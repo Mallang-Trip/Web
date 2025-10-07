@@ -202,13 +202,13 @@ export default function VipDetailPage() {
   };
 
   const pricingTable = [
-    { people: "2인", total: 1160000, perPerson: 580000, vehicle: "승용차" },
-    { people: "3인", total: 1185000, perPerson: 395000, vehicle: "승용차" },
-    { people: "4인", total: 1260000, perPerson: 315000, vehicle: "승용차" },
+    { people: "2인", total: 1110000, perPerson: 555000, vehicle: "승용차" },
+    { people: "3인", total: 1130000, perPerson: 376667, vehicle: "승용차" },
+    { people: "4인", total: 1315000, perPerson: 328750, vehicle: "승용차" },
     { people: "5인", total: 1335000, perPerson: 267000, vehicle: "대형 밴" },
-    { people: "6인", total: 1520000, perPerson: 253333, vehicle: "대형 밴" },
-    { people: "7인", total: 1610000, perPerson: 230000, vehicle: "대형 밴" },
-    { people: "8인", total: 1700000, perPerson: 212500, vehicle: "대형 밴" },
+    { people: "6인", total: 1366000, perPerson: 227667, vehicle: "대형 밴" },
+    { people: "7인", total: 1397000, perPerson: 199571, vehicle: "대형 밴" },
+    { people: "8인", total: 1428000, perPerson: 178500, vehicle: "대형 밴" },
   ];
 
   const features = [
@@ -242,13 +242,13 @@ export default function VipDetailPage() {
   ];
 
   const priceByPeople: Record<string, number | null> = {
-    "2": 1160000,
-    "3": 1185000,
-    "4": 1260000,
+    "2": 1110000,
+    "3": 1130000,
+    "4": 1315000,
     "5": 1335000,
-    "6": 1520000,
-    "7": 1610000,
-    "8": 1700000,
+    "6": 1366000,
+    "7": 1397000,
+    "8": 1428000,
   };
 
   const inquiryDeposit = 10000;
@@ -316,7 +316,7 @@ export default function VipDetailPage() {
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
               title="VIP 프라이빗 양조장 투어"
-              price="1,160,000"
+              price="1,110,000"
               time="8시간"
               baseMember="2인"
               subItems={[
@@ -350,7 +350,7 @@ export default function VipDetailPage() {
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar
         title="VIP 프라이빗 양조장 투어"
-        price="1,160,000"
+        price="1,110,000"
         time="8시간"
         baseMember="2인"
         destinationId={1000}

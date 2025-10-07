@@ -155,7 +155,7 @@ function CancelConfirmDialog({
 }) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="border-none">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <WarningIcon />
@@ -169,11 +169,11 @@ function CancelConfirmDialog({
             </strong>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>아니오</AlertDialogCancel>
+        <AlertDialogFooter className="flex w-full flex-shrink-0 gap-2">
+          <AlertDialogCancel className="flex-1">아니오</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-600"
+            className="flex-1 bg-red-600 text-white hover:bg-red-700 focus:ring-red-600"
           >
             예약 취소하기
           </AlertDialogAction>

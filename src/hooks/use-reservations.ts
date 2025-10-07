@@ -190,11 +190,23 @@ export function useApproveReservation() {
     mutationFn: async (params: {
       reservationId: number | string;
       adminMemo?: string;
+      driverInfo?: {
+        name: string;
+        phoneNumber: string;
+        vehicleNumber: string;
+        vehicleImageUrls?: string[];
+      };
+      breweries?: {
+        order: number;
+        breweryName: string;
+        address: string;
+      }[];
     }) => {
-      const res = await ReservationAPI.approve(
-        params.reservationId,
-        params.adminMemo,
-      );
+      const res = await ReservationAPI.approve(params.reservationId, {
+        adminMemo: params.adminMemo,
+        driverInfo: params.driverInfo,
+        breweries: params.breweries,
+      });
       return res?.data;
     },
     onSuccess: () => {

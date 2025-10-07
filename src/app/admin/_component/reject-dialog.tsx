@@ -59,11 +59,21 @@ export default function RejectDialog({
             />
           </div>
         </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose} disabled={isPending}>
+        <DialogFooter className="flex w-full flex-shrink-0 gap-2">
+          <Button
+            variant="outline"
+            className="flex-1"
+            onClick={onClose}
+            disabled={isPending}
+          >
             취소
           </Button>
-          <Button variant="destructive" onClick={onReject} disabled={isPending}>
+          <Button
+            variant="destructive"
+            className="flex-1"
+            onClick={onReject}
+            disabled={isPending}
+          >
             {isPending ? "처리 중..." : "반려"}
           </Button>
         </DialogFooter>

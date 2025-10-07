@@ -37,6 +37,13 @@ export default function AdminPage() {
   // 승인/반려 모달
   const [approveTarget, setApproveTarget] = useState<Row | null>(null);
   const [approveMemo, setApproveMemo] = useState("");
+  const [driverName, setDriverName] = useState("");
+  const [driverPhone, setDriverPhone] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [vehicleImageUrls, setVehicleImageUrls] = useState<string[]>([]);
+  const [breweries, setBreweries] = useState<
+    { breweryName: string; address: string }[]
+  >([]);
   const [rejectTarget, setRejectTarget] = useState<Row | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [rejectMemo, setRejectMemo] = useState("");
@@ -96,11 +103,67 @@ export default function AdminPage() {
 
   const handleApprove = async () => {
     if (!approveTarget) return;
+
+    // 필수 드라이버 정보 검증
+    if (!driverName.trim()) {
+      toast.error("드라이버 이름을 입력해주세요.");
+      return;
+    }
+    if (!driverPhone.trim()) {
+      toast.error("드라이버 전화번호를 입력해주세요.");
+      return;
+    }
+    if (!vehicleNumber.trim()) {
+      toast.error("차량 번호를 입력해주세요.");
+      return;
+    }
+
+    // 양조장 정보 검증 (입력한 경우)
+    if (breweries.length > 0) {
+      const invalidBrewery = breweries.find(
+        (b) => !b.breweryName.trim() || !b.address.trim(),
+      );
+      if (invalidBrewery) {
+        toast.error("모든 양조장의 이름과 주소를 입력해주세요.");
+        return;
+      }
+    }
+
     try {
-      await approveMutation.mutateAsync({
+      const approveData: {
+        reservationId: number | string;
+        adminMemo?: string;
+        driverInfo?: {
+          name: string;
+          phoneNumber: string;
+          vehicleNumber: string;
+          vehicleImageUrls?: string[];
+        };
+        breweries?: {
+          order: number;
+          breweryName: string;
+          address: string;
+        }[];
+      } = {
         reservationId: approveTarget.reservationId,
         adminMemo: approveMemo.trim() || undefined,
-      });
+        driverInfo: {
+          name: driverName.trim(),
+          phoneNumber: driverPhone.trim(),
+          vehicleNumber: vehicleNumber.trim(),
+          vehicleImageUrls:
+            vehicleImageUrls.length > 0 ? vehicleImageUrls : undefined,
+        },
+        breweries:
+          breweries.length > 0
+            ? breweries.map((b, index) => ({
+                order: index + 1,
+                breweryName: b.breweryName.trim(),
+                address: b.address.trim(),
+              }))
+            : undefined,
+      };
+      await approveMutation.mutateAsync(approveData);
       setRows((prev) =>
         prev.map((r) =>
           r.reservationId === approveTarget.reservationId
@@ -112,6 +175,11 @@ export default function AdminPage() {
       setApproveTarget(null);
       setDetailTarget(null);
       setApproveMemo("");
+      setDriverName("");
+      setDriverPhone("");
+      setVehicleNumber("");
+      setVehicleImageUrls([]);
+      setBreweries([]);
     } catch (error: unknown) {
       const err = error as { status?: number; message?: string } | undefined;
       let desc = err?.message || "잠시 후 다시 시도해주세요.";
@@ -205,6 +273,16 @@ export default function AdminPage() {
           onClose={() => setApproveTarget(null)}
           approveMemo={approveMemo}
           setApproveMemo={setApproveMemo}
+          driverName={driverName}
+          setDriverName={setDriverName}
+          driverPhone={driverPhone}
+          setDriverPhone={setDriverPhone}
+          vehicleNumber={vehicleNumber}
+          setVehicleNumber={setVehicleNumber}
+          vehicleImageUrls={vehicleImageUrls}
+          setVehicleImageUrls={setVehicleImageUrls}
+          breweries={breweries}
+          setBreweries={setBreweries}
           onApprove={handleApprove}
           isPending={approveMutation.isPending}
         />

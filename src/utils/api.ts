@@ -226,10 +226,29 @@ export const ReservationAPI = {
     apiPost<T>(`/reservations/${reservationId}/cancel`, {
       ...(requests ? { requests } : {}),
     }),
-  approve: (reservationId: number | string, adminMemo?: string) =>
-    apiPost(`/reservations/${reservationId}/approve`, {
-      ...(adminMemo ? { adminMemo } : {}),
-    }),
+  approve: (
+    reservationId: number | string,
+    params: {
+      adminMemo?: string;
+      driverInfo?: {
+        name: string;
+        phoneNumber: string;
+        vehicleNumber: string;
+        vehicleImageUrls?: string[];
+      };
+      breweries?: {
+        order: number;
+        breweryName: string;
+        address: string;
+      }[];
+    },
+  ) => {
+    const body: Record<string, unknown> = {};
+    if (params.adminMemo) body.adminMemo = params.adminMemo;
+    if (params.driverInfo) body.driverInfo = params.driverInfo;
+    if (params.breweries) body.breweries = params.breweries;
+    return apiPost(`/reservations/${reservationId}/approve`, body);
+  },
   reject: (
     reservationId: number | string,
     params: { reason: string; adminMemo?: string },

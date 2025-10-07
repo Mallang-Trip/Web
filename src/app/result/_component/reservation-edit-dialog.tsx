@@ -450,11 +450,20 @@ function FormActions({
   isSaving: boolean;
 }) {
   return (
-    <div className="flex flex-shrink-0 justify-end gap-2 px-4 py-3">
-      <Button variant="outline" onClick={onCancel} disabled={isSaving}>
+    <div className="flex w-full flex-shrink-0 gap-2 px-1 py-3">
+      <Button
+        variant="outline"
+        className="flex-1"
+        onClick={onCancel}
+        disabled={isSaving}
+      >
         취소
       </Button>
-      <Button onClick={onSave} disabled={!isValid || isSaving}>
+      <Button
+        className="flex-1"
+        onClick={onSave}
+        disabled={!isValid || isSaving}
+      >
         {isSaving ? "저장 중..." : "저장"}
       </Button>
     </div>

@@ -13,6 +13,12 @@ import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PaymentsAPI } from "@/utils/api";
+import {
+  track,
+  trackAddPaymentInfo,
+  getCurrencyByLanguage,
+} from "@/lib/analytics";
+import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 
 declare global {
@@ -76,11 +82,13 @@ export default function BookingForm({
   });
 
   const [isCustomPhonePrefix, setIsCustomPhonePrefix] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [agreeAll, setAgreeAll] = useState(false);
   const router = useRouter();
   const reservationMutation = useCreateReservation();
+  const currentLanguage = useLangStore((s) => s.currentLanguage);
   // 새 API에서는 비회원 예약을 지원하므로 인증/가용성 체크를 제거
   void destinationId;
   // 일부 props는 현재 사용하지 않음
@@ -133,9 +141,34 @@ export default function BookingForm({
   const authReturnedRef = useRef(false);
   const childWindowRef = useRef<Window | null>(null);
   const processedPaymentNumbersRef = useRef<Set<string>>(new Set());
+  const formStartSentRef = useRef(false);
   useEffect(() => {
     formRef.current = formData;
   }, [formData]);
+
+  // 폼 첫 상호작용(form_start) 추적
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const sendOnce = () => {
+      if (formStartSentRef.current) return;
+      formStartSentRef.current = true;
+      try {
+        track("form_start", { form_id: "pourtal_reservation_form" });
+      } catch {}
+    };
+    const options = { capture: true } as AddEventListenerOptions;
+    el.addEventListener("focusin", sendOnce as EventListener, options);
+    el.addEventListener("keydown", sendOnce as EventListener, options);
+    el.addEventListener("pointerdown", sendOnce as EventListener, options);
+    el.addEventListener("input", sendOnce as EventListener, options);
+    return () => {
+      el.removeEventListener("focusin", sendOnce as EventListener);
+      el.removeEventListener("keydown", sendOnce as EventListener);
+      el.removeEventListener("pointerdown", sendOnce as EventListener);
+      el.removeEventListener("input", sendOnce as EventListener);
+    };
+  }, []);
 
   const createReservationWithPaymentNumber = async (payNum: string) => {
     if (!payNum) return;
@@ -448,6 +481,11 @@ export default function BookingForm({
 
       const requests = formData.requests || undefined;
 
+      // 0) 폼 첫 인터랙션(form_start) 보장
+      try {
+        track("form_start", { form_id: "pourtal_reservation_form" });
+      } catch {}
+
       // 2) 백엔드에 결제 준비 요청
       const productNameSafe = sanitizeProductName(title);
       const prepareResp = await PaymentsAPI.preparePayple<PaymentPrepareData>({
@@ -565,6 +603,27 @@ export default function BookingForm({
         child.document.close();
       }
 
+      // add_payment_info (확정 금액 기준)
+      try {
+        const qty = formData.peopleCount
+          ? Number(String(formData.peopleCount).replace("+", ""))
+          : 2;
+        const currency = getCurrencyByLanguage(currentLanguage);
+        const unitPrice = Math.round(priceNumber / Math.max(1, qty));
+        trackAddPaymentInfo({
+          currency,
+          value: priceNumber,
+          items: [
+            {
+              item_id: "POURTAL-001",
+              item_name: title,
+              price: unitPrice,
+              quantity: qty,
+            },
+          ],
+        });
+      } catch {}
+
       toast.info("결제창이 열렸습니다. 결제를 완료해 주세요.");
       return; // 이후 처리는 메시지 리스너(useEffect)에서 진행
     } catch (error: unknown) {
@@ -586,7 +645,11 @@ export default function BookingForm({
   };
 
   return (
-    <div className="flex h-full max-h-full flex-col">
+    <div
+      ref={containerRef}
+      id="reservation-form-container"
+      className="flex h-full max-h-full flex-col"
+    >
       {/* 스크롤 가능한 컨텐츠 영역 */}
       <div className="min-h-0 w-full flex-1 space-y-4 overflow-y-auto p-1">
         <div>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 import { QueryProvider } from "@/providers/query";
@@ -8,6 +9,8 @@ import { CounterStoreProvider } from "@/providers/counter-store-provider";
 import { FirstEntryProvider } from "@/providers/first-entry-provider";
 import { baseUrl } from "@/lib/env";
 import LayoutShell from "@/components/layout-shell";
+import AnalyticsProvider from "@/providers/analytics-provider";
+import Loading from "@/components/loading";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -50,6 +53,9 @@ export default function RootLayout({
           <CounterStoreProvider>
             <TokenRefreshProvider>
               <FirstEntryProvider />
+              <Suspense fallback={<Loading />}>
+                <AnalyticsProvider />
+              </Suspense>
               <LayoutShell>{children}</LayoutShell>
             </TokenRefreshProvider>
           </CounterStoreProvider>

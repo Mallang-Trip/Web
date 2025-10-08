@@ -17,6 +17,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import BookingForm from "./booking-form";
+import { track } from "@/lib/analytics";
 
 interface PeopleOption {
   value: string;
@@ -56,6 +57,9 @@ export default function BookingDrawer({
       activeElement.blur();
     }
     setIsModalOpen(open);
+    if (open) {
+      track("begin_checkout");
+    }
   };
 
   if (isDesktop)

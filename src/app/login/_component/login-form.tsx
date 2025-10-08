@@ -17,6 +17,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import PhoneNumber from "./phone-number";
 import Otp from "./otp";
 import NewAgreeDialog from "./new-agree-dialog";
+import { track } from "@/lib/analytics";
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
@@ -90,6 +91,9 @@ export function LoginForm() {
         icon: <CheckCircle className="text-green-500" />,
       });
       setIsOtpVisible(true);
+      try {
+        track("send_login_code");
+      } catch {}
     } catch (error: unknown) {
       console.error("SMS 전송 실패:", error);
       const message = (error as { message?: string })?.message;
@@ -151,6 +155,9 @@ export function LoginForm() {
           description: "로그인이 성공적으로 완료되었습니다.",
           icon: <CheckCircle className="text-green-500" />,
         });
+        try {
+          track("login", { method: "phone_otp" });
+        } catch {}
         setTimeout(() => {
           const redirectTo = returnUrl || firstEntryTarget || "/";
           if (typeof window !== "undefined") {
@@ -235,6 +242,10 @@ export function LoginForm() {
       description: "약관 동의가 완료되어 로그인되었습니다.",
       icon: <CheckCircle className="text-green-500" />,
     });
+    try {
+      track("sign_up", { method: "phone_otp" });
+      track("login", { method: "phone_otp" });
+    } catch {}
     setTimeout(() => {
       const redirectTo = returnUrl || firstEntryTarget || "/";
       if (typeof window !== "undefined") {

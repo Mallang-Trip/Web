@@ -19,6 +19,8 @@ import ReservationEditDialog from "./_component/reservation-edit-dialog";
 import NotFound from "./_component/not-found";
 import { useAuth } from "@/hooks/use-auth";
 import Loading from "@/components/loading";
+import { track, trackPurchase, getCurrencyByLanguage } from "@/lib/analytics";
+import { useLangStore } from "@/stores/lang-store";
 
 interface ReservationPaymentInfo {
   paymentNumber: string;
@@ -125,6 +127,7 @@ function ResultPageInner() {
   const queryEmail = searchParams.get("email") || "";
   const queryPhone = searchParams.get("phoneNumber") || "";
   const actionParam = searchParams.get("action") || "";
+  const currentLanguage = useLangStore((s) => s.currentLanguage);
 
   // 비로그인 게스트: 쿼리(email, phone)가 있어야 조회 허용
   const guestEnabled = useMemo(
@@ -229,6 +232,45 @@ function ResultPageInner() {
     router,
   ]);
 
+  // 페이지 진입(view_reservation) 및 구매 확정(purchase)
+  useEffect(() => {
+    if (!currentReservation) return;
+    try {
+      track("view_reservation", {
+        reservation_id: currentReservation.reservationId,
+        status: currentReservation.status,
+      });
+    } catch {}
+
+    // 결제 승인되어 예약이 생성된 시점에만 purchase 전송: paymentInfo.approvedAt 존재 기준
+    try {
+      const approved = currentReservation.paymentInfo?.approvedAt;
+      const txId =
+        currentReservation.paymentInfo?.transactionId ||
+        currentReservation.paymentNumber ||
+        String(currentReservation.reservationId);
+      if (approved && currentReservation.price > 0) {
+        const currency = getCurrencyByLanguage(currentLanguage);
+        trackPurchase({
+          transaction_id: txId,
+          currency,
+          value: Math.round(currentReservation.price),
+          items: [
+            {
+              item_id: "POURTAL-001",
+              item_name: currentReservation.reservationName,
+              price: Math.round(
+                currentReservation.price /
+                  Math.max(1, currentReservation.userCount || 1),
+              ),
+              quantity: Math.max(1, currentReservation.userCount || 1),
+            },
+          ],
+        });
+      }
+    } catch {}
+  }, [currentReservation, currentLanguage]);
+
   const handleCancelConfirm = async () => {
     try {
       setIsLoading(true);
@@ -260,6 +302,13 @@ function ResultPageInner() {
       toast.success("예약이 성공적으로 취소되었습니다.", {
         description: "취소된 예약은 나의 예약 내역에서 확인할 수 있습니다.",
       });
+
+      try {
+        track("cancel_reservation", {
+          reservation_id: updatedReservation.reservationId,
+          value: updatedReservation.price,
+        });
+      } catch {}
     } catch (error: unknown) {
       console.error("예약 취소 실패:", error);
       const err = error as { status?: number; message?: string } | undefined;

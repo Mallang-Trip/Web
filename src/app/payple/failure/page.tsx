@@ -10,6 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import FailureIcon from "./_component/failure-icon";
+import { track } from "@/lib/analytics";
 
 const DEFAULT_ERROR_MESSAGE =
   "결제 진행 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.";
@@ -30,6 +31,10 @@ export default function PaypleFailurePage() {
     try {
       const cleanUrl = `${window.location.origin}/payple/failure`;
       window.history.replaceState(window.history.state, "", cleanUrl);
+    } catch {}
+
+    try {
+      track("payment_failure", { message: normalized.slice(0, 200) });
     } catch {}
   }, []);
 

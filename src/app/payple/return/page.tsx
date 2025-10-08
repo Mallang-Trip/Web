@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { ShimmeringText } from "@/components/ui/shadcn-io/shimmering-text";
 import Loading from "@/components/loading";
+import { track } from "@/lib/analytics";
 
 function PaypleReturnPageInner() {
   const search = useSearchParams();
@@ -26,6 +27,10 @@ function PaypleReturnPageInner() {
     setTimeout(() => {
       window.close();
     }, 1500);
+
+    try {
+      track("payment_return", { hasPaymentNumber: !!payNum });
+    } catch {}
   }, [search]);
 
   return (

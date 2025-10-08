@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { TimePicker } from "@/components/ui/time-picker";
+import { track } from "@/lib/analytics";
 
 interface Reservation {
   reservationId: string | number;
@@ -234,6 +235,12 @@ export default function ReservationEditDialog({
 
       onSaved(next as Reservation);
       toast.success("예약이 수정되었습니다.");
+      try {
+        track("edit_reservation", {
+          reservation_id: next.reservationId,
+          value: next.price,
+        });
+      } catch {}
       onOpenChange(false);
     } catch (error: unknown) {
       const err = error as { status?: number; message?: string } | undefined;

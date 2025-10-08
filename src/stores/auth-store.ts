@@ -89,6 +89,15 @@ export const useAuthStore = create<AuthStore>()(
           document.cookie =
             "is-authenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
+
+        try {
+          // GA4 logout 이벤트
+          const w = window as unknown as { dataLayer?: unknown[] };
+          w.dataLayer = w.dataLayer || [];
+          (w.dataLayer as Array<Record<string, unknown>>).push({
+            event: "logout",
+          });
+        } catch {}
       },
 
       clearAuth: () => {

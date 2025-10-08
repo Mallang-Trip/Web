@@ -31,13 +31,12 @@ export type ApiEnvelope<T> = {
   timestamp?: string;
 };
 
-// 토큰을 포함한 헤더 생성
+// 토큰을 포함한 헤더 생성 (Content-Type은 각 요청 타입에 맞게 개별 설정)
 const getAuthHeaders = () => {
   const { accessToken } = useAuthStore.getState();
   return {
-    "Content-Type": "application/json",
     ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
-  };
+  } as Record<string, string>;
 };
 
 async function tryRefreshToken(): Promise<boolean> {
@@ -150,6 +149,7 @@ export const apiPost = async <T = unknown>(
 ): Promise<ApiEnvelope<T>> => {
   const response = await apiRequest(endpoint, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   return parseJson<T>(response);
@@ -162,6 +162,7 @@ export const apiPut = async <T = unknown>(
 ): Promise<ApiEnvelope<T>> => {
   const response = await apiRequest(endpoint, {
     method: "PUT",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   return parseJson<T>(response);
@@ -173,6 +174,61 @@ export const apiDelete = async <T = unknown>(
 ): Promise<ApiEnvelope<T>> => {
   const response = await apiRequest(endpoint, { method: "DELETE" });
   return parseJson<T>(response);
+};
+
+// 업로드 등 비-envelope 응답까지 포괄하는 파서
+export const parseJsonFlexible = async <T = unknown>(
+  response: Response,
+): Promise<T> => {
+  let json: unknown = null;
+  try {
+    json = await response.json();
+  } catch {
+    // JSON이 아니면 에러로 처리
+    throw new ApiError(`API Error: ${response.status}`, response.status);
+  }
+
+  // 성공 케이스: 2xx
+  if (response.ok) {
+    const maybeEnvelope = json as Partial<ApiEnvelope<T>>;
+    if (
+      typeof maybeEnvelope === "object" &&
+      maybeEnvelope &&
+      "data" in maybeEnvelope
+    ) {
+      // 표준 envelope 형태
+      return maybeEnvelope.data as T as T;
+    }
+    // 비-envelope 형태 그대로 반환
+    return json as T;
+  }
+
+  // 실패 케이스: envelope 또는 비-envelope에서 메시지 추출
+  const maybeEnvelope = json as Partial<ApiEnvelope<T>> & { message?: string };
+  const message = maybeEnvelope?.message || `API Error: ${response.status}`;
+  const errorCode = maybeEnvelope?.errorCode;
+  throw new ApiError(message, response.status, errorCode, json ?? undefined);
+};
+
+// 파일 업로드 API
+export type UploadedFile = {
+  fileId: number;
+  url: string;
+  originalFilename: string;
+  fileSize: number;
+  contentType: string;
+};
+
+export const UploadsAPI = {
+  upload: async (file: File): Promise<UploadedFile> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await apiRequest("/upload", {
+      method: "POST",
+      body: formData,
+    });
+    return parseJsonFlexible<UploadedFile>(response);
+  },
 };
 
 // 도메인별 API 헬퍼

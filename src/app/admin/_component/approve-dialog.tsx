@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { X, Plus, Upload, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Row } from "./reservation-table";
+import { useUpload } from "@/hooks/use-upload";
 
 interface Brewery {
   breweryName: string;
@@ -63,33 +64,7 @@ export default function ApproveDialog({
   const [isUploading, setIsUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const uploadImage = async (file: File): Promise<string | null> => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      // 임시 v1 api 사용
-      const response = await fetch(
-        "https://mallangtrip-server.com/api/upload/signup",
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("이미지 업로드 실패");
-      }
-
-      const imageUrl = await response.text();
-      return imageUrl;
-    } catch (error) {
-      console.error("이미지 업로드 에러:", error);
-      return null;
-    }
-  };
+  const { multiple } = useUpload();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -100,6 +75,7 @@ export default function ApproveDialog({
 
   const uploadFiles = async (files: File[]) => {
     const validFiles = files.filter((file) => {
+      // 백엔드 스펙상 다양한 형식 허용. 이 컴포넌트는 이미지용이므로 이미지만 필터링
       if (!file.type.startsWith("image/")) {
         toast.error(`${file.name}은(는) 이미지 파일이 아닙니다.`);
         return false;
@@ -111,18 +87,11 @@ export default function ApproveDialog({
 
     setIsUploading(true);
     try {
-      const uploadPromises = validFiles.map((file) => uploadImage(file));
-      const results = await Promise.all(uploadPromises);
-      const successUrls = results.filter((url): url is string => url !== null);
-
-      if (successUrls.length > 0) {
-        setVehicleImageUrls([...vehicleImageUrls, ...successUrls]);
-        toast.success(`${successUrls.length}개의 이미지가 업로드되었습니다.`);
-      }
-
-      const failedCount = validFiles.length - successUrls.length;
-      if (failedCount > 0) {
-        toast.error(`${failedCount}개의 이미지 업로드에 실패했습니다.`);
+      const uploaded = await multiple.mutateAsync(validFiles);
+      const urls = uploaded.map((u) => u.url).filter(Boolean);
+      if (urls.length > 0) {
+        setVehicleImageUrls([...vehicleImageUrls, ...urls]);
+        toast.success(`${urls.length}개의 이미지가 업로드되었습니다.`);
       }
     } catch {
       toast.error("이미지 업로드 중 오류가 발생했습니다.");

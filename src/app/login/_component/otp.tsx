@@ -9,6 +9,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface OtpProps {
   otpValue: string;
@@ -23,6 +24,7 @@ export default function Otp({
   onOtpChange,
   onSubmit,
 }: OtpProps) {
+  const { t } = useTranslation();
   const otpInputRef = useRef<HTMLInputElement>(null);
 
   // 컴포넌트 마운트 시 자동 포커스
@@ -35,7 +37,7 @@ export default function Otp({
 
   return (
     <form className="grid gap-3" onSubmit={onSubmit}>
-      <Label htmlFor="otp">인증번호</Label>
+      <Label htmlFor="otp">{t.login.otp.label}</Label>
       <div className="mt-1 flex gap-2">
         <InputOTP
           ref={otpInputRef}
@@ -61,7 +63,7 @@ export default function Otp({
             className="w-full"
             disabled={otpValue.length !== 6 || isLoading}
           >
-            {isLoading ? "인증 중..." : "인증하기"}
+            {isLoading ? t.login.otp.verifyingButton : t.login.otp.verifyButton}
           </Button>
         </div>
       </div>

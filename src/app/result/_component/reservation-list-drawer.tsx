@@ -21,6 +21,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useRouter, useSearchParams } from "next/navigation";
 import { formatDate, formatTime } from "@/utils/date";
 import { getStatusColor, getStatusLabel } from "@/utils/status";
+import { useTranslation } from "@/hooks/use-translation";
+
+import { formatPrice } from "@/utils/currency";
 
 export interface ReservationListItem {
   reservationId: string | number;
@@ -46,6 +49,8 @@ export default function ReservationListDrawer({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
+  const tData = t.result.listDrawer;
 
   const handleReservationClick = (reservationId: string | number) => {
     setIsModalOpen(false);
@@ -77,10 +82,8 @@ export default function ReservationListDrawer({
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="max-h-[80vh] max-w-lg overflow-y-auto border-none bg-white">
           <DialogHeader>
-            <DialogTitle>나의 예약 내역</DialogTitle>
-            <DialogDescription>
-              예약 내역을 확인하고 상세를 선택하세요.
-            </DialogDescription>
+            <DialogTitle>{tData.title}</DialogTitle>
+            <DialogDescription>{tData.description}</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             <ReservationList />
@@ -95,7 +98,7 @@ export default function ReservationListDrawer({
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="flex max-h-[90vh] flex-col bg-white">
         <DrawerHeader className="flex-shrink-0 text-left">
-          <DrawerTitle>나의 예약 내역</DrawerTitle>
+          <DrawerTitle>{tData.title}</DrawerTitle>
         </DrawerHeader>
         <div className="flex-1 overflow-auto px-4 pb-4">
           <ReservationList />
@@ -107,10 +110,13 @@ export default function ReservationListDrawer({
 
 // 빈 상태 컴포넌트
 function EmptyState() {
+  const { t } = useTranslation();
+  const tData = t.result.listDrawer;
+
   return (
     <div className="py-8 text-center">
-      <div className="mb-2 text-gray-500">예약 내역이 없습니다</div>
-      <div className="text-sm text-gray-400">새로운 여행을 예약해보세요!</div>
+      <div className="mb-2 text-gray-500">{tData.empty}</div>
+      <div className="text-sm text-gray-400">{tData.emptyDesc}</div>
     </div>
   );
 }
@@ -148,6 +154,31 @@ function ReservationHeader({
   reservation: ReservationListItem;
   isCanceled: boolean;
 }) {
+  const { t, lang } = useTranslation();
+  const tData = t.result.listDrawer;
+
+  // 언어별 날짜/시간 포맷 함수
+  const formatDateTime = (isoString: string) => {
+    const date = new Date(isoString);
+    if (lang === "en") {
+      // 영어: "Jan 15, 2025 at 2:30 PM"
+      const dateStr = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+      const timeStr = date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+      return `${dateStr} at ${timeStr}`;
+    } else {
+      // 한국어: "2025. 1. 15. 14:30"
+      return `${formatDate(isoString)} ${formatTime(isoString)}`;
+    }
+  };
+
   return (
     <div className="mb-3 flex items-start justify-between">
       <div>
@@ -159,22 +190,21 @@ function ReservationHeader({
           {reservation.reservationName || "여행 예약"}
           {isCanceled && (
             <span className="ml-2 text-xs font-normal text-red-600">
-              (취소됨)
+              ({tData.canceled})
             </span>
           )}
         </h3>
         <p
           className={`text-sm ${isCanceled ? "text-gray-500" : "text-gray-600"}`}
         >
-          결제 일시: {formatDate(reservation.createdAt)}{" "}
-          {formatTime(reservation.createdAt)}
+          {tData.paymentDate} {formatDateTime(reservation.createdAt)}
         </p>
       </div>
       <div className="flex gap-2">
         <span
-          className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(reservation.status)}`}
+          className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(reservation.status, lang as "ko" | "en")}`}
         >
-          {getStatusLabel(reservation.status)}
+          {getStatusLabel(reservation.status, lang as "ko" | "en")}
         </span>
       </div>
     </div>
@@ -190,24 +220,58 @@ function ReservationDetails({
   isCanceled: boolean;
 }) {
   const textColor = isCanceled ? "text-gray-500" : "text-gray-600";
+  const { t, lang } = useTranslation();
+  const tData = t.result.listDrawer;
+
+  // 언어별 날짜 포맷
+  const formatMeetingDate = (isoString: string) => {
+    const date = new Date(isoString);
+    if (lang === "en") {
+      // 영어: "January 15, 2025"
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } else {
+      // 한국어: "2025. 1. 15."
+      return formatDate(isoString);
+    }
+  };
+
+  // 언어별 시간 포맷
+  const formatMeetingTime = (isoString: string) => {
+    const date = new Date(isoString);
+    if (lang === "en") {
+      // 영어: "2:30 PM"
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    } else {
+      // 한국어: "14:30"
+      return formatTime(isoString);
+    }
+  };
 
   return (
     <div className={`space-y-2 text-sm ${textColor}`}>
       {/* 날짜 */}
       <InfoItem icon={<CalendarIcon />}>
-        {formatDate(reservation.meetingDate)}
+        {formatMeetingDate(reservation.meetingDate)}
       </InfoItem>
 
       {/* 시간 */}
       <InfoItem icon={<ClockIcon />}>
-        {formatTime(reservation.meetingDate)}
+        {formatMeetingTime(reservation.meetingDate)}
       </InfoItem>
 
       {/* 픽업 위치 */}
       {reservation.pickupAddress && (
         <InfoItem icon={<LocationIcon />}>
           <span className="truncate">
-            미팅 장소: {reservation.pickupAddress}
+            {tData.meetingPlace} {reservation.pickupAddress}
           </span>
         </InfoItem>
       )}
@@ -216,7 +280,7 @@ function ReservationDetails({
       {reservation.returnAddress && (
         <InfoItem icon={<ReturnIcon />}>
           <span className="truncate">
-            하차 장소: {reservation.returnAddress}
+            {tData.dropPlace} {reservation.returnAddress}
           </span>
         </InfoItem>
       )}
@@ -225,7 +289,7 @@ function ReservationDetails({
       <div className="flex items-center justify-between">
         <InfoItem icon={<MoneyIcon />}>
           <span className={`font-semibold ${isCanceled ? "line-through" : ""}`}>
-            ₩{reservation.price.toLocaleString()}
+            {formatPrice(reservation.price, lang as "ko" | "en")}
           </span>
         </InfoItem>
       </div>

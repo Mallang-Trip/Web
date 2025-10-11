@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -17,6 +19,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { XIcon } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export interface BreweryInfo {
   id: number;
@@ -54,6 +57,8 @@ function BreweryCard({
   brewery: BreweryInfo;
   index: number;
 }) {
+  const { lang } = useTranslation();
+
   const images = Array.from(
     { length: Math.max(0, brewery.imagesCount) },
     (_, i) => {
@@ -117,16 +122,22 @@ function BreweryCard({
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-amber-400 text-lg text-amber-600">
             {brewery.number}
           </div>
-          <h2 className="mb-2 text-3xl font-light text-slate-900">
+          <h2
+            className="mb-2 px-4 text-3xl font-light text-slate-900"
+            style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+          >
             {brewery.name}
           </h2>
-          <p className="text-lg font-light text-amber-600 italic">
+          <p
+            className="px-4 text-lg font-light text-amber-600 italic"
+            style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+          >
             {brewery.tagline}
           </p>
           {brewery.address && (
-            <div className="mt-2 flex items-center justify-center gap-2 text-sm text-slate-600">
+            <div className="mt-2 flex items-center justify-center gap-2 px-4 text-sm text-slate-600">
               <svg
-                className="h-4 w-4 text-amber-600"
+                className="h-4 w-4 flex-shrink-0 text-amber-600"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -144,7 +155,11 @@ function BreweryCard({
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <span className="max-w-[720px] truncate" title={brewery.address}>
+              <span
+                className="min-w-0 flex-1 text-center"
+                style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+                title={brewery.address}
+              >
                 {brewery.address}
               </span>
             </div>
@@ -152,19 +167,25 @@ function BreweryCard({
         </div>
 
         <div className="grid gap-12 md:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <div className="space-y-4">
               {/* 메인 이미지 (01) */}
               <button
                 type="button"
                 className="relative block aspect-[4/3] w-full overflow-hidden rounded-lg bg-slate-100"
                 onClick={() => openLightbox(0)}
-                aria-label="메인 이미지 크게 보기"
+                aria-label={
+                  lang === "ko" ? "메인 이미지 크게 보기" : "View main image"
+                }
               >
                 {images[0] && (
                   <Image
                     src={images[0]}
-                    alt={`${brewery.name} 메인 이미지`}
+                    alt={
+                      lang === "ko"
+                        ? `${brewery.name} 메인 이미지`
+                        : `${brewery.name} main image`
+                    }
                     fill
                     sizes="(max-width: 768px) 100vw, 600px"
                     className="object-cover"
@@ -189,11 +210,19 @@ function BreweryCard({
                           type="button"
                           className="relative block aspect-square w-full overflow-hidden rounded-lg bg-slate-100"
                           onClick={() => openLightbox(i + 1)}
-                          aria-label={`서브 이미지 ${i + 2} 크게 보기`}
+                          aria-label={
+                            lang === "ko"
+                              ? `서브 이미지 ${i + 2} 크게 보기`
+                              : `View sub image ${i + 2}`
+                          }
                         >
                           <Image
                             src={src}
-                            alt={`${brewery.name} 이미지 ${i + 2}`}
+                            alt={
+                              lang === "ko"
+                                ? `${brewery.name} 이미지 ${i + 2}`
+                                : `${brewery.name} image ${i + 2}`
+                            }
                             fill
                             sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 16vw"
                             className="object-cover"
@@ -209,26 +238,41 @@ function BreweryCard({
             </div>
           </div>
 
-          <div>
-            <p className="mb-6 text-lg leading-relaxed font-light text-slate-600">
+          <div className="min-w-0">
+            <p
+              className="mb-6 text-lg leading-relaxed font-light text-slate-600"
+              style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+            >
               {brewery.story}
             </p>
 
             <div className="mb-6 border-l-4 border-amber-400 bg-white py-4 pl-4">
-              <h4 className="mb-2 text-lg font-medium text-slate-900">
+              <h4
+                className="mb-2 text-lg font-medium text-slate-900"
+                style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+              >
                 {brewery.experienceTitle}
               </h4>
-              <p className="leading-relaxed font-light text-slate-600">
+              <p
+                className="leading-relaxed font-light text-slate-600"
+                style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+              >
                 {brewery.experienceText}
               </p>
             </div>
 
-            <div className="relative overflow-hidden bg-slate-900 p-6">
+            <div className="relative bg-slate-900 p-6">
               <div className="absolute top-0 right-0 left-0 h-0.5 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-400"></div>
-              <h4 className="mb-2 text-lg font-medium text-amber-400">
+              <h4
+                className="mb-2 text-lg font-medium text-amber-400"
+                style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+              >
                 {brewery.signatureTitle}
               </h4>
-              <p className="leading-relaxed font-light text-amber-100">
+              <p
+                className="leading-relaxed font-light text-amber-100"
+                style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+              >
                 {brewery.signatureText}
               </p>
             </div>
@@ -243,10 +287,14 @@ function BreweryCard({
           showCloseButton={false}
         >
           <DialogTitle className="sr-only">
-            {brewery.name} 이미지 보기
+            {lang === "ko"
+              ? `${brewery.name} 이미지 보기`
+              : `View ${brewery.name} images`}
           </DialogTitle>
           <DialogDescription className="sr-only">
-            확대 보기. ESC 또는 X 버튼으로 닫을 수 있습니다.
+            {lang === "ko"
+              ? "확대 보기. ESC 또는 X 버튼으로 닫을 수 있습니다."
+              : "Enlarged view. You can close by pressing ESC or clicking the X button."}
           </DialogDescription>
           <Carousel
             opts={{ startIndex: lightboxIndex, loop: true }}
@@ -264,7 +312,11 @@ function BreweryCard({
                     )}
                     <Image
                       src={src}
-                      alt={`${brewery.name} 확대 이미지 ${idx + 1}`}
+                      alt={
+                        lang === "ko"
+                          ? `${brewery.name} 확대 이미지 ${idx + 1}`
+                          : `${brewery.name} enlarged image ${idx + 1}`
+                      }
                       fill
                       sizes="100vw"
                       className={`object-contain transition-opacity duration-300 ${
@@ -292,7 +344,7 @@ function BreweryCard({
           <DialogClose asChild>
             <button
               type="button"
-              aria-label="닫기"
+              aria-label={lang === "ko" ? "닫기" : "Close"}
               className="absolute top-3 right-3 z-[60] inline-flex size-10 items-center justify-center rounded-full bg-white text-slate-900 shadow-lg ring-1 ring-black/10 transition hover:bg-white/90 focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
             >
               <XIcon className="size-5" />

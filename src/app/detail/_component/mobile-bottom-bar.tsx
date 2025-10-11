@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import BookingDrawer from "./booking-drawer";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface MobileBottomBarProps {
   title: string;
@@ -29,6 +30,8 @@ export default function MobileBottomBar({
   inquiryDeposit,
   color = "blue",
 }: MobileBottomBarProps) {
+  const { t, lang } = useTranslation();
+  const tData = t.common.detail.booking;
   const [isVisible, setIsVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -145,10 +148,11 @@ export default function MobileBottomBar({
       <div className="flex items-center justify-between gap-4">
         <div>
           <div className={`text-lg font-bold ${colorClass.priceColor}`}>
-            ₩{price}
+            {lang === "ko" ? "₩" : ""}
+            {price}
           </div>
           <div className="text-sm text-gray-600">
-            {baseMember || `${time} 기본`} 요금
+            {baseMember || `${time} ${tData.baseRate}`} {tData.rate}
           </div>
         </div>
 
@@ -167,7 +171,7 @@ export default function MobileBottomBar({
             size="lg"
             disabled={disabled}
           >
-            {disabled ? "현재 예약 불가능" : "예약하기"}
+            {disabled ? tData.unavailable : tData.bookNow}
           </Button>
         </BookingDrawer>
       </div>

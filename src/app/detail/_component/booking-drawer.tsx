@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/drawer";
 import BookingForm from "./booking-form";
 import { track } from "@/lib/analytics";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface PeopleOption {
   value: string;
@@ -47,6 +48,7 @@ export default function BookingDrawer({
   inquiryDeposit,
   color = "blue",
 }: BookingDrawerProps) {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -89,7 +91,7 @@ export default function BookingDrawer({
           }}
         >
           <DialogHeader>
-            <DialogTitle>예약하기</DialogTitle>
+            <DialogTitle>{t.common.detail.bookingForm.title}</DialogTitle>
           </DialogHeader>
           <BookingForm
             title={title}
@@ -123,7 +125,7 @@ export default function BookingDrawer({
         }}
       >
         <DrawerHeader className="flex-shrink-0 text-left">
-          <DrawerTitle>예약하기</DrawerTitle>
+          <DrawerTitle>{t.common.detail.bookingForm.title}</DrawerTitle>
         </DrawerHeader>
         <div className="flex-1 overflow-auto px-4">
           <BookingForm

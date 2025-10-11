@@ -18,8 +18,10 @@ import PhoneNumber from "./phone-number";
 import Otp from "./otp";
 import NewAgreeDialog from "./new-agree-dialog";
 import { track } from "@/lib/analytics";
+import { useTranslation } from "@/hooks/use-translation";
 
 export function LoginForm() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     phonePrefix: "+82",
     phoneNumber: "",
@@ -63,7 +65,7 @@ export function LoginForm() {
     e.preventDefault();
 
     if (!/^\+\d{1,3}$/.test(formData.phonePrefix)) {
-      toast.error("국가 번호를 '+숫자' 형식으로 입력해주세요. 예: +82", {
+      toast.error(t.login.toast.invalidCountryCode, {
         icon: <XCircle className="text-red-500" />,
       });
       return;
@@ -86,7 +88,7 @@ export function LoginForm() {
 
       setTxId(transactionId);
 
-      toast("인증번호가 전송되었습니다.", {
+      toast(t.login.toast.codeSent, {
         description: `${formData.phonePrefix} ${formData.phoneNumber}`,
         icon: <CheckCircle className="text-green-500" />,
       });
@@ -97,9 +99,9 @@ export function LoginForm() {
     } catch (error: unknown) {
       console.error("SMS 전송 실패:", error);
       const message = (error as { message?: string })?.message;
-      const serverMessage = message || "인증번호 전송에 실패했습니다.";
+      const serverMessage = message || t.login.toast.codeSendFailedDescription;
 
-      toast.error("인증번호 전송 실패", {
+      toast.error(t.login.toast.codeSendFailed, {
         description: serverMessage,
         icon: <XCircle className="text-red-500" />,
       });
@@ -138,7 +140,7 @@ export function LoginForm() {
       const isNewUser = Boolean(api?.isNewUser);
 
       if (!accessToken || !refreshToken) {
-        throw new Error("토큰 정보를 확인할 수 없습니다.");
+        throw new Error(t.login.toast.tokenError);
       }
 
       if (isNewUser) {
@@ -147,12 +149,12 @@ export function LoginForm() {
         setPendingRefreshToken(refreshToken);
         setPendingPhoneNumber(fullPhoneNumber);
         setIsTermsOpen(true);
-        toast.info("최초 로그인입니다. 약관 동의가 필요합니다.");
+        toast.info(t.login.toast.firstTimeLogin);
       } else {
         // 기존 사용자: 즉시 로그인 처리
         loginWithTokens(accessToken, refreshToken, fullPhoneNumber);
-        toast.success("인증이 완료되었습니다.", {
-          description: "로그인이 성공적으로 완료되었습니다.",
+        toast.success(t.login.toast.verificationSuccess, {
+          description: t.login.toast.verificationSuccessDescription,
           icon: <CheckCircle className="text-green-500" />,
         });
         try {
@@ -169,16 +171,14 @@ export function LoginForm() {
     } catch (error: unknown) {
       console.error("인증 실패:", error);
       const err = error as { message?: string; status?: number } | undefined;
-      const title = err?.message || "인증번호가 올바르지 않습니다.";
-      let description = "다시 확인해주세요.";
+      const title = err?.message || t.login.toast.verificationFailed;
+      let description = t.login.toast.verificationFailedDescription;
       if (err?.status === 404) {
-        description =
-          "인증 세션을 찾을 수 없습니다. 인증번호를 다시 요청해주세요.";
+        description = t.login.toast.sessionNotFound;
       } else if (err?.status === 429) {
-        description =
-          "최대 시도 횟수를 초과했습니다. 새로운 인증번호를 요청해주세요.";
+        description = t.login.toast.maxAttemptsExceeded;
       } else if (err?.status === 400) {
-        description = "인증코드가 일치하지 않습니다. 다시 입력해주세요.";
+        description = t.login.toast.codeNotMatch;
       }
 
       toast.error(title, {
@@ -219,14 +219,14 @@ export function LoginForm() {
     const allChecked =
       agreeService && agreeTravel && agreePrivacy && agreeThirdparty;
     if (!allChecked) {
-      toast.error("약관에 모두 동의해주세요.", {
-        description: "[필수] 항목들을 확인 후 체크해주세요.",
+      toast.error(t.login.toast.agreeToTerms, {
+        description: t.login.toast.agreeToTermsDescription,
         icon: <XCircle className="text-red-500" />,
       });
       return;
     }
     if (!pendingAccessToken || !pendingRefreshToken || !pendingPhoneNumber) {
-      toast.error("로그인 정보를 확인할 수 없습니다.");
+      toast.error(t.login.toast.cannotFindLoginInfo);
       return;
     }
     loginWithTokens(
@@ -238,8 +238,8 @@ export function LoginForm() {
     setPendingAccessToken(null);
     setPendingRefreshToken(null);
     setPendingPhoneNumber(null);
-    toast.success("회원가입 및 로그인 완료", {
-      description: "약관 동의가 완료되어 로그인되었습니다.",
+    toast.success(t.login.toast.signupAndLoginSuccess, {
+      description: t.login.toast.signupAndLoginSuccessDescription,
       icon: <CheckCircle className="text-green-500" />,
     });
     try {
@@ -259,10 +259,8 @@ export function LoginForm() {
     <div className="flex flex-col gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>로그인</CardTitle>
-          <CardDescription>
-            전화번호 인증으로 로그인을 진행해주세요.
-          </CardDescription>
+          <CardTitle>{t.login.page.title}</CardTitle>
+          <CardDescription>{t.login.page.description}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">

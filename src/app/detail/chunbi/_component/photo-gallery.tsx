@@ -5,40 +5,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-
-const galleryImages = [
-  {
-    url: "/tour-images/chunbi/01.jpg",
-    alt: "천비향 프라이빗 투어",
-    size: "large",
-  },
-  {
-    url: "/tour-images/chunbi/02.jpg",
-    alt: "천비향 프라이빗 투어",
-    size: "medium",
-  },
-  {
-    url: "/tour-images/chunbi/03.jpg",
-    alt: "천비향 프라이빗 투어",
-    size: "medium",
-  },
-  {
-    url: "/tour-images/chunbi/04.jpg",
-    alt: "천비향 프라이빗 투어",
-    size: "small",
-  },
-  {
-    url: "/tour-images/chunbi/05.jpg",
-    alt: "천비향 프라이빗 투어",
-    size: "small",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 interface GalleryImageProps {
   src: string;
   alt: string;
   className?: string;
   priority?: boolean;
+  errorText: string;
 }
 
 function GalleryImage({
@@ -46,6 +20,7 @@ function GalleryImage({
   alt,
   className = "",
   priority = false,
+  errorText,
 }: GalleryImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -73,9 +48,7 @@ function GalleryImage({
       />
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
-          <span className="text-sm text-gray-500">
-            이미지를 불러올 수 없습니다
-          </span>
+          <span className="text-sm text-gray-500">{errorText}</span>
         </div>
       )}
       <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/30" />
@@ -84,8 +57,37 @@ function GalleryImage({
 }
 
 export default function PhotoGallery() {
+  const { t } = useTranslation();
   const [viewerOpen, setViewerOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const galleryImages = [
+    {
+      url: "/tour-images/chunbi/01.jpg",
+      alt: t.chunbi.gallery.imageAlt,
+      size: "large",
+    },
+    {
+      url: "/tour-images/chunbi/02.jpg",
+      alt: t.chunbi.gallery.imageAlt,
+      size: "medium",
+    },
+    {
+      url: "/tour-images/chunbi/03.jpg",
+      alt: t.chunbi.gallery.imageAlt,
+      size: "medium",
+    },
+    {
+      url: "/tour-images/chunbi/04.jpg",
+      alt: t.chunbi.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/chunbi/05.jpg",
+      alt: t.chunbi.gallery.imageAlt,
+      size: "small",
+    },
+  ];
 
   const openImageViewer = (index: number) => {
     setCurrentImageIndex(index);
@@ -114,11 +116,9 @@ export default function PhotoGallery() {
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 id="gallery-title" className="mb-4 text-3xl font-bold">
-            투어 미리보기
+            {t.chunbi.gallery.title}
           </h2>
-          <p className="text-gray-600">
-            천비향 프라이빗 투어에서 경험할 수 있는 특별한 순간들
-          </p>
+          <p className="text-gray-600">{t.chunbi.gallery.subtitle}</p>
         </div>
 
         <div className="mx-auto grid max-w-6xl grid-cols-12 gap-4">
@@ -128,7 +128,7 @@ export default function PhotoGallery() {
               className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
               tabIndex={0}
               role="button"
-              aria-label={`${galleryImages[0].alt} 이미지 보기`}
+              aria-label={`${galleryImages[0].alt} ${t.chunbi.gallery.viewImage}`}
               onClick={() => openImageViewer(0)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -142,6 +142,7 @@ export default function PhotoGallery() {
                 alt={galleryImages[0].alt}
                 className="h-80 rounded-xl"
                 priority={true}
+                errorText={t.chunbi.gallery.errorText}
               />
             </div>
           </div>
@@ -155,7 +156,7 @@ export default function PhotoGallery() {
                   className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                   tabIndex={0}
                   role="button"
-                  aria-label={`${image.alt} 이미지 보기`}
+                  aria-label={`${image.alt} ${t.chunbi.gallery.viewImage}`}
                   onClick={() => openImageViewer(index + 1)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -168,6 +169,7 @@ export default function PhotoGallery() {
                     src={image.url}
                     alt={image.alt}
                     className="h-full rounded-xl"
+                    errorText={t.chunbi.gallery.errorText}
                   />
                 </div>
               ))}
@@ -182,7 +184,7 @@ export default function PhotoGallery() {
                 className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                 tabIndex={0}
                 role="button"
-                aria-label={`${image.alt} 이미지 보기`}
+                aria-label={`${image.alt} ${t.chunbi.gallery.viewImage}`}
                 onClick={() => openImageViewer(index + 3)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -195,6 +197,7 @@ export default function PhotoGallery() {
                   src={image.url}
                   alt={image.alt}
                   className="h-48 rounded-xl"
+                  errorText={t.chunbi.gallery.errorText}
                 />
               </div>
             ))}
@@ -208,7 +211,9 @@ export default function PhotoGallery() {
             onKeyDown={handleKeyDown}
             aria-describedby={undefined}
           >
-            <DialogTitle className="sr-only">갤러리 이미지</DialogTitle>
+            <DialogTitle className="sr-only">
+              {t.chunbi.gallery.galleryTitle}
+            </DialogTitle>
             <div className="relative flex h-[85vh] items-center justify-center sm:h-[90vh]">
               <button
                 onClick={() => setViewerOpen(false)}

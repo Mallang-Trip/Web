@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/auth-store";
@@ -20,6 +22,8 @@ import {
   StatementData,
 } from "./hooks/use-transaction-statement";
 import { formatDateTime } from "@/utils/date";
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
 
 type ReservationPaymentInfo = {
   paymentNumber: string;
@@ -51,6 +55,7 @@ export default function PaymentInfoCard({
   reservation,
   isAuthenticated,
 }: PaymentInfoCardProps) {
+  const { t, lang } = useTranslation();
   const { isAuthenticated: authState } = useAuthStore();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { isOpen, setIsOpen, isLoading, statement, fetchStatement } =
@@ -69,13 +74,15 @@ export default function PaymentInfoCard({
         <CardContent>
           <details className="group" open>
             <summary className="flex cursor-pointer items-center justify-between font-semibold">
-              <span>결제 정보</span>
+              <span>{t.result.paymentInfo.title}</span>
               <ChevronIcon />
             </summary>
-            <PaymentDetails info={info} />
+            <PaymentDetails info={info} lang={lang} t={t} />
             <div className="pt-2">
               <Button onClick={fetchStatement} disabled={isLoading}>
-                {isLoading ? "발급 중..." : "거래명세서 발급"}
+                {isLoading
+                  ? t.result.loading.issuing
+                  : t.result.paymentInfo.issueStatement}
               </Button>
             </div>
           </details>
@@ -89,6 +96,7 @@ export default function PaymentInfoCard({
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           statement={statement}
+          t={t}
         />
       )}
 
@@ -97,12 +105,11 @@ export default function PaymentInfoCard({
         <CardContent>
           <details className="group" open>
             <summary className="flex cursor-pointer items-center justify-between font-semibold">
-              <span>현장 결제 안내</span>
+              <span>{t.result.paymentInfo.onsitePaymentTitle}</span>
               <ChevronIcon />
             </summary>
             <div className="mt-4 text-sm leading-relaxed text-gray-600">
-              기본 투어 요금 외 픽업/드랍 추가 등으로 발생하는 부가 비용은 예약
-              확정 전 말랑트립이 이메일과 전화번호를 통해 따로 안내해드립니다.
+              {t.result.paymentInfo.onsitePaymentDesc}
             </div>
           </details>
         </CardContent>
@@ -112,7 +119,22 @@ export default function PaymentInfoCard({
 }
 
 // 결제 상세 정보
-function PaymentDetails({ info }: { info: ReservationPaymentInfo }) {
+function PaymentDetails({
+  info,
+  lang,
+  t,
+}: {
+  info: ReservationPaymentInfo;
+  lang: string;
+  t: any;
+}) {
+  const getPaymentStatusText = (status: string): string => {
+    const s = status.toUpperCase();
+    if (s.includes("COMPLETED")) return t.result.paymentInfo.statusCompleted;
+    if (s.includes("REFUNDED")) return t.result.paymentInfo.statusRefunded;
+    return t.result.paymentInfo.statusPending;
+  };
+
   const statusText = getPaymentStatusText(info.status);
   const isCompleted = info.status.toUpperCase().includes("COMPLETED");
   const isRefunded = info.status.toUpperCase().includes("REFUNDED");
@@ -120,28 +142,38 @@ function PaymentDetails({ info }: { info: ReservationPaymentInfo }) {
   return (
     <div className="mt-4 space-y-2 text-sm leading-relaxed text-gray-700">
       <div className="grid grid-cols-[120px_1fr] gap-2">
-        <InfoRow label="결제 상태" value={statusText} />
+        <InfoRow label={t.result.paymentInfo.status} value={statusText} />
 
         {isCompleted && (
           <InfoRow
-            label="승인 일시"
+            label={t.result.paymentInfo.approvalDate}
             value={formatDateTime(info.approvedAt || "")}
           />
         )}
 
         {isRefunded && (
           <InfoRow
-            label="환불 일시"
+            label={t.result.paymentInfo.refundDate}
             value={formatDateTime(info.canceledAt || "")}
           />
         )}
 
-        <InfoRow label="결제 수단" value={info.paymentMethod} />
-        <InfoRow label="결제 금액" value={`₩${info.amount.toLocaleString()}`} />
+        <InfoRow
+          label={t.result.paymentInfo.paymentMethod}
+          value={lang === "ko" ? info.paymentMethod : "Credit Card"}
+        />
+        <InfoRow
+          label={t.result.paymentInfo.paymentAmount}
+          value={
+            lang === "ko"
+              ? `₩${info.amount.toLocaleString()}`
+              : `${formatPrice(info.amount, "en")}`
+          }
+        />
 
         {info.cardInfo && (
           <InfoRow
-            label="카드"
+            label={t.result.paymentInfo.card}
             value={`${info.cardInfo.cardName} (${info.cardInfo.cardNumber})`}
           />
         )}
@@ -166,18 +198,20 @@ function StatementModal({
   isOpen,
   setIsOpen,
   statement,
+  t,
 }: {
   isDesktop: boolean;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   statement: Exclude<StatementData, null>;
+  t: any;
 }) {
   if (isDesktop) {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-h-[85vh] overflow-y-auto rounded-lg border-none bg-white">
           <DialogHeader>
-            <DialogTitle>거래명세서 (Transaction Statement)</DialogTitle>
+            <DialogTitle>{t.result.paymentInfo.statementTitle}</DialogTitle>
           </DialogHeader>
           <div className="flex-1 space-y-6 overflow-auto text-sm text-gray-800">
             <TransactionStatementView data={statement} />
@@ -191,7 +225,7 @@ function StatementModal({
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerContent className="flex max-h-[90vh] flex-col rounded-t-none border-none bg-white">
         <DrawerHeader className="flex-shrink-0 text-left">
-          <DrawerTitle>거래명세서 (Transaction Statement)</DrawerTitle>
+          <DrawerTitle>{t.result.paymentInfo.statementTitle}</DrawerTitle>
         </DrawerHeader>
         <div className="flex-1 overflow-auto px-4 pb-6">
           <TransactionStatementView data={statement} />
@@ -199,14 +233,6 @@ function StatementModal({
       </DrawerContent>
     </Drawer>
   );
-}
-
-// 헬퍼 함수
-function getPaymentStatusText(status: string): string {
-  const s = status.toUpperCase();
-  if (s.includes("COMPLETED")) return "결제 완료";
-  if (s.includes("REFUNDED")) return "환불 완료";
-  return "승인 대기";
 }
 
 // 아이콘

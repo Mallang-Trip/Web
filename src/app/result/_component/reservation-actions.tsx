@@ -15,6 +15,7 @@ import ReservationListDrawer, {
 import { useAuth } from "@/hooks/use-auth";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface Reservation {
   reservationId: string | number;
@@ -52,6 +53,8 @@ export default function ReservationActions({
   const [pendingAction, setPendingAction] = useState<"cancel" | "edit" | null>(
     null,
   );
+  const { t } = useTranslation();
+  const tActions = t.result.actions;
 
   const canInteract = useMemo(
     () => hasHydrated && isAuthenticated,
@@ -96,7 +99,7 @@ export default function ReservationActions({
             className="flex h-12 items-center justify-center gap-2"
           >
             <CancelIcon />
-            {isLoading ? "취소 처리 중..." : "예약 취소"}
+            {isLoading ? t.result.loading.canceling : tActions.cancel}
           </Button>
 
           <CancelConfirmDialog
@@ -118,7 +121,7 @@ export default function ReservationActions({
           className="flex h-12 items-center justify-center gap-2"
         >
           <EditIcon />
-          예약 수정
+          {tActions.edit}
         </Button>
       )}
 
@@ -129,7 +132,7 @@ export default function ReservationActions({
           className="flex h-12 items-center justify-center gap-2"
         >
           <ListIcon />
-          나의 모든 예약 보기 ({reservations.length})
+          {tActions.viewAllReservations} ({reservations.length})
         </Button>
       </ReservationListDrawer>
 
@@ -153,29 +156,34 @@ function CancelConfirmDialog({
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
 }) {
+  const { t } = useTranslation();
+  const tActions = t.result.actions;
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="border-none">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <WarningIcon />
-            예약을 취소하시겠습니까?
+            {tActions.cancelDialogTitle}
           </AlertDialogTitle>
           <AlertDialogDescription className="pt-2">
-            정말로 예약을 취소하시겠습니까?
+            {tActions.cancelDialogDesc}
             <br />
             <strong className="text-red-600">
-              취소된 예약은 복구할 수 없습니다.
+              {tActions.cancelDialogWarning}
             </strong>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex w-full flex-shrink-0 gap-2">
-          <AlertDialogCancel className="flex-1">아니오</AlertDialogCancel>
+          <AlertDialogCancel className="flex-1">
+            {tActions.cancelDialogNo}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             className="flex-1 bg-red-600 text-white hover:bg-red-700 focus:ring-red-600"
           >
-            예약 취소하기
+            {tActions.cancelDialogYes}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -193,20 +201,22 @@ function AuthRequiredDialog({
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
 }) {
+  const { t } = useTranslation();
+  const tActions = t.result.actions;
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="border-white">
         <AlertDialogHeader>
-          <AlertDialogTitle>전화번호 인증이 필요합니다</AlertDialogTitle>
+          <AlertDialogTitle>{tActions.authRequiredTitle}</AlertDialogTitle>
           <AlertDialogDescription>
-            해당 작업을 진행하려면 로그인(전화번호 인증)이 필요합니다.
-            진행하시겠습니까?
+            {tActions.authRequiredDesc}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>아니오</AlertDialogCancel>
+          <AlertDialogCancel>{tActions.authRequiredNo}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>
-            예, 진행할게요
+            {tActions.authRequiredYes}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

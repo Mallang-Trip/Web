@@ -1,41 +1,43 @@
-import { Clock, MapPin, Wine } from "lucide-react";
+"use client";
 
-const itineraryItems = [
-  {
-    time: "14:00",
-    title: "픽업 및 출발",
-    description:
-      "지정된 장소에서 픽업하여 좋은술 양조장으로 출발합니다. 편안한 차량으로 이동하며 투어에 대한 간단한 소개를 들으실 수 있습니다.",
-    icon: MapPin,
-    color: "bg-blue-500",
-  },
-  {
-    time: "15:00-17:00",
-    title: "양조장 투어 & 증류 체험",
-    description:
-      "천비향이 만들어지는 전통 양조 과정을 견학하고, 직접 소주고리 증류 체험을 해보실 수 있습니다. 마스터의 전문적인 설명과 함께 진행됩니다.",
-    icon: Wine,
-    color: "bg-emerald-500",
-  },
-  {
-    time: "17:00-18:30",
-    title: "시음 & 샌딩",
-    description:
-      "천비향을 포함한 다양한 전통주 시음과 함께 정성스럽게 준비된 안주를 즐기실 수 있습니다. 드랍오프 후 투어가 마무리됩니다.",
-    icon: Clock,
-    color: "bg-orange-500",
-  },
-];
+import { Clock, MapPin, Wine } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ItinerarySection() {
+  const { t } = useTranslation();
+
+  const itineraryItems = [
+    {
+      time: t.chunbi.itinerary.items[0].time,
+      title: t.chunbi.itinerary.items[0].title,
+      description: t.chunbi.itinerary.items[0].description,
+      icon: MapPin,
+      color: "bg-blue-500",
+    },
+    {
+      time: t.chunbi.itinerary.items[1].time,
+      title: t.chunbi.itinerary.items[1].title,
+      description: t.chunbi.itinerary.items[1].description,
+      icon: Wine,
+      color: "bg-emerald-500",
+    },
+    {
+      time: t.chunbi.itinerary.items[2].time,
+      title: t.chunbi.itinerary.items[2].title,
+      description: t.chunbi.itinerary.items[2].description,
+      icon: Clock,
+      color: "bg-orange-500",
+    },
+  ];
+
   return (
     <section>
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold">하루의 여정</h2>
-          <p className="text-gray-600">
-            천비향 프라이빗 투어의 완성된 일정을 만나보세요
-          </p>
+          <h2 className="mb-4 text-3xl font-bold">
+            {t.chunbi.itinerary.title}
+          </h2>
+          <p className="text-gray-600">{t.chunbi.itinerary.subtitle}</p>
         </div>
 
         <div className="mx-auto max-w-4xl">

@@ -10,6 +10,7 @@ import {
 } from "@/hooks/use-reservations";
 import type { AdminReservationsData } from "@/hooks/use-reservations";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/use-translation";
 import Pagination from "./_component/pagination";
 import ReservationTable, { type Row } from "./_component/reservation-table";
 import DetailDialog from "./_component/detail-dialog";
@@ -20,6 +21,7 @@ import Waiting from "./_component/waiting";
 export default function AdminPage() {
   const { isAuthenticated, hasHydrated, requireAuth } = useAuth();
   const router = useRouter();
+  const { t } = useTranslation();
 
   // 페이지네이션 상태
   const [page, setPage] = useState(0);
@@ -106,15 +108,15 @@ export default function AdminPage() {
 
     // 필수 드라이버 정보 검증
     if (!driverName.trim()) {
-      toast.error("드라이버 이름을 입력해주세요.");
+      toast.error(t.admin.toast.driverNameRequired);
       return;
     }
     if (!driverPhone.trim()) {
-      toast.error("드라이버 전화번호를 입력해주세요.");
+      toast.error(t.admin.toast.driverPhoneRequired);
       return;
     }
     if (!vehicleNumber.trim()) {
-      toast.error("차량 번호를 입력해주세요.");
+      toast.error(t.admin.toast.vehicleNumberRequired);
       return;
     }
 
@@ -124,7 +126,7 @@ export default function AdminPage() {
         (b) => !b.breweryName.trim() || !b.address.trim(),
       );
       if (invalidBrewery) {
-        toast.error("모든 양조장의 이름과 주소를 입력해주세요.");
+        toast.error(t.admin.toast.breweryInfoRequired);
         return;
       }
     }
@@ -171,7 +173,7 @@ export default function AdminPage() {
             : r,
         ),
       );
-      toast.success("예약이 승인되었습니다.");
+      toast.success(t.admin.toast.approveSuccess);
       setApproveTarget(null);
       setDetailTarget(null);
       setApproveMemo("");
@@ -182,17 +184,17 @@ export default function AdminPage() {
       setBreweries([]);
     } catch (error: unknown) {
       const err = error as { status?: number; message?: string } | undefined;
-      let desc = err?.message || "잠시 후 다시 시도해주세요.";
-      if (err?.status === 404) desc = "예약을 찾을 수 없습니다.";
-      else if (err?.status === 409) desc = "승인할 수 없는 상태입니다.";
-      toast.error("예약 승인 실패", { description: desc });
+      let desc = err?.message || t.admin.toast.tryAgainLater;
+      if (err?.status === 404) desc = t.admin.toast.reservationNotFound;
+      else if (err?.status === 409) desc = t.admin.toast.cannotApprove;
+      toast.error(t.admin.toast.approveFailed, { description: desc });
     }
   };
 
   const handleReject = async () => {
     if (!rejectTarget) return;
     if (!rejectReason.trim()) {
-      toast.error("반려 사유를 입력해주세요.");
+      toast.error(t.admin.toast.rejectReasonRequired);
       return;
     }
     try {
@@ -208,17 +210,17 @@ export default function AdminPage() {
             : r,
         ),
       );
-      toast.success("예약이 반려되었습니다.");
+      toast.success(t.admin.toast.rejectSuccess);
       setRejectTarget(null);
       setDetailTarget(null);
       setRejectReason("");
       setRejectMemo("");
     } catch (error: unknown) {
       const err = error as { status?: number; message?: string } | undefined;
-      let desc = err?.message || "잠시 후 다시 시도해주세요.";
-      if (err?.status === 404) desc = "예약을 찾을 수 없습니다.";
-      else if (err?.status === 409) desc = "반려할 수 없는 상태입니다.";
-      toast.error("예약 반려 실패", { description: desc });
+      let desc = err?.message || t.admin.toast.tryAgainLater;
+      if (err?.status === 404) desc = t.admin.toast.reservationNotFound;
+      else if (err?.status === 409) desc = t.admin.toast.cannotReject;
+      toast.error(t.admin.toast.rejectFailed, { description: desc });
     }
   };
 
@@ -229,7 +231,7 @@ export default function AdminPage() {
   return (
     <div className="mt-16 min-h-screen bg-gray-50">
       <div className="mx-auto max-w-6xl px-6 py-8">
-        <h1 className="mb-6 text-2xl font-bold">관리자 - 예약 관리</h1>
+        <h1 className="mb-6 text-2xl font-bold">{t.admin.pageTitle}</h1>
 
         {/* 상단 요약 및 페이지네이션 컨트롤 */}
         <Pagination

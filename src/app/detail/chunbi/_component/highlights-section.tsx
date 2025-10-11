@@ -1,44 +1,47 @@
-import { Crown, Car, Users, Flame } from "lucide-react";
+"use client";
 
-const highlights = [
-  {
-    icon: Crown,
-    title: "대통령의 술",
-    description: "천비향은 실제 청와대 만찬에 사용되는 프리미엄 전통주입니다.",
-    bgColor: "bg-yellow-100",
-    iconColor: "text-yellow-600",
-  },
-  {
-    icon: Car,
-    title: "전용 차량 이동",
-    description: "편안한 픽업/드랍 서비스로 이동의 부담 없이 투어를 즐기세요.",
-    bgColor: "bg-blue-100",
-    iconColor: "text-blue-600",
-  },
-  {
-    icon: Users,
-    title: "우리만의 투어",
-    description: "2명 이상 그룹을 위한 완전 프라이빗 투어 경험입니다.",
-    bgColor: "bg-emerald-100",
-    iconColor: "text-emerald-600",
-  },
-  {
-    icon: Flame,
-    title: "소주고리 증류 체험",
-    description: "전통 방식의 소주 증류 과정을 직접 체험해보실 수 있습니다.",
-    bgColor: "bg-orange-100",
-    iconColor: "text-orange-600",
-  },
-];
+import { Crown, Car, Users, Flame } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function HighlightsSection() {
+  const { t } = useTranslation();
+
+  const highlights = [
+    {
+      icon: Crown,
+      data: t.chunbi.highlights.items[0],
+      bgColor: "bg-yellow-100",
+      iconColor: "text-yellow-600",
+    },
+    {
+      icon: Car,
+      data: t.chunbi.highlights.items[1],
+      bgColor: "bg-blue-100",
+      iconColor: "text-blue-600",
+    },
+    {
+      icon: Users,
+      data: t.chunbi.highlights.items[2],
+      bgColor: "bg-emerald-100",
+      iconColor: "text-emerald-600",
+    },
+    {
+      icon: Flame,
+      data: t.chunbi.highlights.items[3],
+      bgColor: "bg-orange-100",
+      iconColor: "text-orange-600",
+    },
+  ];
+
   return (
     <section>
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold">이런 점이 특별해요!</h2>
+          <h2 className="mb-4 text-3xl font-bold">
+            {t.chunbi.highlights.title}
+          </h2>
           <p className="mx-auto max-w-2xl text-gray-600">
-            천비향 프라이빗 투어만의 특별한 경험을 만나보세요
+            {t.chunbi.highlights.subtitle}
           </p>
         </div>
 
@@ -53,8 +56,10 @@ export default function HighlightsSection() {
               >
                 <highlight.icon className={`h-8 w-8 ${highlight.iconColor}`} />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">{highlight.title}</h3>
-              <p className="text-gray-600">{highlight.description}</p>
+              <h3 className="mb-2 text-xl font-semibold">
+                {highlight.data.title}
+              </h3>
+              <p className="text-gray-600">{highlight.data.description}</p>
             </div>
           ))}
         </div>

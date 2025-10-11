@@ -1,4 +1,7 @@
+"use client";
+
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface FeaturesSectionProps {
   features: {
@@ -9,11 +12,16 @@ interface FeaturesSectionProps {
 }
 
 export default function FeaturesSection({ features }: FeaturesSectionProps) {
+  const { t } = useTranslation();
+
   return (
     <Card className="bg-white py-20">
       <div className="mx-auto max-w-4xl px-4">
         <CardTitle className="mb-12 text-center text-3xl font-bold md:text-4xl">
-          <span className="text-blue-500">말랑트립</span> 택시투어만의 특별함
+          <span className="text-blue-500">
+            {t.common.detail.features.title}
+          </span>
+          {t.common.detail.features.titleSuffix}
         </CardTitle>
 
         <CardContent className="grid gap-8 px-0 md:grid-cols-3">

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import ReservationListDrawer from "./reservation-list-drawer";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface NotFoundProps {
   reservations: Array<{
@@ -17,6 +18,9 @@ interface NotFoundProps {
 }
 
 export default function NotFound({ reservations }: NotFoundProps) {
+  const { t } = useTranslation();
+  const tNotFound = t.result.notFound;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex min-h-screen items-center justify-center">
@@ -37,18 +41,18 @@ export default function NotFound({ reservations }: NotFoundProps) {
             </svg>
           </div>
           <h1 className="mb-4 text-2xl font-bold text-gray-900">
-            예약 정보를 찾을 수 없습니다
+            {tNotFound.title}
           </h1>
           <p className="mb-8 text-gray-600">
             {reservations.length === 0
-              ? "아직 예약 내역이 없습니다. 새로운 여행을 예약해보세요!"
-              : "잘못된 예약 번호이거나 접근 권한이 없습니다."}
+              ? tNotFound.noReservations
+              : tNotFound.invalidAccess}
           </p>
           <div className="space-y-3">
             {reservations.length > 0 && (
               <ReservationListDrawer reservations={reservations}>
                 <Button variant="outline" className="w-full">
-                  나의 예약 내역 보기
+                  {tNotFound.viewReservations}
                 </Button>
               </ReservationListDrawer>
             )}
@@ -56,7 +60,7 @@ export default function NotFound({ reservations }: NotFoundProps) {
               onClick={() => (window.location.href = "/")}
               className="w-full"
             >
-              홈으로 돌아가기
+              {tNotFound.goHome}
             </Button>
           </div>
         </div>

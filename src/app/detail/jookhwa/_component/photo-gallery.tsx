@@ -3,31 +3,32 @@
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/use-translation";
 
 const galleryImages = [
   {
     url: "https://images.unsplash.com/photo-1667971286475-8ae561e26a9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGtvcmVhbiUyMGRpc3RpbGxlcnklMjBzb2p1fGVufDF8fHx8MTc1ODg5NjQyNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "조옥화안동소주 양조장 투어",
+    altKey: "imageAlt",
     size: "large",
   },
   {
     url: "https://images.unsplash.com/photo-1689672726829-9bace31c82c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBhbGNvaG9sJTIwdGFzdGluZyUyMGV4cGVyaWVuY2V8ZW58MXx8fHwxNzU4ODkwOTg4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "안동소주 시음 체험",
+    altKey: "imageAlt",
     size: "medium",
   },
   {
     url: "https://images.unsplash.com/photo-1615633949535-9dd97e86d795?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGtvcmVhbiUyMGJyZXdlcnklMjBmZXJtZW50YXRpb258ZW58MXx8fHwxNzU4ODk2NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "전통 발효실",
+    altKey: "imageAlt",
     size: "medium",
   },
   {
     url: "https://images.unsplash.com/photo-1647939572124-abe7801b98f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBhbGNvaG9sJTIwYm90dGxlc3xlbnwxfHx8fDE3NTg4OTY0MzV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "안동소주 컬렉션",
+    altKey: "imageAlt",
     size: "small",
   },
   {
     url: "https://images.unsplash.com/photo-1752555559453-5dcd151b0efb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjB0cmFkaXRpb25hbCUyMGFsY29ob2wlMjBtYWtpbmd8ZW58MXx8fHwxNzU4ODk2NDM4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    alt: "전통 증류 체험",
+    altKey: "imageAlt",
     size: "small",
   },
 ];
@@ -36,9 +37,15 @@ interface GalleryImageProps {
   src: string;
   alt: string;
   className?: string;
+  errorText: string;
 }
 
-function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
+function GalleryImage({
+  src,
+  alt,
+  className = "",
+  errorText,
+}: GalleryImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -64,9 +71,7 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
       />
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
-          <span className="text-sm text-gray-500">
-            이미지를 불러올 수 없습니다
-          </span>
+          <span className="text-sm text-gray-500">{errorText}</span>
         </div>
       )}
       <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/30" />
@@ -75,16 +80,16 @@ function GalleryImage({ src, alt, className = "" }: GalleryImageProps) {
 }
 
 export default function PhotoGallery() {
+  const { t } = useTranslation();
+
   return (
     <section id="gallery" aria-labelledby="gallery-title">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 id="gallery-title" className="mb-4 text-3xl font-bold">
-            투어 미리보기
+            {t.jookhwa.gallery.title}
           </h2>
-          <p className="text-gray-600">
-            조옥화안동소주 프라이빗 투어에서 경험할 수 있는 특별한 순간들
-          </p>
+          <p className="text-gray-600">{t.jookhwa.gallery.subtitle}</p>
         </div>
 
         <div className="mx-auto grid max-w-6xl grid-cols-12 gap-4">
@@ -94,7 +99,7 @@ export default function PhotoGallery() {
               className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
               tabIndex={0}
               role="button"
-              aria-label={`${galleryImages[0].alt} 이미지 보기`}
+              aria-label={`${t.jookhwa.gallery.imageAlt} ${t.jookhwa.gallery.viewImage}`}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -104,8 +109,9 @@ export default function PhotoGallery() {
             >
               <GalleryImage
                 src={galleryImages[0].url}
-                alt={galleryImages[0].alt}
+                alt={t.jookhwa.gallery.imageAlt}
                 className="h-80 rounded-xl"
+                errorText={t.jookhwa.gallery.errorText}
               />
             </div>
           </div>
@@ -119,7 +125,7 @@ export default function PhotoGallery() {
                   className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                   tabIndex={0}
                   role="button"
-                  aria-label={`${image.alt} 이미지 보기`}
+                  aria-label={`${t.jookhwa.gallery.imageAlt} ${t.jookhwa.gallery.viewImage}`}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
@@ -129,8 +135,9 @@ export default function PhotoGallery() {
                 >
                   <GalleryImage
                     src={image.url}
-                    alt={image.alt}
+                    alt={t.jookhwa.gallery.imageAlt}
                     className="h-full rounded-xl"
+                    errorText={t.jookhwa.gallery.errorText}
                   />
                 </div>
               ))}
@@ -145,7 +152,7 @@ export default function PhotoGallery() {
                 className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                 tabIndex={0}
                 role="button"
-                aria-label={`${image.alt} 이미지 보기`}
+                aria-label={`${t.jookhwa.gallery.imageAlt} ${t.jookhwa.gallery.viewImage}`}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -155,8 +162,9 @@ export default function PhotoGallery() {
               >
                 <GalleryImage
                   src={image.url}
-                  alt={image.alt}
+                  alt={t.jookhwa.gallery.imageAlt}
                   className="h-48 rounded-xl"
+                  errorText={t.jookhwa.gallery.errorText}
                 />
               </div>
             ))}

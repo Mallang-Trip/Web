@@ -1,20 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-gray-800 px-5 py-10 text-sm leading-relaxed text-gray-400">
       <div className="mx-auto max-w-4xl text-center">
         <div className="mb-5">
           <p className="mb-2">
-            <span>상호명</span>: 말랑트립 | <span>대표</span>: 김제윤 |{" "}
-            <span>사업자등록번호</span>: 399-51-00784
+            <span>{t.footer.company.title}</span>: {t.footer.company.name} |{" "}
+            <span>{t.footer.company.ceoLabel}</span>: {t.footer.company.ceo} |{" "}
+            <span>{t.footer.company.businessNumberLabel}</span>:{" "}
+            {t.footer.company.businessNumber}
           </p>
           <p className="mb-2">
-            우편번호: 14055 | 주소: 경기도 안양시 동안구 시민대로327번길 11-41
-            310호
+            {t.footer.company.postalCode && `${t.footer.company.postalCode} | `}
+            {t.footer.company.address}
           </p>
           <p>
-            고객문의: 공식 카카오톡 채널 | 이메일: mallangtrip@mallangtrip.com
+            {t.footer.company.inquiryLabel}: {t.footer.company.inquiry} |{" "}
+            {t.footer.company.emailLabel}: {t.footer.company.email}
           </p>
         </div>
 
@@ -26,7 +34,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="mx-2 text-gray-300 hover:underline"
             >
-              Instagram @mallang_trip
+              {t.footer.social.instagram}
             </Link>
           </p>
           <p className="mb-2">
@@ -34,39 +42,37 @@ export default function Footer() {
               href="/policy/service"
               className="mx-2 text-gray-300 hover:underline"
             >
-              서비스 이용약관
+              {t.footer.links.serviceTerms}
             </Link>{" "}
             ·{" "}
             <Link
               href="/policy/travel"
               className="mx-2 text-gray-300 hover:underline"
             >
-              국내여행 표준약관
+              {t.footer.links.travelTerms}
             </Link>{" "}
             ·{" "}
             <Link
               href="/policy/privacy"
               className="mx-2 text-gray-300 hover:underline"
             >
-              개인정보 수집·이용
+              {t.footer.links.privacyPolicy}
             </Link>{" "}
             ·{" "}
             <Link
               href="/policy/thirdparty"
               className="mx-2 text-gray-300 hover:underline"
             >
-              개인정보 제3자 제공
+              {t.footer.links.thirdPartyTerms}
             </Link>
           </p>
           <p>
-            통신판매업신고번호: 2024-안양동안-0716호 | 관광사업등록번호: 제
-            2024-000003호
+            {t.footer.company.telecomSalesNumber} |{" "}
+            {t.footer.company.tourismBusinessNumber}
           </p>
         </div>
 
-        <p className="mt-7 text-xs text-gray-500">
-          © 2025 MallangTrip. All Rights Reserved.
-        </p>
+        <p className="mt-7 text-xs text-gray-500">{t.footer.copyright}</p>
       </div>
     </footer>
   );

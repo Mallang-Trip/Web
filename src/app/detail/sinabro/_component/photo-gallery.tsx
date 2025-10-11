@@ -5,31 +5,27 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/use-translation";
 
 const galleryImages = [
   {
     url: "/tour-images/sinabro/01.jpg",
-    alt: "시나브로 와이너리",
     size: "large",
   },
   {
     url: "/tour-images/sinabro/02.jpg",
-    alt: "시나브로 와이너리",
     size: "medium",
   },
   {
     url: "/tour-images/sinabro/03.jpg",
-    alt: "시나브로 와이너리",
     size: "medium",
   },
   {
     url: "/tour-images/sinabro/04.jpg",
-    alt: "시나브로 와이너리",
     size: "small",
   },
   {
     url: "/tour-images/sinabro/05.jpg",
-    alt: "시나브로 와이너리",
     size: "small",
   },
 ];
@@ -73,9 +69,7 @@ function GalleryImage({
       />
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
-          <span className="text-sm text-gray-500">
-            이미지를 불러올 수 없습니다
-          </span>
+          <span className="text-sm text-gray-500">{alt}</span>
         </div>
       )}
       <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/30" />
@@ -84,6 +78,7 @@ function GalleryImage({
 }
 
 export default function PhotoGallery() {
+  const { t } = useTranslation();
   const [viewerOpen, setViewerOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -114,11 +109,9 @@ export default function PhotoGallery() {
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 id="gallery-title" className="mb-4 text-3xl font-bold">
-            투어 미리보기
+            {t.sinabro.gallery.title}
           </h2>
-          <p className="text-gray-600">
-            시나브로 와이너리 프라이빗 투어에서 경험할 수 있는 특별한 순간들
-          </p>
+          <p className="text-gray-600">{t.sinabro.gallery.subtitle}</p>
         </div>
 
         <div className="mx-auto grid max-w-6xl grid-cols-12 gap-4">
@@ -128,7 +121,7 @@ export default function PhotoGallery() {
               className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
               tabIndex={0}
               role="button"
-              aria-label={`${galleryImages[0].alt} 이미지 보기`}
+              aria-label={`${t.sinabro.gallery.imageAlt} ${t.sinabro.gallery.viewImage}`}
               onClick={() => openImageViewer(0)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -139,7 +132,7 @@ export default function PhotoGallery() {
             >
               <GalleryImage
                 src={galleryImages[0].url}
-                alt={galleryImages[0].alt}
+                alt={t.sinabro.gallery.imageAlt}
                 className="h-80 rounded-xl"
                 priority={true}
               />
@@ -155,7 +148,7 @@ export default function PhotoGallery() {
                   className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                   tabIndex={0}
                   role="button"
-                  aria-label={`${image.alt} 이미지 보기`}
+                  aria-label={`${t.sinabro.gallery.imageAlt} ${t.sinabro.gallery.viewImage}`}
                   onClick={() => openImageViewer(index + 1)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -166,7 +159,7 @@ export default function PhotoGallery() {
                 >
                   <GalleryImage
                     src={image.url}
-                    alt={image.alt}
+                    alt={t.sinabro.gallery.imageAlt}
                     className="h-full rounded-xl"
                   />
                 </div>
@@ -182,7 +175,7 @@ export default function PhotoGallery() {
                 className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                 tabIndex={0}
                 role="button"
-                aria-label={`${image.alt} 이미지 보기`}
+                aria-label={`${t.sinabro.gallery.imageAlt} ${t.sinabro.gallery.viewImage}`}
                 onClick={() => openImageViewer(index + 3)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -193,7 +186,7 @@ export default function PhotoGallery() {
               >
                 <GalleryImage
                   src={image.url}
-                  alt={image.alt}
+                  alt={t.sinabro.gallery.imageAlt}
                   className="h-48 rounded-xl"
                 />
               </div>
@@ -208,7 +201,9 @@ export default function PhotoGallery() {
             onKeyDown={handleKeyDown}
             aria-describedby={undefined}
           >
-            <DialogTitle className="sr-only">갤러리 이미지</DialogTitle>
+            <DialogTitle className="sr-only">
+              {t.sinabro.gallery.galleryTitle}
+            </DialogTitle>
             <div className="relative flex h-[85vh] items-center justify-center sm:h-[90vh]">
               <button
                 onClick={() => setViewerOpen(false)}
@@ -233,7 +228,7 @@ export default function PhotoGallery() {
               <div className="relative h-full w-full">
                 <Image
                   src={galleryImages[currentImageIndex].url}
-                  alt={galleryImages[currentImageIndex].alt}
+                  alt={t.sinabro.gallery.imageAlt}
                   fill
                   sizes="(max-width: 640px) 95vw, 90vw"
                   className="object-contain"

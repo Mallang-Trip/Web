@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "@/hooks/use-translation";
 import type { Row } from "./reservation-table";
 
 interface RejectDialogProps {
@@ -34,25 +35,27 @@ export default function RejectDialog({
   onReject,
   isPending,
 }: RejectDialogProps) {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={!!rejectTarget} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="border-none bg-white">
         <DialogHeader>
-          <DialogTitle>예약 반려</DialogTitle>
-          <DialogDescription>
-            반려 사유는 필수이며, 관리자 메모는 선택입니다.
-          </DialogDescription>
+          <DialogTitle>{t.admin.reject.title}</DialogTitle>
+          <DialogDescription>{t.admin.reject.description}</DialogDescription>
         </DialogHeader>
         <div className="space-y-3 py-2">
           <div>
-            <Label className="mb-1 block">반려 사유 *</Label>
+            <Label className="mb-1 block">
+              {t.admin.reject.reasonRequired}
+            </Label>
             <Textarea
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
             />
           </div>
           <div>
-            <Label className="mb-1 block">관리자 메모</Label>
+            <Label className="mb-1 block">{t.admin.reject.adminMemo}</Label>
             <Textarea
               value={rejectMemo}
               onChange={(e) => setRejectMemo(e.target.value)}
@@ -66,7 +69,7 @@ export default function RejectDialog({
             onClick={onClose}
             disabled={isPending}
           >
-            취소
+            {t.admin.button.cancel}
           </Button>
           <Button
             variant="destructive"
@@ -74,7 +77,7 @@ export default function RejectDialog({
             onClick={onReject}
             disabled={isPending}
           >
-            {isPending ? "처리 중..." : "반려"}
+            {isPending ? t.admin.button.processing : t.admin.button.reject}
           </Button>
         </DialogFooter>
       </DialogContent>

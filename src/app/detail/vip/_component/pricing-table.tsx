@@ -1,3 +1,8 @@
+"use client";
+
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
+
 interface PricingRow {
   people: string;
   total: number;
@@ -16,6 +21,7 @@ export default function PricingTable({
   subheading,
   rows,
 }: PricingTableProps) {
+  const { lang } = useTranslation();
   return (
     <section className="rounded-2xl bg-slate-900 px-4 py-8 text-white">
       <div className="mx-auto max-w-3xl text-center">
@@ -25,10 +31,14 @@ export default function PricingTable({
       <div className="mx-auto mt-8 max-w-3xl overflow-hidden rounded-lg bg-white text-slate-900 shadow-xl">
         <div className="bg-amber-400 p-6 text-center">
           <h3 className="text-2xl font-medium text-slate-900">
-            VIP 프라이빗 양조장 투어
+            {lang === "ko"
+              ? "VIP 프라이빗 양조장 투어"
+              : "VIP Private Brewery Tour"}
           </h3>
           <p className="text-slate-800">
-            모든 체험, 시음, 차량 서비스 포함 (식사 별도)
+            {lang === "ko"
+              ? "모든 체험, 시음, 차량 서비스 포함 (식사 별도)"
+              : "All experiences, tastings, vehicle service included (meals separate)"}
           </p>
         </div>
         <table className="w-full table-fixed border-collapse">
@@ -43,10 +53,11 @@ export default function PricingTable({
                 </td>
                 <td className="w-2/4 p-4">
                   <div className="text-xl font-semibold text-slate-900">
-                    ₩{row.total.toLocaleString()}
+                    {formatPrice(row.total, lang as "ko" | "en")}
                   </div>
                   <div className="text-sm text-slate-600">
-                    1인당 ₩{row.perPerson.toLocaleString()}
+                    {lang === "ko" ? "1인당 " : "Per person: "}
+                    {formatPrice(row.perPerson, lang as "ko" | "en")}
                   </div>
                 </td>
                 <td className="w-1/4 p-4 text-slate-600">{row.vehicle}</td>
@@ -55,8 +66,17 @@ export default function PricingTable({
           </tbody>
         </table>
         <div className="bg-slate-50 p-4 text-center text-sm text-slate-600">
-          * 9인 이상 단체는 별도 문의 바랍니다
-          <br />* 인원이 많을수록 1인당 요금이 저렴해집니다
+          {lang === "ko" ? (
+            <>
+              * 9인 이상 단체는 별도 문의 바랍니다
+              <br />* 인원이 많을수록 1인당 요금이 저렴해집니다
+            </>
+          ) : (
+            <>
+              * For groups of 9 or more, please inquire separately
+              <br />* The more people, the cheaper the per-person rate
+            </>
+          )}
         </div>
       </div>
     </section>

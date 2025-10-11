@@ -5,8 +5,10 @@ import { useSearchParams } from "next/navigation";
 import { ShimmeringText } from "@/components/ui/shadcn-io/shimmering-text";
 import Loading from "@/components/loading";
 import { track } from "@/lib/analytics";
+import { useTranslation } from "@/hooks/use-translation";
 
 function PaypleReturnPageInner() {
+  const { t } = useTranslation();
   const search = useSearchParams();
 
   useEffect(() => {
@@ -38,7 +40,7 @@ function PaypleReturnPageInner() {
       <div className="flex items-center gap-3 text-gray-700">
         <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-400 border-t-transparent" />
         <ShimmeringText
-          text="결제가 진행 중입니다. 잠시만 기다려주세요…"
+          text={t.payple.return.processingMessage}
           duration={0.7}
           wave={true}
           shimmeringColor="hsl(var(--primary))"
@@ -49,16 +51,22 @@ function PaypleReturnPageInner() {
   );
 }
 
-export default function PaypleReturnPage() {
+function PaypleReturnPageWrapper() {
+  const { t } = useTranslation();
+
   return (
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
-          <Loading text="로딩 중..." />
+          <Loading text={t.payple.return.loadingText} />
         </div>
       }
     >
       <PaypleReturnPageInner />
     </Suspense>
   );
+}
+
+export default function PaypleReturnPage() {
+  return <PaypleReturnPageWrapper />;
 }

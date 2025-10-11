@@ -1,8 +1,13 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function HeroSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative flex h-screen items-center justify-center text-white">
       {/* 배경 이미지 */}
@@ -30,23 +35,19 @@ export default function HeroSection() {
           variant="secondary"
           className="mb-4 border-none bg-emerald-500/90 text-white"
         >
-          교통 포함 프라이빗 양조장 체험
+          {t.chunbi.hero.badge}
         </Badge>
 
         <h1 className="mb-6 text-5xl font-bold md:text-6xl">
-          좋은술 천비향 프라이빗 체험
+          {t.chunbi.hero.title}
         </h1>
 
-        <p className="mb-8 text-xl text-gray-200 md:text-2xl">
-          대통령의 만찬주, 우리 그룹만을 위한 가장 프라이빗한 경험을
-          <br />
-          가장 편리하게 만나보세요.
+        <p className="mb-8 text-xl whitespace-pre-line text-gray-200 md:text-2xl">
+          {t.chunbi.hero.subtitle}
         </p>
 
         <div className="inline-block rounded-lg bg-white/10 px-6 py-3 backdrop-blur-sm">
-          <p className="text-emerald-300">
-            [찾아가는 양조장] 공식 인증 체험 상품
-          </p>
+          <p className="text-emerald-300">{t.chunbi.hero.certification}</p>
         </div>
       </div>
 

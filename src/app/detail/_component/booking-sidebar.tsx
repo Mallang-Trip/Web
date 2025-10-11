@@ -1,6 +1,9 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BookingDrawer from "@/app/detail/_component/booking-drawer";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface PeopleOption {
   value: string;
@@ -37,6 +40,8 @@ export default function BookingSidebar({
   inquiryDeposit,
   color = "blue",
 }: BookingSidebarProps) {
+  const { t, lang } = useTranslation();
+  const tData = t.common.detail.booking;
   let colorClass: { priceColor: string; buttonColor: string };
 
   switch (color) {
@@ -67,10 +72,10 @@ export default function BookingSidebar({
       <CardContent className="space-y-4">
         <div className="border-b pb-4">
           <div className={`text-2xl font-bold ${colorClass.priceColor}`}>
-            ₩ {price}
+            {lang === "ko" ? "₩" : ""} {price}
           </div>
           <div className="text-sm text-gray-600">
-            {baseMember || `${time} 기본`} 요금
+            {baseMember || `${time} ${tData.baseRate}`} {tData.rate}
           </div>
         </div>
 
@@ -78,10 +83,15 @@ export default function BookingSidebar({
           {subItems.map((item, index) => (
             <div
               key={`${item.title}-${index}`}
-              className="flex justify-between"
+              className="flex justify-between gap-4"
             >
               <span className="text-gray-600">{item.title}</span>
-              <span>{item.value}</span>
+              <span
+                className="text-right"
+                style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+              >
+                {item.value}
+              </span>
             </div>
           ))}
         </div>
@@ -101,10 +111,12 @@ export default function BookingSidebar({
             size="lg"
             disabled={disabled}
           >
-            {disabled ? "현재 예약 불가능" : "예약하기"}
+            {disabled ? tData.unavailable : tData.bookNow}
           </Button>
         </BookingDrawer>
-        <p className="text-center text-xs text-gray-500">예약 승인 후 확정</p>
+        <p className="text-center text-xs text-gray-500">
+          {tData.approvalRequired}
+        </p>
       </CardContent>
     </Card>
   );

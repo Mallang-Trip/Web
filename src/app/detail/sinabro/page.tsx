@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
 import BookingSidebar from "@/app/detail/_component/booking-sidebar";
 import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
 import HeroSection from "./_component/hero-section";
@@ -10,17 +14,9 @@ import FAQSection from "./_component/FAQ-section";
 // import PartnersSection from "./_component/partners-section";
 
 export default function SinabroDetailPage() {
-  const peopleOptions = [
-    { value: "2", label: "2인" },
-    { value: "3", label: "3인" },
-    { value: "4", label: "4인" },
-    { value: "5", label: "5인" },
-    { value: "6", label: "6인" },
-    { value: "7", label: "7인" },
-    { value: "8", label: "8인" },
-    { value: "9", label: "9인" },
-    { value: "10", label: "10인 이상" },
-  ];
+  const { t, lang } = useTranslation();
+
+  const peopleOptions = t.sinabro.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
     "2": 140000,
@@ -56,18 +52,10 @@ export default function SinabroDetailPage() {
 
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
-              title="시나브로 와이너리 프라이빗 투어"
-              price="140,000"
-              time="4인 이하"
-              subItems={[
-                { title: "", value: "약 2시간" },
-                { title: "", value: "픽업/드랍 서비스 포함" },
-                { title: "", value: "4일 전 100% 취소 가능" },
-                {
-                  title: "",
-                  value: "상세 체험 내용은 시기 별로 변동될 수 있습니다.",
-                },
-              ]}
+              title={t.sinabro.sidebar.title}
+              price={formatPrice(140000, lang as "ko" | "en")}
+              time={t.sinabro.sidebar.time}
+              subItems={t.sinabro.sidebar.subItems}
               color="emerald"
               destinationId={1003}
               disabled={false}
@@ -80,9 +68,9 @@ export default function SinabroDetailPage() {
       </div>
 
       <MobileBottomBar
-        title="시나브로 와이너리 프라이빗 투어"
-        price="140,000"
-        time="4인 이하"
+        title={t.sinabro.sidebar.title}
+        price={formatPrice(140000, lang as "ko" | "en")}
+        time={t.sinabro.sidebar.time}
         color="emerald"
         destinationId={1003}
         disabled={false}

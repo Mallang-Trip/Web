@@ -20,6 +20,8 @@ import {
 } from "@/lib/analytics";
 import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
 
 declare global {
   interface Window {
@@ -89,6 +91,7 @@ export default function BookingForm({
   const router = useRouter();
   const reservationMutation = useCreateReservation();
   const currentLanguage = useLangStore((s) => s.currentLanguage);
+  const { t, lang } = useTranslation();
   // 새 API에서는 비회원 예약을 지원하므로 인증/가용성 체크를 제거
   void destinationId;
   // 일부 props는 현재 사용하지 않음
@@ -221,8 +224,8 @@ export default function BookingForm({
       | string
       | number;
 
-    toast.success("예약이 완료되었습니다!", {
-      description: "결제가 확인되어 예약이 생성되었습니다.",
+    toast.success(t.common.detail.bookingForm.toast.reservationSuccess, {
+      description: t.common.detail.bookingForm.toast.reservationSuccessDesc,
       icon: <CheckCircle className="text-green-500" />,
     });
 
@@ -339,25 +342,36 @@ export default function BookingForm({
   const validateForm = () => {
     const errors = [];
 
-    if (!formData.name.trim()) errors.push("이름을 입력해주세요.");
-    if (!formData.phoneNumber.trim()) errors.push("전화번호를 입력해주세요.");
+    if (!formData.name.trim())
+      errors.push(t.common.detail.bookingForm.validation.nameRequired);
+    if (!formData.phoneNumber.trim())
+      errors.push(t.common.detail.bookingForm.validation.phoneRequired);
     if (!/^\+\d{1,3}$/.test(formData.phonePrefix))
-      errors.push("국가 번호를 '+숫자' 형식으로 입력해주세요. 예: +82");
-    if (!formData.email.trim()) errors.push("이메일을 입력해주세요.");
-    if (!formData.peopleCount) errors.push("참여 인원을 선택해주세요.");
-    if (!formData.meetDate) errors.push("미팅 날짜를 선택해주세요.");
-    if (!formData.meetTime) errors.push("픽업 시간을 선택해주세요.");
-    if (!formData.meetAddress.trim()) errors.push("픽업 주소를 입력해주세요.");
+      errors.push(t.common.detail.bookingForm.validation.phonePrefixInvalid);
+    if (!formData.email.trim())
+      errors.push(t.common.detail.bookingForm.validation.emailRequired);
+    if (!formData.peopleCount)
+      errors.push(t.common.detail.bookingForm.validation.peopleRequired);
+    if (!formData.meetDate)
+      errors.push(t.common.detail.bookingForm.validation.dateRequired);
+    if (!formData.meetTime)
+      errors.push(t.common.detail.bookingForm.validation.timeRequired);
+    if (!formData.meetAddress.trim())
+      errors.push(t.common.detail.bookingForm.validation.meetAddressRequired);
     if (!formData.returnAddress.trim())
-      errors.push("복귀 주소를 입력해주세요.");
+      errors.push(t.common.detail.bookingForm.validation.returnAddressRequired);
     // 코스 입력 섹션은 사용하지 않음
     // 모든 약관 동의 확인
-    if (!formData.agreeService) errors.push("서비스 이용약관에 동의해주세요.");
-    if (!formData.agreeTravel) errors.push("국내여행 표준약관에 동의해주세요.");
+    if (!formData.agreeService)
+      errors.push(t.common.detail.bookingForm.validation.agreeServiceRequired);
+    if (!formData.agreeTravel)
+      errors.push(t.common.detail.bookingForm.validation.agreeTravelRequired);
     if (!formData.agreePrivacy)
-      errors.push("개인정보 수집·이용에 동의해주세요.");
+      errors.push(t.common.detail.bookingForm.validation.agreePrivacyRequired);
     if (!formData.agreeThirdparty)
-      errors.push("개인정보 제3자 제공에 동의해주세요.");
+      errors.push(
+        t.common.detail.bookingForm.validation.agreeThirdpartyRequired,
+      );
 
     return errors;
   };
@@ -654,7 +668,10 @@ export default function BookingForm({
       <div className="min-h-0 w-full flex-1 space-y-4 overflow-y-auto p-1">
         <div>
           <Label htmlFor="name">
-            이름 (Name) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.name}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <Input
             id="name"
@@ -665,13 +682,16 @@ export default function BookingForm({
             }
             required
             className="mt-1"
-            placeholder="홍길동"
+            placeholder={t.common.detail.bookingForm.namePlaceholder}
           />
         </div>
 
         <div>
           <Label htmlFor="phone">
-            국제 전화번호 (Phone) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.phone}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <div className="mt-1 flex gap-2">
             <Combobox
@@ -692,7 +712,10 @@ export default function BookingForm({
                 { value: "+1", label: "🇺🇸 +1" },
                 { value: "+81", label: "🇯🇵 +81" },
                 { value: "+886", label: "🇹🇼 +886" },
-                { value: "__custom__", label: "직접 입력" },
+                {
+                  value: "__custom__",
+                  label: t.common.detail.bookingForm.directInput,
+                },
               ]}
               widthClassName="w-28"
               buttonClassName="h-9 text-sm"
@@ -722,7 +745,7 @@ export default function BookingForm({
                   phoneNumber: e.target.value,
                 }))
               }
-              placeholder="'-' 제외 숫자만 입력"
+              placeholder={t.common.detail.bookingForm.phonePlaceholder}
               required
               className="flex-1"
             />
@@ -731,7 +754,10 @@ export default function BookingForm({
 
         <div>
           <Label htmlFor="email">
-            이메일 (Email) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.email}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <Input
             id="email"
@@ -742,13 +768,16 @@ export default function BookingForm({
             }
             required
             className="mt-1"
-            placeholder="example@email.com"
+            placeholder={t.common.detail.bookingForm.emailPlaceholder}
           />
         </div>
 
         <div>
           <Label htmlFor="people">
-            참여 인원 (People) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.people}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <Combobox
             value={formData.peopleCount}
@@ -756,7 +785,10 @@ export default function BookingForm({
               setFormData((prev) => ({ ...prev, peopleCount: v || "" }))
             }
             options={[
-              { value: "", label: "인원을 선택하세요" },
+              {
+                value: "",
+                label: t.common.detail.bookingForm.peoplePlaceholder,
+              },
               ...peopleOptions,
             ]}
             widthClassName="w-full"
@@ -767,13 +799,16 @@ export default function BookingForm({
           {/* 총 결제 금액 표시 */}
           {formData.peopleCount && (
             <div className="mt-3 rounded-md bg-gray-50 p-3 text-center">
-              <div className="text-xs text-gray-500">총 결제 금액</div>
+              <div className="text-xs text-gray-500">
+                {t.common.detail.bookingForm.totalAmount}
+              </div>
               <div className="text-2xl font-semibold text-gray-900">
                 {(() => {
                   const val = formData.peopleCount;
                   const p = Number(priceByPeople[val] ?? NaN);
-                  if (!Number.isFinite(p) || p <= 0) return "별도 문의";
-                  return `₩${p.toLocaleString()}`;
+                  if (!Number.isFinite(p) || p <= 0)
+                    return t.common.detail.bookingForm.inquiry;
+                  return formatPrice(p, lang as "ko" | "en");
                 })()}
               </div>
             </div>
@@ -782,7 +817,10 @@ export default function BookingForm({
 
         <div>
           <Label htmlFor="meetDate">
-            미팅 날짜 (Date) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.meetDate}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <div className="mt-1">
             <DatePicker
@@ -798,7 +836,10 @@ export default function BookingForm({
 
         <div>
           <Label htmlFor="meetTime">
-            픽업 시간 (Pick-up Time) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.meetTime}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <div className="mt-1">
             <TimePicker
@@ -813,7 +854,10 @@ export default function BookingForm({
 
         <div>
           <Label htmlFor="meetAddress">
-            픽업 주소 (Pickup Address) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.meetAddress}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <Textarea
             id="meetAddress"
@@ -821,7 +865,7 @@ export default function BookingForm({
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, meetAddress: e.target.value }))
             }
-            placeholder="정확한 호텔명 또는 주소를 입력하세요."
+            placeholder={t.common.detail.bookingForm.meetAddressPlaceholder}
             required
             className="mt-1"
           />
@@ -829,7 +873,10 @@ export default function BookingForm({
 
         <div>
           <Label htmlFor="returnAddress">
-            복귀 주소 (Drop-off Address) <span className="text-red-500">*</span>
+            {t.common.detail.bookingForm.returnAddress}{" "}
+            <span className="text-red-500">
+              {t.common.detail.bookingForm.required}
+            </span>
           </Label>
           <Textarea
             id="returnAddress"
@@ -840,21 +887,23 @@ export default function BookingForm({
                 returnAddress: e.target.value,
               }))
             }
-            placeholder="정확한 호텔명 또는 주소를 입력하세요."
+            placeholder={t.common.detail.bookingForm.returnAddressPlaceholder}
             required
             className="mt-1"
           />
         </div>
 
         <div>
-          <Label htmlFor="requests">요청사항 (Requests)</Label>
+          <Label htmlFor="requests">
+            {t.common.detail.bookingForm.requests}
+          </Label>
           <Textarea
             id="requests"
             value={formData.requests}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, requests: e.target.value }))
             }
-            placeholder="식단 제한, 알러지 등 특이사항이 있으실 경우 반드시 입력해주세요"
+            placeholder={t.common.detail.bookingForm.requestsPlaceholder}
             className="mt-1"
             rows={3}
           />
@@ -875,7 +924,7 @@ export default function BookingForm({
               htmlFor="agreeAll"
               className="cursor-pointer text-base font-semibold"
             >
-              아래 약관에 모두 동의합니다.
+              {t.common.detail.bookingForm.agreeAll}
             </label>
           </div>
 
@@ -898,13 +947,15 @@ export default function BookingForm({
                 htmlFor="agreeService"
                 className="flex cursor-pointer items-center gap-1 text-sm"
               >
-                <span className="text-red-500">[필수]</span>
+                <span className="text-red-500">
+                  {t.common.detail.bookingForm.requiredLabel}
+                </span>
                 <Link
                   href="/policy/service"
                   target="_blank"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  말랑트립 투어 서비스 이용약관
+                  {t.common.detail.bookingForm.agreeService}
                 </Link>
               </label>
             </div>
@@ -924,13 +975,15 @@ export default function BookingForm({
                 htmlFor="agreeTravel"
                 className="flex cursor-pointer items-center gap-1 text-sm"
               >
-                <span className="text-red-500">[필수]</span>
+                <span className="text-red-500">
+                  {t.common.detail.bookingForm.requiredLabel}
+                </span>
                 <Link
                   href="/policy/travel"
                   target="_blank"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  말랑트립 투어 국내여행 표준약관
+                  {t.common.detail.bookingForm.agreeTravel}
                 </Link>
               </label>
             </div>
@@ -950,13 +1003,15 @@ export default function BookingForm({
                 htmlFor="agreePrivacy"
                 className="flex cursor-pointer items-center gap-1 text-sm"
               >
-                <span className="text-red-500">[필수]</span>
+                <span className="text-red-500">
+                  {t.common.detail.bookingForm.requiredLabel}
+                </span>
                 <Link
                   href="/policy/privacy"
                   target="_blank"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  개인정보 수집·이용 동의
+                  {t.common.detail.bookingForm.agreePrivacy}
                 </Link>
               </label>
             </div>
@@ -979,13 +1034,15 @@ export default function BookingForm({
                 htmlFor="agreeThirdparty"
                 className="flex cursor-pointer items-center gap-1 text-sm"
               >
-                <span className="text-red-500">[필수]</span>
+                <span className="text-red-500">
+                  {t.common.detail.bookingForm.requiredLabel}
+                </span>
                 <Link
                   href="/policy/thirdparty"
                   target="_blank"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  개인정보 제3자 제공 동의
+                  {t.common.detail.bookingForm.agreeThirdparty}
                 </Link>
               </label>
             </div>
@@ -1007,16 +1064,19 @@ export default function BookingForm({
           {isLoading ? (
             <div className="flex items-center gap-2">
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-              결제 처리 중...
+              {t.common.detail.bookingForm.submitting}
             </div>
           ) : (
-            "결제하기"
+            t.common.detail.bookingForm.submitButton
           )}
         </Button>
 
         {/* 필수 입력 안내 */}
         <div className="mb-4 text-center text-xs text-gray-500">
-          <span className="text-red-500">*</span> 표시는 필수 입력 항목입니다
+          <span className="text-red-500">
+            {t.common.detail.bookingForm.required}
+          </span>{" "}
+          {t.common.detail.bookingForm.requiredNotice}
         </div>
       </div>
     </div>

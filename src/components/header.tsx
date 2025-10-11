@@ -8,12 +8,14 @@ import { useEffect, useState } from "react";
 import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 import { getFirstEntryTarget } from "@/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function Header() {
   const [logoHref, setLogoHref] = useState<string>("/");
   const { isAuthenticated, phoneNumber, logout } = useAuth(logoHref);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { currentLanguage, setLanguage } = useLangStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // 클라이언트에서 첫 접속 타겟을 읽어 로고 이동 경로로 사용
@@ -29,14 +31,15 @@ export default function Header() {
           {/* 로고 */}
           <Link href={logoHref} className="flex items-center">
             <Image
-              src="/logo.png"
+              src={t.header.logo.image}
               width={112}
               height={27}
-              alt="말랑트립"
+              alt={t.header.logo.alt}
               className="h-7 w-auto"
               priority
               loading="eager"
               fetchPriority="high"
+              style={{ width: "auto", height: "auto" }}
             />
           </Link>
 
@@ -50,23 +53,23 @@ export default function Header() {
                   phoneNumber === "+821033273496") && (
                   <Link href="/admin">
                     <Button variant="outline" size="sm">
-                      관리자
+                      {t.header.nav.admin}
                     </Button>
                   </Link>
                 )}
                 <Link href="/result">
                   <Button variant="outline" size="sm">
-                    예약 조회
+                    {t.header.nav.reservations}
                   </Button>
                 </Link>
                 <Button variant="outline" size="sm" onClick={logout}>
-                  로그아웃
+                  {t.header.nav.logout}
                 </Button>
               </div>
             ) : (
               <Link href="/login">
                 <Button variant="outline" size="sm">
-                  로그인
+                  {t.header.nav.login}
                 </Button>
               </Link>
             )}
@@ -103,7 +106,7 @@ export default function Header() {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="rounded-md p-2 hover:bg-gray-100"
-              aria-label="메뉴 열기"
+              aria-label={t.header.mobile.menuOpen}
             >
               <svg
                 className="h-6 w-6"
@@ -138,7 +141,7 @@ export default function Header() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-600">
-                    로그인됨: {phoneNumber}
+                    {t.header.mobile.loggedIn}: {phoneNumber}
                   </span>
                 </div>
                 <div className="space-y-2">
@@ -161,7 +164,7 @@ export default function Header() {
                           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                         />
                       </svg>
-                      예약 조회
+                      {t.header.nav.reservations}
                     </Button>
                   </Link>
                   <Button
@@ -185,7 +188,7 @@ export default function Header() {
                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                       />
                     </svg>
-                    로그아웃
+                    {t.header.nav.logout}
                   </Button>
                 </div>
               </div>
@@ -209,7 +212,7 @@ export default function Header() {
                       d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                     />
                   </svg>
-                  로그인
+                  {t.header.nav.login}
                 </Button>
               </Link>
             )}

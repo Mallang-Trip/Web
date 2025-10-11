@@ -1,28 +1,34 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { baseUrl } from "@/lib/env";
+import { translations } from "@/locales";
 
-export const metadata: Metadata = {
-  title: "프라이빗 도어투도어 - 양조장 투어",
-  description:
-    "한국 전통주 & 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
-  keywords: [
-    "말랑트립",
-    "말랑 트립",
-    "Mallangtrip",
-    "mallangtrip",
-    "Mallang trip",
-    "mallang trip",
-    "프라이빗 도어투도어",
-    "양조장 투어",
-  ],
-  openGraph: {
-    title: "양조장 투어 | 말랑트립",
-    description:
-      "한국 전통주 & 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
-    images: "/tour-images/vip/Yesan/01.jpg",
-    url: `${baseUrl}/detail/vip`,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const locale = (cookieStore.get("NEXT_LOCALE")?.value as "ko" | "en") || "ko";
+  const t = translations[locale].vip.metadata;
+
+  return {
+    title: t.title,
+    description: t.description,
+    keywords: [
+      "말랑트립",
+      "말랑 트립",
+      "Mallangtrip",
+      "mallangtrip",
+      "Mallang trip",
+      "mallang trip",
+      "프라이빗 도어투도어",
+      "양조장 투어",
+    ],
+    openGraph: {
+      title: `${t.title} | Mallangtrip`,
+      description: t.description,
+      images: "/tour-images/vip/Yesan/01.jpg",
+      url: `${baseUrl}/detail/vip`,
+    },
+  };
+}
 
 export default function VipDetailLayout({
   children,

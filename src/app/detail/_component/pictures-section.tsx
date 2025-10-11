@@ -11,6 +11,7 @@ import {
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface PicturesSectionProps {
   images: string[];
@@ -21,11 +22,13 @@ export default function PicturesSection({
   images,
   name,
 }: PicturesSectionProps) {
+  const { t } = useTranslation();
+
   return (
     <Card className="bg-white py-20">
       <div className="mx-auto max-w-4xl px-4">
         <CardTitle className="mb-12 text-center text-3xl font-bold md:text-4xl">
-          생생한 투어 사진
+          {t.common.detail.pictures.title}
         </CardTitle>
       </div>
 
@@ -51,7 +54,7 @@ export default function PicturesSection({
                       <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
                         <Image
                           src={image}
-                          alt={`${name} 이미지 ${index}`}
+                          alt={`${name} ${t.common.detail.pictures.imageAlt} ${index}`}
                           fill
                           className="object-cover transition-transform duration-300 hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1280px"

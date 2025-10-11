@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface ReviewsSectionProps {
   reviews: {
@@ -11,11 +14,13 @@ interface ReviewsSectionProps {
 }
 
 export default function ReviewsSection({ reviews }: ReviewsSectionProps) {
+  const { t } = useTranslation();
+
   return (
     <Card className="bg-white py-20">
       <div className="mx-auto max-w-4xl px-4">
         <CardTitle className="mb-12 text-center text-3xl font-bold md:text-4xl">
-          생생한 이용 후기
+          {t.common.detail.reviews.title}
         </CardTitle>
 
         <CardContent className="grid gap-6 px-0 md:grid-cols-3">
@@ -24,7 +29,7 @@ export default function ReviewsSection({ reviews }: ReviewsSectionProps) {
               <div className="relative aspect-[4/3]">
                 <Image
                   src={review.image}
-                  alt={`후기 사진 ${index + 1}`}
+                  alt={`${t.common.detail.reviews.photoAlt} ${index + 1}`}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
                   className="object-cover"

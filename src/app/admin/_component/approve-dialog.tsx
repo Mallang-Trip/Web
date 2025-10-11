@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { X, Plus, Upload, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/use-translation";
 import type { Row } from "./reservation-table";
 import { useUpload } from "@/hooks/use-upload";
 
@@ -61,6 +62,7 @@ export default function ApproveDialog({
   onApprove,
   isPending,
 }: ApproveDialogProps) {
+  const { t } = useTranslation();
   const [isUploading, setIsUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -77,7 +79,9 @@ export default function ApproveDialog({
     const validFiles = files.filter((file) => {
       // 백엔드 스펙상 다양한 형식 허용. 이 컴포넌트는 이미지용이므로 이미지만 필터링
       if (!file.type.startsWith("image/")) {
-        toast.error(`${file.name}은(는) 이미지 파일이 아닙니다.`);
+        toast.error(
+          t.admin.toast.notImageFile.replace("{{filename}}", file.name),
+        );
         return false;
       }
       return true;
@@ -91,10 +95,12 @@ export default function ApproveDialog({
       const urls = uploaded.map((u) => u.url).filter(Boolean);
       if (urls.length > 0) {
         setVehicleImageUrls([...vehicleImageUrls, ...urls]);
-        toast.success(`${urls.length}개의 이미지가 업로드되었습니다.`);
+        toast.success(
+          t.admin.toast.uploadSuccess.replace("{{count}}", String(urls.length)),
+        );
       }
     } catch {
-      toast.error("이미지 업로드 중 오류가 발생했습니다.");
+      toast.error(t.admin.toast.uploadError);
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
@@ -147,65 +153,68 @@ export default function ApproveDialog({
     <Dialog open={!!approveTarget} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-none bg-white sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>예약 승인</DialogTitle>
-          <DialogDescription>
-            드라이버 정보와 양조장 정보를 입력해주세요
-          </DialogDescription>
+          <DialogTitle>{t.admin.approve.title}</DialogTitle>
+          <DialogDescription>{t.admin.approve.description}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
           {/* 관리자 메모 */}
           <div className="space-y-2">
-            <Label>관리자 메모 (선택)</Label>
+            <Label>{t.admin.approve.adminMemo}</Label>
             <Textarea
               value={approveMemo}
               onChange={(e) => setApproveMemo(e.target.value)}
-              placeholder="관리자 메모를 입력하세요"
+              placeholder={t.admin.approve.adminMemoPlaceholder}
             />
           </div>
 
           {/* 드라이버 정보 */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">드라이버 정보</h3>
+            <h3 className="text-lg font-semibold">
+              {t.admin.approve.driverInfo}
+            </h3>
 
             <div className="space-y-2">
               <Label htmlFor="driver-name">
-                드라이버 이름 <span className="text-red-500">*</span>
+                {t.admin.approve.driverName}{" "}
+                <span className="text-red-500">{t.admin.approve.required}</span>
               </Label>
               <Input
                 id="driver-name"
                 value={driverName}
                 onChange={(e) => setDriverName(e.target.value)}
-                placeholder="드라이버 이름을 입력하세요"
+                placeholder={t.admin.approve.driverNamePlaceholder}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="driver-phone">
-                드라이버 전화번호 <span className="text-red-500">*</span>
+                {t.admin.approve.driverPhone}{" "}
+                <span className="text-red-500">{t.admin.approve.required}</span>
               </Label>
               <Input
                 id="driver-phone"
                 value={driverPhone}
                 onChange={(e) => setDriverPhone(e.target.value)}
-                placeholder="+821012345678 형식으로 입력하세요"
+                placeholder={t.admin.approve.driverPhonePlaceholder}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="vehicle-number">
-                차량 번호 <span className="text-red-500">*</span>
+                {t.admin.approve.vehicleNumber}{" "}
+                <span className="text-red-500">{t.admin.approve.required}</span>
               </Label>
               <Input
                 id="vehicle-number"
                 value={vehicleNumber}
                 onChange={(e) => setVehicleNumber(e.target.value)}
-                placeholder="12가3456"
+                placeholder={t.admin.approve.vehicleNumberPlaceholder}
               />
             </div>
 
             <div className="space-y-2">
-              <Label>차량 이미지 (선택)</Label>
+              <Label>{t.admin.approve.vehicleImage}</Label>
               <div
                 className={`relative rounded-lg border-2 border-dashed p-6 text-center transition-colors ${
                   isDragging
@@ -227,7 +236,7 @@ export default function ApproveDialog({
                 <div className="space-y-2">
                   <Upload className="mx-auto h-8 w-8 text-gray-400" />
                   <p className="text-sm text-gray-600">
-                    이미지를 드래그하거나 클릭하여 업로드
+                    {t.admin.approve.dragOrClick}
                   </p>
                   <Button
                     type="button"
@@ -239,10 +248,10 @@ export default function ApproveDialog({
                     {isUploading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        업로드 중...
+                        {t.admin.approve.uploading}
                       </>
                     ) : (
-                      "파일 선택"
+                      t.admin.button.fileSelect
                     )}
                   </Button>
                 </div>
@@ -276,7 +285,9 @@ export default function ApproveDialog({
           {/* 양조장 리스트 */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">양조장 방문 정보</h3>
+              <h3 className="text-lg font-semibold">
+                {t.admin.approve.breweryInfo}
+              </h3>
               <Button
                 type="button"
                 variant="outline"
@@ -284,7 +295,7 @@ export default function ApproveDialog({
                 onClick={addBrewery}
               >
                 <Plus className="mr-1 h-4 w-4" />
-                양조장 추가
+                {t.admin.approve.addBrewery}
               </Button>
             </div>
 
@@ -297,7 +308,10 @@ export default function ApproveDialog({
                   >
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">
-                        {index + 1}번째 양조장
+                        {t.admin.approve.breweryOrder.replace(
+                          "{{number}}",
+                          String(index + 1),
+                        )}
                       </span>
                       <Button
                         type="button"
@@ -315,14 +329,14 @@ export default function ApproveDialog({
                         onChange={(e) =>
                           updateBrewery(index, "breweryName", e.target.value)
                         }
-                        placeholder="양조장 이름"
+                        placeholder={t.admin.approve.breweryNamePlaceholder}
                       />
                       <Input
                         value={brewery.address}
                         onChange={(e) =>
                           updateBrewery(index, "address", e.target.value)
                         }
-                        placeholder="양조장 주소"
+                        placeholder={t.admin.approve.breweryAddressPlaceholder}
                       />
                     </div>
                   </div>
@@ -330,8 +344,7 @@ export default function ApproveDialog({
               </div>
             ) : (
               <p className="text-center text-sm text-gray-500">
-                양조장 정보가 없습니다. 추가 버튼을 클릭하여 양조장을
-                추가하세요.
+                {t.admin.approve.noBreweries}
               </p>
             )}
           </div>
@@ -344,14 +357,14 @@ export default function ApproveDialog({
             onClick={onClose}
             disabled={isPending}
           >
-            취소
+            {t.admin.button.cancel}
           </Button>
           <Button
             className="flex-1"
             onClick={onApprove}
             disabled={isPending || isUploading}
           >
-            {isPending ? "처리 중..." : "승인"}
+            {isPending ? t.admin.button.processing : t.admin.button.approve}
           </Button>
         </DialogFooter>
       </DialogContent>

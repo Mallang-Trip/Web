@@ -1,3 +1,5 @@
+"use client";
+
 import HeroSection from "@/app/detail/_component/hero-section";
 import FeaturesSection from "@/app/detail/_component/features-section";
 import PricingSection from "@/app/detail/_component/pricing-section";

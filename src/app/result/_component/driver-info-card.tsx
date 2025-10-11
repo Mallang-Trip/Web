@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
 import { toast } from "sonner";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface Driver {
   name: string;
@@ -28,6 +29,9 @@ export default function DriverInfoCard({
   status,
   attributes,
 }: DriverInfoCardProps) {
+  const { t } = useTranslation();
+  const tData = t.result.driverInfo;
+
   const isApproved = (status || "").toUpperCase() === "APPROVED";
   const driver = attributes?.driver || null;
   const breweries = attributes?.breweries || null;
@@ -49,7 +53,7 @@ export default function DriverInfoCard({
               d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
             />
           </svg>
-          담당 드라이버
+          {tData.title}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -70,17 +74,20 @@ export default function DriverInfoCard({
 
 // 드라이버 정보 표시 컴포넌트
 function DriverInfo({ driver }: { driver: Driver }) {
+  const { t } = useTranslation();
+  const tData = t.result.driverInfo;
+
   const [viewerOpen, setViewerOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleCopyPhone = async () => {
     try {
       await navigator.clipboard.writeText(driver.phoneNumber);
-      toast.success("전화번호가 복사되었습니다.", {
+      toast.success(tData.phoneCopied, {
         description: driver.phoneNumber,
       });
     } catch {
-      toast.error("복사에 실패했습니다.");
+      toast.error(tData.copyFailed);
     }
   };
 
@@ -137,8 +144,8 @@ function DriverInfo({ driver }: { driver: Driver }) {
               <button
                 onClick={handleCopyPhone}
                 className="ml-1 rounded p-1 hover:bg-gray-100"
-                title="전화번호 복사"
-                aria-label="전화번호 복사"
+                title={tData.copyPhone}
+                aria-label={tData.copyPhone}
               >
                 <CopyIcon />
               </button>
@@ -152,7 +159,8 @@ function DriverInfo({ driver }: { driver: Driver }) {
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <ImageIcon />
               <span className="font-medium">
-                차량 사진 ({vehicleImageUrls.length}장)
+                {tData.vehiclePhotos} ({vehicleImageUrls.length}
+                {tData.photoCount})
               </span>
             </div>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
@@ -164,7 +172,7 @@ function DriverInfo({ driver }: { driver: Driver }) {
                 >
                   <Image
                     src={url}
-                    alt={`차량 이미지 ${index + 1}`}
+                    alt={`${tData.vehicleImage} ${index + 1}`}
                     fill
                     sizes="(max-width: 640px) 33vw, 25vw"
                     className="object-cover transition-transform group-hover:scale-110"
@@ -183,7 +191,7 @@ function DriverInfo({ driver }: { driver: Driver }) {
           onKeyDown={handleKeyDown}
           aria-describedby={undefined}
         >
-          <DialogTitle className="sr-only">차량 이미지</DialogTitle>
+          <DialogTitle className="sr-only">{tData.vehicleImage}</DialogTitle>
           <div className="relative flex h-[85vh] items-center justify-center sm:h-[90vh]">
             <button
               onClick={() => setViewerOpen(false)}
@@ -212,7 +220,7 @@ function DriverInfo({ driver }: { driver: Driver }) {
             <div className="relative h-full w-full">
               <Image
                 src={vehicleImageUrls[currentImageIndex] || ""}
-                alt={`차량 이미지 ${currentImageIndex + 1}`}
+                alt={`${tData.vehicleImage} ${currentImageIndex + 1}`}
                 fill
                 sizes="(max-width: 640px) 95vw, 90vw"
                 className="object-contain"
@@ -240,6 +248,9 @@ function BreweryInfo({
     address: string;
   }>;
 }) {
+  const { t } = useTranslation();
+  const tData = t.result.driverInfo;
+
   // order 순서대로 정렬
   const sortedBreweries = [...breweries].sort((a, b) => a.order - b.order);
 
@@ -247,7 +258,8 @@ function BreweryInfo({
     <div className="space-y-3 border-t border-gray-300 pt-6">
       <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
         <BreweryIcon />
-        방문 양조장 ({sortedBreweries.length}곳)
+        {tData.breweries} ({sortedBreweries.length}
+        {tData.breweriesCount})
       </div>
       <div className="space-y-3">
         {sortedBreweries.map((brewery) => (
@@ -278,14 +290,15 @@ function BreweryInfo({
 
 // 드라이버 미배정 상태 표시 컴포넌트
 function NoDriver() {
+  const { t } = useTranslation();
+  const tData = t.result.driverInfo;
+
   return (
     <div className="flex items-start gap-3 text-sm text-gray-600">
       <InfoIcon />
       <div>
-        <p className="font-medium text-gray-900">담당 드라이버 미배정</p>
-        <p className="mt-1 leading-relaxed">
-          예약이 확정되면 담당 드라이버가 배정됩니다.
-        </p>
+        <p className="font-medium text-gray-900">{tData.notAssigned}</p>
+        <p className="mt-1 leading-relaxed">{tData.notAssignedDesc}</p>
       </div>
     </div>
   );

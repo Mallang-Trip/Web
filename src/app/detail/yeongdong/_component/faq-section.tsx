@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { ReactNode } from "react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export interface FAQItem {
   question: string;
@@ -20,10 +21,11 @@ export default function FAQSection({
   selectedIndex,
   onToggle,
 }: FAQSectionProps) {
+  const { t } = useTranslation();
   return (
     <section>
       <h2 className="mb-8 text-center text-2xl font-bold text-slate-900">
-        자주 묻는 질문
+        {t.yeongdong.faq.title}
       </h2>
       <div className="space-y-4">
         {items.map((faq, index) => (

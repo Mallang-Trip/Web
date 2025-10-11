@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -17,6 +19,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { XIcon } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export interface BreweryInfo {
   id: number;
@@ -54,6 +57,7 @@ function BreweryCard({
   brewery: BreweryInfo;
   index: number;
 }) {
+  const { lang } = useTranslation();
   const images = Array.from(
     { length: Math.max(0, brewery.imagesCount) },
     (_, i) => {
@@ -159,7 +163,11 @@ function BreweryCard({
                 type="button"
                 className="relative block aspect-[4/3] w-full overflow-hidden rounded-lg bg-slate-100"
                 onClick={() => openLightbox(0)}
-                aria-label="메인 이미지 크게 보기"
+                aria-label={
+                  lang === "ko"
+                    ? "메인 이미지 크게 보기"
+                    : "View main image enlarged"
+                }
               >
                 {images[0] && (
                   <Image
@@ -189,7 +197,11 @@ function BreweryCard({
                           type="button"
                           className="relative block aspect-square w-full overflow-hidden rounded-lg bg-slate-100"
                           onClick={() => openLightbox(i + 1)}
-                          aria-label={`서브 이미지 ${i + 2} 크게 보기`}
+                          aria-label={
+                            lang === "ko"
+                              ? `서브 이미지 ${i + 2} 크게 보기`
+                              : `View sub image ${i + 2} enlarged`
+                          }
                         >
                           <Image
                             src={src}
@@ -243,10 +255,14 @@ function BreweryCard({
           showCloseButton={false}
         >
           <DialogTitle className="sr-only">
-            {brewery.name} 이미지 보기
+            {lang === "ko"
+              ? `${brewery.name} 이미지 보기`
+              : `View ${brewery.name} images`}
           </DialogTitle>
           <DialogDescription className="sr-only">
-            확대 보기. ESC 또는 X 버튼으로 닫을 수 있습니다.
+            {lang === "ko"
+              ? "확대 보기. ESC 또는 X 버튼으로 닫을 수 있습니다."
+              : "Enlarged view. You can close with ESC or X button."}
           </DialogDescription>
           <Carousel
             opts={{ startIndex: lightboxIndex, loop: true }}
@@ -292,7 +308,7 @@ function BreweryCard({
           <DialogClose asChild>
             <button
               type="button"
-              aria-label="닫기"
+              aria-label={lang === "ko" ? "닫기" : "Close"}
               className="absolute top-3 right-3 z-[60] inline-flex size-10 items-center justify-center rounded-full bg-white text-slate-900 shadow-lg ring-1 ring-black/10 transition hover:bg-white/90 focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
             >
               <XIcon className="size-5" />

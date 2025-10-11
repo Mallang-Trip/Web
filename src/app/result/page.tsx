@@ -20,7 +20,7 @@ import NotFound from "./_component/not-found";
 import { useAuth } from "@/hooks/use-auth";
 import Loading from "@/components/loading";
 import { track, trackPurchase, getCurrencyByLanguage } from "@/lib/analytics";
-import { useLangStore } from "@/stores/lang-store";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface ReservationPaymentInfo {
   paymentNumber: string;
@@ -127,7 +127,8 @@ function ResultPageInner() {
   const queryEmail = searchParams.get("email") || "";
   const queryPhone = searchParams.get("phoneNumber") || "";
   const actionParam = searchParams.get("action") || "";
-  const currentLanguage = useLangStore((s) => s.currentLanguage);
+  const { t, lang } = useTranslation();
+  const tResult = t.result;
 
   // 비로그인 게스트: 쿼리(email, phone)가 있어야 조회 허용
   const guestEnabled = useMemo(
@@ -250,7 +251,7 @@ function ResultPageInner() {
         currentReservation.paymentNumber ||
         String(currentReservation.reservationId);
       if (approved && currentReservation.price > 0) {
-        const currency = getCurrencyByLanguage(currentLanguage);
+        const currency = getCurrencyByLanguage(lang as "ko" | "en");
         trackPurchase({
           transaction_id: txId,
           currency,
@@ -269,7 +270,7 @@ function ResultPageInner() {
         });
       }
     } catch {}
-  }, [currentReservation, currentLanguage]);
+  }, [currentReservation, lang]);
 
   const handleCancelConfirm = async () => {
     try {
@@ -299,8 +300,8 @@ function ResultPageInner() {
         ),
       );
 
-      toast.success("예약이 성공적으로 취소되었습니다.", {
-        description: "취소된 예약은 나의 예약 내역에서 확인할 수 있습니다.",
+      toast.success(tResult.toast.cancelSuccess, {
+        description: tResult.toast.cancelSuccessDesc,
       });
 
       try {
@@ -313,11 +314,11 @@ function ResultPageInner() {
       console.error("예약 취소 실패:", error);
       const err = error as { status?: number; message?: string } | undefined;
       const status = err?.status;
-      let desc = err?.message || "잠시 후 다시 시도해주세요.";
-      if (status === 403) desc = "취소 권한이 없습니다.";
-      else if (status === 404) desc = "예약을 찾을 수 없습니다.";
-      else if (status === 409) desc = "현재 상태에서는 취소할 수 없습니다.";
-      toast.error("예약 취소 중 오류가 발생했습니다.", {
+      let desc = err?.message || tResult.toast.tryAgain;
+      if (status === 403) desc = tResult.toast.noPermission;
+      else if (status === 404) desc = tResult.toast.notFound;
+      else if (status === 409) desc = tResult.toast.cannotCancel;
+      toast.error(tResult.toast.cancelError, {
         description: desc,
       });
     } finally {
@@ -382,7 +383,7 @@ function ResultPageInner() {
   if (!hasHydrated || (!isAuthenticated && !guestEnabled)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <Loading text="예약 정보를 준비하는 중..." />
+        <Loading text={tResult.loading.preparing} />
       </div>
     );
   }
@@ -391,7 +392,7 @@ function ResultPageInner() {
   if (isLoading || searchQuery.isLoading || myQuery.isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <Loading text="예약 정보를 불러오는 중..." />
+        <Loading text={tResult.loading.fetching} />
       </div>
     );
   }
@@ -490,11 +491,14 @@ function ResultPageInner() {
 }
 
 export default function ResultPage() {
+  const { t } = useTranslation();
+  const tResult = t.result;
+
   return (
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
-          <Loading text="로딩 중..." />
+          <Loading text={tResult.loading.general} />
         </div>
       }
     >

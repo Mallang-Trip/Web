@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface PhoneNumberProps {
   phonePrefix: string;
@@ -26,11 +27,12 @@ export default function PhoneNumber({
   onCustomPhonePrefixToggle,
   onSubmit,
 }: PhoneNumberProps) {
+  const { t } = useTranslation();
   const isPhoneNumberValid = phoneNumber.trim().length > 0;
 
   return (
     <form className="grid gap-3" onSubmit={onSubmit}>
-      <Label htmlFor="phone">국제 전화번호 *</Label>
+      <Label htmlFor="phone">{t.login.phoneNumber.label}</Label>
       <div className="mt-1 flex gap-2">
         <Combobox
           value={isCustomPhonePrefix ? "__custom__" : phonePrefix}
@@ -50,7 +52,7 @@ export default function PhoneNumber({
             { value: "+1", label: "🇺🇸 +1" },
             { value: "+81", label: "🇯🇵 +81" },
             { value: "+886", label: "🇹🇼 +886" },
-            { value: "__custom__", label: "직접 입력" },
+            { value: "__custom__", label: t.login.phoneNumber.customInput },
           ]}
           widthClassName="w-28"
           buttonClassName="h-9 text-sm"
@@ -66,14 +68,14 @@ export default function PhoneNumber({
             }
             placeholder="+82"
             className="h-9 w-20"
-            aria-label="국가 번호 직접 입력"
+            aria-label={t.login.phoneNumber.customInputAriaLabel}
           />
         )}
         <Input
           type="tel"
           value={phoneNumber}
           onChange={(e) => onPhoneNumberChange(e.target.value)}
-          placeholder="'-' 제외 숫자만 입력"
+          placeholder={t.login.phoneNumber.placeholder}
           required
           className="flex-1"
           disabled={isLoading}
@@ -85,7 +87,9 @@ export default function PhoneNumber({
           className="w-full"
           disabled={!isPhoneNumberValid || isLoading}
         >
-          {isLoading ? "전송 중..." : "인증번호 전송"}
+          {isLoading
+            ? t.login.phoneNumber.sendingButton
+            : t.login.phoneNumber.sendButton}
         </Button>
       </div>
     </form>

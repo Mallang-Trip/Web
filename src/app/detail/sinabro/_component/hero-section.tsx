@@ -1,8 +1,13 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function HeroSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative flex h-screen items-center justify-center text-white">
       {/* 배경 이미지 */}
@@ -30,24 +35,19 @@ export default function HeroSection() {
           variant="secondary"
           className="mb-4 border-none bg-emerald-500/90 text-white"
         >
-          교통 포함 프라이빗 와이너리 체험
+          {t.sinabro.hero.badge}
         </Badge>
 
         <h1 className="mb-6 text-5xl font-bold md:text-6xl">
-          시나브로 와이너리 프라이빗 체험
+          {t.sinabro.hero.title}
         </h1>
 
-        <p className="mb-8 text-xl text-gray-200 md:text-2xl">
-          계절별 특별 체험과 수상작 와인, 집같은 따뜻함이 있는
-          <br />
-          우리 그룹만을 위한 가장 프라이빗한 와인 체험을 만나보세요.
+        <p className="mb-8 text-xl whitespace-pre-line text-gray-200 md:text-2xl">
+          {t.sinabro.hero.subtitle}
         </p>
 
         <div className="inline-block rounded-lg bg-white/10 px-6 py-3 backdrop-blur-sm">
-          <p className="text-emerald-300">
-            아시아·베를린 와인트로피 수상 | 한국농수산식품공사 공식 협력
-            와이너리
-          </p>
+          <p className="text-emerald-300">{t.sinabro.hero.certification}</p>
         </div>
       </div>
 

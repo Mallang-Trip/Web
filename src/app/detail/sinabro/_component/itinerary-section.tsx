@@ -1,41 +1,34 @@
-import { Clock, MapPin, Wine } from "lucide-react";
+"use client";
 
-const itineraryItems = [
-  {
-    time: "선택한 시간",
-    title: "픽업 및 출발",
-    description:
-      "영동역 또는 대전역에서 픽업하여 시나브로 와이너리로 출발합니다.",
-    icon: MapPin,
-    color: "bg-blue-500",
-  },
-  {
-    time: "약 2시간",
-    title: "와이너리 투어 & 체험",
-    description:
-      "부부가 운영하는 따뜻한 와이너리에서 계절별 특별 체험(포도 수확, 뱅쇼 만들기, 베이커리), 와인 시음, 와인 족욕 등 다채로운 경험을 즐기실 수 있습니다.",
-    icon: Wine,
-    color: "bg-emerald-500",
-  },
-  {
-    time: "체험 후",
-    title: "종료 및 드랍",
-    description:
-      "투어 종료 후 원하는 장소(영동역/대전역 또는 기타 지역)로 안전하게 드랍 서비스를 제공해드립니다.",
-    icon: Clock,
-    color: "bg-orange-500",
-  },
-];
+import { Clock, MapPin, Wine } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ItinerarySection() {
+  const { t } = useTranslation();
+
+  const itineraryItems = [
+    {
+      icon: MapPin,
+      color: "bg-blue-500",
+    },
+    {
+      icon: Wine,
+      color: "bg-emerald-500",
+    },
+    {
+      icon: Clock,
+      color: "bg-orange-500",
+    },
+  ];
+
   return (
     <section className="bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold">하루의 여정</h2>
-          <p className="text-gray-600">
-            시나브로 와이너리 프라이빗 투어의 완성된 일정을 만나보세요
-          </p>
+          <h2 className="mb-4 text-3xl font-bold">
+            {t.sinabro.itinerary.title}
+          </h2>
+          <p className="text-gray-600">{t.sinabro.itinerary.subtitle}</p>
         </div>
 
         <div className="mx-auto max-w-4xl">
@@ -59,12 +52,14 @@ export default function ItinerarySection() {
                 <div className="ml-8 flex-1 rounded-xl bg-white p-6 shadow-sm">
                   <div className="mb-2 flex flex-col items-start md:flex-row md:items-center">
                     <span className="mr-4 text-lg font-semibold text-emerald-600">
-                      {item.time}
+                      {t.sinabro.itinerary.items[index].time}
                     </span>
-                    <h3 className="text-xl font-semibold">{item.title}</h3>
+                    <h3 className="text-xl font-semibold">
+                      {t.sinabro.itinerary.items[index].title}
+                    </h3>
                   </div>
                   <p className="leading-relaxed text-gray-600">
-                    {item.description}
+                    {t.sinabro.itinerary.items[index].description}
                   </p>
                 </div>
               </div>

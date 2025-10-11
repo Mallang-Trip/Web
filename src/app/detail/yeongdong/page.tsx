@@ -12,207 +12,154 @@ import FAQSection from "./_component/faq-section";
 import CTASection from "./_component/cta-section";
 import PickupDropoffAreasSection from "../_component/pickup-dropoff-areas";
 import { Car, ShieldCheck, Gift } from "lucide-react";
-
-const breweries = [
-  {
-    id: 1,
-    number: "1",
-    name: "시나브로 와이너리",
-    tagline: "세계가 먼저 알아본 우리 포도의 저력, 그 정직한 시간이 담긴 곳",
-    story:
-      "농학박사 출신의 와인메이커가 자연의 시간을 존중하며, '모르는 사이에 조금씩'이라는 이름의 뜻처럼 느리지만 정직하게 와인을 빚어냅니다. 우리 품종 '청수'로 만든 화이트 와인이 세계적인 '베를린 와인 트로피'에서 수상하며 먼저 그 가치를 증명한 곳이기도 합니다. 인위적인 기교 대신, 한국의 효모와 영동의 떼루아(Terroir)가 가진 힘을 믿는 그의 철학을 직접 만나고, 우리 포도가 가진 무한한 가능성을 확인해 보세요.",
-    experienceTitle: "특별한 체험",
-    experienceText:
-      "계절의 향기를 가득 담아 나만의 와인을 직접 담그거나, 추운 날씨에 몸을 녹여주는 향긋한 뱅쇼(Vin Chaud)를 함께 만들며 오감을 만족시키는 특별한 추억을 만들 수 있습니다.",
-    signatureTitle: "대표 와인",
-    signatureText:
-      "시나브로 청수 화이트 와인 - 시트러스와 함께 파인애플, 망고, 흰 꽃향이 풍부하며, 바닐라, 커피의 뉘앙스도 느껴지는 와인으로, 한 해외 와인 전문가로부터 한국의 '소비뇽 블랑'이라는 찬사를 받기도 했습니다.",
-    images: "/tour-images/yeongdong/Sinabro",
-    imagesCount: 9,
-    address: "",
-  },
-  {
-    id: 2,
-    number: "2",
-    name: "소계리595",
-    tagline: "잊혀진 기찻길 위에서, 월류봉의 절경을 한 폭의 그림처럼 담아내다",
-    story:
-      "도시의 삶을 뒤로하고 고향으로 돌아온 형제가 이제는 기차가 다니지 않는 잊혀진 길 위에서 새로운 꿈을 키워갑니다. 친환경 농법으로 정성껏 가꾼 포도밭 너머, 영동의 상징인 월류봉이 한 폭의 산수화처럼 펼쳐지는 이곳은 자연과 사람이 아름답게 어우러진 공간입니다. 주소 '소계리 595번지'를 그대로 이름으로 삼은 정직함 속에서, 자연을 닮은 와인이 익어가는 평화로운 풍경을 마주해 보세요.",
-    experienceTitle: "특별한 체험",
-    experienceText:
-      "월류봉의 압도적인 절경을 파노라마처럼 마주하며 즐기는 와인 테이스팅은 소계리595에서만 가능한, 잊지 못할 인생 사진과 순간을 선사합니다.",
-    signatureTitle: "대표 와인",
-    signatureText:
-      "'청산별곡 레드 드라이'가 2024 아시아와인트로피에서 은상을 수상했으며, 드라이한 맛과 깊고 묵직한 바디감이 특징입니다.",
-    images: "/tour-images/yeongdong/Sogyeori",
-    imagesCount: 10,
-    address: "",
-  },
-  {
-    id: 3,
-    number: "3",
-    name: "와인코리아",
-    tagline: "한국 와인의 역사가 잠든 곳, 개척자의 뜨거운 열정을 만나다",
-    story:
-      "모두가 불가능이라 말하던 불모지에서 한국 와인 산업을 일군 개척자의 이야기가 모든 와인 한 잔에 살아 숨 쉬는 곳입니다. 창업주가 직접 들려주는 생생한 스토리텔링을 통해 한국 와인의 역사를 배우고, 10만 병의 와인이 잠든 지하 터널의 웅장함에 압도되는 특별한 경험을 할 수 있습니다. 이곳은 단순한 와이너리를 넘어, 한국 와인의 살아있는 박물관입니다.",
-    experienceTitle: "특별한 체험",
-    experienceText:
-      "10만 병의 와인이 잠든 지하 터널을 탐험하고, 여행의 피로를 부드럽게 녹여주는 따뜻한 와인 족욕으로 힐링의 시간을 갖는 것은 오직 와인코리아만이 드릴 수 있는 특별한 선물입니다.",
-    signatureTitle: "대표 와인",
-    signatureText:
-      "샤토마니(Chateau Mani) 스위트 레드 - 기암절벽 고성으로 유명한 마니산의 포도로 정통 양조법으로 빚은 순수 우리 포도주로, 물 한 방울도 희석하지 않는 100% 원액 자연발효 와인입니다.",
-    images: "/tour-images/yeongdong/Winekorea",
-    imagesCount: 10,
-    address: "",
-  },
-];
-
-const timeline = [
-  {
-    time: "08:00",
-    activity: "호텔/자택 픽업",
-    description: "프라이빗 차량이 문 앞으로 찾아갑니다",
-  },
-  {
-    time: "11:30",
-    activity: "와인코리아 오리로스 정식",
-    description: "알러지 & 식단제한 있을 경우 맞춤형 안내",
-  },
-  {
-    time: "13:00",
-    activity: "첫 번째 와이너리 체험",
-    description: "체험 1시간 + 자유시간 30분",
-  },
-  {
-    time: "14:30",
-    activity: "두 번째 와이너리 체험",
-    description: "체험 1시간 + 자유시간 30분",
-  },
-  {
-    time: "19:00",
-    activity: "호텔/자택 도착",
-    description: "문 앞까지 안전하게",
-  },
-];
-
-// const reviews = [
-//   {
-//     image: "/tour-images/vip/Sinpyeong/06.jpg",
-//     rating: "★★★★★",
-//     author: "",
-//     comment:
-//       "와이너리 오너 가족을 직접 만나고 소통할 수 있었던 점이 인상 깊었습니다. 비즈니스 접대용으로도 손색이 없는 세련된 경험입니다.",
-//   },
-//   {
-//     image: "/tour-images/vip/Sinpyeong/04.jpg",
-//     rating: "★★★★★",
-//     author: "",
-//     comment:
-//       "오크통에서 갓 꺼낸 원액을 맛보고, 나만의 술을 직접 만들어 가져갈 수 있다는 점이 정말 특별했습니다. 단순한 시음 투어가 아니었어요.",
-//   },
-//   {
-//     image: "/tour-images/vip/Cheonbi/05.jpg",
-//     rating: "★★★★★",
-//     author: "",
-//     comment:
-//       "각 와이너리의 개성이 뚜렷해서 지루할 틈이 없었습니다. 특히 마지막 와이너리에서 제공된 따뜻한 음식과 술의 조화는 최고였습니다. 친구들과 꼭 다시 오고 싶은 곳입니다.",
-//   },
-// ];
-
-const faqs = [
-  {
-    question: "투어 비용에는 무엇이 포함되어 있나요?",
-    answer:
-      "투어 비용은 고객님의 편안한 여정을 위한 올인클루시브(All-inclusive) 패키지로 구성되어 있습니다. 지정 장소에서의 픽업 및 드롭오프를 포함한 프라이빗 차량 및 전문 드라이버 서비스, 전문가가 엄선한 와이너리 2곳의 입장 및 체험 비용 일체, 각 와이너리에서 즐기는 프리미엄 와인 테이스팅, 그리고 점심 식사가 모두 포함됩니다.",
-  },
-  {
-    question: "점심 식사는 포함되어 있나요?",
-    answer:
-      "네, 포함되어 있습니다. 기본적으로 와인코리아에 위치한 식당에서 '오리 로스 정식'을 제공합니다. 식단 제한 및 알러지 등이 있으실 경우 방문 식당을 조율해드립니다.",
-  },
-  {
-    question: "어떤 와이너리를 방문하게 되나요? 직접 선택할 수 있나요?",
-    answer:
-      "본 투어는 단순한 방문이 아닌, 최고의 경험을 선사하기 위해 세심하게 큐레이션됩니다. 저희 전문가 팀이 당일의 예약 상황, 와이너리의 컨디션, 그리고 계절적 특색까지 종합적으로 고려하여 고객님께 가장 완벽한 경험을 선사할 최적의 와이너리 2곳을 선정하여 안내해 드립니다. 말랑트립의 안목을 믿고 맡겨주시면, 기대 이상의 만족을 경험하시게 될 것입니다.",
-  },
-  {
-    question: "(외국인 대상) 영어 소통에 어려움은 없나요?",
-    answer:
-      "영동 와이너리는 한국의 로컬리티를 깊이 간직한 곳으로, 와인메이커가 영어에 능통하지 않을 수 있습니다. 원활한 소통과 깊이 있는 체험을 위해, 외국인 고객님께는 전문 영어 통역 가이드 동행 서비스를 추가 옵션으로 제공합니다. 예약 문의 시 통역 가이드 필요 여부를 알려주시면, 추가 비용과 함께 상세히 안내해 드리겠습니다.",
-  },
-  {
-    question: "술을 마시지 않거나, 어린이도 투어에 참여할 수 있나요?",
-    answer:
-      "네, 참여 가능합니다. 본 투어는 단순한 시음을 넘어 한국의 와인 문화와 장인정신을 깊이 있게 체험하는 문화 여행입니다. 다만, 투어의 핵심 경험이 와인에 맞춰져 있어 별도의 가격 할인은 제공되지 않는 점 양해 바랍니다. 미성년 자녀와 동반하는 것 또한 가능하지만, 대한민국의 주류법에 따라 시음은 제한됩니다.",
-  },
-  {
-    question: "어떤 차량으로 이동하게 되나요?",
-    answer:
-      "고객님의 여정은 시작부터 끝까지 최상의 편안함을 유지해야 합니다. 인원수에 맞춰 쾌적하고 청결한 세단, SUV, 또는 대형 밴 차량을 배정하여 프라이빗하고 안락한 이동을 보장합니다.",
-  },
-  {
-    question: "캐리어나 큰 짐을 실을 수 있나요?",
-    answer:
-      "네, 가능합니다. 공항으로 바로 이동하시거나 호텔을 옮기시는 경우에도 불편함이 없도록 도와드립니다. 원활한 차량 배정을 위해, 예약 시 캐리어 등 큰 짐의 수량을 미리 알려주시기 바랍니다.",
-  },
-  {
-    question: "취소 및 환불 규정은 어떻게 되나요?",
-    answer:
-      "투어 시작일 기준 4일 전까지 예약을 취소하시는 경우, 결제 금액 전액을 환불해 드립니다. 다만, 투어 시작일로부터 3일 이내에는 환불이 불가하오니 신중한 예약을 부탁드립니다. 천재지변으로 인해 투어 진행이 불가능하다고 판단될 경우에는 100% 환불해 드립니다.",
-  },
-  {
-    question: "날씨가 좋지 않아도 투어는 진행되나요?",
-    answer:
-      "네, 본 투어는 대부분의 체험이 실내에서 이루어지므로 날씨와 관계없이 정상적으로 진행됩니다. 다만, 이동이 불가능할 정도의 심각한 천재지변이 발생하는 경우에는 고객님의 안전을 최우선으로 고려하여 일정을 조율하거나 전액 환불해 드립니다.",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
 
 export default function YeongdongDetailPage() {
+  const { t, lang } = useTranslation();
   const [selectedFaq, setSelectedFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
     setSelectedFaq(selectedFaq === index ? null : index);
   };
 
+  const breweries = [
+    {
+      id: 1,
+      number: t.yeongdong.breweries.sinabro.number,
+      name: t.yeongdong.breweries.sinabro.name,
+      tagline: t.yeongdong.breweries.sinabro.tagline,
+      story: t.yeongdong.breweries.sinabro.story,
+      experienceTitle: t.yeongdong.breweries.sinabro.experienceTitle,
+      experienceText: t.yeongdong.breweries.sinabro.experienceText,
+      signatureTitle: t.yeongdong.breweries.sinabro.signatureTitle,
+      signatureText: t.yeongdong.breweries.sinabro.signatureText,
+      images: "/tour-images/yeongdong/Sinabro",
+      imagesCount: 9,
+      address: t.yeongdong.breweries.sinabro.address,
+    },
+    {
+      id: 2,
+      number: t.yeongdong.breweries.sogyeori.number,
+      name: t.yeongdong.breweries.sogyeori.name,
+      tagline: t.yeongdong.breweries.sogyeori.tagline,
+      story: t.yeongdong.breweries.sogyeori.story,
+      experienceTitle: t.yeongdong.breweries.sogyeori.experienceTitle,
+      experienceText: t.yeongdong.breweries.sogyeori.experienceText,
+      signatureTitle: t.yeongdong.breweries.sogyeori.signatureTitle,
+      signatureText: t.yeongdong.breweries.sogyeori.signatureText,
+      images: "/tour-images/yeongdong/Sogyeori",
+      imagesCount: 10,
+      address: t.yeongdong.breweries.sogyeori.address,
+    },
+    {
+      id: 3,
+      number: t.yeongdong.breweries.winekorea.number,
+      name: t.yeongdong.breweries.winekorea.name,
+      tagline: t.yeongdong.breweries.winekorea.tagline,
+      story: t.yeongdong.breweries.winekorea.story,
+      experienceTitle: t.yeongdong.breweries.winekorea.experienceTitle,
+      experienceText: t.yeongdong.breweries.winekorea.experienceText,
+      signatureTitle: t.yeongdong.breweries.winekorea.signatureTitle,
+      signatureText: t.yeongdong.breweries.winekorea.signatureText,
+      images: "/tour-images/yeongdong/Winekorea",
+      imagesCount: 10,
+      address: t.yeongdong.breweries.winekorea.address,
+    },
+  ];
+
+  const timeline = t.yeongdong.timeline.items;
+
+  // const reviews = [
+  //   {
+  //     image: "/tour-images/vip/Sinpyeong/06.jpg",
+  //     rating: "★★★★★",
+  //     author: "",
+  //     comment:
+  //       "와이너리 오너 가족을 직접 만나고 소통할 수 있었던 점이 인상 깊었습니다. 비즈니스 접대용으로도 손색이 없는 세련된 경험입니다.",
+  //   },
+  //   {
+  //     image: "/tour-images/vip/Sinpyeong/04.jpg",
+  //     rating: "★★★★★",
+  //     author: "",
+  //     comment:
+  //       "오크통에서 갓 꺼낸 원액을 맛보고, 나만의 술을 직접 만들어 가져갈 수 있다는 점이 정말 특별했습니다. 단순한 시음 투어가 아니었어요.",
+  //   },
+  //   {
+  //     image: "/tour-images/vip/Cheonbi/05.jpg",
+  //     rating: "★★★★★",
+  //     author: "",
+  //     comment:
+  //       "각 와이너리의 개성이 뚜렷해서 지루할 틈이 없었습니다. 특히 마지막 와이너리에서 제공된 따뜻한 음식과 술의 조화는 최고였습니다. 친구들과 꼭 다시 오고 싶은 곳입니다.",
+  //   },
+  // ];
+
+  const faqs = t.yeongdong.faq.items;
+
   const pricingTable = [
-    { people: "2인", total: 1110000, perPerson: 555000, vehicle: "승용차" },
-    { people: "3인", total: 1130000, perPerson: 376667, vehicle: "승용차" },
-    { people: "4인", total: 1315000, perPerson: 328750, vehicle: "승용차" },
-    { people: "5인", total: 1335000, perPerson: 267000, vehicle: "대형 밴" },
-    { people: "6인", total: 1366000, perPerson: 227667, vehicle: "대형 밴" },
-    { people: "7인", total: 1397000, perPerson: 199571, vehicle: "대형 밴" },
-    { people: "8인", total: 1428000, perPerson: 178500, vehicle: "대형 밴" },
+    {
+      people: lang === "ko" ? "2인" : "2 people",
+      total: 1110000,
+      perPerson: 555000,
+      vehicle: lang === "ko" ? "승용차" : "Sedan",
+    },
+    {
+      people: lang === "ko" ? "3인" : "3 people",
+      total: 1130000,
+      perPerson: 376667,
+      vehicle: lang === "ko" ? "승용차" : "Sedan",
+    },
+    {
+      people: lang === "ko" ? "4인" : "4 people",
+      total: 1315000,
+      perPerson: 328750,
+      vehicle: lang === "ko" ? "승용차" : "Sedan",
+    },
+    {
+      people: lang === "ko" ? "5인" : "5 people",
+      total: 1335000,
+      perPerson: 267000,
+      vehicle: lang === "ko" ? "대형 밴" : "Large Van",
+    },
+    {
+      people: lang === "ko" ? "6인" : "6 people",
+      total: 1366000,
+      perPerson: 227667,
+      vehicle: lang === "ko" ? "대형 밴" : "Large Van",
+    },
+    {
+      people: lang === "ko" ? "7인" : "7 people",
+      total: 1397000,
+      perPerson: 199571,
+      vehicle: lang === "ko" ? "대형 밴" : "Large Van",
+    },
+    {
+      people: lang === "ko" ? "8인" : "8 people",
+      total: 1428000,
+      perPerson: 178500,
+      vehicle: lang === "ko" ? "대형 밴" : "Large Van",
+    },
   ];
 
   const features = [
     {
       icon: Car,
-      title: "도어투도어 서비스",
-      description: "호텔이나 자택에서 픽업하여\n편안하게 다시 모셔다 드립니다",
+      title: t.yeongdong.features.doorToDoor.title,
+      description: t.yeongdong.features.doorToDoor.description,
     },
     {
       icon: Gift,
-      title: "올인클루시브",
-      description:
-        "서울-와이너리 왕복 프라이빗 이동(약 300km), 톨비, 유류비, 주차비 모두 포함\n점심 식사 포함",
+      title: t.yeongdong.features.allInclusive.title,
+      description: t.yeongdong.features.allInclusive.description,
     },
     {
       icon: ShieldCheck,
-      title: "안전한 투어",
-      description: "음주운전 걱정 없이\n마음껏 시음을 즐기세요",
+      title: t.yeongdong.features.safety.title,
+      description: t.yeongdong.features.safety.description,
     },
   ];
 
-  const peopleOptions = [
-    { value: "2", label: "2인" },
-    { value: "3", label: "3인" },
-    { value: "4", label: "4인" },
-    { value: "5", label: "5인" },
-    { value: "6", label: "6인" },
-    { value: "7", label: "7인" },
-    { value: "8", label: "8인" },
-    { value: "9+", label: "9인 이상 (별도 문의)" },
-  ];
+  const peopleOptions = t.yeongdong.pricing.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
     "2": 1110000,
@@ -226,26 +173,14 @@ export default function YeongdongDetailPage() {
 
   const inquiryDeposit = 10000;
 
-  const includedItems = [
-    "호텔/자택 등에서 와이너리까지 왕복 이동 서비스",
-    "[체험] 와이너리 두 곳 계절 별 맞춤 체험 클래스",
-    "[시음] 와이너리 두 곳 테이스팅",
-    "점심 식사",
-  ];
-
-  const excludedItems = [
-    "여행자 보험",
-    "안내된 픽업/드랍 권역 외 추가 이동 비용",
-  ];
+  const includedItems = t.yeongdong.pickupDropoff.includedItems;
+  const excludedItems = t.yeongdong.pickupDropoff.excludedItems;
 
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       <HeroSection
-        titleLines={["프라이빗 도어투도어", "와이너리 투어"]}
-        subtitleLines={[
-          "마음껏 즐기세요, 운전은 저희가 할게요.",
-          "한국 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
-        ]}
+        titleLines={t.yeongdong.hero.title.split("\n")}
+        subtitleLines={t.yeongdong.hero.subtitle.split("\n")}
         videoSrc="/tour-images/yeongdong/yeongdong-hero.mp4"
       />
 
@@ -256,9 +191,15 @@ export default function YeongdongDetailPage() {
           <div className="w-full lg:w-3/4">
             <div className="space-y-16">
               <FeaturesSection
-                heading="그날의 가장 완벽한 조합을 선물합니다"
+                heading={
+                  lang === "ko"
+                    ? "그날의 가장 완벽한 조합을 선물합니다"
+                    : "We Present the Perfect Combination of the Day"
+                }
                 description={
-                  "고객님의 투어는 아래 세 곳의 명품 와이너리 중, 당일 예약 가능한 최적의 두 곳을 저희가 직접 큐레이션하여 구성됩니다. 각 와이너리의 예약 상황, 계절별 특별 프로그램, 그리고 이동 동선을 종합적으로 고려하여 가장 완벽한 하루를 설계해드립니다."
+                  lang === "ko"
+                    ? "고객님의 투어는 아래 세 곳의 명품 와이너리 중, 당일 예약 가능한 최적의 두 곳을 저희가 직접 큐레이션하여 구성됩니다. 각 와이너리의 예약 상황, 계절별 특별 프로그램, 그리고 이동 동선을 종합적으로 고려하여 가장 완벽한 하루를 설계해드립니다."
+                    : "Your tour is curated from the three premium wineries below, with the optimal two available for reservation on that day. We comprehensively consider each winery's reservation status, seasonal special programs, and travel routes to design the most perfect day for you."
                 }
                 items={features}
               />
@@ -268,21 +209,21 @@ export default function YeongdongDetailPage() {
 
               {/* 타임라인 섹션 */}
               <Timeline
-                heading="하루의 여정"
-                subheading="오전 8시부터 오후 1시 사이, 원하시는 시간에 출발"
+                heading={t.yeongdong.timeline.title}
+                subheading={t.yeongdong.timeline.subtitle}
                 items={timeline}
               />
 
               {/* 요금 섹션 (표 형태) */}
               <PricingTable
-                heading="투어 요금"
-                subheading="인원에 따른 맞춤 요금 체계"
+                heading={t.yeongdong.pricing.title}
+                subheading={t.yeongdong.pricing.subtitle}
                 rows={pricingTable}
               />
 
               <CTASection
-                heading="지금 예약하고 특별한 하루를 만들어보세요"
-                subheading="한국 와인의 진수를 경험하는 프리미엄 투어"
+                heading={t.yeongdong.cta.title}
+                subheading={t.yeongdong.cta.subtitle}
               />
 
               {/* <ReviewsSection reviews={reviews} /> */}
@@ -303,28 +244,11 @@ export default function YeongdongDetailPage() {
           {/* 오른쪽: 예약 사이드바 (1/3 영역, 데스크톱만) */}
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
-              title="영동 와이너리 프라이빗 투어"
-              price="1,110,000"
-              time="8시간"
-              baseMember="2인"
-              subItems={[
-                {
-                  title: "인원",
-                  value: "2인 이상",
-                },
-                {
-                  title: "투어 시간",
-                  value: "8시간",
-                },
-                {
-                  title: "포함 사항",
-                  value: "전용차량, 기사, 교통비, 체험비",
-                },
-                {
-                  title: "취소 정책",
-                  value: "4일 전 무료",
-                },
-              ]}
+              title={t.yeongdong.sidebar.title}
+              price={formatPrice(1110000, lang as "ko" | "en")}
+              time={t.yeongdong.sidebar.time}
+              baseMember={t.yeongdong.sidebar.baseMember}
+              subItems={t.yeongdong.sidebar.subItems}
               destinationId={1001}
               disabled={false}
               peopleOptions={peopleOptions}
@@ -338,10 +262,10 @@ export default function YeongdongDetailPage() {
 
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar
-        title="영동 와이너리 프라이빗 투어"
-        price="1,110,000"
-        time="8시간"
-        baseMember="2인"
+        title={t.yeongdong.sidebar.title}
+        price={formatPrice(1110000, lang as "ko" | "en")}
+        time={t.yeongdong.sidebar.time}
+        baseMember={t.yeongdong.sidebar.baseMember}
         destinationId={1001}
         disabled={false}
         peopleOptions={peopleOptions}

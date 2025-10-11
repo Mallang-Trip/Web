@@ -12,6 +12,9 @@ import {
   CheckCircleIcon,
   CloseCircleIcon,
 } from "@/components/ui/icons";
+import { useTranslation } from "@/hooks/use-translation";
+
+import { formatPrice } from "@/utils/currency";
 
 interface Reservation {
   reservationId: number | string;
@@ -39,12 +42,15 @@ interface ReservationInfoCardProps {
 export default function ReservationInfoCard({
   currentReservation,
 }: ReservationInfoCardProps) {
+  const { t, lang } = useTranslation();
+  const tData = t.result.reservationInfo;
+
   const isCanceled =
     (currentReservation.status || "").toUpperCase() === "CANCELED" ||
     !!currentReservation.canceledAt;
 
   const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString("ko-KR", {
+    new Date(iso).toLocaleDateString(lang === "ko" ? "ko-KR" : "en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -61,10 +67,12 @@ export default function ReservationInfoCard({
             <CheckCircleIcon className="h-5 w-5" />
           )}
           <span className={isCanceled ? "text-gray-600 line-through" : ""}>
-            예약 정보
+            {tData.title}
           </span>
           {isCanceled && (
-            <span className="text-sm font-normal text-red-600">(취소됨)</span>
+            <span className="text-sm font-normal text-red-600">
+              ({tData.canceled})
+            </span>
           )}
         </CardTitle>
       </CardHeader>
@@ -74,7 +82,7 @@ export default function ReservationInfoCard({
             icon={
               <DocumentIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="투어 이름"
+            label={tData.tourName}
             value={currentReservation.reservationName}
           />
 
@@ -82,7 +90,7 @@ export default function ReservationInfoCard({
             icon={
               <UserIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="예약자"
+            label={tData.booker}
             value={`${currentReservation.name} (${currentReservation.email})`}
           />
 
@@ -90,7 +98,7 @@ export default function ReservationInfoCard({
             icon={
               <PhoneIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="전화번호"
+            label={tData.phone}
             value={currentReservation.phoneNumber}
           />
 
@@ -98,15 +106,15 @@ export default function ReservationInfoCard({
             icon={
               <UsersIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="참가 인원"
-            value={`${currentReservation.userCount.toLocaleString()}명`}
+            label={tData.participants}
+            value={`${currentReservation.userCount.toLocaleString()}${tData.people}`}
           />
 
           <InfoRow
             icon={
               <CalendarIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="투어 일자"
+            label={tData.tourDate}
             value={`${formatDate(currentReservation.meetingDate)} (${currentReservation.pickupTime})`}
           />
 
@@ -114,7 +122,7 @@ export default function ReservationInfoCard({
             icon={
               <LocationIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="출발 위치"
+            label={tData.pickupLocation}
             value={currentReservation.pickupAddress}
           />
 
@@ -122,7 +130,7 @@ export default function ReservationInfoCard({
             icon={
               <ReturnIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="도착 위치"
+            label={tData.dropLocation}
             value={currentReservation.returnAddress}
           />
 
@@ -130,16 +138,16 @@ export default function ReservationInfoCard({
             icon={
               <MessageIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="요청 사항"
-            value={currentReservation.requests || "-"}
+            label={tData.requests}
+            value={currentReservation.requests || tData.noRequests}
           />
 
           <InfoRow
             icon={
               <MoneyIcon className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
             }
-            label="투어 요금"
-            value={`₩${currentReservation.price.toLocaleString()}`}
+            label={tData.tourFee}
+            value={formatPrice(currentReservation.price, lang as "ko" | "en")}
           />
         </div>
       </CardContent>

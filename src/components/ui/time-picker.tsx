@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { Clock, ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 type TimePickerProps = {
   value: string; // HH:mm
@@ -31,6 +32,7 @@ export function TimePicker({
   stepMinutes = 15,
   modal = false,
 }: TimePickerProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const [hh, mm] = React.useMemo(() => {
@@ -77,7 +79,7 @@ export function TimePicker({
             e.currentTarget.blur();
           }}
         >
-          <span>{value || "시간을 선택하세요"}</span>
+          <span>{value || t.common.ui.timePicker.placeholder}</span>
           <Clock className="opacity-60" />
         </Button>
       </PopoverTrigger>

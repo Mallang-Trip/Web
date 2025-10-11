@@ -1,7 +1,11 @@
+"use client";
+
 import { termsData } from "./termsData";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ServicePage() {
-  const currentLang = "ko";
+  const { lang } = useTranslation();
+  const currentLang = lang === "ko" || lang === "en" ? lang : "ko";
   const data = termsData[currentLang];
 
   return (

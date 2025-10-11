@@ -1,3 +1,5 @@
+"use client";
+
 import BookingSidebar from "@/app/detail/_component/booking-sidebar";
 import MobileBottomBar from "@/app/detail/_component/mobile-bottom-bar";
 import HeroSection from "./_component/hero-section";
@@ -8,16 +10,13 @@ import PricingSection from "./_component/pricing-section";
 // import ReviewsSection from "./_component/reviews-section";
 import FAQSection from "./_component/FAQ-section";
 // import PartnersSection from "./_component/partners-section";
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
 
 export default function ChunbiDetailPage() {
-  const peopleOptions = [
-    { value: "2", label: "2~5인" },
-    { value: "6", label: "6인" },
-    { value: "7", label: "7인" },
-    { value: "8", label: "8인" },
-    { value: "9", label: "9인" },
-    { value: "10", label: "10인" },
-  ];
+  const { t, lang } = useTranslation();
+
+  const peopleOptions = t.chunbi.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
     "2": 300000,
@@ -29,6 +28,12 @@ export default function ChunbiDetailPage() {
   };
 
   const inquiryDeposit = 10000;
+
+  const sidebarTitle = t.chunbi.sidebar.title;
+  const basePrice = formatPrice(300000, lang as "ko" | "en");
+  const time = t.chunbi.sidebar.time;
+
+  const subItems = t.chunbi.sidebar.subItems;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -50,18 +55,10 @@ export default function ChunbiDetailPage() {
 
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
-              title="좋은술 천비향 프라이빗 투어"
-              price="300,000"
-              time="2~5인"
-              subItems={[
-                { title: "", value: "약 2시간" },
-                { title: "", value: "픽업/드랍 서비스 포함" },
-                { title: "", value: "4일 전 100% 취소 가능" },
-                {
-                  title: "",
-                  value: "상세 체험 내용은 시기 별로 변동될 수 있습니다.",
-                },
-              ]}
+              title={sidebarTitle}
+              price={basePrice}
+              time={time}
+              subItems={subItems}
               color="emerald"
               destinationId={1002}
               disabled={false}
@@ -74,9 +71,9 @@ export default function ChunbiDetailPage() {
       </div>
 
       <MobileBottomBar
-        title="좋은술 천비향 프라이빗 투어"
-        price="300,000"
-        time="2~5인"
+        title={sidebarTitle}
+        price={basePrice}
+        time={time}
         color="emerald"
         destinationId={1002}
         disabled={false}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 
 export type Row = {
   reservationId: number | string;
@@ -45,27 +46,31 @@ export default function ReservationTable({
   isApproving,
   isRejecting,
 }: ReservationTableProps) {
+  const { t, lang } = useTranslation();
+
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
       <table className="min-w-full text-sm">
         <thead className="bg-gray-50 text-left text-gray-600">
           <tr>
-            <th className="px-4 py-2">ID</th>
-            <th className="px-4 py-2">예약명</th>
-            <th className="px-4 py-2">예약자</th>
-            <th className="px-4 py-2">연락처</th>
-            <th className="px-4 py-2">일시</th>
-            <th className="px-4 py-2">픽업/복귀</th>
-            <th className="px-4 py-2">금액</th>
-            <th className="px-4 py-2">상태</th>
-            <th className="px-4 py-2">액션</th>
+            <th className="px-4 py-2">{t.admin.table.id}</th>
+            <th className="px-4 py-2">{t.admin.table.reservationName}</th>
+            <th className="px-4 py-2">{t.admin.table.reservedBy}</th>
+            <th className="px-4 py-2">{t.admin.table.contact}</th>
+            <th className="px-4 py-2">{t.admin.table.datetime}</th>
+            <th className="px-4 py-2">{t.admin.table.pickupReturn}</th>
+            <th className="px-4 py-2">{t.admin.table.amount}</th>
+            <th className="px-4 py-2">{t.admin.table.status}</th>
+            <th className="px-4 py-2">{t.admin.table.action}</th>
           </tr>
         </thead>
         <tbody>
           {rows.length === 0 ? (
             <tr>
               <td className="px-4 py-6 text-center text-gray-500" colSpan={9}>
-                {isFetching ? "불러오는 중..." : "조회 결과가 없습니다."}
+                {isFetching
+                  ? t.admin.pagination.loading
+                  : t.admin.table.noResults}
               </td>
             </tr>
           ) : (
@@ -84,7 +89,9 @@ export default function ReservationTable({
                 <td className="px-4 py-3">{r.phoneNumber}</td>
                 <td className="px-4 py-3">
                   <div>
-                    {new Date(r.meetingDate).toLocaleDateString("ko-KR")}
+                    {new Date(r.meetingDate).toLocaleDateString(
+                      lang === "ko" ? "ko-KR" : "en-US",
+                    )}
                   </div>
                   <div className="text-xs text-gray-500">{r.pickupTime}</div>
                 </td>
@@ -100,7 +107,8 @@ export default function ReservationTable({
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  ₩{Number(r.price).toLocaleString()}
+                  {lang === "ko" ? "₩" : "$"}
+                  {Number(r.price).toLocaleString()}
                 </td>
                 <td className="px-4 py-3">{r.status}</td>
                 <td
@@ -118,7 +126,7 @@ export default function ReservationTable({
                         onApprove(r);
                       }}
                     >
-                      승인
+                      {t.admin.button.approve}
                     </Button>
                     <Button
                       size="sm"
@@ -129,7 +137,7 @@ export default function ReservationTable({
                         onReject(r);
                       }}
                     >
-                      반려
+                      {t.admin.button.reject}
                     </Button>
                   </div>
                 </td>

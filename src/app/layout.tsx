@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 import { QueryProvider } from "@/providers/query";
@@ -11,35 +12,41 @@ import { baseUrl } from "@/lib/env";
 import LayoutShell from "@/components/layout-shell";
 import AnalyticsProvider from "@/providers/analytics-provider";
 import Loading from "@/components/loading";
+import { LangInitProvider } from "@/providers/lang-init-provider";
+import { translations } from "@/locales";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    template: "%s | 말랑트립",
-    default: "말랑트립",
-  },
-  description:
-    "버스보다 빠르고, 택시보다 저렴하게! 택시 카풀 여행 플랫폼 말랑트립",
-  keywords: [
-    "말랑트립",
-    "말랑 트립",
-    "Mallangtrip",
-    "mallangtrip",
-    "Mallang trip",
-    "mallang trip",
-  ],
-  openGraph: {
-    title: "말랑트립",
-    description:
-      "버스보다 빠르고, 택시보다 저렴하게! 택시 카풀 여행 플랫폼 말랑트립",
-    images:
-      "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/9a360955-8f22-4911-9708-53b1065f9b5amallangtrip.png",
-    url: baseUrl,
-    type: "website",
-    siteName: "말랑트립",
-    locale: "ko_KR",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const locale = (cookieStore.get("NEXT_LOCALE")?.value as "ko" | "en") || "ko";
+  const t = translations[locale].common.metadata;
+
+  return {
+    metadataBase: new URL(baseUrl),
+    title: {
+      template: `%s | ${t.title}`,
+      default: t.title,
+    },
+    description: t.description,
+    keywords: [
+      "말랑트립",
+      "말랑 트립",
+      "Mallangtrip",
+      "mallangtrip",
+      "Mallang trip",
+      "mallang trip",
+    ],
+    openGraph: {
+      title: t.title,
+      description: t.description,
+      images:
+        "https://mallang-trip-db.s3.ap-northeast-2.amazonaws.com/profile/9a360955-8f22-4911-9708-53b1065f9b5amallangtrip.png",
+      url: baseUrl,
+      type: "website",
+      siteName: t.title,
+      locale: locale === "ko" ? "ko_KR" : "en_US",
+    },
+  };
+}
 
 export default function RootLayout({
   children,
@@ -52,6 +59,7 @@ export default function RootLayout({
         <QueryProvider>
           <CounterStoreProvider>
             <TokenRefreshProvider>
+              <LangInitProvider />
               <FirstEntryProvider />
               <Suspense fallback={<Loading />}>
                 <AnalyticsProvider />

@@ -1,3 +1,8 @@
+"use client";
+
+import { useTranslation } from "@/hooks/use-translation";
+import { formatPrice } from "@/utils/currency";
+
 interface TransactionStatement {
   issuedDate: string;
   customer: {
@@ -22,10 +27,11 @@ interface TransactionStatementViewProps {
 export default function TransactionStatementView({
   data,
 }: TransactionStatementViewProps) {
+  const { t, lang } = useTranslation();
   if ((data as { error?: boolean }).error) {
     return (
       <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
-        거래명세서를 불러오지 못했습니다.{" "}
+        {t.result.transactionStatement.errorLoading}{" "}
         {(data as { message?: string }).message}
       </div>
     );
@@ -35,24 +41,27 @@ export default function TransactionStatementView({
   const issued = new Date(statement.issuedDate);
   const paymentDate = new Date(statement.transactionDetail.paymentDate);
 
+  const locale = lang === "en" ? "en-US" : "ko-KR";
+
   const formatDate = (date: Date) =>
-    date.toLocaleDateString("ko-KR", {
+    date.toLocaleDateString(locale, {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     });
 
   const formatDateKo = (date: Date) =>
-    date.toLocaleDateString("ko-KR", {
+    date.toLocaleDateString(locale, {
       year: "numeric",
       month: "long",
       day: "numeric",
     });
 
   const formatTimeKo = (date: Date) =>
-    date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+    date.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
 
-  const currency = (n: number) => `₩${Number(n || 0).toLocaleString()}`;
+  const currency = (n: number) =>
+    formatPrice(Number(n || 0), lang as "ko" | "en");
 
   const quantity = Number(statement.transactionDetail.quantity || 0);
   const unitPrice = Number(statement.transactionDetail.pricePerPerson || 0);
@@ -68,16 +77,18 @@ export default function TransactionStatementView({
         formatDate={formatDate}
         formatDateKo={formatDateKo}
         customer={statement.customer}
+        t={t}
+        lang={lang}
       />
 
       {/* 공급자 정보 */}
-      <SupplierInfo />
+      <SupplierInfo t={t} />
 
       {/* 공급받는 자 정보 */}
-      <CustomerInfo customer={statement.customer} />
+      <CustomerInfo customer={statement.customer} t={t} lang={lang} />
 
       {/* 합계 금액 */}
-      <TotalAmount totalAmount={totalAmount} currency={currency} />
+      <TotalAmount totalAmount={totalAmount} currency={currency} t={t} />
 
       {/* 거래 상세 내역 */}
       <TransactionDetail
@@ -88,6 +99,7 @@ export default function TransactionStatementView({
         unitPrice={unitPrice}
         supplyAmount={supplyAmount}
         taxAmount={taxAmount}
+        t={t}
       />
 
       {/* 합계 테이블 */}
@@ -96,6 +108,7 @@ export default function TransactionStatementView({
         supplyAmount={supplyAmount}
         taxAmount={taxAmount}
         currency={currency}
+        t={t}
       />
 
       {/* 비고 */}
@@ -104,6 +117,7 @@ export default function TransactionStatementView({
         paymentDate={paymentDate}
         formatDateKo={formatDateKo}
         formatTimeKo={formatTimeKo}
+        t={t}
       />
     </div>
   );
@@ -115,17 +129,21 @@ function DocumentInfo({
   formatDate,
   formatDateKo,
   customer,
+  t,
+  lang,
 }: {
   issued: Date;
   formatDate: (date: Date) => string;
   formatDateKo: (date: Date) => string;
   customer: TransactionStatement["customer"];
+  t: any;
+  lang: string;
 }) {
   return (
     <div>
       <div className="grid grid-cols-3 gap-px overflow-hidden rounded-md border border-gray-200">
         <div className="bg-gray-100 p-3 font-semibold text-gray-700">
-          문서번호 (Invoice No.)
+          {t.result.transactionStatement.invoiceNo}
         </div>
         <div className="col-span-2 min-w-0 p-3 break-words whitespace-pre-wrap">
           MALLANGTRIP-
@@ -135,16 +153,18 @@ function DocumentInfo({
           {String(issued.getSeconds()).padStart(2, "0")}
         </div>
         <div className="bg-gray-100 p-3 font-semibold text-gray-700">
-          작성일자 (Date)
+          {t.result.transactionStatement.date}
         </div>
         <div className="col-span-2 min-w-0 p-3 break-words whitespace-pre-wrap">
           {formatDateKo(issued)}
         </div>
         <div className="bg-gray-100 p-3 font-semibold text-gray-700">
-          수신 (To)
+          {t.result.transactionStatement.to}
         </div>
         <div className="col-span-2 min-w-0 p-3 break-words whitespace-pre-wrap">
-          {customer?.name || "고객"} 귀하
+          {lang === "en"
+            ? `${t.result.transactionStatement.dear} ${customer?.name || "Customer"}`
+            : `${customer?.name || "고객"} ${t.result.transactionStatement.dear}`}
         </div>
       </div>
     </div>
@@ -152,20 +172,37 @@ function DocumentInfo({
 }
 
 // 공급자 정보 컴포넌트
-function SupplierInfo() {
+function SupplierInfo({ t }: { t: any }) {
   return (
     <div>
-      <h3 className="mb-2 font-semibold">공급자 (Supplier)</h3>
+      <h3 className="mb-2 font-semibold">
+        {t.result.transactionStatement.supplier}
+      </h3>
       <div className="grid grid-cols-4 gap-px overflow-hidden rounded-md border border-gray-200 text-sm">
-        <InfoCell label="상호" value="말랑트립" />
-        <InfoCell label="사업자등록번호" value="399-51-00784" />
-        <InfoCell label="대표" value="김제윤" />
         <InfoCell
-          label="주소"
-          value="경기도 안양시 시민대로327번길 11-41, 310호"
+          label={t.result.transactionStatement.businessName}
+          value={t.result.transactionStatement.supplierInfo.businessName}
         />
-        <InfoCell label="연락처" value="0507-1344-4159 (+82-507-1344-4159)" />
-        <InfoCell label="이메일" value="mallangtrip@mallangtrip.com" />
+        <InfoCell
+          label={t.result.transactionStatement.businessNumber}
+          value={t.result.transactionStatement.supplierInfo.businessNumber}
+        />
+        <InfoCell
+          label={t.result.transactionStatement.representative}
+          value={t.result.transactionStatement.supplierInfo.representative}
+        />
+        <InfoCell
+          label={t.result.transactionStatement.address}
+          value={t.result.transactionStatement.supplierInfo.address}
+        />
+        <InfoCell
+          label={t.result.transactionStatement.contact}
+          value={t.result.transactionStatement.supplierInfo.contact}
+        />
+        <InfoCell
+          label={t.result.transactionStatement.email}
+          value={t.result.transactionStatement.supplierInfo.email}
+        />
       </div>
     </div>
   );
@@ -174,24 +211,36 @@ function SupplierInfo() {
 // 공급받는 자 정보 컴포넌트
 function CustomerInfo({
   customer,
+  t,
+  lang,
 }: {
   customer: TransactionStatement["customer"];
+  t: any;
+  lang: string;
 }) {
   return (
     <div>
-      <h3 className="mb-2 font-semibold">공급받는 자 (Customer)</h3>
+      <h3 className="mb-2 font-semibold">
+        {t.result.transactionStatement.customer}
+      </h3>
       <div className="grid grid-cols-4 gap-px overflow-hidden rounded-md border border-gray-200 text-sm">
-        <InfoCell label="예약자명" value={customer?.name} />
-        <InfoCell label="연락처" value={customer?.phoneNumber} />
+        <InfoCell
+          label={t.result.transactionStatement.bookerName}
+          value={customer?.name}
+        />
+        <InfoCell
+          label={t.result.transactionStatement.contact}
+          value={customer?.phoneNumber}
+        />
         <div className="bg-gray-100 p-3 font-semibold text-gray-700">
-          이메일
+          {t.result.transactionStatement.email}
         </div>
         <div className="col-span-1 bg-white p-3 break-all">
           {customer?.email}
         </div>
         <InfoCell
-          label="탑승 인원"
-          value={`${Number(customer?.passengerCount || 0)}인`}
+          label={t.result.transactionStatement.passengers}
+          value={`${Number(customer?.passengerCount || 0)}${lang === "en" ? "" : t.result.transactionStatement.peopleCount}`}
         />
       </div>
     </div>
@@ -202,13 +251,15 @@ function CustomerInfo({
 function TotalAmount({
   totalAmount,
   currency,
+  t,
 }: {
   totalAmount: number;
   currency: (n: number) => string;
+  t: any;
 }) {
   return (
     <div className="text-right text-lg font-semibold">
-      합계 금액 (Total Amount): {currency(totalAmount)}
+      {t.result.transactionStatement.totalAmount}: {currency(totalAmount)}
     </div>
   );
 }
@@ -222,6 +273,7 @@ function TransactionDetail({
   unitPrice,
   supplyAmount,
   taxAmount,
+  t,
 }: {
   statement: TransactionStatement;
   formatDate: (date: Date) => string;
@@ -230,25 +282,34 @@ function TransactionDetail({
   unitPrice: number;
   supplyAmount: number;
   taxAmount: number;
+  t: any;
 }) {
   const paymentDate = new Date(statement.transactionDetail.paymentDate);
 
   return (
     <div>
       <h3 className="mb-2 font-semibold">
-        거래 상세 내역 (Transaction Details)
+        {t.result.transactionStatement.transactionDetails}
       </h3>
       <div className="overflow-x-auto rounded-md border border-gray-200">
         <table className="w-full table-fixed text-left text-sm">
           <thead className="bg-gray-50 text-gray-600">
             <tr>
-              <th className="p-3">거래일자</th>
-              <th className="p-3">품명</th>
-              <th className="p-3">규격 (투어일자)</th>
-              <th className="p-3">수량</th>
-              <th className="p-3">인당 가격</th>
-              <th className="p-3">공급가액</th>
-              <th className="p-3">세액</th>
+              <th className="p-3">
+                {t.result.transactionStatement.transactionDate}
+              </th>
+              <th className="p-3">{t.result.transactionStatement.itemName}</th>
+              <th className="p-3">
+                {t.result.transactionStatement.specification}
+              </th>
+              <th className="p-3">{t.result.transactionStatement.quantity}</th>
+              <th className="p-3">
+                {t.result.transactionStatement.pricePerPerson}
+              </th>
+              <th className="p-3">
+                {t.result.transactionStatement.supplyAmount}
+              </th>
+              <th className="p-3">{t.result.transactionStatement.taxAmount}</th>
             </tr>
           </thead>
           <tbody>
@@ -288,11 +349,13 @@ function QuantityTable({
   supplyAmount,
   taxAmount,
   currency,
+  t,
 }: {
   quantity: number;
   supplyAmount: number;
   taxAmount: number;
   currency: (n: number) => string;
+  t: any;
 }) {
   return (
     <div className="overflow-x-auto rounded-md border border-gray-200">
@@ -301,7 +364,7 @@ function QuantityTable({
           <tr className="bg-gray-50 text-gray-600">
             <td className="p-3"></td>
             <td className="p-3"></td>
-            <td className="p-3">합계</td>
+            <td className="p-3">{t.result.transactionStatement.total}</td>
             <td className="p-3">{quantity}</td>
             <td className="p-3"></td>
             <td className="p-3">{currency(supplyAmount)}</td>
@@ -319,46 +382,51 @@ function Remarks({
   paymentDate,
   formatDateKo,
   formatTimeKo,
+  t,
 }: {
   issued: Date;
   paymentDate: Date;
   formatDateKo: (date: Date) => string;
   formatTimeKo: (date: Date) => string;
+  t: any;
 }) {
   return (
     <div>
-      <h3 className="mb-2 font-semibold">비고 (Remarks)</h3>
+      <h3 className="mb-2 font-semibold">
+        {t.result.transactionStatement.remarks}
+      </h3>
       <div className="space-y-3 text-sm leading-relaxed">
-        <RemarkSection title="1. 포함 내역 (Inclusions):">
-          <li>프라이빗 전용 차량 및 전문 드라이버 (Door-to-Door 서비스)</li>
-          <li>유류비, 주차비, 통행료 일체</li>
-          <li>전문 통역 안내 서비스</li>
+        <RemarkSection title={t.result.transactionStatement.inclusions}>
+          <li>{t.result.transactionStatement.inclusionsList.vehicle}</li>
+          <li>{t.result.transactionStatement.inclusionsList.fuel}</li>
+          <li>{t.result.transactionStatement.inclusionsList.guide}</li>
+          <li>{t.result.transactionStatement.inclusionsList.brewery}</li>
+          <li>{t.result.transactionStatement.inclusionsList.water}</li>
+        </RemarkSection>
+
+        <RemarkSection title={t.result.transactionStatement.exclusions}>
+          <li>{t.result.transactionStatement.exclusionsList.meals}</li>
+          <li>{t.result.transactionStatement.exclusionsList.personal}</li>
+        </RemarkSection>
+
+        <RemarkSection title={t.result.transactionStatement.paymentInformation}>
+          <li>{t.result.transactionStatement.paymentMethod}</li>
           <li>
-            말랑트립이 큐레이션 해드리는 양조장 2곳 투어 및 체험비 (시음 포함)
-          </li>
-          <li>차량 내 생수 제공</li>
-        </RemarkSection>
-
-        <RemarkSection title="2. 불포함 내역 (Exclusions):">
-          <li>모든 식사 비용 (점심, 저녁 등)</li>
-          <li>개인 경비 및 여행자 보험</li>
-        </RemarkSection>
-
-        <RemarkSection title="3. 결제 정보 (Payment Information):">
-          <li>결제수단: 신용카드</li>
-          <li>
-            결제일시: {formatDateKo(paymentDate)} {formatTimeKo(paymentDate)}
+            {t.result.transactionStatement.paymentDateTime}{" "}
+            {formatDateKo(paymentDate)} {formatTimeKo(paymentDate)}
           </li>
         </RemarkSection>
 
-        <RemarkSection title="4. 취소 및 환불 규정 (Cancellation & Refund Policy):">
-          <li>투어일 기준 4일 전까지 취소 시: 전액 환불</li>
-          <li>투어일 기준 3일 전부터 취소 시: 환불 불가</li>
+        <RemarkSection title={t.result.transactionStatement.cancellationPolicy}>
+          <li>{t.result.transactionStatement.cancellationList.fullRefund}</li>
+          <li>{t.result.transactionStatement.cancellationList.noRefund}</li>
         </RemarkSection>
 
-        <div className="pt-2">위와 같이 거래하였음을 확인합니다.</div>
+        <div className="pt-2">{t.result.transactionStatement.confirmation}</div>
         <div>{formatDateKo(issued)}</div>
-        <div className="font-semibold">말랑트립</div>
+        <div className="font-semibold">
+          {t.result.transactionStatement.companyName}
+        </div>
       </div>
     </div>
   );

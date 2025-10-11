@@ -1,4 +1,7 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface HeroSectionProps {
   titleLines: string[];
@@ -13,6 +16,7 @@ export default function HeroSection({
   backgroundImage,
   videoSrc,
 }: HeroSectionProps) {
+  const { lang } = useTranslation();
   return (
     <section className="relative flex min-h-screen items-center justify-center text-white">
       {videoSrc ? (
@@ -37,7 +41,9 @@ export default function HeroSection({
       )}
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
         <span className="mb-6 inline-block border border-amber-400 px-6 py-2 text-sm tracking-[0.3em] text-amber-300">
-          술차오름 영동 by Mallangtrip
+          {lang === "ko"
+            ? "술차오름 영동 by Mallangtrip"
+            : "Yeongdong Wine Tour by Mallangtrip"}
         </span>
         <h1 className="mb-4 text-4xl font-light md:text-6xl">
           {titleLines.map((line, idx) => (

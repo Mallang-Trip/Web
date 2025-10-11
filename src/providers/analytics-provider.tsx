@@ -48,6 +48,7 @@ export default function AnalyticsProvider() {
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
+  if (process.env.NODE_ENV === "development") return null;
   return (
     <>
       {gaId ? (

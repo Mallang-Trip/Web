@@ -24,6 +24,7 @@ import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { TimePicker } from "@/components/ui/time-picker";
 import { track } from "@/lib/analytics";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface Reservation {
   reservationId: string | number;
@@ -83,6 +84,8 @@ export default function ReservationEditDialog({
   const updateMutation = useUpdateReservation();
   const [isSaving, setIsSaving] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { t } = useTranslation();
+  const tEdit = t.result.editDialog;
 
   const handleOpenChange = (newOpen: boolean) => {
     const activeElement = document.activeElement as HTMLElement;
@@ -144,14 +147,14 @@ export default function ReservationEditDialog({
     const raw = form.userCount;
     if (!raw) return;
     if (raw === "9+") {
-      toast.error("9인 이상 단체는 고객센터로 문의해주세요.");
+      toast.error(tEdit.groupContactError);
       return;
     }
     const count = raw as keyof typeof VIP_PRICES;
     if (VIP_PRICES[count] !== undefined) {
       setForm((p) => ({ ...p, price: VIP_PRICES[count] }));
     }
-  }, [form.userCount]);
+  }, [form.userCount, tEdit.groupContactError]);
 
   const isValid = useMemo(() => {
     const validCount = form.userCount !== "9+" && Number(form.userCount) > 0;
@@ -234,7 +237,7 @@ export default function ReservationEditDialog({
       } as Reservation;
 
       onSaved(next as Reservation);
-      toast.success("예약이 수정되었습니다.");
+      toast.success(tEdit.updateSuccess);
       try {
         track("edit_reservation", {
           reservation_id: next.reservationId,
@@ -244,11 +247,10 @@ export default function ReservationEditDialog({
       onOpenChange(false);
     } catch (error: unknown) {
       const err = error as { status?: number; message?: string } | undefined;
-      let desc = err?.message || "잠시 후 다시 시도해주세요.";
-      if (err?.status === 404) desc = "예약을 찾을 수 없습니다.";
-      else if (err?.status === 409)
-        desc = "현재 상태에서는 수정할 수 없습니다.";
-      toast.error("예약 수정에 실패했습니다.", { description: desc });
+      let desc = err?.message || tEdit.tryAgain;
+      if (err?.status === 404) desc = tEdit.notFound;
+      else if (err?.status === 409) desc = tEdit.cannotModify;
+      toast.error(tEdit.updateError, { description: desc });
     } finally {
       setIsSaving(false);
     }
@@ -272,12 +274,10 @@ export default function ReservationEditDialog({
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <DialogHeader>
-            <DialogTitle>예약 정보 수정</DialogTitle>
+            <DialogTitle>{tEdit.title}</DialogTitle>
           </DialogHeader>
           <div className="px-1 pb-4">
-            <p className="mb-3 text-sm text-gray-500">
-              승인 대기 상태에서만 수정할 수 있습니다.
-            </p>
+            <p className="mb-3 text-sm text-gray-500">{tEdit.pendingOnly}</p>
             <FormBody form={form} setForm={setForm} />
           </div>
           <FormActions
@@ -306,13 +306,11 @@ export default function ReservationEditDialog({
         }}
       >
         <DrawerHeader className="flex-shrink-0 text-left">
-          <DrawerTitle>예약 정보 수정</DrawerTitle>
+          <DrawerTitle>{tEdit.title}</DrawerTitle>
         </DrawerHeader>
 
         <div className="flex-1 overflow-auto px-4 pb-4">
-          <p className="mb-3 text-sm text-gray-500">
-            승인 대기(PENDING) 상태에서만 수정할 수 있습니다.
-          </p>
+          <p className="mb-3 text-sm text-gray-500">{tEdit.pendingOnlyFull}</p>
           <FormBody form={form} setForm={setForm} />
         </div>
 
@@ -355,10 +353,14 @@ function FormBody({
     }>
   >;
 }) {
+  const { t, lang } = useTranslation();
+  const tEdit = t.result.editDialog;
+  const currencyLabel = lang === "en" ? "$" : "₩";
+
   return (
     <div className="space-y-4">
       <div>
-        <Label className="mb-1 block">예약명</Label>
+        <Label className="mb-1 block">{tEdit.reservationName}</Label>
         <Input
           value={form.reservationName}
           onChange={(e) =>
@@ -370,7 +372,7 @@ function FormBody({
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label className="mb-1 block">미팅 날짜</Label>
+          <Label className="mb-1 block">{tEdit.meetingDate}</Label>
           <DatePicker
             value={form.meetingDate}
             onChange={(v) => setForm((prev) => ({ ...prev, meetingDate: v }))}
@@ -379,7 +381,7 @@ function FormBody({
           />
         </div>
         <div>
-          <Label className="mb-1 block">미팅 시간</Label>
+          <Label className="mb-1 block">{tEdit.meetingTime}</Label>
           <TimePicker
             value={form.pickupTime}
             onChange={(v) => setForm((prev) => ({ ...prev, pickupTime: v }))}
@@ -389,20 +391,20 @@ function FormBody({
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label className="mb-1 block">인원</Label>
+          <Label className="mb-1 block">{tEdit.participants}</Label>
           <Combobox
             value={form.userCount}
             onChange={(v) => setForm((p) => ({ ...p, userCount: v || "" }))}
             options={[
-              { value: "", label: "인원을 선택하세요" },
-              { value: "2", label: "2인" },
-              { value: "3", label: "3인" },
-              { value: "4", label: "4인" },
-              { value: "5", label: "5인" },
-              { value: "6", label: "6인" },
-              { value: "7", label: "7인" },
-              { value: "8", label: "8인" },
-              { value: "9+", label: "9인 이상 (별도 문의)" },
+              { value: "", label: tEdit.participantPlaceholder },
+              { value: "2", label: tEdit.people2 },
+              { value: "3", label: tEdit.people3 },
+              { value: "4", label: tEdit.people4 },
+              { value: "5", label: tEdit.people5 },
+              { value: "6", label: tEdit.people6 },
+              { value: "7", label: tEdit.people7 },
+              { value: "8", label: tEdit.people8 },
+              { value: "9+", label: tEdit.people9Plus },
             ]}
             widthClassName="w-full"
             buttonClassName="h-9 text-sm justify-between"
@@ -411,12 +413,16 @@ function FormBody({
           />
         </div>
         <div>
-          <Label className="mb-1 block">총 금액(₩)</Label>
+          <Label className="mb-1 block">
+            {tEdit.totalAmount
+              .replace("$", currencyLabel)
+              .replace("₩", currencyLabel)}
+          </Label>
           <Input type="number" min={0} value={form.price} disabled readOnly />
         </div>
       </div>
       <div>
-        <Label className="mb-1 block">픽업 주소</Label>
+        <Label className="mb-1 block">{tEdit.pickupAddress}</Label>
         <Textarea
           value={form.pickupAddress}
           onChange={(e) =>
@@ -425,7 +431,7 @@ function FormBody({
         />
       </div>
       <div>
-        <Label className="mb-1 block">복귀 주소</Label>
+        <Label className="mb-1 block">{tEdit.returnAddress}</Label>
         <Textarea
           value={form.returnAddress}
           onChange={(e) =>
@@ -434,7 +440,7 @@ function FormBody({
         />
       </div>
       <div>
-        <Label className="mb-1 block">요청사항</Label>
+        <Label className="mb-1 block">{tEdit.requests}</Label>
         <Textarea
           value={form.requests}
           onChange={(e) => setForm((p) => ({ ...p, requests: e.target.value }))}
@@ -456,6 +462,9 @@ function FormActions({
   isValid: boolean;
   isSaving: boolean;
 }) {
+  const { t } = useTranslation();
+  const tEdit = t.result.editDialog;
+
   return (
     <div className="flex w-full flex-shrink-0 gap-2 px-1 py-3">
       <Button
@@ -464,14 +473,14 @@ function FormActions({
         onClick={onCancel}
         disabled={isSaving}
       >
-        취소
+        {tEdit.cancel}
       </Button>
       <Button
         className="flex-1"
         onClick={onSave}
         disabled={!isValid || isSaving}
       >
-        {isSaving ? "저장 중..." : "저장"}
+        {isSaving ? tEdit.saving : tEdit.save}
       </Button>
     </div>
   );

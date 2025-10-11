@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface NewAgreeDialogProps {
   isOpen: boolean;
@@ -36,6 +37,7 @@ export default function NewAgreeDialog({
   onIndividualAgreeChange,
   onConfirm,
 }: NewAgreeDialogProps) {
+  const { t } = useTranslation();
   const allChecked =
     agreeService && agreeTravel && agreePrivacy && agreeThirdparty;
 
@@ -44,28 +46,28 @@ export default function NewAgreeDialog({
       id: "loginAgreeService",
       field: "agreeService",
       checked: agreeService,
-      label: "말랑트립 투어 서비스 이용약관",
+      label: t.login.termsDialog.terms.service,
       href: "/policy/service",
     },
     {
       id: "loginAgreeTravel",
       field: "agreeTravel",
       checked: agreeTravel,
-      label: "말랑트립 투어 국내여행 표준약관",
+      label: t.login.termsDialog.terms.travel,
       href: "/policy/travel",
     },
     {
       id: "loginAgreePrivacy",
       field: "agreePrivacy",
       checked: agreePrivacy,
-      label: "개인정보 수집·이용 동의",
+      label: t.login.termsDialog.terms.privacy,
       href: "/policy/privacy",
     },
     {
       id: "loginAgreeThirdparty",
       field: "agreeThirdparty",
       checked: agreeThirdparty,
-      label: "개인정보 제3자 제공 동의",
+      label: t.login.termsDialog.terms.thirdparty,
       href: "/policy/thirdparty",
     },
   ];
@@ -74,9 +76,9 @@ export default function NewAgreeDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="border-none bg-white">
         <DialogHeader>
-          <DialogTitle>약관 동의</DialogTitle>
+          <DialogTitle>{t.login.termsDialog.title}</DialogTitle>
           <DialogDescription>
-            서비스 이용을 위해 아래 필수 약관에 동의해 주세요.
+            {t.login.termsDialog.description}
           </DialogDescription>
         </DialogHeader>
         <div className="mt-2 space-y-3">
@@ -92,7 +94,7 @@ export default function NewAgreeDialog({
               htmlFor="loginAgreeAll"
               className="cursor-pointer text-base font-semibold"
             >
-              아래 약관에 모두 동의합니다.
+              {t.login.termsDialog.agreeAll}
             </label>
           </div>
 
@@ -115,7 +117,9 @@ export default function NewAgreeDialog({
                   htmlFor={item.id}
                   className="flex cursor-pointer items-center gap-1 text-sm"
                 >
-                  <span className="text-red-500">[필수]</span>
+                  <span className="text-red-500">
+                    {t.login.termsDialog.required}
+                  </span>
                   <Link
                     href={item.href}
                     target="_blank"
@@ -130,7 +134,7 @@ export default function NewAgreeDialog({
         </div>
         <DialogFooter>
           <Button className="w-full" onClick={onConfirm} disabled={!allChecked}>
-            동의하고 계속하기
+            {t.login.termsDialog.confirmButton}
           </Button>
         </DialogFooter>
       </DialogContent>

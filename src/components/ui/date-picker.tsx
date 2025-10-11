@@ -13,6 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 type DatePickerProps = {
   value: string; // yyyy-MM-dd
@@ -23,11 +24,11 @@ type DatePickerProps = {
   modal?: boolean;
 };
 
-function formatDateKo(d: Date): string {
+function formatDate(d: Date, weekdays: string[]): string {
   const y = d.getFullYear();
   const m = d.getMonth() + 1;
   const day = d.getDate();
-  const w = ["일", "월", "화", "수", "목", "금", "토"][d.getDay()];
+  const w = weekdays[d.getDay()];
   return `${y}.${String(m).padStart(2, "0")}.${String(day).padStart(2, "0")} (${w})`;
 }
 
@@ -62,6 +63,7 @@ export function DatePicker({
   buttonClassName,
   modal = false,
 }: DatePickerProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const selected = React.useMemo(() => parseYmd(value) || new Date(), [value]);
@@ -101,8 +103,8 @@ export function DatePicker({
   const monthTitle = React.useMemo(() => {
     const y = view.getFullYear();
     const m = view.getMonth() + 1;
-    return `${y}년 ${m}월`;
-  }, [view]);
+    return t.common.ui.datePicker.monthFormat(y, m);
+  }, [view, t]);
 
   const handleSelect = (d: Date) => {
     if (min && d < min) return;
@@ -140,8 +142,11 @@ export function DatePicker({
         >
           <span className="truncate">
             {value
-              ? formatDateKo(parseYmd(value) || new Date())
-              : "날짜를 선택하세요"}
+              ? formatDate(
+                  parseYmd(value) || new Date(),
+                  t.common.ui.datePicker.weekdays,
+                )
+              : t.common.ui.datePicker.placeholder}
           </span>
           <CalendarIcon className="opacity-60" />
         </Button>
@@ -190,7 +195,7 @@ export function DatePicker({
             onClick={() =>
               setView(new Date(view.getFullYear(), view.getMonth() - 1, 1))
             }
-            aria-label="이전 달"
+            aria-label={t.common.ui.datePicker.prevMonth}
           >
             <ChevronLeft className="size-4" />
           </Button>
@@ -202,13 +207,13 @@ export function DatePicker({
             onClick={() =>
               setView(new Date(view.getFullYear(), view.getMonth() + 1, 1))
             }
-            aria-label="다음 달"
+            aria-label={t.common.ui.datePicker.nextMonth}
           >
             <ChevronRight className="size-4" />
           </Button>
         </div>
         <div className="grid grid-cols-7 gap-1 px-2 pt-2 pb-2 text-center text-xs text-slate-500">
-          {"일월화수목금토".split("").map((w) => (
+          {t.common.ui.datePicker.weekdays.map((w) => (
             <div key={w} className="py-1">
               {w}
             </div>

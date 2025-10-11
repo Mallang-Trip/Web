@@ -1,8 +1,13 @@
+"use client";
+
 import { termsData } from "./termsData";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ThirdpartyPage() {
-  const currentLang = "ko";
+  const { t, lang } = useTranslation();
+  const currentLang = lang === "ko" || lang === "en" ? lang : "ko";
   const data = termsData[currentLang];
+  const policyText = t.policy.thirdparty;
 
   return (
     <div className="bg-gray-50 font-sans leading-relaxed text-gray-900 antialiased">
@@ -16,12 +21,7 @@ export default function ThirdpartyPage() {
 
             {/* 전문 */}
             <div className="mb-10 rounded-lg bg-blue-50 px-5 py-4 text-sm">
-              <p className="text-gray-700">
-                <strong>&apos;말랑트립&apos;</strong>(이하 &apos;회사&apos;라
-                합니다)은 원활한 서비스 제공을 위하여, 개인정보보호법 등 관련
-                법령에 따라 아래와 같이 개인정보를 제3자에게 제공하는 것에 대한
-                고객님의 동의를 받고자 합니다.
-              </p>
+              <p className="text-gray-700">{policyText.preamble}</p>
             </div>
 
             {/* 섹션들 */}

@@ -112,7 +112,7 @@ const chunbi = {
       {
         question: "What is the cancellation and refund policy?",
         answer:
-          "100% refund up to 4 days before the tour, 50% refund up to 3 days before, 30% refund up to 2 days before. No refund for same-day cancellation. Special consideration is available for natural disasters or unavoidable circumstances.",
+          "If you cancel your reservation 4 days before the start date of the tour, we will refund the full amount of the payment. However, the refund will not be possible within 3 days from the start date of the tour, so please make a careful reservation.",
       },
       {
         question: "Can minors participate?",
@@ -133,7 +133,7 @@ const chunbi = {
   },
   sidebar: {
     title: "Joeun-sul Cheonbihyang Private Tour",
-    time: "2-5 people",
+    time: "2-4 people",
     subItems: [
       { title: "", value: "Approx. 2 hours" },
       { title: "", value: "Pick-up/drop-off service included" },
@@ -142,12 +142,8 @@ const chunbi = {
     ],
   },
   peopleOptions: [
-    { value: "2", label: "2-5 people" },
-    { value: "6", label: "6 people" },
-    { value: "7", label: "7 people" },
-    { value: "8", label: "8 people" },
-    { value: "9", label: "9 people" },
-    { value: "10", label: "10 people" },
+    { value: "2", label: "2-4 people" },
+    { value: "5", label: "5-10 people" },
   ],
 };
 

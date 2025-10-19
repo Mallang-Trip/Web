@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, MapPin, Wine } from "lucide-react";
+import { Clock, MapPin, Wine, HeartPulse } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 
 export default function ItinerarySection() {
@@ -14,6 +14,10 @@ export default function ItinerarySection() {
     {
       icon: Wine,
       color: "bg-emerald-500",
+    },
+    {
+      icon: HeartPulse,
+      color: "bg-pink-500",
     },
     {
       icon: Clock,

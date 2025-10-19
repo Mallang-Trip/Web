@@ -19,14 +19,14 @@ export default function SinabroDetailPage() {
   const peopleOptions = t.sinabro.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
-    "2": 140000,
-    "3": 140000,
-    "4": 140000,
-    "5": 175000,
-    "6": 210000,
-    "7": 245000,
-    "8": 280000,
-    "9": 315000,
+    "2": 350000,
+    "3": 400000,
+    "4": 450000,
+    "5": 650000,
+    "6": 700000,
+    "7": 750000,
+    "8": 800000,
+    "9": 850000,
     "10": null,
   };
 
@@ -53,7 +53,7 @@ export default function SinabroDetailPage() {
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
               title={t.sinabro.sidebar.title}
-              price={formatPrice(140000, lang as "ko" | "en")}
+              price={formatPrice(350000, lang as "ko" | "en")}
               time={t.sinabro.sidebar.time}
               subItems={t.sinabro.sidebar.subItems}
               color="emerald"
@@ -69,7 +69,7 @@ export default function SinabroDetailPage() {
 
       <MobileBottomBar
         title={t.sinabro.sidebar.title}
-        price={formatPrice(140000, lang as "ko" | "en")}
+        price={formatPrice(350000, lang as "ko" | "en")}
         time={t.sinabro.sidebar.time}
         color="emerald"
         destinationId={1003}

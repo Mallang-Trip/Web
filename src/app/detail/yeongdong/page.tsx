@@ -99,44 +99,44 @@ export default function YeongdongDetailPage() {
   const pricingTable = [
     {
       people: lang === "ko" ? "2인" : "2 people",
-      total: 1110000,
-      perPerson: 555000,
+      total: 813000,
+      perPerson: 406500,
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "3인" : "3 people",
-      total: 1130000,
-      perPerson: 376667,
+      total: 866000,
+      perPerson: 288667,
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "4인" : "4 people",
-      total: 1315000,
-      perPerson: 328750,
+      total: 1084000,
+      perPerson: 271000,
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "5인" : "5 people",
-      total: 1335000,
-      perPerson: 267000,
+      total: 1155000,
+      perPerson: 231000,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "6인" : "6 people",
-      total: 1366000,
-      perPerson: 227667,
+      total: 1238000,
+      perPerson: 206333,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "7인" : "7 people",
-      total: 1397000,
-      perPerson: 199571,
+      total: 1321000,
+      perPerson: 188714,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "8인" : "8 people",
-      total: 1428000,
-      perPerson: 178500,
+      total: 1404000,
+      perPerson: 175500,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
   ];
@@ -162,13 +162,13 @@ export default function YeongdongDetailPage() {
   const peopleOptions = t.yeongdong.pricing.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
-    "2": 1110000,
-    "3": 1130000,
-    "4": 1315000,
-    "5": 1335000,
-    "6": 1366000,
-    "7": 1397000,
-    "8": 1428000,
+    "2": 813000,
+    "3": 866000,
+    "4": 1084000,
+    "5": 1155000,
+    "6": 1238000,
+    "7": 1321000,
+    "8": 1404000,
   };
 
   const inquiryDeposit = 10000;

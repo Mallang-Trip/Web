@@ -45,6 +45,8 @@ const result = {
     notAssigned: "Driver Not Assigned Yet",
     notAssignedDesc:
       "A driver will be assigned once your reservation is confirmed.",
+    notAssignedCanceledDesc:
+      "Your reservation has been canceled. No driver has been assigned.",
   },
 
   // Payment info card
@@ -99,15 +101,19 @@ const result = {
     inclusionsList: {
       vehicle: "Private vehicle and professional driver (Door-to-Door service)",
       fuel: "All fuel, parking, and toll fees",
-      guide: "Professional English-speaking guide service",
+      // guide: "Professional English-speaking guide service",
       brewery:
         "Tour and experience fees for 2 curated breweries by Mallangtrip (tasting included)",
-      water: "Bottled water in the vehicle",
+      // water: "Bottled water in the vehicle",
+      lunch: "Lunch",
     },
     exclusions: "2. Exclusions:",
     exclusionsList: {
       meals: "All meal expenses (lunch, dinner, etc.)",
+      lunch: "Lunch included, dinner not included",
       personal: "Personal expenses and traveler's insurance",
+      additional:
+        "Additional moving costs outside the guided pickup/drop-off areas",
     },
     paymentInformation: "3. Payment Information:",
     paymentMethod: "Payment Method: Credit Card",

@@ -35,19 +35,17 @@ const home = {
     },
     tourList: {
       vip: {
-        name: "Door-to-Door Traditional Korean Liquor Tour",
-        description:
-          "The only all-inclusive curated journey into the world of Korean traditional liquor & wine artisans",
+        name: "Pourtal Seoul Vicinity",
+        description: "Private Door-to-Door Brewery & Distillery Tour",
         duration: "8 hours",
         price: "$829", // 1,160,000원 / 1,400 = 828.57
         tags: ["Private", "Door-to-Door", "Brewery"],
       },
       yeongdong: {
-        name: "Door-to-Door Yeongdong Winery Tour",
-        description:
-          "A day just for us, a private wine journey enjoyed exclusively with your loved ones",
+        name: "Pourtal Yeongdong",
+        description: "Private Door-to-Door Yeongdong Winery Tour",
         duration: "8 hours",
-        price: "Contact for pricing",
+        price: "$581",
         tags: ["Yeongdong", "Winery", "Private"],
       },
       sinabro: {

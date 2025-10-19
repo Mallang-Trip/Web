@@ -33,6 +33,7 @@ export default function DriverInfoCard({
   const tData = t.result.driverInfo;
 
   const isApproved = (status || "").toUpperCase() === "APPROVED";
+  const isCanceled = (status || "").toUpperCase() === "CANCELED";
   const driver = attributes?.driver || null;
   const breweries = attributes?.breweries || null;
 
@@ -65,7 +66,7 @@ export default function DriverInfoCard({
             )}
           </>
         ) : (
-          <NoDriver />
+          <NoDriver isCanceled={isCanceled} />
         )}
       </CardContent>
     </Card>
@@ -121,13 +122,14 @@ function DriverInfo({ driver }: { driver: Driver }) {
     <>
       <div className="space-y-4">
         <div className="flex items-center gap-4">
-          <Image
+          {/* 드라이버 프로필 이미지 임시 제거 */}
+          {/* <Image
             src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=200&auto=format&fit=crop"
-            alt="드라이버/차량"
+            alt="드라이버 프로필 이미지"
             width={64}
             height={64}
             className="rounded-full object-cover"
-          />
+          /> */}
           <div className="flex-1">
             <h3 className="text-lg font-semibold">{driver.name}</h3>
 
@@ -289,7 +291,7 @@ function BreweryInfo({
 }
 
 // 드라이버 미배정 상태 표시 컴포넌트
-function NoDriver() {
+function NoDriver({ isCanceled }: { isCanceled: boolean }) {
   const { t } = useTranslation();
   const tData = t.result.driverInfo;
 
@@ -298,7 +300,9 @@ function NoDriver() {
       <InfoIcon />
       <div>
         <p className="font-medium text-gray-900">{tData.notAssigned}</p>
-        <p className="mt-1 leading-relaxed">{tData.notAssignedDesc}</p>
+        <p className="mt-1 leading-relaxed">
+          {isCanceled ? tData.notAssignedCanceledDesc : tData.notAssignedDesc}
+        </p>
       </div>
     </div>
   );

@@ -8,15 +8,15 @@ export default function PricingSection() {
   const { t, lang } = useTranslation();
 
   const pricingData = [
-    { people: 2, total: 140000, perPerson: 70000 },
-    { people: 3, total: 140000, perPerson: 46667 },
-    { people: 4, total: 140000, perPerson: 35000 },
-    { people: 5, total: 175000, perPerson: 35000 },
-    { people: 6, total: 210000, perPerson: 35000 },
-    { people: 7, total: 245000, perPerson: 35000 },
-    { people: 8, total: 280000, perPerson: 35000 },
-    { people: 9, total: 315000, perPerson: 35000 },
-    { people: 10, total: null, perPerson: 35000 },
+    { people: 2, total: 350000, perPerson: 175000 },
+    { people: 3, total: 400000, perPerson: 133333 },
+    { people: 4, total: 450000, perPerson: 112500 },
+    { people: 5, total: 650000, perPerson: 130000 },
+    { people: 6, total: 700000, perPerson: 116667 },
+    { people: 7, total: 750000, perPerson: 107143 },
+    { people: 8, total: 800000, perPerson: 100000 },
+    { people: 9, total: 850000, perPerson: 94444 },
+    { people: 10, total: null, perPerson: 0 },
   ];
 
   return (

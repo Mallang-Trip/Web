@@ -44,6 +44,8 @@ const result = {
     breweriesCount: "곳",
     notAssigned: "담당 드라이버 미배정",
     notAssignedDesc: "예약이 확정되면 담당 드라이버가 배정됩니다.",
+    notAssignedCanceledDesc:
+      "예약이 취소되었습니다. 담당 드라이버가 배정되지 않았습니다.",
   },
 
   // 결제 정보 카드
@@ -98,15 +100,18 @@ const result = {
     inclusionsList: {
       vehicle: "프라이빗 전용 차량 및 전문 드라이버 (Door-to-Door 서비스)",
       fuel: "유류비, 주차비, 통행료 일체",
-      guide: "전문 통역 안내 서비스",
+      // guide: "전문 통역 안내 서비스",
       brewery:
         "말랑트립이 큐레이션 해드리는 양조장 2곳 투어 및 체험비 (시음 포함)",
-      water: "차량 내 생수 제공",
+      // water: "차량 내 생수 제공",
+      lunch: "점심 식사",
     },
     exclusions: "2. 불포함 내역 (Exclusions):",
     exclusionsList: {
       meals: "모든 식사 비용 (점심, 저녁 등)",
+      lunch: "점심 식사 포함, 저녁 식사 불포함",
       personal: "개인 경비 및 여행자 보험",
+      additional: "안내된 픽업/드랍 권역 외 추가 이동 비용",
     },
     paymentInformation: "3. 결제 정보 (Payment Information):",
     paymentMethod: "결제수단: 신용카드",

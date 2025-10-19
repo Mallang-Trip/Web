@@ -118,6 +118,11 @@ export default function TransactionStatementView({
         formatDateKo={formatDateKo}
         formatTimeKo={formatTimeKo}
         t={t}
+        isYeongdong={
+          statement.transactionDetail.itemName.includes("영동") ||
+          statement.transactionDetail.itemName.includes("Yeongdong")
+        }
+        isVip={statement.transactionDetail.itemName.includes("VIP")}
       />
     </div>
   );
@@ -383,12 +388,16 @@ function Remarks({
   formatDateKo,
   formatTimeKo,
   t,
+  isYeongdong,
+  isVip,
 }: {
   issued: Date;
   paymentDate: Date;
   formatDateKo: (date: Date) => string;
   formatTimeKo: (date: Date) => string;
   t: any;
+  isYeongdong: boolean;
+  isVip: boolean;
 }) {
   return (
     <div>
@@ -399,14 +408,22 @@ function Remarks({
         <RemarkSection title={t.result.transactionStatement.inclusions}>
           <li>{t.result.transactionStatement.inclusionsList.vehicle}</li>
           <li>{t.result.transactionStatement.inclusionsList.fuel}</li>
-          <li>{t.result.transactionStatement.inclusionsList.guide}</li>
+          {/* <li>{t.result.transactionStatement.inclusionsList.guide}</li> */}
           <li>{t.result.transactionStatement.inclusionsList.brewery}</li>
-          <li>{t.result.transactionStatement.inclusionsList.water}</li>
+          {/* <li>{t.result.transactionStatement.inclusionsList.water}</li> */}
+          {isVip && (
+            <li>{t.result.transactionStatement.inclusionsList.lunch}</li>
+          )}
         </RemarkSection>
 
         <RemarkSection title={t.result.transactionStatement.exclusions}>
-          <li>{t.result.transactionStatement.exclusionsList.meals}</li>
+          {!isYeongdong ? (
+            <li>{t.result.transactionStatement.exclusionsList.meals}</li>
+          ) : (
+            <li>{t.result.transactionStatement.exclusionsList.lunch}</li>
+          )}
           <li>{t.result.transactionStatement.exclusionsList.personal}</li>
+          <li>{t.result.transactionStatement.exclusionsList.additional}</li>
         </RemarkSection>
 
         <RemarkSection title={t.result.transactionStatement.paymentInformation}>

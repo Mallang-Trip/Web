@@ -98,15 +98,13 @@ const common = {
       noticeTitle: "Pickup/Drop-off Notice",
       noticeAlertTitle: "Important Information for Smooth Tour Operations",
       notice1:
-        "You can specify unlimited pickup and drop-off locations, but they must be within the ",
-      notice1Bold: "service available areas",
-      notice1End: " listed above.",
+        "Pickup and drop-off locations can be specified without restrictions, but if they significantly deviate from the planned route or involve multiple pickups/drop-offs, ",
+      notice1Bold: "additional travel charges",
+      notice1End: " may apply.",
       notice2:
         "To avoid traffic congestion during weekday rush hours and weekend mornings, we strongly recommend limiting multiple pickup/drop-off locations to ",
       notice2Bold: "2 or fewer stops",
       notice2End: ".",
-      notice3:
-        "Multiple pickups/drop-offs that significantly deviate from the planned route may incur additional travel fees. We will contact you separately before confirming your reservation to inform you of these fees, and request additional payment accordingly.",
       included: "Included",
       excluded: "Excluded",
     },
@@ -216,6 +214,8 @@ const common = {
         reservationConflict:
           "Active reservation already exists or reservation is unavailable.",
         destinationNotFound: "Destination not found.",
+        popupBlocked: "Popup was blocked.",
+        popupBlockedDesc: "Please disable popup blocker and try again.",
       },
     },
   },

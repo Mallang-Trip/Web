@@ -202,20 +202,65 @@ export default function CustomerService() {
         <Script
           id="tawk-embed"
           strategy="afterInteractive"
-          src="https://embed.tawk.to/68b6dea7b4883d192503aeca/1j455bg1m"
           onLoad={() => {
-            const api = (
-              globalThis as unknown as {
-                Tawk_API?: { showWidget?: () => void };
+            // Tawk API 초기화 대기
+            const initTawk = () => {
+              const api = (
+                globalThis as unknown as {
+                  Tawk_API?: {
+                    showWidget?: () => void;
+                    onChatMessageVisitor?: (callback: () => void) => void;
+                    onChatMessageAgent?: (callback: () => void) => void;
+                  };
+                }
+              )?.Tawk_API;
+
+              if (!api) {
+                setTimeout(initTawk, 100);
+                return;
               }
-            )?.Tawk_API;
-            if (api && typeof api.showWidget === "function") api.showWidget();
-            // 로드 직후 현재 오프셋을 한 번 적용 (모바일일 때)
-            if (window.matchMedia("(max-width: 1023.98px)").matches) {
-              applyTawkOffset(mobileBottomOffset);
-            }
+
+              if (typeof api.showWidget === "function") api.showWidget();
+
+              // 타이틀 깜빡임 방지: 원본 document.title 보존
+              const originalTitle = document.title;
+              const titleObserver = new MutationObserver(() => {
+                if (document.title !== originalTitle) {
+                  document.title = originalTitle;
+                }
+              });
+              titleObserver.observe(
+                document.querySelector("title") || document.head,
+                {
+                  childList: true,
+                  characterData: true,
+                  subtree: true,
+                },
+              );
+
+              // 로드 직후 현재 오프셋을 한 번 적용 (모바일일 때)
+              if (window.matchMedia("(max-width: 1023.98px)").matches) {
+                applyTawkOffset(mobileBottomOffset);
+              }
+            };
+
+            initTawk();
           }}
-        />
+        >
+          {`
+            var Tawk_API = Tawk_API || {};
+            var Tawk_LoadStart = new Date();
+            (function() {
+              var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+              s1.async = true;
+              s1.src = 'https://embed.tawk.to/68b6dea7b4883d192503aeca/1j455bg1m';
+              s1.charset = 'UTF-8';
+              s1.setAttribute('crossorigin', '*');
+              s0.parentNode.insertBefore(s1, s0);
+            })();
+          `}
+        </Script>
       ) : null}
 
       {currentLanguage === "ko" ? (

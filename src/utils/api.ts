@@ -333,4 +333,25 @@ export const PaymentsAPI = {
   // 결제 상태/상세 조회
   getPaypleByNumber: <T = unknown>(paymentNumber: string) =>
     apiGet<T>(`/payments/payple/${encodeURIComponent(paymentNumber)}`),
+
+  // PayPal 결제 준비
+  preparePaypal: <T = unknown>(body: {
+    productName: string;
+    payerName: string;
+    payerEmail?: string;
+    payerPhone: string;
+    amount: number;
+    currency: string;
+    productDescription?: string;
+    memo?: string;
+    returnUrl?: string;
+    cancelUrl?: string;
+  }) => apiPost<T>(`/payments/paypal/prepare`, body as Record<string, unknown>),
+
+  // PayPal 결제 승인
+  capturePaypal: <T = unknown>(body: {
+    orderId: string;
+    payerId?: string;
+    paymentNumber?: string;
+  }) => apiPost<T>(`/payments/paypal/capture`, body as Record<string, unknown>),
 };

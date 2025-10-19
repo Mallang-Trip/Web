@@ -13,7 +13,8 @@ type LayoutShellProps = {
 
 export default function LayoutShell({ children }: LayoutShellProps) {
   const pathname = usePathname();
-  const hideChrome = pathname.startsWith("/payple");
+  const hideChrome =
+    pathname.startsWith("/payple") || pathname.startsWith("/paypal");
 
   if (hideChrome) {
     return <>{children}</>;

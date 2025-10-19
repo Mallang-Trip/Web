@@ -33,19 +33,17 @@ const home = {
     },
     tourList: {
       vip: {
-        name: "도어투도어 전통주 투어",
-        description:
-          "한국 전통주 & 와인 장인의 세계로 떠나는 유일한 올인클루시브 큐레이션 여정",
+        name: "술차오름 근교",
+        description: "프라이빗 도어투도어 전통주 투어",
         duration: "8시간",
         price: "1,160,000원",
         tags: ["프라이빗", "도어투도어", "양조장"],
       },
       yeongdong: {
-        name: "도어투도어 영동 와이너리 투어",
-        description:
-          "오직 우리만을 위한 하루, 소중한 사람들과 단독으로 즐기는 프라이빗 와인 여정",
+        name: "술차오름 영동",
+        description: "프라이빗 도어투도어 영동 와이너리 투어",
         duration: "8시간",
-        price: "가격 문의",
+        price: "813,000원",
         tags: ["영동", "와이너리", "프라이빗"],
       },
       sinabro: {

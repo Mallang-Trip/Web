@@ -19,18 +19,14 @@ export default function ChunbiDetailPage() {
   const peopleOptions = t.chunbi.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
-    "2": 300000,
-    "6": 360000,
-    "7": 420000,
-    "8": 480000,
-    "9": 540000,
-    "10": 600000,
+    "2": 400000,
+    "5": 550000,
   };
 
   const inquiryDeposit = 10000;
 
   const sidebarTitle = t.chunbi.sidebar.title;
-  const basePrice = formatPrice(300000, lang as "ko" | "en");
+  const basePrice = formatPrice(400000, lang as "ko" | "en");
   const time = t.chunbi.sidebar.time;
 
   const subItems = t.chunbi.sidebar.subItems;

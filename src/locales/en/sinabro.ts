@@ -66,6 +66,12 @@ const sinabro = {
           "Enjoy diverse experiences at this warm, couple-run winery, including seasonal special activities (grape harvesting, mulled wine making, bakery), wine tasting, and wine foot bath.",
       },
       {
+        time: "Approx. 1 hours",
+        title: "Rainbow Healing Center Visit",
+        description:
+          "After the special experience at the winery, visit the Rainbow Healing Center to regain balance between body and mind using the gemstone 'Iraite' in Yeongdong.",
+      },
+      {
         time: "After Experience",
         title: "Conclusion & Drop-off",
         description:
@@ -122,7 +128,7 @@ const sinabro = {
       {
         question: "What is the cancellation and refund policy?",
         answer:
-          "100% refund up to 4 days before the tour, 50% refund up to 3 days before, 30% refund up to 2 days before. No refund for same-day cancellation. Special consideration is available for natural disasters or unavoidable circumstances.",
+          "If you cancel your reservation 4 days before the start date of the tour, we will refund the full amount of the payment. However, the refund will not be possible within 3 days from the start date of the tour, so please make a careful reservation.",
       },
       {
         question: "Can minors participate?",

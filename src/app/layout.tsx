@@ -14,6 +14,7 @@ import AnalyticsProvider from "@/providers/analytics-provider";
 import Loading from "@/components/loading";
 import { LangInitProvider } from "@/providers/lang-init-provider";
 import { translations } from "@/locales";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
@@ -54,34 +55,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body>
         <QueryProvider>
-          <CounterStoreProvider>
-            <TokenRefreshProvider>
-              <LangInitProvider />
-              <FirstEntryProvider />
-              <Suspense fallback={<Loading />}>
-                <AnalyticsProvider />
-              </Suspense>
-              <LayoutShell>{children}</LayoutShell>
-            </TokenRefreshProvider>
-          </CounterStoreProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <CounterStoreProvider>
+              <TokenRefreshProvider>
+                <LangInitProvider />
+                <FirstEntryProvider />
+                <Suspense fallback={<Loading />}>
+                  <AnalyticsProvider />
+                </Suspense>
+                <LayoutShell>{children}</LayoutShell>
+              </TokenRefreshProvider>
+            </CounterStoreProvider>
+          </ThemeProvider>
         </QueryProvider>
       </body>
     </html>
   );
 }
-
-// 모바일 화면 레이아웃
-// function layout() {
-//   return (
-//     <div className="tw-flex tw-justify-center tw-bg-[#F2F4F6]">
-//       <main className="tw-min-h-screen tw-w-screen tw-min-w-[320px] tw-max-w-[420px] tw-bg-white">
-//         <div className="tw-flex tw-h-full tw-w-full tw-flex-col tw-justify-center">
-//           main content
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }

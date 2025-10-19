@@ -12,40 +12,16 @@ export default function PricingSection() {
 
   const pricingData = [
     {
-      people: lang === "ko" ? "2~5인" : "2-5 people",
-      totalKRW: 300000,
-      perPersonKRW: 60000,
+      people: lang === "ko" ? "2~4인" : "2-4 people",
+      totalKRW: 400000,
+      perPersonKRW: 200000,
       suffix: lang === "ko" ? " ~" : "+",
     },
     {
-      people: lang === "ko" ? "6인" : "6 people",
-      totalKRW: 360000,
-      perPersonKRW: 60000,
-      suffix: "",
-    },
-    {
-      people: lang === "ko" ? "7인" : "7 people",
-      totalKRW: 420000,
-      perPersonKRW: 60000,
-      suffix: "",
-    },
-    {
-      people: lang === "ko" ? "8인" : "8 people",
-      totalKRW: 480000,
-      perPersonKRW: 60000,
-      suffix: "",
-    },
-    {
-      people: lang === "ko" ? "9인" : "9 people",
-      totalKRW: 540000,
-      perPersonKRW: 60000,
-      suffix: "",
-    },
-    {
-      people: lang === "ko" ? "10인" : "10 people",
-      totalKRW: 600000,
-      perPersonKRW: 60000,
-      suffix: "",
+      people: lang === "ko" ? "5~10인" : "5-10 people",
+      totalKRW: 550000,
+      perPersonKRW: 110000,
+      suffix: lang === "ko" ? " ~" : "+",
     },
   ];
 

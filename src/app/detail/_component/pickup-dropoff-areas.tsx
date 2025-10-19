@@ -133,7 +133,6 @@ export default function PickupDropoffAreasSection({
                   <strong className="font-semibold">{tData.notice2Bold}</strong>
                   {tData.notice2End}
                 </li>
-                <li>{tData.notice3}</li>
               </ul>
             </div>
           </div>

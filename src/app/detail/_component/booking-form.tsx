@@ -27,6 +27,12 @@ declare global {
   interface Window {
     PaypleCpayAuthCheck?: (params: Record<string, unknown>) => void;
     mallangTripPaymentCallback?: (params: Record<string, unknown>) => void;
+    mallangTripPaypalCallback?: (params: {
+      success: boolean;
+      orderId?: string;
+      payerId?: string;
+      paymentNumber?: string;
+    }) => void;
   }
 }
 
@@ -37,6 +43,14 @@ type PaymentPrepareData = {
   payerPhone?: string;
   productName: string;
   amount: number;
+};
+
+type PaypalPrepareData = {
+  paymentNumber: string;
+  orderId: string;
+  approveUrl: string;
+  amount: number;
+  currency: string;
 };
 
 interface PeopleOption {
@@ -265,8 +279,8 @@ export default function BookingForm({
         // 성공 여부 확인
         const payResult = String(params?.PCD_PAY_RESULT || "");
         if (payResult !== "success") {
-          toast.error("결제가 실패했습니다.", {
-            description: "다시 시도해 주세요.",
+          toast.error(t.common.detail.bookingForm.toast.paymentFailed, {
+            description: t.common.detail.bookingForm.toast.paymentFailedDesc,
             icon: <XCircle className="text-red-500" />,
           });
           return;
@@ -275,17 +289,66 @@ export default function BookingForm({
         await createReservationWithPaymentNumber(payNum);
       } catch (err) {
         console.error("결제 후 처리 실패:", err);
-        toast.error("결제 후 처리 중 오류가 발생했습니다.", {
-          description: "문제가 지속되면 고객센터로 문의해주세요.",
+        toast.error(t.common.detail.bookingForm.toast.paymentError, {
+          description: t.common.detail.bookingForm.toast.paymentErrorDesc,
           icon: <XCircle className="text-red-500" />,
         });
       }
     };
     const onMessage = async (
-      e: MessageEvent<{ type?: string; paymentNumber?: string }>,
+      e: MessageEvent<{
+        type?: string;
+        paymentNumber?: string;
+        orderId?: string;
+        payerId?: string;
+        success?: boolean;
+      }>,
     ) => {
       try {
         if (e.origin !== window.location.origin) return;
+
+        // PayPal 결제 완료 처리
+        if (e.data?.type === "PAYPAL_AUTH_RETURN") {
+          authReturnedRef.current = true;
+          if (!e.data.success || !e.data.orderId) {
+            toast.error(t.common.detail.bookingForm.toast.paymentFailed, {
+              description: t.common.detail.bookingForm.toast.paymentFailedDesc,
+              icon: <XCircle className="text-red-500" />,
+            });
+            return;
+          }
+
+          const payNum =
+            e.data.paymentNumber ||
+            window.sessionStorage.getItem("paypalPaymentNumber");
+          if (!payNum) return;
+
+          // PayPal capture API 호출
+          const captureResp = await PaymentsAPI.capturePaypal<{
+            success: boolean;
+          }>({
+            orderId: e.data.orderId,
+            payerId: e.data.payerId,
+            paymentNumber: payNum,
+          });
+
+          if (!captureResp.data.success) {
+            toast.error(
+              t.common.detail.bookingForm.toast.paymentConfirmFailed,
+              {
+                description:
+                  t.common.detail.bookingForm.toast.paymentConfirmFailedDesc,
+                icon: <XCircle className="text-red-500" />,
+              },
+            );
+            return;
+          }
+
+          await createReservationWithPaymentNumber(payNum);
+          return;
+        }
+
+        // Payple 결제 처리 (기존 로직)
         if (!e.data || e.data.type !== "PAYPLE_AUTH_RETURN") return;
         authReturnedRef.current = true;
         const payNum =
@@ -303,8 +366,9 @@ export default function BookingForm({
         // 단일 확인만 수행 (추가 폴링 제거)
         const status = await checkOnce();
         if (status?.status !== "PENDING") {
-          toast.error("결제 승인 확인에 실패했습니다.", {
-            description: "잠시 후 다시 시도해주세요.",
+          toast.error(t.common.detail.bookingForm.toast.paymentConfirmFailed, {
+            description:
+              t.common.detail.bookingForm.toast.paymentConfirmFailedDesc,
             icon: <XCircle className="text-red-500" />,
           });
           return;
@@ -313,8 +377,8 @@ export default function BookingForm({
         await createReservationWithPaymentNumber(payNum);
       } catch (err) {
         console.error("결제 후 처리 실패:", err);
-        toast.error("결제 후 처리 중 오류가 발생했습니다.", {
-          description: "문제가 지속되면 고객센터로 문의해주세요.",
+        toast.error(t.common.detail.bookingForm.toast.paymentError, {
+          description: t.common.detail.bookingForm.toast.paymentErrorDesc,
           icon: <XCircle className="text-red-500" />,
         });
       }
@@ -329,11 +393,63 @@ export default function BookingForm({
         console.error("storage 처리 실패:", err);
       }
     };
+
+    // PayPal 콜백 처리
+    window.mallangTripPaypalCallback = async (params: {
+      success: boolean;
+      orderId?: string;
+      payerId?: string;
+      paymentNumber?: string;
+    }) => {
+      try {
+        authReturnedRef.current = true;
+        if (!params.success || !params.orderId) {
+          toast.error(t.common.detail.bookingForm.toast.paymentFailed, {
+            description: t.common.detail.bookingForm.toast.paymentFailedDesc,
+            icon: <XCircle className="text-red-500" />,
+          });
+          return;
+        }
+
+        const payNum =
+          params.paymentNumber ||
+          window.sessionStorage.getItem("paypalPaymentNumber");
+        if (!payNum) return;
+
+        // PayPal capture API 호출
+        const captureResp = await PaymentsAPI.capturePaypal<{
+          success: boolean;
+        }>({
+          orderId: params.orderId,
+          payerId: params.payerId,
+          paymentNumber: payNum,
+        });
+
+        if (!captureResp.data.success) {
+          toast.error(t.common.detail.bookingForm.toast.paymentConfirmFailed, {
+            description:
+              t.common.detail.bookingForm.toast.paymentConfirmFailedDesc,
+            icon: <XCircle className="text-red-500" />,
+          });
+          return;
+        }
+
+        await createReservationWithPaymentNumber(payNum);
+      } catch (err) {
+        console.error("PayPal 결제 후 처리 실패:", err);
+        toast.error(t.common.detail.bookingForm.toast.paymentError, {
+          description: t.common.detail.bookingForm.toast.paymentErrorDesc,
+          icon: <XCircle className="text-red-500" />,
+        });
+      }
+    };
+
     window.addEventListener("message", onMessage);
     window.addEventListener("storage", onStorage);
     return () => {
       window.removeEventListener("message", onMessage);
       window.removeEventListener("storage", onStorage);
+      delete window.mallangTripPaypalCallback;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -435,7 +551,7 @@ export default function BookingForm({
     // 유효성 검증
     const errors = validateForm();
     if (errors.length > 0) {
-      toast.error("입력 정보를 확인해주세요.", {
+      toast.error(t.common.detail.bookingForm.toast.validationError, {
         description: errors[0],
         icon: <XCircle className="text-red-500" />,
       });
@@ -447,8 +563,8 @@ export default function BookingForm({
     try {
       // VIP 9인 이상 예외 처리
       if (formData.peopleCount === "9+") {
-        toast.error("9인 이상 단체는 고객센터로 문의해주세요.", {
-          description: "Tel: +82-507-1344-4159",
+        toast.error(t.common.detail.bookingForm.toast.groupContactRequired, {
+          description: t.common.detail.bookingForm.toast.groupContactPhone,
           icon: <XCircle className="text-red-500" />,
         });
         return;
@@ -500,8 +616,137 @@ export default function BookingForm({
         track("form_start", { form_id: "pourtal_reservation_form" });
       } catch {}
 
-      // 2) 백엔드에 결제 준비 요청
       const productNameSafe = sanitizeProductName(title);
+
+      // 언어별 결제 모듈 분기: 한국어는 Payple, 그 외는 PayPal
+      const isKorean = currentLanguage === "ko";
+
+      if (!isKorean) {
+        // PayPal 결제 처리
+        const currency = getCurrencyByLanguage(currentLanguage);
+        const baseUrl =
+          typeof window !== "undefined" ? window.location.origin : "";
+
+        // 기존 폼에서 사용하는 가격 계산 로직 재사용
+        const val = formData.peopleCount;
+        const p = Number(priceByPeople[val] ?? NaN);
+        const dollarAmount = Number(
+          formatPrice(p, lang as "ko" | "en").replace("$", ""),
+        );
+
+        const prepareResp = await PaymentsAPI.preparePaypal<PaypalPrepareData>({
+          productName: productNameSafe,
+          payerName: formData.name.trim(),
+          payerEmail: formData.email.trim(),
+          payerPhone: phoneInternational,
+          amount: requests === "말랑트립" ? 1 : dollarAmount,
+          currency: currency || "USD",
+          productDescription: `${productNameSafe} Reservation Payment`,
+          memo: requests,
+          returnUrl: `${baseUrl}/paypal/return`,
+          cancelUrl: `${baseUrl}/paypal/cancel`,
+        });
+        const paypalInfo = prepareResp.data;
+
+        if (
+          !paypalInfo?.orderId ||
+          !paypalInfo?.paymentNumber ||
+          !paypalInfo?.approveUrl
+        ) {
+          throw new Error(t.common.detail.bookingForm.toast.invalidPaymentInfo);
+        }
+
+        // 결제번호 저장
+        try {
+          window.sessionStorage.setItem(
+            "paypalPaymentNumber",
+            paypalInfo.paymentNumber,
+          );
+        } catch {}
+
+        // PayPal 팝업 열기
+        const isMobile =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          ) || window.innerWidth < 768;
+        let features = "";
+        if (!isMobile) {
+          const popupWidth = 860;
+          const popupHeight = 720;
+          const dualScreenLeft =
+            window.screenLeft !== undefined
+              ? window.screenLeft
+              : (window as Window & { screenX?: number }).screenX || 0;
+          const dualScreenTop =
+            window.screenTop !== undefined
+              ? window.screenTop
+              : (window as Window & { screenY?: number }).screenY || 0;
+          const w = window.outerWidth || window.innerWidth || 1200;
+          const h = window.outerHeight || window.innerHeight || 800;
+          const left = Math.max(
+            0,
+            Math.floor(dualScreenLeft + (w - popupWidth) / 2),
+          );
+          const top = Math.max(
+            0,
+            Math.floor(dualScreenTop + (h - popupHeight) / 2),
+          );
+          features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},menubar=0,location=0,resizable=1,scrollbars=1,status=0`;
+        }
+
+        const child = window.open(
+          paypalInfo.approveUrl,
+          isMobile ? "_blank" : "paypalWindow",
+          features,
+        );
+
+        if (!child) {
+          toast.error(t.common.detail.bookingForm.toast.popupBlocked, {
+            description: t.common.detail.bookingForm.toast.popupBlockedDesc,
+            icon: <XCircle className="text-red-500" />,
+          });
+          return;
+        }
+
+        // 창 닫힘 감지
+        const closeWatcher = window.setInterval(() => {
+          try {
+            if (child.closed) {
+              window.clearInterval(closeWatcher);
+              if (!authReturnedRef.current) {
+                toast.error(t.common.detail.bookingForm.toast.paymentCancelled);
+              }
+            }
+          } catch {}
+        }, 500);
+        childWindowRef.current = child;
+
+        // PayPal 리턴 URL 처리를 위한 메시지 리스너는 이미 useEffect에 구현됨
+        // add_payment_info 트래킹
+        try {
+          const qty = formData.peopleCount
+            ? Number(String(formData.peopleCount).replace("+", ""))
+            : 2;
+          const unitPrice = dollarAmount / Math.max(1, qty);
+          trackAddPaymentInfo({
+            currency: currency || "USD",
+            value: dollarAmount,
+            items: [
+              {
+                item_id: "POURTAL-001",
+                item_name: title,
+                price: unitPrice,
+                quantity: qty,
+              },
+            ],
+          });
+        } catch {}
+
+        toast.info(t.common.detail.bookingForm.toast.paymentWindowOpened);
+        return;
+      }
+
+      // 2) 백엔드에 결제 준비 요청 (Payple - 한국어)
       const prepareResp = await PaymentsAPI.preparePayple<PaymentPrepareData>({
         productName: productNameSafe,
         payerName: formData.name.trim(),
@@ -515,7 +760,7 @@ export default function BookingForm({
       const paymentInfo = prepareResp.data;
 
       if (!paymentInfo?.clientKey || !paymentInfo?.paymentNumber) {
-        throw new Error("결제 준비 정보가 올바르지 않습니다.");
+        throw new Error(t.common.detail.bookingForm.toast.invalidPaymentInfo);
       }
 
       // 3) 결제 인증을 새 탭/팝업에서 실행 (원본 페이지는 유지)
@@ -588,7 +833,7 @@ export default function BookingForm({
             if (child.closed) {
               window.clearInterval(closeWatcher);
               if (!authReturnedRef.current) {
-                toast.error("결제가 취소되었거나 창이 닫혔습니다.");
+                toast.error(t.common.detail.bookingForm.toast.paymentCancelled);
               }
             }
           } catch {}
@@ -638,19 +883,20 @@ export default function BookingForm({
         });
       } catch {}
 
-      toast.info("결제창이 열렸습니다. 결제를 완료해 주세요.");
+      toast.info(t.common.detail.bookingForm.toast.paymentWindowOpened);
       return; // 이후 처리는 메시지 리스너(useEffect)에서 진행
     } catch (error: unknown) {
       console.error("예약 실패:", error);
       const err = error as { message?: string; status?: number } | undefined;
-      const message = err?.message || "예약 처리 중 오류가 발생했습니다.";
+      const message =
+        err?.message || t.common.detail.bookingForm.toast.reservationError;
       toast.error(message, {
         description:
           err?.status === 409
-            ? "이미 활성 예약이 있거나 예약 불가 상태입니다."
+            ? t.common.detail.bookingForm.toast.reservationConflict
             : err?.status === 404
-              ? "여행지를 찾을 수 없습니다."
-              : "문제가 지속되면 고객센터로 문의해주세요.",
+              ? t.common.detail.bookingForm.toast.destinationNotFound
+              : t.common.detail.bookingForm.toast.paymentErrorDesc,
         icon: <XCircle className="text-red-500" />,
       });
     } finally {

@@ -97,29 +97,29 @@ export default function VipDetailPage() {
   // ];
 
   const faqs = t.vip.faq.items.map((item) => {
-    if (item.linkText) {
-      return {
-        question: item.question,
-        answer: (
-          <>
-            {item.answer}
-            <Link
-              href="/detail/vip/guide"
-              className="ml-1 font-semibold text-blue-600 underline underline-offset-4 hover:text-blue-700"
-            >
-              {item.linkText}
-            </Link>
-            {item.answerCont}
-            <Link
-              href="/detail/vip/guide"
-              className="ml-2 inline-flex items-center gap-1 rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white hover:bg-blue-800"
-            >
-              {item.buttonText}
-            </Link>
-          </>
-        ),
-      };
-    }
+    // if (item.linkText) {
+    //   return {
+    //     question: item.question,
+    //     answer: (
+    //       <>
+    //         {item.answer}
+    //         <Link
+    //           href="/detail/vip/guide"
+    //           className="ml-1 font-semibold text-blue-600 underline underline-offset-4 hover:text-blue-700"
+    //         >
+    //           {item.linkText}
+    //         </Link>
+    //         {item.answerCont}
+    //         <Link
+    //           href="/detail/vip/guide"
+    //           className="ml-2 inline-flex items-center gap-1 rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white hover:bg-blue-800"
+    //         >
+    //           {item.buttonText}
+    //         </Link>
+    //       </>
+    //     ),
+    //   };
+    // }
     return {
       question: item.question,
       answer: item.answer,
@@ -129,44 +129,44 @@ export default function VipDetailPage() {
   const pricingTable = [
     {
       people: lang === "ko" ? "2인" : "2 people",
-      total: 1110000,
-      perPerson: 555000,
+      total: 1286000,
+      perPerson: 643000,
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "3인" : "3 people",
-      total: 1130000,
-      perPerson: 376667,
+      total: 1306000,
+      perPerson: 435333,
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "4인" : "4 people",
-      total: 1315000,
-      perPerson: 328750,
+      total: 1491000,
+      perPerson: 372750,
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "5인" : "5 people",
-      total: 1335000,
-      perPerson: 267000,
+      total: 1511000,
+      perPerson: 302200,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "6인" : "6 people",
-      total: 1366000,
-      perPerson: 227667,
+      total: 1542000,
+      perPerson: 257000,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "7인" : "7 people",
-      total: 1397000,
-      perPerson: 199571,
+      total: 1573000,
+      perPerson: 224714,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "8인" : "8 people",
-      total: 1428000,
-      perPerson: 178500,
+      total: 1604000,
+      perPerson: 200500,
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
   ];
@@ -192,13 +192,13 @@ export default function VipDetailPage() {
   const peopleOptions = t.vip.pricing.peopleOptions;
 
   const priceByPeople: Record<string, number | null> = {
-    "2": 1110000,
-    "3": 1130000,
-    "4": 1315000,
-    "5": 1335000,
-    "6": 1366000,
-    "7": 1397000,
-    "8": 1428000,
+    "2": 1286000,
+    "3": 1306000,
+    "4": 1491000,
+    "5": 1511000,
+    "6": 1542000,
+    "7": 1573000,
+    "8": 1604000,
   };
 
   const inquiryDeposit = 10000;
@@ -213,15 +213,10 @@ export default function VipDetailPage() {
     lang === "ko"
       ? "[시음] 양조장 두 곳 테이스팅"
       : "[Tasting] Tasting sessions at two breweries",
-    lang === "ko"
-      ? "점심 식사를 위한 식당까지의 이동"
-      : "Transportation to restaurant for lunch",
+    lang === "ko" ? "점심 식사" : "lunch",
   ];
 
   const excludedItems = [
-    lang === "ko"
-      ? "점심 식사(식사 메뉴를 직접 선택)"
-      : "Lunch (choose your own menu)",
     lang === "ko" ? "여행자 보험" : "Travel insurance",
     lang === "ko"
       ? "안내된 픽업/드랍 권역 외 추가 이동 비용"
@@ -230,7 +225,7 @@ export default function VipDetailPage() {
 
   const titleLines = [
     lang === "ko" ? "프라이빗 도어투도어" : "Private Door-to-Door",
-    lang === "ko" ? "양조장 투어" : "Brewery Tour",
+    lang === "ko" ? "전통주 투어" : "Brewery & Distillery Tour",
   ];
 
   const subtitleLines = [
@@ -261,8 +256,8 @@ export default function VipDetailPage() {
       title: lang === "ko" ? "포함 사항" : "Included",
       value:
         lang === "ko"
-          ? "전용차량, 기사, 교통비, 체험비"
-          : "Private vehicle, driver, transportation fees, experience fees",
+          ? "점심식사, 교통비, 체험비"
+          : "Lunch, transportation fees, experience fees",
     },
     {
       title: lang === "ko" ? "취소 정책" : "Cancellation Policy",
@@ -283,8 +278,8 @@ export default function VipDetailPage() {
   const timelineHeading = lang === "ko" ? "하루의 여정" : "Journey of the Day";
   const timelineSubheading =
     lang === "ko"
-      ? "오전 9시부터 오후 1시 사이, 원하시는 시간에 출발"
-      : "Depart at your desired time between 9 AM and 1 PM";
+      ? "오전 7시부터 10시 사이, 원하시는 시간에 출발"
+      : "Depart at your desired time between 7 AM and 10 AM";
 
   const pricingHeading = lang === "ko" ? "투어 요금" : "Tour Pricing";
   const pricingSubheading =

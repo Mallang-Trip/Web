@@ -18,7 +18,7 @@ const vip = {
     allInclusive: {
       title: "All-Inclusive",
       description:
-        "Seoul-Brewery round-trip private transportation (approx. 200km), tolls, fuel, and parking all included\nOnly meals are customized to your preference",
+        "Seoul-Brewery round-trip private transportation (approx. 200km), tolls, fuel, parking, and lunch all included",
     },
     safety: {
       title: "Safe Tour",
@@ -83,13 +83,13 @@ const vip = {
       },
       {
         time: "11:30",
-        activity: "Local Restaurant Lunch",
-        description: "Customized guidance for allergies & dietary restrictions",
+        activity: "First Brewery",
+        description: "1-hour experience + 30 minutes free time",
       },
       {
         time: "13:00",
-        activity: "First Brewery",
-        description: "1-hour experience + 30 minutes free time",
+        activity: "Lunch box lunch",
+        description: "Lunch box lunch with accompaniment in the brewery",
       },
       {
         time: "14:30",
@@ -132,19 +132,24 @@ const vip = {
         answer:
           "The tour price is structured as an all-inclusive package for your comfortable journey. It includes private vehicle and professional driver service with pick-up and drop-off at designated locations in downtown Seoul, all admission and experience fees at two carefully selected breweries, and premium traditional liquor tastings provided at each brewery.",
       },
+      // {
+      //   question: "Which restaurants do you recommend?",
+      //   answer:
+      //     "Rather than guiding you to a fixed restaurant, we provide a carefully curated",
+      //   linkText: "'Culinary Guide'",
+      //   answerCont:
+      //     "to enhance your tour experience. This guide is our exclusive recommendation list of the highest-rated restaurants near the breweries you'll visit. We'll provide the guide after your tour is confirmed, and you can freely choose according to your preferences. While you can certainly visit restaurants outside the list, we kindly ask for your understanding that we recommend places close to the breweries you're visiting to ensure smooth tour timing.",
+      //   buttonText: "View Restaurant List",
+      // },
+      // {
+      //   question: "Can I adjust the tour time to exclude lunch?",
+      //   answer:
+      //     "Yes, absolutely. Mallangtrip is happy to support your precious journey to fully align with your rhythm. We can customize the schedule so you can enjoy lunch at your leisure and start the tour at your preferred time. If you request this during the booking process, we will provide you with a final quote excluding meal costs along with a special payment link via email or text message.",
+      // },
       {
-        question: "Which restaurants do you recommend?",
+        question: "Is lunch included?",
         answer:
-          "Rather than guiding you to a fixed restaurant, we provide a carefully curated",
-        linkText: "'Culinary Guide'",
-        answerCont:
-          "to enhance your tour experience. This guide is our exclusive recommendation list of the highest-rated restaurants near the breweries you'll visit. We'll provide the guide after your tour is confirmed, and you can freely choose according to your preferences. While you can certainly visit restaurants outside the list, we kindly ask for your understanding that we recommend places close to the breweries you're visiting to ensure smooth tour timing.",
-        buttonText: "View Restaurant List",
-      },
-      {
-        question: "Can I adjust the tour time to exclude lunch?",
-        answer:
-          "Yes, absolutely. Mallangtrip is happy to support your precious journey to fully align with your rhythm. We can customize the schedule so you can enjoy lunch at your leisure and start the tour at your preferred time. If you request this during the booking process, we will provide you with a final quote excluding meal costs along with a special payment link via email or text message.",
+          "Yes, it is included. Basically, we provide a lunch box for you to eat with accompaniment in the brewery. If you have any restrictions on your diet or allergies, we will coordinate your food.",
       },
       {
         question: "Which breweries will we visit? Can I choose them myself?",
@@ -155,7 +160,7 @@ const vip = {
         question:
           "(For foreigners) Are there any English communication difficulties?",
         answer:
-          "No, there are absolutely no communication problems. Mallangtrip VIP Tours provide language services tailored to your nationality. For foreign guests, the core brewery experiences are conducted directly in English by field experts, while Korean guests receive all guidance and experiences comfortably in Korean. A veteran driver who ensures safe driving throughout the tour will accompany you, and travel time will be a moment for you to enjoy private relaxation with your companions. (For foreign guests, simple communication such as destination changes is smoothly possible through translation apps if needed.)",
+          "The Malang Trip VIP Tour provides English services. For foreign customers, the brewery experience, which is the core of the tour, is conducted directly in English by experts in the field, and for Korean customers, all guidance and experiences are provided comfortably in Korean. If you need a language other than English, we will accompany you with an interpretation guide with additional costs. We will inform you of the additional costs when inquiring about your reservation.",
       },
       {
         question: "Can non-drinkers or children participate in the tour?",
@@ -170,12 +175,12 @@ const vip = {
       {
         question: "Can I bring luggage or large bags?",
         answer:
-          "Yes, it's possible. We help ensure no inconvenience even if you're heading directly to the airport or changing hotels. For smooth vehicle allocation, please inform us of the quantity of large luggage such as suitcases when booking.",
+          "Yes, it is possible. For smooth vehicle allocation, please let me know in advance the quantity of large luggage such as carriers when making a reservation. In some cases, vehicle upgrades may incur additional costs.",
       },
       {
         question: "What are the cancellation and refund policies?",
         answer:
-          "If you cancel your reservation up to 4 days before the tour start date, we will refund the full payment amount. However, refunds are not possible within 3 days of the tour start date, so we ask for careful booking. In cases where tour operation is deemed impossible due to natural disasters, we will provide a 100% refund.",
+          "If you cancel your reservation 4 days before the start date of the tour, we will refund the full amount of the payment. However, the refund will not be possible within 3 days from the start date of the tour, so please make a careful reservation.",
       },
       {
         question: "Does the tour proceed even in bad weather?",

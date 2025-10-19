@@ -1,7 +1,7 @@
 const header = {
   logo: {
     alt: "Mallangtrip",
-    image: "/logo-en.png",
+    image: "/logo.png",
   },
   nav: {
     login: "Login",

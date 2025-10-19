@@ -18,7 +18,7 @@ const yeongdong = {
     allInclusive: {
       title: "All-Inclusive",
       description:
-        "Seoul-Winery round-trip private transportation (approx. 300km), tolls, fuel, and parking all included\nLunch included",
+        "Seoul-Winery round-trip private transportation (approx. 300km), tolls, fuel, parking and lunch all included",
     },
     safety: {
       title: "Safe Tour",
@@ -169,7 +169,7 @@ const yeongdong = {
       {
         question: "What are the cancellation and refund policies?",
         answer:
-          "If you cancel your reservation up to 4 days before the tour start date, we will refund the full payment amount. However, refunds are not possible within 3 days of the tour start date, so we ask for careful booking. In cases where tour operation is deemed impossible due to natural disasters, we will provide a 100% refund.",
+          "If you cancel your reservation 4 days before the start date of the tour, we will refund the full amount of the payment. However, the refund will not be possible within 3 days from the start date of the tour, so please make a careful reservation.",
       },
       {
         question: "Does the tour proceed even in bad weather?",

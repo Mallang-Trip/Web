@@ -38,7 +38,7 @@ const home = {
         name: "Pourtal Seoul Vicinity",
         description: "Private Door-to-Door Brewery & Distillery Tour",
         duration: "8 hours",
-        price: "$829", // 1,160,000원 / 1,400 = 828.57
+        price: "$919", // 1,286,000원 / 1,400 = 918.57
         tags: ["Private", "Door-to-Door", "Brewery"],
       },
       yeongdong: {
@@ -53,7 +53,7 @@ const home = {
         description:
           "Experience seasonal special activities, award-winning wines, and the most private wine experience just for your group with a warm, homely atmosphere.",
         duration: "2 hours",
-        price: "$100", // 140,000원 / 1,400 = 100
+        price: "$250", // 350,000원 / 1,400 = 250
         tags: ["Sinabro", "Winery", "Private"],
       },
       chunbi: {
@@ -61,7 +61,7 @@ const home = {
         description:
           "The presidential banquet liquor - experience the most private and convenient way to enjoy this exclusive experience for your group.",
         duration: "2 hours",
-        price: "$214", // 300,000원 / 1,400 = 214.29
+        price: "$286", // 400,000원 / 1,400 = 285.71
         tags: ["Joeun-sul", "Cheonbihyang", "Private"],
       },
       jookhwa: {

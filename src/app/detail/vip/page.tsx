@@ -239,7 +239,7 @@ export default function VipDetailPage() {
 
   const sidebarTitle =
     lang === "ko" ? "VIP 프라이빗 양조장 투어" : "VIP Private Brewery Tour";
-  const basePrice = formatPrice(1110000, lang as "ko" | "en");
+  const basePrice = formatPrice(1286000, lang as "ko" | "en");
   const tourTime = lang === "ko" ? "8시간" : "8 hours";
   const baseMember = lang === "ko" ? "2인" : "2 people";
 

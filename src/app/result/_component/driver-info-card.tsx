@@ -23,18 +23,32 @@ interface DriverInfoCardProps {
       address: string;
     }> | null;
   } | null;
+  reservationName?: string;
 }
 
 export default function DriverInfoCard({
   status,
   attributes,
+  reservationName = "",
 }: DriverInfoCardProps) {
   const { t } = useTranslation();
   const tData = t.result.driverInfo;
 
   const isApproved = (status || "").toUpperCase() === "APPROVED";
   const isCanceled = (status || "").toUpperCase() === "CANCELED";
-  const driver = attributes?.driver || null;
+
+  // 제주 투어 판별 (한국어, 영어, 중국어)
+  const isJejuTour = /제주|jeju|济州/i.test(reservationName);
+
+  // 제주 투어인 경우 하드코딩된 드라이버 정보 사용
+  const jejuDriver: Driver = {
+    name: "강윤방",
+    phoneNumber: "+821036693737",
+    vehicleNumber: "60바3232",
+    vehicleImageUrls: [],
+  };
+
+  const driver = isJejuTour ? jejuDriver : (attributes?.driver || null);
   const breweries = attributes?.breweries || null;
 
   return (
@@ -58,9 +72,9 @@ export default function DriverInfoCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {isApproved && driver ? (
+        {(isApproved || isJejuTour) && driver ? (
           <>
-            <DriverInfo driver={driver} />
+            <DriverInfo driver={driver} isJejuTour={isJejuTour} />
             {breweries && breweries.length > 0 && (
               <BreweryInfo breweries={breweries} />
             )}
@@ -74,7 +88,13 @@ export default function DriverInfoCard({
 }
 
 // 드라이버 정보 표시 컴포넌트
-function DriverInfo({ driver }: { driver: Driver }) {
+function DriverInfo({
+  driver,
+  isJejuTour = false,
+}: {
+  driver: Driver;
+  isJejuTour?: boolean;
+}) {
   const { t } = useTranslation();
   const tData = t.result.driverInfo;
 
@@ -122,14 +142,16 @@ function DriverInfo({ driver }: { driver: Driver }) {
     <>
       <div className="space-y-4">
         <div className="flex items-center gap-4">
-          {/* 드라이버 프로필 이미지 임시 제거 */}
-          {/* <Image
-            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=200&auto=format&fit=crop"
-            alt="드라이버 프로필 이미지"
-            width={64}
-            height={64}
-            className="rounded-full object-cover"
-          /> */}
+          {/* 제주 투어만 드라이버 프로필 이미지 표시 */}
+          {isJejuTour && (
+            <Image
+              src="/tour-images/jeju/driver/jeju-driver-profile.jpg"
+              alt="드라이버 프로필 이미지"
+              width={64}
+              height={64}
+              className="rounded-full object-cover"
+            />
+          )}
           <div className="flex-1">
             <h3 className="text-lg font-semibold">{driver.name}</h3>
 

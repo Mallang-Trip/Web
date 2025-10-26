@@ -4,7 +4,8 @@ import { translations } from "@/locales";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
-  const locale = (cookieStore.get("NEXT_LOCALE")?.value as "ko" | "en") || "ko";
+  const locale =
+    (cookieStore.get("NEXT_LOCALE")?.value as "ko" | "en" | "zh") || "ko";
   const t = translations[locale].policy.metadata;
 
   return {

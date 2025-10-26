@@ -24,7 +24,10 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="absolute top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm" suppressHydrationWarning>
+    <header
+      className="absolute top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm"
+      suppressHydrationWarning
+    >
       <div className="mx-auto max-w-screen-2xl px-4">
         {/* 메인 헤더 */}
         <div className="flex h-16 items-center justify-between">
@@ -81,7 +84,7 @@ export default function Header() {
               options={[
                 { value: "ko", label: "🇰🇷 한국어" },
                 { value: "en", label: "🇺🇸 English" },
-                // { value: "zh", label: "🇨🇳 中문" },
+                { value: "zh", label: "🇨🇳 中文" },
               ]}
               widthClassName="w-32"
               buttonClassName="h-9 text-sm"
@@ -97,7 +100,7 @@ export default function Header() {
               options={[
                 { value: "ko", label: "🇰🇷 한국어" },
                 { value: "en", label: "🇺🇸 English" },
-                // { value: "zh", label: "🇨🇳 中문" },
+                { value: "zh", label: "🇨🇳 中文" },
               ]}
               widthClassName="w-32"
               buttonClassName="h-8 text-xs px-2"

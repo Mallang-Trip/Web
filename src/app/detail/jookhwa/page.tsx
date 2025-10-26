@@ -30,7 +30,7 @@ export default function JookhwaDetailPage() {
 
   const inquiryDeposit = 10000;
 
-  const formattedPrice = formatPrice(140000, lang as "ko" | "en");
+  const formattedPrice = formatPrice(140000, lang as "ko" | "en" | "zh");
 
   return (
     <div className="min-h-screen bg-gray-50">

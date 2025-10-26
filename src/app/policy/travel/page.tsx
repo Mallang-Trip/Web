@@ -5,7 +5,8 @@ import { useTranslation } from "@/hooks/use-translation";
 
 export default function TravelPage() {
   const { lang } = useTranslation();
-  const currentLang = lang === "ko" || lang === "en" ? lang : "ko";
+  const currentLang =
+    lang === "ko" || lang === "en" || lang === "zh" ? lang : "ko";
   const data = termsData[currentLang];
 
   return (

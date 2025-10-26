@@ -33,12 +33,16 @@ export default function PricingTable({
           <h3 className="text-2xl font-medium text-slate-900">
             {lang === "ko"
               ? "영동 와이너리 프라이빗 투어"
-              : "Yeongdong Winery Private Tour"}
+              : lang === "zh"
+                ? "永同酒庄私人之旅"
+                : "Yeongdong Winery Private Tour"}
           </h3>
           <p className="text-slate-800">
             {lang === "ko"
               ? "모든 체험, 시음, 차량 서비스, 점심 식사 포함"
-              : "All experiences, tastings, vehicle service, and lunch included"}
+              : lang === "zh"
+                ? "包含所有体验、品酒、车辆服务和午餐"
+                : "All experiences, tastings, vehicle service, and lunch included"}
           </p>
         </div>
         <table className="w-full table-fixed border-collapse">
@@ -53,11 +57,11 @@ export default function PricingTable({
                 </td>
                 <td className="w-2/4 p-4">
                   <div className="text-xl font-semibold text-slate-900">
-                    {formatPrice(row.total, lang as "ko" | "en")}
+                    {formatPrice(row.total, lang as "ko" | "en" | "zh")}
                   </div>
                   <div className="text-sm text-slate-600">
-                    {lang === "ko" ? "1인당 " : "Per person "}
-                    {formatPrice(row.perPerson, lang as "ko" | "en")}
+                    {lang === "ko" ? "1인당 " : lang === "zh" ? "每人 " : "Per person "}
+                    {formatPrice(row.perPerson, lang as "ko" | "en" | "zh")}
                   </div>
                 </td>
                 <td className="w-1/4 p-4 text-slate-600">{row.vehicle}</td>
@@ -70,6 +74,11 @@ export default function PricingTable({
             <>
               * 9인 이상 단체는 별도 문의 바랍니다
               <br />* 인원이 많을수록 1인당 요금이 저렴해집니다
+            </>
+          ) : lang === "zh" ? (
+            <>
+              * 9人以上团体请另行咨询
+              <br />* 人数越多，每人费用越低
             </>
           ) : (
             <>

@@ -115,18 +115,24 @@ export default function PricingSection() {
                   ? row.people === 10
                     ? "10인 이상"
                     : `${row.people}인`
-                  : row.people === 10
-                    ? "10+ people"
-                    : `${row.people} people`;
+                  : lang === "zh"
+                    ? row.people === 10
+                      ? "10人以上"
+                      : `${row.people}人`
+                    : row.people === 10
+                      ? "10+ people"
+                      : `${row.people} people`;
               const totalLabel =
                 row.total === null
                   ? lang === "ko"
                     ? "별도 문의"
-                    : "Contact us"
-                  : formatPrice(row.total, lang as "ko" | "en");
+                    : lang === "zh"
+                      ? "请咨询"
+                      : "Contact us"
+                  : formatPrice(row.total, lang as "ko" | "en" | "zh");
               const perPersonLabel = formatPrice(
                 row.perPerson,
-                lang as "ko" | "en",
+                lang as "ko" | "en" | "zh",
               );
 
               return (

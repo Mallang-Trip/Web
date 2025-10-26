@@ -120,13 +120,15 @@ export default function PricingSection() {
                   </div>
                   <div className="text-center text-lg font-semibold whitespace-nowrap text-emerald-600">
                     {row.total
-                      ? formatPrice(row.total, lang as "ko" | "en")
+                      ? formatPrice(row.total, lang as "ko" | "en" | "zh")
                       : lang === "ko"
                         ? "별도 문의"
-                        : "Contact us"}
+                        : lang === "zh"
+                          ? "请咨询"
+                          : "Contact us"}
                   </div>
                   <div className="text-right text-gray-600">
-                    {formatPrice(row.perPerson, lang as "ko" | "en")}
+                    {formatPrice(row.perPerson, lang as "ko" | "en" | "zh")}
                   </div>
                 </div>
               </div>

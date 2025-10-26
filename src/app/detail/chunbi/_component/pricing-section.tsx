@@ -12,13 +12,13 @@ export default function PricingSection() {
 
   const pricingData = [
     {
-      people: lang === "ko" ? "2~4인" : "2-4 people",
+      people: lang === "ko" ? "2~4인" : lang === "zh" ? "2-4人" : "2-4 people",
       totalKRW: 400000,
       perPersonKRW: 200000,
       suffix: lang === "ko" ? " ~" : "+",
     },
     {
-      people: lang === "ko" ? "5~10인" : "5-10 people",
+      people: lang === "ko" ? "5~10인" : lang === "zh" ? "5-10人" : "5-10 people",
       totalKRW: 550000,
       perPersonKRW: 110000,
       suffix: lang === "ko" ? " ~" : "+",
@@ -98,14 +98,10 @@ export default function PricingSection() {
                 <div className="grid grid-cols-3 items-center gap-4">
                   <div className="font-medium">{row.people}</div>
                   <div className="text-center text-lg font-semibold whitespace-nowrap text-emerald-600">
-                    {lang === "ko"
-                      ? `${formatPrice(row.totalKRW, "ko")}`
-                      : `${formatPrice(row.totalKRW, "en")}`}
+                    {formatPrice(row.totalKRW, lang as "ko" | "en" | "zh")}
                   </div>
                   <div className="text-right text-gray-600">
-                    {lang === "ko"
-                      ? `${formatPrice(row.perPersonKRW, "ko")}${row.suffix}`
-                      : `${formatPrice(row.perPersonKRW, "en")}${row.suffix}`}
+                    {`${formatPrice(row.perPersonKRW, lang as "ko" | "en" | "zh")}${row.suffix}`}
                   </div>
                 </div>
               </div>

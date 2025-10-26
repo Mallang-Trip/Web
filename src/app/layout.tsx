@@ -18,7 +18,9 @@ import { ThemeProvider } from "@/providers/theme-provider";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
-  const locale = (cookieStore.get("NEXT_LOCALE")?.value as "ko" | "en") || "ko";
+  const cookieLocale = cookieStore.get("NEXT_LOCALE")?.value;
+  // zh는 제주 페이지 전용이므로 layout에서는 en으로 폴백
+  const locale = (cookieLocale === "zh" ? "en" : cookieLocale || "ko") as "ko" | "en";
   const t = translations[locale].common.metadata;
 
   return {

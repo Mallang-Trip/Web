@@ -5,7 +5,8 @@ import { useTranslation } from "@/hooks/use-translation";
 
 export default function PrivacyPage() {
   const { t, lang } = useTranslation();
-  const currentLang = lang === "ko" || lang === "en" ? lang : "ko";
+  const currentLang =
+    lang === "ko" || lang === "en" || lang === "zh" ? lang : "ko";
   const data = termsData[currentLang];
   const policyText = t.policy.privacy;
 

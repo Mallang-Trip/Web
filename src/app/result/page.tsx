@@ -429,6 +429,7 @@ function ResultPageInner() {
           <DriverInfoCard
             attributes={currentReservation.attributes || null}
             status={currentReservation.status}
+            reservationName={currentReservation.reservationName}
           />
         </div>
 

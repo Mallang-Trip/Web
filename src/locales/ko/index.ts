@@ -11,6 +11,7 @@ import chunbi from "./chunbi";
 import sinabro from "./sinabro";
 import jookhwa from "./jookhwa";
 import yeongdong from "./yeongdong";
+import jeju from "./jeju";
 import payple from "./payple";
 import policy from "./policy";
 
@@ -28,6 +29,7 @@ const ko = {
   sinabro,
   jookhwa,
   yeongdong,
+  jeju,
   payple,
   policy,
 };

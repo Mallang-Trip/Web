@@ -26,7 +26,7 @@ export default function ChunbiDetailPage() {
   const inquiryDeposit = 10000;
 
   const sidebarTitle = t.chunbi.sidebar.title;
-  const basePrice = formatPrice(400000, lang as "ko" | "en");
+  const basePrice = formatPrice(400000, lang as "ko" | "en" | "zh");
   const time = t.chunbi.sidebar.time;
 
   const subItems = t.chunbi.sidebar.subItems;

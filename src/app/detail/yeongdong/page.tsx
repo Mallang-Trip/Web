@@ -245,7 +245,7 @@ export default function YeongdongDetailPage() {
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
               title={t.yeongdong.sidebar.title}
-              price={formatPrice(813000, lang as "ko" | "en")}
+              price={formatPrice(813000, lang as "ko" | "en" | "zh")}
               time={t.yeongdong.sidebar.time}
               baseMember={t.yeongdong.sidebar.baseMember}
               subItems={t.yeongdong.sidebar.subItems}
@@ -263,7 +263,7 @@ export default function YeongdongDetailPage() {
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar
         title={t.yeongdong.sidebar.title}
-        price={formatPrice(813000, lang as "ko" | "en")}
+        price={formatPrice(813000, lang as "ko" | "en" | "zh")}
         time={t.yeongdong.sidebar.time}
         baseMember={t.yeongdong.sidebar.baseMember}
         destinationId={1001}

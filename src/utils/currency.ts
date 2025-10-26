@@ -26,11 +26,11 @@ export function usdToKrw(usd: number): number {
 /**
  * 원화를 언어에 맞는 통화 문자열로 포맷
  * @param krw 원화 금액
- * @param lang 언어 ('ko' | 'en')
+ * @param lang 언어 ('ko' | 'en' | 'zh')
  * @returns 포맷된 가격 문자열
  */
-export function formatPrice(krw: number, lang: "ko" | "en" = "ko"): string {
-  if (lang === "en") {
+export function formatPrice(krw: number, lang: "ko" | "en" | "zh" = "ko"): string {
+  if (lang === "en" || lang === "zh") {
     const usd = krwToUsd(krw);
     return `$${usd.toLocaleString()}`;
   }

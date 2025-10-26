@@ -53,7 +53,7 @@ export default function SinabroDetailPage() {
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
               title={t.sinabro.sidebar.title}
-              price={formatPrice(350000, lang as "ko" | "en")}
+              price={formatPrice(350000, lang as "ko" | "en" | "zh")}
               time={t.sinabro.sidebar.time}
               subItems={t.sinabro.sidebar.subItems}
               color="emerald"
@@ -69,7 +69,7 @@ export default function SinabroDetailPage() {
 
       <MobileBottomBar
         title={t.sinabro.sidebar.title}
-        price={formatPrice(350000, lang as "ko" | "en")}
+        price={formatPrice(350000, lang as "ko" | "en" | "zh")}
         time={t.sinabro.sidebar.time}
         color="emerald"
         destinationId={1003}

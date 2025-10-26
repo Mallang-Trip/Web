@@ -35,9 +35,7 @@ export default function FeaturesSection({ features }: FeaturesSectionProps) {
                 <div className="mb-4 flex justify-center">
                   <IconComponent className="h-16 w-16 text-blue-500" />
                 </div>
-                <h3 className="mb-2 text-xl font-semibold whitespace-nowrap">
-                  {feature.title}
-                </h3>
+                <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
                 <p className="leading-relaxed text-gray-600">
                   {feature.description}
                 </p>

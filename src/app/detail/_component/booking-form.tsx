@@ -22,6 +22,7 @@ import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 import { useTranslation } from "@/hooks/use-translation";
 import { formatPrice } from "@/utils/currency";
+import { useBookingFormStorage } from "@/hooks/use-booking-form-storage";
 
 declare global {
   interface Window {
@@ -79,23 +80,27 @@ export default function BookingForm({
   inquiryDeposit = 10000,
   color = "blue",
 }: BookingFormProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    phonePrefix: "+82",
-    phoneNumber: "",
-    meetDate: "",
-    meetTime: "",
-    meetAddress: "",
-    returnAddress: "",
-    email: "",
-    peopleCount: "",
-    requests: "",
-    // 개별 약관 동의 상태
-    agreeService: false,
-    agreeTravel: false,
-    agreePrivacy: false,
-    agreeThirdparty: false,
-  });
+  // 세션 스토리지를 사용하여 투어별로 폼 데이터 저장
+  const { formData, setFormData, clearFormData } = useBookingFormStorage(
+    destinationId,
+    {
+      name: "",
+      phonePrefix: "+82",
+      phoneNumber: "",
+      meetDate: "",
+      meetTime: "",
+      meetAddress: "",
+      returnAddress: "",
+      email: "",
+      peopleCount: "",
+      requests: "",
+      // 개별 약관 동의 상태
+      agreeService: false,
+      agreeTravel: false,
+      agreePrivacy: false,
+      agreeThirdparty: false,
+    },
+  );
 
   const [isCustomPhonePrefix, setIsCustomPhonePrefix] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -246,6 +251,9 @@ export default function BookingForm({
     try {
       window.sessionStorage.removeItem("payplePaymentNumber");
     } catch {}
+
+    // 예약 성공 시 폼 데이터 초기화
+    clearFormData();
 
     setTimeout(() => {
       router.push(

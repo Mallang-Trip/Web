@@ -17,6 +17,7 @@ interface TransactionStatement {
     itemName: string;
     quantity: number;
     pricePerPerson: number;
+    currency: string; // ISO 4217: KRW, USD, EUR, JPY 등
   };
 }
 
@@ -60,14 +61,25 @@ export default function TransactionStatementView({
   const formatTimeKo = (date: Date) =>
     date.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
 
-  const currency = (n: number) =>
-    formatPrice(Number(n || 0), lang as "ko" | "en");
+  // 결제 당시 사용한 통화를 기준으로 금액 표시
+  const paymentCurrency = statement.transactionDetail.currency || "KRW";
+  const isKRW = paymentCurrency === "KRW";
+
+  const currency = (n: number) => {
+    if (isKRW) {
+      return formatPrice(Number(n || 0), "ko");
+    } else {
+      // USD 또는 기타 통화
+      return formatPrice(Number(n || 0), "en");
+    }
+  };
 
   const quantity = Number(statement.transactionDetail.quantity || 0);
   const unitPrice = Number(statement.transactionDetail.pricePerPerson || 0);
   const totalAmount = quantity * unitPrice;
-  const supplyAmount = Math.round(totalAmount / 1.1);
-  const taxAmount = totalAmount - supplyAmount;
+  // 원화인 경우만 세액 계산 (부가세 10%)
+  const supplyAmount = isKRW ? Math.round(totalAmount / 1.1) : totalAmount;
+  const taxAmount = isKRW ? totalAmount - supplyAmount : 0;
 
   return (
     <div className="space-y-6">

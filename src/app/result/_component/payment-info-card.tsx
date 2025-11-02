@@ -17,13 +17,20 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import TransactionStatementView from "./transaction-statement-view";
+import CancellationReceiptView from "./cancellation-receipt-view";
 import {
   useTransactionStatement,
   StatementData,
 } from "./hooks/use-transaction-statement";
+import {
+  useCancellationReceipt,
+  CancellationReceiptData,
+} from "./hooks/use-cancellation-receipt";
 import { formatDateTime } from "@/utils/date";
 import { useTranslation } from "@/hooks/use-translation";
 import { formatPrice } from "@/utils/currency";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
 type ReservationPaymentInfo = {
   paymentNumber: string;
@@ -60,6 +67,13 @@ export default function PaymentInfoCard({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { isOpen, setIsOpen, isLoading, statement, fetchStatement } =
     useTransactionStatement(reservation.reservationId);
+  const {
+    isOpen: isCancelOpen,
+    setIsOpen: setCancelOpen,
+    isLoading: isCancelLoading,
+    receipt,
+    fetchReceipt,
+  } = useCancellationReceipt(reservation.reservationId);
 
   const paymentExists = !!reservation.paymentInfo;
   const canShowPayment = paymentExists && (isAuthenticated || authState);
@@ -67,6 +81,7 @@ export default function PaymentInfoCard({
   if (!canShowPayment) return null;
 
   const info = reservation.paymentInfo!;
+  const isRefunded = info.status.toUpperCase().includes("REFUNDED");
 
   return (
     <>
@@ -78,12 +93,23 @@ export default function PaymentInfoCard({
               <ChevronIcon />
             </summary>
             <PaymentDetails info={info} lang={lang} t={t} />
-            <div className="pt-2">
+            <div className="flex gap-2 pt-2">
               <Button onClick={fetchStatement} disabled={isLoading}>
                 {isLoading
                   ? t.result.loading.issuing
                   : t.result.paymentInfo.issueStatement}
               </Button>
+              {isRefunded && (
+                <Button
+                  onClick={fetchReceipt}
+                  disabled={isCancelLoading}
+                  variant="outline"
+                >
+                  {isCancelLoading
+                    ? t.result.loading.issuing
+                    : t.result.paymentInfo.issueCancellation}
+                </Button>
+              )}
             </div>
           </details>
         </CardContent>
@@ -96,6 +122,17 @@ export default function PaymentInfoCard({
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           statement={statement}
+          t={t}
+        />
+      )}
+
+      {/* 취소명세서 모달 */}
+      {isCancelOpen && receipt && (
+        <CancellationModal
+          isDesktop={isDesktop}
+          isOpen={isCancelOpen}
+          setIsOpen={setCancelOpen}
+          receipt={receipt}
           t={t}
         />
       )}
@@ -206,15 +243,32 @@ function StatementModal({
   statement: Exclude<StatementData, null>;
   t: any;
 }) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef,
+    documentTitle: `거래명세서_${new Date().toISOString().split("T")[0]}`,
+  });
+
   if (isDesktop) {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-h-[85vh] overflow-y-auto rounded-lg border-none bg-white">
-          <DialogHeader>
+        <DialogContent className="flex max-h-[85vh] flex-col rounded-lg border-none bg-white p-0">
+          <DialogHeader className="p-6">
             <DialogTitle>{t.result.paymentInfo.statementTitle}</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 space-y-6 overflow-auto text-sm text-gray-800">
-            <TransactionStatementView data={statement} />
+          <div className="flex-1 overflow-auto">
+            <div
+              ref={contentRef}
+              className="space-y-6 p-6 text-sm text-gray-800"
+            >
+              <TransactionStatementView data={statement} />
+            </div>
+          </div>
+          <div className="flex-shrink-0 px-6 pb-6">
+            <Button onClick={handlePrint} className="w-full">
+              {t.result.paymentInfo.downloadPdf}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -227,8 +281,79 @@ function StatementModal({
         <DrawerHeader className="flex-shrink-0 text-left">
           <DrawerTitle>{t.result.paymentInfo.statementTitle}</DrawerTitle>
         </DrawerHeader>
-        <div className="flex-1 overflow-auto px-4 pb-6">
-          <TransactionStatementView data={statement} />
+        <div className="flex-1 overflow-auto">
+          <div ref={contentRef} className="px-4 py-6">
+            <TransactionStatementView data={statement} />
+          </div>
+        </div>
+        <div className="flex-shrink-0 px-4 pt-4 pb-6">
+          <Button onClick={handlePrint} className="w-full">
+            {t.result.paymentInfo.downloadPdf}
+          </Button>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+// 취소명세서 모달
+function CancellationModal({
+  isDesktop,
+  isOpen,
+  setIsOpen,
+  receipt,
+  t,
+}: {
+  isDesktop: boolean;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  receipt: Exclude<CancellationReceiptData, null>;
+  t: any;
+}) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef,
+    documentTitle: `취소명세서_${new Date().toISOString().split("T")[0]}`,
+  });
+
+  if (isDesktop) {
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="flex max-h-[85vh] flex-col rounded-lg border-none bg-white p-0">
+          <DialogHeader className="p-6">
+            <DialogTitle>{t.result.paymentInfo.cancellationTitle}</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-auto">
+            <div ref={contentRef} className="p-6 text-sm text-gray-800">
+              <CancellationReceiptView data={receipt} />
+            </div>
+          </div>
+          <div className="flex-shrink-0 px-6 pb-6">
+            <Button onClick={handlePrint} className="w-full">
+              {t.result.paymentInfo.downloadCancellationPdf}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerContent className="flex max-h-[90vh] flex-col rounded-t-none border-none bg-white">
+        <DrawerHeader className="flex-shrink-0 text-left">
+          <DrawerTitle>{t.result.paymentInfo.cancellationTitle}</DrawerTitle>
+        </DrawerHeader>
+        <div className="flex-1 overflow-auto">
+          <div ref={contentRef} className="px-4 py-6">
+            <CancellationReceiptView data={receipt} />
+          </div>
+        </div>
+        <div className="flex-shrink-0 px-4 pt-4 pb-6">
+          <Button onClick={handlePrint} className="w-full">
+            {t.result.paymentInfo.downloadCancellationPdf}
+          </Button>
         </div>
       </DrawerContent>
     </Drawer>

@@ -27,17 +27,17 @@ export default function PickupDropoffAreasSection({
         <CardContent className="p-8 md:p-12">
           {/* Section Header */}
           <div className="mb-10 text-center">
-            <CardTitle className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
+            <CardTitle className="text-3xl font-bold text-gray-900 md:text-4xl">
               {tData.title}
             </CardTitle>
-            <CardDescription className="mt-3 text-gray-600 dark:text-gray-400">
+            <CardDescription className="mt-3 text-gray-600">
               {tData.description}
             </CardDescription>
           </div>
 
           {/* Available Areas Section */}
           <div className="mb-10">
-            <h3 className="mb-5 flex items-center text-xl font-semibold text-gray-800 dark:text-white">
+            <h3 className="mb-5 flex items-center text-xl font-semibold text-gray-800">
               <svg
                 className="mr-3 h-6 w-6 text-indigo-500"
                 fill="none"
@@ -60,16 +60,16 @@ export default function PickupDropoffAreasSection({
               </svg>
               {tData.availableAreas}
             </h3>
-            <div className="space-y-3 text-gray-700 dark:text-gray-300">
-              <p className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700/50">
+            <div className="space-y-3 text-gray-700">
+              <p className="rounded-lg bg-gray-50 p-4">
                 <strong>{tData.incheonSeoul}</strong> {tData.incheonSeoulDesc}
               </p>
-              <p className="rounded-lg bg-yellow-50 p-4 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+              <p className="rounded-lg bg-yellow-50 p-4 text-yellow-800">
                 <strong>{tData.daejeonSejong}</strong> {tData.daejeonSejongDesc}
               </p>
 
               {/* Collapsible section for Gyeonggi-do */}
-              <details className="rounded-lg bg-gray-50 transition-all duration-300 dark:bg-gray-700/50">
+              <details className="rounded-lg bg-gray-50 transition-all duration-300">
                 <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold [&::-webkit-details-marker]:hidden">
                   <span>
                     <strong>{tData.gyeonggiSouth}</strong>
@@ -89,8 +89,8 @@ export default function PickupDropoffAreasSection({
                     ></path>
                   </svg>
                 </summary>
-                <div className="border-t border-gray-200 p-4 dark:border-gray-600">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="border-t border-gray-200 p-4">
+                  <p className="text-sm text-gray-600">
                     {tData.gyeonggiSouthCities}
                   </p>
                 </div>
@@ -100,7 +100,7 @@ export default function PickupDropoffAreasSection({
 
           {/* Policy & Recommendations Section */}
           <div>
-            <h3 className="mb-5 flex items-center text-xl font-semibold text-gray-800 dark:text-white">
+            <h3 className="mb-5 flex items-center text-xl font-semibold text-gray-800">
               <svg
                 className="mr-3 h-6 w-6 text-indigo-500"
                 fill="none"
@@ -118,7 +118,7 @@ export default function PickupDropoffAreasSection({
               {tData.noticeTitle}
             </h3>
             <div
-              className="rounded-r-lg border-l-4 border-indigo-500 bg-indigo-50 p-6 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
+              className="rounded-r-lg border-l-4 border-indigo-500 bg-indigo-50 p-6 text-indigo-800"
               role="alert"
             >
               <p className="mb-2 font-bold">{tData.noticeAlertTitle}</p>

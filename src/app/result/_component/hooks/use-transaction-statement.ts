@@ -15,6 +15,7 @@ interface TransactionStatement {
     itemName: string;
     quantity: number;
     pricePerPerson: number;
+    currency: string; // ISO 4217: KRW, USD, EUR, JPY 등
   };
 }
 

@@ -21,6 +21,7 @@ import {
 import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 import { useTranslation } from "@/hooks/use-translation";
+import { useBookingFormStorage } from "@/hooks/use-booking-form-storage";
 
 declare global {
   interface Window {
@@ -82,23 +83,31 @@ export default function JejuBookingForm() {
   const { t } = useTranslation();
   const tData = t.jeju?.bookingForm || {};
   const tToast = t.jeju?.toast || {};
-  const [formData, setFormData] = useState({
-    name: "",
-    phonePrefix: "+82",
-    phoneNumber: "",
-    email: "",
-    peopleCount: "", // 1~4인
-    meetDate: "",
-    tourHours: "", // 4~12시간
-    pickupTime: "",
-    routeDescription: "", // 대략적인 경로
-    requests: "",
-    // 개별 약관 동의 상태
-    agreeService: false,
-    agreeTravel: false,
-    agreePrivacy: false,
-    agreeThirdparty: false,
-  });
+
+  // 제주 투어(destinationId=9)에 대한 세션 스토리지 사용
+  const { formData, setFormData, clearFormData } = useBookingFormStorage(
+    "jeju-9",
+    {
+      name: "",
+      phonePrefix: "+82",
+      phoneNumber: "",
+      email: "",
+      peopleCount: "", // 1~4인
+      meetDate: "",
+      tourHours: "", // 4~12시간
+      pickupTime: "",
+      routeDescription: "", // 대략적인 경로
+      requests: "",
+      meetTime: "",
+      meetAddress: "",
+      returnAddress: "",
+      // 개별 약관 동의 상태
+      agreeService: false,
+      agreeTravel: false,
+      agreePrivacy: false,
+      agreeThirdparty: false,
+    },
+  );
 
   const [isCustomPhonePrefix, setIsCustomPhonePrefix] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -210,6 +219,9 @@ export default function JejuBookingForm() {
     try {
       window.sessionStorage.removeItem("payplePaymentNumber");
     } catch {}
+
+    // 예약 성공 시 폼 데이터 초기화
+    clearFormData();
 
     setTimeout(() => {
       router.push(

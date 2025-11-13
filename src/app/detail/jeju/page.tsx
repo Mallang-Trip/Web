@@ -13,12 +13,8 @@ import { CheckCheck, MapPin, Clock } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 
 export default function JejuDetailPage() {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const tData = t.jeju || {};
-
-  // 영어/중국어일 때는 달러 가격 사용
-  const isKorean = lang === "ko";
-  const currencySymbol = isKorean ? "₩" : "$";
 
   const features = [
     {

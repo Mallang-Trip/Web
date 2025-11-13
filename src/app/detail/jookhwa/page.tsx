@@ -32,9 +32,13 @@ export default function JookhwaDetailPage() {
 
   const formattedPrice = formatPrice(140000, lang as "ko" | "en" | "zh");
 
+  const heroImages = Array.from({ length: 13 }, (_, index) => index + 1).map(
+    (index) => `/tour-images/jookhwa/${index.toString().padStart(2, "0")}.png`,
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeroSection image="/tour-images/jookhwa/00.jpg" />
+      <HeroSection images={heroImages} />
 
       <div className="mx-auto max-w-screen-2xl px-4 py-8 pb-20">
         <div className="flex flex-col gap-8 lg:flex-row">

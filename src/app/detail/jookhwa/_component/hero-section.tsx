@@ -4,23 +4,42 @@ import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { useTranslation } from "@/hooks/use-translation";
+import { useEffect, useState } from "react";
 
 interface HeroSectionProps {
-  image: string;
+  images: string | string[];
 }
 
-export default function HeroSection({ image }: HeroSectionProps) {
+export default function HeroSection({ images }: HeroSectionProps) {
   const { t } = useTranslation();
+
+  const imageArray = Array.isArray(images) ? images : [images];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (imageArray.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % imageArray.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [imageArray.length]);
 
   return (
     <section className="relative flex h-screen items-center justify-center text-white">
-      {/* 배경 이미지 */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${image}')`,
-        }}
-      />
+      {/* 배경 이미지 캐러셀 */}
+      {imageArray.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+            index === currentIndex ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${image}')`,
+          }}
+        />
+      ))}
 
       {/* 컨텐츠 */}
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">

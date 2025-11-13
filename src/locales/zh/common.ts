@@ -2,8 +2,7 @@ const common = {
   // Root metadata
   metadata: {
     title: "Mallangtrip",
-    description:
-      "比巴士快，比出租车便宜！出租车拼车旅行平台Mallangtrip",
+    description: "比巴士快，比出租车便宜！出租车拼车旅行平台Mallangtrip",
   },
   // Common buttons
   button: {
@@ -146,11 +145,11 @@ const common = {
       phone: "电话",
       email: "电子邮箱",
       people: "人数",
-      meetDate: "日期",
+      meetDate: "接送日期",
       meetTime: "接送时间",
       meetAddress: "接送地址",
       returnAddress: "送达地址",
-      requests: "特殊要求",
+      requests: "特殊要求 & 旅行码",
       required: "*",
       namePlaceholder: "张三",
       phonePlaceholder: "仅输入数字（不含连字符）",
@@ -158,8 +157,7 @@ const common = {
       peoplePlaceholder: "选择人数",
       meetAddressPlaceholder: "请输入准确的酒店名称或地址",
       returnAddressPlaceholder: "请输入准确的酒店名称或地址",
-      requestsPlaceholder:
-        "请输入任何特殊要求，如饮食限制或过敏等",
+      requestsPlaceholder: "请输入任何特殊要求，如饮食限制或过敏等",
       totalAmount: "总金额",
       inquiry: "联系咨询价格",
       agreeAll: "我同意以下所有条款。",
@@ -176,8 +174,7 @@ const common = {
       validation: {
         nameRequired: "请输入您的姓名。",
         phoneRequired: "请输入您的电话号码。",
-        phonePrefixInvalid:
-          "请以'+数字'格式输入国家代码。例如：+82",
+        phonePrefixInvalid: "请以'+数字'格式输入国家代码。例如：+82",
         emailRequired: "请输入您的电子邮箱。",
         peopleRequired: "请选择人数。",
         dateRequired: "请选择会面日期。",
@@ -187,32 +184,26 @@ const common = {
         agreeServiceRequired: "请同意服务条款。",
         agreeTravelRequired: "请同意旅行标准条款。",
         agreePrivacyRequired: "请同意个人信息收集和使用。",
-        agreeThirdpartyRequired:
-          "请同意第三方信息共享。",
+        agreeThirdpartyRequired: "请同意第三方信息共享。",
       },
       // Toast messages
       toast: {
         validationError: "请检查您的输入信息。",
         reservationSuccess: "预订完成！",
-        reservationSuccessDesc:
-          "支付确认后，您的预订已创建。",
+        reservationSuccessDesc: "支付确认后，您的预订已创建。",
         paymentFailed: "支付失败。",
         paymentFailedDesc: "请重试。",
         paymentError: "支付处理过程中发生错误。",
-        paymentErrorDesc:
-          "如果问题持续存在，请联系客服。",
+        paymentErrorDesc: "如果问题持续存在，请联系客服。",
         paymentConfirmFailed: "支付确认失败。",
         paymentConfirmFailedDesc: "请稍后重试。",
         paymentCancelled: "支付已取消或窗口已关闭。",
-        paymentWindowOpened:
-          "支付窗口已打开。请完成支付。",
-        groupContactRequired:
-          "9人及以上团体，请联系客服。",
+        paymentWindowOpened: "支付窗口已打开。请完成支付。",
+        groupContactRequired: "9人及以上团体，请联系客服。",
         groupContactPhone: "电话：+82-507-1344-4159",
         invalidPaymentInfo: "支付准备信息无效。",
         reservationError: "预订处理过程中发生错误。",
-        reservationConflict:
-          "已存在活动预订或预订不可用。",
+        reservationConflict: "已存在活动预订或预订不可用。",
         destinationNotFound: "未找到目的地。",
         popupBlocked: "弹窗被拦截。",
         popupBlockedDesc: "请禁用弹窗拦截器后重试。",

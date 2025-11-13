@@ -16,7 +16,7 @@ const jeju = {
         "Go anywhere you want! Travel freely according to your desired schedule.",
     },
     expertDriver: {
-      title: "Local Driver with 25 Years in Jeju",
+      title: "Local Driver with 30 Years in Jeju",
       description:
         "Safety is standard, plus recommendations for local restaurants and hidden gems! Your best travel partner",
     },
@@ -295,7 +295,8 @@ const jeju = {
       agreeServiceRequired: "Please agree to the service terms.",
       agreeTravelRequired: "Please agree to the travel terms.",
       agreePrivacyRequired: "Please agree to privacy policy.",
-      agreeThirdpartyRequired: "Please agree to third-party information sharing.",
+      agreeThirdpartyRequired:
+        "Please agree to third-party information sharing.",
     },
   },
 };

@@ -84,8 +84,8 @@ const vip = {
       },
       {
         time: "13:00",
-        activity: "도시락 점심",
-        description: "양조장 내에서 반주와 함께 도시락 점심",
+        activity: "케이터링 점심",
+        description: "양조장 내에서 반주와 함께 케이터링 점심",
       },
       {
         time: "14:30",

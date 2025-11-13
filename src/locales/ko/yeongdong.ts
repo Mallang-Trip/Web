@@ -72,7 +72,7 @@ const yeongdong = {
   },
   timeline: {
     title: "하루의 여정",
-    subtitle: "오전 8시부터 오후 1시 사이, 원하시는 시간에 출발",
+    subtitle: "오전 7시부터 10시 사이, 원하시는 시간에 출발",
     items: [
       {
         time: "08:00",

@@ -31,7 +31,7 @@ export default function JejuDetailPage() {
     {
       icon: MapPin,
       title:
-        tData.features?.expertDriver?.title || "제주도 경력 25년 현지 기사님",
+        tData.features?.expertDriver?.title || "제주도 경력 30년 현지 기사님",
       description:
         tData.features?.expertDriver?.description ||
         "안전은 기본, 현지 맛집과 숨은 명소 추천까지! 최고의 여행 파트너",

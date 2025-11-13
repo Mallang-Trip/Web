@@ -88,8 +88,8 @@ const vip = {
       },
       {
         time: "13:00",
-        activity: "Lunch box lunch",
-        description: "Lunch box lunch with accompaniment in the brewery",
+        activity: "Catering Lunch",
+        description: "Catering Lunch with accompaniment in the brewery",
       },
       {
         time: "14:30",

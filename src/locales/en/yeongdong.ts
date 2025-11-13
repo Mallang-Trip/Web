@@ -76,7 +76,7 @@ const yeongdong = {
   },
   timeline: {
     title: "Journey of the Day",
-    subtitle: "Depart at your desired time between 8 AM and 1 PM",
+    subtitle: "Depart at your desired time between 7 AM and 10 AM",
     items: [
       {
         time: "08:00",

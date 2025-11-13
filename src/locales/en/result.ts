@@ -164,7 +164,8 @@ const result = {
     refundPercentage: "Refund Rate",
     refundProcessDate: "Refund Process Date",
     refundPolicy: "Refund Policy",
-    confirmation: "This confirms that the reservation has been canceled as above.",
+    confirmation:
+      "This confirms that the reservation has been canceled as above.",
     companyName: "Mallangtrip",
     supplierInfo: {
       businessName: "Mallangtrip",
@@ -200,8 +201,8 @@ const result = {
     pendingOnly: "Can only edit while in pending status.",
     pendingOnlyFull: "Can only edit while in PENDING status.",
     reservationName: "Reservation Name",
-    meetingDate: "Meeting Date",
-    meetingTime: "Meeting Time",
+    meetingDate: "Pickup Date",
+    meetingTime: "Pickup Time",
     participants: "Participants",
     participantPlaceholder: "Select number of participants",
     people2: "2 people",
@@ -215,7 +216,7 @@ const result = {
     totalAmount: "Total Amount ($)",
     pickupAddress: "Pickup Address",
     returnAddress: "Return Address",
-    requests: "Special Requests",
+    requests: "Special Requests & Tour Code",
     cancel: "Cancel",
     save: "Save",
     saving: "Saving...",
@@ -236,7 +237,7 @@ const result = {
     emptyDesc: "Book a new trip today!",
     canceled: "Canceled",
     paymentDate: "Payment Date:",
-    meetingPlace: "Meeting Place:",
+    meetingPlace: "Pickup Place:",
     dropPlace: "Drop-off Place:",
   },
 

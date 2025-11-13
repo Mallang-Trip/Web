@@ -32,17 +32,17 @@ export default function PricingTable({
         <div className="bg-amber-400 p-6 text-center">
           <h3 className="text-2xl font-medium text-slate-900">
             {lang === "ko"
-              ? "VIP 프라이빗 양조장 투어"
+              ? "술차오름 근교"
               : lang === "zh"
-                ? "VIP私人酿酒厂之旅"
-                : "VIP Private Brewery Tour"}
+                ? "Pourtal首尔周边"
+                : "Pourtal Seoul Vicinity"}
           </h3>
           <p className="text-slate-800">
             {lang === "ko"
-              ? "모든 체험, 시음, 차량 서비스 포함 (식사 별도)"
+              ? "모든 체험, 시음, 차량 서비스, 점심 식사 포함"
               : lang === "zh"
-                ? "包含所有体验、品酒、车辆服务（餐食另付）"
-                : "All experiences, tastings, vehicle service included (meals separate)"}
+                ? "包含所有体验、品酒、车辆服务和午餐"
+                : "All experiences, tastings, vehicle service and lunch included"}
           </p>
         </div>
         <table className="w-full table-fixed border-collapse">
@@ -60,7 +60,11 @@ export default function PricingTable({
                     {formatPrice(row.total, lang as "ko" | "en" | "zh")}
                   </div>
                   <div className="text-sm text-slate-600">
-                    {lang === "ko" ? "1인당 " : lang === "zh" ? "每人 " : "Per person: "}
+                    {lang === "ko"
+                      ? "1인당 "
+                      : lang === "zh"
+                        ? "每人 "
+                        : "Per person: "}
                     {formatPrice(row.perPerson, lang as "ko" | "en" | "zh")}
                   </div>
                 </td>

@@ -83,7 +83,7 @@ const chunbi = {
       "[Tasting] Tasting of 2025 Presidential Award-winning liquor",
     ],
     excludedItems: [
-      "Personal additional purchase costs (souvenirs, additional liquor, etc.)",
+      "Lunch/Dinner meals",
       "Travel insurance",
       "Additional transportation costs outside designated pick-up/drop-off areas",
     ],

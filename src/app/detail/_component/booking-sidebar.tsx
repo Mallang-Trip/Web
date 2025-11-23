@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BookingDrawer from "@/app/detail/_component/booking-drawer";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface PeopleOption {
   value: string;
@@ -110,6 +111,11 @@ export default function BookingSidebar({
             className={`w-full text-white ${colorClass.buttonColor}`}
             size="lg"
             disabled={disabled}
+            gaEvent={GA_EVENTS.TOUR_BOOKING_SIDEBAR}
+            gaParams={{
+              destination_id: destinationId,
+              tour_name: title,
+            }}
           >
             {disabled ? tData.unavailable : tData.bookNow}
           </Button>

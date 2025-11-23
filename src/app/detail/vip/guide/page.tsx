@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/use-translation";
 import Image from "next/image";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 type Restaurant = {
   name: string;
@@ -364,7 +365,14 @@ export default function VipGuidePage() {
                       target="_blank"
                       className="inline-block"
                     >
-                      <Button>{t.vipGuide.viewMap}</Button>
+                      <Button
+                        gaEvent={GA_EVENTS.VIP_GUIDE_VIEW_MAP}
+                        gaParams={{
+                          tour_name: r.name,
+                        }}
+                      >
+                        {t.vipGuide.viewMap}
+                      </Button>
                     </Link>
                   </div>
                 </Card>

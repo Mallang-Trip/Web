@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import JejuBookingDrawer from "./jeju-booking-drawer";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface JejuBookingSidebarProps {
   disabled?: boolean;
@@ -65,6 +66,11 @@ export default function JejuBookingSidebar({
             className="w-full bg-blue-600 text-white hover:bg-blue-700"
             size="lg"
             disabled={disabled}
+            gaEvent={GA_EVENTS.JEJU_BOOKING_SIDEBAR}
+            gaParams={{
+              destination_id: 9,
+              tour_name: "제주 택시투어",
+            }}
           >
             {disabled
               ? tData.bookButtonDisabled || "예약 불가"

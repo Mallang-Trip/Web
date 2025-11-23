@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import ReservationListDrawer from "./reservation-list-drawer";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface NotFoundProps {
   reservations: Array<{
@@ -51,7 +52,11 @@ export default function NotFound({ reservations }: NotFoundProps) {
           <div className="space-y-3">
             {reservations.length > 0 && (
               <ReservationListDrawer reservations={reservations}>
-                <Button variant="outline" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  gaEvent={GA_EVENTS.VIEW_RESERVATIONS_FROM_NOT_FOUND}
+                >
                   {tNotFound.viewReservations}
                 </Button>
               </ReservationListDrawer>
@@ -59,6 +64,7 @@ export default function NotFound({ reservations }: NotFoundProps) {
             <Button
               onClick={() => (window.location.href = "/")}
               className="w-full"
+              gaEvent={GA_EVENTS.GO_HOME_FROM_NOT_FOUND}
             >
               {tNotFound.goHome}
             </Button>

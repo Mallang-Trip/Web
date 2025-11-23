@@ -18,6 +18,7 @@ import {
   trackAddPaymentInfo,
   getCurrencyByLanguage,
 } from "@/lib/analytics";
+import { GA_EVENTS } from "@/lib/analytics-events";
 import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 import { useTranslation } from "@/hooks/use-translation";
@@ -1193,6 +1194,19 @@ export default function JejuBookingForm() {
           className="mb-4 w-full bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400"
           onClick={handleSubmit}
           disabled={!isFormValid() || isLoading}
+          gaEvent={GA_EVENTS.JEJU_RESERVATION_SUBMIT}
+          gaParams={{
+            destination_id: 9,
+            tour_name: "제주 택시투어",
+            tour_hours: formData.tourHours ? parseInt(formData.tourHours) : undefined,
+            people_count: formData.peopleCount ? parseInt(formData.peopleCount) : undefined,
+            payment_amount: formData.tourHours
+              ? currentLanguage === "en"
+                ? JEJU_PRICES_USD[formData.tourHours]
+                : JEJU_PRICES_KRW[formData.tourHours]
+              : undefined,
+            currency: currentLanguage === "en" ? "USD" : "KRW",
+          }}
         >
           {isLoading ? (
             <div className="flex items-center gap-2">

@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+import type { GAEventProps } from "@/lib/analytics-events";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 aria-invalid:ring-red-500/20 cursor-pointer",
@@ -37,17 +38,47 @@ function Button({
   variant,
   size,
   asChild = false,
+  gaEvent,
+  gaParams,
+  gaCategory,
+  gaLabel,
   ...props
 }: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
+  VariantProps<typeof buttonVariants> &
+  GAEventProps & {
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
+
+  // GA 이벤트 정보를 data attributes로 변환
+  const gaDataAttributes = React.useMemo(() => {
+    const attrs: Record<string, string> = {};
+
+    if (gaEvent) {
+      attrs["data-ga-event"] = gaEvent;
+    }
+
+    if (gaCategory) {
+      attrs["data-ga-category"] = gaCategory;
+    }
+
+    if (gaLabel) {
+      attrs["data-ga-label"] = gaLabel;
+    }
+
+    if (gaParams && Object.keys(gaParams).length > 0) {
+      // params를 JSON 문자열로 직렬화
+      attrs["data-ga-params"] = JSON.stringify(gaParams);
+    }
+
+    return attrs;
+  }, [gaEvent, gaParams, gaCategory, gaLabel]);
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      {...gaDataAttributes}
       {...props}
     />
   );

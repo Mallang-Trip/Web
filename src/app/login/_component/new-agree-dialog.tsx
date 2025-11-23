@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface NewAgreeDialogProps {
   isOpen: boolean;
@@ -133,7 +134,20 @@ export default function NewAgreeDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button className="w-full" onClick={onConfirm} disabled={!allChecked}>
+          <Button
+            className="w-full"
+            onClick={onConfirm}
+            disabled={!allChecked}
+            gaEvent={GA_EVENTS.AGREE_TERMS}
+            gaParams={{
+              agreed_terms: [
+                agreeService && "service",
+                agreeTravel && "travel",
+                agreePrivacy && "privacy",
+                agreeThirdparty && "thirdparty",
+              ].filter(Boolean) as string[],
+            }}
+          >
             {t.login.termsDialog.confirmButton}
           </Button>
         </DialogFooter>

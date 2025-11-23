@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import BookingDrawer from "./booking-drawer";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface MobileBottomBarProps {
   title: string;
@@ -170,6 +171,12 @@ export default function MobileBottomBar({
             className={`px-8 text-white ${colorClass.buttonColor}`}
             size="lg"
             disabled={disabled}
+            gaEvent={GA_EVENTS.TOUR_BOOKING_MOBILE_BOTTOM}
+            gaParams={{
+              destination_id: destinationId,
+              tour_name: title,
+              device_type: "mobile",
+            }}
           >
             {disabled ? tData.unavailable : tData.bookNow}
           </Button>

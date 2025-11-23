@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface Reservation {
   reservationId: string | number;
@@ -97,6 +98,11 @@ export default function ReservationActions({
             variant="destructive"
             disabled={isLoading}
             className="flex h-12 items-center justify-center gap-2"
+            gaEvent={GA_EVENTS.CANCEL_RESERVATION}
+            gaParams={{
+              reservation_id: currentReservation.reservationId,
+              reservation_status: currentReservation.status,
+            }}
           >
             <CancelIcon />
             {isLoading ? t.result.loading.canceling : tActions.cancel}
@@ -119,6 +125,10 @@ export default function ReservationActions({
             onEditClick?.();
           }}
           className="flex h-12 items-center justify-center gap-2"
+          gaEvent={GA_EVENTS.EDIT_RESERVATION}
+          gaParams={{
+            reservation_id: currentReservation.reservationId,
+          }}
         >
           <EditIcon />
           {tActions.edit}
@@ -130,6 +140,10 @@ export default function ReservationActions({
         <Button
           variant="outline"
           className="flex h-12 items-center justify-center gap-2"
+          gaEvent={GA_EVENTS.VIEW_ALL_RESERVATIONS}
+          gaParams={{
+            reservation_count: reservations.length,
+          }}
         >
           <ListIcon />
           {tActions.viewAllReservations} ({reservations.length})

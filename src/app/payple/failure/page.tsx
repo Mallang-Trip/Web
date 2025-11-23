@@ -12,6 +12,7 @@ import {
 import FailureIcon from "./_component/failure-icon";
 import { track } from "@/lib/analytics";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 export default function PaypleFailurePage() {
   const { t } = useTranslation();
@@ -56,6 +57,7 @@ export default function PaypleFailurePage() {
               } catch {}
             }}
             className="px-6"
+            gaEvent={GA_EVENTS.CLOSE_PAYMENT_FAILURE}
           >
             {t.payple.failure.closeButton}
           </Button>

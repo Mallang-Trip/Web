@@ -31,6 +31,7 @@ import { useTranslation } from "@/hooks/use-translation";
 import { formatPrice } from "@/utils/currency";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 type ReservationPaymentInfo = {
   paymentNumber: string;
@@ -94,7 +95,16 @@ export default function PaymentInfoCard({
             </summary>
             <PaymentDetails info={info} lang={lang} t={t} />
             <div className="flex gap-2 pt-2">
-              <Button onClick={fetchStatement} disabled={isLoading}>
+              <Button
+                onClick={fetchStatement}
+                disabled={isLoading}
+                gaEvent={GA_EVENTS.ISSUE_TRANSACTION_STATEMENT}
+                gaParams={{
+                  payment_number: info.paymentNumber,
+                  payment_amount: info.amount,
+                  document_type: "transaction_statement",
+                }}
+              >
                 {isLoading
                   ? t.result.loading.issuing
                   : t.result.paymentInfo.issueStatement}
@@ -104,6 +114,12 @@ export default function PaymentInfoCard({
                   onClick={fetchReceipt}
                   disabled={isCancelLoading}
                   variant="outline"
+                  gaEvent={GA_EVENTS.ISSUE_CANCELLATION_RECEIPT}
+                  gaParams={{
+                    payment_number: info.paymentNumber,
+                    refund_amount: info.amount,
+                    document_type: "cancellation_receipt",
+                  }}
                 >
                   {isCancelLoading
                     ? t.result.loading.issuing
@@ -266,7 +282,18 @@ function StatementModal({
             </div>
           </div>
           <div className="flex-shrink-0 px-6 pb-6">
-            <Button onClick={handlePrint} className="w-full">
+            <Button
+              onClick={handlePrint}
+              className="w-full"
+              gaEvent={GA_EVENTS.DOWNLOAD_TRANSACTION_PDF}
+              gaParams={{
+                payment_number:
+                  "transactionDetail" in statement
+                    ? statement.transactionDetail.paymentNumber
+                    : undefined,
+                device_type: "desktop",
+              }}
+            >
               {t.result.paymentInfo.downloadPdf}
             </Button>
           </div>
@@ -287,7 +314,18 @@ function StatementModal({
           </div>
         </div>
         <div className="flex-shrink-0 px-4 pt-4 pb-6">
-          <Button onClick={handlePrint} className="w-full">
+          <Button
+            onClick={handlePrint}
+            className="w-full"
+            gaEvent={GA_EVENTS.DOWNLOAD_TRANSACTION_PDF_MOBILE}
+            gaParams={{
+              payment_number:
+                "transactionDetail" in statement
+                  ? statement.transactionDetail.paymentNumber
+                  : undefined,
+              device_type: "mobile",
+            }}
+          >
             {t.result.paymentInfo.downloadPdf}
           </Button>
         </div>
@@ -330,7 +368,22 @@ function CancellationModal({
             </div>
           </div>
           <div className="flex-shrink-0 px-6 pb-6">
-            <Button onClick={handlePrint} className="w-full">
+            <Button
+              onClick={handlePrint}
+              className="w-full"
+              gaEvent={GA_EVENTS.DOWNLOAD_CANCELLATION_PDF}
+              gaParams={{
+                payment_number:
+                  "cancellationInfo" in receipt
+                    ? receipt.cancellationInfo.reservationNumber
+                    : undefined,
+                refund_amount:
+                  "refundInfo" in receipt
+                    ? receipt.refundInfo.refundAmount
+                    : undefined,
+                device_type: "desktop",
+              }}
+            >
               {t.result.paymentInfo.downloadCancellationPdf}
             </Button>
           </div>
@@ -351,7 +404,22 @@ function CancellationModal({
           </div>
         </div>
         <div className="flex-shrink-0 px-4 pt-4 pb-6">
-          <Button onClick={handlePrint} className="w-full">
+          <Button
+            onClick={handlePrint}
+            className="w-full"
+            gaEvent={GA_EVENTS.DOWNLOAD_CANCELLATION_PDF_MOBILE}
+            gaParams={{
+              payment_number:
+                "cancellationInfo" in receipt
+                  ? receipt.cancellationInfo.reservationNumber
+                  : undefined,
+              refund_amount:
+                "refundInfo" in receipt
+                  ? receipt.refundInfo.refundAmount
+                  : undefined,
+              device_type: "mobile",
+            }}
+          >
             {t.result.paymentInfo.downloadCancellationPdf}
           </Button>
         </div>

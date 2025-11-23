@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import JejuBookingDrawer from "./jeju-booking-drawer";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface JejuMobileBottomBarProps {
   disabled?: boolean;
@@ -121,6 +122,12 @@ export default function JejuMobileBottomBar({
             className="bg-blue-600 px-8 text-white hover:bg-blue-700"
             size="lg"
             disabled={disabled}
+            gaEvent={GA_EVENTS.JEJU_BOOKING_MOBILE_BOTTOM}
+            gaParams={{
+              destination_id: 9,
+              tour_name: "제주 택시투어",
+              device_type: "mobile",
+            }}
           >
             {disabled ? tData.bookButtonDisabled || "예약 불가" : tData.bookButton || "예약하기"}
           </Button>

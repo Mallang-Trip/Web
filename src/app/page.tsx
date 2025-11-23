@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -291,6 +292,11 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-white text-blue-600 hover:bg-gray-100"
+              gaEvent={GA_EVENTS.HOME_CTA_START_TOUR}
+              gaParams={{
+                tour_name: "vip",
+                destination_id: 1,
+              }}
             >
               {t.home.cta.button}
             </Button>

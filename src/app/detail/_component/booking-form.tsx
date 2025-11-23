@@ -18,6 +18,7 @@ import {
   trackAddPaymentInfo,
   getCurrencyByLanguage,
 } from "@/lib/analytics";
+import { GA_EVENTS } from "@/lib/analytics-events";
 import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 import { useTranslation } from "@/hooks/use-translation";
@@ -1314,6 +1315,19 @@ export default function BookingForm({
           className={`mb-4 w-full text-white ${colorClass.buttonColor} disabled:bg-gray-400`}
           onClick={handleSubmit}
           disabled={!isFormValid() || isLoading}
+          gaEvent={GA_EVENTS.TOUR_RESERVATION_SUBMIT}
+          gaParams={{
+            destination_id: destinationId,
+            tour_name: title,
+            people_count: formData.peopleCount
+              ? parseInt(formData.peopleCount)
+              : undefined,
+            payment_amount:
+              formData.peopleCount && priceByPeople[formData.peopleCount]
+                ? priceByPeople[formData.peopleCount]
+                : undefined,
+            currency: getCurrencyByLanguage(currentLanguage),
+          }}
         >
           {isLoading ? (
             <div className="flex items-center gap-2">

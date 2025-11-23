@@ -135,6 +135,46 @@ export function attachGlobalClickListener() {
         if (!target) return;
         const button = target.closest("[data-slot='button'],button,a");
         if (!button) return;
+
+        // data-ga-event 속성이 있는지 확인 (우선순위 높음)
+        const gaEvent = button.getAttribute("data-ga-event");
+        const gaCategory = button.getAttribute("data-ga-category");
+        const gaLabel = button.getAttribute("data-ga-label");
+        const gaParamsStr = button.getAttribute("data-ga-params");
+
+        // 명시적으로 GA 이벤트가 정의된 경우
+        if (gaEvent) {
+          let params: AnalyticsEventParams = {};
+
+          // JSON 파라미터 파싱
+          if (gaParamsStr) {
+            try {
+              params = JSON.parse(gaParamsStr);
+            } catch {
+              // 파싱 실패 시 빈 객체 사용
+            }
+          }
+
+          // category와 label 추가
+          if (gaCategory) params.category = gaCategory;
+          if (gaLabel) params.label = gaLabel;
+
+          // 버튼 텍스트를 button_text로 추가 (디버깅용)
+          const buttonText = (
+            button.getAttribute("aria-label") ||
+            button.textContent ||
+            ""
+          )
+            .trim()
+            .slice(0, 80);
+          if (buttonText) params.button_text = buttonText;
+
+          // 명시적 이벤트 전송
+          track(gaEvent, params);
+          return;
+        }
+
+        // data-ga-event가 없는 경우, 기존 fallback 로직 사용
         const name = (
           button.getAttribute("aria-label") ||
           button.textContent ||
@@ -142,6 +182,7 @@ export function attachGlobalClickListener() {
         )
           .trim()
           .slice(0, 80);
+
         track("ui_button_click", {
           name: name || undefined,
           tag: button.tagName,

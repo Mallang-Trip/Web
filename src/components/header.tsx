@@ -9,6 +9,7 @@ import { useLangStore } from "@/stores/lang-store";
 import { Combobox } from "@/components/ui/combobox";
 import { getFirstEntryTarget } from "@/utils";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 export default function Header() {
   const [logoHref, setLogoHref] = useState<string>("/");
@@ -55,23 +56,49 @@ export default function Header() {
                   phoneNumber === "+821025264159" ||
                   phoneNumber === "+821033273496") && (
                   <Link href="/admin">
-                    <Button variant="outline" size="sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      gaEvent={GA_EVENTS.HEADER_ADMIN}
+                    >
                       {t.header.nav.admin}
                     </Button>
                   </Link>
                 )}
                 <Link href="/result">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    gaEvent={GA_EVENTS.HEADER_RESERVATIONS}
+                    gaParams={{
+                      device_type: "desktop",
+                    }}
+                  >
                     {t.header.nav.reservations}
                   </Button>
                 </Link>
-                <Button variant="outline" size="sm" onClick={logout}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={logout}
+                  gaEvent={GA_EVENTS.HEADER_LOGOUT}
+                  gaParams={{
+                    device_type: "desktop",
+                  }}
+                >
                   {t.header.nav.logout}
                 </Button>
               </div>
             ) : (
               <Link href="/login">
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  gaEvent={GA_EVENTS.HEADER_LOGIN_DESKTOP}
+                  gaParams={{
+                    device_type: "desktop",
+                  }}
+                >
                   {t.header.nav.login}
                 </Button>
               </Link>
@@ -153,7 +180,14 @@ export default function Header() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="block"
                   >
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start"
+                      gaEvent={GA_EVENTS.HEADER_RESERVATIONS_MOBILE}
+                      gaParams={{
+                        device_type: "mobile",
+                      }}
+                    >
                       <svg
                         className="mr-2 h-4 w-4"
                         fill="none"
@@ -176,6 +210,10 @@ export default function Header() {
                     onClick={() => {
                       logout();
                       setIsMobileMenuOpen(false);
+                    }}
+                    gaEvent={GA_EVENTS.HEADER_LOGOUT_MOBILE}
+                    gaParams={{
+                      device_type: "mobile",
                     }}
                   >
                     <svg
@@ -201,7 +239,14 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block"
               >
-                <Button variant="outline" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  gaEvent={GA_EVENTS.HEADER_LOGIN_MOBILE}
+                  gaParams={{
+                    device_type: "mobile",
+                  }}
+                >
                   <svg
                     className="mr-2 h-4 w-4"
                     fill="none"

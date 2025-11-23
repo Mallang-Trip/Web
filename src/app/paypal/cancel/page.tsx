@@ -12,6 +12,7 @@ import {
 import { track } from "@/lib/analytics";
 import { useTranslation } from "@/hooks/use-translation";
 import { XCircle } from "lucide-react";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 export default function PaypalCancelPage() {
   const { t } = useTranslation();
@@ -65,6 +66,7 @@ export default function PaypalCancelPage() {
               } catch {}
             }}
             className="px-6"
+            gaEvent={GA_EVENTS.CLOSE_PAYPAL_CANCELLATION}
           >
             {t.payple.failure.closeButton}
           </Button>

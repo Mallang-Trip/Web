@@ -25,6 +25,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { TimePicker } from "@/components/ui/time-picker";
 import { track } from "@/lib/analytics";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface Reservation {
   reservationId: string | number;
@@ -285,6 +286,7 @@ export default function ReservationEditDialog({
             onSave={handleSave}
             isValid={isValid}
             isSaving={isSaving}
+            reservationId={reservation.reservationId}
           />
         </DialogContent>
       </Dialog>
@@ -319,6 +321,7 @@ export default function ReservationEditDialog({
           onSave={handleSave}
           isValid={isValid}
           isSaving={isSaving}
+          reservationId={reservation.reservationId}
         />
       </DrawerContent>
     </Drawer>
@@ -456,11 +459,13 @@ function FormActions({
   onSave,
   isValid,
   isSaving,
+  reservationId,
 }: {
   onCancel: () => void;
   onSave: () => void;
   isValid: boolean;
   isSaving: boolean;
+  reservationId: string | number;
 }) {
   const { t } = useTranslation();
   const tEdit = t.result.editDialog;
@@ -472,6 +477,10 @@ function FormActions({
         className="flex-1"
         onClick={onCancel}
         disabled={isSaving}
+        gaEvent={GA_EVENTS.CANCEL_RESERVATION_EDIT}
+        gaParams={{
+          reservation_id: reservationId,
+        }}
       >
         {tEdit.cancel}
       </Button>
@@ -479,6 +488,10 @@ function FormActions({
         className="flex-1"
         onClick={onSave}
         disabled={!isValid || isSaving}
+        gaEvent={GA_EVENTS.SAVE_RESERVATION_EDIT}
+        gaParams={{
+          reservation_id: reservationId,
+        }}
       >
         {isSaving ? tEdit.saving : tEdit.save}
       </Button>

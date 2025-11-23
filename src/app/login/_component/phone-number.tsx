@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface PhoneNumberProps {
   phonePrefix: string;
@@ -86,6 +87,10 @@ export default function PhoneNumber({
           type="submit"
           className="w-full"
           disabled={!isPhoneNumberValid || isLoading}
+          gaEvent={GA_EVENTS.SEND_OTP}
+          gaParams={{
+            phone_prefix: phonePrefix,
+          }}
         >
           {isLoading
             ? t.login.phoneNumber.sendingButton

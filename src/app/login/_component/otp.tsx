@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/input-otp";
 import { useRef, useEffect } from "react";
 import { useTranslation } from "@/hooks/use-translation";
+import { GA_EVENTS } from "@/lib/analytics-events";
 
 interface OtpProps {
   otpValue: string;
@@ -62,6 +63,10 @@ export default function Otp({
             type="submit"
             className="w-full"
             disabled={otpValue.length !== 6 || isLoading}
+            gaEvent={GA_EVENTS.VERIFY_OTP}
+            gaParams={{
+              otp_length: otpValue.length,
+            }}
           >
             {isLoading ? t.login.otp.verifyingButton : t.login.otp.verifyButton}
           </Button>

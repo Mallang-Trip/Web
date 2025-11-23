@@ -1,0 +1,74 @@
+name: Next.js Production Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout Github Action
+        uses: actions/checkout@v3
+
+      - name: .env setting
+        run: |
+          echo "NEXT_SERVER_PORT=${{ secrets.NEXT_SERVER_PORT }}" >> .env
+          echo "NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}" >> .env
+          echo "NEXT_PUBLIC_BACKEND_SERVER_URL=${{ secrets.NEXT_PUBLIC_BACKEND_SERVER_URL }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}" >> .env
+          echo "NEXT_PUBLIC_KAKAO_CHANNEL_URL=${{ secrets.NEXT_PUBLIC_KAKAO_CHANNEL_URL }}" >> .env
+          echo "NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}" >> .env
+          echo "NEXT_PUBLIC_GTM_ID=${{ secrets.NEXT_PUBLIC_GTM_ID }}" >> .env
+
+      - name: Create deploy.sh
+        run: |
+          echo "rm -rf /home/ubuntu/mallang-trip/next" >> deploy.sh
+          echo "mkdir /home/ubuntu/mallang-trip/next" >> deploy.sh
+          echo "mv /home/ubuntu/mallang-trip-code/* /home/ubuntu/mallang-trip/next/" >> deploy.sh
+          echo "pm2 restart MallangTrip" >> deploy.sh
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          check-latest: true
+
+      - name: Check Node version
+        run: node -v
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+        env:
+          CI: ""
+
+      - name: Remove Dependencies
+        run: rm -rf node_modules
+
+      - name: zip create
+        run: zip -qq -r ./next-build.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --region ap-northeast-2 ./next-build.zip s3://mallang-trip-react/next-build.zip
+
+      - name: Deploy # Deploy to EC2
+        run: aws deploy create-deployment
+          --application-name codedeploy-react
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name react-app
+          --s3-location bucket=mallang-trip-react,key=next-build.zip,bundleType=zip

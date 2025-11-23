@@ -1,0 +1,75 @@
+name: React Development Deploy
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout Github Action
+        uses: actions/checkout@v3
+
+      - name: .env setting
+        run: |
+          echo "VITE_BASE_SERVER_URL=${{ secrets.VITE_BASE_DEV_SERVER_URL }}" >> .env
+          echo "VITE_PASS_RESOURCE_URL=${{ secrets.VITE_PASS_DEV_RESOURCE_URL }}" >> .env
+          echo "VITE_APP_FCM_API_KEY=${{ secrets.VITE_APP_FCM_API_KEY }}" >> .env
+          echo "VITE_APP_FCM_AUTH_DOMAIN=${{ secrets.VITE_APP_FCM_AUTH_DOMAIN }}" >> .env
+          echo "VITE_APP_FCM_PROJECT_ID=${{ secrets.VITE_APP_FCM_PROJECT_ID }}" >> .env
+          echo "VITE_APP_FCM_STORAGE_BUCKET=${{ secrets.VITE_APP_FCM_STORAGE_BUCKET }}" >> .env
+          echo "VITE_APP_FCM_MESSAGING_SENDER_ID=${{ secrets.VITE_APP_FCM_MESSAGING_SENDER_ID }}" >> .env
+          echo "VITE_APP_FCM_APP_ID=${{ secrets.VITE_APP_FCM_APP_ID }}" >> .env
+          echo "VITE_APP_FCM_MEASUREMENT_ID=${{ secrets.VITE_APP_FCM_MEASUREMENT_ID }}" >> .env
+          echo "VITE_APP_FCM_VAPID_KEY=${{ secrets.VITE_APP_FCM_VAPID_KEY }}" >> .env
+
+      - name: Create deploy.sh
+        run: |
+          echo "rm -rf /home/ubuntu/mallang-trip/dev" >> deploy.sh
+          echo "mkdir /home/ubuntu/mallang-trip/dev" >> deploy.sh
+          echo "mv /home/ubuntu/mallang-trip-code/dev/* /home/ubuntu/mallang-trip/dev/" >> deploy.sh
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          check-latest: true
+
+      - name: Check Node version
+        run: node -v
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build -- --outDir=dev
+        env:
+          CI: ""
+
+      - name: Remove Dependencies
+        run: rm -rf node_modules
+
+      - name: zip create
+        run: zip -qq -r ./react-build.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --region ap-northeast-2 ./react-build.zip s3://mallang-trip-react/react-build.zip
+
+      - name: Deploy # Deploy to EC2
+        run: aws deploy create-deployment
+          --application-name codedeploy-react
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name react-app
+          --s3-location bucket=mallang-trip-react,key=react-build.zip,bundleType=zip

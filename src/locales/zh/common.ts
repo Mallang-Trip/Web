@@ -2,7 +2,7 @@ const common = {
   // Root metadata
   metadata: {
     title: "Mallangtrip",
-    description: "比巴士快，比出租车便宜！出租车拼车旅行平台Mallangtrip",
+    description: "解决您旅行中的所有交通不便。",
   },
   // Common buttons
   button: {

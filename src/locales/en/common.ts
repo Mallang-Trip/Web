@@ -2,8 +2,7 @@ const common = {
   // Root metadata
   metadata: {
     title: "Mallangtrip",
-    description:
-      "Faster than bus, cheaper than taxi! Taxi carpool travel platform Mallangtrip",
+    description: "Solve all transportation inconveniences during your trip.",
   },
   // Common buttons
   button: {

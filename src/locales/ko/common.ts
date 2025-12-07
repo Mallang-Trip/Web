@@ -2,8 +2,7 @@ const common = {
   // 루트 메타데이터
   metadata: {
     title: "말랑트립",
-    description:
-      "버스보다 빠르고, 택시보다 저렴하게! 택시 카풀 여행 플랫폼 말랑트립",
+    description: "여행 중 교통의 모든 불편함을 해결합니다.",
   },
   // 공통 버튼
   button: {

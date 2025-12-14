@@ -2,41 +2,16 @@
 
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslation } from "@/hooks/use-translation";
-
-const galleryImages = [
-  {
-    url: "https://images.unsplash.com/photo-1667971286475-8ae561e26a9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGtvcmVhbiUyMGRpc3RpbGxlcnklMjBzb2p1fGVufDF8fHx8MTc1ODg5NjQyNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    altKey: "imageAlt",
-    size: "large",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1689672726829-9bace31c82c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBhbGNvaG9sJTIwdGFzdGluZyUyMGV4cGVyaWVuY2V8ZW58MXx8fHwxNzU4ODkwOTg4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    altKey: "imageAlt",
-    size: "medium",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1615633949535-9dd97e86d795?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGtvcmVhbiUyMGJyZXdlcnklMjBmZXJtZW50YXRpb258ZW58MXx8fHwxNzU4ODk2NDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    altKey: "imageAlt",
-    size: "medium",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1647939572124-abe7801b98f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjBhbGNvaG9sJTIwYm90dGxlc3xlbnwxfHx8fDE3NTg4OTY0MzV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    altKey: "imageAlt",
-    size: "small",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1752555559453-5dcd151b0efb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrb3JlYW4lMjB0cmFkaXRpb25hbCUyMGFsY29ob2wlMjBtYWtpbmd8ZW58MXx8fHwxNzU4ODk2NDM4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    altKey: "imageAlt",
-    size: "small",
-  },
-];
 
 interface GalleryImageProps {
   src: string;
   alt: string;
   className?: string;
+  priority?: boolean;
   errorText: string;
 }
 
@@ -44,6 +19,7 @@ function GalleryImage({
   src,
   alt,
   className = "",
+  priority = false,
   errorText,
 }: GalleryImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -67,7 +43,8 @@ function GalleryImage({
           setHasError(true);
           setIsLoaded(true);
         }}
-        loading="lazy"
+        priority={priority}
+        loading={priority ? undefined : "lazy"}
       />
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
@@ -81,6 +58,98 @@ function GalleryImage({
 
 export default function PhotoGallery() {
   const { t } = useTranslation();
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const galleryImages = [
+    {
+      url: "/tour-images/jookhwa/01.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "large",
+    },
+    {
+      url: "/tour-images/jookhwa/02.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "medium",
+    },
+    {
+      url: "/tour-images/jookhwa/03.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "medium",
+    },
+    {
+      url: "/tour-images/jookhwa/04.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/05.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/06.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/07.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/08.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/09.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/10.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/11.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/12.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+    {
+      url: "/tour-images/jookhwa/13.png",
+      alt: t.jookhwa.gallery.imageAlt,
+      size: "small",
+    },
+  ];
+
+  const openImageViewer = (index: number) => {
+    setCurrentImageIndex(index);
+    setViewerOpen(true);
+  };
+
+  const goToPrevious = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? galleryImages.length - 1 : prev - 1,
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentImageIndex((prev) =>
+      prev === galleryImages.length - 1 ? 0 : prev + 1,
+    );
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") goToPrevious();
+    if (e.key === "ArrowRight") goToNext();
+  };
 
   return (
     <section id="gallery" aria-labelledby="gallery-title">
@@ -99,18 +168,20 @@ export default function PhotoGallery() {
               className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
               tabIndex={0}
               role="button"
-              aria-label={`${t.jookhwa.gallery.imageAlt} ${t.jookhwa.gallery.viewImage}`}
+              aria-label={`${galleryImages[0].alt} ${t.jookhwa.gallery.viewImage}`}
+              onClick={() => openImageViewer(0)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  // 여기에 이미지 모달 열기 로직 추가 가능
+                  openImageViewer(0);
                 }
               }}
             >
               <GalleryImage
                 src={galleryImages[0].url}
-                alt={t.jookhwa.gallery.imageAlt}
+                alt={galleryImages[0].alt}
                 className="h-80 rounded-xl"
+                priority={true}
                 errorText={t.jookhwa.gallery.errorText}
               />
             </div>
@@ -125,17 +196,18 @@ export default function PhotoGallery() {
                   className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                   tabIndex={0}
                   role="button"
-                  aria-label={`${t.jookhwa.gallery.imageAlt} ${t.jookhwa.gallery.viewImage}`}
+                  aria-label={`${image.alt} ${t.jookhwa.gallery.viewImage}`}
+                  onClick={() => openImageViewer(index + 1)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      // 여기에 이미지 모달 열기 로직 추가 가능
+                      openImageViewer(index + 1);
                     }
                   }}
                 >
                   <GalleryImage
                     src={image.url}
-                    alt={t.jookhwa.gallery.imageAlt}
+                    alt={image.alt}
                     className="h-full rounded-xl"
                     errorText={t.jookhwa.gallery.errorText}
                   />
@@ -144,25 +216,26 @@ export default function PhotoGallery() {
             </div>
           </div>
 
-          {/* Small images */}
-          <div className="col-span-12 mt-4 grid grid-cols-2 gap-4">
+          {/* Small images - 5 columns grid for remaining 10 images */}
+          <div className="col-span-12 mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {galleryImages.slice(3).map((image, index) => (
               <div
                 key={index}
                 className="group cursor-pointer rounded-xl focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                 tabIndex={0}
                 role="button"
-                aria-label={`${t.jookhwa.gallery.imageAlt} ${t.jookhwa.gallery.viewImage}`}
+                aria-label={`${image.alt} ${t.jookhwa.gallery.viewImage}`}
+                onClick={() => openImageViewer(index + 3)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    // 여기에 이미지 모달 열기 로직 추가 가능
+                    openImageViewer(index + 3);
                   }
                 }}
               >
                 <GalleryImage
                   src={image.url}
-                  alt={t.jookhwa.gallery.imageAlt}
+                  alt={image.alt}
                   className="h-48 rounded-xl"
                   errorText={t.jookhwa.gallery.errorText}
                 />
@@ -170,6 +243,55 @@ export default function PhotoGallery() {
             ))}
           </div>
         </div>
+
+        {/* 이미지 뷰어 */}
+        <Dialog open={viewerOpen} onOpenChange={setViewerOpen}>
+          <DialogContent
+            className="max-w-[95vw] border-none bg-black/95 p-0 sm:max-w-7xl"
+            onKeyDown={handleKeyDown}
+            aria-describedby={undefined}
+          >
+            <DialogTitle className="sr-only">
+              {t.jookhwa.gallery.title}
+            </DialogTitle>
+            <div className="relative flex h-[85vh] items-center justify-center sm:h-[90vh]">
+              <button
+                onClick={() => setViewerOpen(false)}
+                className="absolute top-4 right-4 z-50 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+              >
+                <X className="h-6 w-6" />
+              </button>
+
+              <button
+                onClick={goToPrevious}
+                className="absolute left-4 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-4 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+
+              <div className="relative h-full w-full">
+                <Image
+                  src={galleryImages[currentImageIndex].url}
+                  alt={galleryImages[currentImageIndex].alt}
+                  fill
+                  sizes="(max-width: 640px) 95vw, 90vw"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-sm text-white">
+                {currentImageIndex + 1} / {galleryImages.length}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );

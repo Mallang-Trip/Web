@@ -65,7 +65,7 @@ export default function Home() {
       id: "jookhwa",
       name: t.home.tours.tourList.jookhwa.name,
       description: t.home.tours.tourList.jookhwa.description,
-      image: "/tour-images/jookhwa/00.jpg",
+      image: "/tour-images/jookhwa/13.png",
       duration: t.home.tours.tourList.jookhwa.duration,
       price: t.home.tours.tourList.jookhwa.price,
       rating: 4.8,

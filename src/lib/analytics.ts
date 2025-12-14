@@ -196,5 +196,5 @@ export function attachGlobalClickListener() {
 }
 
 export function getCurrencyByLanguage(lang: string | undefined) {
-  return lang === "en" ? "USD" : "KRW";
+  return lang === "ko" ? "KRW" : "USD";
 }

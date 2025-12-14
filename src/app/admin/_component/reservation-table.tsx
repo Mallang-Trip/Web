@@ -3,6 +3,21 @@
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/use-translation";
 
+export type PaymentInfo = {
+  paymentNumber: string;
+  transactionId: string;
+  amount: number;
+  currency: string;
+  status: string;
+  paymentMethod: string;
+  provider: string;
+  approvalNumber: string;
+  cardInfo: unknown;
+  requestedAt: string;
+  approvedAt: string | null;
+  canceledAt: string | null;
+};
+
 export type Row = {
   reservationId: number | string;
   reservationName: string;
@@ -25,6 +40,7 @@ export type Row = {
   approvedAt?: string | null;
   rejectedAt?: string | null;
   canceledAt?: string | null;
+  paymentInfo?: PaymentInfo | null;
 };
 
 interface ReservationTableProps {
@@ -107,8 +123,14 @@ export default function ReservationTable({
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  {lang === "ko" ? "₩" : "$"}
-                  {Number(r.price).toLocaleString()}
+                  {r.paymentInfo ? (
+                    <>
+                      {r.paymentInfo.currency === "KRW" ? "₩" : "$"}
+                      {Number(r.paymentInfo.amount).toLocaleString()}
+                    </>
+                  ) : (
+                    <>₩{Number(r.price).toLocaleString()}</>
+                  )}
                 </td>
                 <td className="px-4 py-3">{r.status}</td>
                 <td

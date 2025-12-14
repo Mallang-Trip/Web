@@ -12,7 +12,10 @@ import type { AdminReservationsData } from "@/hooks/use-reservations";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/use-translation";
 import Pagination from "./_component/pagination";
-import ReservationTable, { type Row } from "./_component/reservation-table";
+import ReservationTable, {
+  type Row,
+  type PaymentInfo,
+} from "./_component/reservation-table";
 import DetailDialog from "./_component/detail-dialog";
 import ApproveDialog from "./_component/approve-dialog";
 import RejectDialog from "./_component/reject-dialog";
@@ -98,6 +101,8 @@ export default function AdminPage() {
         approvedAt: (rExtended.approvedAt as string | null | undefined) ?? null,
         rejectedAt: (rExtended.rejectedAt as string | null | undefined) ?? null,
         canceledAt: (rExtended.canceledAt as string | null | undefined) ?? null,
+        paymentInfo:
+          (rExtended.paymentInfo as PaymentInfo | null | undefined) ?? null,
       };
     });
     setRows(mapped);

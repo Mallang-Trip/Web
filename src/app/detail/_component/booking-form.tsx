@@ -365,6 +365,9 @@ export default function BookingForm({
           window.sessionStorage.getItem("payplePaymentNumber");
         if (!payNum) return;
 
+        // 이미 처리된 결제번호면 무시 (중복 콜백 방지)
+        if (processedPaymentNumbersRef.current.has(payNum)) return;
+
         const checkOnce = async () => {
           const statusResp = await PaymentsAPI.getPaypleByNumber<{
             status?: string;
@@ -374,6 +377,10 @@ export default function BookingForm({
 
         // 단일 확인만 수행 (추가 폴링 제거)
         const status = await checkOnce();
+
+        // 비동기 작업 중 다른 콜백에서 이미 처리되었을 수 있음
+        if (processedPaymentNumbersRef.current.has(payNum)) return;
+
         if (status?.status !== "PENDING") {
           toast.error(t.common.detail.bookingForm.toast.paymentConfirmFailed, {
             description:
@@ -794,7 +801,7 @@ export default function BookingForm({
         // 인증결과 수신 → Next 콜백으로 리다이렉트 후 부모에서 처리
         // PCD_RST_URL: `${window.location.origin}/api/payple/callback`,
         PCD_RST_URL:
-          "https://v2.mallangtrip-server.com/api/payments/webhooks/payple/auth-result",
+          "https://mallangtrip-server.com/api/payments/webhooks/payple/auth-result",
         PCD_PAYER_NAME: paymentInfo.payerName,
         PCD_PAYER_HP: paymentInfo.payerPhone || phoneInternational,
       } as Record<string, unknown>;

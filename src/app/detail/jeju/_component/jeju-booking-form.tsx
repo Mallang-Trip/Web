@@ -213,7 +213,8 @@ export default function JejuBookingForm() {
       | number;
 
     toast.success(tToast.reservationSuccess || "예약이 완료되었습니다!", {
-      description: tToast.reservationSuccessDesc || "예약 확인 이메일을 발송했습니다.",
+      description:
+        tToast.reservationSuccessDesc || "예약 확인 이메일을 발송했습니다.",
       icon: <CheckCircle className="text-green-500" />,
     });
 
@@ -309,10 +310,14 @@ export default function JejuBookingForm() {
           });
 
           if (!captureResp.data.success) {
-            toast.error(tToast.paymentConfirmFailed || "결제 확인에 실패했습니다", {
-              description: tToast.paymentErrorDesc || "고객센터로 문의해주세요.",
-              icon: <XCircle className="text-red-500" />,
-            });
+            toast.error(
+              tToast.paymentConfirmFailed || "결제 확인에 실패했습니다",
+              {
+                description:
+                  tToast.paymentErrorDesc || "고객센터로 문의해주세요.",
+                icon: <XCircle className="text-red-500" />,
+              },
+            );
             return;
           }
 
@@ -328,6 +333,9 @@ export default function JejuBookingForm() {
           window.sessionStorage.getItem("payplePaymentNumber");
         if (!payNum) return;
 
+        // 이미 처리된 결제번호면 무시 (중복 콜백 방지)
+        if (processedPaymentNumbersRef.current.has(payNum)) return;
+
         const checkOnce = async () => {
           const statusResp = await PaymentsAPI.getPaypleByNumber<{
             status?: string;
@@ -336,11 +344,19 @@ export default function JejuBookingForm() {
         };
 
         const status = await checkOnce();
+
+        // 비동기 작업 중 다른 콜백에서 이미 처리되었을 수 있음
+        if (processedPaymentNumbersRef.current.has(payNum)) return;
+
         if (status?.status !== "PENDING") {
-          toast.error(tToast.paymentConfirmFailed || "결제 확인에 실패했습니다", {
-            description: tToast.paymentErrorDesc || "고객센터로 문의해주세요.",
-            icon: <XCircle className="text-red-500" />,
-          });
+          toast.error(
+            tToast.paymentConfirmFailed || "결제 확인에 실패했습니다",
+            {
+              description:
+                tToast.paymentErrorDesc || "고객센터로 문의해주세요.",
+              icon: <XCircle className="text-red-500" />,
+            },
+          );
           return;
         }
 
@@ -395,10 +411,14 @@ export default function JejuBookingForm() {
         });
 
         if (!captureResp.data.success) {
-          toast.error(tToast.paymentConfirmFailed || "결제 확인에 실패했습니다", {
-            description: tToast.paymentErrorDesc || "고객센터로 문의해주세요.",
-            icon: <XCircle className="text-red-500" />,
-          });
+          toast.error(
+            tToast.paymentConfirmFailed || "결제 확인에 실패했습니다",
+            {
+              description:
+                tToast.paymentErrorDesc || "고객센터로 문의해주세요.",
+              icon: <XCircle className="text-red-500" />,
+            },
+          );
           return;
         }
 
@@ -426,27 +446,57 @@ export default function JejuBookingForm() {
   const validateForm = () => {
     const errors = [];
 
-    if (!formData.name.trim()) errors.push(tToast.errors?.nameRequired || "이름을 입력해주세요.");
+    if (!formData.name.trim())
+      errors.push(tToast.errors?.nameRequired || "이름을 입력해주세요.");
     if (!formData.phoneNumber.trim())
       errors.push(tToast.errors?.phoneRequired || "전화번호를 입력해주세요.");
     if (!/^\+\d{1,3}$/.test(formData.phonePrefix))
-      errors.push(tToast.errors?.phoneInvalid || "올바른 국가번호를 선택해주세요.");
-    if (!formData.email.trim()) errors.push(tToast.errors?.emailRequired || "이메일을 입력해주세요.");
-    if (!formData.peopleCount) errors.push(tToast.errors?.peopleCountRequired || "참여 인원을 선택해주세요.");
-    if (!formData.meetDate) errors.push(tToast.errors?.meetDateRequired || "미팅 날짜를 선택해주세요.");
-    if (!formData.tourHours) errors.push(tToast.errors?.tourHoursRequired || "이용 시간을 선택해주세요.");
-    if (!formData.pickupTime) errors.push(tToast.errors?.pickupTimeRequired || "픽업 시간을 선택해주세요.");
+      errors.push(
+        tToast.errors?.phoneInvalid || "올바른 국가번호를 선택해주세요.",
+      );
+    if (!formData.email.trim())
+      errors.push(tToast.errors?.emailRequired || "이메일을 입력해주세요.");
+    if (!formData.peopleCount)
+      errors.push(
+        tToast.errors?.peopleCountRequired || "참여 인원을 선택해주세요.",
+      );
+    if (!formData.meetDate)
+      errors.push(
+        tToast.errors?.meetDateRequired || "미팅 날짜를 선택해주세요.",
+      );
+    if (!formData.tourHours)
+      errors.push(
+        tToast.errors?.tourHoursRequired || "이용 시간을 선택해주세요.",
+      );
+    if (!formData.pickupTime)
+      errors.push(
+        tToast.errors?.pickupTimeRequired || "픽업 시간을 선택해주세요.",
+      );
     if (!formData.routeDescription.trim())
-      errors.push(tToast.errors?.routeRequired || "픽업 및 대략적인 경로를 입력해주세요.");
+      errors.push(
+        tToast.errors?.routeRequired || "픽업 및 대략적인 경로를 입력해주세요.",
+      );
 
     if (!formData.agreeService)
-      errors.push(tToast.errors?.agreeServiceRequired || "서비스 이용약관에 동의해주세요.");
+      errors.push(
+        tToast.errors?.agreeServiceRequired ||
+          "서비스 이용약관에 동의해주세요.",
+      );
     if (!formData.agreeTravel)
-      errors.push(tToast.errors?.agreeTravelRequired || "국내여행 표준약관에 동의해주세요.");
+      errors.push(
+        tToast.errors?.agreeTravelRequired ||
+          "국내여행 표준약관에 동의해주세요.",
+      );
     if (!formData.agreePrivacy)
-      errors.push(tToast.errors?.agreePrivacyRequired || "개인정보 수집·이용에 동의해주세요.");
+      errors.push(
+        tToast.errors?.agreePrivacyRequired ||
+          "개인정보 수집·이용에 동의해주세요.",
+      );
     if (!formData.agreeThirdparty)
-      errors.push(tToast.errors?.agreeThirdpartyRequired || "개인정보 제3자 제공에 동의해주세요.");
+      errors.push(
+        tToast.errors?.agreeThirdpartyRequired ||
+          "개인정보 제3자 제공에 동의해주세요.",
+      );
 
     return errors;
   };
@@ -522,7 +572,8 @@ export default function JejuBookingForm() {
       const phoneInternational = `${formData.phonePrefix}${normalizedLocal}`;
 
       // 제주 투어 가격 계산 - 언어에 따라 KRW 또는 USD
-      const priceNumber = priceTable[formData.tourHours] || (isKorean ? 84000 : 60);
+      const priceNumber =
+        priceTable[formData.tourHours] || (isKorean ? 84000 : 60);
 
       const preferDemoEnv =
         typeof window !== "undefined" &&
@@ -701,7 +752,7 @@ export default function JejuBookingForm() {
             : amountForPrepare,
         PCD_PAY_OID: paymentInfo.paymentNumber,
         PCD_RST_URL:
-          "https://v2.mallangtrip-server.com/api/payments/webhooks/payple/auth-result",
+          "https://mallangtrip-server.com/api/payments/webhooks/payple/auth-result",
         PCD_PAYER_NAME: paymentInfo.payerName,
         PCD_PAYER_HP: paymentInfo.payerPhone || phoneInternational,
       } as Record<string, unknown>;
@@ -927,8 +978,7 @@ export default function JejuBookingForm() {
               setFormData((prev) => ({ ...prev, peopleCount: v || "" }))
             }
             options={
-              tData.participantsOptions ||
-              [
+              tData.participantsOptions || [
                 { value: "", label: "인원을 선택해주세요" },
                 { value: "1", label: "1인" },
                 { value: "2", label: "2인" },
@@ -950,7 +1000,9 @@ export default function JejuBookingForm() {
           <div className="mt-1">
             <DatePicker
               value={formData.meetDate}
-              onChange={(v) => setFormData((prev) => ({ ...prev, meetDate: v }))}
+              onChange={(v) =>
+                setFormData((prev) => ({ ...prev, meetDate: v }))
+              }
               minDate={new Date()}
               modal={true}
             />
@@ -1005,7 +1057,8 @@ export default function JejuBookingForm() {
 
         <div>
           <Label htmlFor="routeDescription">
-            {tData.routeDescription || "픽업 및 복귀 주소를 포함한 대략적인 경로"}{" "}
+            {tData.routeDescription ||
+              "픽업 및 복귀 주소를 포함한 대략적인 경로"}{" "}
             <span className="text-red-500">*</span>
           </Label>
           <Textarea
@@ -1036,7 +1089,8 @@ export default function JejuBookingForm() {
               setFormData((prev) => ({ ...prev, requests: e.target.value }))
             }
             placeholder={
-              tData.requestsPlaceholder || "추가 요청사항이 있으시면 작성해주세요."
+              tData.requestsPlaceholder ||
+              "추가 요청사항이 있으시면 작성해주세요."
             }
             className="mt-1"
             rows={3}
@@ -1198,8 +1252,12 @@ export default function JejuBookingForm() {
           gaParams={{
             destination_id: 9,
             tour_name: "제주 택시투어",
-            tour_hours: formData.tourHours ? parseInt(formData.tourHours) : undefined,
-            people_count: formData.peopleCount ? parseInt(formData.peopleCount) : undefined,
+            tour_hours: formData.tourHours
+              ? parseInt(formData.tourHours)
+              : undefined,
+            people_count: formData.peopleCount
+              ? parseInt(formData.peopleCount)
+              : undefined,
             payment_amount: formData.tourHours
               ? currentLanguage === "en"
                 ? JEJU_PRICES_USD[formData.tourHours]

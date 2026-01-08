@@ -36,14 +36,14 @@ const home = {
         name: "술차오름 근교",
         description: "프라이빗 도어투도어 전통주 투어",
         duration: "8시간",
-        price: "1,286,000원",
+        price: "1,305,000원",
         tags: ["프라이빗", "도어투도어", "양조장"],
       },
       yeongdong: {
         name: "술차오름 영동",
         description: "프라이빗 도어투도어 영동 와이너리 투어",
         duration: "8시간",
-        price: "813,000원",
+        price: "918,500원",
         tags: ["영동", "와이너리", "프라이빗"],
       },
       sinabro: {

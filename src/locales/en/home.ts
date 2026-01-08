@@ -38,14 +38,14 @@ const home = {
         name: "Pourtal Seoul Vicinity",
         description: "Private Door-to-Door Brewery & Distillery Tour",
         duration: "8 hours",
-        price: "$919", // 1,286,000원 / 1,400 = 918.57
+        price: "$932", // 1,305,000원 / 1,400 = 932.14
         tags: ["Private", "Door-to-Door", "Brewery"],
       },
       yeongdong: {
         name: "Pourtal Yeongdong",
         description: "Private Door-to-Door Yeongdong Winery Tour",
         duration: "8 hours",
-        price: "$581",
+        price: "$656", // 918,500원 / 1,400 = 656.07
         tags: ["Yeongdong", "Winery", "Private"],
       },
       sinabro: {

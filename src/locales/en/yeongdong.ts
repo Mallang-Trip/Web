@@ -18,7 +18,7 @@ const yeongdong = {
     allInclusive: {
       title: "All-Inclusive",
       description:
-        "Seoul-Winery round-trip private transportation (approx. 300km), tolls, fuel, parking and lunch all included",
+        "Seoul-Winery round-trip private transportation (approx. 400km), tolls, fuel, parking and lunch all included",
     },
     safety: {
       title: "Safe Tour",
@@ -76,12 +76,12 @@ const yeongdong = {
   },
   timeline: {
     title: "Journey of the Day",
-    subtitle: "Depart at your desired time between 7 AM and 10 AM",
+    subtitle: "Depart between 7 AM and 9 AM (Early departure recommended)",
     items: [
       {
         time: "08:00",
-        activity: "Hotel/Residence Pick-up",
-        description: "Private vehicle arrives at your door",
+        activity: "Pick-up at Designated Location",
+        description: "Private vehicle comes to your door",
       },
       {
         time: "11:30",
@@ -91,17 +91,17 @@ const yeongdong = {
       {
         time: "13:00",
         activity: "First Winery Experience",
-        description: "1-hour experience + 30 minutes free time",
+        description: "In-depth tour and tasting for 2 hours",
       },
       {
-        time: "14:30",
+        time: "15:30",
         activity: "Second Winery Experience",
-        description: "1-hour experience + 30 minutes free time",
+        description: "In-depth tour and tasting for 2 hours",
       },
       {
-        time: "19:00",
-        activity: "Hotel/Residence Arrival",
-        description: "Safe return to your door",
+        time: "17:30",
+        activity: "Departure & Drop-off at Designated Location",
+        description: "Safe return home",
       },
     ],
   },

@@ -73,7 +73,7 @@ const common = {
       availableAreas: "서비스 가능 지역",
       incheonSeoul: "📍 인천 & 서울:",
       incheonSeoulDesc: "전 지역",
-      daejeonSejong: "📍 대전/세종/충남:",
+      daejeonSejong: "📍 기타 지역:",
       daejeonSejongDesc: "🚕 예약 전 별도 문의",
       gyeonggiSouth: "📍 경기 남부",
       gyeonggiSouthCities:

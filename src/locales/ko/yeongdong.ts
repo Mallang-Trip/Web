@@ -17,7 +17,7 @@ const yeongdong = {
     allInclusive: {
       title: "올인클루시브",
       description:
-        "서울-양조장 왕복 프라이빗 이동(약 200km), 톨비, 유류비, 주차비, 점심식사 모두 포함",
+        "서울-양조장 왕복 프라이빗 이동(약 400km), 톨비, 유류비, 주차비, 점심식사 모두 포함",
     },
     safety: {
       title: "안전한 투어",
@@ -72,32 +72,32 @@ const yeongdong = {
   },
   timeline: {
     title: "하루의 여정",
-    subtitle: "오전 7시부터 10시 사이, 원하시는 시간에 출발",
+    subtitle: "오전 7시부터 9시 사이 출발 (조기 출발 권장)",
     items: [
       {
         time: "08:00",
-        activity: "호텔/자택 픽업",
+        activity: "지정 장소 픽업",
         description: "프라이빗 차량이 문 앞으로 찾아갑니다",
       },
       {
         time: "11:30",
         activity: "와인코리아 오리로스 정식",
-        description: "알러지 & 식단제한 있을 경우 맞춤형 안내",
+        description: "알러지 & 식단제한 맞춤형 안내",
       },
       {
         time: "13:00",
         activity: "첫 번째 와이너리 체험",
-        description: "체험 1시간 + 자유시간 30분",
+        description: "심도 있는 투어 및 시음 2시간",
       },
       {
-        time: "14:30",
+        time: "15:30",
         activity: "두 번째 와이너리 체험",
-        description: "체험 1시간 + 자유시간 30분",
+        description: "심도 있는 투어 및 시음 2시간",
       },
       {
-        time: "19:00",
-        activity: "호텔/자택 도착",
-        description: "문 앞까지 안전하게",
+        time: "17:30",
+        activity: "출발 및 지정 장소 드랍",
+        description: "안전하게 귀가",
       },
     ],
   },

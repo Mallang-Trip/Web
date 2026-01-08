@@ -15,7 +15,7 @@ const yeongdong = {
     allInclusive: {
       title: "全包式",
       description:
-        "首尔-酒庄往返私人交通(约300公里)、过路费、油费、停车费和午餐全部包含",
+        "首尔-酒庄往返私人交通(约400公里)、过路费、油费、停车费和午餐全部包含",
     },
     safety: {
       title: "安全之旅",
@@ -65,32 +65,32 @@ const yeongdong = {
   },
   timeline: {
     title: "一天的旅程",
-    subtitle: "在上午7点至10点之间选择您想要的出发时间",
+    subtitle: "上午7点至9点之间出发（建议早出发）",
     items: [
       {
         time: "08:00",
-        activity: "酒店/住所接送",
-        description: "私人车辆到达您的门前",
+        activity: "指定地点接送",
+        description: "私人车辆上门迎接",
       },
       {
         time: "11:30",
-        activity: "Wine Korea鸭胸套餐",
+        activity: "Wine Korea烤鸭套餐",
         description: "针对过敏和饮食限制的定制指导",
       },
       {
         time: "13:00",
         activity: "第一家酒庄体验",
-        description: "1小时体验 + 30分钟自由时间",
+        description: "深度游览及品酒2小时",
       },
       {
-        time: "14:30",
+        time: "15:30",
         activity: "第二家酒庄体验",
-        description: "1小时体验 + 30分钟自由时间",
+        description: "深度游览及品酒2小时",
       },
       {
-        time: "19:00",
-        activity: "抵达酒店/住所",
-        description: "安全送达您的门前",
+        time: "17:30",
+        activity: "出发及指定地点送达",
+        description: "安全返回",
       },
     ],
   },

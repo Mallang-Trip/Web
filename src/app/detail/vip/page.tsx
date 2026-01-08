@@ -9,7 +9,6 @@ import BrewerySection from "./_component/brewery-section";
 import Timeline from "./_component/time-line";
 import PricingTable from "./_component/pricing-table";
 import FAQSection from "./_component/faq-section";
-import Link from "next/link";
 import CTASection from "./_component/cta-section";
 import { Car, ShieldCheck, Gift } from "lucide-react";
 import PickupDropoffAreasSection from "../_component/pickup-dropoff-areas";
@@ -126,47 +125,57 @@ export default function VipDetailPage() {
     };
   });
 
+  const priceByPeople: Record<string, number | null> = {
+    "2": 1305000,
+    "3": 1362500,
+    "4": 1420000,
+    "5": 1642500,
+    "6": 1700000,
+    "7": 1757500,
+    "8": 1815000,
+  };
+
   const pricingTable = [
     {
       people: lang === "ko" ? "2인" : "2 people",
-      total: 1286000,
-      perPerson: 643000,
+      total: priceByPeople["2"] || 0,
+      perPerson: Math.floor((priceByPeople["2"] || 0) / 2),
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "3인" : "3 people",
-      total: 1306000,
-      perPerson: 435333,
+      total: priceByPeople["3"] || 0,
+      perPerson: Math.floor((priceByPeople["3"] || 0) / 3),
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "4인" : "4 people",
-      total: 1491000,
-      perPerson: 372750,
+      total: priceByPeople["4"] || 0,
+      perPerson: Math.floor((priceByPeople["4"] || 0) / 4),
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "5인" : "5 people",
-      total: 1511000,
-      perPerson: 302200,
+      total: priceByPeople["5"] || 0,
+      perPerson: Math.floor((priceByPeople["5"] || 0) / 5),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "6인" : "6 people",
-      total: 1542000,
-      perPerson: 257000,
+      total: priceByPeople["6"] || 0,
+      perPerson: Math.floor((priceByPeople["6"] || 0) / 6),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "7인" : "7 people",
-      total: 1573000,
-      perPerson: 224714,
+      total: priceByPeople["7"] || 0,
+      perPerson: Math.floor((priceByPeople["7"] || 0) / 7),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "8인" : "8 people",
-      total: 1604000,
-      perPerson: 200500,
+      total: priceByPeople["8"] || 0,
+      perPerson: Math.floor((priceByPeople["8"] || 0) / 8),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
   ];
@@ -190,16 +199,6 @@ export default function VipDetailPage() {
   ];
 
   const peopleOptions = t.vip.pricing.peopleOptions;
-
-  const priceByPeople: Record<string, number | null> = {
-    "2": 1286000,
-    "3": 1306000,
-    "4": 1491000,
-    "5": 1511000,
-    "6": 1542000,
-    "7": 1573000,
-    "8": 1604000,
-  };
 
   const inquiryDeposit = 10000;
 
@@ -239,7 +238,10 @@ export default function VipDetailPage() {
 
   const sidebarTitle =
     lang === "ko" ? "술차오름 근교" : "Pourtal Seoul Vicinity";
-  const basePrice = formatPrice(1286000, lang as "ko" | "en" | "zh");
+  const basePrice = formatPrice(
+    priceByPeople["2"] || 0,
+    lang as "ko" | "en" | "zh",
+  );
   const tourTime = lang === "ko" ? "8시간" : "8 hours";
   const baseMember = lang === "ko" ? "2인" : "2 people";
 

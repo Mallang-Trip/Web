@@ -96,47 +96,57 @@ export default function YeongdongDetailPage() {
 
   const faqs = t.yeongdong.faq.items;
 
+  const priceByPeople: Record<string, number | null> = {
+    "2": 918500,
+    "3": 994000,
+    "4": 1069500,
+    "5": 1267500,
+    "6": 1373000,
+    "7": 1478500,
+    "8": 1584000,
+  };
+
   const pricingTable = [
     {
       people: lang === "ko" ? "2인" : "2 people",
-      total: 813000,
-      perPerson: 406500,
+      total: priceByPeople["2"] || 0,
+      perPerson: Math.floor((priceByPeople["2"] || 0) / 2),
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "3인" : "3 people",
-      total: 866000,
-      perPerson: 288667,
+      total: priceByPeople["3"] || 0,
+      perPerson: Math.floor((priceByPeople["3"] || 0) / 3),
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "4인" : "4 people",
-      total: 1084000,
-      perPerson: 271000,
+      total: priceByPeople["4"] || 0,
+      perPerson: Math.floor((priceByPeople["4"] || 0) / 4),
       vehicle: lang === "ko" ? "승용차" : "Sedan",
     },
     {
       people: lang === "ko" ? "5인" : "5 people",
-      total: 1155000,
-      perPerson: 231000,
+      total: priceByPeople["5"] || 0,
+      perPerson: Math.floor((priceByPeople["5"] || 0) / 5),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "6인" : "6 people",
-      total: 1238000,
-      perPerson: 206333,
+      total: priceByPeople["6"] || 0,
+      perPerson: Math.floor((priceByPeople["6"] || 0) / 6),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "7인" : "7 people",
-      total: 1321000,
-      perPerson: 188714,
+      total: priceByPeople["7"] || 0,
+      perPerson: Math.floor((priceByPeople["7"] || 0) / 7),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
     {
       people: lang === "ko" ? "8인" : "8 people",
-      total: 1404000,
-      perPerson: 175500,
+      total: priceByPeople["8"] || 0,
+      perPerson: Math.floor((priceByPeople["8"] || 0) / 8),
       vehicle: lang === "ko" ? "대형 밴" : "Large Van",
     },
   ];
@@ -160,16 +170,6 @@ export default function YeongdongDetailPage() {
   ];
 
   const peopleOptions = t.yeongdong.pricing.peopleOptions;
-
-  const priceByPeople: Record<string, number | null> = {
-    "2": 813000,
-    "3": 866000,
-    "4": 1084000,
-    "5": 1155000,
-    "6": 1238000,
-    "7": 1321000,
-    "8": 1404000,
-  };
 
   const inquiryDeposit = 10000;
 
@@ -245,7 +245,10 @@ export default function YeongdongDetailPage() {
           <div className="hidden lg:block lg:w-1/4">
             <BookingSidebar
               title={t.yeongdong.sidebar.title}
-              price={formatPrice(813000, lang as "ko" | "en" | "zh")}
+              price={formatPrice(
+                priceByPeople["2"] || 0,
+                lang as "ko" | "en" | "zh",
+              )}
               time={t.yeongdong.sidebar.time}
               baseMember={t.yeongdong.sidebar.baseMember}
               subItems={t.yeongdong.sidebar.subItems}
@@ -263,7 +266,7 @@ export default function YeongdongDetailPage() {
       {/* 모바일용 하단 고정 바 */}
       <MobileBottomBar
         title={t.yeongdong.sidebar.title}
-        price={formatPrice(813000, lang as "ko" | "en" | "zh")}
+        price={formatPrice(priceByPeople["2"] || 0, lang as "ko" | "en" | "zh")}
         time={t.yeongdong.sidebar.time}
         baseMember={t.yeongdong.sidebar.baseMember}
         destinationId={1001}

@@ -89,7 +89,7 @@ const common = {
       availableAreas: "Service Available Areas",
       incheonSeoul: "📍 Incheon & Seoul:",
       incheonSeoulDesc: "All areas",
-      daejeonSejong: "📍 Daejeon/Sejong/Chungnam:",
+      daejeonSejong: "📍 Other regions:",
       daejeonSejongDesc: "🚕 Please contact us before booking",
       gyeonggiSouth: "📍 Southern Gyeonggi",
       gyeonggiSouthCities:

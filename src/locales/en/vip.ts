@@ -77,29 +77,25 @@ const vip = {
     title: "Tour Schedule",
     items: [
       {
-        time: "10:00",
-        activity: "Hotel/Residence Pick-up",
-        description: "Private vehicle arrives at your door",
+        time: "09:00",
+        activity: "Pick-up at Designated Location",
+        description: "Private vehicle arrives at your location",
       },
       {
-        time: "11:30",
-        activity: "First Brewery",
-        description: "1-hour experience + 30 minutes free time",
-      },
-      {
-        time: "13:00",
-        activity: "Catering Lunch",
-        description: "Catering Lunch with accompaniment in the brewery",
+        time: "10:30",
+        activity: "First Brewery & Premium Catering Tray Lunch  Experience",
+        description:
+          "Tour and tasting, meal included, approximately 2 hours 30 minutes",
       },
       {
         time: "14:30",
-        activity: "Second Brewery",
-        description: "1-hour experience + 30 minutes free time",
+        activity: "Second Brewery & Tasting Experience",
+        description: "Tour and tasting, approximately 1 hour 30 minutes",
       },
       {
-        time: "18:00",
-        activity: "Hotel/Residence Arrival",
-        description: "Safe return to your door",
+        time: "17:00",
+        activity: "Departure & Drop-off at Designated Location",
+        description: "Safe return to your location",
       },
     ],
   },
@@ -132,20 +128,6 @@ const vip = {
         answer:
           "The tour price is structured as an all-inclusive package for your comfortable journey. It includes private vehicle and professional driver service with pick-up and drop-off at designated locations in downtown Seoul, all admission and experience fees at two carefully selected breweries, and premium traditional liquor tastings provided at each brewery.",
       },
-      // {
-      //   question: "Which restaurants do you recommend?",
-      //   answer:
-      //     "Rather than guiding you to a fixed restaurant, we provide a carefully curated",
-      //   linkText: "'Culinary Guide'",
-      //   answerCont:
-      //     "to enhance your tour experience. This guide is our exclusive recommendation list of the highest-rated restaurants near the breweries you'll visit. We'll provide the guide after your tour is confirmed, and you can freely choose according to your preferences. While you can certainly visit restaurants outside the list, we kindly ask for your understanding that we recommend places close to the breweries you're visiting to ensure smooth tour timing.",
-      //   buttonText: "View Restaurant List",
-      // },
-      // {
-      //   question: "Can I adjust the tour time to exclude lunch?",
-      //   answer:
-      //     "Yes, absolutely. Mallangtrip is happy to support your precious journey to fully align with your rhythm. We can customize the schedule so you can enjoy lunch at your leisure and start the tour at your preferred time. If you request this during the booking process, we will provide you with a final quote excluding meal costs along with a special payment link via email or text message.",
-      // },
       {
         question: "Is lunch included?",
         answer:

@@ -253,6 +253,7 @@ export const AuthAPI = {
       txId: params.txId,
       verificationCode: params.verificationCode,
     }),
+  withdrawal: () => apiDelete(`/auth/withdrawal`),
 };
 
 export const ReservationAPI = {

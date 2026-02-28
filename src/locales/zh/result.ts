@@ -174,6 +174,7 @@ const result = {
     cancel: `取消预订`,
     edit: `编辑预订`,
     viewAllReservations: `查看所有预订`,
+    withdrawal: `注销账户`,
     cancelDialogTitle: `取消此预订？`,
     cancelDialogDesc: `您确定要取消此预订吗？`,
     cancelDialogWarning: `已取消的预订无法恢复。`,

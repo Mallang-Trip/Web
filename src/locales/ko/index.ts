@@ -14,6 +14,7 @@ import yeongdong from "./yeongdong";
 import jeju from "./jeju";
 import payple from "./payple";
 import policy from "./policy";
+import my from "./my";
 
 const ko = {
   common,
@@ -32,6 +33,7 @@ const ko = {
   jeju,
   payple,
   policy,
+  my,
 };
 
 export default ko;

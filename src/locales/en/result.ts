@@ -183,6 +183,7 @@ const result = {
     cancel: "Cancel Reservation",
     edit: "Edit Reservation",
     viewAllReservations: "View All My Reservations",
+    withdrawal: "Delete Account",
     cancelDialogTitle: "Cancel this reservation?",
     cancelDialogDesc: "Are you sure you want to cancel this reservation?",
     cancelDialogWarning: "Canceled reservations cannot be restored.",

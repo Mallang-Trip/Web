@@ -14,6 +14,7 @@ import vip from "./vip";
 import vipGuide from "./vip-guide";
 import payple from "./payple";
 import policy from "./policy";
+import my from "./my";
 
 const zh = {
   common,
@@ -32,6 +33,7 @@ const zh = {
   jeju,
   payple,
   policy,
+  my,
 };
 
 export default zh;

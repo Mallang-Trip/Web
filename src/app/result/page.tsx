@@ -486,6 +486,17 @@ function ResultPageInner() {
             })
           }
         />
+
+        {isAuthenticated && (
+          <div className="mt-12 border-t border-gray-200 pt-6">
+            <button
+              onClick={() => router.push("/my/profile")}
+              className="w-full text-center text-sm text-gray-400 underline underline-offset-2 transition-colors hover:text-gray-600"
+            >
+              {tResult.actions.withdrawal}
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );

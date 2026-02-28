@@ -177,6 +177,7 @@ const result = {
     cancel: "예약 취소",
     edit: "예약 수정",
     viewAllReservations: "나의 모든 예약 보기",
+    withdrawal: "회원탈퇴",
     cancelDialogTitle: "예약을 취소하시겠습니까?",
     cancelDialogDesc: "정말로 예약을 취소하시겠습니까?",
     cancelDialogWarning: "취소된 예약은 복구할 수 없습니다.",

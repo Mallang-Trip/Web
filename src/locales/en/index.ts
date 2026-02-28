@@ -14,6 +14,7 @@ import yeongdong from "./yeongdong";
 import jeju from "./jeju";
 import payple from "./payple";
 import policy from "./policy";
+import my from "./my";
 
 const en = {
   common,
@@ -32,6 +33,7 @@ const en = {
   jeju,
   payple,
   policy,
+  my,
 };
 
 export default en;
